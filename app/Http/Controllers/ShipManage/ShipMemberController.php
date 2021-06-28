@@ -140,7 +140,7 @@ class ShipMemberController extends Controller
             $examingList = ShipMemberExaming::where('memberId', $memberId)->orderBy('ExamDate')->get();
             $subList = array(); $examId = '';
             if(count($examingList) > 0) {
-                $subList = ShipMemberSubExaming::where('ExamId', $examingList[0]['id'])->orderBy('create_at')->get();
+                $subList = ShipMemberSubExaming::where('ExamId', $examingList[0]['id'])->orderBy('created_at')->get();
                 $examId = $examingList[0]['id'];
             }
             $codeList = ShipMemberExaming::select('ExamCode')->groupBy('ExamCode')->get();
@@ -239,7 +239,7 @@ class ShipMemberController extends Controller
             $examingList = ShipMemberExaming::where('memberId', $memberId)->orderBy('ExamDate')->get();
             $subList = array();
             if(count($examingList) > 0)
-                $subList = ShipMemberSubExaming::where('ExamId', $list[0]['id'])->orderBy('create_at')->get();
+                $subList = ShipMemberSubExaming::where('ExamId', $list[0]['id'])->orderBy('created_at')->get();
             $codeList = ShipMemberExaming::select('ExamCode')->groupBy('ExamCode')->get();
 
             return view('shipMember.member_examing_tab', ['examList'=>$list, 'subList'=>$subList, 'codeList'=>$codeList]);

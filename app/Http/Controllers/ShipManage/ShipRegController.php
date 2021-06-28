@@ -1307,14 +1307,14 @@ class ShipRegController extends Controller
 		    ->where('tb_ship_equipment.IssaCodeNo', $issa_code)
 		    ->where('tb_ship_equipment.supplied_at', '!=', "")
 		    ->orderBy('tb_ship_equipment.supplied_at', 'desc')
-		    ->orderBy('tb_ship_equipment.create_at', 'desc')
+		    ->orderBy('tb_ship_equipment.created_at', 'desc')
 		    ->get();
 
 	    $diligenceList = ShipDiligence::select('tb_ship_equipment_diligence.*')
 		    ->where('tb_ship_equipment_diligence.ShipRegNo', $shipId)
 		    ->where('tb_ship_equipment_diligence.IssaCodeNo', $issa_code)
 		    ->orderBy('tb_ship_equipment_diligence.diligence_at', 'desc')
-		    ->orderBy('tb_ship_equipment_diligence.create_at', 'desc')
+		    ->orderBy('tb_ship_equipment_diligence.created_at', 'desc')
 		    ->get();
 
 	    $mainKind = ShipEquipmentMainKind::all();

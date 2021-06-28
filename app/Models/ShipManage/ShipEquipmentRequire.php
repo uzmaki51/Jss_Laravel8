@@ -42,7 +42,7 @@ class ShipEquipmentRequire extends Model
 		}
 
 		if(isset($params['year']) && $params['year'] != 0) {
-			$selector->whereRaw(DB::raw('mid(create_at, 1, 4) like ' . $params['year']));
+			$selector->whereRaw(DB::raw('mid(created_at, 1, 4) like ' . $params['year']));
 		}
 
 		if(isset($params['placeType']) && $params['placeType'] != 0) {

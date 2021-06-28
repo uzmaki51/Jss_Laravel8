@@ -864,7 +864,7 @@ class DecisionReport extends Model {
 		foreach($records as $index => $record) {
 			$newArr[$newindex]['book_no'] = $record->book_no;
 			$newArr[$newindex]['ship_name'] = $record->ship_name;
-			//$newArr[$newindex]['datetime'] = $record->create_at;
+			//$newArr[$newindex]['datetime'] = $record->created_at;
 			$newArr[$newindex]['datetime'] = $record->register_time;
 			//$newArr[$newindex]['report_no'] = $record->id;
 			$newArr[$newindex]['content'] = $record->content;
@@ -918,7 +918,7 @@ class DecisionReport extends Model {
 		foreach($records as $index => $record) {
 			$newArr[$newindex]['book_no'] = $record->book_no;
 			$newArr[$newindex]['ship_name'] = $record->ship_name;
-			//$newArr[$newindex]['datetime'] = $record->create_at;
+			//$newArr[$newindex]['datetime'] = $record->created_at;
 			$newArr[$newindex]['datetime'] = $record->register_time;
 			//$newArr[$newindex]['report_no'] = $record->id;
 			$newArr[$newindex]['content'] = $record->content;

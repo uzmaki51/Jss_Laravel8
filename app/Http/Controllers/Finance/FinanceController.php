@@ -255,7 +255,7 @@ class FinanceController extends Controller
 			$report_save_record['attachment'] = $report_original_record->attachment;
 			$report_save_record['year'] = $year;
 			$report_save_record['month'] = $month;
-			$report_save_record['create_time'] = $report_original_record->create_at;
+			$report_save_record['create_time'] = $report_original_record->created_at;
 
 			$report_save_record->save();
 		}
