@@ -26,13 +26,13 @@ $ships = Session::get('shipList');
                 width : 350px !important;
             }
         </style>
-        <div class="page-content">
+        <div class="page-content" id="cert_list" v-cloak>
             <div class="page-header">
                 <div class="col-sm-3">
                     <h4><b>船舶证书</b></h4>
                 </div>
             </div>
-            <div class="row col-md-12" id="cert_list" v-cloak>
+            <div class="row">
                 <div class="col-md-6">
                     <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                     <select class="custom-select d-inline-block" style="padding: 4px;max-width: 100px;" @change="changeShip">
@@ -66,46 +66,44 @@ $ships = Session::get('shipList');
                         <label>天</label>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-12" style="margin-top: 4px;">
-                    <input type="hidden" name="_token" value="{{csrf_token()}}">
-                    <input type="hidden" value="{{ $shipId }}" name="ship_id">
                     <div class="row">
-                        <div class="">
-                            <table class="table-bordered rank-table">
-                                <thead>
-                                    <th class="text-center style-header" style="width:60px;word-break: break-all;">{!! trans('shipManage.shipCertlist.No') !!}</th>
-                                    <th class="text-center style-header" style="width:60px;word-break: break-all;">{{ trans('shipManage.shipCertlist.Code') }}</th>
-                                    <th class="text-center style-header" style="width:280px;word-break: break-all;">{{ trans('shipManage.shipCertlist.name of certificates') }}</th>
-                                    <th class="text-center style-header" style="width:120px;word-break: break-all;">{{ trans('shipManage.shipCertlist.issue_date') }}</th>
-                                    <th class="text-center style-header" style="width:120px;word-break: break-all;">{{ trans('shipManage.shipCertlist.expire_date') }}</th>
-                                    <th class="text-center style-header" style="width:120px;word-break: break-all;">{!! trans('shipManage.shipCertlist.due_endorse') !!}</th>
-                                    <th class="text-center style-header" style="width:80px;word-break: break-all;">{{ trans('shipManage.shipCertlist.issuer') }}</th>
-                                    <th class="text-center style-header" style="width:40px;word-break: break-all;"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15"></th>
-                                    <th class="text-center style-header" style="width:200px;word-break: break-all;">{{ trans('shipManage.shipCertlist.remark') }}</th>
-                                </thead>
-                                <tbody>
-                                <tr v-for="(item, array_index) in cert_array">
-                                    <td class="center no-wrap">@{{ item.order_no }}</td>
-                                    <td class="center no-wrap">@{{ item.code }}</td>
-                                    <td>
-                                        <div class="dynamic-select-wrapper">
-                                            <div class="dynamic-select" style="color:#12539b">
-                                                <div class="dynamic-select__trigger">@{{ item.cert_name }}</div>
-                                            </div>
+                        <table class="table-bordered rank-table">
+                            <thead>
+                                <th class="text-center style-header" style="width:60px;word-break: break-all;">{!! trans('shipManage.shipCertlist.No') !!}</th>
+                                <th class="text-center style-header" style="width:60px;word-break: break-all;">{{ trans('shipManage.shipCertlist.Code') }}</th>
+                                <th class="text-center style-header" style="width:280px;word-break: break-all;">{{ trans('shipManage.shipCertlist.name of certificates') }}</th>
+                                <th class="text-center style-header" style="width:120px;word-break: break-all;">{{ trans('shipManage.shipCertlist.issue_date') }}</th>
+                                <th class="text-center style-header" style="width:120px;word-break: break-all;">{{ trans('shipManage.shipCertlist.expire_date') }}</th>
+                                <th class="text-center style-header" style="width:120px;word-break: break-all;">{!! trans('shipManage.shipCertlist.due_endorse') !!}</th>
+                                <th class="text-center style-header" style="width:80px;word-break: break-all;">{{ trans('shipManage.shipCertlist.issuer') }}</th>
+                                <th class="text-center style-header" style="width:40px;word-break: break-all;"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15"></th>
+                                <th class="text-center style-header" style="width:200px;word-break: break-all;">{{ trans('shipManage.shipCertlist.remark') }}</th>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(item, array_index) in cert_array">
+                                <td class="center no-wrap">@{{ item.order_no }}</td>
+                                <td class="center no-wrap">@{{ item.code }}</td>
+                                <td>
+                                    <div class="dynamic-select-wrapper">
+                                        <div class="dynamic-select" style="color:#12539b">
+                                            <div class="dynamic-select__trigger">@{{ item.cert_name }}</div>
                                         </div>
-                                    </td>
-                                    <td class="center"><span>@{{ item.issue_date }}</span></td>
-                                    <td class="center"><span>@{{ item.expire_date }}</span></td>
-                                    <td class="center"><span>@{{ item.due_endorse }}</span></td>
-                                    <td class="center"><span>@{{ issuer_type[item.issuer] }}</span></td>
-                                    <td class="text-center">
-                                        <label><a v-bind:href="item.attachment_link" target="_blank" v-bind:class="[item.attachment_link == '' || item.attachment_link == undefined ? 'visible-hidden' : '']"><img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15" style="cursor: pointer;"></a></label>
-                                    </td>
-                                    <td class="text-left"><span>@{{ item.remark }}</span></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                    </div>
+                                </td>
+                                <td class="center"><span>@{{ item.issue_date }}</span></td>
+                                <td class="center"><span>@{{ item.expire_date }}</span></td>
+                                <td class="center"><span>@{{ item.due_endorse }}</span></td>
+                                <td class="center"><span>@{{ issuer_type[item.issuer] }}</span></td>
+                                <td class="text-center">
+                                    <label><a v-bind:href="item.attachment_link" target="_blank" v-bind:class="[item.attachment_link == '' || item.attachment_link == undefined ? 'visible-hidden' : '']"><img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15" style="cursor: pointer;"></a></label>
+                                </td>
+                                <td class="text-left"><span>@{{ item.remark }}</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

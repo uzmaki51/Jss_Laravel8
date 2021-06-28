@@ -67,7 +67,7 @@ $ships = Session::get('shipList');
                                 </button>
                                 <a onclick="javascript:fnExcelReport();" class="btn btn-warning btn-sm excel-btn">
                                     <i class="icon-table"></i>{{ trans('common.label.excel') }}
-                                </a>                                
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -127,7 +127,7 @@ $ships = Session::get('shipList');
                         </div>
                         
                         <select class="voy-type" style="margin-top: 20px;">
-                            <option value="nothing"></option>
+                            <option value="non"></option>
                             <option value="voy">程租(VOY)</option>
                             <option value="tc">期租(TC)</option>
                             <option value="non">其他(NON)</option>
@@ -428,10 +428,10 @@ $ships = Session::get('shipList');
                     this.$emit('input', parseFloat(this.value ,10).toFixed(fixedLength));
                     if(this.type == 'tc')
                         tcInputObj.calcContractPreview();
-                    else if(this.type == 'voy')
-                        voyInputObj.calcContractPreview();
-                    else
+                    else if(this.type == 'non')
                         nonInputObj.calcContractPreview();
+                    else
+                        voyInputObj.calcContractPreview();
 
                 },
                 keymonitor: function(e) {
@@ -733,6 +733,7 @@ $ships = Session::get('shipList');
                 var index = $('table > tbody> tr.selected').index();
                 if (index >= 0)
                 {
+                    ACTIVE_TAB = voyListObj.list[index].CP_kind.toLowerCase();
                     if (voyListObj.list[index].CP_kind == "VOY")
                     {
                         voyContractObj.id = voyListObj.list[index].id;
@@ -804,7 +805,7 @@ $ships = Session::get('shipList');
 
                         voyInputObj.calcContractPreview();
                         // voyInputObj.onEditFinish();
-                        // voyContractObj.$forceUpdate();
+                        voyContractObj.$forceUpdate();
                         $($('.ship-register li')[1]).removeClass('active');
                         $($('.ship-register li')[0]).addClass('active');
                         $('#voy_contract_div').addClass('active');

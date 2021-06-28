@@ -28,7 +28,7 @@
         </div>
 
         <div class="row" style="margin-top: 4px;" id="usd_list" v-cloak>
-            <div class="col-lg-12 head-fix-div common-list"  id="usd-ctm-table">
+            <div class="head-fix-div common-list"  id="usd-ctm-table">
                 <form action="saveCtmList" method="post" id="ctmList-usd-form" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" value="{{ $shipId }}" name="shipId">

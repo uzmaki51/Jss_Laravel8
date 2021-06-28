@@ -65,7 +65,7 @@ $ships = Session::get('shipList');
                     </div>
                 </div>
                 <div class="row" style="margin-top: 4px;">
-                    <div class="col-lg-12 head-fix-div common-list">
+                    <div class="head-fix-div common-list">
                         <form action="shipCertList" method="post" id="certList-form" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <input type="hidden" value="{{ $shipId }}" name="ship_id">
@@ -532,7 +532,7 @@ $ships = Session::get('shipList');
         }
 
         $('#select-ship').on('change', function() {
-            location.href = "/shipManage/shipCertlist?id=" + $(this).val()
+            location.href = "/shipManage/shipCertList?id=" + $(this).val()
         });
 
         $('#submit').on('click', function() {

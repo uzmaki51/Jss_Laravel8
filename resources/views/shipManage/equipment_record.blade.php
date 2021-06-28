@@ -42,7 +42,7 @@
         </div>
     </div>
     <div class="row" style="margin-top: 4px;">
-        <div class="col-lg-12 head-fix-div common-list">
+        <div class="head-fix-div common-list">
             <form action="shipEquipmentList" method="post" id="certList-form" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" value="{{ $shipId }}" name="shipId">
@@ -50,15 +50,15 @@
                     <thead class="">
                         <th class="d-none"></th>
                         <th class="text-center">No</th>
-                        <th class="text-center" style="width: 72px;">申请日期</th>
-                        <th class="text-center style-header" style="width: 55px;">部门</th>
+                        <th class="text-center" style="width: 74px;">申请日期</th>
+                        <th class="text-center style-header" style="width: 60px;">部门</th>
                         <th class="text-center style-header" style="width: 70px;">品种</th>
                         <th class="text-center style-header" style="width: 300px;">项目</th>
                         <th class="text-center style-header">ISSA/ Part No.</th>
                         <th class="text-center style-header">库存量</th>
                         <th class="text-center style-header">申请量</th>
                         <th class="text-center style-header" style="width: 60px;">单位</th>
-                        <th class="text-center style-header" style="width: 72px;">供应日期</th>
+                        <th class="text-center style-header" style="width: 74px;">供应日期</th>
                         <th class="text-center style-header">供应量</th>
                         <th class="text-center style-header" style="width: 200px;">备注</th>
                         <th class="text-center style-header"></th>

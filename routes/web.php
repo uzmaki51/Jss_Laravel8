@@ -185,6 +185,7 @@ Route::group(['prefix' => 'shipManage'], function() {
 	Route::get('voy/evaluation', [App\Http\Controllers\ShipManage\ShipRegController::class, 'voyEvaluation']);
 
 	Route::get('shipCertList', [App\Http\Controllers\ShipManage\ShipRegController::class, 'shipCertList']);
+	Route::get('shipCertExcel', [App\Http\Controllers\ShipManage\ShipRegController::class, 'shipCertExcel']);
 	Route::post('shipCertList', [App\Http\Controllers\ShipManage\ShipRegController::class, 'saveShipCertList']);
 	Route::post('shipCertType', [App\Http\Controllers\ShipManage\ShipRegController::class, 'saveShipCertType']);
 	Route::post('getShipCertInfo', [App\Http\Controllers\ShipManage\ShipRegController::class, 'getShipCertInfo']);

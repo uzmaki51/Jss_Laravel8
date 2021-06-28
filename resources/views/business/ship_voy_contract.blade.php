@@ -547,7 +547,7 @@
                     // Oil Price
                     let fo_oil_price = BigNumber(this.output['fo_mt']).multipliedBy(this.input['fo_price']);
                     let do_oil_price = BigNumber(this.output['do_mt']).multipliedBy(this.input['do_price']);
-                    this.output['oil_money'] = BigNumber(fo_oil_price).plus(do_oil_price);
+                    this.output['oil_money'] = BigNumber(fo_oil_price).plus(do_oil_price).toFixed(2);
 
                     // Credit
                     if(this.batchStatus) {
@@ -556,7 +556,7 @@
                     let creditTmp = BigNumber(this.input['cargo_amount']).multipliedBy(this.input['freight_price']).plus(this.input['batch_price']);
                     let percent = BigNumber(1).minus(BigNumber(this.input['fee']).div(100));
                     creditTmp = BigNumber(creditTmp).multipliedBy(percent);
-                    this.output['credit'] = creditTmp;
+                    this.output['credit'] = creditTmp.toFixed(2);
 
                     // Debit
                     let debitTmp1 = BigNumber(this.input['cost_per_day']).multipliedBy(this.output['sail_time']);
@@ -565,13 +565,15 @@
 
                     // Net Profit
                     let netProfit = BigNumber(this.output['credit']).minus(this.output['debit']);
-                    this.output['net_profit'] = netProfit;
+                    this.output['net_profit'] = netProfit.toFixed(2);
                     
                     // Profit per day
                     if(this.output['sail_time'] != 0)
                         this.output['net_profit_day'] = BigNumber(netProfit).div(this.output['sail_time']).toFixed(2);
                     else 
                         this.output['net_profit_day'] = 0;
+
+                    this.$forceUpdate();
                 },
                 profitClass: function(param) {
                     let value = parseFloat(param);

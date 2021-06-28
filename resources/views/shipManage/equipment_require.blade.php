@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="row" style="margin-top: 4px;">
-        <div class="col-lg-12 head-fix-div common-list">
+        <div class="head-fix-div common-list">
             <form action="shipReqEquipmentList" method="post" id="equipment-require-form" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" value="{{ $shipId }}" name="shipId">

@@ -51,7 +51,7 @@ $ships = Session::get('shipList');
                     </ul>
                     
                     <div class="tab-content pt-2">
-                        <div id="total_analytics_div" class="tab-pane active" v-cloak>
+                        <div id="total_analytics_div" class="tab-pane active">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
@@ -75,7 +75,7 @@ $ships = Session::get('shipList');
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12 head-fix-div" style="margin-top: 4px;">
-                                        <table class="table-layout-fixed">
+                                        <table class="table-layout-fixed" v-cloak>
                                             <thead class="">
                                                 <tr class="ctm-analytics">
                                                     <th colspan="4">
@@ -143,7 +143,7 @@ $ships = Session::get('shipList');
                             </div>
                         </div>
 
-                        <div id="debit_analytics_div" class="tab-pane" v-cloak>
+                        <div id="debit_analytics_div" class="tab-pane">
                             <div class="col-lg-6">
                                 <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
                                 <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;" @change="goToUrl">
@@ -166,7 +166,7 @@ $ships = Session::get('shipList');
                             </div>
                             <div class="row">
                                 <div class="col-lg-12 head-fix-div" style="margin-top: 4px;">
-                                        <table class="table-layout-fixed">
+                                        <table class="table-layout-fixed" v-cloak>
                                             <thead class="">
                                                 <tr class="ctm-analytics">
                                                     <th colspan="13">
