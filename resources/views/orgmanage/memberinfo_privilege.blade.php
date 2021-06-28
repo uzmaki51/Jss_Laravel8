@@ -11,7 +11,7 @@
             <div class="page-header">
                 <div class="col-md-3">
                     <h4>
-                        <b>{{transOrgManage("title.MemberInfo")}}</b>
+                        <b>{{trans("orgManage.title.MemberInfo")}}</b>
                     </h4>
                 </div>
             </div>
@@ -19,10 +19,10 @@
                 <div class="row">
                     <div class="col-sm-11">
                         <div class="col-md-3">
-                            <label style="float:left;padding-top:7px">{{transOrgManage("captions.department")}}:</label>
+                            <label style="float:left;padding-top:7px">{{trans("orgManage.captions.department")}}:</label>
                             <div class="col-md-9" style="padding-left:10px">
                                 <select class="form-control chosen-select select_unit">
-                                    <option value="">{{transOrgManage("captions.total")}}</option>
+                                    <option value="">{{trans("orgManage.captions.total")}}</option>
                                     @foreach($unitList as $unit)
                                         <option value="{{$unit['id']}}" @if(isset($unitId) && ($unitId == $unit['id'])) selected @endif>{{$unit['title']}}</option>
                                     @endforeach
@@ -30,10 +30,10 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label style="float:left;padding-top:7px">{{transOrgManage("captions.officePosition")}}:</label>
+                            <label style="float:left;padding-top:7px">{{trans("orgManage.captions.officePosition")}}:</label>
                             <div class="col-md-9" style="padding-left:10px">
                                 <select class="form-control chosen-select select_pos">
-                                    <option value="">{{transOrgManage("captions.total")}}</option>
+                                    <option value="">{{trans("orgManage.captions.total")}}</option>
                                     @foreach($posList as $pos)
                                         <option value="{{$pos['id']}}" @if(isset($posId) && ($posId == $pos['id'])) selected @endif>{{$pos['title']}}</option>
                                     @endforeach
@@ -42,10 +42,10 @@
                             </div>
                         </div>
                         <div class="col-md-2 input-group">
-                            <label>{{transOrgManage("captions.name")}}:</label>
+                            <label>{{trans("orgManage.captions.name")}}:</label>
                             <input class="form-control realname" style="width:65%;margin-left: 10px" value="@if(isset($realname)){{$realname}}@endif">
                         </div>
-                        <button class="btn btn-primary btn-sm search-btn" style="float:left; width: 80px"><i class="icon-search"></i>{{transOrgManage("captions.search")}}</button>
+                        <button class="btn btn-primary btn-sm search-btn" style="float:left; width: 80px"><i class="icon-search"></i>{{trans("orgManage.captions.search")}}</button>
                     </div>
                 </div>
                 <div class="row">
@@ -55,9 +55,9 @@
                             <thead>
                             <tr class="black br-hblue">
                                 <th class="center">No</th>
-                                <th class="center">{{transOrgManage("captions.department")}}</th>
-                                <th style="text-align: left" class="center">{{transOrgManage("captions.officePosition")}}</th>
-                                <th class="center">{{transOrgManage("captions.name")}}</th>
+                                <th class="center">{{trans("orgManage.captions.department")}}</th>
+                                <th style="text-align: left" class="center">{{trans("orgManage.captions.officePosition")}}</th>
+                                <th class="center">{{trans("orgManage.captions.name")}}</th>
                                 <th width="50px"></th>
                             </tr>
                             </thead>

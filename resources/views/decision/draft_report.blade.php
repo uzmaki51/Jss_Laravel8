@@ -13,7 +13,7 @@
         <div class="page-content">
             <div class="page-header">
                 <div class="col-md-6">
-                    <h4><b>{{transDecideManage("title.Drafted List")}}</b></h4>
+                    <h4><b>{{trans("decideManage.title.Drafted List")}}</b></h4>
                 </div>
             </div>
             <div class="space-6"></div>

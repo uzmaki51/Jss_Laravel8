@@ -14,7 +14,7 @@
                             <tbody>
                             <tr>
                                 <td class="no-padding custom-td-label1">
-                                <span class="style-header">{{ transShipManager('Hull.HullNo') }}</span>
+                                <span class="style-header">{{ trans('shipManage.Hull.HullNo') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
                                     <input type="text" name="HullNo" class="form-control" style="width:100%" value="@if(isset($shipInfo['HullNo'])){{$shipInfo['HullNo']}}@endif">
@@ -22,7 +22,7 @@
                             </tr>
                             <tr>
                                 <td class="no-padding custom-td-label1">
-                                <span class="style-header">{{ transShipManager('Hull.Decks') }}</span>
+                                <span class="style-header">{{ trans('shipManage.Hull.Decks') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
                                     <input type="text" name="Decks" class="form-control" style="width:100%" value="@if(isset($shipInfo['Decks'])){{$shipInfo['Decks']}}@endif">
@@ -30,7 +30,7 @@
                             </tr>
                             <tr>
                                 <td class="no-padding custom-td-label1">
-                                <span class="style-header">{{ transShipManager('Hull.Bulkheads') }}</span>
+                                <span class="style-header">{{ trans('shipManage.Hull.Bulkheads') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
                                     <input type="text" name="Bulkheads" class="form-control" style="width:100%" value="@if(isset($shipInfo['Bulkheads'])){{$shipInfo['Bulkheads']}}@endif">
@@ -51,7 +51,7 @@
                             <tbody>
                             <tr>
                                 <td class="no-padding custom-td-label1">
-                                    <span class="text-pink style-header">{{ transShipManager('Hull.Hold') }}: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ transShipManager('Hull.Number') }}</span>
+                                    <span class="text-pink style-header">{{ trans('shipManage.Hull.Hold') }}: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ trans('shipManage.Hull.Number') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
                                     <input type="text" name="NumberOfHolds" class="form-control" style="width:100%" value="@if(isset($shipInfo['NumberOfHolds'])){{$shipInfo['NumberOfHolds']}}@endif">
@@ -59,7 +59,7 @@
                             </tr>
                             <tr>
                                 <td class="small-title">
-                                <span class="style-header">{{ transShipManager('Hull.(Grain/Bale)㎥') }}</span>
+                                <span class="style-header">{{ trans('shipManage.Hull.(Grain/Bale)㎥') }}</span>
                                 </td>
                                 <td class="custom-td-report-text" colspan="2">
                                     <input type="text" name="CapacityOfHoldsG" class="form-control first-input" value="@if(isset($shipInfo['CapacityOfHoldsG'])){{$shipInfo['CapacityOfHoldsG']}}@endif">/<input type="text" name="CapacityOfHoldsB" class="form-control second-input" value="@if(isset($shipInfo['CapacityOfHoldsB'])){{$shipInfo['CapacityOfHoldsB']}}@endif">
@@ -67,7 +67,7 @@
                             </tr>
                             <tr>
                                 <td class="small-title">
-                                <span class="style-header">{{ transShipManager('Hull.Size') }}</span>
+                                <span class="style-header">{{ trans('shipManage.Hull.Size') }}</span>
                                 </td>
                                 <td class="custom-td-report-text" colspan="2">
                                         <textarea name="HoldsDetail" class="form-control" style="width:100%;resize:none;">@if(isset($shipInfo['HoldsDetail'])){{$shipInfo['HoldsDetail']}}@endif</textarea>
@@ -79,7 +79,7 @@
                             </tr>
                             <tr>
                                 <td class="no-padding custom-td-label1" style="white-space:nowrap!important" rowspan="2">
-                                    <span class="text-pink style-header">{{ transShipManager('Hull.HatchWays') }}</span>
+                                    <span class="text-pink style-header">{{ trans('shipManage.Hull.HatchWays') }}</span>
                                 </td>
                                 <td class="custom-td-report-text" colspan="3">
                                     <input type="text" name="NumberOfHatchways" class="form-control" style="width:100%" value="@if(isset($shipInfo['NumberOfHatchways'])){{$shipInfo['NumberOfHatchways']}}@endif">
@@ -87,7 +87,7 @@
                             </tr>
                             <tr>
                                 <td class="small-title">
-                                <span class="style-header">{{ transShipManager('Hull.Size') }}</span>
+                                <span class="style-header">{{ trans('shipManage.Hull.Size') }}</span>
                                 </td>
                                 <td class="custom-td-report-text" colspan="3">
                                     <textarea type="text" name="SizeOfHatchways" class="form-control" style="resize: none;" rows="2">{{ isset($shipInfo['SizeOfHatchways']) ? $shipInfo['SizeOfHatchways'] : '' }}</textarea>
@@ -99,7 +99,7 @@
                             </tr>
                             <tr>
                                 <td class="no-padding custom-td-label1" style="white-space:nowrap!important" rowspan="2">
-                                    <span class="text-pink style-header">{{ transShipManager('Hull.Containers') }}: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ transShipManager('Hull.On Deck') }}</span>
+                                    <span class="text-pink style-header">{{ trans('shipManage.Hull.Containers') }}: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ trans('shipManage.Hull.On Deck') }}</span>
                                 </td>
                                 <td class="custom-td-report-text" style="width: 60%" colspan="3">
                                     <input type="text" name="ContainerOnDeck" class="form-control" style="width:100%" value="@if(isset($shipInfo['ContainerOnDeck'])){{$shipInfo['ContainerOnDeck']}}@endif">
@@ -107,7 +107,7 @@
                             </tr>
                             <tr>
                                 <td class="small-title">
-                                <span class="style-header">{{ transShipManager('Hull.In Hold (TEU)') }}</span>
+                                <span class="style-header">{{ trans('shipManage.Hull.In Hold (TEU)') }}</span>
                                 </td>
                                 <td class="custom-td-report-text" colspan="2">
                                     <input type="text" name="ContainerInHold" class="form-control" style="width:100%" value="@if(isset($shipInfo['ContainerInHold'])){{$shipInfo['ContainerInHold']}}@endif">
@@ -119,7 +119,7 @@
                             </tr>
                             <tr>
                                 <td class="no-padding custom-td-label1" style="white-space:nowrap!important" rowspan="2">
-                                    <span class="text-pink style-header">{{ transShipManager('Hull.Lifting Device') }}</span>
+                                    <span class="text-pink style-header">{{ trans('shipManage.Hull.Lifting Device') }}</span>
                                 </td>
                                 <td class="custom-td-report-text" style="width: 60%" colspan="3">
                                     <input type="text" name="LiftingDevice" class="form-control" style="width:100%" value="@if(isset($shipInfo['LiftingDevice'])){{$shipInfo['LiftingDevice']}}@endif">

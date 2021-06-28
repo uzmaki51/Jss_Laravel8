@@ -102,22 +102,22 @@ $shipList = Session::get('shipList');
                         <ul class="nav nav-tabs ship-register" id="myTab">
                             <li class="active">
                                 <a data-toggle="tab" href="#general">
-                                    {{ transShipManager('tabMenu.General') }}
+                                    {{ trans('shipManage.tabMenu.General') }}
                                 </a>
                             </li>
                             <li>
                                 <a data-toggle="tab" href="#hull">
-                                    {{ transShipManager('tabMenu.Hull/Cargo') }}
+                                    {{ trans('shipManage.tabMenu.Hull/Cargo') }}
                                 </a>
                             </li>
                             <li>
                                 <a data-toggle="tab" href="#machiery">
-                                    {{ transShipManager('tabMenu.Machinery') }}
+                                    {{ trans('shipManage.tabMenu.Machinery') }}
                                 </a>
                             </li>
                             <li>
                                 <a data-toggle="tab" href="#remarks">
-                                    {{ transShipManager('tabMenu.Remarks') }}
+                                    {{ trans('shipManage.tabMenu.Remarks') }}
                                 </a>
                             </li>
                             <li>

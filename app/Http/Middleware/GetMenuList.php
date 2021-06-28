@@ -18,12 +18,12 @@ class GetMenuList
      */
     public function handle(Request $request, Closure $next)
     {
-        $tbl = new Menu();
-		$menus = $tbl->getMenuList();
+        // if(Session::get('menusList') == null) {
+            $tbl = new Menu();
+            $menus = $tbl->getMenuList();
         
-        // var_dump($menus);die;
-        if(Session::get('menusList') == null)
             Session::put('menusList', $menus);
+        // }
         
         return $next($request);
     }

@@ -203,7 +203,7 @@ class ShipRegController extends Controller
 
     public function saveShipData(Request $request) {
 	    $params = $request->all();
-	    $shipId = trim($request->get('shipId')) * 1;
+	    $shipId = $request->get('shipId');
 	    $freeId = $request->get('freeId');
 
 	    if($shipId > 0) {
@@ -1328,27 +1328,6 @@ class ShipRegController extends Controller
 			    'kindLabelList'     => $kindList,
 			    'shipId'            => $shipId
 		    ]);
-    }
-
-    public function getDiligenceDetail(Request $request) {
-    	$params = $request->all();
-    	if(!isset($params['equipId'])) {
-    		return redirect()->back();
-	    } else {
-    		$device = ShipDiligence::find($params['equipId']);
-		    $allMainKind = ShipEquipmentMainKind::all();
-		    $shipName = ShipRegister::getShipFullNameByRegNo($params['shipId']);
-		    return view('shipManage.ship_diligence_equipment_modify',
-			    [   'mainKinds'     =>  $allMainKind,
-				    'device'        =>  $device,
-				    'shipId'        =>  $params['shipId'],
-				    'shipName'      =>  $shipName,
-//				    'units'         =>  $units,
-//				    'partPaginate'  =>  $partPaginate,
-//				    'propertyPaginate'=>$propertyPaginate,
-//				    'list'          =>  $list
-			    ]);
-	    }
     }
 
     public function propertyTableEquipmentByDeviceID(Request $request) {

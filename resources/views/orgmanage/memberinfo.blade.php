@@ -22,7 +22,7 @@
         <div class="page-content">
             <div class="page-header">
                 <div class="col-sm-3">
-                    <h4><b>{{transOrgManage("title.MemberInfo")}}</b></h4>
+                    <h4><b>{{trans("orgManage.title.MemberInfo")}}</b></h4>
                 </div>
             </div>
             <div class="col-md-12" style="margin-top:4px;">

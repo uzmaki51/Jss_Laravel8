@@ -15,9 +15,7 @@ use DB;
 
 class ShipRegister extends Model
 {
-    use SoftDeletes;
     protected $table = 'tb_ship_register';
-    protected $date = ['deleted_at'];
 
     public static function getSimpleDataList() {
         $infoList = static::query()

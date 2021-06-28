@@ -47,10 +47,10 @@ $isHolder = Session::get('IS_HOLDER');
         <div class="page-content">
             <div class="page-header">
                 <div class="col-md-3">
-                    <h4><b>{{transOrgManage("title.MemberInfo")}}</b>
+                    <h4><b>{{trans("orgManage.title.MemberInfo")}}</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            @if(!isset($userid)){{transOrgManage("captions.add")}}@else {{transOrgManage("captions.change")}} @endif
+                            @if(!isset($userid)){{trans("orgManage.captions.add")}}@else {{trans("orgManage.captions.change")}} @endif
                         </small>
                     </h4>
                 </div>
@@ -61,7 +61,7 @@ $isHolder = Session::get('IS_HOLDER');
                 <div class="col-md-6">
                     <div class="btn-group f-right">
                         <a id="btnPrev" class="btn btn-sm btn-primary btn-add" style="width: 80px" onclick="javascript:goBackPage()">
-                            <i class=""></i>< {{transOrgManage("captions.prevPage")}}
+                            <i class=""></i>< {{trans("orgManage.captions.prevPage")}}
                         </a>
                         <a id="btnDelete" class="btn btn-sm btn-danger" style="width: 80px" onclick="javascript:deleteMember('{{ $userid }}')">
                             <i class="icon-remove"></i>{{ trans('common.label.delete') }}
@@ -87,31 +87,31 @@ $isHolder = Session::get('IS_HOLDER');
                             <table id="sample-table-1" class="table-bordered" style="margin-left:auto;margin-right:auto;">
                                 <tbody>
                                 <tr>
-                                    <td class="add-td-label" width="10%;">{{transOrgManage("captions.name")}}<span class="require">*</span>:</td>
+                                    <td class="add-td-label" width="10%;">{{trans("orgManage.captions.name")}}<span class="require">*</span>:</td>
                                     <td class="add-td-text">
                                         <input type="text" class="form-control add-td-input" name="name" id="name" value="@if(isset($userinfo)){{$userinfo['realname']}}@endif" required>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="add-td-label" >{{transOrgManage("captions.loginID")}}<span class="require">*</span>:</td>
+                                    <td class="add-td-label" >{{trans("orgManage.captions.loginID")}}<span class="require">*</span>:</td>
                                     <td class="add-td-text">
                                         <input type="text" class="form-control add-td-input" name="account" id="account" value="@if(isset($userinfo)){{$userinfo['account']}}@endif" required>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="add-td-label" colspan="1">{{transOrgManage("captions.officePosition")}}<span class="require">*</span>:</td>
+                                    <td class="add-td-label" colspan="1">{{trans("orgManage.captions.officePosition")}}<span class="require">*</span>:</td>
                                     <td class="add-td-text">
                                         <select class="form-control add-td-select" id="pos" name="pos" style="margin-left: 9px;">
                                             <option value="-1" selected></option>
                                             @foreach($pos as $post)
                                                 <option value="{{$post['id']}}" @if ((isset($userinfo))&&($userinfo['pos']==$post['id'])) selected @endif >{{$post['title']}}</option>
                                             @endforeach
-                                            <option value="{{ IS_SHAREHOLDER }}" {{ $userinfo['pos'] == IS_SHAREHOLDER ? 'selected' : '' }}>{{ transOrgManage("captions.stockholder") }}</option>
+                                            <option value="{{ IS_SHAREHOLDER }}" {{ $userinfo['pos'] == IS_SHAREHOLDER ? 'selected' : '' }}>{{ trans("orgManage.captions.stockholder") }}</option>
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="add-td-label" colspan="1">{{transOrgManage("captions.phoneNumber")}}:</td>
+                                    <td class="add-td-label" colspan="1">{{trans("orgManage.captions.phoneNumber")}}:</td>
                                     <td class="add-td-text">
                                         <div class="input-group">
                                             <input type="tel" id="rantel" name="phone" class="form-control add-td-input" value="@if(isset($userinfo)){{trim($userinfo['phone'])}}@endif">
@@ -119,7 +119,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="add-td-label" colspan="1">{{transOrgManage("captions.enterDate")}}:</td>
+                                    <td class="add-td-label" colspan="1">{{trans("orgManage.captions.enterDate")}}:</td>
                                     <td class="add-td-text">
                                         <div class="input-group">
                                             <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['entryDate']}}@endif">
@@ -127,7 +127,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="add-td-label" colspan="1">{{transOrgManage("captions.missDate")}}:</td>
+                                    <td class="add-td-label" colspan="1">{{trans("orgManage.captions.missDate")}}:</td>
                                     <td class="add-td-text">
                                         <div class="input-group">
                                             <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['releaseDate']}}@endif">
@@ -135,14 +135,14 @@ $isHolder = Session::get('IS_HOLDER');
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="add-td-label" colspan="1">{{transOrgManage("captions.remark")}}:</td>
+                                    <td class="add-td-label" colspan="1">{{trans("orgManage.captions.remark")}}:</td>
                                     <td class="add-td-text">
                                         <input type="text" class="form-control add-td-input" name="remark" id="remark" value="@if(isset($userinfo)){{$userinfo['remark']}}@endif" required>
                                     </td>
                                 </tr>
                                 @if(isset($userinfo))
                                     <tr>
-                                        <td class="add-td-label" >{{transOrgManage("captions.resetPass")}}:</td>
+                                        <td class="add-td-label" >{{trans("orgManage.captions.resetPass")}}:</td>
                                         <td class="add-td-text" style="">
                                             <div class="input-group">
                                                 <input type="checkbox" class="form-control add-td-input" style="width: fit-content; margin-right: 10px; margin-left: 10px;margin-bottom:5px;" name="password_reset" id="password_reset">

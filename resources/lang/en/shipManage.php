@@ -247,7 +247,7 @@ return [
     ],
 
     "shipCertlist"  => [
-        'No' => 'Order <br /> No',
+        'No' => 'Order <br> No',
 	    'Code' => 'Code',
         'name of certificates' => 'Name of Certificates',
         'issue_date' => 'Issue Date',

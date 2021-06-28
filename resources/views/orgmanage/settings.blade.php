@@ -139,8 +139,8 @@ $isHolder = Session::get('IS_HOLDER');
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="table-head-fix-div" style="height: 157px;margin-top:20px;">
-                        <table id="table-shipmember-list" style="table-layout:fixed;border:1px solid black;">
+                        <div class="head-fix-div" style="height: 157px;margin-top:20px;">
+                        <table id="table-shipmember-list">
                             <thead class="">
                                 <th class="text-center style-normal-header" style="width: 9%;height:35px;box-shadow: inset 0 -1px #000, 1px -1px #000;"><span>审批编号</span></th>
                                 <th class="text-center style-normal-header" style="width: 10%;"><span>申请日期</span></th>

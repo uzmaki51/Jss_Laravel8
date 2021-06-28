@@ -72,15 +72,15 @@ $ships = Session::get('shipList');
                             <table>
                                 <thead class="">
                                 <th class="d-none"></th>
-                                <th class="text-center style-header" style="width:60px;word-break: break-all;">{!! transShipManager('shipCertlist.No') !!}</th>
-                                <th class="text-center style-header" style="width:60px;word-break: break-all;">{{ transShipManager('shipCertlist.Code') }}</th>
-                                <th class="text-center style-header" style="width:280px;word-break: break-all;">{{ transShipManager('shipCertlist.name of certificates') }}</th>
-                                <th class="text-center style-header" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.issue_date') }}</th>
-                                <th class="text-center style-header" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.expire_date') }}</th>
-                                <th class="text-center style-header" style="width:120px;word-break: break-all;">{!! transShipManager('shipCertlist.due_endorse') !!}</th>
-                                <th class="text-center style-header" style="width:80px;word-break: break-all;">{{ transShipManager('shipCertlist.issuer') }}</th>
+                                <th class="text-center style-header" style="width:60px;word-break: break-all;">{!! trans("shipManage.shipCertlist.No") !!}</th>
+                                <th class="text-center style-header" style="width:60px;word-break: break-all;">{{ trans("shipManage.shipCertlist.Code") }}</th>
+                                <th class="text-center style-header" style="width:280px;word-break: break-all;">{{ trans('shipManage.shipCertlist.name of certificates') }}</th>
+                                <th class="text-center style-header" style="width:120px;word-break: break-all;">{{ trans('shipManage.shipCertlist.issue_date') }}</th>
+                                <th class="text-center style-header" style="width:120px;word-break: break-all;">{{ trans('shipManage.shipCertlist.expire_date') }}</th>
+                                <th class="text-center style-header" style="width:120px;word-break: break-all;">{!! trans('shipManage.shipCertlist.due_endorse') !!}</th>
+                                <th class="text-center style-header" style="width:80px;word-break: break-all;">{{ trans('shipManage.shipCertlist.issuer') }}</th>
                                 <th class="text-center style-header" style="width:40px;word-break: break-all;"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15"></th>
-                                <th class="text-center style-header" style="width:200px;word-break: break-all;">{{ transShipManager('shipCertlist.remark') }}</th>
+                                <th class="text-center style-header" style="width:200px;word-break: break-all;">{{ trans('shipManage.shipCertlist.remark') }}</th>
                                 <th class="text-center style-header" style="width:20px;word-break: break-all;"></th>
                                 </thead>
                                 <tbody id="cert_list" v-cloak>
@@ -98,7 +98,7 @@ $ships = Session::get('shipList');
                                                         <span v-for="(certItem, index) in certTypeList" v-bind:class="[item.cert_id == certItem.id ? 'dynamic-option  selected' : 'dynamic-option ']" @click="setCertInfo(array_index, certItem.id)">@{{ certItem.name }}</span>
                                                     </div>
                                                     <div>
-                                                    <span class="edit-list-btn" id="edit-list-btn" @click="openShipCertList(array_index)">
+                                                    <span class="edit-list-btn" id="edit-list-btn" @click="openshipCertlist(array_index)">
                                                         <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items" style="width: 36px; height: 36px; min-width: 36px; min-height: 36px;">
                                                     </span>
                                                     </div>
@@ -226,7 +226,7 @@ $ships = Session::get('shipList');
         var certListObj = null;
         var certTypeObj = null;
         var shipCertTypeList = [];
-        var shipCertListTmp = new Array();
+        var shipCertlistTmp = new Array();
         var certIdList = [];
         var certIdListTmp = [];
         var IS_FILE_KEEP = '{!! IS_FILE_KEEP !!}';
@@ -251,7 +251,7 @@ $ships = Session::get('shipList');
             var confirmationMessage = 'It looks like you have been editing something. '
                 + 'If you leave before saving, your changes will be lost.';
             let currentObj = JSON.parse(JSON.stringify(certListObj.cert_array));
-            if(JSON.stringify(currentObj) == JSON.stringify(shipCertListTmp))
+            if(JSON.stringify(currentObj) == JSON.stringify(shipCertlistTmp))
                 isChangeStatus = false;
             else
                 isChangeStatus = true;
@@ -323,7 +323,7 @@ $ships = Session::get('shipList');
                         isChangeStatus = true;
                         this.$forceUpdate();
                     },
-                    openShipCertList(index) {
+                    openshipCertlist(index) {
                         activeId = index;
                         // Object.assign(certTypeObj.list, shipCertTypeList);
                         // certTypeObj.list.push([]);
@@ -458,7 +458,7 @@ $ships = Session::get('shipList');
                         setCertInfo(value['cert_id'], index);
                     });
 
-                    shipCertListTmp = JSON.parse(JSON.stringify(certListObj.cert_array));
+                    shipCertlistTmp = JSON.parse(JSON.stringify(certListObj.cert_array));
                 }
             })
         }
@@ -532,7 +532,7 @@ $ships = Session::get('shipList');
         }
 
         $('#select-ship').on('change', function() {
-            location.href = "/shipManage/shipCertList?id=" + $(this).val()
+            location.href = "/shipManage/shipCertlist?id=" + $(this).val()
         });
 
         $('#submit').on('click', function() {

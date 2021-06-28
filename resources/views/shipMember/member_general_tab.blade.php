@@ -35,8 +35,8 @@
                         </td>
                         <td class="custom-td-report-text" colspan="2">
                             <select class="form-control" name="Sex" style="padding:0px!important;color:#12539b!important">
-                                <option value="0" @if(isset($info) && ($info['Sex'] == 0)) selected @endif>{{transShipMember('captions.male')}}</option>
-                                <option value="1" @if(isset($info) && ($info['Sex'] == 1)) selected @endif>{{transShipMember('captions.female')}}</option>
+                                <option value="0" @if(isset($info) && ($info['Sex'] == 0)) selected @endif>{{trans('shipMember.captions.male')}}</option>
+                                <option value="1" @if(isset($info) && ($info['Sex'] == 1)) selected @endif>{{trans('shipMember.captions.female')}}</option>
                             </select>
                         </td>
                     </tr>

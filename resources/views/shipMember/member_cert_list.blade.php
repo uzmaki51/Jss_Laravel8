@@ -24,7 +24,7 @@ $isHolder = Session::get('IS_HOLDER');
         <div class="page-content">
             <div class="page-header">
                 <div class="col-sm-3">
-                    <h4><b>{{transShipMember("title.Member Cert")}}</b>
+                    <h4><b>{{trans("shipMember.title.Member Cert")}}</b>
                     </h4>
                 </div>
             </div>

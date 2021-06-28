@@ -17,14 +17,14 @@
     <table style="border: 1px solid #333333;">
         <thead>
         <tr>
-            <th class="center" style="width:60px;word-break: break-all;">{!! transShipManager('shipCertlist.No') !!}</th>
-            <th class="center" style="width:60px;word-break: break-all;">{{ transShipManager('shipCertlist.Code') }}</th>
-            <th class="center" style="width:280px;word-break: break-all;">{{ transShipManager('shipCertlist.name of certificates') }}</th>
-            <th class="center" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.issue_date') }}</th>
-            <th class="center" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.expire_date') }}</th>
-            <th class="center" style="width:120px;word-break: break-all;">{!! transShipManager('shipCertlist.due_endorse') !!}</th>
-            <th class="center" style="width:80px;word-break: break-all;">{{ transShipManager('shipCertlist.issuer') }}</th>
-            <th class="center" style="width:200px;word-break: break-all;">{{ transShipManager('shipCertlist.remark') }}</th>
+            <th class="center" style="width:60px;word-break: break-all;">{!! trans('shipManage.shipCertlist.No') !!}</th>
+            <th class="center" style="width:60px;word-break: break-all;">{{ trans('shipManage.shipCertlist.Code') }}</th>
+            <th class="center" style="width:280px;word-break: break-all;">{{ trans('shipManage.shipCertlist.name of certificates') }}</th>
+            <th class="center" style="width:120px;word-break: break-all;">{{ trans('shipManage.shipCertlist.issue_date') }}</th>
+            <th class="center" style="width:120px;word-break: break-all;">{{ trans('shipManage.shipCertlist.expire_date') }}</th>
+            <th class="center" style="width:120px;word-break: break-all;">{!! trans('shipManage.shipCertlist.due_endorse') !!}</th>
+            <th class="center" style="width:80px;word-break: break-all;">{{ trans('shipManage.shipCertlist.issuer') }}</th>
+            <th class="center" style="width:200px;word-break: break-all;">{{ trans('shipManage.shipCertlist.remark') }}</th>
         </tr>
         </thead>
         <tbody>

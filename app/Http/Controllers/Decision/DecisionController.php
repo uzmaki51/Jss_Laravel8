@@ -181,7 +181,7 @@ class DecisionController extends Controller
 			$lastId = $reportId;
 			$isRegister = false;
 		} else {
-			$last = DecisionReport::all()->last('id');
+			$last = DecisionReport::orderBy('id', 'DESC')->first('id');
 			$lastId = $last['id'];
 			$isRegister = true;
 		}
