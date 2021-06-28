@@ -1,0 +1,300 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Cmb
+ * Date: 2017/4/13
+ * Time: 9:39
+ */
+
+namespace App\Http\Controllers\ShipManage;
+
+use App\Http\Controllers\Controller;
+use App\Models\ShipMember\ShipMember;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Util;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+
+use App\Models\Menu;
+use App\Models\ShipManage\Ship;
+use App\Models\ShipManage\ShipType;
+use App\Models\ShipManage\ShipRegister;
+use App\Models\ShipMember\ShipPosition;
+use App\Models\ShipMember\ShipSTCWCode;
+use App\Models\ShipMember\ShipTrainingCourse;
+use App\Models\ShipMember\ShipPosReg;
+use App\Models\ShipManage\ShipPhoto;
+use App\Models\ShipManage\ShipCertList;
+use App\Models\ShipManage\ShipCertRegistry;
+use App\Models\ShipManage\ShipEquipmentMainKind;
+use App\Models\ShipManage\ShipEquipmentSubKind;
+use App\Models\ShipManage\ShipEquipmentRegKind;
+use App\Models\ShipManage\ShipEquipment;
+use App\Models\ShipManage\ShipDiligence;
+use App\Models\ShipManage\ShipEquipmentPart;
+use App\Models\ShipManage\ShipEquipmentProperty;
+use App\Models\ShipManage\ShipIssaCode;
+use App\Models\ShipManage\ShipIssaCodeNo;
+use App\Models\ShipManage\ShipFreeBoard;
+
+use App\Models\ShipMember\ShipWage;
+use App\Models\ShipMember\ShipWageSend;
+use App\Models\ShipMember\ShipWageList;
+
+use Auth;
+use Config;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Str;
+use Lang;
+
+class WageController extends Controller
+{
+    protected $userInfo;
+    private $control = 'shipManage';
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
+    public function initWageCalcInfo(Request $request) {
+        $params = $request->all();
+        $shipId = $params['shipId'];
+        $year = $params['year'];
+        $month = $params['month'];
+
+        ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('type', 0)->delete();
+        ShipWage::where('shipId', $shipId)->where('year', $year)->where('month', $month)->delete();
+
+        return 1;
+    }
+
+    public function initWageSendInfo(Request $request) {
+        $params = $request->all();
+        $shipId = $params['shipId'];
+        $year = $params['year'];
+        $month = $params['month'];
+
+        ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('type', 1)->delete();
+        ShipWageSend::where('shipId', $shipId)->where('year', $year)->where('month', $month)->delete();
+
+        return 1;
+    }
+
+    public function updateWageSendInfo(Request $request) {
+        $shipId = $request->get('select-ship');
+        $year = $request->get('select-year');
+        $month = $request->get('select-month');
+
+        $array_purch_date = $request->get('PurchDate');
+        $array_remark = $request->get('Remark');
+        $array_memberId = $request->get('MemberId');
+        $array_name = $request->get('Names');
+
+        $array_R = $request->get('CashR');
+        $array_D = $request->get('SendR');
+        $array_P = $request->get('SendD');
+
+        $array_send_bank = $request->get('SendBank');
+        $array_rank = $request->get('Rank');
+        $array_bankinfo = $request->get('BankInfo');
+
+        $wage_list_record = ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('type', 1)->first();
+        if (is_null($wage_list_record)) {
+            $wage_list_record = new ShipWageList();
+        }
+        $wage_list_record['year'] = $year;
+        $wage_list_record['month'] = $month;
+        $wage_list_record['shipId'] = $shipId;
+        $wage_list_record['type'] = 1;
+        $wage_list_record->save();
+
+        ShipWageSend::where('shipId', $shipId)->where('year', $year)->where('month', $month)->delete();
+        foreach($array_R as $index => $item) {
+            $wage_record = new ShipWageSend();
+            
+            $wage_record['shipId'] = $shipId;
+            $wage_record['member_id'] = $array_memberId[$index];
+            $wage_record['name'] = $array_name[$index];
+            $wage_record['cashR'] = $array_R[$index];
+            $wage_record['sendR'] = $array_D[$index];
+            $wage_record['sendD'] = $array_P[$index];
+            $wage_record['sendbank'] = $array_send_bank[$index];
+            $wage_record['rank'] = $array_rank[$index];
+            if ($array_purch_date[$index] == '')
+                $wage_record['purchdate'] = null;
+            else
+                $wage_record['purchdate'] = $array_purch_date[$index];
+
+            $wage_record['bankinfo'] = $array_bankinfo[$index];
+            $wage_record['year'] = $year;
+            $wage_record['month'] = $month;
+            $wage_record['remark'] = $array_remark[$index];
+            $wage_record->save();
+        }
+
+        return redirect('shipMember/wagesSend?shipId='.$shipId.'&year='.$year.'&month='.$month);
+    }
+
+    public function updateWageCalcInfo(Request $request) {
+        $shipId = $request->get('select-ship');
+        $year = $request->get('select-year');
+        $month = $request->get('select-month');
+        $rate = $request->get('rate');
+        $minus_days = $request->get('minus-days');
+
+        $array_minus_cash = $request->get('MinusCash');
+        $array_trans_date = $request->get('TransDate');
+        $array_remark = $request->get('Remark');
+        $array_memberId = $request->get('MemberId');
+        $array_name = $request->get('Names');
+
+        $array_R = $request->get('TransInR');
+        $array_D = $request->get('TransInD');
+        $array_transdate = $request->get('TransDate');
+
+        $array_rank = $request->get('Rank');
+        $array_wageCurrency = $request->get('Currency');
+        $array_salary = $request->get('Salary');
+        $array_dateonboard = $request->get('DateOnboard');
+        $array_dateoffboard = $request->get('DateOffboard');
+        $array_signdays = $request->get('SignDays');
+        $array_bankinfo = $request->get('BankInfo');
+        $report_date = $request->get('report_date');
+
+        $wage_list_record = ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('type', 0)->first();
+        if (is_null($wage_list_record)) {
+            $wage_list_record = new ShipWageList();
+        }
+        $wage_list_record['year'] = $year;
+        $wage_list_record['month'] = $month;
+        $wage_list_record['rate'] = $rate;
+        $wage_list_record['minus_days'] = $minus_days;
+        $wage_list_record['shipId'] = $shipId;
+        $wage_list_record['report_date'] = $report_date;
+        $wage_list_record['type'] = 0;
+        $wage_list_record->save();
+
+        ShipWage::where('shipId', $shipId)->where('year', $year)->where('month', $month)->delete();
+        foreach($array_minus_cash as $index => $item) {
+            /*$wage_record = ShipWage::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('member_id',$array_memberId[$index])->first();
+            if (is_null($wage_record)) {
+                $wage_record = new ShipWage();
+            }*/
+            $wage_record = new ShipWage();
+            
+            $wage_record['shipId'] = $shipId;
+            $wage_record['member_id'] = $array_memberId[$index];
+            $wage_record['name'] = $array_name[$index];
+            $wage_record['minuscash'] = $array_minus_cash[$index];
+            $wage_record['cashR'] = $array_R[$index];
+            $wage_record['cashD'] = $array_D[$index];
+            $wage_record['rank'] = $array_rank[$index];
+            $wage_record['currency'] = $array_wageCurrency[$index];
+            $wage_record['salary'] = $array_salary[$index];
+            $wage_record['signdays'] = $array_signdays[$index];
+            if ($array_trans_date[$index] == '')
+                $wage_record['purchdate'] = null;
+            else
+                $wage_record['purchdate'] = $array_trans_date[$index];
+
+            if ($array_dateonboard[$index] == '')
+                $wage_record['signondate'] = null;
+            else
+                $wage_record['signondate'] = $array_dateonboard[$index];
+            
+            if ($array_dateoffboard[$index] == '')
+                $wage_record['signoffdate'] = null;
+            else
+                $wage_record['signoffdate'] = $array_dateoffboard[$index];
+
+            $wage_record['bankinfo'] = $array_bankinfo[$index];
+            $wage_record['year'] = $year;
+            $wage_record['month'] = $month;
+            $wage_record['remark'] = $array_remark[$index];
+            $wage_record->save();
+        }
+
+        return redirect('shipMember/wagesCalc?shipId='.$shipId.'&year='.$year.'&month='.$month);
+    }
+
+    public function index(Request $request) {
+        $shipId = $request->get('shipId');
+        $year = $request->get('year');
+        $month = $request->get('month');
+        $posList = ShipPosition::all();
+        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+                        ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+                        ->get();
+        $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2020-01-01';
+        } else {
+            $start_year = $start_year['min_date'];
+        }
+        $start_month = date("m", strtotime($start_year));
+        $start_year = date("Y", strtotime($start_year));
+        return view('shipMember.member_calc_wages', [
+        	'shipList'      => $shipList,
+            'posList'       => $posList,
+            'shipId'        => $shipId,
+            'year'          => $year,
+            'month'         => $month,
+            'start_year'    => $start_year,
+            'start_month'    => $start_month,
+        ]);
+    }
+
+    public function send(Request $request) {
+        $shipId = $request->get('shipId');
+        $year = $request->get('year');
+        $month = $request->get('month');
+        $posList = ShipPosition::all();
+        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+                        ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+                        ->get();
+        $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2020-01-01';
+        } else {
+            $start_year = $start_year['min_date'];
+        }
+        $start_month = date("m", strtotime($start_year));
+        $start_year = date("Y", strtotime($start_year));
+        return view('shipMember.member_send_wages', [
+        	'shipList'      => $shipList,
+            'posList'       => $posList,
+            'shipId'        => $shipId,
+            'year'          => $year,
+            'month'         => $month,
+            'start_year'    => $start_year,
+            'start_month'    => $start_month,
+        ]);
+    }
+
+    public function wagelist(Request $request) {
+        $shipId = $request->get('shipId');
+        $year = $request->get('year');
+        $month = $request->get('month');
+        $posList = ShipPosition::all();
+        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+                        ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+                        ->get();
+        $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2020-01-01';
+        } else {
+            $start_year = $start_year['min_date'];
+        }
+        $start_month = date("m", strtotime($start_year));
+        $start_year = date("Y", strtotime($start_year));
+        return view('shipMember.member_wages_list', [
+        	'shipList'      => $shipList,
+            'posList'       => $posList,
+            'shipId'        => $shipId,
+            'year'          => $year,
+            'month'         => $month,
+            'start_year'    => $start_year,
+            'start_month'    => $start_month,
+        ]);
+    }
+}

@@ -1,0 +1,56 @@
+
+td > a {
+  color: #337ab7;
+  text-decoration: none;
+}
+
+.table_div {
+  padding-left : 10px;
+  margin-top: 2px;
+}
+
+.table_div > a {
+  color: #3232FB;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.table_div > a:hover,
+.table_div > a:focus {
+  color: #1a198a;
+  text-decoration: none;
+}
+.table_div > a:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.stamp_list {
+  position: static;
+  overflow: overlay;
+  height: 120px;
+  width: 440px;
+}
+
+.stamp_list > ul {
+  padding-left: 0;
+}
+
+.error-message {
+  text-align: center;
+  color: red;
+  font-size: 14px;
+}
+
+.simple_text {
+  display:inline-block;
+  width:280px;
+  height:20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.error {
+  color: red;
+}

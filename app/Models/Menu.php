@@ -1,0 +1,138 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Cmb
+ * Date: 2017/4/10
+ * Time: 10:00
+ */
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Auth;
+
+class Menu extends Model
+{
+    protected $table = 'tb_menu';
+
+    public static function getSubTitleAndController($menu, $userId) {
+
+    }
+
+    public function getMenuList() {
+		if(Auth::check()) {
+			$user = Auth::user();
+			$userMenuList = $user->menu;
+			$userMenuList = explode(',', $userMenuList);
+
+			$idList = [];
+			$parentIds = [];
+			foreach($userMenuList as $item)
+				$parentIds[] = $item;
+
+			$records = self::whereIn('id', $parentIds)->get();
+			
+			$parentIds = [];
+			foreach($records as $key => $item) {
+				$ret = self::where('id', $item->id)->first();
+				if($ret->parentId != 0) {
+					$parentIds[] = $ret->parentId;
+				} else {
+					$child = self::where('parentId', $ret->id)->get();
+					foreach($child as $kkk) {
+						$parentIds[] = $kkk->id;
+						$last = self::where('parentId', $kkk->id)->get();
+						foreach($last as $yyy)
+							$parentIds[] = $yyy->id;
+					}
+				}
+
+				$parentIds[] = $item->id;
+			}
+				// if($item->parentId == 0) {
+				if(!in_array($item->id, $parentIds))
+					$parentIds[] = $item->id;
+				// } else {
+				// 	if(!in_array($item->id, $parentIds))
+				// 		$parentIds[] = $item->id;
+				// }
+					
+
+			// var_dump($parentIds);die;
+			$records = self::all();
+			$datas = array();
+			foreach ($records as $index => $record) {
+				if(in_array($record->id, $parentIds))
+					$datas[$record->parentId][] = $record;
+			}
+
+			$menus = array();
+			foreach ($datas[0] as $index => $data) {
+					$menus[] = array(
+						'id'            => $data->id,
+						'title'         => $data->title,
+						'parent'        => $data->parentId,
+						'is_admin'      => $data->admin,
+						'controller'    => $data->controller,
+						'children'      => array(),
+						'ids'           => array(),
+					);
+			}
+			foreach ($menus as $index => $menu) {
+				if(in_array($menu['id'], $parentIds)) {
+					$ret = $this->generateMenu($menu['id'], $menu, $datas);
+
+					$ids = array();
+					$ret = $this->getChildrenIds($menu['id'], $ids, $datas);
+					$menus[$index] = $menu;
+					$tmp = [];
+					foreach($ids as $key => $item)
+						foreach($item as $value)
+							$tmp[] = is_array($value) ? $value[0] : $value;
+
+					$tmp[] = $menu['id'];
+					$menus[$index]['ids'] += $tmp;
+				}
+			}
+		} else 
+			return [];
+		// var_dump($menus);die;
+	    return $menus;
+    }
+
+    public function generateMenu($parent, &$menus, $datas) {
+		if (!isset($datas[$parent])) return 1;
+
+    	foreach ($datas[$parent] as $index => $data) {
+    		$child = array(
+    			'id'            => $data->id,
+			    'title'         => $data->title,
+			    'parent'        => $data->parentId,
+			    'is_admin'      => $data->admin,
+			    'controller'    => $data->controller,
+				'children'		=> array(),
+			);
+
+    		$ret = $this->generateMenu($data->id, $child, $datas);
+			$menus['children'][] = $child;
+	    }
+
+	    return 1;
+    }
+
+
+	public function getChildrenIds($parent, &$ids, $datas) {
+		if (!isset($datas[$parent])) return 1;
+
+		foreach ($datas[$parent] as $index => $data) {
+			$child = [$data->id];
+
+			$ret = $this->getChildrenIds($data->id, $child, $datas);
+			$ids[] = $child;
+		}
+
+		return 1;
+	}
+}

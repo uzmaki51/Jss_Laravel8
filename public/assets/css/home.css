@@ -1,0 +1,25 @@
+.main-content {
+    margin-left: 0;
+}
+.advertise {
+    display: flex;
+    align-items: center;
+    border-left: 1px solid #c8d0d7;
+    border-right: 1px solid #c8d0d7;
+    border-bottom: 1px solid #c8d0d7;
+    border-top: 1px solid #c8d0d7;
+    height: 43px;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    font-size: 14px;
+    background-color: #55a4f4;
+    white-space: nowrap;
+}
+.footer .footer-inner .footer-content {
+    margin-left: 10px;
+}
+
+.front-span {
+    padding: 8px 0px 3px 7px;
+}

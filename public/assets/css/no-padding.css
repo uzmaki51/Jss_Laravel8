@@ -1,0 +1,27 @@
+.table tbody > tr > td {
+    font-size: 12px!important;
+}
+.table tbody > tr > .custom-td-label1 {
+    padding: 0 4px!important;
+}
+.table tbody > tr > .custom-td-report-text, .table tbody > tr > .custom-td-dec-text {
+    padding: 0!important;
+}
+
+.form-control {
+    padding: 4px!important;
+    border-radius: 0!important;
+    border: unset!important;
+    font-size: 12px!important;
+}
+.chosen-single {
+    padding: 4px!important;
+    border-radius: 0!important;
+    border: unset!important;
+    font-size: 12px!important;
+}
+.input-group-addon {
+    font-size: 12px!important;
+    padding: 0 4px!important;
+    border: unset!important;
+}

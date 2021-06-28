@@ -1,0 +1,328 @@
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+*, *:after, *:before {
+    box-sizing: border-box;
+}
+
+.dynamic-select-wrapper {
+    position: relative;
+    user-select: none;
+    width: 100%;
+}
+
+.dynamic-select {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    /* border-width: 0 2px 0 2px; */
+    /* border-style: solid; */
+    /* border-color: #394a6d; */
+}
+
+.dynamic-select__trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+    height: 13px;
+    /* font-size: 14px; */
+    /* font-weight: 300; */
+    /* color: #3b3b3b; */
+    /* height: 60px; */
+    /* line-height: 60px; */
+    background: #ffffff;
+    /* border-width: 2px 0 2px 0; */
+    /* border-style: solid; */
+    /* border-color: #394a6d; */
+}
+.dynamic-item-list {
+    display: flex;
+}
+.dynamic-item-list div {
+    display: flex;
+    padding: 0 2px;
+    border: 1px solid #666666;
+    margin-right: 2px;
+}
+.dynamic-item-list div .selected-item {
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    padding-right: 2px;
+}
+.dynamic-options {
+    position: absolute;
+    display: none;
+    top: 100%;
+    left: 0;
+    right: 0;
+    transition: all 0.5s;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+    /*max-height: 310px;*/
+    min-width: 280px;
+}
+.dynamic-select.open .dynamic-options {
+    opacity: 1;
+    display: block;
+    pointer-events: all;
+    max-height: 310px;
+    min-width: 280px;
+}
+
+.open  {
+    opacity: 1;
+    display: block;
+    pointer-events: all;
+    /*max-height: 310px;*/
+}
+
+.dynamic-options-scroll {
+    overflow-y: auto;
+    /* overflow-x: hidden; */
+    max-height: 308px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: 1px solid #394a6d;
+    /* border-bottom: 1px; */
+    background: #fff;
+}
+
+
+.dynamic-option {
+    position: relative;
+    display: block;
+    padding: 3px 8px 3px 8px;
+    /* font-size: 22px; */
+    font-weight: 300;
+    color: #3b3b3b;
+    /* line-height: 60px; */
+    transition: all 0.5s;
+}
+
+.dynamic-option:hover {
+    color: #ffffff;
+    background-color: #65b2ff;
+}
+.dynamic-option.selected {
+    color: #ffffff;
+    background-color: #1e90ff!important;
+    padding: 3px 8px 3px 8px!important;
+}
+
+.arrow {
+    position: relative;
+    height: 7px;
+    width: 7px;
+}
+.arrow::before, .arrow::after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    width: 0.2rem;
+    height: 100%;
+}
+.arrow::before {
+    left: -1px;
+    transform: rotate(-45deg);
+    background-color: #394a6d;
+}
+.arrow::after {
+    left: 3px;
+    transform: rotate(45deg);
+    background-color: #12539b;
+}
+
+
+
+.dynamic-arrow {
+    position: relative;
+}
+.dynamic-arrow::before, .dynamic-arrow::after {
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    width: 0.2rem;
+    height: 60%;
+}
+.dynamic-arrow::before {
+    right: 12px;
+    transform: rotate(-45deg);
+    background-color: #394a6d;
+}
+.dynamic-arrow::after {
+    right: 7px;
+    transform: rotate(45deg);
+    background-color: #12539b;
+}
+
+
+
+.open .arrow::before {
+    left: -1px;
+    transform: rotate(-45deg);
+}
+.open .arrow::after {
+    left: 3px;
+    transform: rotate(45deg);
+}
+
+.edit-list-btn {
+    opacity: 0.1;
+}
+
+.edit-list-btn:hover {
+    opacity: 1;
+    cursor: pointer;
+    transition: opacity 1000ms ease-in-out;
+}
+
+.dynmaic-list {
+    width: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.dynamic-default-select {
+    font-size: 12px;
+    height: 19px;
+    width: 100%;
+}
+
+.dynamic-modal {
+    width: 400px!important;
+}
+
+.dynamic-modal-body {
+    position: relative;
+    padding: 12px;
+    font-size: 14px;
+}
+
+.rank-tr {
+    height: 18px;
+}
+
+.rank-tr:hover {
+    background-color: #71b8ff;
+}
+
+.dynamic-select-span {
+    width: calc(100% - 12px);
+    overflow: hidden;
+    padding: 0px!important;
+}
+
+.dynamic-select-span-capacity {
+    width: 95%;
+    overflow: hidden;
+}
+
+.dynamic-modal-header {
+    font-size: 20px;
+    min-height: 16.428571429px;
+    padding: 0px;
+    border-bottom: 1px solid #e5e5e5;
+    background: #1565C0;
+    color: white;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.dynamic-modal-dialog {
+    z-index: 1050;
+    width: auto;
+    padding: 10px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+.dynamic-modal-content {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    border: 1px solid #999;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    background-clip: padding-box;
+    width: 600px;
+}
+
+
+.dynamic-head-fix {
+    overflow-y: auto;
+    height: 300px;
+}
+
+.multi-select {
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+    border: 1px solid #394a6d;
+    // min-width: 240px!important;
+    right: 0;
+    left: auto;
+    background: #fff;
+}
+.multi-select .dynamic-options-scroll {
+    box-shadow: unset!important;
+    border: unset!important;
+}
+.multi-select .dynamic-option {
+    padding: 0!important;
+}
+.multi-select .dynamic-option label {
+    padding: 4px;
+}
+.multi-dynamic-select {
+    color: #12539b;
+    max-width: 240px;
+    overflow: hidden;
+    padding-right: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+}
+.multi-select .dynamic-option input {
+    margin: 2px 4px!important;
+}
+.multi-edit-div {
+    position: absolute;
+    bottom: -42px;
+    left: 0;
+}
+
+@media (max-width: 1366px) {
+    .multi-dynamic-select {
+        max-width: 100%;
+    }
+}

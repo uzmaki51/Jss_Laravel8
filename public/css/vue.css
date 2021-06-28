@@ -1,0 +1,13 @@
+.vdp-datepicker__calendar {
+    width: 230px!important;
+}
+.vdp-datepicker__calendar .cell {
+    display: inline-block;
+    padding: 7px 5px!important;
+    width: 14.285714285714286%;
+    height: 28px!important;
+    line-height: 10px!important;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid transparent;
+}

@@ -1,0 +1,271 @@
+.table tbody > tr > td {
+    font-size: 12px!important;
+    padding: 0px;
+    white-space: nowrap;
+}
+.table tbody > tr > .custom-td-label1 {
+    padding: 2px!important;
+    border: unset!important;
+    width: 180px!important;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+}
+
+.table tbody > tr > .custom-modal-td-label {
+    font-size: 15px!important;
+    text-align: left!important;
+    padding: 3px!important;
+    background-color: #d9f8fb;
+    width: 100px;
+}
+
+.table tbody > tr > .custom-modal-td-text1 {
+    padding:5px!important;
+}
+
+.first-input {
+    width:48%;
+    display: inline-block!important;
+}
+
+.second-input {
+    width: 49%;
+    display: inline-block!important;
+}
+.two-input {
+    padding: 0!important;
+    width: 50%;
+}
+.table tbody > tr > .custom-td-label1:after {
+    content: '........................................................................................................';
+    overflow: hidden;
+    width: 120px;
+}
+.table .keel-date {
+    width: 40% !important;
+}
+.table tbody > tr > .custom-td-report-text, .table tbody > tr > .custom-td-dec-text {
+    padding: 0!important;
+    width: 80%;
+    height: 18px;
+}
+
+.form-control {
+    padding: 0 4px!important;
+    border-radius: 0!important;
+    border: unset!important;
+    font-size: 12px!important;
+}
+.chosen-single {
+    padding: 4px!important;
+    border-radius: 0!important;
+    border: unset!important;
+    font-size: 12px!important;
+}
+.input-group-addon {
+    font-size: 12px!important;
+    padding: 0 4px!important;
+    border: unset!important;
+}
+.general tr >td:first-child {
+    width: 20%;
+    background: unset!important;
+}
+.general {
+    border: unset!important;
+}
+.sub-title {
+    padding-left: 20px;
+}
+
+
+
+.small-title {
+    text-align: right!important;
+    padding: 2px 4px 2px 0!important;
+    font-weight: normal;
+    border: unset!important;
+}
+.table {
+    margin-bottom: 2px!important;
+    border-right: unset;
+}
+.custom-td-report-text {
+    width: 25%;
+}
+.ship-list thead tr th {
+    height: 20px!important;
+    padding: 4px 0!important;
+    font-weight: normal;
+    background: #d9f8fb;
+    color: black;
+    font-size: 12px!important;
+    font-style: italic;
+    /*border: unset!important;*/
+}
+.ship-list thead tr th:last-child {
+    border-right: 1px solid #484f5b!important;
+}
+.ship-list tr {
+    border: unset!important;
+    display: table; /* display purpose; th's border */
+    width: 100%;
+    box-sizing: border-box; /* because of the border (Chrome needs this line, but not FF) */
+}
+.ship-list tr td {
+    border-bottom: 1px solid #cccccc!important;
+    border-left: 1px solid #cccccc!important;
+    border-bottom: none!important;
+    border-left: none!important;
+    padding: 4px 0!important;
+}
+.ship-list thead {
+    overflow: scroll;
+}
+
+.ship-list tbody {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-right: 1px solid #484f5b!important;
+}
+.ship-list tbody::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white;
+    background-color: rgba(0, 0, 0, .5);
+}
+.ship-list tbody::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+.ship-list tbody::-webkit-scrollbar:vertical {
+    width: 10px;
+}
+
+.ship-item {
+    background-color: white;
+    cursor:pointer;
+}
+.ship-item:hover {
+    background-color: #ffe3e082;
+}
+
+.wage-item:hover {
+    background-color: #ff988c82;
+}
+
+.wage-item td:hover {
+    background-color: #ff988c82;
+}
+
+.contract-item {
+    background-color: white;
+    cursor:pointer;
+}
+.contract-item:hover {
+    background-color: #ffe3e082;
+}
+
+.selected td {
+    background: #ffe3e0;
+}
+
+.ship-register a {
+    padding: 4px!important;
+}
+
+.alert {
+    padding: 4px!important;
+    margin-bottom: 0;
+    margin-left: 15vw;
+    transition: 0.3s ease-in-out;
+}
+.visuallyhidden {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 1px solid transparent;
+}
+
+.border-div {
+    border: 1px solid #aaaaaa;
+    padding: 12px;
+}
+.no-border td {
+    border: unset!important;
+}
+.custom-label {
+    font-size: 12px!important;
+}
+.summer-bg {
+    background: #fce6d4!important;
+}
+.winter-bg {
+    background: #d0e6dd!important;
+}
+.custom-td-label {
+    text-align: left!important;
+    width: 100px;
+}
+.report-status {
+    cursor: pointer;
+}
+
+#report_div {
+    table-layout: fixed;
+    color: black!important;
+}
+#report_div .no-border {
+    border: unset!important;
+    width: 300px;
+}
+#report_info_table thead th {
+    color: black!important;
+    width: 80%;
+}
+#report_div .custom-td-dec-text {
+    width: 200px;
+}
+#report_div .custom-modal-td-text1 {
+    width: 100px;
+}
+
+.custom-modal-td-text1 input {
+    padding: 0 8px!important;
+}
+
+.currency-type {
+    width:28%;
+    display: inline-block!important;
+}
+
+.currency-input {
+    width: 69%;
+    display: inline-block!important;
+}
+#report_div {
+    border-right: 1px solid #111;
+    border-top: 1px solid #111;
+       color: black!important;
+}
+#report_info_table thead th {
+    color: black !important;
+    width: 80%;
+    border-top: unset;
+}
+
+.cost-item-odd {
+    background-color: #f5f5f5;
+}
+
+.cost-item-even:hover {
+    background-color: #ffe3e082;
+}
+
+.cost-item-odd:hover {
+    background-color: #ffe3e082;
+}
