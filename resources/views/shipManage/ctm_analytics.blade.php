@@ -35,7 +35,7 @@ $ships = Session::get('shipList');
                     </h4>
                 </div>
             </div>
-            <div class="col-lg-12">
+            <div class="row">
                 <div class="col-lg-12">
                     <ul class="nav nav-tabs ship-register">
                         <li class="active">
@@ -73,8 +73,9 @@ $ships = Session::get('shipList');
                                         <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                                     </div>
                                 </div>
+</div>
                                 <div class="row">
-                                    <div class="col-lg-12 head-fix-div" style="margin-top: 4px;">
+                                    <div class="head-fix-div" style="margin-top: 4px;">
                                         <table class="table-layout-fixed" v-cloak>
                                             <thead class="">
                                                 <tr class="ctm-analytics">
@@ -141,9 +142,10 @@ $ships = Session::get('shipList');
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
 
                         <div id="debit_analytics_div" class="tab-pane">
+<div class="row">
                             <div class="col-lg-6">
                                 <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
                                 <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;" @change="goToUrl">
@@ -164,8 +166,9 @@ $ships = Session::get('shipList');
                                     <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                                 </div>
                             </div>
+</div>
                             <div class="row">
-                                <div class="col-lg-12 head-fix-div" style="margin-top: 4px;">
+                                <div class="head-fix-div" style="margin-top: 4px;">
                                         <table class="table-layout-fixed" v-cloak>
                                             <thead class="">
                                                 <tr class="ctm-analytics">
@@ -191,15 +194,13 @@ $ships = Session::get('shipList');
                                                 </tr>
                                             </tbody>
                                         </table>
+                                </div>
                             </div>
-                        </div>                    
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <audio controls="controls" class="d-none" id="warning-audio">
-            <source src="{{ cAsset('assets/sound/delete.wav') }}">
-            <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
-        </audio>
     </div>
 
     <script src="{{ cAsset('assets/js/moment.js') }}"></script>

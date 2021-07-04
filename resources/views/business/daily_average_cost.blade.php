@@ -23,19 +23,6 @@ $ships = Session::get('shipList');
 
 @section('content')
     <div class="main-content">
-        <style>
-            .cost-item-odd {
-                background-color: #f5f5f5;
-            }
-
-            .cost-item-even:hover {
-                background-color: #ffe3e082;
-            }
-
-            .cost-item-odd:hover {
-                background-color: #ffe3e082;
-            }
-        </style>
         <div class="page-content">
             <div class="page-header">
                 <div class="col-sm-3">
@@ -128,18 +115,18 @@ $ships = Session::get('shipList');
                                 </thead>
                                 <tbody class="" id="">
                                 <tr>
-                                    <td class="text-center style-normal-header" style="background:#d9f8fb"><span>年份</span></td>
+                                    <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>年份</span></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input1'] }}" style="width: 100%"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input2'] }}" style="width: 100%"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input3'] }}" style="width: 100%"></td>
+                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input1'] }}" style="width: 100%"></td>
+                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input2'] }}" style="width: 100%"></td>
+                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input3'] }}" style="width: 100%"></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center style-normal-header" style="background:#d9f8fb"><span>月份</span></td>
+                                    <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>月份</span></td>
                                     <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input4'] }}" style="width: 100%"></td>
                                     <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input5'] }}" style="width: 100%"></td>
                                     <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input6'] }}" style="width: 100%"></td>
@@ -150,7 +137,7 @@ $ships = Session::get('shipList');
                                     <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                 </tr>
                                 <tr style="height:30px;border:2px solid black;">
-                                    <td class="text-center style-normal-header" style="background:#d9f8fb"><span>日成本</span></td>
+                                    <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>日成本</span></td>
                                     <td colspan="8" class="sub-small-header style-normal-header text-center" id="total-sum">333</td>
                                 </tbody>
                             </table>
@@ -405,6 +392,9 @@ $ships = Session::get('shipList');
                         else if (i == 12) {
                             dest_obj = $('td', row).eq(19);
                         }
+                        else {
+                            dest_obj = null;
+                        }
 
                         if (i == 15) {
                             //$(dest_obj).attr('class', 'text-right right-border');
@@ -427,7 +417,7 @@ $ships = Session::get('shipList');
                             $(dest_obj).html(prettyValue(data['debit_list'][i]));
                         }
                         else {
-                            $(dest_obj).html('');
+                            if (dest_obj != null) $(dest_obj).html('');
                         }
                     }
                 },

@@ -58,7 +58,7 @@
         <div class="page-content" id="search-div" v-cloak>
             <div class="row">
                 <div class="col-md-12 align-bottom">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                         <select class="custom-select d-inline-block" style="padding: 4px;max-width: 100px;" @change="changeShip" v-model="shipId">
                             @foreach($shipList as $ship)
@@ -82,13 +82,13 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <div class="d-flex f-left">
+                        <div class="d-flex f-right">
                             <strong class="f-right" style="font-size: 16px; padding-top: 6px;">
                                 <span id="search_info">{{ $shipName }}</span>&nbsp;<span class="font-bold">@{{ activeYear }}年@{{ page_title }}</span>
                             </strong>
                         </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-6">
                         <div class="btn-group f-right">
                             <a class="btn btn-sm btn-default" @click="openNewPage('soa')">SOA</a>
                             <a class="btn btn-sm btn-default" @click="openNewPage('dynamic')">动态分析</a>
@@ -106,37 +106,39 @@
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <input type="hidden" name="shipId" value="{{ $shipId }}">
                         <input type="hidden" name="year" v-model="activeYear">
-                        <table class="dynamic-result-table analyze-table table-striped" id="table-fuel-list">
+                        <table class="dynamic-table table-striped" id="table-fuel-list">
+                                <thead>
+                                <tr>
+                                        <th class="text-center" rowspan="2">航次</th>
+                                        <th class="text-center" rowspan="2">平均<br>速度</th>
+                                        <th class="text-center" colspan="3">油槽测量(起)</th>
+                                        <th class="text-center" colspan="3">油槽测量(止)</th>
+                                        <th class="text-center" colspan="2">总消耗(MT)</th>
+                                        <th class="text-center" colspan="2" style="border-right: 2px solid #ff9207;">-节约/+超过</th>
+                                        <th class="text-center" colspan="2">加油量(MT)</th>
+                                        <th class="text-center" rowspan="2">油款($)</th>
+                                        <th class="text-center" colspan="3" style="border-right: 2px solid #ff9207;">油价($/MT)</th>
+                                        <th class="text-center" rowspan="2">备注</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">FO</th>
+                                        <th class="text-center">DO</th>
+                                        <th class="text-center">报告</th>
+                                        <th class="text-center">FO</th>
+                                        <th class="text-center">DO</th>
+                                        <th class="text-center">报告</th>
+                                        <th class="text-center">FO</th>
+                                        <th class="text-center">DO</th>
+                                        <th class="text-center">FO</th>
+                                        <th class="text-center" style="border-right: 2px solid #ff9207;">DO</th>
+                                        <th class="text-center">FO</th>
+                                        <th class="text-center">DO</th>
+                                        <th class="text-center">FO</th>
+                                        <th class="text-center">DO</th>
+                                        <th class="text-center" style="border-right: 2px solid #ff9207;">其他费</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
-                                <tr class="dynamic-footer">
-                                    <td class="text-center" rowspan="2">航次</td>
-                                    <td class="text-center" rowspan="2">平均<br>速度</td>
-                                    <td class="text-center" colspan="3">油槽测量(起)</td>
-                                    <td class="text-center" colspan="3">油槽测量(止)</td>
-                                    <td class="text-center" colspan="2">总消耗(MT)</td>
-                                    <td class="text-center" colspan="2" style="border-right: 2px solid #ff9207;">-节约/+超过</td>
-                                    <td class="text-center" colspan="2">加油量(MT)</td>
-                                    <td class="text-center" rowspan="2">油款($)</td>
-                                    <td class="text-center" colspan="3" style="border-right: 2px solid #ff9207;">油价($/MT)</td>
-                                    <td class="text-center" rowspan="2">备注</td>
-                                </tr>
-                                <tr class="dynamic-footer">
-                                    <td class="text-center">FO</td>
-                                    <td class="text-center">DO</td>
-                                    <td class="text-center">报告</td>
-                                    <td class="text-center">FO</td>
-                                    <td class="text-center">DO</td>
-                                    <td class="text-center">报告</td>
-                                    <td class="text-center">FO</td>
-                                    <td class="text-center">DO</td>
-                                    <td class="text-center">FO</td>
-                                    <td class="text-center" style="border-right: 2px solid #ff9207;">DO</td>
-                                    <td class="text-center">FO</td>
-                                    <td class="text-center">DO</td>
-                                    <td class="text-center">FO</td>
-                                    <td class="text-center">DO</td>
-                                    <td class="text-center" style="border-right: 2px solid #ff9207;">其他费</td>
-                                </tr>
                                 <template v-for="(item, index) in analyze.list" v-cloak>
                                     <tr :class="index % 2 == 0 ? 'even' : 'odd'">
                                         <td class="center d-none">

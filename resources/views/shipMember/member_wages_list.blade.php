@@ -288,6 +288,7 @@ $isHolder = Session::get('IS_HOLDER');
                 createdRow: function (row, data, index) {
                     $(row).attr('data-index', data['no']);
                     $('td', row).eq(0).attr('class', 'style-search-header text-center');
+                    $('td', row).eq(3).html(data['currency']==0?'¥':'$');
                     $('td', row).eq(4).html(prettyValue(data['salary']));
                 },
             });

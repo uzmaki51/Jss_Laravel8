@@ -854,13 +854,24 @@ $ships = Session::get('shipList');
                     var ship_no = $(this).val();
                     var row_html = "<tr class='" + ((index%2==0)?'cost-item-even':'cost-item-odd') + "'>";
                     row_html += "<td>" + ship_name + "</td>";
-                    var value = result[ship_no]['prevProfit'];
+                    
+                    //var value = result[ship_no]['prevProfit'];
+                    //row_html += '<td style="padding-right:5px!important;height:20px!important;" class="right-border text-right ' + (value >= 0 ? 'style-blue-input':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
+                    var value = result[ship_no]['sum_months'][11];
+                    prev_sum += value;
                     row_html += '<td style="padding-right:5px!important;height:20px!important;" class="right-border text-right ' + (value >= 0 ? 'style-blue-input':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
-                    prev_sum += result[ship_no]['prevProfit'];
+
+                    var prev_month = 0;
                     for(var i=0;i<12;i++) {
                         value = result[ship_no]['sum_months'][i];
+                        
+                        
                         month_sum[i] += value;
-                        row_html += '<td style="padding-right:5px!important;height:20px!important;" class="text-right ' + (value >= 0 ? '':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
+                        if (value == prev_month)
+                            row_html += '<td style="padding-right:5px!important;height:20px!important;" class="text-right ' + (value >= 0 ? '':'style-red-input') + '">' + '' + '</td>';
+                        else
+                            row_html += '<td style="padding-right:5px!important;height:20px!important;" class="text-right ' + (value >= 0 ? '':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
+                        prev_month = result[ship_no]['sum_months'][i];
                     }
                     row_html += "</tr>"
                     $('#table-total-profit-body').append(row_html);
@@ -869,9 +880,14 @@ $ships = Session::get('shipList');
                 row_html = "<tr><td class='sub-small-header style-blue-input' style='height:20px!important'>合计</td>";
                 value = prev_sum;
                 row_html += '<td style="padding-right:5px!important;height:20px!important;" class="right-border sub-small-header style-normal-header text-right ' + (value >= 0 ? '':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
+                prev_month = 0;
                 for(var i=0;i<12;i++) {
                     var value = month_sum[i];
-                    row_html += '<td style="padding-right:5px!important;height:20px!important;" class="sub-small-header style-normal-header text-right ' + (value >= 0 ? '':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
+                    if (value == prev_month)
+                        row_html += '<td style="padding-right:5px!important;height:20px!important;" class="sub-small-header style-normal-header text-right ' + '">' + '' + '</td>';
+                    else
+                        row_html += '<td style="padding-right:5px!important;height:20px!important;" class="sub-small-header style-normal-header text-right ' + (value >= 0 ? '':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
+                    prev_month = month_sum[i];
                 }
                 row_html += "</tr>";
                 $('#table-total-profit-body').append(row_html);

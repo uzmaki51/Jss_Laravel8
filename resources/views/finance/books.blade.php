@@ -29,6 +29,10 @@ $isHolder = Session::get('IS_HOLDER');
             .cost-item-odd:hover {
                 background-color: #ffe3e082;
             }
+
+            .disable-td {
+                background-color:unset!important;
+            }
         </style>
         <div class="page-content">
             <div class="space-4"></div>
@@ -75,7 +79,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                 @endfor
                                             @endif
                                         </select>
-                                        <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="init()" style="width: 80px;height: 26px!important;margin-bottom: 1px;padding: 5px!important;">
+                                        <a class="btn btn-sm btn-danger refresh-btn-over" id="btnInit" type="button" onclick="init()" style="width: 80px;height: 26px!important;margin-bottom: 1px;padding: 5px!important;">
                                             <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初始化
                                         </a>
                                         <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_info"></span>记账簿</strong>
@@ -811,6 +815,7 @@ $isHolder = Session::get('IS_HOLDER');
                     var content = "";
                     var report_id = "";
                     var obj = "";
+                    var report_ids = [];
                     for(var i = 0 ; i < keep_list.rows.length ; i++) 
                     {
                         var book_id = keep_list.rows[i].getAttribute('data-ref');
@@ -820,9 +825,12 @@ $isHolder = Session::get('IS_HOLDER');
                             if (ship_no == "") ship_no = keep_list.rows[i].getAttribute('ship-no');
                             if (content == "") content = keep_list.rows[i].childNodes[4].childNodes[0].value;
                             if (report_id == "") report_id = keep_list.rows[i].getAttribute('report-id');
+                            report_ids.push(report_id = keep_list.rows[i].getAttribute('report-id'));
+
                             if (obj == "") obj = keep_list.rows[i].childNodes[1].innerText;
                             book_list.rows[book_id].childNodes[2].childNodes[0].value = "J-" + new_book_no;
-                            book_list.rows[book_id].childNodes[2].childNodes[0].style.setProperty('color', 'red','important');
+                            book_list.rows[book_id].childNodes[2].childNodes[0].className = "form-control style-red-input";
+                            
                             book_list.rows[book_id].childNodes[7].childNodes[0].value = keep_list.rows[i].childNodes[4].childNodes[0].value;
                             book_list.rows[book_id].childNodes[9].childNodes[0].value = keep_list.rows[i].childNodes[6].childNodes[0].value;
                             book_list.rows[book_id].childNodes[10].childNodes[0].value = keep_list.rows[i].childNodes[7].childNodes[0].value;
@@ -833,7 +841,7 @@ $isHolder = Session::get('IS_HOLDER');
                         }
                     }
                     setState(false);
-                    var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_id, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, account_name:account_name, currency:(currency=="$"?1:0), credit:sum_credit, debit:sum_debit };
+                    var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_ids, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, account_name:account_name, currency:(currency=="$"?1:0), credit:sum_credit, debit:sum_debit };
                     books.push(new_item);
                     $('#keep_list').val(JSON.stringify(books));
                 }
@@ -963,11 +971,49 @@ $isHolder = Session::get('IS_HOLDER');
         $("#btnSave").on('click', function() {
             //origForm = $form.serialize();
             submitted = true;
-            if (document.getElementById('list-book-body').rows.length > 0) {
-                $('#books-form').submit();
+            var rows_to_send = document.getElementById('list-book-body').rows;
+            if (rows_to_send.length > 0) {
+                if (rows_to_send.length == 1) {
+                    if (rows_to_send[0].innerHTML.indexOf('No matching records found') >= 0) return;
+                }
+                
+                //$('#books-form').submit();
+                let form = $('#books-form').serialize();
+                $('#btnKeep').attr('disabled', true);
+                $('#btnOK').attr('disabled', true);
+                $('#btnCancel').attr('disabled', true);
+                $('#btnInit').attr('disabled', true);
+                $('#btnSave').attr('disabled', true);
+                
+                setUpdateRows();
+                clearSelection();
+                $.post('books/save', form).done(function (data) {
+                    let result = data;
+                    if (result == 1) {
+                        $('#btnInit').attr('disabled', false);
+                        $('#btnSave').attr('disabled', false);
+                        clearList();
+                        
+                        books = [];
+                    }
+                    else {
+                        alert('保存失败了。');
+                        location.reload();
+                        return;
+                    }
+                });
+                
                 $('td[style*="display: none;"]').remove();
             }
         });
+
+        function setUpdateRows()
+        {
+            $('.style-red-input').parent().parent().find('[type="checkbox"]').attr("disabled", "true");
+            $('.style-red-input').parent().parent().find('[type="checkbox"]').attr("class", "");
+            $('.style-red-input').parent().parent().find('[type="checkbox"]').prop("checked", true);
+            $('.style-red-input').attr("class","form-control style-blue-input");
+        }
 
         function clearSelection()
         {

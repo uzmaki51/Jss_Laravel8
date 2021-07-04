@@ -411,8 +411,8 @@
                         reportObj.reportStatus = false;
                     }
                     
-                    if($('[name=draftId]').val() == -1)
-                        $('.save-draft').attr('disabled', 'disabled');
+                    // if($('[name=draftId]').val() == -1)
+                    //     $('.save-draft').attr('disabled', 'disabled');
 
                     $('.only-modal-show').click();
                 },

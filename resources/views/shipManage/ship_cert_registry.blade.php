@@ -154,7 +154,7 @@ $ships = Session::get('shipList');
                                     <div class="row">
                                         <form action="shipCertType" method="post" id="shipCertForm">
                                             <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                            <div class="head-fix-div col-md-12" style="height:300px;">
+                                            <div class="head-fix-div" style="height:300px;">
                                                 <table class="table-bordered rank-table">
                                                     <thead>
                                                     <tr class="rank-tr" style="background-color: #d9f8fb;height:18px;">

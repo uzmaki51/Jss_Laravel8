@@ -19,7 +19,7 @@
         <div class="col-lg-3">
             <div class="text-center" style="margin-top: 6px;">
                 <strong style="font-size: 16px; padding-top: 6px;">
-                    <span id="search_info">{{ $shipName }}</span>&nbsp;<span class="font-bold">@{{ activeYear }}年必修备件表</span>
+                    <span id="search_info">{{ $shipName }}</span>&nbsp;<span class="font-bold">@{{ activeYear }}年必需备件表</span>
                 </strong>
             </div>
         </div>
@@ -41,7 +41,8 @@
             <form action="shipReqEquipmentList" method="post" id="equipment-require-form" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" value="{{ $shipId }}" name="shipId">
-                <table class="table-striped" id="table-require">
+                <input type="hidden" value="require" name="type">
+                <table class="" id="table-require">
                     <thead class="">
                         <th class="d-none"></th>
                         <th class="text-center">No</th>
@@ -58,7 +59,7 @@
                         <tr v-for="(item, index) in list" :class="index % 2 == 0 ? 'even' : 'odd'">
                             <td class="center no-wrap">@{{ index + 1 }}<input type="hidden" name="id[]" v-model="item.id"></td>
                             <td class="center no-wrap">
-                                <select class="form-control text-center" v-model="item.place" name="place[]">
+                                <select class="form-control text-left" v-model="item.place" name="place[]">
                                     <option value="1" data-ref="主机(M/E)">主机(M/E)</option>
                                     <option value="2" data-ref="辅机(A/E)">辅机(A/E)</option>
                                     <option value="3" data-ref="锅炉(BLR)">锅炉(BLR)</option>
@@ -87,7 +88,7 @@
                                 <my-currency-input v-model="item.inventory_vol" class="form-control text-center" name="inventory_vol[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                             </td>
                             <td>
-                                <input class="form-control text-left" type="text" v-model="item.unit" name="unit[]">
+                                <input class="form-control text-center" type="text" v-model="item.unit" name="unit[]">
                             </td>
                             <td>
                                 <my-currency-input v-model="item.require_vol" class="form-control text-center" name="require_vol[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
@@ -184,6 +185,7 @@
                         var values = $("input[name='item[]']")
                             .map(function(){return parseInt($(this).val());}).get();
 
+                        if(values.includes(cert)) {alert('Can\'t register duplicate item.'); return false;}
                         isChangeStatus = true;
                         setCertInfo(cert, index);
                         $(".dynamic-select__trigger").removeClass('open');
@@ -214,7 +216,7 @@
                         $('.only-modal-show').click();
                     },
                     onChangeShip: function(e) {
-                        location.href = '/shipManage/equipment?id=' + $_this.shipId + '&type=require';
+                        location.href = '/shipManage/equipment?id=' + e.target.value + '&type=require';
                     },
                     onChangeYear: function(e) {
                         var confirmationMessage = 'It looks like you have been editing something. '
@@ -262,6 +264,11 @@
                     },
                     addRow: function() {
                         let length = $__this.list.length;
+                        let item = 0;
+
+                        if(itemListObj.list.length <= length && length > 0)
+                            return false;
+
                         if(length == 0) {
                             this.list.push([]);
                             this.list[length].place = 1;
@@ -270,7 +277,7 @@
                             else {
                                 this.list[length].item = 0;
                             }
-                            console.log(this.list[length].item)
+
                             setCertInfo(this.list[length].item, length);
                             this.list[length].require_vol = '';
                             this.list[length].inventory_vol = '';
@@ -281,8 +288,8 @@
                             this.list.push([]);
                             this.list[length].place = this.list[length - 1].place;
                             this.list[length].item = this.list[length-1].item;
-                            console.log(this.list[length-1].item)
-                            setCertInfo(this.list[length].item, length);
+                            item = getNearCertId(this.list[length-1].item);
+                            setCertInfo(item, length);
                             this.list[length].require_vol = this.list[length-1].require_vol;
                             this.list[length].inventory_vol = this.list[length-1].inventory_vol;
                             this.list[length].unit = this.list[length-1].unit;
@@ -391,6 +398,8 @@
                         }).next().on(ace.click_event, function () {
                             $(this).prev().focus();
                         });
+
+                        offAutoCmplt();
                     }
             });
             
@@ -434,7 +443,6 @@
                             itemListObj.list.forEach(function(value) {
                                 if(value.id == $__this.list[activeId].item) {
                                     $__this.list[activeId].cert_name = value.name;
-                                    console.log(value.name)
                                 }
                             })
 
@@ -495,45 +503,6 @@
             })
         }
 
-        function addCertItem() {
-            let reportLen = equipRequireObj.itemList.length;
-            let newCertId = 0;
-            if(reportLen == 0) {
-                reportLen = 0;
-                newCertId = 0;
-            } else {
-                newCertId = equipRequireObj.itemList[reportLen - 1]['item'];
-            }
-
-            newCertId = getNearCertId(newCertId);
-
-            if(shipCertTypeList.length <= reportLen && reportLen > 0)
-                return false;
-
-            if(newCertId == '') {
-                newCertId = getNearCertId(0);
-            }
-
-            equipRequireObj.itemList.push([]);
-            equipRequireObj.itemList[reportLen]['item']  = newCertId;
-            equipRequireObj.itemList[reportLen]['is_tmp']  = 1;
-            setCertInfo(newCertId, reportLen);
-            equipRequireObj.itemList[reportLen]['issue_date']  = $($('[name^=issue_date]')[reportLen - 1]).val();
-            equipRequireObj.itemList[reportLen]['expire_date']  = $($('[name^=expire_date]')[reportLen - 1]).val();
-            equipRequireObj.itemList[reportLen]['due_endorse']  = $($('[name^=due_endorse]')[reportLen - 1]).val();
-            equipRequireObj.itemList[reportLen]['issuer']  = 1;
-            $($('[name=item]')[reportLen - 1]).focus();
-            certIdList.push(equipRequireObj.itemList[reportLen]['item']);
-
-            $('[date-issue=' + reportLen + ']').datepicker({
-                autoclose: true,
-            }).next().on(ace.click_event, function () {
-                $(this).prev().focus();
-            });
-
-            isChangeStatus = true;
-        }
-
         function getNearCertId(item) {
             var values = $("input[name='item[]']")
                 .map(function(){return parseInt($(this).val());}).get();
@@ -573,11 +542,8 @@
             }
         });
 
-        $(".ui-draggable").draggable({
-            helper: 'move',
-            cursor: 'move',
-            tolerance: 'fit',
-            revert: "invalid",
-            revert: false
-        });
+        function offAutoCmplt() {
+            $('.remark').attr('autocomplete', 'off');
+            $('input').attr('autocomplete', 'off');
+        }
     </script>

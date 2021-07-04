@@ -64,9 +64,9 @@ class ShipEquipmentRequire extends Model
 		$records = $selector->get();
 
 		$placeList = array(
-			'1'		=> '主机(M/E)',
-			'2'		=> '辅机(A/E)',
-			'3'		=> '锅炉(BLR)',
+			'1'		=> '主机',
+			'2'		=> '辅机',
+			'3'		=> '锅炉',
 			'4'		=> '机械',
 		);
 
@@ -74,6 +74,11 @@ class ShipEquipmentRequire extends Model
 		foreach($records as $key => $item) {
 			$records[$key]->shipName = $shipReg->getShipNameByIMO($item->shipId);
 			$records[$key]->place = $placeList[$item->place];
+			$kind = ShipEquipmentRequireKind::find($item->item);
+			if($kind != null)
+				$records[$key]->remark = $kind->name;
+			else
+				$records[$key]->remark = '';
 		}
 
 		return $records;

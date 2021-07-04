@@ -181,7 +181,7 @@ class DecisionController extends Controller
 			$lastId = $reportId;
 			$isRegister = false;
 		} else {
-			$last = DecisionReport::orderBy('id', 'DESC')->first('id');
+			$last = DecisionReport::all()->last('id');
 			$lastId = $last['id'];
 			$isRegister = true;
 		}
@@ -203,8 +203,11 @@ class DecisionController extends Controller
 		
 		$reportTbl->save();
 		Session::put('last_session', true);
-		
-		return redirect('decision/receivedReport');
+
+		if($params['reportType'] != REPORT_STATUS_DRAFT)
+			return redirect('decision/receivedReport');
+		else
+			return redirect('decision/draftReport');
 	}
 	public function getACList(Request $request) {
 		$param = $request->all();

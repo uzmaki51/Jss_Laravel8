@@ -423,7 +423,7 @@
                     nonContractObj.ilohc = this.input['ilohc'];
                     nonContractObj.c_v_e = this.input['c_v_e'];
                     nonContractObj.com_fee = this.input['fee'];
-                    nonContractObj.net_profit_day = this.output['net_profit_day'].toFixed(0);
+                    nonContractObj.net_profit_day = this.output['net_profit_day'];
                     nonContractObj.currency = this.input['currency'];
                     nonContractObj.rate = this.input['rate'];
                     
@@ -449,7 +449,7 @@
                 calcContractPreview: function() {
                     if(parseInt(this.input['speed']) != 0) {
                         let tmp = BigNumber(this.input['distance']).div(this.input['speed']);
-                        this.output['sail_term'] = parseFloat(BigNumber(tmp).div(24));
+                        this.output['sail_term'] = __parseFloat(BigNumber(tmp).div(24).toFixed(DECIMAL_SIZE));
                     } else {
                         this.output['sail_term'] = 0;
                     }
@@ -463,20 +463,20 @@
                     let do_sailTmp3 = 0;
 
                     moorTmp = BigNumber(moorTmp).plus(this.input['wait_day']);
-                    this.output['moor'] = parseFloat(BigNumber(moorTmp));
-                    this.output['sail_time'] = parseFloat(BigNumber(this.output['moor']).plus(this.output['sail_term']));
+                    this.output['moor'] = __parseFloat(BigNumber(moorTmp).toFixed(DECIMAL_SIZE));
+                    this.output['sail_time'] = __parseFloat(BigNumber(this.output['moor']).plus(this.output['sail_term']).toFixed(DECIMAL_SIZE));
 
                     // FO_MT
                     fo_sailTmp1 = fo_sailTmp1.multipliedBy(this.input['fo_up_shipping']);
                     fo_sailTmp2 = BigNumber(this.input['fo_sailing']).multipliedBy(this.output['sail_term']);
                     fo_sailTmp3 = BigNumber(this.input['fo_waiting']).multipliedBy(this.input['wait_day']);
-                    this.output['fo_mt'] = parseFloat(BigNumber(fo_sailTmp1).plus(fo_sailTmp2).plus(fo_sailTmp3));
+                    this.output['fo_mt'] = __parseFloat(BigNumber(fo_sailTmp1).plus(fo_sailTmp2).plus(fo_sailTmp3).toFixed(DECIMAL_SIZE));
 
                     // DO_MT
                     do_sailTmp1 = do_sailTmp1.multipliedBy(this.input['do_up_shipping']);
                     do_sailTmp2 = BigNumber(this.input['do_sailing']).multipliedBy(this.output['sail_term']);
                     do_sailTmp3 = BigNumber(this.input['do_waiting']).multipliedBy(this.input['wait_day']);
-                    this.output['do_mt'] = parseFloat(BigNumber(do_sailTmp1).plus(do_sailTmp2).plus(do_sailTmp3));
+                    this.output['do_mt'] = __parseFloat(BigNumber(do_sailTmp1).plus(do_sailTmp2).plus(do_sailTmp3).toFixed(DECIMAL_SIZE));
 
                     // Oil Price
                     let fo_oil_price = BigNumber(this.output['fo_mt']).multipliedBy(this.input['fo_price']);
@@ -491,21 +491,21 @@
                     let percent = BigNumber(1).minus(BigNumber(this.input['fee']).div(100));
                     let creditTmp2 = BigNumber(this.input['c_v_e']).multipliedBy(this.output['sail_time']);
                     creditTmp = BigNumber(creditTmp).multipliedBy(percent);
-                    creditTmp = BigNumber(creditTmp).plus(this.input['ilohc']).plus(creditTmp2);
+                    creditTmp = BigNumber(creditTmp).plus(this.input['ilohc']).plus(creditTmp2).toFixed(DECIMAL_SIZE);
                     this.output['credit'] = creditTmp;
 
                     // Debit
                     let debitTmp1 = BigNumber(this.input['cost_per_day']).multipliedBy(this.output['sail_time']);
-                    let debitTmp2 = BigNumber(debitTmp1).plus(this.input['cost_else']);
-                    this.output['debit'] = parseFloat(debitTmp2);
+                    let debitTmp2 = BigNumber(debitTmp1).plus(this.input['cost_else']).toFixed(DECIMAL_SIZE);
+                    this.output['debit'] = __parseFloat(debitTmp2);
 
                     // Net Profit
-                    let netProfit = BigNumber(this.output['credit']).minus(this.output['debit']);
+                    let netProfit = BigNumber(this.output['credit']).minus(this.output['debit']).toFixed(DECIMAL_SIZE);
                     this.output['net_profit'] = netProfit;
                     
                     // Profit per day
                     if(this.output['sail_time'] != 0)
-                        this.output['net_profit_day'] = BigNumber(netProfit).div(this.output['sail_time']);
+                        this.output['net_profit_day'] = BigNumber(netProfit).div(this.output['sail_time']).toFixed(0);
                     else 
                         this.output['net_profit_day'] = 0;
 
@@ -513,10 +513,10 @@
             }
         });
 
-        nonInputObj.output['max_profit'] = parseFloat('{!! $maxFreight !!}');
-        nonInputObj.output['max_voy'] = parseFloat('{!! $maxVoyNo !!}');
-        nonInputObj.output['min_profit'] =   parseFloat('{!! $minFreight !!}');
-        nonInputObj.output['min_voy'] = parseFloat('{!! $minVoyNo !!}');
+        nonInputObj.output['max_profit'] = __parseFloat('{!! $maxFreight !!}');
+        nonInputObj.output['max_voy'] = __parseFloat('{!! $maxVoyNo !!}');
+        nonInputObj.output['min_profit'] =   __parseFloat('{!! $minFreight !!}');
+        nonInputObj.output['min_voy'] = __parseFloat('{!! $minVoyNo !!}');
 
         nonContractObj = new Vue({
             el: '#non_contract_table',

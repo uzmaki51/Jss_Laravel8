@@ -16,15 +16,16 @@ use Illuminate\Support\Facades\Log;
 class ShipEquipment extends Model
 {
 //    use SoftDeletes;
-    protected $table = 'tb_ship_equipment';
+	protected $table = 'tb_ship_equipment';
+	protected $table_register = 'tb_ship_register';
 
 	public function getYearList($shipId) {
         $yearList = [];
-        $info = self::where('shipId', $shipId)->first();
+        $info = DB::table($this->table_register)->where('IMO_No', $shipId)->first();
         if($info == null) {
             $baseYear = date('Y');
         } else {
-            $baseYear = substr($info->request_date, 0, 4);
+            $baseYear = substr($info->RegDate, 0, 4);
         }
 
         for($year = date('Y'); $year >= $baseYear; $year --) {

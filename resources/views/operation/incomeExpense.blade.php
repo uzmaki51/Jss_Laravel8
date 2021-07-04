@@ -52,7 +52,7 @@ $ships = Session::get('shipList');
                                     TABLE
                                 </a>
                             </li>
-                            <li>
+                            <li id="li_soa">
                                 <a data-toggle="tab" href="#tab_soa">
                                     SOA
                                 </a>
@@ -176,9 +176,9 @@ $ships = Session::get('shipList');
                                                     <th class="text-center style-normal-header" rowspan="2" style="width: 2.5%;"><span>租船种类</span></th>
                                                     <th class="text-center style-normal-header" rowspan="2" style="width: 4.5%;"><span>截止日期</span></th>
                                                     <th class="text-center style-normal-header" rowspan="2" style="width: 3%;"><span>航次用时</span></th>
-                                                    <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>收入</span></th>
-                                                    <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>支出</span></th>
-                                                    <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>利润</span></th>
+                                                    <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>收入($)</span></th>
+                                                    <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>支出($)</span></th>
+                                                    <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>利润($)</span></th>
                                                     <th class="text-center style-normal-header right-border" rowspan="2" style="width: 7%;"><span>利润累计</span></th>
                                                     <th class="text-center style-normal-header" colspan="13"><span>支出分类 ($)</span></th>
                                                 </tr>
@@ -260,11 +260,11 @@ $ships = Session::get('shipList');
                                                     <th class="text-center style-normal-header" style="width: 7%;"><span>货量(租期)</span></th>
                                                     <th class="text-center style-normal-header" style="width: 19%;"><span>装港</span></th>
                                                     <th class="text-center style-normal-header" style="width: 19%;"><span>卸港</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 19%;"><span>单价(日租金)</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 19%;"><span>运费率(日租金)</span></th>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>合同原本</span></th>
                                                 </tr>
                                                 </thead>
-                                                <tbody class="" id="table-income-expense-body">
+                                                <tbody class="" id="table-soa-general-body">
                                                     <tr>
                                                         <td class="text-center" id="contract_type" style="height:20px;"></td>
                                                         <td class="text-center" id="contract_date"></td>
@@ -290,8 +290,8 @@ $ships = Session::get('shipList');
                                                 <tr>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>No</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>日期</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 35%;"><span>摘要</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;"><span>收支种类</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 34%;"><span>摘要</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 5%;"><span>收支种类</span></th>
                                                     <th class="text-center style-normal-header" style="width: 18%;"><span>收入</span></th>
                                                     <th class="text-center style-normal-header" style="width: 18%;"><span>支出</span></th>
                                                     <th class="text-center style-normal-header" style="width: 8%;"><span>汇率</span></th>
@@ -587,6 +587,8 @@ $ships = Session::get('shipList');
                     else
                         $(row).attr('class', 'cost-item-odd');
 
+                    $('td', row).eq(0).attr('class', 'text-center td_voy_no');
+                    $('td', row).eq(0).attr('style', 'cursor:pointer;background:linear-gradient(#fff, #d9f8fb);');
                     if (data['max_date'] == false) {
                         $('td', row).eq(2).html('-');
                     } else {
@@ -625,48 +627,52 @@ $ships = Session::get('shipList');
                         $('td', row).eq(7).attr('class', 'style-red-input text-right right-border');
                     }
                     $('td', row).eq(7).attr('style', 'padding-right:5px!important;')
-                    $('td', row).eq(7).html(data['total_profit']==0?'':prettyValue(data['total_profit']));
+                    //$('td', row).eq(7).html(data['total_profit']==0?'':prettyValue(data['total_profit']));
+                    $('td', row).eq(7).html(data['profit_sum']==0?'':(data['total_profit']==0?'':prettyValue(data['total_profit'])))
 
                     for (var i=1;i<16;i++)
                     {
-                        if (i == 2) {
+                        if (i == 2) {   // 油款
                             dest_obj = $('td', row).eq(8);
                         }
-                        else if (i == 1) {
+                        else if (i == 1) { // 港费
                             dest_obj = $('td', row).eq(9);
                         }
-                        else if (i == 6) {
+                        else if (i == 6) { // 劳务费
                             dest_obj = $('td', row).eq(10);
                         }
-                        else if (i == 4) {
+                        else if (i == 4) { //CTM
                             dest_obj = $('td', row).eq(11);
                         }
-                        else if (i == 15) {
+                        else if (i == 15) { //其他
                             dest_obj = $('td', row).eq(12);
                         }
-                        else if (i == 3) {
+                        else if (i == 3) { //工资
                             dest_obj = $('td', row).eq(13);
                         }
-                        else if (i == 5) {
+                        else if (i == 5) { //伙食费
                             dest_obj = $('td', row).eq(14);
                         }
-                        else if (i == 7) {
+                        else if (i == 7) { // 物料费
                             dest_obj = $('td', row).eq(15);
                         }
-                        else if (i == 8) {
+                        else if (i == 8) { // 修理费
                             dest_obj = $('td', row).eq(16);
                         }
-                        else if (i == 9) {
+                        else if (i == 9) { // 管理费
                             dest_obj = $('td', row).eq(17);
                         }
-                        else if (i == 10) {
+                        else if (i == 10) { // 保险费
                             dest_obj = $('td', row).eq(18);
                         }
-                        else if (i == 11) {
+                        else if (i == 11) { // 检验费
                             dest_obj = $('td', row).eq(19);
                         }
-                        else if (i == 12) {
+                        else if (i == 12) { // 证书费
                             dest_obj = $('td', row).eq(20);
+                        }
+                        else {
+                            dest_obj = null;
                         }
 
                         if (i == 15) {
@@ -681,20 +687,24 @@ $ships = Session::get('shipList');
                                 $(dest_obj).attr('class', 'text-right');
                             }
                             
+                            $(dest_obj).attr('style', 'padding-right:5px!important;')
+                            /*
                             if ((i==1) || (i==2) || (i==4)|| (i==6) || (i==15)) {
                                 $(dest_obj).attr('style', 'padding-right:5px!important;color:#9c9c9c!important')
                             } else {
                                 $(dest_obj).attr('style', 'padding-right:5px!important;')
                             }
-                            
+                            */
+
                             $(dest_obj).html(prettyValue(data['debit_list'][i]));
                         }
                         else {
-                            $(dest_obj).html('');
+                            if (dest_obj != null) $(dest_obj).html('');
                         }
                     }
                 },
                 drawCallback: function (response) {
+                    setEvents();
                     if (response.json.data.length <= 0) return;
                     var tab = document.getElementById('table-income-expense-body');
                     var i,j;
@@ -723,7 +733,12 @@ $ships = Session::get('shipList');
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right style-blue-input'>" + (table_sums[1]==0?'':prettyValue(table_sums[1])) + "</td>";
                     for(i=2;i<18;i++)
                     {
-                        report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (table_sums[i]>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (table_sums[i]==0?'':prettyValue(table_sums[i])) + "</td>";
+                        if (i==3 || i==4)
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (table_sums[i]>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (table_sums[i]==0?'':prettyValue(table_sums[i])) + "</td>";
+                        else if (i>=5&&i<=9)
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (table_sums[i]>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (table_sums[i]==0?'':prettyValue(table_sums[i])) + "</td>";
+                        else
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (table_sums[i]>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (table_sums[i]==0?'':prettyValue(table_sums[i])) + "</td>";
                     }
                     report_html += "</tr>";
                     $('#table-income-expense-body').append(report_html);
@@ -813,7 +828,7 @@ $ships = Session::get('shipList');
                 columns: [
                     {data: null, className: "text-center"},
                     {data: 'date', className: "text-center"},
-                    {data: 'content', className: "text-center"},
+                    {data: 'content', className: ""},
                     {data: null, className: "text-center"},
                     {data: 'credit', className: "text-center"},
                     {data: 'debit', className: "text-center"},
@@ -827,9 +842,10 @@ $ships = Session::get('shipList');
                     else
                         $(row).attr('class', 'cost-item-odd');
 
+                    $('td', row).eq(2).attr('style', 'padding-left:2px!important;');
                     $('td', row).eq(4).attr('class', 'style-blue-input text-right');
                     $('td', row).eq(4).attr('style', 'padding-right:5px!important;');
-                    $('td', row).eq(5).attr('class', 'style-blue-input text-right');
+                    $('td', row).eq(5).attr('class', 'text-right');
                     $('td', row).eq(5).attr('style', 'padding-right:5px!important;');
                         
                     $('td', row).eq(0).html('').append(index + 1);
@@ -849,7 +865,7 @@ $ships = Session::get('shipList');
                     report_row += '<td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center">合计</td>';
                     report_row += '<td class="sub-small-header style-normal-header text-center">' + currency + '</td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header text-right ' + (SOA_credit_sum >= 0 ? 'style-blue-input':'style-red-input') + '">' + currency + ' ' + prettyValue(SOA_credit_sum) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header text-right ' + (SOA_debit_sum >= 0 ? 'style-blue-input':'style-red-input') + '">' + currency + ' ' + prettyValue(SOA_debit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header text-right ' + (SOA_debit_sum >= 0 ? '':'style-red-input') + '">' + currency + ' ' + prettyValue(SOA_debit_sum) + '</td>';
                     var total_sum = SOA_credit_sum - SOA_debit_sum;
                     report_row += '<td colspan="2" style="padding-right:5px!important;" class="style-normal-header text-right ' + (total_sum >= 0 ? 'style-blue-input':'style-red-input') + '">' + currency + ' ' + prettyValue(total_sum) + '</td>';
                     report_row += '</tr>';
@@ -863,9 +879,9 @@ $ships = Session::get('shipList');
                     $('#contract_amount').html(response.json.voy_info.Cgo_Qtty);
                     $('#contract_signon_port').html(response.json.LPort);
                     $('#contract_signoff_port').html(response.json.DPort);
-                    $('#contract_unit').html(response.json.voy_info.total_Freight);
+                    $('#contract_unit').html(response.json.voy_info.Freight);   //total_Freight zxc
                     if (response.json.voy_info.is_attachment == 1) {
-                        $('#contract_attachment').html('<a href="' + response.json.voy_info.attachment_url + '" target="_blank" ><img src="' + "{{ cAsset('assets/images/paper-clip.png') }}" + '" width="15" height="15"></a>');
+                        $('#contract_attachment').html('<a href="' + response.json.voy_info.attachment_url + '" target="_blank" ><img src="' + "{{ cAsset('assets/images/document.png') }}" + '" width="15" height="15"></a>');
                     }
                 }
             });
@@ -918,7 +934,8 @@ $ships = Session::get('shipList');
         function gotoDetailPage()
         {
             if (voyNo_soa == null) return;
-            window.open(BASE_URL + 'business/contract?shipId=' + shipid_soa + '&voy_id=' + voyID_soa, '_blank');
+            //window.open(BASE_URL + 'business/contract?shipId=' + shipid_soa + '&voy_id=' + voyID_soa, '_blank');
+            window.open(BASE_URL + 'shipManage/dynamicList', '_blank');
         }
 
         function clearSOAInfo()
@@ -954,6 +971,37 @@ $ships = Session::get('shipList');
             }
         }
 
+        var clicked_voyno = null;
+        function setEvents() {
+            $('.td_voy_no').on('click', function(e) {
+                alertAudio();
+                var voyNo = e.target.innerHTML;
+                if (voyNo != "")
+                {
+                    if ($('#select-soa-ship').val() == shipid_table)
+                    {
+                        voyNo_soa = voyNo;
+                        $('#select-soa-contract').val(voyNo_soa);
+                        selectSOAInfo();
+                    }
+                    else
+                    {
+                        clicked_voyno = voyNo;
+                        $('#select-soa-ship').val(shipid_table);
+                        getVoyList(shipid_table);
+                        if (listSOATable == null) {
+                            shipid_soa = shipid_table
+                            voyNo_soa = voyNo;
+                            currency_soa = $('#select-soa-currency').val();
+                            initSOATable();
+                        }
+                    }
+                    
+                    $('a[href="#tab_soa"]').trigger('click');
+                }
+            });
+        }
+
         function getVoyList(shipId) {
             $.ajax({
                 url: BASE_URL + 'ajax/report/getData',
@@ -966,10 +1014,19 @@ $ships = Session::get('shipList');
                     for (var i=0;i<data['voyList'].length;i++)
                         select_html += '<option value="' + data['voyList'][i].Voy_No + '" data-id="' + data['voyList'][i].id + '" data-id="' + data['voyList'][i].id + '">' + data['voyList'][i].Voy_No + '</option>';
                     $('#select-soa-contract').html(select_html);
-                    if (data['voyList'].length > 0) {
-                        voyNo_soa = data['voyList'][0].Voy_No;
 
+                    if (clicked_voyno != null) {
+                        voyNo_soa = clicked_voyno;
+                        $('#select-soa-contract').val(voyNo_soa);
+                        clicked_voyno = null;
                         selectSOAInfo();
+                    }
+                    else
+                    {
+                        if (data['voyList'].length > 0) {
+                            voyNo_soa = data['voyList'][0].Voy_No;
+                            selectSOAInfo();
+                        }
                     }
                 }
             });
@@ -1072,7 +1129,6 @@ $ships = Session::get('shipList');
             }
             tab_text=tab_text+"</table>";
             total_text += tab_text;
-            console.log(total_text);
 
             total_text= total_text.replace(/<A[^>]*>|<\/A>/g, "");
             total_text= total_text.replace(/<img[^>]*>/gi,"");

@@ -86,13 +86,7 @@ $ships = Session::get('shipList');
                             <tr v-for="(item, array_index) in cert_array">
                                 <td class="center no-wrap">@{{ item.order_no }}</td>
                                 <td class="center no-wrap">@{{ item.code }}</td>
-                                <td>
-                                    <div class="dynamic-select-wrapper">
-                                        <div class="dynamic-select" style="color:#12539b">
-                                            <div class="dynamic-select__trigger">@{{ item.cert_name }}</div>
-                                        </div>
-                                    </div>
-                                </td>
+                                <td class="text-left">@{{ item.cert_name }}</td>
                                 <td class="center"><span>@{{ item.issue_date }}</span></td>
                                 <td class="center"><span>@{{ item.expire_date }}</span></td>
                                 <td class="center"><span>@{{ item.due_endorse }}</span></td>

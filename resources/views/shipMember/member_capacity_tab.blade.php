@@ -36,7 +36,7 @@
                             <div class="dynamic-select-wrapper">
                                 <div class="dynamic-select" style="color:#12539b">
                                     <input type="hidden"  name="CapacityID" value="{{$capacity_id}}"/>
-                                    <div class="dynamic-select__trigger"><input type="text" class="form-control dynamic-select-span" style="background:white!important;" value="{{$cap}}" readonly>
+                                    <div class="dynamic-select__trigger"><input type="text" class="form-control dynamic-select-span" value="{{$cap}}" readonly>
                                         <div class="arrow"></div>
                                     </div>
                                     <div class="dynamic-options" style="width:456px;">
@@ -113,7 +113,7 @@
                             <div class="dynamic-select-wrapper">
                                 <div class="dynamic-select" style="color:#12539b">
                                     <input type="hidden"  name="COEId" value="{{$capacity_id}}"/>
-                                    <div class="dynamic-select__trigger"><input type="text" class="form-control dynamic-select-span" style="background:white!important;" value="{{$cap}}" readonly>
+                                    <div class="dynamic-select__trigger"><input type="text" class="form-control dynamic-select-span" value="{{$cap}}" readonly>
                                         <div class="arrow"></div>
                                     </div>
                                     <div class="dynamic-options" style="width:456px;">

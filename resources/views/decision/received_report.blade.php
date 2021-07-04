@@ -298,12 +298,8 @@
                 $('[name=draftId]').val(-1);
                 showReportDetail(reportId);
             } else if(cell.index() == 11) {
-                if(isAdmin == 1) return false;
-                if(isAttach == 0) {
-                    // $(this).addClass('selected');
-                    // $('[name=draftId]').val(-1);
-                    // showReportDetail(reportId);
-                }
+                if(isAttach == 0 && isAdmin == 1) return false;
+
             }
 
 
@@ -390,10 +386,21 @@
                                     decideType: decideType
                                 },
                                 success: function(data, status, xhr) {
-                                    listTable.draw();
+                                    let result = data;
+                                    if(result > 0) {
+                                        let cell = $('tr[data-index=' + reportId + '] td:nth-child(13)');
+                                        cell.css({'background': '#ccffcc'});
+                                        cell.html('');
+                                        cell.append('<div class="report-status"><span><i class="icon-ok"></i></span></div>');
+                                    } else if(result == -1) {
+                                        alert('你没有审批权限。');
+                                    } else {
+                                        alert('审批失败了。');
+                                    }
+                                    // listTable.draw();
                                 },
                                 error: function(error, status) {
-                                    listTable.draw();
+                                    alert('审批失败了。');
                                 }
                             });
                         }
@@ -411,11 +418,20 @@
                                     decideType: decideType
                                 },
                                 success: function(data, status, xhr) {
-                                    location.reload();
-                                    // listTable.draw();
+                                    let result = data;
+                                    if(result > 0) {
+                                        let cell = $('tr[data-index=' + reportId + '] td:nth-child(13)');
+                                        cell.css({'background': '#ff7c80'});
+                                        cell.html('');
+                                        cell.append('<div class="report-status"><span><i class="icon-remove"></i></span></div>');
+                                    } else if(result == -1) {
+                                        alert('你没有审批权限。');
+                                    } else {
+                                        alert('审批失败了。');
+                                    }
                                 },
                                 error: function(error, status) {
-                                    listTable.draw();
+                                    alert('审批失败了。');
                                 }
                             });
                         }
@@ -434,8 +450,10 @@
                 success: function(data, status, xhr) {
                     if(is_new == false)
                         $('[name=reportId]').val(reportId);
-                    else
+                    else {
+                        $('.save-draft').removeAttr('disabled');
                         $('[name=reportId]').val('');
+                    }
 
                     let result = data['list'];
                     let attach = data['attach'];
@@ -472,7 +490,8 @@
                     }
                     
                     if($('[name=draftId]').val() == -1)
-                        $('.save-draft').attr('disabled', 'disabled');
+                        if(!is_new)
+                            $('.save-draft').attr('disabled', 'disabled');
 
                     $('.only-modal-show').click();
                 },
@@ -491,12 +510,11 @@
                 $('.save-draft').removeAttr('disabled');
 
             if(lastId == 0) {
+                reportObj.init();
                 $('.only-modal-show').click();
             } else {
                 showReportDetail(lastId, true);
             }
-
-            // reportObj.init();
         });
 
         function getVoyList(shipId, selected = false) {
@@ -915,7 +933,7 @@
                     {data: 'realname', className: "text-center each"},
                     {data: 'depart_name', className: "text-center each"},
                     {data: 'attachment', className: "text-center each"},
-                    {data: 'state', className: "text-center"},
+                    {data: 'state', className: "text-center not-striped-td"},
                     {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {

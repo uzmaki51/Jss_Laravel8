@@ -31,7 +31,7 @@
     
     <div class="row" style="margin-top: 4px;">
         <div class="col-lg-12 head-fix-div common-list">
-            <table class="mt-2 table-striped" id="table-else">
+            <table class="mt-2" id="table-else">
                 <tr class="dynamic-footer">
                     <td class="center" rowspan="2" style="width: 5%">航次</td>
                     <td class="center" rowspan="2">租船<br>种类</td>

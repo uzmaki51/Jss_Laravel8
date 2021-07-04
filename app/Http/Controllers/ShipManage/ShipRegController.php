@@ -203,7 +203,7 @@ class ShipRegController extends Controller
 
     public function saveShipData(Request $request) {
 	    $params = $request->all();
-	    $shipId = $request->get('shipId');
+	    $shipId = trim($request->get('shipId')) * 1;
 	    $freeId = $request->get('freeId');
 
 	    if($shipId > 0) {
@@ -740,6 +740,11 @@ class ShipRegController extends Controller
         else
             return redirect()->back();
 
+        if(isset($params['type']))
+            $type = $params['type'];
+        else
+            $type = '';
+
         $ids = $params['id'];
 
     	foreach($ids as $key => $id) {
@@ -763,7 +768,7 @@ class ShipRegController extends Controller
             $equipTbl->save();
         }
 
-	    return redirect('shipManage/equipment?id=' . $shipId);
+	    return redirect('shipManage/equipment?id=' . $shipId . '&type=' . $type);
     }
 
     public function saveShipReqEquipList(Request $request) {
@@ -776,6 +781,11 @@ class ShipRegController extends Controller
             $shipId = $params['shipId'];
         else
             return redirect()->back();
+            
+        if(isset($params['type']))
+            $type = $params['type'];
+        else
+            $type = '';
 
         $ids = $params['id'];
 
@@ -796,7 +806,7 @@ class ShipRegController extends Controller
             $equipTbl->save();
         }
 
-	    return redirect('shipManage/equipment?id=' . $shipId);
+	    return redirect('shipManage/equipment?id=' . $shipId . '&type=' . $type);
     }
 
     public function saveShipReqEquipType(Request $request) {
@@ -1084,16 +1094,12 @@ class ShipRegController extends Controller
         }
 
         if(isset($params['type'])) {
-            if($params['type'] != 'record' || $params['type'] == 'require') {
-                $type = 'record';
-            } else {
-                $type = $params['type'];
-            }
+            $type = $params['type'];
         } else {
             $type = 'record';
         }
 
-        $shipName = $shipRegTbl->getShipNameByIMO($shipId);        
+        $shipName = $shipRegTbl->getShipNameByIMO($shipId);
 
         $tbl = new ShipEquipment();
         $yearList = $tbl->getYearList($shipId);
@@ -1110,7 +1116,9 @@ class ShipRegController extends Controller
             'shipName'      => $shipName,
 
             'years'         => $yearList,
-            'activeYear'    => $activeYear
+            'activeYear'    => $activeYear,
+
+            'type'          => $type
         ]);
     }
 
@@ -1328,6 +1336,27 @@ class ShipRegController extends Controller
 			    'kindLabelList'     => $kindList,
 			    'shipId'            => $shipId
 		    ]);
+    }
+
+    public function getDiligenceDetail(Request $request) {
+    	$params = $request->all();
+    	if(!isset($params['equipId'])) {
+    		return redirect()->back();
+	    } else {
+    		$device = ShipDiligence::find($params['equipId']);
+		    $allMainKind = ShipEquipmentMainKind::all();
+		    $shipName = ShipRegister::getShipFullNameByRegNo($params['shipId']);
+		    return view('shipManage.ship_diligence_equipment_modify',
+			    [   'mainKinds'     =>  $allMainKind,
+				    'device'        =>  $device,
+				    'shipId'        =>  $params['shipId'],
+				    'shipName'      =>  $shipName,
+//				    'units'         =>  $units,
+//				    'partPaginate'  =>  $partPaginate,
+//				    'propertyPaginate'=>$propertyPaginate,
+//				    'list'          =>  $list
+			    ]);
+	    }
     }
 
     public function propertyTableEquipmentByDeviceID(Request $request) {

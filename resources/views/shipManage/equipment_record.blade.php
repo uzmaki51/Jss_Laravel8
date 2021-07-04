@@ -46,6 +46,7 @@
             <form action="shipEquipmentList" method="post" id="certList-form" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" value="{{ $shipId }}" name="shipId">
+                <input type="hidden" value="record" name="type">
                 <table class="table-striped" id="table-record">
                     <thead class="">
                         <th class="d-none"></th>
@@ -54,7 +55,7 @@
                         <th class="text-center style-header" style="width: 60px;">部门</th>
                         <th class="text-center style-header" style="width: 70px;">品种</th>
                         <th class="text-center style-header" style="width: 300px;">项目</th>
-                        <th class="text-center style-header">ISSA/ Part No.</th>
+                        <th class="text-center style-header" style="width: 100px;">ISSA/Part No</th>
                         <th class="text-center style-header">库存量</th>
                         <th class="text-center style-header">申请量</th>
                         <th class="text-center style-header" style="width: 60px;">单位</th>
@@ -240,7 +241,7 @@
                         $('.only-modal-show').click();
                     },
                     onChangeShip: function(e) {
-                        location.href = '/shipManage/equipment?id=' + $_this.shipId + '&type=record';
+                        location.href = '/shipManage/equipment?id=' + e.target.value + '&type=record';
                     },
                     onChangeYear: function(e) {
                         var confirmationMessage = 'It looks like you have been editing something. '

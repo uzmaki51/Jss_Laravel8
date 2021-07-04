@@ -68,7 +68,7 @@
                                         <td class="center" style="height:35px;">{{$index++}}</td>
                                         <td class="center">{{$userInfo['realname']}}</td>
                                         <td class="center">{{$userInfo['account']}}</td>
-                                        <td class="center">{{is_null($userInfo['posTitle']) ? '&nbsp;':$userInfo['posTitle']}}</td>
+                                        <td class="center">{{$userInfo['pos'] == 100 ? '船东' : (is_null($userInfo['posTitle']) ? '&nbsp;':$userInfo['posTitle'])}}</td>
                                         <td class="center">{{$userInfo['phone']}}</td>
                                         <td class="center">{{$userInfo['entryDate']}}</td>
                                         <td class="center">{{$userInfo['releaseDate']}}</td>

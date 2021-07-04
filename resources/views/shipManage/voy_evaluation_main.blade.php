@@ -33,7 +33,7 @@
     
     <div class="row" style="margin-top: 4px;">
         <div class="col-lg-12 head-fix-div common-list">
-            <table class="evaluation-table mt-2 table-striped" id="table-main">
+            <table class="evaluation-table mt-2" id="table-main">
                 <tr>
                     <td style="width: 20%;">航次</td>
                     <td colspan="2" style="width: 30%;">@{{ cpInfo.Voy_No }}</td>
@@ -84,7 +84,7 @@
                     <td style="background: white!important;">@{{ cpInfo.charterer }}</td>
                 </tr>
             </table>
-            <table class="mt-2 table-striped main-info-table" id="table-main-2">
+            <table class="mt-2 main-info-table" id="table-main-2">
                 <tr class="dynamic-footer">
                     <td class="center" style="width: 5%">No.</td>
                     <td class="center" colspan="2" style="width: 20%">项目</td>

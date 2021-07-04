@@ -10,21 +10,22 @@ $isHolder = Session::get('IS_HOLDER');
     <div class="main-content">
         <style>
             .member-item-odd {
-                background-color: #f5f5f5;
+                background-color: #f5f5f5!important;
                 height:20px;
             }
 
             .member-item-even {
+                background-color: white!important;
                 height:20px;
             }
             
             .member-item-even:hover {
-                background-color: #ffe3e082;
+                background-color: #ffe3e082!important;
                 height:20px;
             }
 
             .member-item-odd:hover {
-                background-color: #ffe3e082;
+                background-color: #ffe3e082!important;
                 height:20px;
             }
         </style>
@@ -132,7 +133,7 @@ $isHolder = Session::get('IS_HOLDER');
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         <div class="row">
                                             <div class="head-fix-div common-list" id="crew-table" style="">
-                                                <table id="table-shipmember-list" style="table-layout:fixed;">
+                                                <table id="table-shipmember-list" class="not-striped" style="table-layout:fixed;">
                                                     <thead class="">
                                                         <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
                                                         <th class="text-center style-header" style="width: 12%;"><span>Family Name, Given Name</span></th>
@@ -237,6 +238,8 @@ $isHolder = Session::get('IS_HOLDER');
             $('#ship_name').html('"' + $("#select-ship option:selected").attr('data-name') + '"');
             listTable.column(2).search($("#select-ship" ).val(), false, false);
             listTable.column(3).search('off', false, false).draw();
+
+            setRowSpanCls();
         });
 
         var listTotalTable = null;

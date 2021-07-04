@@ -21,7 +21,7 @@ class ShipPort extends Model
         foreach($ids as $key => $id) {
             $info = self::where('id', $id)->first();
             if($info != null)
-                $retVal .= $info->Port_Cn . '(' . $info->Port_En . ')' . ', ';
+                $retVal .= $info->Port_En . '(' . $info->Port_Cn . ')' . ', ';
 
         }
 

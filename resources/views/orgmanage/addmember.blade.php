@@ -17,6 +17,7 @@ $isHolder = Session::get('IS_HOLDER');
                 border:unset!important;
                 margin-left:10px!important;
                 padding:0px!important;
+                height:25px!important;
             }
 
             .add-td-label {
@@ -83,6 +84,7 @@ $isHolder = Session::get('IS_HOLDER');
                 <input type="hidden" name="userid" id="userid" value="@if(isset($userid)){{$userid}} @endif">
                 <div class="col-md-12">
                     <div class="row">
+			<div class="col-md-6">
                         <div class="table-responsive">
                             <table id="sample-table-1" class="table-bordered" style="margin-left:auto;margin-right:auto;">
                                 <tbody>
@@ -101,7 +103,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <tr>
                                     <td class="add-td-label" colspan="1">{{trans("orgManage.captions.officePosition")}}<span class="require">*</span>:</td>
                                     <td class="add-td-text">
-                                        <select class="form-control add-td-select" id="pos" name="pos" style="margin-left: 9px;">
+                                        <select class="form-control add-td-select" id="pos" style="width: 98%; margin-left: 6px!important;" name="pos">
                                             <option value="-1" selected></option>
                                             @foreach($pos as $post)
                                                 <option value="{{$post['id']}}" @if ((isset($userinfo))&&($userinfo['pos']==$post['id'])) selected @endif >{{$post['title']}}</option>
@@ -118,8 +120,16 @@ $isHolder = Session::get('IS_HOLDER');
                                         </div>
                                     </td>
                                 </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="table-responsive">
+                                <table id="sample-table-1" class="table-bordered" style="margin-left:auto;margin-right:auto;">
+                                    <tbody>
                                 <tr>
-                                    <td class="add-td-label" colspan="1">{{trans("orgManage.captions.enterDate")}}:</td>
+                                    <td class="add-td-label" width="20%;" colspan="1">{{trans("orgManage.captions.enterDate")}}:</td>
                                     <td class="add-td-text">
                                         <div class="input-group">
                                             <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['entryDate']}}@endif">
@@ -219,7 +229,7 @@ $isHolder = Session::get('IS_HOLDER');
                         </div>
                     </div>
                     <div class="row">
-                        <h4>选船(*只有持股者才能显示)</h4>
+                        <h4>SHIP SELECTION</h4>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
                                 <tbody>

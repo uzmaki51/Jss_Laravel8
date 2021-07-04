@@ -74,13 +74,13 @@ $ships = Session::get('shipList');
                     <div class="row" style="margin-top: 4px;">
                     <div class="col-lg-12">
                         <div class="head-fix-div d-line-height" id="voy_div" style="height: 129px;">
-                            <table id="voy_list" v-cloak>
+                            <table id="voy_list" class="table-striped" v-cloak>
                                 <thead id="list-header" class="">
                                 <tr>
                                     <th class="text-center style-header" rowspan="2" style="width: 5%; white-space: nowrap;">{!! trans('business.table.cn.voy_no') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_no') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2" style="min-width: 55px;">{!! trans('business.table.cn.voy_tc') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_tc') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2" style="width: 7%;">{!! trans('business.table.cn.cp_date') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cp_date') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cargo') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2" style="width: 9%;">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cargo') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2" style="width: 9%;">{!! trans('business.table.cn.qty') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.qty') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.loading_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.loading_port') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.discharge_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.discharge_port') !!}</span></th>
@@ -94,9 +94,9 @@ $ships = Session::get('shipList');
                                 </thead>
                                 <tbody id="list-body">
                                     @if(isset($voy_id))
-                                    <tr class="contract-item" v-bind:class="item.id == {{$voy_id}} ? 'selected' : ''" v-for="(item, index) in list" v-bind:data-index="item.id">
+                                        <tr class="contract-item" v-bind:class="item.id == {{$voy_id}} ? 'selected' : (index % 2 == 0 ? 'cost-item-odd' : 'cost-item-even')" v-for="(item, index) in list" v-bind:data-index="item.id">
                                     @else
-                                    <tr class="contract-item" v-for="(item, index) in list" v-bind:data-index="item.id">
+                                        <tr class="contract-item" v-bind:class="index % 2 == 0 ? 'cost-item-odd' : 'cost-item-even'" v-for="(item, index) in list" v-bind:data-index="item.id">
                                     @endif
                                         <td class="text-center">@{{ item.Voy_No }}</td>
                                         <td class="text-center">@{{ item.CP_kind }}</td>
@@ -105,13 +105,13 @@ $ships = Session::get('shipList');
                                         <td class="text-center">@{{ item.Cgo_Qtty }}</td>
                                         <td class="text-center"><div class="fixed-td">@{{ getPortName(item.LPort) }}</div></td>
                                         <td class="text-center"><div class="fixed-td">@{{ getPortName(item.DPort) }}</div></td>
-                                        <td class="text-center">@{{ item.L_Rate }}</td>
+                                        <td class="text-center"><div class="fixed-td">@{{ item.L_Rate }}</div></td>
                                         <td class="text-center"><span class="fixed-td">@{{ item.D_Rate }}</span></td>
                                         <td class="text-center">@{{ getFrtRate(item.Freight, item.total_Freight) }}</td>
                                         <td class="text-center">@{{ item.net_profit_day }}</td>
                                         <td class="text-center">
                                             <a :href="item.attachment_url" target="_blank" v-bind:class="[item.is_attachment == 1 ? '' : 'd-none']">
-                                                <img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15">
+                                                <img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15">
                                             </a>
                                         </td>
                                         <td class="text-center">
@@ -127,7 +127,7 @@ $ships = Session::get('shipList');
                         </div>
                         
                         <select class="voy-type" style="margin-top: 20px;">
-                            <option value="non"></option>
+                            <option value="nothing"></option>
                             <option value="voy">程租(VOY)</option>
                             <option value="tc">期租(TC)</option>
                             <option value="non">其他(NON)</option>
@@ -393,7 +393,7 @@ $ships = Session::get('shipList');
 
                             return this.value == 0 ? '' : this.value;
                         } else {
-                            let fixedLength = 1;
+                            let fixedLength = 2;
                             let prefix = '$ ';
                             if(this.fixednumber != undefined)
                                 fixedLength = this.fixednumber;
@@ -502,6 +502,8 @@ $ships = Session::get('shipList');
                             },
                             success: function(data, status, xhr) {
                                 voyListObj.list = data;
+
+                                getInitInfo(ship_id);
                             }
                         })
                     },
@@ -703,7 +705,6 @@ $ships = Session::get('shipList');
             }
         });
 
-        getInitInfo(ship_id);
         }
 
         function getInitInfo(ship_id) {
@@ -730,8 +731,9 @@ $ships = Session::get('shipList');
                 portListObj.list = Object.assign([], [], portList);
                 portListObj.list.push([]);
 
-                var index = $('table > tbody> tr.selected').index();
-                if (index >= 0)
+                console.log()
+                var index = $('table > tbody> tr.selected').index();console.log(index)
+                if (voy_id > 0)
                 {
                     ACTIVE_TAB = voyListObj.list[index].CP_kind.toLowerCase();
                     if (voyListObj.list[index].CP_kind == "VOY")

@@ -113,8 +113,6 @@ class HomeController extends Controller {
 		$tbl = new ShipCertRegistry();
 		$expireCert = $tbl->getExpiredList($settings->cert_expire_date);
 
-
-		// var_dump($equipment);die;
 		return view('home.front', [
 			'shipList'          => $shipList,
 			'reportList'        => $reportList,

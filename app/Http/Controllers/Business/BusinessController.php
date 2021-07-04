@@ -651,6 +651,10 @@ class BusinessController extends Controller {
 				    $tbl['attachment_link'] = url() . '/ctm/' . $name;
 				    $tbl['file_name'] = $fileName;
 			    }
+            } else if($params['is_update'][$key] == IS_FILE_DELETE) {
+                $tbl['attachment'] = null;
+                $tbl['attachment_link'] = null;
+                $tbl['file_name'] = null;
             }
             
             $tbl->save();
@@ -1036,7 +1040,7 @@ class BusinessController extends Controller {
         $id = $params['id'];
         $ret = CP::where('id', $id)->delete();
 
-        return $this->ajaxVoyList($request);
+        return $this->ajaxCPList($request);
     }
 
     public function ajaxDynamic(Request $request) {
@@ -1146,7 +1150,7 @@ class BusinessController extends Controller {
                             $tmp .= $port->Port_En . ', ';
                         $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 2);
                     }
-                    $retVal['cpData'][$item->CP_ID] = $cp_list[0];
+                    $retVal['cpData'][$item->CP_ID] = count($cp_list) <= 0 ? '' : $cp_list[0];
                 }
 
                 $retTmp[$item->CP_ID][] = $item;
@@ -1249,7 +1253,7 @@ class BusinessController extends Controller {
                             $tmp .= $port->Port_En . ', ';
                         $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 2);
                     }
-                    $retVal['cpData'][$item->CP_ID] = $cp_list[0];
+                    $retVal['cpData'][$item->CP_ID] = count($cp_list) <= 0 ? '' : $cp_list[0];
                 }
 
                 $retTmp[$item->CP_ID][] = $item;
