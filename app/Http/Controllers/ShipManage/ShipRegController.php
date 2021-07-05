@@ -203,7 +203,7 @@ class ShipRegController extends Controller
 
     public function saveShipData(Request $request) {
 	    $params = $request->all();
-	    $shipId = trim($request->get('shipId')) * 1;
+	    $shipId = $request->get('shipId');
 	    $freeId = $request->get('freeId');
 
 	    if($shipId > 0) {
@@ -740,8 +740,8 @@ class ShipRegController extends Controller
         else
             return redirect()->back();
 
-        if(isset($params['type']))
-            $type = $params['type'];
+        if(isset($params['_type']))
+            $type = $params['_type'];
         else
             $type = '';
 
@@ -782,8 +782,8 @@ class ShipRegController extends Controller
         else
             return redirect()->back();
             
-        if(isset($params['type']))
-            $type = $params['type'];
+        if(isset($params['_type']))
+            $type = $params['_type'];
         else
             $type = '';
 

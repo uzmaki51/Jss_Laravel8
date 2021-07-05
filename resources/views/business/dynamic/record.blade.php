@@ -98,11 +98,11 @@
                 <form action="saveDynamic" method="post" id="dynamic-form" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" name="shipId" value="{{ $shipId }}">
-                    <input type="hidden" name="CP_ID" v-model="activeVoy">
+                    <input type="hidden" name="_CP_ID" v-model="activeVoy">
                     <table class="table-bordered dynamic-table table-striped">
                         <thead>
                             <tr>
-                                <th class="text-center font-style-italic">VOY No</th>
+                                <th class="text-center font-style-italic" style="width: 40px;">VOY No</th>
                                 <th class="text-center font-style-italic">DATE</th>
                                 <th class="text-center font-style-italic" colspan="2">TIME[LT]</th>
                                 <th class="text-center font-style-italic" rowspan="2">GMT</th>

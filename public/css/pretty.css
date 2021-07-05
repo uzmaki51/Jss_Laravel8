@@ -257,15 +257,64 @@
     width: 80%;
     border-top: unset;
 }
-
-.cost-item-odd {
-    background-color: #f5f5f5;
+.white-bg {
+    background: white!important;
+}
+.dark td {
+    background: #f5f5f5!important;
 }
 
-.cost-item-even:hover {
-    background-color: #ffe3e082;
+table:not(.general, .not-striped) tbody tr:nth-child(odd) td:not(.sub-small-header, .white-bg, .not-striped-td), 
+table:not(.general, .not-striped) tbody tr:nth-child(odd) input:not(.disabled-td),
+table:not(.general, .not-striped) tbody tr:nth-child(odd) select,
+table:not(.general, .not-striped) tbody tr:nth-child(odd) textarea {
+    background-color: #f5f5f5!important;
+}
+table:not(.general) tbody tr:nth-child(odd):hover, 
+table:not(.general) tbody tr:nth-child(odd):hover td, 
+table:not(.general) tbody tr:nth-child(odd):hover input,
+table:not(.general) tbody tr:nth-child(odd):hover select,
+table:not(.general) tbody tr:nth-child(odd):hover textarea {
+    background-color: #ffe3e082!important;
 }
 
-.cost-item-odd:hover {
-    background-color: #ffe3e082;
+table:not(.general, .not-striped) tbody tr:nth-child(even) td:not(.sub-small-header, .not-striped-td), 
+table:not(.general, .not-striped) tbody tr:nth-child(even) input:not(.disabled-td),
+table:not(.general, .not-striped) tbody tr:nth-child(even) select,
+table:not(.general, .not-striped) tbody tr:nth-child(even) textarea {
+    background-color: #ffffff!important;
 }
+table:not(.general) tbody tr:nth-child(even):hover, 
+table:not(.general) tbody tr:nth-child(even):hover td, 
+table:not(.general) tbody tr:nth-child(even):hover input,
+table:not(.general) tbody tr:nth-child(even):hover select,
+table:not(.general) tbody tr:nth-child(even):hover textarea {
+    background-color: #ffe3e082!important;
+}
+
+table tbody tr:hover .hour-input, table tbody tr:hover .minute-input {
+    transition: unset!important;
+    border: 1px solid #666666!important;
+}
+table tbody tr:hover .date-label input {
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    border: 1px solid #666666!important;
+}
+/* // .cost-item-odd, .cost-item-odd * {
+//     background-color: #f5f5f5!important;
+// }
+
+// .cost-item-even, .cost-item-even * {
+//     background-color: #ffffff!important;
+// }
+// .cost-item-even:hover {
+//     background-color: #ffe3e082;
+// }
+
+// .cost-item-odd:hover {
+//     background-color: #ffe3e082;
+// }
+
+// .contract-item:hover, .contract-item:hover * {
+//     background-color: #ffe3e082;
+// } */

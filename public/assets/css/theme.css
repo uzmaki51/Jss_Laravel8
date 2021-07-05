@@ -369,7 +369,7 @@ table {
 }
 
 .head-fix-div thead tr:nth-child(2) th{
-    top: 20px;
+    top: 28px;
 }
 
 .table-head-fix-div {
@@ -686,10 +686,10 @@ footer {
     background: #ffffff!important;
     color: #333333!important;
 }
-.custom-table-striped > tbody > tr:nth-child(even) > td input, select {
-    background: #ffffff!important;
-    color: #333333!important;
-}
+// .custom-table-striped > tbody > tr:nth-child(even) > td input, select {
+//     background: #ffffff!important;
+//     color: #333333!important;
+// }
 .custom-table-striped > thead th {
     line-height: 20px;
 }
@@ -870,7 +870,7 @@ footer {
     white-space: nowrap;
 }
 .fixed-td {
-    max-width: 140px;
+    max-width: 120px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -930,7 +930,7 @@ footer {
     background: #ffffff;
 }
 .prev-voy td {
-    background: #f2f2f2;
+    background: #d2d2d2;
     padding: 4px 2px!important;
 }
 .table-layout-fixed {

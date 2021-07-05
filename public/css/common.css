@@ -354,9 +354,6 @@ ul.timeline > li {
 .main-panel {
     box-shadow: 0px 0px 8px 4px #d2d2d2;
 }
-.white-bg {
-    background: white!important;
-}
 
 .label-input {
     display: flex;
@@ -419,7 +416,7 @@ ul.timeline > li {
 
 
 .time-width {
-    width: 24px;
+    width: 30px;
 }
 .date-width {
     width: 70px;
@@ -437,18 +434,22 @@ ul.timeline > li {
     bottom: -1px!important;
 }
 .dynamic-footer td {
-    background: #d9f8fb;
+    background: #d9f8fb!important;
     position: sticky!important;
     bottom: 0;
 }
+.dynamic-footer:hover, .dynamic-footer:hover td {
+    background: #d9f8fb!important;
+}
 
 .dynamic-footer td {
-    bottom: 15px;
+    bottom: 16px;
     box-shadow: inset 0 1px #000, 1px -1px #000;
+    border-top: unset!important;
 }
 
 .dynamic-footer .fix-top {
-    bottom: 32px;
+    bottom: 33px;
 }
 .dynamic-footer-result td {
     background: #eeeeee;
@@ -456,8 +457,10 @@ ul.timeline > li {
 }
 .dynamic-footer-result td {
     position: sticky!important;
-    bottom: -1px;
+    bottom: 0;
     box-shadow: inset 0 -1px #000, 1px -1px #000;
+    border-top: 1px solid #000!important;
+    border-bottom: unset!important;
 }
 
 .dynamic-result-table {
@@ -497,6 +500,7 @@ ul.timeline > li {
 }
 .date-label {
     float: left;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s!important;
 }
 .hour-label {
     float: left;
@@ -514,6 +518,9 @@ ul.timeline > li {
 }
 .hour-input, .minute-input {
     text-align: center!important;
+}
+.time-width input {
+    border: 1px solid #ffffff!important;
 }
 .no-border-td {
     border-bottom: transparent!important;

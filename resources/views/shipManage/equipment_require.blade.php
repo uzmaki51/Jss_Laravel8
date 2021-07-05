@@ -41,7 +41,7 @@
             <form action="shipReqEquipmentList" method="post" id="equipment-require-form" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" value="{{ $shipId }}" name="shipId">
-                <input type="hidden" value="require" name="type">
+                <input type="hidden" value="require" name="_type">
                 <table class="" id="table-require">
                     <thead class="">
                         <th class="d-none"></th>
