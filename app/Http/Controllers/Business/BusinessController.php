@@ -325,7 +325,7 @@ class BusinessController extends Controller {
             $fileName = $file->getClientOriginalName();
             $name = date('Ymd_His') . '_VOY_' . Str::random(10). '.' . $file->getClientOriginalExtension();
             $file->move(public_path() . '/contract/', $name);
-            $cpTbl['attachment_url'] = url() . '/contract/' . $name;
+            $cpTbl['attachment_url'] = url('/') . '/contract/' . $name;
         }
 
         $cpTbl['sail_time'] = _convertStr2Int($params['sail_time']);
@@ -433,7 +433,7 @@ class BusinessController extends Controller {
             $fileName = $file->getClientOriginalName();
             $name = date('Ymd_His') . '_TC_' . Str::random(10). '.' . $file->getClientOriginalExtension();
             $file->move(public_path() . '/contract/', $name);
-            $cpTbl['attachment_url'] = url() . '/contract/' . $name;
+            $cpTbl['attachment_url'] = url('/') . '/contract/' . $name;
         }
 
         $cpTbl['sail_time'] = _convertStr2Int($params['sail_time']);
@@ -520,7 +520,7 @@ class BusinessController extends Controller {
             $fileName = $file->getClientOriginalName();
             $name = date('Ymd_His') . '_NON_' . Str::random(10). '.' . $file->getClientOriginalExtension();
             $file->move(public_path() . '/contract/', $name);
-            $cpTbl['attachment_url'] = url() . '/contract/' . $name;
+            $cpTbl['attachment_url'] = url('/') . '/contract/' . $name;
         }
 
         $cpTbl['sail_time'] = _convertStr2Int($params['sail_time']);
@@ -647,7 +647,7 @@ class BusinessController extends Controller {
 					}
 
 				    $tbl['attachment'] = public_path('/ctm/') . $name;
-				    $tbl['attachment_link'] = url() . '/ctm/' . $name;
+				    $tbl['attachment_link'] = url('/') . '/ctm/' . $name;
 				    $tbl['file_name'] = $fileName;
 			    }
             } else if($params['is_update'][$key] == IS_FILE_DELETE) {

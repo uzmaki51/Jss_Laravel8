@@ -1,5 +1,5 @@
 /*! DataTables 1.10.7
- * ©2008-2014 SpryMedia Ltd - datatables.net/license
+ * ï¿½2008-2014 SpryMedia Ltd - datatables.net/license
  */
 
 /**
@@ -121,7 +121,7 @@
 	// - kr - Swedish krona, Norwegian krone and Danish krone
 	// - \u2009 is thin space and \u202F is narrow no-break space, both used in many
 	//   standards as thousands separators.
-	var _re_formatted_numeric = /[',$£€¥%\u2009\u202F\u20BD\u20a9\u20BArfk]/gi;
+	var _re_formatted_numeric = /[',$ï¿½ï¿½ï¿½%\u2009\u202F\u20BD\u20a9\u20BArfk]/gi;
 	
 	
 	var _empty = function ( d ) {
@@ -7482,7 +7482,7 @@
 	 * @param {string} url URL to set.
 	 * @returns {DataTables.Api} this
 	 */
-	_api_register( 'ajax.url()', function ( url ) {
+	_api_register( 'ajax.url('/')', function ( url ) {
 		var ctx = this.context;
 	
 		if ( url === undefined ) {
@@ -7516,14 +7516,14 @@
 	
 	/**
 	 * Load data from the newly set Ajax URL. Note that this method is only
-	 * available when `ajax.url()` is used to set a URL. Additionally, this method
+	 * available when `ajax.url('/')` is used to set a URL. Additionally, this method
 	 * has the same effect as calling `ajax.reload()` but is provided for
 	 * convenience when setting a new URL. Like `ajax.reload()` it will
 	 * automatically redraw the table once the remote data has been loaded.
 	 *
 	 * @returns {DataTables.Api} this
 	 */
-	_api_register( 'ajax.url().load()', function ( callback, resetPaging ) {
+	_api_register( 'ajax.url('/').load()', function ( callback, resetPaging ) {
 		// Same as a reload, but makes sense to present it for easy access after a
 		// url change
 		return this.iterator( 'table', function ( ctx ) {

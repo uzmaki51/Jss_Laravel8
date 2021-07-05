@@ -198,7 +198,7 @@ class DecisionController extends Controller
 			$name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
 			$file->move(public_path() . '/reports/' . $params['flowid'] . '/', $name);
 			$fileDir =  public_path() . '/reports/' . $params['flowid'] . '/' . $name;
-			$fileLink = url() . '/reports/' . $params['flowid'] . '/' . $name;
+			$fileLink = url('/') . '/reports/' . $params['flowid'] . '/' . $name;
 			$ret = $attachmentTbl->updateAttach($lastId, $fileName, $fileDir, $fileLink);
 		}
 		
@@ -324,7 +324,7 @@ class DecisionController extends Controller
 			$name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
 			$file->move(public_path() . '/reports/' . $params['flowid'] . '/', $name);
 			$fileDir =  public_path() . '/reports/' . $params['flowid'] . '/' . $name;
-			$fileLink = url() . '/reports/' . $params['flowid'] . '/' . $name;
+			$fileLink = url('/') . '/reports/' . $params['flowid'] . '/' . $name;
 			$ret = $attachmentTbl->updateAttach($lastId, $fileName, $fileDir, $fileLink);
 
 			$reportTbl->save();

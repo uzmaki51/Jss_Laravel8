@@ -522,6 +522,9 @@ ul.timeline > li {
 .time-width input {
     border: 1px solid #ffffff!important;
 }
+.time-width input {
+    border: 1px solid #ffffff!important;
+}
 .no-border-td {
     border-bottom: transparent!important;
     border-top: transparent!important;

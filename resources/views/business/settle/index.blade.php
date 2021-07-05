@@ -184,12 +184,12 @@
                             </tr>
 
                             <tr class="sub-head-tr">
-                                <td class="center"></td>
-                                <td class="center">港口名城</td>
-                                <td class="center" colspan="2">抵港时间</td>
-                                <td class="center" colspan="2">离港时间</td>
-                                <td class="center">重油(MT)</td>
-                                <td class="center">轻油(MT)</td>
+                                <td class="center" style="background: #d9f8fb!important;"></td>
+                                <td class="center" style="background: #d9f8fb!important;">港口名城</td>
+                                <td class="center" colspan="2" style="background: #d9f8fb!important;">抵港时间</td>
+                                <td class="center" colspan="2" style="background: #d9f8fb!important;">离港时间</td>
+                                <td class="center" style="background: #d9f8fb!important;">重油(MT)</td>
+                                <td class="center" style="background: #d9f8fb!important;">轻油(MT)</td>
                             </tr>
                             <tr class="gray-tr">
                                 <td class="text-left first-td">起始港</td>
@@ -345,14 +345,14 @@
                                 <td class="no-border-td" colspan="8">&nbsp;</td>
                             </tr>
                             <tr class="sub-head-tr">
-                                <td class="center"></td>
-                                <td class="center">实际耗油(MT)</td>
-                                <td class="center">理论耗油</td>
-                                <td class="center">油价</td>
-                                <td class="center">总油量(MT)</td>
-                                <td class="center">总油价</td>
-                                <td class="center">总差量(MT)</td>
-                                <td class="center">总差价(MT)</td>
+                                <td class="center" style="background: #d9f8fb!important;"></td>
+                                <td class="center" style="background: #d9f8fb!important;">实际耗油(MT)</td>
+                                <td class="center" style="background: #d9f8fb!important;">理论耗油</td>
+                                <td class="center" style="background: #d9f8fb!important;">油价</td>
+                                <td class="center" style="background: #d9f8fb!important;">总油量(MT)</td>
+                                <td class="center" style="background: #d9f8fb!important;">总油价</td>
+                                <td class="center" style="background: #d9f8fb!important;">总差量(MT)</td>
+                                <td class="center" style="background: #d9f8fb!important;">总差价(MT)</td>
                             </tr>
                             <tr class="gray-tr">
                                 <td class="text-left dot first-td">重油-1</td>
@@ -426,9 +426,9 @@
 
                             <!-- Credit Dynami Info Begin -->
                             <tr class="sub-head-tr">
-                                <td class="center" rowspan="6">运<br>营<br><br>收<br>入</td>
-                                <td class="center" colspan="5">运费信息</td>
-                                <td class="center" colspan="2">收入状态</td>
+                                <td class="center" rowspan="6" style="background: #d9f8fb!important;">运<br>营<br><br>收<br>入</td>
+                                <td class="center" colspan="5" style="background: #d9f8fb!important;">运费信息</td>
+                                <td class="center" colspan="2" style="background: #d9f8fb!important;">收入状态</td>
                                 <td class="no-border" style="background: transparent!important;"></td>
                             </tr>
                             <!--tr class="gray-tr">
@@ -461,9 +461,9 @@
 
                             <!-- Debit Dynami Info Begin -->
                             <tr class="sub-head-tr">
-                                <td class="center" rowspan="13">运<br>营<br><br>支<br>出</td>
-                                <td class="center" colspan="5">支出信息</td>
-                                <td class="center" colspan="2">支出状态</td>
+                                <td class="center" rowspan="13" style="background: #d9f8fb!important;">运<br>营<br><br>支<br>出</td>
+                                <td class="center" colspan="5" style="background: #d9f8fb!important;">支出信息</td>
+                                <td class="center" colspan="2" style="background: #d9f8fb!important;">支出状态</td>
                             </tr>
                             <tr class="gray-tr" v-for="(item, index) in debitInfo.else">
                                 <td class="center" colspan="2">

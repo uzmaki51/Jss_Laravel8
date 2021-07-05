@@ -266,6 +266,7 @@
 
 table:not(.general, .not-striped) tbody tr:nth-child(odd) td:not(.sub-small-header, .white-bg, .not-striped-td), 
 table:not(.general, .not-striped) tbody tr:nth-child(odd) input:not(.disabled-td),
+table:not(.general, .not-striped) tbody tr:nth-child(odd) input:not(.disabled-td),
 table:not(.general, .not-striped) tbody tr:nth-child(odd) select,
 table:not(.general, .not-striped) tbody tr:nth-child(odd) textarea {
     background-color: #f5f5f5!important;
@@ -297,6 +298,10 @@ table tbody tr:hover .hour-input, table tbody tr:hover .minute-input {
     border: 1px solid #666666!important;
 }
 table tbody tr:hover .date-label input {
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    border: 1px solid #666666!important;
+}
+table tbody tr:hover .gmt-input {
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     border: 1px solid #666666!important;
 }

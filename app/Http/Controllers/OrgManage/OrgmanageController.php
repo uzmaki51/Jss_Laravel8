@@ -213,7 +213,7 @@ class OrgmanageController extends Controller
                     $fileName = $file->getClientOriginalName();
                     $name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
                     $file->move(public_path() . '/shipCertList/', $name);
-                    $siteTbl['image'] = url() . '/shipCertList/' . $name;
+                    $siteTbl['image'] = url('/') . '/shipCertList/' . $name;
                     $siteTbl['image_path'] = public_path('/shipCertList/') . $name;
                 }
                 else {
@@ -240,7 +240,7 @@ class OrgmanageController extends Controller
                 }
 
                 $shipCertTbl['attachment'] = public_path('/shipCertList/') . $name;
-                $shipCertTbl['attachment_link'] = url() . '/shipCertList/' . $name;
+                $shipCertTbl['attachment_link'] = url('/') . '/shipCertList/' . $name;
                 $shipCertTbl['file_name'] = $fileName;
             }
         }

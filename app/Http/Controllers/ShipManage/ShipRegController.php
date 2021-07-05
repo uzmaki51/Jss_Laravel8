@@ -702,7 +702,7 @@ class ShipRegController extends Controller
 					}
 
 				    $shipCertTbl['attachment'] = public_path('/shipCertList/') . $name;
-				    $shipCertTbl['attachment_link'] = url() . '/shipCertList/' . $name;
+				    $shipCertTbl['attachment_link'] = url('/') . '/shipCertList/' . $name;
 				    $shipCertTbl['file_name'] = $fileName;
 			    }
 		    }
@@ -2242,7 +2242,7 @@ class ShipRegController extends Controller
                     
                     $tbl['is_up_attach'] = 0;
 				    $tbl['attachment_url_up'] = public_path('/fuelManage/') . $name;
-				    $tbl['attachment_link_up'] = url() . '/fuelManage/' . $name;
+				    $tbl['attachment_link_up'] = url('/') . '/fuelManage/' . $name;
                 }
             } else if($params['is_up_update'][$key] == IS_FILE_DELETE) {
                 $tbl['is_up_attach'] = 1;
@@ -2259,7 +2259,7 @@ class ShipRegController extends Controller
 
                     $tbl['is_down_attach'] = 0;
 				    $tbl['attachment_url_down'] = public_path('/fuelManage/') . $name;
-				    $tbl['attachment_link_down'] = url() . '/fuelManage/' . $name;
+				    $tbl['attachment_link_down'] = url('/') . '/fuelManage/' . $name;
 			    }
 
 		    } else if($params['is_down_update'][$key] == IS_FILE_DELETE) {
