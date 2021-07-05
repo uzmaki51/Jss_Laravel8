@@ -780,9 +780,9 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(0).html('').append(index + 1);
                     $('td', row).eq(0).attr('style', 'height:20px;')
                     $('td', row).eq(0).append('<input type="hidden" name="setting_id[]" value="' + data['id'] + '">');
-                    $('td', row).eq(1).html('<input type="text" class="form-control" name="setting_name[]" value="' + data['account'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(2).html('<input type="text" class="form-control" name="setting_content[]" value="' + data['info'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(3).html('<input type="text" class="form-control" name="setting_remark[]" value="' + data['remark'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(1).html('<input type="text" class="form-control" name="setting_name[]" value="' + __parseStr(data['account']) + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(2).html('<input type="text" class="form-control" name="setting_content[]" value="' + __parseStr(data['info']) + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(3).html('<input type="text" class="form-control" name="setting_remark[]" value="' + __parseStr(data['remark']) + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(4).html('').append('<div class="action-buttons"><a class="red" onclick="javascript:deleteSetting(this)"><i class="icon-trash"></i></a></div>');
                 },
                 drawCallback: function (response) {
