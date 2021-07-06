@@ -546,8 +546,10 @@ class OrgmanageController extends Controller
 
 			$shipListInfo = substr($shipListInfo, 0, strlen($shipListInfo) - 1);
 			$insertData['shipList']  = $shipListInfo;
-		}
-        // var_dump($insertData);die;
+		} else {
+            $insertData['shipList'] = '';
+        }
+        
 		$user = new User();
 		User::where('id', $userid)->update($insertData);
 

@@ -98,7 +98,7 @@ class Menu extends Model
 			}
 		} else 
 			return [];
-		// var_dump($menus);die;
+		
 	    return $menus;
     }
 
