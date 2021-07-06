@@ -165,7 +165,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <td class="center">{{$report['voyNo']}}</td>
                                     <td class="center">{{isset(g_enum('FeeTypeData')['Debit'][$report['profit_type']])?g_enum('FeeTypeData')['Debit'][$report['profit_type']]:""}}</td>
                                     <td class="center">{{$report['report_date']}}</td>
-                                    <td class="center report-visible" style="cursor:pointer;">{{$report['isvisible']?"✓":""}}</td>
+                                    <td class="center report-visible" style="cursor:pointer;">{{$report['ishide']?"✓":""}}</td>
                                     <?php $index++;?>
                                 </tr>
                             @endforeach
@@ -205,7 +205,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     @endif
                                 @endforeach
                                 <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif>
-                                    <td class="center dyn-visible" data-id="{{$info['id']}}" style="cursor:pointer;">{{$info['isvisible']?"✓":""}}</td>
+                                    <td class="center dyn-visible" data-id="{{$info['id']}}" style="cursor:pointer;">{{$info['ishide']?"✓":""}}</td>
                                     <td class="center" style="height:20px;">{{$nickName}}</td>
                                     <td class="center">{{$info['Voy_Date']}}</td>
                                     <td class="center">{{str_pad($info['Voy_Hour'],2,"0",STR_PAD_LEFT).str_pad($info['Voy_Minute'],2,"0",STR_PAD_LEFT)}}</td>
@@ -333,10 +333,10 @@ $isHolder = Session::get('IS_HOLDER');
         });
 
         $(".report-visible").on('click',function(e) {
-            var isvisible = 0;
+            var ishide = 0;
             var td_html = "";
             if (e.target.innerHTML == "") {
-                isvisible = 1;
+                ishide = 1;
                 td_html = "✓";
             }
             e.target.innerHTML = td_html;
@@ -349,15 +349,15 @@ $isHolder = Session::get('IS_HOLDER');
                 $(parentElement).children(":last").remove();
             }
             td_html = "<input type='hidden' name='visible_id[]' value='" + ($(parentElement).children(":first")).html() + "'/>";
-            td_html += "<input type='hidden' name='visible_value[]' value='" + isvisible + "'/>";
+            td_html += "<input type='hidden' name='visible_value[]' value='" + ishide + "'/>";
             $(parentElement).append(td_html);
         });
 
         $(".dyn-visible").on('click',function(e) {
-            var isvisible = 0;
+            var ishide = 0;
             var td_html = "";
             if (e.target.innerHTML == "") {
-                isvisible = 1;
+                ishide = 1;
                 td_html = "✓";
             }
             e.target.innerHTML = td_html;
@@ -370,7 +370,7 @@ $isHolder = Session::get('IS_HOLDER');
                 $(parentElement).children(":last").remove();
             }
             td_html = "<input type='hidden' name='dyn_id[]' value='" + ($(parentElement).children(":first")).attr('data-id') + "'/>";
-            td_html += "<input type='hidden' name='dyn_value[]' value='" + isvisible + "'/>";
+            td_html += "<input type='hidden' name='dyn_value[]' value='" + ishide + "'/>";
             $(parentElement).append(td_html);
         });
 

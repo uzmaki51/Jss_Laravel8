@@ -181,17 +181,17 @@ class OrgmanageController extends Controller
 
         $report_ids = $request->get('visible_id');
         $report_values = $request->get('visible_value');
-        if (count($report_ids) > 0) {
+        if (isset($report_ids) && count($report_ids) > 0) {
             foreach($report_ids as $index => $id) {
-                DecisionReport::where('report_id', $id)->update(['isvisible' => $report_values[$index]]);
+                DecisionReport::where('report_id', $id)->update(['ishide' => $report_values[$index]]);
             }
         }
 
         $dyn_ids = $request->get('dyn_id');
         $dyn_values = $request->get('dyn_value');
-        if (count($dyn_ids) > 0) {
+        if (isset($dyn_ids) && count($dyn_ids) > 0) {
             foreach($dyn_ids as $index => $id) {
-                VoyLog::where('id', $id)->update(['isvisible' => $dyn_values[$index]]);
+                VoyLog::where('id', $id)->update(['ishide' => $dyn_values[$index]]);
             }
         }
 

@@ -89,7 +89,7 @@ $isHolder = Session::get('IS_HOLDER');
                             <table id="sample-table-1" class="table-bordered" style="margin-left:auto;margin-right:auto;">
                                 <tbody>
                                 <tr>
-                                    <td class="add-td-label" width="10%;">{{trans("orgManage.captions.name")}}<span class="require">*</span>:</td>
+                                    <td class="add-td-label" width="20%;">{{trans("orgManage.captions.name")}}<span class="require">*</span>:</td>
                                     <td class="add-td-text">
                                         <input type="text" class="form-control add-td-input" name="name" id="name" value="@if(isset($userinfo)){{$userinfo['realname']}}@endif" required>
                                     </td>
@@ -163,6 +163,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 @endif
                                 </tbody>
                             </table>
+				</div>
                         </div>
                     </div>
                     <div class="row" style="margin-top:20px;">
