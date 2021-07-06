@@ -225,7 +225,8 @@
 }
 #report_info_table thead th {
     color: black!important;
-    width: 80%;
+    font-style: normal!important;
+    border-top: unset;
 }
 #report_div .custom-td-dec-text {
     width: 200px;
@@ -252,11 +253,7 @@
     border-top: 1px solid #111;
        color: black!important;
 }
-#report_info_table thead th {
-    color: black !important;
-    width: 80%;
-    border-top: unset;
-}
+
 .white-bg {
     background: white!important;
 }

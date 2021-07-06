@@ -2,6 +2,7 @@
 
 @section('styles')
     <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('/assets/css/datatables.min.css') }}" rel="stylesheet"/>
     <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
     <style>
         [v-cloak] { display: none; }
@@ -68,8 +69,8 @@
                 </div>
                 <div class="row">
                     <div class="space-2"></div>
-                    <div class="table-responsive common-list head-fix-div">
-                        <table id="report_info_table" class="table table-bordered">
+                    <div class="table-responsive">
+                        <table id="report_info_table" class="table table-bordered" style="border-top: 1px solid ">
                             <thead>
                             <tr class="br-hblue">
                                 <th class="text-center style-normal-header" style="width: 5%;">{!! trans('decideManage.table.no') !!}</th>
@@ -914,7 +915,7 @@
                     type: 'POST',
                 },
                 "ordering": false,
-                "pageLength": 500,
+                "pageLength": 25,
                 columnDefs: [{
                     targets: [2],
                     orderable: false,
@@ -1042,9 +1043,9 @@
                 },
             });
 
-            $('.paginate_button').hide();
+            // $('.paginate_button').hide();
             $('.dataTables_length').hide();
-            $('.paging_simple_numbers').hide();
+            // $('.paging_simple_numbers').hide();
             $('.dataTables_info').hide();
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
 

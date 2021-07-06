@@ -756,6 +756,16 @@ class DecisionReport extends Model {
 
 		// number of filtered records
 		$recordsFiltered = $selector->count();
+		
+		// offset & limit
+		if (!empty($params['start']) && $params['start'] > 0) {
+			$selector->skip($params['start']);
+		}
+
+		if (!empty($params['length']) && $params['length'] > 0) {
+			$selector->take($params['length']);
+		}
+
 
 		// get records
 		$records = $selector->get();
