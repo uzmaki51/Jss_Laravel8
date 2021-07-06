@@ -189,35 +189,38 @@ class FinanceController extends Controller
 		$keep_list = json_decode($request->get('keep_list'));
 		$water_dates = [];
 		$water_report_ids = [];
-		for ($i=0;$i<count($keep_list);$i++)
+		if (isset($keep_list) && count($keep_list) > 0)
 		{
-			$record = new WaterList();
-			$record['book_no'] = $keep_list[$i]->no;
-			$record['ship_no'] = $keep_list[$i]->ship_no;
-			$record['content'] = $keep_list[$i]->content;
-			//$record['year'] = $year;
-			//$record['month'] = $month;
-			$record['year'] = substr($keep_list[$i]->datetime,0,4);
-			$record['month'] = substr($keep_list[$i]->datetime,5,2);
-			$record['register_time'] = $keep_list[$i]->datetime;
-			$record['rate'] = $keep_list[$i]->rate;
-			$record['pay_type'] = $keep_list[$i]->pay_type;
-			$record['account_type'] = $keep_list[$i]->account_type;
-			$record['account_name'] = $keep_list[$i]->account_name;
-			$record['currency'] = $keep_list[$i]->currency;
-			$record['credit'] = $keep_list[$i]->credit;
-			$record['debit'] = $keep_list[$i]->debit;
-			$record['ship_name'] = $keep_list[$i]->ship_name;
-			$record['report_id'] = $keep_list[$i]->report_id[0];
-			$record['remark'] = implode(",", $keep_list[$i]->report_id);
-			
-			// record water datetime
-			for($j=0;$j<count($keep_list[$i]->report_id);$j++)
+			for ($i=0;$i<count($keep_list);$i++)
 			{
-				$water_report_ids[] = $keep_list[$i]->report_id[$j];
-				$water_dates[$keep_list[$i]->report_id[$j]] = $keep_list[$i]->datetime;
+				$record = new WaterList();
+				$record['book_no'] = $keep_list[$i]->no;
+				$record['ship_no'] = $keep_list[$i]->ship_no;
+				$record['content'] = $keep_list[$i]->content;
+				//$record['year'] = $year;
+				//$record['month'] = $month;
+				$record['year'] = substr($keep_list[$i]->datetime,0,4);
+				$record['month'] = substr($keep_list[$i]->datetime,5,2);
+				$record['register_time'] = $keep_list[$i]->datetime;
+				$record['rate'] = $keep_list[$i]->rate;
+				$record['pay_type'] = $keep_list[$i]->pay_type;
+				$record['account_type'] = $keep_list[$i]->account_type;
+				$record['account_name'] = $keep_list[$i]->account_name;
+				$record['currency'] = $keep_list[$i]->currency;
+				$record['credit'] = $keep_list[$i]->credit;
+				$record['debit'] = $keep_list[$i]->debit;
+				$record['ship_name'] = $keep_list[$i]->ship_name;
+				$record['report_id'] = $keep_list[$i]->report_id[0];
+				$record['remark'] = implode(",", $keep_list[$i]->report_id);
+				
+				// record water datetime
+				for($j=0;$j<count($keep_list[$i]->report_id);$j++)
+				{
+					$water_report_ids[] = $keep_list[$i]->report_id[$j];
+					$water_dates[$keep_list[$i]->report_id[$j]] = $keep_list[$i]->datetime;
+				}
+				$record->save();
 			}
-			$record->save();
 		}
 
 		$report_list_record = BooksList::where('year', $year)->where('month', $month)->first();
