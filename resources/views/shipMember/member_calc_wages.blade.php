@@ -308,7 +308,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(2).html('<label>' + data['rank'] + '</label><input type="hidden" name="Rank[]" value="' + data['rank'] + '">');
                     $('td', row).eq(3).html('<label>' + ((data['WageCurrency'] == 0)?'¥':'$') + '</label><input type="hidden" name="Currency[]" value="' + data['WageCurrency'] + '">');
                     //$('td', row).eq(4).html('<label>' + data['Salary'] + '</label><input type="hidden" name="Salary[]" value="' + data['Salary'] + '">');
-                    $('td', row).eq(4).html('<input type="text" class="form-control" name="Salary[]" value="' + data['Salary'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(4).html('<input type="text" class="form-control" name="Salary[]" value="' + prettyValue(data['Salary']) + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(5).html('<label>' + data['DateOnboard'] + '</label><input type="hidden" name="DateOnboard[]" value="' + data['DateOnboard'] + '">');
                     $('td', row).eq(6).html('<label>' + data['DateOffboard'] + '</label><input type="hidden" name="DateOffboard[]" value="' + data['DateOffboard'] + '">');
                     $('td', row).eq(7).html('<label>' + data['SignDays'] + '</label><input type="hidden" name="SignDays[]" value="' + data['SignDays'] + '">');
@@ -316,8 +316,8 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(9).html('<label>' + data['TransInR'] + '</label><input type="hidden" name="TransInR[]" value="' + data['TransInR'] + '">');
                     $('td', row).eq(10).html('<label>' + data['TransInD'] + '</label><input type="hidden" name="TransInD[]" value="' + data['TransInD'] + '">');
                     $('td', row).eq(11).html('<div class="input-group"><input class="form-control add-trans-date date-picker" name="TransDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + data['TransDate'] + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
-                    $('td', row).eq(12).html('<input type="text" class="form-control" name="Remark[]" value="' + data['Remark'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(13).html('<label>' + data['BankInformation'] + '</label><input type="hidden" name="BankInfo[]" value="' + data['BankInformation'] + '">');
+                    $('td', row).eq(12).html('<input type="text" class="form-control" name="Remark[]" value="' + __parseStr(data['Remark']) + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(13).html('<label>' + __parseStr(data['BankInformation']) + '</label><input type="hidden" name="BankInfo[]" value="' + data['BankInformation'] + '">');
 
                     //$('td', row).eq(11).attr('name', 'TransDate[]');
                 },
@@ -348,8 +348,7 @@ $isHolder = Session::get('IS_HOLDER');
         initTable();
 
         function setValue(e, v, isNumber) {
-            //e.closest("td").firstElementChild.innerHTML = isNumber ? prettyValue(v) : v;
-            e.closest("td").firstElementChild.innerHTML = v;
+            e.closest("td").firstElementChild.innerHTML = isNumber ? prettyValue(v) : v;
             e.value = v;
         }
         function calcReport()
@@ -408,8 +407,8 @@ $isHolder = Session::get('IS_HOLDER');
             var td = daysInMonth(month, year);
             for (var i=0;i<TransInR.length;i++) {
                 setValue(No[i], i + 1, false);
-                var m = parseFloat(minus[i].value);
-                var s = parseFloat(salary[i].value);
+                var m = parseFloat(minus[i].value.replace(',',''));
+                var s = parseFloat(salary[i].value.replace(',',''));
                 var don = dateon[i].value;
                 var doff = dateoff[i].value;
                 if (don < now) don = now;
@@ -433,10 +432,10 @@ $isHolder = Session::get('IS_HOLDER');
                 setValue(TransInR[i], _R, true);
                 setValue(TransInD[i], _D, true);
 
-                sum_R += (_R=='')?0:parseFloat(_R);
-                sum_D += (_D=='')?0:parseFloat(_D);
+                sum_R += (_R=='')?0:parseFloat(_R.replace(',',''));
+                sum_D += (_D=='')?0:parseFloat(_D.replace(',',''));
                 if (TransDate[i].value != '') {
-                    sum_pre += (_R=='')?0:parseFloat(_R);
+                    sum_pre += (_R=='')?0:parseFloat(_R.replace(',',''));
                 }
             }
             var sum_Real = sum_R - sum_pre;

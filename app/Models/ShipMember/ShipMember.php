@@ -749,23 +749,34 @@ class ShipMember extends Model
             if ($newArr[$newindex]['DateOnboard'] == $now && $newArr[$newindex]['DateOffboard'] == $next) {
                 $newArr[$newindex]['SignDays'] = $month_total_days;
             } else {
-                $newArr[$newindex]['SignDays'] = number_format(round((strtotime($newArr[$newindex]['DateOffboard']) - strtotime($newArr[$newindex]['DateOnboard'])) / (60 * 60 * 24)) - $minus_days + 1, 1);
+                $newArr[$newindex]['SignDays'] = round((strtotime($newArr[$newindex]['DateOffboard']) - strtotime($newArr[$newindex]['DateOnboard'])) / (60 * 60 * 24)) - $minus_days + 1;
             }
             
             $newArr[$newindex]['MinusCash'] = 0;
             if ($record->WageCurrency == 0) {
-                $newArr[$newindex]['TransInR'] = number_format($record->Salary * $newArr[$newindex]['SignDays'] / $month_total_days - $newArr[$newindex]['MinusCash'], 2);
-                $newArr[$newindex]['TransInD'] = number_format($newArr[$newindex]['TransInR'] / $rate, 2);
+                if ($record->Salary == "") {
+                    $newArr[$newindex]['TransInR'] = 0 - $newArr[$newindex]['MinusCash'];
+                } else {
+                    $newArr[$newindex]['TransInR'] = $record->Salary * $newArr[$newindex]['SignDays'] / $month_total_days - $newArr[$newindex]['MinusCash'];
+                    //return $record->Salary * $newArr[$newindex]['SignDays'] / $month_total_days;
+                }
+                $newArr[$newindex]['TransInD'] = $newArr[$newindex]['TransInR'] / $rate;
             }
             else
             {
-                $newArr[$newindex]['TransInD'] = number_format($record->Salary * $newArr[$newindex]['SignDays'] / $month_total_days - $newArr[$newindex]['MinusCash'], 2);
-                $newArr[$newindex]['TransInR'] = number_format($newArr[$newindex]['TransInD'] * $rate, 2);
+                if ($record->Salary == "") {
+                    $newArr[$newindex]['TransInD'] = 0 - $newArr[$newindex]['MinusCash'];
+                } else {
+                    $newArr[$newindex]['TransInD'] = $record->Salary * $newArr[$newindex]['SignDays'] / $month_total_days - $newArr[$newindex]['MinusCash'];
+                }
+                $newArr[$newindex]['TransInR'] = $newArr[$newindex]['TransInD'] * $rate;
             }
+
             $newArr[$newindex]['TransDate'] = '';
             $newArr[$newindex]['Remark'] = '';
             $newArr[$newindex]['BankInformation'] = $record->BankInformation;
             $newArr[$newindex]['DateOnboard'] = $record->DateOnboard;
+
             $newindex ++;
         }
         return [

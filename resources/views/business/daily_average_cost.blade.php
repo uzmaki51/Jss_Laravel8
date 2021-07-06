@@ -446,24 +446,30 @@ $ships = Session::get('shipList');
                     }
                     
                     var report_html = "";
-                    report_html = "<tr style='height:30px;'><td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer style-normal-header sub-small-header text-center disable-td'>年均</td>";
+                    report_html = "<tr style='height:20px;'><td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer style-normal-header sub-small-header text-center disable-td'>年均</td>";
                     time_average = prettyValue(time_average / 3);
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='text-center table-footer sub-small-header disable-td'>" + time_average + "</td>";
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer sub-small-header disable-td' colspan='3'></td>";
                     for(i=0;i<15;i++)
                     {
                         var value = table_sums[i] / 3;
-                        if (i == 1)
-                            //report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right right-border" + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right" + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
-                        else if (i > 1 && i < 7)
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header style-red-header text-right " + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
-                        else
+
+                        //style-normal-header sub-small-header style-red-header
+                        if (i == 0) {
                             report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
+                        }
+                        else if (i > 1 && i < 7)
+                        {
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
+                        }
+                        else
+                        {
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
+                        }
                     }
                     report_html += "</tr>";
 
-                    report_html += "<tr style='height:30px;'><td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer style-normal-header sub-small-header text-center disable-td'>月均</td>";
+                    report_html += "<tr style='height:20px;'><td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer style-normal-header sub-small-header text-center disable-td'>月均</td>";
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='text-center table-footer sub-small-header disable-td'></td>";
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer sub-small-header disable-td' colspan='3'></td>";
                     for(i=0;i<15;i++)
@@ -474,24 +480,24 @@ $ships = Session::get('shipList');
                             report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right" + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
                             //report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right right-border" + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
                         else if (i > 1 && i < 7)
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header style-red-header text-right " + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
                         else
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
                     }
                     report_html += "</tr>";
 
-                    report_html += "<tr style='height:30px;'><td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer style-normal-header sub-small-header text-center disable-td'>日均</td>";
+                    report_html += "<tr style='height:20px;'><td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer style-normal-header sub-small-header text-center disable-td'>日均</td>";
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='text-center table-footer sub-small-header disable-td'></td>";
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer sub-small-header disable-td' colspan='3'></td>";
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='text-center table-footer sub-small-header disable-td'></td>";
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='text-center table-footer sub-small-header disable-td'></td>";
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header style-red-header text-right' style='padding:5px!important;'></td>";
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header style-red-header text-right' style='padding:5px!important;'></td>";
+                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right' style='padding:5px!important;'></td>";
+                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right' style='padding:5px!important;'></td>";
 
                     value = (table_sums[4] + table_sums[5] + table_sums[6]) / 363;
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header style-red-header text-center " + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;' colspan='3'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
+                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-center " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;' colspan='3'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
                     value = (table_sums[7] + table_sums[8] + table_sums[9] + table_sums[10] + table_sums[11] + table_sums[12] + table_sums[13]+ table_sums[14]) / 363;
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-center " + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;' colspan='8'>" + (value==0?'': '$'+prettyValue(value)) + "</td>";
+                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-center " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;' colspan='8'>" + (value==0?'': '$'+prettyValue(value)) + "</td>";
                     report_html += "</tr>";
                     $('#table-income-expense-body').append(report_html);
 
