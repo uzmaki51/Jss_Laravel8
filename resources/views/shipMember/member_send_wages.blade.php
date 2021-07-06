@@ -189,8 +189,8 @@ $isHolder = Session::get('IS_HOLDER');
                         bank_info += '<option value="'+i+'"' + ((i==data['sendbank'])?'selected':'') + '>'+BankInfo[i]+'</option>';
                     bank_info += '</select>';
                     $('td', row).eq(7).html(bank_info);
-                    $('td', row).eq(8).html('<label>' + data['bankinfo'] + '</label><input type="hidden" name="BankInfo[]" value="' + data['bankinfo'] + '">');
-                    $('td', row).eq(9).html('<input type="text" class="form-control style-noncolor-input" name="Remark[]" value="' + data['remark'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(8).html('<label>' + __parseStr(data['bankinfo']) + '</label><input type="hidden" name="BankInfo[]" value="' + __parseStr(data['bankinfo']) + '">');
+                    $('td', row).eq(9).html('<input type="text" class="form-control style-noncolor-input" name="Remark[]" value="' + __parseStr(data['remark']) + '" style="width: 100%;text-align: center" autocomplete="off">');
                 },
                 drawCallback: function (response) {
                     original = response.json.original;
@@ -210,11 +210,11 @@ $isHolder = Session::get('IS_HOLDER');
         shipId = $("#select-ship").val();
         $('#search_info').html('"' + $("#select-ship option:selected").attr('data-name') + '" ' + year + '年' + month + '月');
         initTable();
-
-        function setValue(e, v) {
-            e.closest("td").firstElementChild.innerHTML = v;
+        function setValue(e, v, isNumber) {
+            e.closest("td").firstElementChild.innerHTML = isNumber ? prettyValue(v) : v;
             e.value = v;
         }
+
         function calcReport()
         {
             var CashR = $('input[name="CashR[]"]');
@@ -226,18 +226,18 @@ $isHolder = Session::get('IS_HOLDER');
             var sum_D = 0;
             var sum_P = 0;
             for (var i=0;i<CashR.length;i++) {
-                setValue(No[i], i + 1);
+                setValue(No[i], i + 1, false);
                 var _R = CashR[i].value;
                 var _D = SendR[i].value;
                 var _P = SendD[i].value;
 
-                setValue(CashR[i], _R);
-                setValue(SendR[i], _D);
-                setValue(SendD[i], _P);
+                setValue(CashR[i], _R, true);
+                setValue(SendR[i], _D, true);
+                setValue(SendD[i], _P, true);
 
-                sum_R += parseFloat(_R);
-                sum_D += parseFloat(_D);
-                sum_P += (_P=='')?0:parseFloat(_P);
+                sum_R += parseFloat(_R.replace(',',''));
+                sum_D += parseFloat(_D.replace(',',''));
+                sum_P += (_P=='')?0:parseFloat(_P.replace(',',''));
             }
             if ($('#list-body tr:last').attr('class') == 'tr-report') {
                 $('#list-body tr:last').remove();

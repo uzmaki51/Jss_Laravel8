@@ -115,10 +115,10 @@ class WageController extends Controller
             $wage_record['shipId'] = $shipId;
             $wage_record['member_id'] = $array_memberId[$index];
             $wage_record['name'] = $array_name[$index];
-            $wage_record['cashR'] = $array_R[$index];
-            $wage_record['sendR'] = $array_D[$index];
-            $wage_record['sendD'] = $array_P[$index];
-            $wage_record['sendbank'] = $array_send_bank[$index];
+            $wage_record['cashR'] = str_replace(',','',$array_R[$index]);
+            $wage_record['sendR'] = str_replace(',','',$array_D[$index]);
+            $wage_record['sendD'] = str_replace(',','',$array_P[$index]);
+            $wage_record['sendbank'] = str_replace(',','',$array_send_bank[$index]);
             $wage_record['rank'] = $array_rank[$index];
             if ($array_purch_date[$index] == '')
                 $wage_record['purchdate'] = null;
@@ -186,11 +186,11 @@ class WageController extends Controller
             $wage_record['member_id'] = $array_memberId[$index];
             $wage_record['name'] = $array_name[$index];
             $wage_record['minuscash'] = $array_minus_cash[$index];
-            $wage_record['cashR'] = $array_R[$index];
-            $wage_record['cashD'] = $array_D[$index];
+            $wage_record['cashR'] = str_replace(',','',$array_R[$index]);
+            $wage_record['cashD'] = str_replace(',','',$array_D[$index]);
             $wage_record['rank'] = $array_rank[$index];
             $wage_record['currency'] = $array_wageCurrency[$index];
-            $wage_record['salary'] = $array_salary[$index];
+            $wage_record['salary'] = str_replace(',','',$array_salary[$index]);
             $wage_record['signdays'] = $array_signdays[$index];
             if ($array_trans_date[$index] == '')
                 $wage_record['purchdate'] = null;
