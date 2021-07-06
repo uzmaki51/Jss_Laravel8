@@ -102,7 +102,11 @@ class ShipRegController extends Controller
 
 
     public function loadShipGeneralInfos(Request $request) {
-        $ship_infolist = $this->getShipGeneralInfo();
+        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+            $ship_infolist = ShipRegister::getShipForHolder();
+        else {
+            $ship_infolist = ShipRegister::all();
+        }
 
 	    $params = $request->all();
 
@@ -474,10 +478,17 @@ class ShipRegController extends Controller
     public function dynamicList(Request $request) {
         $params = $request->all();
         $shipName = '';
+
+        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+            $shipList = ShipRegister::getShipForHolder();
+        else {
+            $shipList = ShipRegister::all();
+        }
+
 		if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
         } else {
-            $firstShipInfo = ShipRegister::first();
+            $firstShipInfo = $shipList[0];
             if($firstShipInfo == null && $firstShipInfo == false)
                 return redirect()->back();
 
@@ -503,8 +514,7 @@ class ShipRegController extends Controller
 
         $tbl = new VoyLog();
         $yearList = $tbl->getYearList($shipId);
-
-        $shipList = ShipRegister::all();
+        
         return view('shipManage.dynamic_list', [
             'shipList'          => $shipList,
             'shipInfo'          => $shipInfo,
@@ -518,7 +528,11 @@ class ShipRegController extends Controller
 
 
     public function ctmAnalytics(Request $request) {
-        $shipRegList = ShipRegister::all();
+        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+            $shipList = ShipRegister::getShipForHolder();
+        else {
+            $shipList = ShipRegister::all();
+        }
 
         $params = $request->all();
         $shipId = $request->get('shipId'); 
@@ -546,7 +560,7 @@ class ShipRegController extends Controller
         }
 
         return view('shipManage.ctm_analytics', [
-        	    'shipList'      =>  $shipRegList,
+        	    'shipList'      =>  $shipList,
                 'shipName'      =>  $shipNameInfo,
                 'shipId'        =>  $shipId,
                 'yearList'      =>  $yearList,
@@ -558,7 +572,11 @@ class ShipRegController extends Controller
 
     public function voyEvaluation(Request $request) {
         $params = $request->all();
-        $shipList = ShipRegister::all();
+        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+            $shipList = ShipRegister::getShipForHolder();
+        else {
+            $shipList = ShipRegister::all();
+        }
 
         if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
@@ -936,7 +954,11 @@ class ShipRegController extends Controller
 
 
     public function shipCertManage(Request $request) {
-	    $shipRegList = ShipRegister::all();
+        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+            $shipList = ShipRegister::getShipForHolder();
+        else {
+            $shipList = ShipRegister::all();
+        }
 
 	    $shipId = $request->get('id');
 	    $shipNameInfo = null;
@@ -944,12 +966,12 @@ class ShipRegController extends Controller
 		    $shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
 		    $shipNameInfo = ShipRegister::find($shipId);
 	    } else {
-		    $shipNameInfo = ShipRegister::first();
+		    $shipNameInfo = $shipList[0];
 		    $shipId = $shipNameInfo['IMO_No'];
 	    }
 
 	    return view('shipManage.ship_cert_list', [
-		    'shipList'  =>  $shipRegList,
+		    'shipList'  =>  $shipList,
 		    'shipName'  =>  $shipNameInfo,
 		    'shipId'    =>  $shipId,
 	    ]);

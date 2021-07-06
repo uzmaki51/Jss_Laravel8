@@ -4,7 +4,7 @@ if(isset($is_excel))
 else
 	$header = 'header';
 
-$isShareHolder = Auth::user()->isAdmin == IS_SHAREHOLDER ? true : false;
+$isShareHolder = Auth::user()->isAdmin == STAFF_LEVEL_SHAREHOLDER ? true : false;
 $shipList = explode(',', Auth::user()->shipList);
 ?>
 @extends('layout.' . $header)

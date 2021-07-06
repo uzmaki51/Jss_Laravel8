@@ -10,6 +10,13 @@ $isHolder = Session::get('IS_HOLDER');
     <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/-->
 @endsection
 
+@section('scripts')
+    <script>
+        var HOLDER = '{!! STAFF_LEVEL_SHAREHOLDER !!}';
+        var IS_HOLDER = '{!! $userinfo['pos'] !!}';
+    </script>
+@endsection
+
 @section('content')
     <div class="main-content">
         <style>
@@ -61,7 +68,7 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
                 <div class="col-md-6">
                     <div class="btn-group f-right">
-                        <a id="btnPrev" class="btn btn-sm btn-primary btn-add" style="width: 80px" onclick="javascript:goBackPage()">
+                        <a id="btnPrev" class="btn btn-sm btn-primary btn-add" style="width: 80px" href="/org/userInfoListView">
                             <i class=""></i>< {{trans("orgManage.captions.prevPage")}}
                         </a>
                         <a id="btnDelete" class="btn btn-sm btn-danger" style="width: 80px" onclick="javascript:deleteMember('{{ $userid }}')">
@@ -75,222 +82,179 @@ $isHolder = Session::get('IS_HOLDER');
             </div>
             
             @if(isset($userid)>0)
-            <form id="validation-form" action="memberupdate" role="form" method="POST" enctype="multipart/form-data">
+                <form id="validation-form" action="memberupdate" role="form" method="POST" enctype="multipart/form-data">
             @else
-            <form id="validation-form" action="memberadder" role="form" method="POST" enctype="multipart/form-data">
+                <form id="validation-form" action="memberadder" role="form" method="POST" enctype="multipart/form-data">
             @endif
-            <div style="margin-top:8px;">
-                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <input type="hidden" name="userid" id="userid" value="@if(isset($userid)){{$userid}} @endif">
-                <div class="col-md-12">
-                    <div class="row">
-			<div class="col-md-6">
-                        <div class="table-responsive">
-                            <table id="sample-table-1" class="table-bordered" style="margin-left:auto;margin-right:auto;">
-                                <tbody>
-                                <tr>
-                                    <td class="add-td-label" width="20%;">{{trans("orgManage.captions.name")}}<span class="require">*</span>:</td>
-                                    <td class="add-td-text">
-                                        <input type="text" class="form-control add-td-input" name="name" id="name" value="@if(isset($userinfo)){{$userinfo['realname']}}@endif" required>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="add-td-label" >{{trans("orgManage.captions.loginID")}}<span class="require">*</span>:</td>
-                                    <td class="add-td-text">
-                                        <input type="text" class="form-control add-td-input" name="account" id="account" value="@if(isset($userinfo)){{$userinfo['account']}}@endif" required>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="add-td-label" colspan="1">{{trans("orgManage.captions.officePosition")}}<span class="require">*</span>:</td>
-                                    <td class="add-td-text">
-                                        <select class="form-control add-td-select" id="pos" style="width: 98%; margin-left: 6px!important;" name="pos">
-                                            <option value="-1" selected></option>
-                                            @foreach($pos as $post)
-                                                <option value="{{$post['id']}}" @if ((isset($userinfo))&&($userinfo['pos']==$post['id'])) selected @endif >{{$post['title']}}</option>
-                                            @endforeach
-                                            <option value="{{ IS_SHAREHOLDER }}" {{ $userinfo['pos'] == IS_SHAREHOLDER ? 'selected' : '' }}>{{ trans("orgManage.captions.stockholder") }}</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="add-td-label" colspan="1">{{trans("orgManage.captions.phoneNumber")}}:</td>
-                                    <td class="add-td-text">
-                                        <div class="input-group">
-                                            <input type="tel" id="rantel" name="phone" class="form-control add-td-input" value="@if(isset($userinfo)){{trim($userinfo['phone'])}}@endif">
-                                        </div>
-                                    </td>
-                                </tr>
+                <div style="margin-top:8px;">
+                    <input type="hidden" name="_token" value="{{csrf_token()}}">
+                    <input type="hidden" name="userid" id="userid" value="@if(isset($userid)){{$userid}} @endif">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <table id="sample-table-1" class="table-bordered" style="margin-left:auto;margin-right:auto;">
+                                        <tbody>
+                                            <tr>
+                                                <td class="add-td-label" width="20%;">{{trans("orgManage.captions.name")}}<span class="require">*</span>:</td>
+                                                <td class="add-td-text">
+                                                    <input type="text" class="form-control add-td-input" name="name" id="name" value="@if(isset($userinfo)){{$userinfo['realname']}}@endif" required>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="add-td-label" >{{trans("orgManage.captions.loginID")}}<span class="require">*</span>:</td>
+                                                <td class="add-td-text">
+                                                    <input type="text" class="form-control add-td-input" name="account" id="account" value="@if(isset($userinfo)){{$userinfo['account']}}@endif" required>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="add-td-label" colspan="1">{{trans("orgManage.captions.officePosition")}}<span class="require">*</span>:</td>
+                                                <td class="add-td-text">
+                                                    <select class="form-control add-td-select" id="pos" style="width: 98%; margin-left: 6px!important;" name="pos">
+                                                        <option value="-1" selected></option>
+                                                        @foreach($pos as $post)
+                                                            <option value="{{$post['id']}}" @if ((isset($userinfo))&&($userinfo['pos']==$post['id'])) selected @endif >{{$post['title']}}</option>
+                                                        @endforeach
+                                                        <option value="{{ STAFF_LEVEL_SHAREHOLDER }}" {{ $userinfo['pos'] == STAFF_LEVEL_SHAREHOLDER ? 'selected' : '' }}>{{ trans("orgManage.captions.stockholder") }}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="add-td-label" colspan="1">{{trans("orgManage.captions.phoneNumber")}}:</td>
+                                                <td class="add-td-text">
+                                                    <div class="input-group">
+                                                        <input type="tel" id="rantel" name="phone" class="form-control add-td-input" value="@if(isset($userinfo)){{trim($userinfo['phone'])}}@endif">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <table id="sample-table-1" class="table-bordered" style="margin-left:auto;margin-right:auto;">
+                                        <tbody>
+                                            <tr>
+                                                <td class="add-td-label" width="20%;" colspan="1">{{trans("orgManage.captions.enterDate")}}:</td>
+                                                <td class="add-td-text">
+                                                    <div class="input-group">
+                                                        <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['entryDate']}}@endif">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="add-td-label" colspan="1">{{trans("orgManage.captions.missDate")}}:</td>
+                                                <td class="add-td-text">
+                                                    <div class="input-group">
+                                                        <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['releaseDate']}}@endif">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="add-td-label" colspan="1">{{trans("orgManage.captions.remark")}}:</td>
+                                                <td class="add-td-text">
+                                                    <input type="text" class="form-control add-td-input" name="remark" id="remark" value="@if(isset($userinfo)){{$userinfo['remark']}}@endif" required>
+                                                </td>
+                                            </tr>
+                                            @if(isset($userinfo))
+                                                <tr>
+                                                    <td class="add-td-label" >{{trans("orgManage.captions.resetPass")}}:</td>
+                                                    <td class="add-td-text" style="">
+                                                        <div class="input-group">
+                                                            <input type="checkbox" class="form-control add-td-input" style="width: fit-content; margin-right: 10px; margin-left: 10px;margin-bottom:5px;" name="password_reset" id="password_reset">
+                                                            <span>* 使用密码初始化功能，可将该职员的密码改为 {{ DEFAULT_PASS }}。</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px;" id="menu-list">
+                            <h4>职员权限</h4>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <tbody>
+                                    <?php $index = 0; $cflag = true; ?>
+                                    @foreach($pmenus as $pmenu)
+                                        @if(isset($userid))
+                                            @if(in_array($pmenu['id'], explode(',', $userinfo['menu'])))
+                                                <?php $cflag = true; ?>
+                                            @else
+                                                <?php $cflag = false; ?>
+                                            @endif
+
+                                            <tr id="{{'row'.$index}}">
+                                                @if($pmenu['parentId'] == 0)
+                                                    <td class="custom-td-label">
+                                                        {{$pmenu['title']}}
+                                                    </td>
+                                                @endif
+                                                <td class="custom-td-text" style="width: 3%; text-align: center">
+                                                    <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" name="{{'group'.$index}}" @if ($cflag==true) checked="true" @endif>
+                                                    <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none" @if ($cflag==true) checked="true" @endif>
+                                                </td>
+                                        @else
+                                            <tr id="{{'row'.$index}}">
+                                                @if($pmenu['parentId']==0)
+                                                    <td class="custom-td-label">
+                                                        {{$pmenu['title']}}
+                                                    </td>
+                                                @endif
+                                                <td class="custom-td-text" style="width: 3%; t ext-align: center">
+                                                    <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" name="{{'group'.$index}}">
+                                                    <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none">
+                                                </td>
+                                        @endif
+                                                <td class="custom-td-text" style="width: 77%">
+                                                    <div class="row">
+                                                        @foreach($cmenus[$index] as $menu)
+                                                            <?php $flag1 = false ?>
+                                                            @if(isset($userid))
+                                                                @if(in_array($menu['id'], explode(',',$userinfo['menu'])))
+                                                                    <?php $flag1 = true ?>
+                                                                @endif
+                                                            @endif
+                                                            <div class="col-md-2">&nbsp
+                                                                <input type="checkbox" class="{{'row'.$index}}" onclick="checkchild({{$index}}, this)" id="{{'row'.$menu['id']}}" name="{{'row'.$menu['id']}}" @if(($cflag==true) || ($flag1==true)) checked="true" @endif>
+                                                                <input type="checkbox" id="{{$menu['id']}}" name="{{$menu['id']}}" style="display: none" @if (($cflag==false) && ($flag1==true)) checked="true" @endif>
+                                                                <label>&nbsp{{$menu['title']}}</label>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <?php $index++?>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="row" id="ship-list">
+                            <h4>SHIP SELECTION</h4>
                             <div class="table-responsive">
-                                <table id="sample-table-1" class="table-bordered" style="margin-left:auto;margin-right:auto;">
+                                <table class="table table-striped table-bordered table-hover">
                                     <tbody>
-                                <tr>
-                                    <td class="add-td-label" width="20%;" colspan="1">{{trans("orgManage.captions.enterDate")}}:</td>
-                                    <td class="add-td-text">
-                                        <div class="input-group">
-                                            <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['entryDate']}}@endif">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="add-td-label" colspan="1">{{trans("orgManage.captions.missDate")}}:</td>
-                                    <td class="add-td-text">
-                                        <div class="input-group">
-                                            <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['releaseDate']}}@endif">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="add-td-label" colspan="1">{{trans("orgManage.captions.remark")}}:</td>
-                                    <td class="add-td-text">
-                                        <input type="text" class="form-control add-td-input" name="remark" id="remark" value="@if(isset($userinfo)){{$userinfo['remark']}}@endif" required>
-                                    </td>
-                                </tr>
-                                @if(isset($userinfo))
-                                    <tr>
-                                        <td class="add-td-label" >{{trans("orgManage.captions.resetPass")}}:</td>
-                                        <td class="add-td-text" style="">
-                                            <div class="input-group">
-                                                <input type="checkbox" class="form-control add-td-input" style="width: fit-content; margin-right: 10px; margin-left: 10px;margin-bottom:5px;" name="password_reset" id="password_reset">
-                                                <span>* 使用密码初始化功能，可将该职员的密码改为 {{ DEFAULT_PASS }}。</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endif
-                                </tbody>
-                            </table>
-				</div>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top:20px;">
-                        <h4>职员权限</h4>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover">
-                                <tbody>
-                                <!--tr>
-                                    <td class="custom-td-label" colspan="3"><h4>职员权限</h4></td>
-                                </tr-->
-                                <?php $index = 0; $cflag = true; ?>
-                                @foreach($pmenus as $pmenu)
-                                    @if(isset($userid))
-                                        @if(in_array($pmenu['id'], explode(',', $userinfo['menu'])))
-                                            <?php $cflag = true; ?>
-                                        @else
-                                            <?php $cflag = false; ?>
-                                        @endif
-
-                                        <tr id="{{'row'.$index}}">
-                                            @if($pmenu['parentId'] == 0)
-                                                <td class="custom-td-label">
-                                                    {{$pmenu['title']}}
-                                                </td>
-                                            @endif
-                                            <td class="custom-td-text" style="width: 3%; text-align: center">
-                                                <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" name="{{'group'.$index}}" @if ($cflag==true) checked="true" @endif>
-                                                <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none" @if ($cflag==true) checked="true" @endif>
-                                            </td>
-                                    @else
-                                        <tr id="{{'row'.$index}}">
-                                            @if($pmenu['parentId']==0)
-                                                <td class="custom-td-label">
-                                                    {{$pmenu['title']}}
-                                                </td>
-                                            @endif
-                                            <td class="custom-td-text" style="width: 3%; t ext-align: center">
-                                                <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" name="{{'group'.$index}}">
-                                                <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none">
-                                            </td>
-                                    @endif
-                                            <td class="custom-td-text" style="width: 77%">
-                                                <div class="row">
-                                                    @foreach($cmenus[$index] as $menu)
-                                                        <?php $flag1 = false ?>
-                                                        @if(isset($userid))
-                                                            @if(in_array($menu['id'], explode(',',$userinfo['menu'])))
-                                                                <?php $flag1 = true ?>
-                                                            @endif
-                                                        @endif
-                                                        <div class="col-md-2">&nbsp
-                                                            <input type="checkbox" class="{{'row'.$index}}" onclick="checkchild({{$index}}, this)" id="{{'row'.$menu['id']}}" name="{{'row'.$menu['id']}}" @if(($cflag==true) || ($flag1==true)) checked="true" @endif>
-                                                            <input type="checkbox" id="{{$menu['id']}}" name="{{$menu['id']}}" style="display: none" @if (($cflag==false) && ($flag1==true)) checked="true" @endif>
-                                                            <label>&nbsp{{$menu['title']}}</label>
-                                                        </div>
+                                        <tr>
+                                            <td  colspan="3" style="text-align: left!important;">
+                                                <?php $registerList = explode(',', $userinfo['shipList']);?>
+                                                <select multiple="multiple" class="chosen-select form-control width-100" name="shipList[]" data-placeholder="选择船舶...">
+                                                    @foreach($shipList as $key => $item)
+                                                        <option value="{{ $item['IMO_No'] }}" {{ in_array($item['IMO_No'], $registerList) ? 'selected' : '' }}>{{ $item['NickName'] }}</option>
                                                     @endforeach
-                                                </div>
+                                                </select>
                                             </td>
                                         </tr>
-                                        <?php $index++?>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <h4>SHIP SELECTION</h4>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover">
-                                <tbody>
-                                    <tr>
-                                        <td  colspan="3" style="text-align: left!important;">
-                                            <?php $registerList = explode(',', $userinfo['attributes']['shipList']);?>
-                                            <select multiple="multiple" class="chosen-select form-control width-100" name="shipList[]" data-placeholder="选择船舶...">
-                                                @foreach($shipList as $key => $item)
-                                                    <option value="{{ $item['attributes']['shipID'] }}" {{ in_array($item['attributes']['shipID'], $registerList) ? 'selected' : '' }}>{{ $item['attributes']['shipName_En'] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </form>
-            <div id="modal-pos-list" class="modal modal-draggable" aria-hidden="true" style="display: none; margin-top: 15%;">
-                <div class="dynamic-modal-dialog">
-                    <div class="dynamic-modal-content" style="border: 0;">
-                        <div class="dynamic-modal-header" data-target="#modal-step-contents">
-                            <div class="table-header">
-                                <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
-                                    <span class="white">&times;</span>
-                                </button>
-                                <h4 style="padding-top:10px;font-style:italic;">Position List</h4>
-                            </div>
-                        </div>
-                        <div id="modal-pos-content" class="dynamic-modal-body step-content">
-                            <div class="row" style="">
-                                <div class="head-fix-div col-md-12" style="height:300px;">
-                                    <table class="table-bordered pos-table">
-                                        <thead>
-                                        <tr style="background-color: #d9f8fb;height:18px;">
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:10%">OrderNo</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:80%">Name</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;"></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody id="pos-table">
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="row">
-                                    <div class="btn-group f-right mt-20 d-flex">
-                                        <button type="button" class="btn btn-success small-btn ml-0" onclick="javascript:dynamicPosSubmit('pos')">
-                                            <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">OK
-                                        </button>
-                                        <div class="between-1"></div>
-                                        <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>Cancel</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <audio controls="controls" class="d-none" id="warning-audio">
             <source src="{{ cAsset('assets/sound/delete.wav') }}">
@@ -374,6 +338,15 @@ $isHolder = Session::get('IS_HOLDER');
                 });
             }
             @endif
+
+            if(IS_HOLDER == HOLDER) {
+                $('#menu-list').hide();
+                $('#ship-list').show();
+            } else {
+                $('#menu-list').show();
+                $('#ship-list').hide();
+            }
+
         });
 
         $('body').on('click', function(e) {
@@ -387,6 +360,15 @@ $isHolder = Session::get('IS_HOLDER');
             }
         });
 
+        $('[name=pos]').on("change", function() {
+            if($(this).val() == HOLDER) {
+                $('#menu-list').hide();
+                $('#ship-list').show();
+            } else {
+                $('#menu-list').show();
+                $('#ship-list').hide();
+            }
+        })
         function check(id) {
             var allcheck = document.getElementById('group' + id);
             var checks = document.getElementsByClassName('row' + id);

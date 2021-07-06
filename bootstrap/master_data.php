@@ -110,17 +110,25 @@ $FeeTypeData = array(
 	REPORT_TYPE_EVIDENCE_IN        => $InComeData,
 	REPORT_TYPE_OTHER			   => []
 );
-# UserLabelInfo
-define('IS_STAFF',          0);
-define('IS_CAPTAIN',        1);
-define('IS_SECRETARY',      2);
-define('IS_SHAREHOLDER',    100);
-$UserLabelInfo = array(
-	IS_CAPTAIN          => ['总经理', 'success'],
-	IS_STAFF            => ['职员',   'info'],
-	IS_SHAREHOLDER      => ['船东',   'danger'],
-	IS_SECRETARY        => ['簿记',   'warning'],
+# StaffLevelData
+define('STAFF_LEVEL_MANAGER',       	1);
+define('STAFF_LEVEL_OLDDER',            2);
+define('STAFF_LEVEL_OPERATOR',        	3);
+define('STAFF_LEVEL_ENGINEER',        	4);
+define('STAFF_LEVEL_SEAMAN',        	5);
+define('STAFF_LEVEL_FINANCIAL',        	6);
+define('STAFF_LEVEL_SHAREHOLDER',      	100);
+
+$StaffLevelData = array(
+	STAFF_LEVEL_MANAGER          	=> ['总经理', 'danger'],
+	STAFF_LEVEL_OLDDER            	=> ['老轨',   'info'],
+	STAFF_LEVEL_OPERATOR      		=> ['业务经理',   'danger'],
+	STAFF_LEVEL_ENGINEER        	=> ['机务经理',   'warning'],
+	STAFF_LEVEL_SEAMAN        		=> ['海员经理',   'info'],
+	STAFF_LEVEL_FINANCIAL        	=> ['财务经理',   'success'],
+	STAFF_LEVEL_SHAREHOLDER        	=> ['股东',   'secondary'],
 );
+
 
 # ReportTypeData
 define('REPORT_EVIDENCE_OUT',   2);
@@ -481,7 +489,7 @@ define('USER_POS_ACCOUNTER', 8);
  $g_masterData = array(
  	    'ReportTypeData'	            => $ReportTypeData,
 	    'ReportTypeLabelData'	        => $ReportTypeLabelData,
-	    'UserLabelInfo'	                => $UserLabelInfo,
+	    'StaffLevelData'	            => $StaffLevelData,
 	    'InComeData'                    => $InComeData,
         'OutComeData'                   => $OutComeData,
 	    'FeeTypeData'                   => $FeeTypeData,

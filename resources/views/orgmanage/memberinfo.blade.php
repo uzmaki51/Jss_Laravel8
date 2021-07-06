@@ -1,24 +1,14 @@
 @extends('layout.header')
 
+@section('styles')
+    <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet">
+    
+    <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/-->
+@endsection
+
 @section('content')
     <div class="main-content">
-        <style>
-            .table thead>tr>th {
-                padding: 6px 3px;
-            }
-
-            .member-item-odd {
-                background-color: #f5f5f5;
-            }
-
-            .member-item-even:hover {
-                background-color: #ffe3e082;
-            }
-
-            .member-item-odd:hover {
-                background-color: #ffe3e082;
-            }
-        </style>
         <div class="page-content">
             <div class="page-header">
                 <div class="col-sm-3">
@@ -50,7 +40,7 @@
                         <div class="head-fix-div common-list" id="crew-table" style="">
                             <table id="table-shipmember-list" style="table-layout:fixed;">
                                 <thead class="">
-                                    <th class="text-center style-normal-header" style="width: 3%;height:35px;"><span>No</span></th>
+                                    <th class="text-center style-normal-header" style="width: 3%; height: 30px;"><span>No</span></th>
                                     <th class="text-center style-normal-header" style="width: 10%;"><span>姓名</span></th>
                                     <th class="text-center style-normal-header" style="width: 10%;"><span>ID</span></th>
                                     <th class="text-center style-normal-header" style="width: 10%;"><span>职位</span></th>
@@ -64,18 +54,18 @@
                                 @if (isset($list) && count($list) > 0)
                                 <?php $index = 1;?>
                                 @foreach ($list as $userInfo)
-                                    <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif>
-                                        <td class="center" style="height:35px;">{{$index++}}</td>
+                                    <tr>
+                                        <td class="center">{{$index++}}</td>
                                         <td class="center">{{$userInfo['realname']}}</td>
                                         <td class="center">{{$userInfo['account']}}</td>
-                                        <td class="center">{{$userInfo['pos'] == 100 ? '船东' : (is_null($userInfo['posTitle']) ? '&nbsp;':$userInfo['posTitle'])}}</td>
+                                        <td class="center"><span class="badge badge-{{ g_enum('StaffLevelData')[$userInfo['pos']][1] }}">{{ g_enum('StaffLevelData')[$userInfo['pos']][0] }}</span></td>
                                         <td class="center">{{$userInfo['phone']}}</td>
                                         <td class="center">{{$userInfo['entryDate']}}</td>
                                         <td class="center">{{$userInfo['releaseDate']}}</td>
                                         <td class="center">{{$userInfo['remark']}}</td>
                                         <td class="action-buttons center">
                                             <a class="blue" href="{{ 'memberadd' }}?uid={{$userInfo->id}}">
-                                                <i class="icon-edit bigger-130"></i>
+                                                <i class="icon-edit bigger-110"></i>
                                             </a>
                                         </td>
                                     </tr>

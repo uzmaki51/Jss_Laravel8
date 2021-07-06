@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
 use Illuminate\Support\Str;
+use Auth;
 
 class OrgmanageController extends Controller
 {
@@ -259,14 +260,7 @@ class OrgmanageController extends Controller
         $unitList = Unit::all(['id', 'title']);
         $posList = Post::all(['id', 'title']);
 
-        $userlist = User::getSimpleUserList($unitId, $pos, $realname, $status);
-
-        if(isset($unitId))
-            $userlist->appends(['unit'=>$unitId]);
-        if(isset($pos))
-            $userlist->appends(['pos'=>$pos]);
-        if(isset($realname))
-            $userlist->appends(['realname'=>$realname]);
+        $userlist = User::where('status', STATUS_ACTIVE)->where('isAdmin', '!=', STAFF_LEVEL_MANAGER)->orderBy('pos', 'asc')->get();
         
         return view('orgmanage.memberinfo',
                 ['list'         =>$userlist,
@@ -315,7 +309,7 @@ class OrgmanageController extends Controller
         }
 
         $userinfo = User::find($userid);
-        $shipList = ShipRegister::getShipListByOrigin();
+        $shipList = ShipRegister::all();
 
         return view('orgmanage.addmember',
                 [   'userid'    =>  $userid,
@@ -368,10 +362,10 @@ class OrgmanageController extends Controller
 	    } else
 		    $user->status = STATUS_ACTIVE;
 
-	    $user->isAdmin = (isset($param['isAdmin']) && $param['isAdmin'] == 1) ? 1 : ($param['pos'] == IS_SHAREHOLDER ? IS_SHAREHOLDER : 0);
+	    $user->isAdmin = (isset($param['isAdmin']) && $param['isAdmin'] == 1) ? 1 : ($param['pos'] == STAFF_LEVEL_SHAREHOLDER ? STAFF_LEVEL_SHAREHOLDER : 0);
 
-        if ($param['pos'] == 1) $user->isAdmin = 1;
-        else $user->isAdmin = 0;
+        if($param['pos'] == STAFF_LEVEL_MANAGER) $user->isAdmin = STAFF_LEVEL_MANAGER;
+        else $user->isAdmin = STATUS_BANNED;
 
         if(isset($param['password_reset']) && $param['password_reset'] == true)
 	        $user->password = bcrypt(DEFAULT_PASS);
@@ -379,7 +373,6 @@ class OrgmanageController extends Controller
         $this->storePrivilege($request);
         $user->save();
 
-        //return redirect('org/userInfoListView');
         return redirect('org/memberadd?uid='.$user->id);
     }
 
@@ -418,7 +411,7 @@ class OrgmanageController extends Controller
 	    } else
 		    $user->status = STATUS_ACTIVE;
 
-        $user->isAdmin = (isset($param['isAdmin']) && $param['isAdmin'] == 1) ? 1 : ($param['pos'] == IS_SHAREHOLDER ? IS_SHAREHOLDER : 0);
+        $user->isAdmin = (isset($param['isAdmin']) && $param['isAdmin'] == 1) ? 1 : ($param['pos'] == STAFF_LEVEL_SHAREHOLDER ? STAFF_LEVEL_SHAREHOLDER : 0);
         $user->save();
         $request->merge([
             'userid' => $user->id,
@@ -521,7 +514,8 @@ class OrgmanageController extends Controller
 	// Store privilege status
 	public function storePrivilege(Request $request) {
 		$param = $request->all();
-		$userid = $param['userid'];
+        $userid = $param['userid'];
+        $pos = $param['pos'];
 		if(User::find($userid) == null)
 			return back()->with([
 				'state' => '不存在的用户。',
@@ -529,14 +523,18 @@ class OrgmanageController extends Controller
 			]);
 
 		$menus = Menu::all();
-		// Privilege Check List
-		$allowmenus = '';
-		foreach ($menus as $menu) {
-			if (isset($param[$menu['id']])) {
-				$allowmenus = empty($allowmenus) ? $menu['id'] : $allowmenus .','.$menu['id'];
-			}
-		}
-
+        // Privilege Check List
+        $allowmenus = '';
+        if($pos == STAFF_LEVEL_SHAREHOLDER) {
+            $allowmenus = 3;
+        } else {
+            foreach ($menus as $menu) {
+                if (isset($param[$menu['id']])) {
+                    $allowmenus = empty($allowmenus) ? $menu['id'] : $allowmenus .','.$menu['id'];
+                }
+            }
+        }
+        
 		$insertData = array();
 		$insertData = ['menu'     => $allowmenus];
 
@@ -549,7 +547,7 @@ class OrgmanageController extends Controller
 			$shipListInfo = substr($shipListInfo, 0, strlen($shipListInfo) - 1);
 			$insertData['shipList']  = $shipListInfo;
 		}
-
+        // var_dump($insertData);die;
 		$user = new User();
 		User::where('id', $userid)->update($insertData);
 

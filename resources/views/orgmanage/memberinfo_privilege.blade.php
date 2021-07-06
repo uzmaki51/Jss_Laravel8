@@ -37,7 +37,7 @@
                                     @foreach($posList as $pos)
                                         <option value="{{$pos['id']}}" @if(isset($posId) && ($posId == $pos['id'])) selected @endif>{{$pos['title']}}</option>
                                     @endforeach
-                                    <option value="{{ IS_SHAREHOLDER }}">船东</option>
+                                    <option value="{{ STAFF_LEVEL_SHAREHOLDER }}">船东</option>
                                 </select>
                             </div>
                         </div>

@@ -12,6 +12,7 @@ use App\Models\ShipMember\ShipMember;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
+use Auth;
 
 class ShipRegister extends Model
 {
@@ -130,6 +131,14 @@ class ShipRegister extends Model
         } else {
             return $info->NickName != '' && $info->NickName != null ? $info->NickName : $info->shipName_En;
         }
+    }
+
+    public static function getShipForHolder() {
+        $ids = Auth::user()->shipList;
+        $ids = explode(',', $ids);
+        $records = self::whereIn('IMO_No', $ids)->get();
+
+        return $records;
     }
 
 }

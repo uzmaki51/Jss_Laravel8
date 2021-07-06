@@ -35,49 +35,49 @@
         <div class="col-lg-12 head-fix-div common-list">
             <table class="evaluation-table mt-2" id="table-main">
                 <tr>
-                    <td style="width: 20%;">航次</td>
+                    <td style="width: 20%;" class="not-striped-td">航次</td>
                     <td colspan="2" style="width: 30%;">@{{ cpInfo.Voy_No }}</td>
-                    <td style="width: 20%;">装率（交船地点）</td>
+                    <td style="width: 20%;" class="not-striped-td">装率（交船地点）</td>
                     <td style="width: 30%;">@{{ cpInfo.L_Rate }}</td>
                 </tr>
                 <tr>
-                    <td>合同日期</td>
+                    <td class="not-striped-td">合同日期</td>
                     <td colspan="2">@{{ cpInfo.CP_Date }}</td>
-                    <td>卸率（还船地点）</td>
+                    <td class="not-striped-td">卸率（还船地点）</td>
                     <td>@{{ cpInfo.D_Rate }}</td>
                 </tr>
                 <tr>
-                    <td>租船种类</td>
+                    <td class="not-striped-td">租船种类</td>
                     <td colspan="2">@{{ cpInfo.CP_kind }}</td>
-                    <td>运费率（日租金）</td>
+                    <td class="not-striped-td">运费率（日租金）</td>
                     <td>@{{ cpInfo.Freight }}</td>
                 </tr>
                 <tr>
-                    <td>货名</td>
+                    <td class="not-striped-td">货名</td>
                     <td colspan="2">@{{ cpInfo.Cargo_Name }}</td>
-                    <td>包船（首付金）</td>
+                    <td class="not-striped-td">包船（首付金）</td>
                     <td>@{{ cpInfo.batch_price }}</td>
                 </tr>
                 <tr>
-                    <td>货量（租期）</td>
+                    <td class="not-striped-td">货量（租期）</td>
                     <td colspan="2">@{{ cpInfo.Cgo_Qtty }}</td>
-                    <td>滞期费（ILOHC）</td>
+                    <td class="not-striped-td">滞期费（ILOHC）</td>
                     <td>@{{ cpInfo.deten_fee }}</td>
                 </tr>
                 <tr>
-                    <td>装港</td>
+                    <td class="not-striped-td">装港</td>
                     <td colspan="2">@{{ cpInfo.lport }}</td>
-                    <td>速遣费（C/V/E）</td>
+                    <td class="not-striped-td">速遣费（C/V/E）</td>
                     <td>@{{ cpInfo.dispatch_fee }}</td>
                 </tr>
                 <tr>
-                    <td>卸港</td>
+                    <td class="not-striped-td">卸港</td>
                     <td colspan="2">@{{ cpInfo.dport }}</td>
-                    <td>佣金</td>
+                    <td class="not-striped-td">佣金</td>
                     <td>@{{ cpInfo.com_fee }}</td>
                 </tr>
                 <tr>
-                    <td>受载期</td>
+                    <td class="not-striped-td">受载期</td>
                     <td>@{{ cpInfo.LayCan_Date1 }}</td>
                     <td style="background: white!important;">@{{ cpInfo.LayCan_Date2 }}</td>
                     <td style="background: #d9f8fb!important">租家</td>
@@ -86,12 +86,12 @@
             </table>
             <table class="mt-2 main-info-table" id="table-main-2">
                 <tr class="dynamic-footer">
-                    <td class="center" style="width: 5%">No.</td>
-                    <td class="center" colspan="2" style="width: 20%">项目</td>
-                    <td class="center" style="width: 15%">预计</td>
-                    <td class="center" style="width: 15%">实际</td>
-                    <td class="center" style="width: 15%">方差</td>
-                    <td class="center" style="width: 30%"></td>
+                    <td class="center not-striped-td" style="width: 5%">No.</td>
+                    <td class="center not-striped-td" colspan="2" style="width: 20%">项目</td>
+                    <td class="center not-striped-td" style="width: 15%">预计</td>
+                    <td class="center not-striped-td" style="width: 15%">实际</td>
+                    <td class="center not-striped-td" style="width: 15%">方差</td>
+                    <td class="center not-striped-td" style="width: 30%"></td>
                 </tr>
 
                 <tbody>

@@ -61,9 +61,11 @@ class OperationController extends Controller
         } else {
             $start_year = substr($start_year['min_date'],0,4);
         }
-        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
-                        ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
-                        ->get();
+        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+            $shipList = ShipRegister::getShipForHolder();
+        else {
+            $shipList = ShipRegister::all();
+        }
         return view('operation.incomeExpense', array(
             'start_year' => $start_year,
             'shipList'   => $shipList,
@@ -77,9 +79,11 @@ class OperationController extends Controller
         } else {
             $start_year = substr($start_year['min_date'],0,4);
         }
-        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
-                        ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
-                        ->get();
+        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+            $shipList = ShipRegister::getShipForHolder();
+        else {
+            $shipList = ShipRegister::all();
+        }
         return view('operation.incomeAllExpense', array(
             'start_year' => $start_year,
             'shipList'   => $shipList,

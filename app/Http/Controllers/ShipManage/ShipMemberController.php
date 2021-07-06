@@ -645,14 +645,11 @@ class ShipMemberController extends Controller
 
         $list = ShipMember::getTotalMemberList($regShip, $bookShip, $origShip, $regStatus);
 
-        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
-                        ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
-                        ->get();
-
-        $shipList1 = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship.name')
-            ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
-                        ->orderBy('tb_ship_register.shipName_En')
-            ->get();
+        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+            $shipList = ShipRegister::getShipForHolder();
+        else {
+            $shipList = ShipRegister::all();
+        }
 
         $ko_ship_list = Ship::select('id', 'name')->get();
         foreach($list as $member) {
@@ -672,7 +669,7 @@ class ShipMemberController extends Controller
                 $member['orgin_duty'] = $duty['Duty'];
         }
 
-        return view('shipMember.total_member_list', ['list'=>$list, 'shipList'=>$shipList, 'shipList1'=>$shipList1, 'ko_ship_list'=>$ko_ship_list, 'regShip'=>$regShip, 'bookShip'=>$bookShip, 'origShip'=>$origShip, 'regStatus'=>$regStatus]);
+        return view('shipMember.total_member_list', ['list'=>$list, 'shipList'=>$shipList, 'ko_ship_list'=>$ko_ship_list, 'regShip'=>$regShip, 'bookShip'=>$bookShip, 'origShip'=>$origShip, 'regStatus'=>$regStatus]);
     }
 
     public function memberCertList(Request $request) {
@@ -731,7 +728,11 @@ class ShipMemberController extends Controller
         */
 
         $list = "";//ShipMember::getMemberCertList($shipId, $posId, $capacityId, $month, -1);
-        $shipList = ShipRegister::select('shipName_En', 'IMO_No', 'NickName')->get();
+        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+            $shipList = ShipRegister::getShipForHolder();
+        else {
+            $shipList = ShipRegister::all();
+        }
 		$posList = ShipPosition::all();
         $capacityList = ShipMemberCapacity::all();
         $securityType = SecurityCert::all();

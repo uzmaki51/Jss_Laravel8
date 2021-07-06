@@ -541,10 +541,10 @@ class VoySettle extends Model
                 $mainInfo['rob_do_price'] = 0;
             } else {
                 $info = $fuelTbl->getFuelForEval($shipId, $voyId);
-                $mainInfo['rob_fo'] = $info->rob_fo;
-                $mainInfo['rob_do'] = $info->rob_do;
-                $mainInfo['rob_fo_price'] = $info->rob_fo_price;
-                $mainInfo['rob_do_price'] = $info->rob_do_price;
+                $mainInfo['rob_fo'] = $info['rob_fo'];
+                $mainInfo['rob_do'] = $info['rob_do'];
+                $mainInfo['rob_fo_price'] = $info['rob_fo_price'];
+                $mainInfo['rob_do_price'] = $info['rob_do_price'];
             }
 
             // Voy Contract Info
