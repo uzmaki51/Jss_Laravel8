@@ -915,7 +915,7 @@
                     type: 'POST',
                 },
                 "ordering": false,
-                "pageLength": 25,
+                "pageLength": 20,
                 columnDefs: [{
                     targets: [2],
                     orderable: false,
