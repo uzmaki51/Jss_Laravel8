@@ -534,11 +534,28 @@ footer {
     height: 100%;
     display: block;
 }
+
+// #report_info_table {
+//     width: 1178px!important;
+// }
+.paging_simple_numbers {
+    position: fixed;
+    bottom: 40px;
+}
 /* Responsive
 -------------------------------------------------- */
 @media (max-width: 1366px) {
     #main-container {
         margin-top: 60px;
+    }
+
+    // #report_info_table {
+    //     width: calc(100% - 1px)!important;
+    // }
+    .paging_simple_numbers {
+        position: fixed;
+        bottom: 60px;
+        right: 0;
     }
 }
 @media (max-width: 991px) {

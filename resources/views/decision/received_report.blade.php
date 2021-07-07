@@ -69,7 +69,8 @@
                 </div>
                 <div class="row">
                     <div class="space-2"></div>
-                    <div class="table-responsive common-list head-fix-div">
+					<div class="col-lg-12 common-list head-fix-div" style="padding: 0 1px;">
+                    <div class="table-responsive">
                         <table id="report_info_table" class="table table-bordered">
                             <thead>
                             <tr class="br-hblue">
@@ -94,6 +95,7 @@
                         </table>
                     </div>
                 </div>
+				</div>
 
                 <div id="modal-wizard" class="modal modal-draggable" aria-hidden="true" style="display: none; margin-top: 15%;">
                     <div class="dynamic-modal-dialog">
@@ -1048,7 +1050,7 @@
             // $('.paging_simple_numbers').hide();
             $('.dataTables_info').hide();
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
-			$('#report_info_table_wrapper').css({'overflow': 'hidden'});
+
 
             $('[name=currency]').on('change', function() {return false;})
             $.ajax({
