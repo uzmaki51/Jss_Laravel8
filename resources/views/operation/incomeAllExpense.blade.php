@@ -21,6 +21,7 @@ $ships = Session::get('shipList');
     <script src="{{ cAsset('assets/js/chartjs/d3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/c3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/flot.js') }}"></script>
+    <script src="{{ cAsset('/assets/js/highcharts.js') }}"></script>
 @endsection
 @section('content')
     

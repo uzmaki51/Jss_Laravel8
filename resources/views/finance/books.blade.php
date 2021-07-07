@@ -126,7 +126,7 @@ $isHolder = Session::get('IS_HOLDER');
                                             <!--a id="btnKeep" class="btn btn-sm btn-primary" style="width: 50px;margin-top:10px;">
                                                 <i class="icon-plus"></i>记账凭证
                                             </a-->
-                                            <button type="button" id="btnKeep" style="margin-top:10px;width:100px;height:30px;">记账凭证</button>
+                                            <button type="button" class="btn btn-primary" id="btnKeep" style="margin-top:10px;width:100px;height:30px;">记账凭证</button>
                                         </div>
                                         <div class="tab-content">
                                             <div id="general" class="tab-pane active">
@@ -668,7 +668,7 @@ $isHolder = Session::get('IS_HOLDER');
             
             var book_list = document.getElementById('list-book-body');
             $('#table-keep-body').html('');
-            
+
             currency = "";
             var old_book_no = "";
             for(var i = 0 ; i < book_list.rows.length ; i++) 
@@ -729,6 +729,21 @@ $isHolder = Session::get('IS_HOLDER');
             if (old_book_no == "") $('#keep-list-bookno').val("J-" + (book_no + 1));
             else $('#keep-list-bookno').val(old_book_no);
 
+            
+            var rows_to_remove = $('.style-red-input').parent().parent();
+            for (var i=0;i<rows_to_remove.length;i++) {
+                console.log(i);
+                if (rows_to_remove[i].firstElementChild.firstElementChild.checked == false)
+                {
+                    if (rows_to_remove[i].childNodes[2].firstElementChild.value == $('#keep-list-bookno').val())
+                    {
+                        rows_to_remove[i].childNodes[2].firstElementChild.value = "";
+                    }
+                }
+            }
+            //$('.style-red-input').parent().parent().find('[type="checkbox"]').attr("disabled", "true");
+            //style-red-input
+            
             calcKeepReport(true);
             setEvents();
             keepContent = $('#general').html();
@@ -809,6 +824,13 @@ $isHolder = Session::get('IS_HOLDER');
                         new_book_no = book_no;
                     }
                     else {
+                    }
+
+                    for (var i=0;i<books.length;i++)
+                    {
+                        if (books[i].no == new_book_no) {
+                            books.pop(i);
+                        }
                     }
 
                     var ship_no = "";
@@ -998,7 +1020,7 @@ $isHolder = Session::get('IS_HOLDER');
                     }
                     else {
                         alert('保存失败了。');
-                        location.reload();
+                        //location.reload();
                         return;
                     }
                 });

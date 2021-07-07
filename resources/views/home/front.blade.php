@@ -136,7 +136,7 @@
                                     @if (isset($reportList) && count($reportList) > 0)
                                     <?php $index = 1;?>
                                     @foreach ($reportList as $report)
-                                        @if ($report['isvisible'] != 1)
+                                        @if ($report['ishide'] != 1)
                                         <?php $nickName=""?>
                                         @foreach($shipList as $ship)
                                             @if ($ship->IMO_No == $report['shipNo'])
@@ -178,7 +178,7 @@
                                     @if (isset($noattachments) && count($noattachments) > 0)
                                     <?php $index = 1;?>
                                     @foreach ($noattachments as $report)
-                                        @if ($report['isvisible'] != 1)
+                                        @if ($report['ishide'] != 1)
                                         <?php $nickName=""?>
                                         @foreach($shipList as $ship)
                                             @if ($ship->IMO_No == $report['shipNo'])
@@ -277,7 +277,7 @@
                                     <div class="sign_list slider text-center" style="width:100%;padding-left:10px;padding-right: 16px; margin-left: auto;">
                                         @if(isset($voyList) && count($voyList) > 0)
                                             @foreach ($voyList as $info)
-                                                @if ($info['isvisible'] != 1)
+                                                @if ($info['ishide'] != 1)
                                                 <?php $nickName=""?>
                                                 @foreach($shipList as $ship)
                                                     @if ($ship->IMO_No == $info['Ship_ID'])
