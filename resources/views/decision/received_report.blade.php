@@ -70,7 +70,7 @@
                 <div class="row">
                     <div class="space-2"></div>
                     <div class="table-responsive common-list head-fix-div">
-                        <table id="report_info_table" class="table table-bordered" style="border-top: 1px solid ">
+                        <table id="report_info_table" class="table table-bordered">
                             <thead>
                             <tr class="br-hblue">
                                 <th class="text-center style-normal-header" style="width: 5%;">{!! trans('decideManage.table.no') !!}</th>
@@ -1048,6 +1048,7 @@
             // $('.paging_simple_numbers').hide();
             $('.dataTables_info').hide();
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
+			$('.report_info_table_wrapper').css({'overflow': 'hidden'});
 
             $('[name=currency]').on('change', function() {return false;})
             $.ajax({
