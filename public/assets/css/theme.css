@@ -555,7 +555,7 @@ footer {
     .paging_simple_numbers {
         position: fixed;
         bottom: 60px;
-        right: 0;
+        // right: 0;
     }
 }
 @media (max-width: 991px) {
