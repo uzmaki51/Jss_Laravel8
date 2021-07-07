@@ -69,7 +69,7 @@
                 </div>
                 <div class="row">
                     <div class="space-2"></div>
-                    <div class="table-responsive">
+                    <div class="table-responsive common-list head-fix-div">
                         <table id="report_info_table" class="table table-bordered" style="border-top: 1px solid ">
                             <thead>
                             <tr class="br-hblue">
@@ -915,7 +915,7 @@
                     type: 'POST',
                 },
                 "ordering": false,
-                "pageLength": 20,
+                "pageLength": 100,
                 columnDefs: [{
                     targets: [2],
                     orderable: false,
