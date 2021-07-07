@@ -1048,7 +1048,7 @@
             // $('.paging_simple_numbers').hide();
             $('.dataTables_info').hide();
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
-			$('.report_info_table_wrapper').css({'overflow': 'hidden'});
+			$('#report_info_table_wrapper').css({'overflow': 'hidden'});
 
             $('[name=currency]').on('change', function() {return false;})
             $.ajax({
