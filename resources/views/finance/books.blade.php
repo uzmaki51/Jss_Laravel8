@@ -868,7 +868,15 @@ $isHolder = Session::get('IS_HOLDER');
                         }
                     }
                     setState(false);
-                    var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_ids, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, account_name:account_name, currency:(currency=="$"?1:0), credit:sum_credit, debit:sum_debit };
+
+                    var input_sum_credit = $('[name="sum_credit"]').val().replace(",","");
+                    var input_sum_debit = $('[name="sum_debit"]').val().replace(",","");
+                    if (input_sum_credit == "") input_sum_credit = 0;
+                    if (input_sum_debit == "") input_sum_debit = 0;
+
+                    console.log(input_sum_credit, ",", input_sum_debit);
+                    //var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_ids, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, account_name:account_name, currency:(currency=="$"?1:0), credit:sum_credit, debit:sum_debit };
+                    var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_ids, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, account_name:account_name, currency:(currency=="$"?1:0), credit:input_sum_credit, debit:input_sum_debit };
                     books.push(new_item);
                     $('#keep_list').val(JSON.stringify(books));
                 }
