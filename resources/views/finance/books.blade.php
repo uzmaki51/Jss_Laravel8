@@ -545,6 +545,11 @@ $isHolder = Session::get('IS_HOLDER');
             month_water = $("#select-water-month option:selected").val();
             $('#search_water_info').html(year_water + '年' + month_water + '月份');
 
+            sum_credit_R = 0;
+            sum_debit_R = 0;
+            sum_credit_D = 0;
+            sum_debit_D = 0;
+
             if (listWaterTable == null) {
                 initWaterTable();
             }
