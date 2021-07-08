@@ -716,7 +716,7 @@ $isHolder = Session::get('IS_HOLDER');
                         row_html += '<input type="text" class="form-control style-red-input keep_credit" name="Keep_credit[]" value="' + credit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
 
                     if (debit >= 0)
-                        row_html += '<input type="text" class="form-control" name="Keep_debit[]" value="' + debit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
+                        row_html += '<input type="text" class="form-control style-normal-input keep_debit" name="Keep_debit[]" value="' + debit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
                     else
                         row_html += '<input type="text" class="form-control style-red-input keep_debit" name="Keep_debit[]" value="' + debit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
                     row_html += "</tr>";
@@ -756,7 +756,6 @@ $isHolder = Session::get('IS_HOLDER');
                 $('#table-keep-body tr:last').remove();
                 $('#table-keep-body tr:last').remove();
             }
-            
 
             var credit = $('input[name="Keep_credit[]"]');
             var debit = $('input[name="Keep_debit[]"]');
@@ -772,11 +771,12 @@ $isHolder = Session::get('IS_HOLDER');
             report_html = "<tr><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header style-normal-header text-center'>合计</td><td class='style-normal-header sub-small-header text-center disable-td'>" + currency + "</td><td class='style-normal-header sub-small-header text-right disable-td' style='padding:5px!important;'>" + (sum_credit==0?"":prettyValue(sum_credit)) + "</td><td class='style-normal-header sub-small-header text-right disable-td' style='padding:5px!important;'>" + (sum_debit==0?"":prettyValue(sum_debit)) + "</td></tr>";
             $('#table-keep-body').append(report_html);
             report_html = "<tr><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header style-normal-header text-center'>记账金额</td><td class='style-normal-header sub-small-header text-center disable-td'>" + currency + "</td>";
-            report_html += '<td><input type="text" class="form-control ' + (sum_credit>=0?'style-blue-input':'style-red-input') + '" name="sum_credit" value="' + (sum_credit==0?"":prettyValue(sum_credit)) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off"></td>';
-            report_html += '<td><input type="text" class="form-control style-black-input" name="sum_debit" value="' + (sum_debit==0?"":prettyValue(sum_debit)) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off"></td>';
+            report_html += '<td><input type="text" class="form-control ' + (sum_credit>=0?'style-blue-input':'style-red-input') + '" name="sum_credit" value="' + "" + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off"></td>';
+            report_html += '<td><input type="text" class="form-control style-black-input style-normal-input" name="sum_debit" value="' + "" + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off"></td>';
             report_html += "</tr>";
             $('#table-keep-body').append(report_html);
             $('#keep-list-datetime').val(datetime);
+            setEvents();
         }
 
         var books = [];
@@ -800,6 +800,11 @@ $isHolder = Session::get('IS_HOLDER');
 
             if (datetime == "") {
                 $("#keep-list-datetime").focus();
+                return;
+            }
+
+            if ($('[name="sum_debit"]').val() == "" && $('[name="sum_credit"]').val() == "") {
+                $('[name="sum_credit"]').focus();
                 return;
             }
 
@@ -932,7 +937,7 @@ $isHolder = Session::get('IS_HOLDER');
         }
 
         function setEvents() {
-            $('.style-blue-input,.style-red-input').on('change', function(evt) {
+            $('.style-blue-input,.style-red-input,.style-normal-input').on('change', function(evt) {
                 if (evt.target.value == '') return;
                 var val = evt.target.value.replace(',','');
                 if (val >= 0)
@@ -953,9 +958,39 @@ $isHolder = Session::get('IS_HOLDER');
                 }
             })
 
-            $('.keep_credit,.keep_debit').on('change', function(evt) {
+            $('.keep_credit').on('change', function(evt) {
+                var parent = $(evt.target).parent().parent();
+                parent.find('[name="Keep_debit[]"]').val("");
                 calcKeepReport(false);
             })
+
+            $('.keep_debit').on('change', function(evt) {
+                var parent = $(evt.target).parent().parent();
+                parent.find('[name="Keep_credit[]"]').val("");
+                calcKeepReport(false);
+            })
+
+            $('[name="sum_credit"').on('change', function(evt) {
+                $('[name="sum_debit"]').val("");
+            })
+
+            $('[name="sum_debit"').on('change', function(evt) {
+                $('[name="sum_credit"]').val("");
+            })
+
+            $('body').on('keydown', 'input', function(e) {
+                if (e.key === "Enter") {
+                    var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
+                    focusable = form.find('input').filter(':visible');
+                    next = focusable.eq(focusable.index(this)+1);
+                    if (next.length) {
+                        next.focus();
+                        next.select();
+                    }
+                    //return false;
+                    $('#btn_OK').focus();
+                }
+            });
         }
 
         $('#select-month').on('change', function() {
