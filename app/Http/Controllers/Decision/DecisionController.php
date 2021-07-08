@@ -30,6 +30,8 @@ use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\Member\Unit;
 use App\Models\Finance\AccountPersonalInfo;
+use App\Models\Finance\ReportSave;
+use App\Models\Finance\WaterList;
 use App\Models\ShipManage\Ctm;
 
 use Auth;
@@ -359,6 +361,22 @@ class DecisionController extends Controller
 	public function ajaxDelete(Request $request) {
 		$params = $request->all();
 		$id = $params['id'];
+
+		$selector = WaterList::where('report_id', $id);
+		$water_records = $selector->first();
+		if (!empty($water_records)) {
+			$ret = 0;
+			return response()->json($ret);	
+		}
+		$selector = WaterList::whereRaw("FIND_IN_SET(?, remark) > 0", [$id]);
+		$water_records = $selector->first();
+		
+		if (!empty($water_records)) {
+			$ret = 0;
+			return response()->json($ret);	
+		}
+		
+		ReportSave::where('orig_id', $id)->delete();
 		$ret = DecisionReport::where('id', $id)->delete();
 
 		return response()->json($ret);

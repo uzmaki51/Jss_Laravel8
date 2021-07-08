@@ -1108,7 +1108,11 @@
                             id: id
                         },
                         success: function(data) {
-                            listTable.draw();
+                            if (data == 0) {
+                                alert("It cannot be deleted because the related data remains!");
+                            } else {
+                                listTable.draw();
+                            }
                         }
                     });
                 } else {
