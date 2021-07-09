@@ -1036,7 +1036,8 @@
 
                     let status = '';
                     if (data['state'] == 0) {
-                        if(data['readed_at'] == null)
+                        let blink_cls = '';
+                        if(isAdmin == 1 && data['readed_at'] == null)
                             blink_cls = 'blink';
                         else
                             blink_cls = '';

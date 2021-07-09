@@ -62,9 +62,9 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse" role="navigation">
                 <ul class="nav navbar-nav navbar-right" style="position: absolute; right: 2%;">
                     <li>
-                        <a href="/decision/receivedReport" style="padding: 8px;">
-                            <i class="icon-bell"></i>
-                            <span class="badge badge-important" id="unread_receive"></span>
+                        <a href="/decision/receivedReport" style="padding: 8px; display: flex;">
+                            <i class="icon-bell bigger-110"></i>
+                            <span class="bell-badge" id="unread_receive">0</span>
                         </a>
                     </li>
                     <li class="dropdown" style="height: auto;">

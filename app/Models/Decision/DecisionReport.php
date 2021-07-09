@@ -772,6 +772,22 @@ class DecisionReport extends Model {
 
 		$ids = [];
 		foreach($records as $key => $item) {
+			$ids[] = $item->id;
+		}
+		
+		if($user->isAdmin == SUPER_ADMIN) {
+			$_saved_ids = Session::get('report_ids');
+			Session::forget('report_ids');
+			if($_saved_ids != null) {
+				self::whereIn('id', $_saved_ids)->update([
+					'readed_at'		=> date('Y-m-d H:i:s')
+				]);
+			}
+			
+			Session::put('report_ids', $ids);
+		}
+		
+		foreach($records as $key => $item) {
 			if($item->obj_type == OBJECT_TYPE_SHIP) {
 				$shipInfo = ShipRegister::where('IMO_No', $item->shipNo)->first();
 				if($shipInfo == null)
@@ -809,20 +825,14 @@ class DecisionReport extends Model {
 
 			$records[$key]->shipName = $shipName;
 			$records[$key]->realname = $reporter;
-			$ids[] = $item->id;
-		}
-		if($user->isAdmin == SUPER_ADMIN) {
-			$_saved_ids = Session::get('report_ids');
-			if($_saved_ids != null) {
-				self::whereIn('id', $_saved_ids)
-				->update([
-					'readed_at'		=> date('Y-m-d H:i:s')
-				]);
 
-				Session::forget('report_ids');
+			if($user->isAdmin == SUPER_ADMIN) {
+				if(isset($_saved_ids) && $_saved_ids != null) {
+					if(isset($_saved_ids[$key]) && $records[$key]->id == $_saved_ids[$key])
+						$records[$key]->readed_at = date('Y-m-d H:i:s');
+				}
 			}
-			
-			Session::put('report_ids', $ids);
+				
 		}
 		
 		return [
