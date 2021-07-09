@@ -766,6 +766,12 @@ class DecisionReport extends Model {
 			$selector->take($params['length']);
 		}
 
+		if($user->isAdmin == SUPER_ADMIN) {
+			$selector->update([
+				'readed_at'		=> date('Y-m-d H:i:s')
+			]);
+		}
+
 
 		// get records
 		$records = $selector->get();
@@ -1022,4 +1028,15 @@ class DecisionReport extends Model {
 		return $last->id;
 	}
 
+	public function checkReport($isAdmin) {
+		if($isAdmin == SUPER_ADMIN) {
+			$isExist = self::where('state', REPORT_STATUS_REQUEST)->whereNull('readed_at')->first();
+			if($isExist == null)
+				return false;
+			else
+				return true;
+		} else {
+
+		}
+	}
 }

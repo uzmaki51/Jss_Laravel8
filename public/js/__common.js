@@ -1,6 +1,6 @@
 // Coded by H(S
 var prevTime;
-var checkTime = 3600 * 1000;
+var checkTime = 10000;
 var amountDecimals = [];
 var priceDecimals = [];
 var balanceDecimals = [];
@@ -9,6 +9,8 @@ var balanceDecimals = [];
 $(function() {
     let setHeight = parseInt($('.inner-wrap').innerHeight()) - 140;
     $('.common-list').css({'height': setHeight + 'px'});
+
+    setInterval(checkDecisionRecord, checkTime);
 });
 
 $(window).resize(function(e) {
@@ -186,6 +188,22 @@ function _convertDate(value, format = '/') {
 
 function daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
+}
+
+function checkDecisionRecord() {
+    $.ajax({
+        url: BASE_URL + 'ajax/check/report',
+        type: 'post',
+        success: function(data) {
+            if(data == true) {
+                $.gritter.add({
+                    title: 'Info',
+                    text: '新的审批文件到了。',
+                    class_name: 'gritter-success'
+                });
+            }
+        }
+    })
 }
 
 $(".modal-draggable").draggable({

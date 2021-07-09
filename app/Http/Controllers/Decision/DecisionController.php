@@ -381,4 +381,14 @@ class DecisionController extends Controller
 
 		return response()->json($ret);
 	}	
+
+	public function ajaxCheckReport() {
+		$isAdmin = Auth::user()->isAdmin;
+
+		$decision = new DecisionReport();
+
+		$retVal = $decision->checkReport($isAdmin);
+
+		return response()->json($retVal);
+	}
 }
