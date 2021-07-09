@@ -61,12 +61,14 @@
 
             <div class="collapse navbar-collapse navbar-ex1-collapse" role="navigation">
                 <ul class="nav navbar-nav navbar-right" style="position: absolute; right: 2%;">
-                    <li>
-                        <a href="/decision/receivedReport" style="padding: 8px; display: flex;">
-                            <i class="icon-bell bigger-110"></i>
-                            <span class="bell-badge" id="unread_receive">0</span>
-                        </a>
-                    </li>
+                    @if(Auth::user()->isAdmin == SUPER_ADMIN)
+                        <li>
+                            <a href="/decision/receivedReport" style="padding: 8px; display: flex;">
+                                <i class="icon-bell bigger-110"></i>
+                                <span class="bell-badge" id="unread_receive">0</span>
+                            </a>
+                        </li>
+                    @endif
                     <li class="dropdown" style="height: auto;">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background: transparent;">
                             <img src="{{ cAsset('assets/avatars/user.png') }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
