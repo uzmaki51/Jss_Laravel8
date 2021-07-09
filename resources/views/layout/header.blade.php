@@ -61,6 +61,12 @@
 
             <div class="collapse navbar-collapse navbar-ex1-collapse" role="navigation">
                 <ul class="nav navbar-nav navbar-right" style="position: absolute; right: 2%;">
+                    <li>
+                        <a href="/decision/receivedReport" style="padding: 8px;">
+                            <i class="icon-bell"></i>
+                            <span class="badge badge-important" id="unread_receive"></span>
+                        </a>
+                    </li>
                     <li class="dropdown" style="height: auto;">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background: transparent;">
                             <img src="{{ cAsset('assets/avatars/user.png') }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">

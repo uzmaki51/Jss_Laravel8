@@ -6,7 +6,18 @@
     <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
     <style>
         [v-cloak] { display: none; }
-        
+        @-webkit-keyframes blinker {
+        from {opacity: 1.0;}
+        to {opacity: 0.0;}
+        }
+        .blink{
+            text-decoration: blink;
+            -webkit-animation-name: blinker;
+            -webkit-animation-duration: 0.6s;
+            -webkit-animation-iteration-count:infinite;
+            -webkit-animation-timing-function:ease-in-out;
+            -webkit-animation-direction: alternate;
+        }        
     </style>
 @endsection
 
@@ -1013,7 +1024,7 @@
                         $('td', row).eq(11).html('').append(
                             '<div class="report-attachment">' + 
                             '<a href="' + data['attach_link'] + '" target="_blank">' +
-                                '<img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15">' +
+                                '<img src="{{ cAsset('assets/images/document.png') }}" width="15" heighddet="15">' +
                             '</a>' + 
                             '<img src="{{ cAsset('assets/images/cancel.png') }}" onclick="deleteAttach(' + data['id'] + ')" width="10" height="10"></div>'
                         );
@@ -1025,8 +1036,13 @@
 
                     let status = '';
                     if (data['state'] == 0) {
+                        if(data['readed_at'] == null)
+                            blink_cls = 'blink';
+                        else
+                            blink_cls = '';
+                            
                         $('td', row).eq(12).css({'background': '#ffb871'});
-                        status = '<div class="report-status"><span>' + ReportStatusData[data['state']][0] + '</span></div>';
+                        status = '<div class="report-status"><span class="'+blink_cls+'">' + ReportStatusData[data['state']][0] + '</span></div>';
                     } else if (data['state'] == 1) {
                         $('td', row).eq(12).css({'background': '#ccffcc'});
                         status = '<div class="report-status"><span><i class="icon-ok"></i></span></div>';

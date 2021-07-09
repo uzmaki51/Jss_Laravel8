@@ -26,6 +26,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Auth;
+use Session;
 
 class DecisionReport extends Model {
 	protected $table = 'tb_decision_report';
@@ -766,16 +767,10 @@ class DecisionReport extends Model {
 			$selector->take($params['length']);
 		}
 
-		if($user->isAdmin == SUPER_ADMIN) {
-			$selector->update([
-				'readed_at'		=> date('Y-m-d H:i:s')
-			]);
-		}
-
-
 		// get records
 		$records = $selector->get();
 
+		$ids = [];
 		foreach($records as $key => $item) {
 			if($item->obj_type == OBJECT_TYPE_SHIP) {
 				$shipInfo = ShipRegister::where('IMO_No', $item->shipNo)->first();
@@ -814,8 +809,22 @@ class DecisionReport extends Model {
 
 			$records[$key]->shipName = $shipName;
 			$records[$key]->realname = $reporter;
+			$ids[] = $item->id;
 		}
+		if($user->isAdmin == SUPER_ADMIN) {
+			$_saved_ids = Session::get('report_ids');
+			if($_saved_ids != null) {
+				self::whereIn('id', $_saved_ids)
+				->update([
+					'readed_at'		=> date('Y-m-d H:i:s')
+				]);
 
+				Session::forget('report_ids');
+			}
+			
+			Session::put('report_ids', $ids);
+		}
+		
 		return [
 			'draw' => $params['draw']+0,
 			'recordsTotal' => DB::table($this->table)->count(),
@@ -1030,13 +1039,13 @@ class DecisionReport extends Model {
 
 	public function checkReport($isAdmin) {
 		if($isAdmin == SUPER_ADMIN) {
-			$isExist = self::where('state', REPORT_STATUS_REQUEST)->whereNull('readed_at')->first();
-			if($isExist == null)
+			$isExist = self::where('state', REPORT_STATUS_REQUEST)->whereNull('readed_at')->get();
+			if(!isset($isExist) || count($isExist) == 0)
 				return false;
 			else
-				return true;
+				return count($isExist);
 		} else {
-
+			return false;
 		}
 	}
 }

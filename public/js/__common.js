@@ -1,6 +1,6 @@
 // Coded by H(S
 var prevTime;
-var checkTime = 10000;
+var checkTime = 5000;
 var amountDecimals = [];
 var priceDecimals = [];
 var balanceDecimals = [];
@@ -10,6 +10,7 @@ $(function() {
     let setHeight = parseInt($('.inner-wrap').innerHeight()) - 140;
     $('.common-list').css({'height': setHeight + 'px'});
 
+    checkDecisionRecord();
     setInterval(checkDecisionRecord, checkTime);
 });
 
@@ -93,63 +94,6 @@ function getMasterData() {
     });
 }
 
-function checkNotifications() {
-    $.ajax({
-        url: (PUBLIC_URL ? PUBLIC_URL : '') + 'ajax/common/getNewNotifications',
-        type: 'POST',
-        data: {
-            'prevTime' : prevTime,
-            'staffId' : $('#common-staff-id').val(),
-        },
-        success: function(result) {
-            var count = result['count'];
-            var nowTime = result['nowTime'];
-            var message;
-
-            if (prevTime != 0) {
-                setTimeout(checkNotifications, checkTime);
-            }
-            prevTime = nowTime;
-
-            if (count == 0) {
-                return;
-            }
-            else if (count == 1) {
-                message = count + " unread notification remain!";
-            }
-            else {
-                message = count + " unread notifications remain!";
-            }
-
-            showToast(message, "Please confirm!", "info");
-        },
-        error: function(err) {
-            console.log('error :', err);
-        }
-    });
-}
-
-function markNotifications(id, url) {
-    $.ajax({
-        url: (PUBLIC_URL ? PUBLIC_URL : '') + 'ajax/common/markNotification',
-        type: 'POST',
-        data: {
-            'id': id,
-        },
-        success: function(result) {
-            if (url != '') {
-                document.location.href = url;
-            }
-            else {
-                document.location.reload();
-            }
-        },
-        error: function(err) {
-            console.log('Error : ', err);
-        }
-    })
-}
-
 function g_exportExcel(tableId, strFileName, strSheetName) {
     $(tableId).table2excel({
         name: strSheetName,
@@ -195,12 +139,14 @@ function checkDecisionRecord() {
         url: BASE_URL + 'ajax/check/report',
         type: 'post',
         success: function(data) {
-            if(data == true) {
-                $.gritter.add({
-                    title: 'Info',
-                    text: '新的审批文件到了。',
-                    class_name: 'gritter-success'
-                });
+            if(!data) {
+                $('#unread_receive').hide();
+            } else {
+                if(data >= 100)
+                    $('#unread_receive').text('+99');
+                else if(data != 0)
+                    $('#unread_receive').text(data);
+                $('#unread_receive').show();
             }
         }
     })

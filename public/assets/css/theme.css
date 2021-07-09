@@ -978,3 +978,11 @@ footer {
     margin: 2px 4px;
     cursor: pointer;
 }
+.badge-important {
+    position: relative;
+    top: -4px;
+    left: 2px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 50%!important;
+}
