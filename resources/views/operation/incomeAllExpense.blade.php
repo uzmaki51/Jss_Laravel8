@@ -85,39 +85,35 @@ $ships = Session::get('shipList');
                                 <div class="col-md-12" style="margin-top:4px;">
                                     <div class="row" style="text-align:center;">
                                         <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_first_title"></span>利润累计比较</strong>
-                                        <div class="card" id="graph_first" width="500px;">
+                                        <div class="card" id="graph_first" width="500px;" style="border:3px double #bbb7b7">
                                         </div>
                                     </div>
                                     <div class="space-4"></div>
                                     <div class="space-10"></div>
-                                    <hr class="dot-hr"/>
                                     <div class="row" style="text-align:center;">
                                         <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_second_title"></span>收支累计比较</strong>
-                                        <div class="card" id="graph_second">
+                                        <div class="card" id="graph_second" style="border:3px double #bbb7b7">
                                         </div>
                                     </div>
                                     <div class="space-4"></div>
                                     <div class="space-10"></div>
-                                    <hr class="dot-hr"/>
                                     <div class="row" style="text-align:center;">
                                         <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_third_title"></span>经济天数占率比较</strong>
-                                        <div class="card" id="graph_third">
+                                        <div class="card" id="graph_third" style="border:3px double #bbb7b7">
                                         </div>
                                     </div>
                                     <div class="space-4"></div>
                                     <div class="space-10"></div>
-                                    <hr class="dot-hr"/>
                                     <div class="row" style="text-align:center;">
                                         <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_fourth_title"></span>支出比较</strong>
-                                        <div class="card" id="graph_fourth">
+                                        <div class="card" id="graph_fourth" style="border:3px double #bbb7b7">
                                         </div>
                                     </div>
                                     <div class="space-4"></div>
                                     <div class="space-10"></div>
-                                    <hr class="dot-hr"/>
                                     <div class="row" style="text-align:center;">
                                         <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_fifth_title"></span>CTM支出比较</strong>
-                                        <div class="card" id="graph_fifth">
+                                        <div class="card" id="graph_fifth" style="border:3px double #bbb7b7">
                                         </div>
                                     </div>
                                     <div class="space-4"></div>
@@ -422,26 +418,13 @@ $ships = Session::get('shipList');
         $('#graph_first').html('');
         $('#graph_first').append('<canvas id="first-chart" height="400" class="chartjs-demo"></canvas>');
 
-        /*
-        new Chart(document.getElementById("first-chart"), {
-            type: 'line',
-            data: {
-                labels: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-                datasets: datasets
-            },
-            options: {
-                title: {
-                display: true,
-                text: 'World population per region (in millions)'
-                },
-                plugins: {
-                    legend: {
-                        position: 'right',
-                    },
-                }
+        Highcharts.setOptions({
+            lang: {
+                numericSymbols: [' thousands', ' millions'],
+                thousandsSep: ','
             }
         });
-        */
+
         Highcharts.chart('graph_first', {
             title: {
                 text: null
@@ -450,48 +433,36 @@ $ships = Session::get('shipList');
                 text: null
             },
             yAxis: {
+                allowDecimals: false,
+                title: {
+                    text: null
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value;
+                    }
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 2,
+                    color: '#000'
+                }],
             },
-
             xAxis: {
-                accessibility: {
-                    rangeDescription: 'Range: 2010 to 2017'
-                }
+                categories: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+                lineWidth: 2
             },
-
             legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle'
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
             },
-
             credits: {
                 enabled: false
             },
             plotOptions: {
-            series: {
-                label: {
-                connectorAllowed: false
-                },
-                pointStart: 2010
-            }
             },
-
-            series: datasets,
-            responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
-                    }
-                }
-            }]
-            }
-
+            series: datasets
         });
     }
     function drawSecondGraph(datasets) {
@@ -509,9 +480,14 @@ $ships = Session::get('shipList');
                     bar: {
                         borderWidth: 2,
                     }
-                    },
-                    responsive: true,
-                    plugins: {
+                },
+                scales: {
+                    xAxes: [{
+                        barThickness: 10
+                    }]
+                },
+                responsive: true,
+                plugins: {
                     legend: {
                         position: 'right',
                     },
@@ -532,12 +508,19 @@ $ships = Session::get('shipList');
                 datasets: datasets
             },
             options: {
-                responsive: true,
+                /*responsive: true,*/
                 plugins: {
                     legend: {
                         position: 'right',
                     },
                 }
+                /*
+                scales: {
+                    xAxes: [{
+                        barPercentage: 0.2
+                    }]
+                }
+                */
             }
         });
     }
@@ -554,7 +537,7 @@ $ships = Session::get('shipList');
                 indexAxis: 'y',
                 elements: {
                     bar: {
-                        borderWidth: 2,
+                        borderWidth: 1,
                     }
                     },
                     responsive: true,
@@ -600,7 +583,6 @@ $ships = Session::get('shipList');
 
     function washData(datasets) {
         var data = [...datasets];
-        //console.log("prev:",data);
         for (var i=11;i>0;i--) {
             if (data[i] == data[i-1]) {
                 data[i] = null;
@@ -608,11 +590,9 @@ $ships = Session::get('shipList');
                 break;
             }
         }
-
         for (var i=0;i<12;i++) {
             if (data[i] == 0) data[i] = null;
         }
-        //console.log("wash:",data);
         return data;
     }
     function initGraphTable() {
@@ -634,7 +614,7 @@ $ships = Session::get('shipList');
                     datasets[index] = {};
                     datasets[index].data = washData(result[ship_no]['sum_months']);
                     datasets[index].name = ship_name;
-                    datasets[index].borderColor = color_table[index];
+                    datasets[index].color = color_table[index];
                     for(var i=0;i<12;i++) {
                         value = result[ship_no]['sum_months'][i];
                         month_sum[i] += value;
@@ -645,8 +625,8 @@ $ships = Session::get('shipList');
                 month_sum = washData(month_sum);
                 datasets[index].data = month_sum;
                 datasets[index].name = '合计';
-                datasets[index].borderColor = 'purple';//color_table[index];
-                datasets[index].borderDash = [5, 5];
+                datasets[index].color = '#fb00ff';
+                datasets[index].dashStyle = 'dot';
                 drawFirstGraph(datasets);
 
                 // Table 2
@@ -664,14 +644,14 @@ $ships = Session::get('shipList');
                     datasets[index] = {};
                     datasets[index].label = ship_name;
                     datasets[index].data = [result[ship_no]['credit_sum'], result[ship_no]['debit_sum']*(-1)];
-                    datasets[index].borderColor = color_table[index];
-                    datasets[index].backgroundColor = addAlpha(color_table[index],0.5);
+                    datasets[index].borderColor = addAlpha(color_table[index],0.8);//color_table[index];
+                    datasets[index].backgroundColor = color_table[index];//addAlpha(color_table[index],0.5);
 
                     datasets4[index] = {};
                     datasets4[index].label = ship_name;
                     datasets4[index].data = [];
-                    datasets4[index].borderColor = color_table[index];
-                    datasets4[index].backgroundColor = addAlpha(color_table[index],0.8);
+                    datasets4[index].borderColor = addAlpha(color_table[index],0.8);//color_table[index];
+                    datasets4[index].backgroundColor = color_table[index];//addAlpha(color_table[index],0.8);
                     var indexes = [2,1,6,4,15,3,5,7,8,9,10,11,12];
                     for(var i=0;i<indexes.length;i++) {
                         datasets4[index].data[i] = result[ship_no]['debits'][indexes[i]];
@@ -857,8 +837,14 @@ $ships = Session::get('shipList');
                     var percent = _format((footerData['loading_time'] + footerData['disch_time'] + footerData['total_sail_time'])/footerData['sail_time']*100,1);
                     datasets[index].data = [];
                     datasets[index].data[0] = percent;
-                    datasets[index].borderColor = color_table[index];
-                    datasets[index].backgroundColor = addAlpha(color_table[index],0.8);
+                    datasets[index].borderColor = addAlpha(color_table[index],0.8);
+                    datasets[index].backgroundColor = color_table[index];
+
+                    //datasets[index].barPercentage = 1;
+                    datasets[index].barThickness = 40;
+                    datasets[index].maxBarThickness = 40;
+                    //datasets[index].minBarLength = 1;
+                    //datasets[index].barPercentage = 1;
                     
                     index++;
                 });
@@ -885,8 +871,8 @@ $ships = Session::get('shipList');
                     datasets[index] = {};
                     datasets[index].label = ship_name;
                     datasets[index].data = [];
-                    datasets[index].borderColor = color_table[index];
-                    datasets[index].backgroundColor = addAlpha(color_table[index],0.8);
+                    datasets[index].borderColor = addAlpha(color_table[index],0.8);
+                    datasets[index].backgroundColor = color_table[index];
                     for(var i=1;i<12;i++) {
                         var offset;
                         if (i == 0) offset = 1;

@@ -19,6 +19,8 @@ $ships = Session::get('shipList');
     <script src="{{ cAsset('assets/js/chartjs/d3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/c3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/flot.js') }}"></script>
+    <script src="{{ cAsset('/assets/js/highcharts.js') }}"></script>
+    <script src="{{ cAsset('/assets/js/highcharts-3d.js') }}"></script>
 @endsection
 
 @section('content')
@@ -96,7 +98,7 @@ $ships = Session::get('shipList');
                                             <div class="space-8"></div>
                                             <strong><span id="graph-first-title"style="font-size: 14px; padding-top: 6px;"></span></strong>
                                             <div class="space-8"></div>
-                                            <div class="card" id="graph_first">
+                                            <div class="card" id="graph_first" style="border:3px double #bbb7b7">
                                             </div>
                                         </div>
                                     </div>
@@ -109,7 +111,7 @@ $ships = Session::get('shipList');
                                             <div class="space-8"></div>
                                             <strong><span id="graph-second-title"style="font-size: 14px; padding-top: 6px;"></span></strong>
                                             <div class="space-8"></div>
-                                            <div class="card" id="graph_second">
+                                            <div class="card" id="graph_second" style="border:3px double #bbb7b7">
                                             </div>
                                         </div>
                                     </div>
@@ -122,7 +124,7 @@ $ships = Session::get('shipList');
                                             <div class="space-8"></div>
                                             <strong><span id="graph-third-title"style="font-size: 14px; padding-top: 6px;"></span></strong>
                                             <div class="space-8"></div>
-                                            <div class="" id="graph_third" style="margin: 0px auto;">
+                                            <div class="" id="graph_third" style="border:3px double #bbb7b7">
                                             </div>
                                         </div>
                                     </div>
@@ -396,8 +398,6 @@ $ships = Session::get('shipList');
         }
 
         function drawSecondGraph(labels,datasets) {
-            $('#graph_second').html('');
-            $('#graph_second').append('<canvas id="second-chart" height="250" class="chartjs-demo"></canvas>');
             new Chart(document.getElementById("second-chart"), {
                 type: 'bar',
                 data: {
@@ -417,25 +417,63 @@ $ships = Session::get('shipList');
         
         function drawThirdGraph(datasets) {
             $('#graph_third').html('');
-            $('#graph_third').append('<canvas id="third-chart" style="width:300px;height:300px;" class="chartjs-demo"></canvas>');
-            new Chart(document.getElementById("third-chart"), {
-                type: 'doughnut',
-                data: {
-                    labels: ['油款','港费','劳务费','CTM','其他','工资','伙食费','物料费','修理费','管理费','保险费','检验费','证书费'],
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'right',
 
-                        },
+            Highcharts.chart('graph_third', {
+                chart: {
+                    type: 'pie',
+                    options3d: {
+                        enabled: true,
+                        alpha: 45
                     }
-                }
+                },
+                title: {
+                    text: null
+                },
+                subtitle: {
+                    text: null
+                },
+                plotOptions: {
+                    pie: {
+                        innerSize: 100,
+                        depth: 45
+                    }
+                },
+                series: [{
+                    name: 'Percentage',
+                    data: [
+                        ['油款('+datasets[0]+'%)', datasets[0]],
+                        ['港费('+datasets[1]+'%)', datasets[1]],
+                        ['劳务费('+datasets[2]+'%)',datasets[2]],
+                        ['CTM('+datasets[3]+'%)',datasets[3]],
+                        ['其他('+datasets[4]+'%)',datasets[4]],
+                        ['工资('+datasets[5]+'%)',datasets[5]],
+                        ['伙食费('+datasets[6]+'%)',datasets[6]],
+                        ['物料费('+datasets[7]+'%)',datasets[7]],
+                        ['修理费('+datasets[8]+'%)',datasets[8]],
+                        ['管理费('+datasets[9]+'%)',datasets[9]],
+                        ['保险费('+datasets[10]+'%)',datasets[10]],
+                        ['检验费('+datasets[11]+'%)',datasets[11]],
+                        ['证书费('+datasets[12]+'%)',datasets[12]]
+                    ]
+                }]
             });
-            $('#third-chart').attr('style','width:600px;height:600px;')
         }
+
+        function washData(datasets) {
+            var data = [...datasets];
+            for (var i=data.length-1;i>0;i--) {
+                if (data[i] == data[i-1]) {
+                    data[i] = null;
+                } else {
+                    break;
+                }
+            }
+            for (var i=0;i<12;i++) {
+                if (data[i] == 0) data[i] = null;
+            }
+            return data;
+        }
+        
         function initGraph() {
             var datasets1 = [];
             var labels1 = [];
@@ -459,17 +497,25 @@ $ships = Session::get('shipList');
             datasets1[1].backgroundColor = '#735ff1';
             datasets1[1].order = 0;
 
+            $('#graph_second').html('');
+            $('#graph_second').append('<canvas id="second-chart" height="250" class="chartjs-demo"></canvas>');
+
+            var bar_ctx = document.getElementById('second-chart').getContext('2d');
+            var purple_orange_gradient = bar_ctx.createLinearGradient(0, 0, 0, 200);
+            purple_orange_gradient.addColorStop(0, 'red');
+            purple_orange_gradient.addColorStop(1, 'yellow');
+
 
             datasets2[0] = {};
             datasets2[1] = {}
             datasets2[0].data = [];
             datasets2[0].label = '收入($)';
             datasets2[0].borderColor = 'black';
-            datasets2[0].backgroundColor = '#305bfc';
+            datasets2[0].backgroundColor = '#305bfc';//'#026fcd';
             datasets2[1].data = [];
             datasets2[1].label = '支出($)';
             datasets2[1].borderColor = 'black';
-            datasets2[1].backgroundColor = '#f23e00';
+            datasets2[1].backgroundColor = purple_orange_gradient;//#f23e00
 
             var datasets3 = [];
             datasets3[0] = {};
@@ -511,14 +557,21 @@ $ships = Session::get('shipList');
                             }
                         }
                     }
+
                     for (var i=0;i<13;i++) {
                         if (debit_total_sum != 0) {
-                            datasets3[0].data[i] = prettyValue(datasets3[0].data[i] / debit_total_sum * 100)
+                            //datasets3[0].data[i] = prettyValue(datasets3[0].data[i] / debit_total_sum * 100)
+                            datasets3[0].data[i] = datasets3[0].data[i] / debit_total_sum * 100;
+                            datasets3[0].data[i] = parseFloat(datasets3[0].data[i].toFixed(2));
                         }
                     }
+
+                    datasets1[0].data = washData(datasets1[0].data);
+                    datasets1[1].data = washData(datasets1[1].data);
+
                     drawFirstGraph(labels1, datasets1);
                     drawSecondGraph(labels2,datasets2);
-                    drawThirdGraph(datasets3);
+                    drawThirdGraph(datasets3[0].data);
                 }
             });
         }

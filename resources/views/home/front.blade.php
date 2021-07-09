@@ -20,6 +20,7 @@
     <script src="{{ cAsset('assets/js/chartjs/d3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/c3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/flot.js') }}"></script>
+    <script src="{{ cAsset('/assets/js/highcharts.js') }}"></script>
 
     <script type="text/javascript" src="{{ cAsset('assets/js/slick.min.js') }}"></script>
     <script type="text/javascript" src="{{ cAsset('assets/css/koala.min.1.5.js') }}"></script>
@@ -322,39 +323,35 @@
                                     <div class="col-md-12" style="margin-top:4px;">
                                         <div class="row" style="text-align:center;">
                                             <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_first_title"></span>利润累计比较</strong>
-                                            <div class="card" id="graph_first" width="500px;">
+                                        <div class="card" id="graph_first" width="500px;" style="border:3px double #bbb7b7">
                                             </div>
                                         </div>
                                         <div class="space-4"></div>
                                         <div class="space-10"></div>
-                                        <hr class="dot-hr"/>
                                         <div class="row" style="text-align:center;">
                                             <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_second_title"></span>收支累计比较</strong>
-                                            <div class="card" id="graph_second">
+                                        <div class="card" id="graph_second" style="border:3px double #bbb7b7">
                                             </div>
                                         </div>
                                         <div class="space-4"></div>
                                         <div class="space-10"></div>
-                                        <hr class="dot-hr"/>
                                         <div class="row" style="text-align:center;">
                                             <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_third_title"></span>经济天数占率比较</strong>
-                                            <div class="card" id="graph_third">
+                                        <div class="card" id="graph_third" style="border:3px double #bbb7b7">
                                             </div>
                                         </div>
                                         <div class="space-4"></div>
                                         <div class="space-10"></div>
-                                        <hr class="dot-hr"/>
                                         <div class="row" style="text-align:center;">
                                             <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_fourth_title"></span>支出比较</strong>
-                                            <div class="card" id="graph_fourth">
+                                        <div class="card" id="graph_fourth" style="border:3px double #bbb7b7">
                                             </div>
                                         </div>
                                         <div class="space-4"></div>
                                         <div class="space-10"></div>
-                                        <hr class="dot-hr"/>
                                         <div class="row" style="text-align:center;">
                                             <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_fifth_title"></span>CTM支出比较</strong>
-                                            <div class="card" id="graph_fifth">
+                                        <div class="card" id="graph_fifth" style="border:3px double #bbb7b7">
                                             </div>
                                         </div>
                                         <div class="space-4"></div>
@@ -478,6 +475,21 @@
         $('#graph_fourth_title').html(shipnames_graph + " " + year_graph + "年");
         $('#graph_fifth_title').html(shipnames_graph + " " + year_graph + "年");
 
+        function washData(datasets) {
+            var data = [...datasets];
+            for (var i=11;i>0;i--) {
+                if (data[i] == data[i-1]) {
+                    data[i] = null;
+                } else {
+                    break;
+                }
+            }
+            for (var i=0;i<12;i++) {
+                if (data[i] == 0) data[i] = null;
+            }
+            return data;
+        }
+        
         initGraphTable();
         function initGraphTable() 
         {
@@ -497,19 +509,20 @@
                         var ship_name = ships[shipids_graph[index]];
                         var ship_no = shipids_graph[index];
                         datasets[index] = {};
-                        datasets[index].data = result[ship_no]['sum_months'];
-                        datasets[index].label = ship_name;
-                        datasets[index].borderColor = color_table[index];
+                        datasets[index].data = washData(result[ship_no]['sum_months']);
+                        datasets[index].name = ship_name;
+                        datasets[index].color = color_table[index];
                         for(var i=0;i<12;i++) {
                             value = result[ship_no]['sum_months'][i];
                             month_sum[i] += value;
                         }
                     }
                     datasets[index] = {};
+                    month_sum = washData(month_sum);
                     datasets[index].data = month_sum;
-                    datasets[index].label = '合计';
-                    datasets[index].borderColor = 'purple';//color_table[index];
-                    datasets[index].borderDash = [5, 5];
+                    datasets[index].name = '合计';
+                    datasets[index].color = '#fb00ff';
+                    datasets[index].dashStyle = 'dot';
                     drawFirstGraph(datasets);
 
                     // Table 2
@@ -527,14 +540,14 @@
                         datasets[index] = {};
                         datasets[index].label = ship_name;
                         datasets[index].data = [result[ship_no]['credit_sum'], result[ship_no]['debit_sum']*(-1)];
-                        datasets[index].borderColor = color_table[index];
-                        datasets[index].backgroundColor = addAlpha(color_table[index],0.5);
+                        datasets[index].borderColor = addAlpha(color_table[index],0.5);
+                        datasets[index].backgroundColor = color_table[index];
 
                         datasets4[index] = {};
                         datasets4[index].label = ship_name;
                         datasets4[index].data = [];
-                        datasets4[index].borderColor = color_table[index];
-                        datasets4[index].backgroundColor = addAlpha(color_table[index],0.8);
+                        datasets4[index].borderColor = addAlpha(color_table[index],0.8);
+                        datasets4[index].backgroundColor = color_table[index];
                         var indexes = [2,1,6,4,15,3,5,7,8,9,10,11,12];
                         for(var i=0;i<indexes.length;i++) {
                             datasets4[index].data[i] = result[ship_no]['debits'][indexes[i]];
@@ -719,8 +732,11 @@
                         var percent = _format((footerData['loading_time'] + footerData['disch_time'] + footerData['total_sail_time'])/footerData['sail_time']*100,1);
                         datasets[index].data = [];
                         datasets[index].data[0] = percent;
-                        datasets[index].borderColor = color_table[index];
-                        datasets[index].backgroundColor = addAlpha(color_table[index],0.8);
+                        datasets[index].borderColor = addAlpha(color_table[index],0.8);
+                        datasets[index].backgroundColor = color_table[index];
+
+                        datasets[index].barThickness = 40;
+                        datasets[index].maxBarThickness = 40;
                     }
                     labels = [''];
                     drawThirdGraph(labels,datasets);
@@ -939,23 +955,52 @@
         function drawFirstGraph(datasets) {
             $('#graph_first').html('');
             $('#graph_first').append('<canvas id="first-chart" height="400" class="chartjs-demo"></canvas>');
-            new Chart(document.getElementById("first-chart"), {
-                type: 'line',
-                data: {
-                    labels: ['1月','2月','3月','4月','6月','7月','8月','9月','10月','11月','12月'],
-                    datasets: datasets
-                },
-                options: {
-                    title: {
-                    display: true,
-                    text: ''
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                        },
-                    }
+
+            Highcharts.setOptions({
+                lang: {
+                    numericSymbols: [' thousands', ' millions'],
+                    thousandsSep: ','
                 }
+            });
+
+            Highcharts.chart('graph_first', {
+                title: {
+                    text: null
+                },
+                subtitle: {
+                    text: null
+                },
+                yAxis: {
+                    allowDecimals: false,
+                    title: {
+                        text: null
+                    },
+                    labels: {
+                        formatter: function() {
+                            return this.value;
+                        }
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 2,
+                        color: '#000'
+                    }],
+                },
+                xAxis: {
+                    categories: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+                    lineWidth: 2
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                credits: {
+                    enabled: false
+                },
+                plotOptions: {
+                },
+                series: datasets
             });
         }
         function drawSecondGraph(datasets) {
@@ -973,9 +1018,14 @@
                         bar: {
                             borderWidth: 2,
                         }
-                        },
-                        responsive: true,
-                        plugins: {
+                    },
+                    scales: {
+                        xAxes: [{
+                            barThickness: 10
+                        }]
+                    },
+                    responsive: true,
+                    plugins: {
                         legend: {
                             position: 'right',
                         },
@@ -996,12 +1046,19 @@
                     datasets: datasets
                 },
                 options: {
-                    responsive: true,
+                    /*responsive: true,*/
                     plugins: {
                         legend: {
                             position: 'right',
                         },
                     }
+                    /*
+                    scales: {
+                        xAxes: [{
+                            barPercentage: 0.2
+                        }]
+                    }
+                    */
                 }
             });
         }
@@ -1018,7 +1075,7 @@
                     indexAxis: 'y',
                     elements: {
                         bar: {
-                            borderWidth: 2,
+                            borderWidth: 1,
                         }
                         },
                         responsive: true,
