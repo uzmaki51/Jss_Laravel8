@@ -421,10 +421,12 @@ $ships = Session::get('shipList');
     function drawFirstGraph(datasets) {
         $('#graph_first').html('');
         $('#graph_first').append('<canvas id="first-chart" height="400" class="chartjs-demo"></canvas>');
+
+        /*
         new Chart(document.getElementById("first-chart"), {
             type: 'line',
             data: {
-                labels: ['1月','2月','3月','4月','6月','7月','8月','9月','10月','11月','12月'],
+                labels: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
                 datasets: datasets
             },
             options: {
@@ -438,6 +440,58 @@ $ships = Session::get('shipList');
                     },
                 }
             }
+        });
+        */
+        Highcharts.chart('graph_first', {
+            title: {
+                text: null
+            },
+            subtitle: {
+                text: null
+            },
+            yAxis: {
+            },
+
+            xAxis: {
+                accessibility: {
+                    rangeDescription: 'Range: 2010 to 2017'
+                }
+            },
+
+            legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+            },
+
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+            series: {
+                label: {
+                connectorAllowed: false
+                },
+                pointStart: 2010
+            }
+            },
+
+            series: datasets,
+            responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+            }
+
         });
     }
     function drawSecondGraph(datasets) {
@@ -544,6 +598,23 @@ $ships = Session::get('shipList');
         });
     }
 
+    function washData(datasets) {
+        var data = [...datasets];
+        //console.log("prev:",data);
+        for (var i=11;i>0;i--) {
+            if (data[i] == data[i-1]) {
+                data[i] = null;
+            } else {
+                break;
+            }
+        }
+
+        for (var i=0;i<12;i++) {
+            if (data[i] == 0) data[i] = null;
+        }
+        //console.log("wash:",data);
+        return data;
+    }
     function initGraphTable() {
         $.ajax({
             url: BASE_URL + 'ajax/operation/listByAll',
@@ -561,8 +632,8 @@ $ships = Session::get('shipList');
                     var ship_name = $(this).text();
                     var ship_no = $(this).val();
                     datasets[index] = {};
-                    datasets[index].data = result[ship_no]['sum_months'];
-                    datasets[index].label = ship_name;
+                    datasets[index].data = washData(result[ship_no]['sum_months']);
+                    datasets[index].name = ship_name;
                     datasets[index].borderColor = color_table[index];
                     for(var i=0;i<12;i++) {
                         value = result[ship_no]['sum_months'][i];
@@ -571,8 +642,9 @@ $ships = Session::get('shipList');
                     index++;
                 });
                 datasets[index] = {};
+                month_sum = washData(month_sum);
                 datasets[index].data = month_sum;
-                datasets[index].label = '合计';
+                datasets[index].name = '合计';
                 datasets[index].borderColor = 'purple';//color_table[index];
                 datasets[index].borderDash = [5, 5];
                 drawFirstGraph(datasets);
