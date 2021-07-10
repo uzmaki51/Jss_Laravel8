@@ -176,3 +176,8 @@ function __parseStr(value) {
 
     return value;
 }
+
+function formatRate(rate) {
+    if (rate==null||rate==undefined||rate=='') return '';
+    return parseFloat(rate).toFixed(4);
+}

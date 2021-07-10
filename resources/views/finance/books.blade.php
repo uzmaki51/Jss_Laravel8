@@ -144,7 +144,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                         </div>
                                                         <div class="col-lg-2">
                                                             <label class="custom-label d-inline-block font-bold" style="padding: 6px;">汇率:</label>
-                                                            <input type="number" name="keep_rate" id="keep_rate" value="6.5" min="4" step="0.01" autocomplete="off" style="width:80px;margin-right:0px;"/>
+                                                            <input type="number" name="keep_rate" id="keep_rate" value="6.5000" min="4" step="0.01" autocomplete="off" style="width:80px;margin-right:0px;"/>
                                                         </div> 
                                                         <div class="col-lg-2">
                                                             <label class="custom-label d-inline-block font-bold" style="padding: 6px;">收支方式:</label>
@@ -384,7 +384,7 @@ $isHolder = Session::get('IS_HOLDER');
                         $('td', row).eq(9).html('<input type="text" class="form-control style-blue-input" name="credit[]" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                     }
                     var link_html = '<label><a href="' + data['attachment'] + '" target="_blank" class="' + (data['attachment']==null ? 'visible-hidden':'') + '"><img src="' + "{{ cAsset('assets/images/document.png') }}" + '"' + ' width="15" height="15" style="cursor: pointer;"></a></label>';
-                    $('td', row).eq(11).html('<input type="text" class="form-control" readonly name="rate[]" value="' + data['rate'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(11).html('<input type="text" class="form-control" readonly name="rate[]" value="' + formatRate(data['rate']) + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(12).html('').append(link_html);
                     $('td', row).eq(7).html('<input type="text" class="form-control" readonly name="report_remark[]" value="' + data['content'] + '" style="width: 100%;" autocomplete="off">');
                 },
@@ -464,6 +464,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(9).attr('class', 'text-center');
                     $('td', row).eq(10).attr('class', 'text-center');
 
+                    $('td', row).eq(7).html('').append(formatRate(data['rate']));
                     $('td', row).eq(8).html('').append(PayTypeData[data['pay_type']]);
                     $('td', row).eq(9).html('').append(data['account_name']);
 
@@ -650,7 +651,7 @@ $isHolder = Session::get('IS_HOLDER');
         var datetime = "";
         var rate = window.localStorage.getItem("rate");
         if (rate == null || rate == undefined) rate = 6.5;
-        else $('#keep_rate').val(rate);
+        else $('#keep_rate').val(formatRate(rate));
 
         var pay_type = window.localStorage.getItem("pay_type");
         if (pay_type == null || pay_type == undefined) pay_type = 0;
@@ -751,6 +752,11 @@ $isHolder = Session::get('IS_HOLDER');
             calcKeepReport(true);
             setEvents();
             keepContent = $('#general').html();
+        }
+
+        function formatRate(rate) {
+            if (rate==null||rate==undefined||rate=='') return '';
+            return parseFloat(rate).toFixed(4);
         }
 
         var sum_credit = 0;
@@ -866,7 +872,7 @@ $isHolder = Session::get('IS_HOLDER');
                             book_list.rows[book_id].childNodes[7].childNodes[0].value = keep_list.rows[i].childNodes[4].childNodes[0].value;
                             book_list.rows[book_id].childNodes[9].childNodes[0].value = keep_list.rows[i].childNodes[6].childNodes[0].value;
                             book_list.rows[book_id].childNodes[10].childNodes[0].value = keep_list.rows[i].childNodes[7].childNodes[0].value;
-                            book_list.rows[book_id].childNodes[11].childNodes[0].value = rate;
+                            book_list.rows[book_id].childNodes[11].childNodes[0].value = formatRate(rate);
                             $(book_list.rows[book_id].childNodes[9].childNodes[0]).trigger('change');
                             $(book_list.rows[book_id].childNodes[10].childNodes[0]).trigger('change');
                             //$('#table-keep-body').html('');

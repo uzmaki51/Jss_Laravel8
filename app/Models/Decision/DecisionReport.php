@@ -231,7 +231,7 @@ class DecisionReport extends Model {
 		$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('year',$year)->whereNotNull('book_no');
 		$selector = $selector->whereNotIn('profit_type',[13,14])
 		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, month, shipNo')
-		->groupBy('flowid','profit_type','shipNo');
+		->groupBy('month', 'flowid','profit_type','shipNo');
 		$records = $selector->get();
 
 		$result = [];
@@ -573,7 +573,7 @@ class DecisionReport extends Model {
 			$LPort = ShipPort::whereIn('id', $LPort)->get();
 			$tmp = '';
 			foreach($LPort as $port)
-				$tmp .= $port->Port_En . ', (' . $port->Port_Cn . ') / ';
+				$tmp .= $port->Port_En . ' (' . $port->Port_Cn . ') / ';
 			$LPort = substr($tmp, 0, strlen($tmp) - 3);
 
 			$DPort = $voy_info->DPort;
@@ -581,7 +581,7 @@ class DecisionReport extends Model {
 			$DPort = ShipPort::whereIn('id', $DPort)->get();
 			$tmp = '';
 			foreach($DPort as $port)
-				$tmp .= $port->Port_En . ', (' . $port->Port_Cn . ') / ';
+				$tmp .= $port->Port_En . ' (' . $port->Port_Cn . ') / ';
 			$DPort = substr($tmp, 0, strlen($tmp) - 3);
 
 			$Cargo = $voy_info->Cargo;
