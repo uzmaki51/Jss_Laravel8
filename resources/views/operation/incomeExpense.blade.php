@@ -292,11 +292,11 @@ $ships = Session::get('shipList');
                                                 <tr>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>No</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>日期</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 34%;"><span>摘要</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 5%;"><span>收支种类</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 32%;"><span>摘要</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 10%;"><span>收支种类</span></th>
                                                     <th class="text-center style-normal-header" style="width: 18%;"><span>收入</span></th>
                                                     <th class="text-center style-normal-header" style="width: 18%;"><span>支出</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 8%;"><span>汇率</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 5%;"><span>汇率</span></th>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>原始凭证</span></th>
                                                 </tr>
                                                 </thead>
@@ -357,8 +357,6 @@ $ships = Session::get('shipList');
         initGraph();
         
         function drawFirstGraph(labels,datasets) {
-            $('#graph_first').html('');
-            $('#graph_first').append('<canvas id="first-chart" height="250" class="chartjs-demo"></canvas>');
             new Chart(document.getElementById("first-chart"), {
                 type: 'bar',
                 data: {
@@ -410,6 +408,15 @@ $ships = Session::get('shipList');
                         legend: {
                             position: 'right',
                         },
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 90,
+                                minRotation: 90
+                            }
+                        }]
                     }
                 }
             });
@@ -486,8 +493,17 @@ $ships = Session::get('shipList');
             datasets1[0].data = [];
             datasets1[0].label = '利润累计';
             //73b7ff','#ff655c','#50bc16','#ffc800','#9d00ff','#ff0000','#795548','#3f51b5','#00bcd4','#e91e63','#0000ff','#00ff00','#0d273a'];
+
+            $('#graph_first').html('');
+            $('#graph_first').append('<canvas id="first-chart" height="250" class="chartjs-demo"></canvas>');
+
+            var bar_ctx = document.getElementById('first-chart').getContext('2d');
+            var cyan_red_gradient = bar_ctx.createLinearGradient(0, 100, 0, 200);
+            cyan_red_gradient.addColorStop(0, 'cyan');
+            cyan_red_gradient.addColorStop(1, 'red');
+
             datasets1[0].borderColor = '#3f51b5';
-            datasets1[0].backgroundColor = 'cyan';
+            datasets1[0].backgroundColor = cyan_red_gradient;
             datasets1[0].fill = true;
             datasets1[0].type = 'line';
             datasets1[0].order = 1;
@@ -500,8 +516,8 @@ $ships = Session::get('shipList');
             $('#graph_second').html('');
             $('#graph_second').append('<canvas id="second-chart" height="250" class="chartjs-demo"></canvas>');
 
-            var bar_ctx = document.getElementById('second-chart').getContext('2d');
-            var purple_orange_gradient = bar_ctx.createLinearGradient(0, 0, 0, 200);
+            bar_ctx = document.getElementById('second-chart').getContext('2d');
+            purple_orange_gradient = bar_ctx.createLinearGradient(0, 0, 0, 250);
             purple_orange_gradient.addColorStop(0, 'red');
             purple_orange_gradient.addColorStop(1, 'yellow');
 
@@ -905,6 +921,7 @@ $ships = Session::get('shipList');
                     $('td', row).eq(3).html('').append(FeeTypeData[data['flowid']][data['profit_type']]);
                     $('td', row).eq(4).html('').append(data['credit']=='' ? '':prettyValue(data['credit']));
                     $('td', row).eq(5).html('').append(data['debit']=='' ? '':prettyValue(data['debit']));
+                    $('td', row).eq(6).html('').append(formatRate(data['rate']));
 
                     if (data['credit'] != '') SOA_credit_sum += parseFloat(data['credit']);
                     if (data['debit'] != '') SOA_debit_sum += parseFloat(data['debit']);

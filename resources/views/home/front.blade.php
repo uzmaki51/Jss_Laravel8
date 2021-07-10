@@ -239,7 +239,7 @@
                     </div>
                     <div class="row">
                         <div class="card mb-4">
-                            <a href="/shipManage/equipment" style="color: white; outline: unset;" target="_blank">
+                            <!--a href="/shipManage/equipment" style="color: white; outline: unset;" target="_blank"-->
                             <div class="card-header decide-title">
                                 <div class="card-title front-span">
                                     <span class="bigger-120">必需备件</span>

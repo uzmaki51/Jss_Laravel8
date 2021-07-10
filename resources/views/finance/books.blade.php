@@ -108,12 +108,12 @@ $isHolder = Session::get('IS_HOLDER');
                                                     <th class="text-center style-normal-header" style="width: 7%;"><span>日期</span></th>
                                                     <th class="text-center style-normal-header" style="width: 10%;"><span>对象</span></th>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>航次</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 6%;"><span>收支种类</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 21%;"><span>摘要</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 8%;"><span>收支种类</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 23%;"><span>摘要</span></th>
                                                     <th class="text-center style-normal-header" style="width: 3%;"><span>币类</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>收入</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>支出</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 8%;"><span>汇率</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 5%;"><span>汇率</span></th>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>原始凭证</span></th>
                                                 </thead>
                                                 <tbody class="" id="list-book-body">
@@ -174,10 +174,10 @@ $isHolder = Session::get('IS_HOLDER');
                                                     <table id="table-keep-list" class="table table-bordered">
                                                         <thead>
                                                             <th class="center sub-header font-bold" style="width:6%">审核编号</td>
-                                                            <th class="center sub-header font-bold" style="width:6%">对象</td>
+                                                            <th class="center sub-header font-bold" style="width:10%">对象</td>
                                                             <th class="center sub-header font-bold" style="width:6%">航次</td>
-                                                            <th class="center sub-header font-bold" style="width:6%">收支种类</td>
-                                                            <th class="center sub-header font-bold" style="width:42%">摘要</td>
+                                                            <th class="center sub-header font-bold" style="width:10%">收支种类</td>
+                                                            <th class="center sub-header font-bold" style="width:34%">摘要</td>
                                                             <th class="center sub-header font-bold" style="width:4%">币类</td>
                                                             <th class="center sub-header font-bold" style="width:15%">借方</td>
                                                             <th class="center sub-header font-bold" style="width:15%">贷方</td>
@@ -244,13 +244,13 @@ $isHolder = Session::get('IS_HOLDER');
                                                 <thead class="">
                                                     <th class="text-center style-normal-header" style="width: 7%;height:35px;"><span>记账编号</span></th>
                                                     <th class="text-center style-normal-header" style="width: 7%;"><span>日期</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 3%;"><span>对象</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 27%;"><span>摘要</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 10%;"><span>对象</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 21%;"><span>摘要</span></th>
                                                     <th class="text-center style-normal-header" style="width: 3%;"><span>币类</span></th>
                                                     <th class="text-center style-normal-header" style="width: 12%;"><span>借方</span></th>
                                                     <th class="text-center style-normal-header" style="width: 12%;"><span>贷方</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 8%;"><span>汇率</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 6%;"><span>收支方式</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 5%;"><span>汇率</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 9%;"><span>收支方式</span></th>
                                                     <th class="text-center style-normal-header" style="width: 6%;"><span>账户</span></th>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>原始凭证</span></th>
                                                 </thead>
