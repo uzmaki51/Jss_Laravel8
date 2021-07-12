@@ -521,8 +521,12 @@
                     month_sum = washData(month_sum);
                     datasets[index].data = month_sum;
                     datasets[index].name = '合计';
-                    datasets[index].color = '#fb00ff';
-                    datasets[index].dashStyle = 'dot';
+                    datasets[index].color = '#4a7ebb';  //4a7ebb
+                    datasets[index].dashStyle = 'Dash';//LongDash
+                    datasets[index].lineWidth = 4;
+                    datasets[index].smoothed = true;
+                    datasets[index].type = 'spline';
+
                     drawFirstGraph(datasets);
 
                     // Table 2
@@ -540,8 +544,8 @@
                         datasets[index] = {};
                         datasets[index].label = ship_name;
                         datasets[index].data = [result[ship_no]['credit_sum'], result[ship_no]['debit_sum']*(-1)];
-                        datasets[index].borderColor = addAlpha(color_table[index],0.5);
-                        datasets[index].backgroundColor = color_table[index];
+                        datasets[index].borderColor = color_table[index];
+                        datasets[index].backgroundColor = addAlpha(color_table[index],0.8);
 
                         datasets4[index] = {};
                         datasets4[index].label = ship_name;
@@ -977,7 +981,7 @@
                     },
                     labels: {
                         formatter: function() {
-                            return this.value;
+                            return '$ ' + prettyValue2(this.value);
                         }
                     },
                     plotLines: [{
@@ -997,6 +1001,12 @@
                 },
                 credits: {
                     enabled: false
+                },
+                tooltip: {
+                    valueDecimals: 0,
+                    formatter: function() {
+                        return '$ ' + prettyValue2(this.y);
+                    }
                 },
                 plotOptions: {
                 },
@@ -1020,9 +1030,13 @@
                         }
                     },
                     scales: {
-                        xAxes: [{
-                            barThickness: 10
-                        }]
+                        x: {
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return '$ ' + prettyValue2(value);
+                                }
+                            }
+                        }
                     },
                     responsive: true,
                     plugins: {
@@ -1031,6 +1045,21 @@
                         },
                         title: {
                             display: true,
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    var label = context.dataset.label || '';
+
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += '$ ' + prettyValue2(context.parsed.x);
+                                    }
+                                    return label;
+                                }
+                            }
                         }
                     }
                 }
@@ -1077,14 +1106,37 @@
                         bar: {
                             borderWidth: 1,
                         }
-                        },
-                        responsive: true,
-                        plugins: {
+                    },
+                    responsive: true,
+                    plugins: {
                         legend: {
                             position: 'right',
                         },
                         title: {
                             display: true,
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    var label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += '$ ' + prettyValue2(context.parsed.x);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return '$ ' + prettyValue2(value);
+                                }
+                            }
                         }
                     }
                 }
@@ -1105,14 +1157,37 @@
                         bar: {
                             borderWidth: 2,
                         }
-                        },
-                        responsive: true,
-                        plugins: {
+                    },
+                    responsive: true,
+                    plugins: {
                         legend: {
                             position: 'right',
                         },
                         title: {
                             display: true,
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    var label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += '$ ' + prettyValue2(context.parsed.x);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return '$ ' + prettyValue2(value);
+                                }
+                            }
                         }
                     }
                 }

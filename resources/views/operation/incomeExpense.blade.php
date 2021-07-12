@@ -389,6 +389,29 @@ $ships = Session::get('shipList');
                     plugins: {
                         legend: {
                             position: 'right',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    var label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += '$ ' + prettyValue2(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return '$ ' + prettyValue2(value);
+                                }
+                            }
                         }
                     }
                 }
@@ -408,6 +431,20 @@ $ships = Session::get('shipList');
                         legend: {
                             position: 'right',
                         },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    var label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += '$ ' + prettyValue2(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
                     },
                     scales: {
                         xAxes: [{
@@ -416,7 +453,14 @@ $ships = Session::get('shipList');
                                 maxRotation: 90,
                                 minRotation: 90
                             }
-                        }]
+                        }],
+                        y: {
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return '$ ' + prettyValue2(value);
+                                }
+                            }
+                        }
                     }
                 }
             });
