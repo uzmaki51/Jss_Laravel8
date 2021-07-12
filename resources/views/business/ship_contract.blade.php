@@ -582,7 +582,7 @@ $ships = Session::get('shipList');
                 updated() {
                     if (!is_scrolled) {
                         if (voy_id > 0) {
-                            var row = $(".contract-item .selected");
+                            var row = $(".contract-item.selected");
                             var headrow = $('#list-header');
                             $('#voy_div').scrollTop(row.position().top - headrow.innerHeight());
                         }
