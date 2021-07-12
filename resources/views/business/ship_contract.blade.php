@@ -26,6 +26,9 @@ $ships = Session::get('shipList');
             .chosen-drop {
                 width : 350px !important;
             }
+            .selected td {
+                background-color: #ffe3e0!important;
+            }
         </style>
         <div class="page-header">
             <div class="col-md-3">
@@ -579,7 +582,7 @@ $ships = Session::get('shipList');
                 updated() {
                     if (!is_scrolled) {
                         if (voy_id > 0) {
-                            var row = $(".contract-item.selected");
+                            var row = $(".contract-item .selected");
                             var headrow = $('#list-header');
                             $('#voy_div').scrollTop(row.position().top - headrow.innerHeight());
                         }
@@ -731,8 +734,7 @@ $ships = Session::get('shipList');
                 portListObj.list = Object.assign([], [], portList);
                 portListObj.list.push([]);
 
-                console.log()
-                var index = $('table > tbody> tr.selected').index();console.log(index)
+                var index = $('table > tbody> tr.selected').index();
                 if (voy_id > 0)
                 {
                     ACTIVE_TAB = voyListObj.list[index].CP_kind.toLowerCase();

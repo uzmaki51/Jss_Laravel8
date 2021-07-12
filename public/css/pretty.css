@@ -261,32 +261,32 @@
     background: #f5f5f5!important;
 }
 
-table:not(.general, .not-striped) tbody tr:nth-child(odd) td:not(.sub-small-header, .white-bg, .not-striped-td), 
-table:not(.general, .not-striped) tbody tr:nth-child(odd) input:not(.disabled-td),
-table:not(.general, .not-striped) tbody tr:nth-child(odd) input:not(.disabled-td),
-table:not(.general, .not-striped) tbody tr:nth-child(odd) select,
-table:not(.general, .not-striped) tbody tr:nth-child(odd) textarea {
+table:not(.general, .not-striped) tbody tr:not(.selected):nth-child(odd) td:not(.sub-small-header, .white-bg, .not-striped-td), 
+table:not(.general, .not-striped) tbody tr:not(.selected):nth-child(odd) input:not(.disabled-td),
+table:not(.general, .not-striped) tbody tr:not(.selected):nth-child(odd) input:not(.disabled-td),
+table:not(.general, .not-striped) tbody tr:not(.selected):nth-child(odd) select,
+table:not(.general, .not-striped) tbody tr:not(.selected):nth-child(odd) textarea {
     background-color: #f5f5f5!important;
 }
-table:not(.general) tbody tr:nth-child(odd):hover, 
-table:not(.general) tbody tr:nth-child(odd):hover td, 
-table:not(.general) tbody tr:nth-child(odd):hover input,
-table:not(.general) tbody tr:nth-child(odd):hover select,
-table:not(.general) tbody tr:nth-child(odd):hover textarea {
+table:not(.general) tbody tr:not(.selected):not(.selected):nth-child(odd):hover, 
+table:not(.general) tbody tr:not(.selected):nth-child(odd):hover td, 
+table:not(.general) tbody tr:not(.selected):nth-child(odd):hover input,
+table:not(.general) tbody tr:not(.selected):nth-child(odd):hover select,
+table:not(.general) tbody tr:not(.selected):nth-child(odd):hover textarea {
     background-color: #ffe3e082!important;
 }
 
-table:not(.general, .not-striped) tbody tr:nth-child(even) td:not(.sub-small-header, .not-striped-td), 
-table:not(.general, .not-striped) tbody tr:nth-child(even) input:not(.disabled-td),
-table:not(.general, .not-striped) tbody tr:nth-child(even) select,
-table:not(.general, .not-striped) tbody tr:nth-child(even) textarea {
+table:not(.general, .not-striped) tbody tr:not(.selected):nth-child(even) td:not(.sub-small-header, .not-striped-td), 
+table:not(.general, .not-striped) tbody tr:not(.selected):nth-child(even) input:not(.disabled-td),
+table:not(.general, .not-striped) tbody tr:not(.selected):nth-child(even) select,
+table:not(.general, .not-striped) tbody tr:not(.selected):nth-child(even) textarea {
     background-color: #ffffff!important;
 }
-table:not(.general) tbody tr:nth-child(even):hover, 
-table:not(.general) tbody tr:nth-child(even):hover td, 
-table:not(.general) tbody tr:nth-child(even):hover input,
-table:not(.general) tbody tr:nth-child(even):hover select,
-table:not(.general) tbody tr:nth-child(even):hover textarea {
+table:not(.general) tbody tr:not(.selected):nth-child(even):hover, 
+table:not(.general) tbody tr:not(.selected):nth-child(even):hover td, 
+table:not(.general) tbody tr:not(.selected):nth-child(even):hover input,
+table:not(.general) tbody tr:not(.selected):nth-child(even):hover select,
+table:not(.general) tbody tr:not(.selected):nth-child(even):hover textarea {
     background-color: #ffe3e082!important;
 }
 
