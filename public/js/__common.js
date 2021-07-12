@@ -1,6 +1,6 @@
 // Coded by H(S
 var prevTime;
-var checkTime = 5000;
+var checkTime = 60000;
 var amountDecimals = [];
 var priceDecimals = [];
 var balanceDecimals = [];
