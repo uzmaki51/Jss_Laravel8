@@ -134,23 +134,6 @@ function daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
 }
 
-function checkDecisionRecord() {
-    $.ajax({
-        url: BASE_URL + 'ajax/check/report',
-        type: 'post',
-        success: function(data) {
-            if(!data) {
-                $('#unread_receive').hide();
-            } else {
-                if(data >= 100)
-                    $('#unread_receive').text('+99');
-                else if(data != 0)
-                    $('#unread_receive').text(data);
-                $('#unread_receive').show();
-            }
-        }
-    })
-}
 
 $(".modal-draggable").draggable({
 	helper: 'move',
@@ -180,4 +163,27 @@ function __parseStr(value) {
 function formatRate(rate) {
     if (rate==null||rate==undefined||rate=='') return '';
     return parseFloat(rate).toFixed(4);
+}
+
+
+function checkDecisionRecord() {
+    $.ajax({
+        url: BASE_URL + 'ajax/check/report',
+        type: 'post',
+        success: function(data) {
+            if(!data) {
+                $('#unread_receive').hide();
+            } else {
+                let beforeCnt = __parseFloat($('#unread_receive').attr('data-val'));
+
+                $('#unread_receive').attr('data-val', data);
+                if(beforeCnt < data) __alertAudio();
+                if(data >= 100)
+                    $('#unread_receive').text('+99');
+                else if(data != 0)
+                    $('#unread_receive').text(data);
+                $('#unread_receive').show();
+            }
+        }
+    })
 }

@@ -65,7 +65,7 @@
                         <li>
                             <a href="/decision/receivedReport" style="padding: 8px; display: flex;">
                                 <i class="icon-bell bigger-110"></i>
-                                <span class="bell-badge" id="unread_receive">0</span>
+                                <span class="bell-badge" data-val="" style="display: none;" id="unread_receive">0</span>
                             </a>
                         </li>
                     @endif
