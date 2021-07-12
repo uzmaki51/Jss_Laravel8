@@ -588,6 +588,8 @@ $ships = Session::get('shipList');
                         }
                         is_scrolled = true;
                     }
+
+                    offAutoCmplt();
                 },
                 mounted() {
                     this.getVoyList();
@@ -1062,6 +1064,9 @@ $ships = Session::get('shipList');
         }
     });
 
+    function offAutoCmplt() {
+        $('.remark, input, textarea').attr('autocomplete', 'off');
+    }
     function fnExcelTc(type)
     {
         var tab_text;
