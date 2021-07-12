@@ -169,7 +169,7 @@ function formatRate(rate) {
 function checkDecisionRecord() {
     $.ajax({
         url: BASE_URL + 'ajax/check/report',
-        type: 'post',
+        type: 'get',
         success: function(data) {
             if(!data) {
                 $('#unread_receive').hide();
