@@ -572,7 +572,11 @@ $ships = Session::get('shipList');
                                         shipId: ship_id,
                                     },
                                     success: function(data, status, xhr) {
-                                        voyListObj.list = data;
+                                        if(!data) {
+                                            bootbox.alert('It cannot be deleted because the related data remains!');
+                                        } else {
+                                            voyListObj.list = data;
+                                        }
                                     }
                                 })
                             }

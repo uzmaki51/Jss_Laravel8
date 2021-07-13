@@ -1005,7 +1005,10 @@ $ships = Session::get('shipList');
         {
             if (voyNo_soa == null) return;
             //window.open(BASE_URL + 'business/contract?shipId=' + shipid_soa + '&voy_id=' + voyID_soa, '_blank');
-            window.open(BASE_URL + 'shipManage/dynamicList', '_blank');
+            let shipId = $('#select-soa-ship').val();
+            let voyId = $('#select-soa-contract').val();
+
+            window.open(BASE_URL + 'shipManage/dynamicList?shipId=' + shipId + '&voyNo=' + voyId, '_blank');
         }
 
         function clearSOAInfo()

@@ -1037,6 +1037,20 @@ class BusinessController extends Controller {
     public function ajaxVoyDelete(Request $request) {
         $params = $request->all();
         $id = $params['id'];
+        $shipId = $params['shipId'];
+
+        $cpInfo = CP::where('id', $id)->first();
+        
+        $voyNo = $cpInfo->Voy_No;
+        $decision = DecisionReport::where('voyNo', $voyNo)->where('shipNo', $shipId)->first();
+        if($decision != null) {
+            return response()->json(false);
+        }
+
+        $voyLog = VoyLog::where('CP_ID', $voyNo)->where('Ship_ID', $shipId)->first();
+        if($voyLog != null)
+            return response()->json(false);
+
         $ret = CP::where('id', $id)->delete();
 
         return $this->ajaxCPList($request);
