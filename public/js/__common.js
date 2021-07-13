@@ -165,6 +165,10 @@ function formatRate(rate) {
     return parseFloat(rate).toFixed(4);
 }
 
+function prettyValue2(value)
+{
+    return parseFloat(value).toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+}
 
 function checkDecisionRecord() {
     $.ajax({
