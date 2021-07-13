@@ -500,6 +500,13 @@ class ShipRegController extends Controller
         else
             $year = -1;
 
+        $voyId = '';
+        if(isset($params['voyNo']) && isset($params['voyNo']) != '' && isset($params['voyNo']) != 0) {
+            $voyId = $params['voyNo'];
+            if($year == -1)
+                $year = substr(date('Y'), 0, 2) . substr($voyId, 0, 2);
+        }
+
         if(isset($params['type']))
             $record_type = $params['type'];
         else
@@ -522,6 +529,7 @@ class ShipRegController extends Controller
             'shipName'          => $shipName,
             'years'             => $yearList,
             'activeYear'        => $year,
+            'voyId'             => $voyId,
             'record_type'       => $record_type
         ]);
     }

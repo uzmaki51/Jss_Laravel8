@@ -14,15 +14,17 @@ use Illuminate\Support\Facades\DB;
 class VoyLog extends Model
 {
     protected $table = "tbl_voy_log";
+    protected $table_ship = "tb_ship_register";
+
     public $timestamps = false;
 
     public function getYearList($shipId) {
         $yearList = [];
-        $shipInfo = self::where('Ship_ID', $shipId)->orderBy('Voy_Date', 'asc')->first();
+        $shipInfo = DB::table($this->table_ship)->where('IMO_No', $shipId)->first();
         if($shipInfo == null) {
             $baseYear = date('Y');
         } else {
-            $baseYear = substr($shipInfo->Voy_Date, 0, 4);
+            $baseYear = substr($shipInfo->RegDate, 0, 4);
         }
 
         for($year = date('Y'); $year >= $baseYear; $year --) {

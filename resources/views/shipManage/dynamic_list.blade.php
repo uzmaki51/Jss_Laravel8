@@ -416,7 +416,8 @@
         const DAY_UNIT = 1000 * 3600;
         const COMMON_DECIMAL = 2;
         var economic_graph = null;
-        var activeYear = $('[name=year_list]').val();
+        var activeYear = ACTIVE_YEAR == -1 ? $('[name=year_list]').val() : ACTIVE_YEAR;
+        var voyId = '{!! $voyId !!}';
 
         $(function() {
             initialize();
@@ -434,7 +435,7 @@
                         loading: '',
                         discharge: '',
                     },
-                    activeVoy: 0,
+                    activeVoy: voyId,
                     activeYear: ACTIVE_YEAR == -1 ? activeYear : ACTIVE_YEAR,
 
                     prevData: [],
