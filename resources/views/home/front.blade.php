@@ -906,9 +906,10 @@
                         });
                         // +
                         var voy_rate;
-                        if (footerData['voy_count'] == 0) voy_rate = 0;
-                        else voy_rate = footerData['sail_time'] / footerData['voy_count'] * 100;
+                        if (footerData['sail_time'] == 0) voy_rate = 0;
+                        else voy_rate = footerData['voy_count'] / footerData['sail_time'] * 100;
                         var row_html = "<tr class='" + ((index%2==0)?"member-item-odd":"member-item-even") + "'>" + "<td class='center'>" + ship_name + "</td><td class='center'>" + footerData['voy_count'] + "</td><td class='center'>" + voy_rate.toFixed(1) + " %</td><tr>";
+                        
                         $('#dyn-body').append(row_html);
                     }
                 }

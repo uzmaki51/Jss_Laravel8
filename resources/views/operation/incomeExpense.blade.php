@@ -1095,7 +1095,7 @@ $ships = Session::get('shipList');
                 var voyNo = e.target.innerHTML;
                 if (voyNo != "")
                 {
-                    if ($('#select-soa-ship').val() == shipid_table)
+                    if ($('#select-soa-ship').val() == shipid_table && listSOATable != null)
                     {
                         voyNo_soa = voyNo;
                         $('#select-soa-contract').val(voyNo_soa);
