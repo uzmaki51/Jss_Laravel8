@@ -238,7 +238,7 @@ $ships = Session::get('shipList');
                                     <div class="col-md-5" style="padding:unset!important">
                                         <div class="btn-group f-right">
                                             <a onclick="javascript:gotoDetailPage();" class="btn btn-success btn-sm excel-btn">
-                                                <i class="icon-forward"></i>船舶动态
+                                                <i class="icon-bar-chart"></i> 船舶动态
                                             </a>
                                             <a onclick="javascript:fnExcelSOAReport();" class="btn btn-warning btn-sm excel-btn">
                                                 <i class="icon-table"></i>{{ trans('common.label.excel') }}
