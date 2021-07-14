@@ -364,9 +364,9 @@ $isHolder = Session::get('IS_HOLDER');
                         $('td', row).eq(8).attr('style','color:red');
                     }
                     if (data['book_no'] == '')
-                        $('td', row).eq(2).html('<input type="text" class="form-control style-blue-input" readonly name="book_no[]" value="" style="width: 100%;text-align: center" autocomplete="off">');
+                        $('td', row).eq(2).html('<input type="text" class="form-control style-blue-input" readonly name="book_no[]" value="" style="cursor:pointer;width: 100%;text-align: center" autocomplete="off">');
                     else
-                        $('td', row).eq(2).html('<input type="text" class="form-control style-blue-input" readonly name="book_no[]" value="' + ('J-'+data['book_no']) + '" style="width: 100%;text-align: center" autocomplete="off">');
+                        $('td', row).eq(2).html('<input type="text" class="form-control style-blue-input" readonly name="book_no[]" value="' + ('J-'+data['book_no']) + '" style="cursor:pointer;width: 100%;text-align: center" autocomplete="off">');
                     if (data['flowid'] == "Credit") {
                         if (data['amount'] >= 0)
                             $('td', row).eq(9).html('<input type="text" class="form-control style-blue-input" name="credit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
@@ -904,6 +904,7 @@ $isHolder = Session::get('IS_HOLDER');
 
                     books.push(new_item);
                     $('#keep_list').val(JSON.stringify(books));
+                    setEvents();
                 }
             });
         })
@@ -1010,6 +1011,137 @@ $isHolder = Session::get('IS_HOLDER');
             $('[name="sum_debit"').on('change', function(evt) {
                 $('[name="sum_credit"]').val("");
             })
+
+            $('.style-red-input[name="book_no[]"]').unbind().click(function(evt) {
+                var selected_bookno = evt.target.value.replace("J-","");
+                if (selected_bookno != '') {
+                    for (var k=books.length-1;k>=0;k--)
+                    {
+                        if (books[k].no == selected_bookno)
+                        {
+                            var rows_to_remove = $('.style-red-input').parent().parent();
+                            var count = 0;
+                            $('#table-keep-body').html('');
+                            clearSelection();
+
+                            for (var i=0;i<rows_to_remove.length;i++)
+                            {
+                                if (rows_to_remove[i].childNodes[2].firstElementChild.value == evt.target.value)
+                                {
+                                    rows_to_remove[i].childNodes[0].childNodes[0].checked = true;
+
+                                    var row_html = '';
+                                    var credit_text = rows_to_remove[i].childNodes[9].childNodes[0].value;
+                                    var credit = credit_text.replace(",","");
+                                    var debit_text = rows_to_remove[i].childNodes[10].childNodes[0].value;
+                                    var debit = debit_text.replace(",","");
+                                    
+                                    row_html = "<tr data-ref='" + i + "' ship-no='" + rows_to_remove[i].childNodes[0].childNodes[2].value + "'";
+                                    row_html += " report-id='" + rows_to_remove[i].childNodes[0].childNodes[1].value + "'><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[1].innerText + "</td><td class='text-center disable-td no-padding'>"+ listBook[i].obj + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[5].innerText + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[6].innerText + "</td><td>";
+                                    row_html += '<input type="text" class="form-control" name="Keep_Remark[]" value="' + rows_to_remove[i].childNodes[7].childNodes[0].value + '" style="width: 100%;" autocomplete="off">';
+                                    row_html += "</td><td class='text-center disable-td no-padding'>" + listBook[i].currency + "</td><td>";
+                                    if (credit >= 0)
+                                        row_html += '<input type="text" class="form-control style-blue-input keep_credit" name="Keep_credit[]" value="' + credit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
+                                    else
+                                        row_html += '<input type="text" class="form-control style-red-input keep_credit" name="Keep_credit[]" value="' + credit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
+
+                                    if (debit >= 0)
+                                        row_html += '<input type="text" class="form-control style-normal-input keep_debit" name="Keep_debit[]" value="' + debit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
+                                    else
+                                        row_html += '<input type="text" class="form-control style-red-input keep_debit" name="Keep_debit[]" value="' + debit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
+                                    row_html += "</tr>";
+                                    
+                                    $('#table-keep-body').append(row_html);
+                                    count ++;
+                                }
+                            }
+                            if (count != 0)
+                            {
+                                calcKeepReport(true);
+                                setState(false);
+                                $('#keep-list-bookno').val(evt.target.value);
+                                $('#keep-list-datetime').val(books[k].datetime);
+                                $('#keep_rate').val(books[k].rate);
+                                $('#pay_type').val(books[k].pay_type);
+                                $('#account_type').val(books[k].account_type);
+
+                                $('[name="sum_credit"]').val(books[k].credit==0?"":prettyValue(books[k].credit));
+                                $('[name="sum_debit"]').val(books[k].debit==0?"":prettyValue(books[k].debit));
+                            }
+                        }
+                    }
+                }
+            })
+
+            $('.style-blue-input[name="book_no[]"]').unbind().click(function(evt) {
+                var selected_bookno = evt.target.value.replace("J-","");
+                if (selected_bookno != '') {
+                    $.ajax({
+                        url: BASE_URL + 'ajax/finance/waters/find',
+                        type: 'POST',
+                        data: {'book_no':selected_bookno},
+                        success: function(books) {
+                            console.log(books);
+                            if (books == 0) return;
+
+                            var rows_to_remove = $('.style-blue-input[name="book_no[]"]').parent().parent();
+                            var count = 0;
+                            $('#table-keep-body').html('');
+                            clearSelection();
+
+                            for (var i=0;i<rows_to_remove.length;i++)
+                            {
+                                if (rows_to_remove[i].childNodes[2].firstElementChild.value == evt.target.value)
+                                {
+                                    rows_to_remove[i].childNodes[0].childNodes[0].checked = true;
+
+                                    var row_html = '';
+                                    var credit_text = rows_to_remove[i].childNodes[9].childNodes[0].value;
+                                    var credit = credit_text.replace(",","");
+                                    var debit_text = rows_to_remove[i].childNodes[10].childNodes[0].value;
+                                    var debit = debit_text.replace(",","");
+                                    
+                                    row_html = "<tr data-ref='" + i + "' ship-no='" + rows_to_remove[i].childNodes[0].childNodes[2].value + "'";
+                                    row_html += " report-id='" + rows_to_remove[i].childNodes[0].childNodes[1].value + "'><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[1].innerText + "</td><td class='text-center disable-td no-padding'>"+ listBook[i].obj + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[5].innerText + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[6].innerText + "</td><td>";
+                                    row_html += '<input type="text" class="form-control" name="Keep_Remark[]" value="' + rows_to_remove[i].childNodes[7].childNodes[0].value + '" style="width: 100%;" autocomplete="off">';
+                                    row_html += "</td><td class='text-center disable-td no-padding'>" + listBook[i].currency + "</td><td>";
+                                    if (credit >= 0)
+                                        row_html += '<input type="text" class="form-control style-blue-input keep_credit" name="Keep_credit[]" value="' + credit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
+                                    else
+                                        row_html += '<input type="text" class="form-control style-red-input keep_credit" name="Keep_credit[]" value="' + credit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
+
+                                    if (debit >= 0)
+                                        row_html += '<input type="text" class="form-control style-normal-input keep_debit" name="Keep_debit[]" value="' + debit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
+                                    else
+                                        row_html += '<input type="text" class="form-control style-red-input keep_debit" name="Keep_debit[]" value="' + debit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
+                                    row_html += "</tr>";
+                                    
+                                    $('#table-keep-body').append(row_html);
+                                    count ++;
+                                }
+                            }
+                            if (count != 0)
+                            {
+                                calcKeepReport(true);
+                                setState(false);
+                                $('#keep-list-bookno').val(evt.target.value);
+                                $('#keep-list-datetime').val(books.register_time);
+                                $('#keep_rate').val(books.rate.toFixed(4));
+                                $('#pay_type').val(books.pay_type);
+                                $('#account_type').val(books.account_type);
+
+                                $('[name="sum_credit"]').val(books.credit==0?"":prettyValue(books.credit));
+                                $('[name="sum_debit"]').val(books.debit==0?"":prettyValue(books.debit));
+                            }
+                            return;
+                        },
+                        error: function(error) {
+                        }
+                    });
+                }
+            })
+
+            
 
             $('body').on('keydown', 'input', function(e) {
                 if (e.key === "Enter") {

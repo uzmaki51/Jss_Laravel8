@@ -383,7 +383,7 @@ $isHolder = Session::get('IS_HOLDER');
                 $(parentElement).children(":last").remove();
                 $(parentElement).children(":last").remove();
             }
-            td_html = "<input type='hidden' name='dyn_id[]' value='" + ($(parentElement).children(":first")).attr('data-id') + "'/>";
+            td_html = "<input type='hidden' name='dyn_id[]' value='" + ($(parentElement).children("td:last")).attr('data-id') + "'/>";
             td_html += "<input type='hidden' name='dyn_value[]' value='" + ishide + "'/>";
             $(parentElement).append(td_html);
         });

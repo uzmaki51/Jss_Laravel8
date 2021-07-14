@@ -126,6 +126,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('finance/books/list', [App\Http\Controllers\Finance\FinanceController::class, 'getBookList']);
 	Route::post('finance/books/init', [App\Http\Controllers\Finance\FinanceController::class, 'initBookList']);
 	Route::post('finance/waters/list', [App\Http\Controllers\Finance\FinanceController::class, 'getWaterList']);
+	Route::post('finance/waters/find', [App\Http\Controllers\Finance\FinanceController::class, 'getWaterFind']);
 	Route::post('finance/accounts/report/list', [App\Http\Controllers\Finance\FinanceController::class, 'getReportList']);
 	Route::post('finance/accounts/analysis/list', [App\Http\Controllers\Finance\FinanceController::class, 'getAnalysisList']);
 	Route::post('finance/accounts/info/list', [App\Http\Controllers\Finance\FinanceController::class, 'getPersonalInfoList']);

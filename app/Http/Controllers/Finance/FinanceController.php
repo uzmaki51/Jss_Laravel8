@@ -174,6 +174,19 @@ class FinanceController extends Controller
         ]);
     }
 
+	public function getWaterFind(Request $request)
+	{
+		$params = $request->all();
+        $book_no = $params['book_no'];
+		$record = WaterList::where('book_no', $book_no)->first();
+		if(!empty($record)) {
+			return $record;
+		}
+
+		return 0;
+	}
+
+	
 	public function saveBookList(Request $request)
 	{
 		$year = $request->get('select-year');
