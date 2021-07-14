@@ -58,7 +58,26 @@
                     <img class="navbar-img" src="{{ asset('/assets/avatars/logo.png') }}" alt=""/>
                 </a>
             </div>
+            
+            <div id="menuToggle" class="sp-menu">
+                <input type="checkbox" />
 
+                <span></span>
+                <span></span>
+                <span></span>
+                
+                <!--
+                Too bad the menu has to be inside of the button
+                but hey, it's pure CSS magic.
+                -->
+                <ul id="menu">
+                <a href="#"><li>Home</li></a>
+                <a href="#"><li>About</li></a>
+                <a href="#"><li>Info</li></a>
+                <a href="#"><li>Contact</li></a>
+                <a href="https://erikterwan.com/" target="_blank"><li>Show me more</li></a>
+                </ul>
+            </div>
             <div class="collapse navbar-collapse navbar-ex1-collapse" role="navigation">
                 <ul class="nav navbar-nav navbar-right" style="position: absolute; right: 2%;">
                     @if(Auth::user()->isAdmin == SUPER_ADMIN)
@@ -89,7 +108,7 @@
 	        ?>
             <div id="container">
                 <nav>
-                    <ul>
+                    <ul class="pc-menu">
                         <li class="{{ $routeName == 'home' ? 'menu-active' : '' }} parent">
                             <a href="/">{{ trans('home.title.dashboard') }}</a>
                         </li>

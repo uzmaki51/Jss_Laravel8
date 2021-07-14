@@ -500,7 +500,13 @@
                                 console.log(result);
                                 searchObj.voy_list = Object.assign([], [], result);
                                 if(searchObj.voy_list.length > 0) {
-                                    searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
+                                    if(voyId == '') {
+                                        searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
+                                        console.log(searchObj.activeVoy)
+                                    } else {
+                                        searchObj.activeVoy = voyId;
+                                        console.log(searchObj.activeVoy)
+                                    }
                                 }
 
                                 if(this.record_type != 'all') {
@@ -1068,9 +1074,12 @@
                     searchObj.voy_list = [];
                     searchObj.voy_list = Object.assign([], [], result);
 
-                    if(searchObj.voy_list.length > 0) {
-                        searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
-                    }
+                    if(voyId == '')
+                        if(searchObj.voy_list.length > 0) {
+                            searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
+                        }
+                    else
+                        searchObj.activeVoy = voyId;
                     
                     // searchObj.setPortName();
                     if(searchObj.record_type == 'all')

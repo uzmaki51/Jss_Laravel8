@@ -111,11 +111,9 @@ $isHolder = Session::get('IS_HOLDER');
                                                 <td class="add-td-label" colspan="1">{{trans("orgManage.captions.officePosition")}}<span class="require">*</span>:</td>
                                                 <td class="add-td-text">
                                                     <select class="form-control add-td-select" id="pos" style="width: 98%; margin-left: 6px!important;" name="pos">
-                                                        <option value="-1" selected></option>
-                                                        @foreach($pos as $post)
-                                                            <option value="{{$post['id']}}" @if ((isset($userinfo))&&($userinfo['pos']==$post['id'])) selected @endif >{{$post['title']}}</option>
+                                                        @foreach(g_enum('StaffLevelData') as $key => $item)
+                                                            <option value="{{ $key }}" @if ((isset($userinfo))&&($userinfo['pos']==$key)) selected @endif >{{ $item[0] }}</option>
                                                         @endforeach
-                                                        <option value="{{ STAFF_LEVEL_SHAREHOLDER }}" {{ $userinfo['pos'] == STAFF_LEVEL_SHAREHOLDER ? 'selected' : '' }}>{{ trans("orgManage.captions.stockholder") }}</option>
                                                     </select>
                                                 </td>
                                             </tr>

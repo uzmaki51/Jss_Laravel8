@@ -1048,7 +1048,6 @@ $ships = Session::get('shipList');
         function gotoDetailPage()
         {
             if (voyNo_soa == null) return;
-            //window.open(BASE_URL + 'business/contract?shipId=' + shipid_soa + '&voy_id=' + voyID_soa, '_blank');
             let shipId = $('#select-soa-ship').val();
             let voyId = $('#select-soa-contract').val();
 
