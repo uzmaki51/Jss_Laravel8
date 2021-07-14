@@ -571,7 +571,9 @@ $isHolder = Session::get('IS_HOLDER');
             year = $("#select-year option:selected").val();
             month = $("#select-month option:selected").val();
             $('#search_info').html(year + '年' + month + '月份');
-
+            clearList();
+            books = [];
+            
             if (listTable == null) {
                 initTable();
             }
@@ -606,7 +608,8 @@ $isHolder = Session::get('IS_HOLDER');
         function changeYear(type) {
             
             clearList();
-            
+            books = [];
+
             if (type == 0)
             {
                 year = $("#select-year option:selected").val();
@@ -841,11 +844,11 @@ $isHolder = Session::get('IS_HOLDER');
                     else {
                     }
 
-                    for (var i=0;i<books.length;i++)
+                    for (var i=books.length-1;i>=0;i--)
                     {
                         if (books[i].no == new_book_no) {
                             books.splice(i,1);
-                            break;
+                            //break;
                         }
                     }
 
@@ -888,6 +891,17 @@ $isHolder = Session::get('IS_HOLDER');
                     console.log(input_sum_credit, ",", input_sum_debit);
                     //var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_ids, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, account_name:account_name, currency:(currency=="$"?1:0), credit:sum_credit, debit:sum_debit };
                     var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_ids, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, account_name:account_name, currency:(currency=="$"?1:0), credit:input_sum_credit, debit:input_sum_debit };
+
+                    // ?
+                    for (var i=books.length-1;i>=0;i--)
+                    {
+                        if (books[i].no == new_book_no) {
+                            books.splice(i,1);
+                            //break;
+                        }
+                    }
+                    //
+
                     books.push(new_item);
                     $('#keep_list').val(JSON.stringify(books));
                 }
