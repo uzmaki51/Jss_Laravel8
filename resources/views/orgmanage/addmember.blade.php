@@ -325,7 +325,7 @@ $isHolder = Session::get('IS_HOLDER');
             if(state == 'success') {
                 $.gritter.add({
                     title: '成功',
-                    text: '员工信息已正确保存。',
+                    text: '职员信息已正确保存。',
                     class_name: 'gritter-success'
                 });
             } else {
