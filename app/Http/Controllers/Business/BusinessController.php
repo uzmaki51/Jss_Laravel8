@@ -130,7 +130,7 @@ class BusinessController extends Controller {
         else
             $voy_id = null;
 
-		$shipList = ShipRegister::all();
+		$shipList = ShipRegister::all()->sortBy('id');
         $cp_list = CP::where('Ship_ID', $shipId)->whereNotNull('net_profit_day')->orderBy('Voy_No', 'desc')->get();
         $tmp = CP::where('Ship_ID', $shipId)->orderBy('net_profit_day', 'desc')->first();
         if($tmp == null || $tmp == false) {
@@ -192,7 +192,7 @@ class BusinessController extends Controller {
             $shipName = $shipInfo->shipName_En;
         }
 
-        $shipList = ShipRegister::all();
+        $shipList = ShipRegister::all()->sortBy('id');
         return view('business.dynamic.record', [
             'shipList'          => $shipList,
             'shipInfo'          => $shipInfo,
@@ -666,7 +666,7 @@ class BusinessController extends Controller {
     public function settleMent(Request $request) {
         $params = $request->all();
 
-        $shipList = ShipRegister::all();
+        $shipList = ShipRegister::all()->sortBy('id');
 
         if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
@@ -705,7 +705,7 @@ class BusinessController extends Controller {
     }
 
     public function ctm(Request $request) {
-        $shipRegList = ShipRegister::all();
+        $shipRegList = ShipRegister::all()->sortBy('id');
 
         $params = $request->all();
         $shipId = $request->get('shipId'); 
@@ -1058,7 +1058,7 @@ class BusinessController extends Controller {
 
     public function ajaxDynamic(Request $request) {
         $params = $request->all();
-        $shipList = ShipRegister::all();
+        $shipList = ShipRegister::all()->sortBy('id');
 
         $retVal['shipList'] = $shipList;
 

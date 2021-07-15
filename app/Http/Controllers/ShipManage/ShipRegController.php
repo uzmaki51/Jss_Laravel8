@@ -105,7 +105,7 @@ class ShipRegController extends Controller
         if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
             $ship_infolist = ShipRegister::getShipForHolder();
         else {
-            $ship_infolist = ShipRegister::all();
+            $ship_infolist = ShipRegister::all()->sortBy('id');
         }
 
 	    $params = $request->all();
@@ -482,7 +482,7 @@ class ShipRegController extends Controller
         if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::all();
+            $shipList = ShipRegister::all()->sortBy('id');
         }
 
 		if(isset($params['shipId'])) {
@@ -539,7 +539,7 @@ class ShipRegController extends Controller
         if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::all();
+            $shipList = ShipRegister::all()->sortBy('id');
         }
 
         $params = $request->all();
@@ -583,7 +583,7 @@ class ShipRegController extends Controller
         if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::all();
+            $shipList = ShipRegister::all()->sortBy('id');
         }
 
         if(isset($params['shipId'])) {
@@ -665,7 +665,7 @@ class ShipRegController extends Controller
 
 
     public function shipCertList(Request $request) {
-        $shipRegList = ShipRegister::all();
+        $shipRegList = ShipRegister::all()->sortBy('id');
 
         $shipId = $request->get('id'); 
 	    $shipNameInfo = null;
@@ -737,7 +737,7 @@ class ShipRegController extends Controller
 	    }
 
 
-	    $shipRegList = ShipRegister::all();
+	    $shipRegList = ShipRegister::all()->sortBy('id');
 	    $shipId = $params['ship_id'];
 
 	    $shipNameInfo = null;
@@ -965,7 +965,7 @@ class ShipRegController extends Controller
         if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::all();
+            $shipList = ShipRegister::all()->sortBy('id');
         }
 
 	    $shipId = $request->get('id');
@@ -1093,7 +1093,7 @@ class ShipRegController extends Controller
             $year = $yearList[0];
         }
 
-        $shipList = ShipRegister::all();
+        $shipList = ShipRegister::all()->sortBy('id');
         return view('shipManage.fuel_manage', [
             'shipList'          => $shipList,
             'shipInfo'          => $shipInfo,
@@ -1106,7 +1106,7 @@ class ShipRegController extends Controller
 
 
     public function shipEquipmentManage(Request $request) {
-        $shipList = ShipRegister::all();
+        $shipList = ShipRegister::all()->sortBy('id');
 
         $params = $request->all();
 

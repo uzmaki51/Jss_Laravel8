@@ -64,7 +64,7 @@ class OperationController extends Controller
         if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::all();
+            $shipList = ShipRegister::all()->sortBy('id');
         }
         return view('operation.incomeExpense', array(
             'start_year' => $start_year,
@@ -82,7 +82,7 @@ class OperationController extends Controller
         if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::all();
+            $shipList = ShipRegister::all()->sortBy('id');
         }
         return view('operation.incomeAllExpense', array(
             'start_year' => $start_year,
