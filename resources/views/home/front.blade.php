@@ -982,7 +982,10 @@
                     },
                     labels: {
                         formatter: function() {
-                            return '$ ' + prettyValue2(this.value);
+                            if (this.value < 0) {
+                                return '<label style="color:red">' + '$ ' + prettyValue2(this.value) + '</label>';
+                            }
+                            else return '$ ' + prettyValue2(this.value);
                         }
                     },
                     plotLines: [{
@@ -1006,7 +1009,10 @@
                 tooltip: {
                     valueDecimals: 0,
                     formatter: function() {
-                        return '$ ' + prettyValue2(this.y);
+                        //return '$ ' + prettyValue2(this.y);
+                        //return 'The value for <b>' + this.x + '</b> is <b>' + this.y + '</b>, in series '+ this.series.name;
+                        var point = this;
+                        return '<span style="color:' + this.color + '">\u25CF</span> ' + point.series.name + ': <b>' + ('$ ' + prettyValue2(this.y)) + '</b><br/>';
                     }
                 },
                 plotOptions: {
@@ -1081,14 +1087,16 @@
                         legend: {
                             position: 'right',
                         },
-                    }
-                    /*
+                    },
                     scales: {
-                        xAxes: [{
-                            barPercentage: 0.2
-                        }]
+                        y: {
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return value + '%';
+                                }
+                            }
+                        }
                     }
-                    */
                 }
             });
         }
