@@ -663,17 +663,12 @@ $isHolder = Session::get('IS_HOLDER');
         
         function setEvents() {
             $('.select-account').on('click', function(e) {
-                alertAudio();
-                bootbox.confirm("Are you sure to show more?", function (result) {
-                    if (result) {
-                        var val = e.target.childNodes[1].value;
-                        $('#select-analysis-year').val(year_report);
-                        $('#select-analysis-month').val(month_report);
-                        $('#account_type').val(val);
-                        $('#account_type').trigger('change');
-                        $('#analysis').click();
-                    }
-                });
+                var val = e.target.childNodes[1].value;
+                $('#select-analysis-year').val(year_report);
+                $('#select-analysis-month').val(month_report);
+                $('#account_type').val(val);
+                $('#account_type').trigger('change');
+                $('#analysis').click();
             })
         }
 

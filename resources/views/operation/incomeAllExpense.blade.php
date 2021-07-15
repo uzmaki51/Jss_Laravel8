@@ -416,11 +416,9 @@ $ships = Session::get('shipList');
     var color_table = ['#73b7ff','#ff655c','#50bc16','#ffc800','#9d00ff','#ff0000','#795548','#3f51b5','#00bcd4','#e91e63','#0000ff','#00ff00','#0d273a','#cddc39','#0f184e'];
     function drawFirstGraph(datasets) {
         $('#graph_first').html('');
-        $('#graph_first').append('<canvas id="first-chart" height="400" class="chartjs-demo"></canvas>');
 
         Highcharts.setOptions({
             lang: {
-                numericSymbols: [' thousands', ' millions'],
                 thousandsSep: ','
             }
         });
@@ -439,7 +437,10 @@ $ships = Session::get('shipList');
                 },
                 labels: {
                     formatter: function() {
-                        return '$ ' + prettyValue2(this.value);
+                        if (this.value < 0) {
+                            return '<label style="color:red">' + '$ ' + prettyValue2(this.value) + '</label>';
+                        }
+                        else return '$ ' + prettyValue2(this.value);
                     }
                 },
                 plotLines: [{
@@ -463,7 +464,7 @@ $ships = Session::get('shipList');
             tooltip: {
                 valueDecimals: 0,
                 formatter: function() {
-                    return '$ ' + prettyValue2(this.y);
+                    return '<span style="color:' + this.color + '">\u25CF</span> ' + this.series.name + ': <b>' + ('$ ' + prettyValue2(this.y)) + '</b><br/>';
                 }
             },
             plotOptions: {
@@ -471,58 +472,57 @@ $ships = Session::get('shipList');
             series: datasets
         });
     }
+    
     function drawSecondGraph(datasets) {
         $('#graph_second').html('');
-        $('#graph_second').append('<canvas id="second-chart" height="250" class="chartjs-demo"></canvas>');
-        new Chart(document.getElementById("second-chart"), {
-            type: 'bar',
-            data: {
-                labels: ['收入','支出'],
-                datasets: datasets
-            },
-            options: {
-                indexAxis: 'y',
-                elements: {
-                    bar: {
-                        borderWidth: 2,
-                    }
-                },
-                scales: {
-                    x: {
-                        ticks: {
-                            callback: function(value, index, values) {
-                                return '$ ' + prettyValue2(value);
-                            }
-                        }
-                    }
-                },
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                    },
-                    title: {
-                        display: true,
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                var label = context.dataset.label || '';
 
-                                if (label) {
-                                    label += ': ';
-                                }
-                                if (context.parsed.x !== null) {
-                                    label += '$ ' + prettyValue2(context.parsed.x);
-                                }
-                                return label;
-                            }
+        Highcharts.chart('graph_second', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: null
+            },
+            subtitle: {
+                text: null
+            },
+            xAxis: {
+                categories: ['收支', '支出'],
+                title: {
+                    text: null
+                },
+            },
+            yAxis: {
+                title: {
+                    text: null,
+                },
+                labels: {
+                    formatter: function() {
+                        if (this.value < 0) {
+                            return '<label style="color:red">' + '$ ' + prettyValue2(this.value) + '</label>';
                         }
+                        else return '$ ' + prettyValue2(this.value);
+                    }
+                },
+            },
+            tooltip: {
+                valueDecimals: 0,
+                valuePrefix: "$ ",
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
                     }
                 }
-            }
+            },
+            credits: {
+                enabled: false
+            },
+            series: datasets
         });
     }
+        
     function drawThirdGraph(labels,datasets) {
         $('#graph_third').html('');
         $('#graph_third').append('<canvas id="third-chart" height="250" class="chartjs-demo"></canvas>');
@@ -533,19 +533,20 @@ $ships = Session::get('shipList');
                 datasets: datasets
             },
             options: {
-                /*responsive: true,*/
                 plugins: {
                     legend: {
                         position: 'right',
                     },
-                }
-                /*
+                },
                 scales: {
-                    xAxes: [{
-                        barPercentage: 0.2
-                    }]
+                    y: {
+                        ticks: {
+                            callback: function(value, index, values) {
+                                return value + '%';
+                            }
+                        }
+                    }
                 }
-                */
             }
         });
     }
@@ -716,10 +717,13 @@ $ships = Session::get('shipList');
                     var ship_no = $(this).val();
                     var value = result[ship_no]['credit_sum'];
                     datasets[index] = {};
-                    datasets[index].label = ship_name;
+                    datasets[index].name = ship_name;
+                    result[ship_no]['credit_sum'] = parseInt(result[ship_no]['credit_sum']);
+                    result[ship_no]['debit_sum'] = parseInt(result[ship_no]['debit_sum']);
+
                     datasets[index].data = [result[ship_no]['credit_sum'], result[ship_no]['debit_sum']*(-1)];
                     datasets[index].borderColor = color_table[index];
-                    datasets[index].backgroundColor = addAlpha(color_table[index],0.8);
+                    datasets[index].color = addAlpha(color_table[index],0.8);
 
                     datasets4[index] = {};
                     datasets4[index].label = ship_name;
