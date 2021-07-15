@@ -20,7 +20,6 @@
             <strong style="font-size: 16px; padding-top: 6px; margin-left: 30px;" class="f-right">
                 <span id="search_info">{{ $shipName }}</span>&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ voyId }}次评估</span>
             </strong>
-            
         </div>
         <div class="col-lg-5">
             <div class="btn-group f-right">

@@ -109,9 +109,12 @@
             <div id="container">
                 <nav>
                     <ul class="pc-menu">
-                        <li class="{{ $routeName == 'home' ? 'menu-active' : '' }} parent">
-                            <a href="/">{{ trans('home.title.dashboard') }}</a>
-                        </li>
+                        @if(Auth::user()->pos != STAFF_LEVEL_SHAREHOLDER)
+                            <li class="{{ $routeName == 'home' ? 'menu-active' : '' }} parent">
+                                <a href="/">{{ trans('home.title.dashboard') }}</a>
+                            </li>
+                        @endif
+
                         @foreach($menuList as $key => $item)
                             @if($item['parent'] == 0)
                                 <li class="{{ ($routeName != 'home' && in_array($id, $item['ids'])) ? 'menu-active' : '' }} parent">

@@ -60,6 +60,8 @@ class HomeController extends Controller {
 	 * @return Response
 	 */
 	public function index(Request $request) {
+		$pos = Auth::user()->pos;
+		if($pos == STAFF_LEVEL_SHAREHOLDER) return redirect('/operation/incomeExpense');
 		$reportList = DecisionReport::where('state', '=', REPORT_STATUS_REQUEST)->get();
 		foreach($reportList as $key => $item) {
 			$reportList[$key]->realname = UserInfo::find($item->creator)['realname'];

@@ -770,21 +770,14 @@ class DecisionReport extends Model {
 		// get records
 		$records = $selector->get();
 
-		$ids = [];
-		foreach($records as $key => $item) {
-			$ids[] = $item->id;
-		}
-		
 		if($user->isAdmin == SUPER_ADMIN) {
-			$_saved_ids = Session::get('report_ids');
-			Session::forget('report_ids');
-			if($_saved_ids != null) {
-				self::whereIn('id', $_saved_ids)->update([
-					'readed_at'		=> date('Y-m-d H:i:s')
-				]);
+			$ids = [];
+			foreach($records as $key => $item) {
+				$ids[] = $item->id;
 			}
-			
-			Session::put('report_ids', $ids);
+			self::whereIn('id', $ids)->update([
+				'readed_at'		=> date('Y-m-d H:i:s')
+			]);
 		}
 		
 		foreach($records as $key => $item) {

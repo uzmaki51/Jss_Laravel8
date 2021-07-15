@@ -48,8 +48,8 @@
                     </div>
                     <div class="col-md-9">
                         <div class="btn-group f-right">
-                            <a class="btn btn-sm btn-default" onclick="openNewPage('soa')">SOA</a>
-                            <a class="btn btn-sm btn-default" onclick="openNewPage('dynamic')">动态分析</a>
+                            <a class="btn btn-sm btn-danger" onclick="openNewPage('soa')"><i class="icon-asterisk"></i> SOA</a>
+                            <a class="btn btn-sm btn-success" onclick="openNewPage('dynamic')"><i class="icon-bar-chart"></i> 船舶动态</a>
                             <button class="btn btn-report-search btn-sm search-btn d-none" click="doSearch()"><i class="icon-search"></i>搜索</button>
                             <button class="btn btn-primary btn-sm save-btn" onclick="submitForm()"><i class="icon-save"></i> {{ trans('common.label.save') }}</button>
                             <button class="btn btn-warning btn-sm save-btn" onclick="fnExcelRecord()"><i class="icon-table"></i> {{ trans('common.label.excel') }}</button>
@@ -828,7 +828,7 @@
             if(type == 'soa') {
                 window.open(BASE_URL + 'business/contract?shipId=' + this.shipId, '_blank');
             } else {
-                window.open(BASE_URL + 'shipManage/dynamicList?shipId=' + this.shipId + '&type=analyze', '_blank');
+                window.open(BASE_URL + 'shipManage/dynamicList?shipId=' + this.shipId + '&voyNo=' + $_this.voyId, '_blank');
             }
         }
 
