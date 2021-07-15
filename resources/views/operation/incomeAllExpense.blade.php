@@ -478,7 +478,15 @@ $ships = Session::get('shipList');
 
         Highcharts.chart('graph_second', {
             chart: {
-                type: 'bar'
+                type: 'bar',
+                events: {
+                    load: function() {
+                        var yAxis = this.yAxis[0];
+                        this.xAxis[0].update({
+                            offset: -yAxis.toPixels(0, true)
+                        });
+                    }
+                }
             },
             title: {
                 text: null
@@ -487,9 +495,16 @@ $ships = Session::get('shipList');
                 text: null
             },
             xAxis: {
-                categories: ['收支', '支出'],
+                categories: ['收入', '支出'],
                 title: {
                     text: null
+                },
+                labels: {
+                    style: {
+                        fontSize: 20,
+                        color: 'black',
+                        fontWeight: 'bold'
+                    }
                 },
             },
             yAxis: {
@@ -504,6 +519,16 @@ $ships = Session::get('shipList');
                         else return '$ ' + prettyValue2(this.value);
                     }
                 },
+                plotLines: [{
+                    color: 'black',
+                    width: 2,
+                    value: 0,
+                    label: {
+                        text: null,
+                        align: 'right',
+                        x: -10
+                    }
+                }]
             },
             tooltip: {
                 valueDecimals: 0,
