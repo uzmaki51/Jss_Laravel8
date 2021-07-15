@@ -160,7 +160,7 @@
 
 </script>
 
-<div class="main-container {{ $routeName == 'home' ? '' : 'inner-wrap' }}" id="main-container">
+<div class="main-container {{ $routeName == 'home' || $routeName == 'home.index' ? '' : 'inner-wrap' }}" id="main-container">
     <div class="main-container-inner">
         @yield('content')
     </div>
