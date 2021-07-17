@@ -1059,7 +1059,7 @@ $ships = Session::get('shipList');
                     $('#contract_amount').html(response.json.voy_info.Cgo_Qtty);
                     $('#contract_signon_port').html(response.json.LPort);
                     $('#contract_signoff_port').html(response.json.DPort);
-                    $('#contract_unit').html(response.json.voy_info.Freight);   //total_Freight zxc
+                    $('#contract_unit').html(response.json.voy_info.total_Freight);   //Freight zxc
                     if (response.json.voy_info.is_attachment == 1) {
                         $('#contract_attachment').html('<a href="' + response.json.voy_info.attachment_url + '" target="_blank" ><img src="' + "{{ cAsset('assets/images/document.png') }}" + '" width="15" height="15"></a>');
                     }
