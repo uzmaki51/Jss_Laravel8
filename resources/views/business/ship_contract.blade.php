@@ -1042,7 +1042,7 @@ $ships = Session::get('shipList');
             if(voyContractObj.validate_voy_no == true && voyContractObj.voy_no != '')
                 fnExcelVoy();
         } else if(ACTIVE_TAB = 'non') {
-            fnExcelTc('NON');
+            fnExcelTc('TC');
         }
          else {
             if(tcContractObj.validate_voy_no == true && tcContractObj.voy_no != '') 

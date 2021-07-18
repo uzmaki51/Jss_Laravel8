@@ -74,8 +74,9 @@ class BusinessController extends Controller {
 
     public function dailyAverageCost(Request $request) {
         
-        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+        $shipList = ShipRegister::select('tb_ship_register.id', 'tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
                         ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+                        ->orderBy('tb_ship_register.id')
                         ->get();
         $shipId = $request->get('shipId');
         $costs = ExpectedCosts::where('shipNo', $shipId)->first();
@@ -117,7 +118,7 @@ class BusinessController extends Controller {
             $firstShipInfo = ShipRegister::where('IMO_No', $shipId)->first();
             $shipName = isset($firstShipInfo->NickName) &&  $firstShipInfo->NickName != '' ? $firstShipInfo->NickName : $firstShipInfo->shipName_En;
         } else {
-            $firstShipInfo = ShipRegister::first();
+            $firstShipInfo = ShipRegister::orderBy('id')->first();
             if($firstShipInfo == null && $firstShipInfo == false)
                 return redirect()->back();
 
@@ -173,7 +174,7 @@ class BusinessController extends Controller {
 		if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
         } else {
-            $firstShipInfo = ShipRegister::first();
+            $firstShipInfo = ShipRegister::orderBy('id')->first();
             if($firstShipInfo == null && $firstShipInfo == false)
                 return redirect()->back();
 
@@ -666,8 +667,7 @@ class BusinessController extends Controller {
     public function settleMent(Request $request) {
         $params = $request->all();
 
-        $shipList = ShipRegister::all()->sortBy('id');
-
+        $shipList = ShipRegister::orderBy('id')->get();
         if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
         } else {
@@ -713,7 +713,7 @@ class BusinessController extends Controller {
         if(isset($shipId)) {
 	        $shipNameInfo = ShipRegister::where('IMO_No', $shipId)->first();
         } else {
-	        $shipNameInfo = ShipRegister::first();
+	        $shipNameInfo = ShipRegister::orderBy('id')->first();
 	        $shipId = $shipNameInfo['IMO_No'];
         }
 

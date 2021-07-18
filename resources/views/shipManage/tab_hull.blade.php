@@ -271,7 +271,7 @@
             $('[name^=timber]').attr('disabled', 'disabled');
             $('[name=timber]').removeAttr('disabled');
         }
-
+        origForm = $form.serialize();
     })
     $('[name=timber]').on('change', function() {
         if($(this).prop('checked') == true) {

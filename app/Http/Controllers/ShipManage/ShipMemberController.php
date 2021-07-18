@@ -648,7 +648,7 @@ class ShipMemberController extends Controller
         if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::all()->sortBy('id');
+            $shipList = ShipRegister::orderBy('id')->get();
         }
 
         $ko_ship_list = Ship::select('id', 'name')->get();
@@ -731,7 +731,7 @@ class ShipMemberController extends Controller
         if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::all()->sortBy('id');
+            $shipList = ShipRegister::orderBy('id')->get();
         }
 		$posList = ShipPosition::all();
         $capacityList = ShipMemberCapacity::all();
