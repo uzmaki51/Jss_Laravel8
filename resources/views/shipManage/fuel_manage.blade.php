@@ -553,6 +553,9 @@
                         // realData.used_do = BigNumber(usedDoTmp1).plus(usedDoTmp2).plus(usedDoTmp3).toFixed(1);
                         let $_this = this.analyze.list;
                         this.analyze.list.forEach(function(realData, key) {
+                            searchObj.analyze.list[key].bunk_fo = __parseFloat(searchObj.analyze.list[key].bunk_fo);
+                            searchObj.analyze.list[key].bunk_do = __parseFloat(searchObj.analyze.list[key].bunk_do);
+                            
                             searchObj.analyze.list[key].rob_fo = BigNumber(realData.up_rob_fo).plus(realData.bunk_fo).minus(realData.down_rob_fo).toFixed(1);
                             searchObj.analyze.list[key].rob_do = BigNumber(realData.up_rob_do).plus(realData.bunk_do).minus(realData.down_rob_do).toFixed(1);
 

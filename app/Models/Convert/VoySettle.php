@@ -503,11 +503,11 @@ class VoySettle extends Model
 
             // 标准消耗
             $usedFoTmp1 = $_sailTime * $shipInfo['FOSailCons_S'];
-            $usedFoTmp2 = $_loadTime * $shipInfo['FOL/DCons_S'];
+            $usedFoTmp2 = ($_loadTime + $_dischTime) * $shipInfo['FOL/DCons_S'];
             $usedFoTmp3 = $_waitTime * $shipInfo['FOIdleCons_S'];
 
             $usedDoTmp1 = $_sailTime * $shipInfo['DOSailCons_S'];
-            $usedDoTmp2 = $_loadTime * $shipInfo['DOL/DCons_S'];
+            $usedDoTmp2 = ($_loadTime + $_dischTime) * $shipInfo['DOL/DCons_S'];
             $usedDoTmp3 = $_waitTime * $shipInfo['DOIdleCons_S'];
 
             $used_fo = $usedFoTmp1 + $usedFoTmp2 + $usedFoTmp3;
@@ -546,7 +546,9 @@ class VoySettle extends Model
                 $mainInfo['rob_fo_price'] = $info['rob_fo_price'];
                 $mainInfo['rob_do_price'] = $info['rob_do_price'];
             }
+        }
 
+        
             // Voy Contract Info
             $contractInfo = $cpTbl->getContractInfo($shipId, $voyId);
             if($contractInfo != []) {
@@ -556,22 +558,22 @@ class VoySettle extends Model
                 $mainInfo['voy_type'] = $contractInfo->CP_kind;
 
                 if($contractInfo->CP_kind == 'TC') {
-                    $_cmpltCgoQty = $mainInfo['total_sail_time'];
+                    $_cmpltCgoQty = !isset($mainInfo['total_sail_time']) ? '' : $mainInfo['total_sail_time'];
                 } else {
-                    $_cmpltCgoQty = $_cmpltCgoQty;
+                    $_cmpltCgoQty = !isset($_cmpltCgoQty) ? '' : $_cmpltCgoQty;
                 }
 
                 if($contractInfo->Freight == null || $contractInfo->Freight == 0)
                     $mainInfo['freight_price'] = $contractInfo->total_Freight / $rate;
                 else
-                    $mainInfo['freight_price'] = $contractInfo->Freight * $mainInfo['total_sail_time'];
+                    $mainInfo['freight_price'] = $contractInfo->Freight * (!isset($mainInfo['total_sail_time']) ? 1 : $mainInfo['total_sail_time']);
 
                 // 货量(租期)
                 $cgo_qty = VoySettleMain::where('shipId', $shipId)->where('voyId', $voyId)->first();
                 if($cgo_qty != null)
                     $mainInfo['cgo_qty'] = $cgo_qty->cgo_qty;
                 else
-                    $mainInfo['cgo_qty'] = $_cmpltCgoQty;
+                    $mainInfo['cgo_qty'] = !isset($_cmpltCgoQty) ? '' : $_cmpltCgoQty;
 
                 $mainInfo['freight_price'] = round($mainInfo['freight_price'] / $rate, 2);
                 $mainInfo['freight'] = $contractInfo->Freight;
@@ -590,9 +592,7 @@ class VoySettle extends Model
                 $mainInfo['cargo_name'] = '';
                 $mainInfo['voy_type'] = '';
             }
-        }
 
-        
         $rep = new DecisionReport();
         $debit_credit = $rep->getIncome($shipId, $voyId);
         $mainInfo['credit'] = $debit_credit[0];
