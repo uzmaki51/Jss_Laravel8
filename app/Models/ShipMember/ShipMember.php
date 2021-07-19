@@ -318,8 +318,10 @@ class ShipMember extends Model
             if ($rank_name == 'MASTER' || $rank_name == '2nd DECK OFFICER' || $rank_name == '3rd DECK OFFICER' || $rank_name == 'CHIEF MATE' ||
                 $rank_name == '2nd ENGINEER OFFICER' || $rank_name == '3rd ENGINEER OFFICER' || $rank_name == 'RADIO OFFICER' || $rank_name == 'CHIEF ENGINEER')
             {
+                if (!isset($memberlist[$rank_name])) {
                 $memberlist[$rank_name] = ShipCapacityRegister::select('ItemNo', 'COC_IssuedDate', 'COC_ExpiryDate', 'GMDSS_NO', 'GMD_IssuedDate', 'GMD_ExpiryDate')
                     ->where('memberId', $record->id)->first();
+                }
             }
         }
         return $memberlist;

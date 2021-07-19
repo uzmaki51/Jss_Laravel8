@@ -34,7 +34,7 @@ class SettingsController extends Controller
                         
         $settings = Settings::where('id', 1)->first();
         $reportList = DecisionReport::where('state','0')->get();
-        $noattachments = DecisionReport::where('attachment',0)->orWhere('attachment',null)->get();
+        //$noattachments = DecisionReport::where('attachment',0)->orWhere('attachment',null)->get();
         $voyList = [];
         $index = 0;
         foreach($shipList as $ship)
@@ -58,7 +58,7 @@ class SettingsController extends Controller
             'settings'   => $settings,
             'shipList'   => $shipList,
             'reportList' => $reportList,
-            'noattachments' => $noattachments,
+            //'noattachments' => $noattachments,
             'voyList' => $voyList,
             'sites' => $sites,
             'start_year' => $start_year,

@@ -295,6 +295,15 @@ class DecisionController extends Controller
 		return response()->json(array('shipList'    => $shipList, 'voyList' => $voyList));
 	}
 
+	public function ajaxNoAttachments(Request $request) {
+		$params = $request->all();
+
+		$decideTbl = new DecisionReport();
+		$ret = $decideTbl->noAttachments($params);
+
+		return response()->json($ret);
+	}
+
 	public function ajaxProfitList(Request $request) {
 		$params = $request->all();
 
