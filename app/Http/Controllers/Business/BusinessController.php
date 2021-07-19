@@ -1114,11 +1114,18 @@ class BusinessController extends Controller {
             $prevData = null;
 
             if(isset($params['year']) && $params['year'] != 0) {
-                $voyTbl->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
-                $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('Voy_Date', 'desc');
+                //$voyTbl->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
+                //$voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('Voy_Date', 'desc');
+
+                $year = substr($params['year'], 2, 2);
+
+
+                $voyTbl->whereRaw(DB::raw('mid(CP_ID, 1, 2) like ' . $year));
+                $voyTbl3->whereRaw(DB::raw('mid(CP_ID, 1, 2) like ' . $year));
+                $voyTbl2->whereRaw(DB::raw('mid(CP_ID, 1, 2) < ' . $year))->orderBy('CP_ID', 'asc');
             }
-            $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
-            $voyTbl2->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
+            //$voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
+            //$voyTbl2->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
 
 
             $retVal['currentData'] = $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->get();
