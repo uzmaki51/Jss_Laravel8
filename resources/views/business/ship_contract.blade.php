@@ -111,7 +111,7 @@ $ships = Session::get('shipList');
                                         <td class="text-center"><div class="fixed-td">@{{ item.L_Rate }}</div></td>
                                         <td class="text-center"><span class="fixed-td">@{{ item.D_Rate }}</span></td>
                                         <td class="text-center">@{{ getFrtRate(item.Freight, item.total_Freight) }}</td>
-                                        <td class="text-center">@{{ item.net_profit_day == '' ? '' : '$ ' + item.net_profit_day }}</td>
+                                        <td class="text-center">@{{ __parseFloat(item.net_profit_day) == 0 ? '' : '$ ' + item.net_profit_day }}</td>
                                         <td class="text-center">
                                             <a :href="item.attachment_url" target="_blank" v-bind:class="[item.is_attachment == 1 ? '' : 'd-none']">
                                                 <img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15">
