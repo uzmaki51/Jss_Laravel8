@@ -8,6 +8,7 @@ $isHolder = Session::get('IS_HOLDER');
     <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
     <link href="{{ cAsset('css/multiselect.css') }}" rel="stylesheet"/>
     <script src="{{ cAsset('assets/js/multiselect.min.js') }}"></script>
+    <link href="{{ cAsset('/assets/css/datatables.min.css') }}" rel="stylesheet"/>
 @endsection
 @section('scripts')
 <link href="{{ cAsset('assets/js/chartjs/chartist.css') }}" rel="stylesheet" type="text/css">
@@ -153,44 +154,6 @@ $isHolder = Session::get('IS_HOLDER');
                         </div>
                         <table style="table-layout:fixed;">
                         </table>
-                        <div class="head-fix-div" style="height: 157px;margin-top:20px;">
-                        <table id="table-shipmember-list" style="table-layout:fixed;">
-                            <thead class="">
-                                <th class="text-center style-normal-header" style="width: 9%;height:35px;box-shadow: inset 0 -1px #000, 1px -1px #000;"><span>审批编号</span></th>
-                                <th class="text-center style-normal-header" style="width: 10%;"><span>申请日期</span></th>
-                                <th class="text-center style-normal-header" style="width: 75%;"colspan="5"><span>等待凭证</span></th>
-                                <th class="text-center style-normal-header"><span>无显示</span></th>
-                            </thead>
-                            <tbody class="" id="list-body" style="">
-                            @if (isset($noattachments) && count($noattachments) > 0)
-                            <?php $index = 1;?>
-                            @foreach ($noattachments as $report)
-                                <?php $nickName=""?>
-                                @foreach($shipList as $ship)
-                                    @if ($ship->IMO_No == $report['shipNo'])
-                                    <?php $nickName = $ship['NickName'];?>
-                                    @endif
-                                @endforeach
-                                <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif>
-                                    <td class="center" style="height:20px;">{{$report['report_id']}}</td>
-                                    <td class="center">{{$report['report_date']}}</td>
-                                    <td class="center">{{g_enum('ReportTypeData')[$report['flowid']]}}</td>
-                                    <td class="center">{{$nickName}}</td>
-                                    <td class="center">{{$report['voyNo']}}</td>
-                                    <td class="center">{{isset(g_enum('FeeTypeData')['Debit'][$report['profit_type']])?g_enum('FeeTypeData')['Debit'][$report['profit_type']]:""}}</td>
-                                    <td class="center"><img src="{{ cAsset('assets/images/paper-clip.png') }}"  width="15" height="15"></td>
-                                    <td class="center report-visible" style="cursor:pointer;">{{$report['ishide']?"✓":""}}</td>
-                                    <?php $index++;?>
-                                </tr>
-                            @endforeach
-                            @else
-                            <tr>
-                                <td colspan="8">{{ trans('common.message.no_data') }}</td>
-                            </tr>
-                            @endif
-                            </tbody>
-                        </table>
-                        </div>
                         <div class="table-head-fix-div" style="max-height: 157px;margin-top:20px;">
                         <table id="table-shipmember-list" style="table-layout:fixed;">
                             <thead class="">
@@ -288,6 +251,18 @@ $isHolder = Session::get('IS_HOLDER');
                             @endfor
                             </tbody>
                         </table>
+                        <div class="head-fix-div" style="height: 256px;margin-top:20px;">
+                            <table id="table-report-list" style="table-layout:fixed;">
+                                <tfooter class="">
+                                    <td></td>
+                                    <td></td>
+                                    <td colspan="5"></td>
+                                    <td></td>
+                                </tfooter>
+                                <tbody class="" id="table-report-list-body" style="">
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="space-12"></div>
                     </div>
                 </div>
@@ -308,6 +283,16 @@ $isHolder = Session::get('IS_HOLDER');
     <?php
 	echo '<script>';
     echo 'var ship_ids = ' . $settings['graph_ship'] . ';';
+	echo 'var ReportTypeLabelData = ' . json_encode(g_enum('ReportTypeLabelData')) . ';';
+	echo 'var ReportTypeData = ' . json_encode(g_enum('ReportTypeData')) . ';';
+	echo 'var ReportStatusData = ' . json_encode(g_enum('ReportStatusData')) . ';';
+    echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
+    echo 'var FeeTypeData = ' . json_encode(g_enum('FeeTypeData')) . ';';
+    echo 'var ships = [];';
+    foreach($shipList as $ship) {
+        echo 'ships["' . $ship['IMO_No'] . '"]="' . $ship['NickName'] . '";';
+    }
+
 	echo '</script>';
 	?>
     <script>
@@ -344,27 +329,6 @@ $isHolder = Session::get('IS_HOLDER');
             var isUpdate = $(parentElement).children().eq(2);
             $(dest).attr('src', "{{ cAsset('assets/images/document.png') }}");
             $(isUpdate).val('1');
-        });
-
-        $(".report-visible").on('click',function(e) {
-            var ishide = 0;
-            var td_html = "";
-            if (e.target.innerHTML == "") {
-                ishide = 1;
-                td_html = "✓";
-            }
-            e.target.innerHTML = td_html;
-
-            //td_html = "input type='hidden' name="
-            var parentElement = e.target.parentElement;
-            var name = $($(parentElement).children(":last")).attr('name');
-            if (name == 'visible_value[]') {
-                $(parentElement).children(":last").remove();
-                $(parentElement).children(":last").remove();
-            }
-            td_html = "<input type='hidden' name='visible_id[]' value='" + ($(parentElement).children(":first")).html() + "'/>";
-            td_html += "<input type='hidden' name='visible_value[]' value='" + ishide + "'/>";
-            $(parentElement).append(td_html);
         });
 
         $(".dyn-visible").on('click',function(e) {
@@ -404,6 +368,101 @@ $isHolder = Session::get('IS_HOLDER');
 
         function onFileChange(e) {
             alert(e);
+        }
+
+        
+        $(function() {
+            initTable();
+        });
+
+        function initTable()
+        {
+            listTable = $('#table-report-list').DataTable({
+                processing: true,
+                serverSide: true,
+                searching: true,
+                ajax: {
+                    url: BASE_URL + 'ajax/decide/noattachments',
+                    type: 'POST',
+                },
+                "ordering": false,
+                "pageLength": 100,
+                columnDefs: [{
+                    targets: [0],
+                    orderable: false,
+                    searchable: false
+                }],
+                columns: [
+                    {data: 'report_id', className: "text-center"},
+                    {data: 'report_date', className: "text-center"},
+                    {data: null, className: "text-center"},
+                    {data: null, className: "text-center"},
+                    {data: 'voyNo', className: "text-center"},
+                    {data: null, className: "text-center"},
+                    {data: null, className: "text-center"},
+                    {data: null, className: "text-center report-visible"},
+                ],
+                createdRow: function (row, data, index) {
+                    $('td', row).eq(2).html(ReportTypeData[data['flowid']]);
+                    $('td', row).eq(3).html(ships[data['shipNo']]);
+                    var profit_type = FeeTypeData['Debit'][data['profit_type']];
+                    if (profit_type == null || profit_type == 'null' || profit_type == undefined) profit_type = "";
+                    $('td', row).eq(5).html(profit_type);
+                    $('td', row).eq(6).html('<img src="' + "{{ cAsset('assets/images/paper-clip.png') }}" + '"' + ' width="15" height="15">');
+                    $('td', row).eq(7).html(data['ishide']?"✓":"");
+                    $('td', row).eq(7).css('cursor','pointer');
+                    //$('td', row).eq(7).prop('class','report-visible');
+                },
+                initComplete: function (response) {
+                    $($($('#table-report-list thead').children()[0]).children()[2]).prop("colspan","5").prop("height","30px");
+                    $($($('#table-report-list thead').children()[0]).children()[3]).remove();
+                    $($($('#table-report-list thead').children()[0]).children()[3]).remove();
+                    $($($('#table-report-list thead').children()[0]).children()[3]).remove();
+                    $($($('#table-report-list thead').children()[0]).children()[3]).remove();
+                    $($($('#table-report-list thead').children()[0]).children()[0]).html('审批编号')
+                    $($($('#table-report-list thead').children()[0]).children()[0]).css('font-style','unset');
+                    $($($('#table-report-list thead').children()[0]).children()[0]).css('width', '9%');
+                    $($($('#table-report-list thead').children()[0]).children()[1]).html('申请日期')
+                    $($($('#table-report-list thead').children()[0]).children()[1]).css('font-style','unset');
+                    $($($('#table-report-list thead').children()[0]).children()[1]).css('width', '10%');
+                    $($($('#table-report-list thead').children()[0]).children()[2]).html('等待凭证')
+                    $($($('#table-report-list thead').children()[0]).children()[2]).css('font-style','unset');
+                    $($($('#table-report-list thead').children()[0]).children()[2]).css('width', '75%');
+                    $($($('#table-report-list thead').children()[0]).children()[3]).html('无显示')
+                    $($($('#table-report-list thead').children()[0]).children()[3]).css('font-style','unset');
+                    $($($('#table-report-list thead').children()[0]).children()[3]).css('width', '5%');
+                    //$('#table-report-list_wrapper').css('overflow-x', 'hidden');
+
+                },
+                drawCallback: function (response) {
+                    $(".report-visible").unbind().on('click',function(e) {
+                        var ishide = 0;
+                        var td_html = "";
+                        if (e.target.innerHTML == "") {
+                            ishide = 1;
+                            td_html = "✓";
+                        }
+                        e.target.innerHTML = td_html;
+
+                        //td_html = "input type='hidden' name="
+                        var parentElement = e.target.parentElement;
+                        var name = $($(parentElement).children(":last")).attr('name');
+                        if (name == 'visible_value[]') {
+                            $(parentElement).children(":last").remove();
+                            $(parentElement).children(":last").remove();
+                        }
+                        td_html = "<input type='hidden' name='visible_id[]' value='" + ($(parentElement).children(":first")).html() + "'/>";
+                        td_html += "<input type='hidden' name='visible_value[]' value='" + ishide + "'/>";
+                        $(parentElement).append(td_html);
+                    });
+                }
+            });
+
+            // $('.paginate_button').hide();
+            $('.dataTables_length').hide();
+            // $('.paging_simple_numbers').hide();
+            $('.dataTables_info').hide();
+            $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
         }
     </script>
 

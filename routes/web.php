@@ -57,6 +57,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('report/detail',    [App\Http\Controllers\Decision\DecisionController::class, 'ajaxReportDetail']);
 	Route::post('report/getData',    [App\Http\Controllers\Decision\DecisionController::class, 'ajaxReportData']);
 	Route::post('report/fileupload',    [App\Http\Controllers\Decision\DecisionController::class, 'ajaxReportFile']);
+	Route::post('decide/noattachments', [App\Http\Controllers\Decision\DecisionController::class, 'ajaxNoAttachments']);
 	
 	Route::post('object', [App\Http\Controllers\Decision\DecisionController::class, 'ajaxObject']);
 	Route::post('report/attachment/delete', [App\Http\Controllers\Decision\DecisionController::class, 'ajaxDeleteReportAttach']);

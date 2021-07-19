@@ -1012,6 +1012,35 @@ class DecisionReport extends Model {
 		);
 	}
 
+	public function noAttachments($params) {
+		$selector = DB::table($this->table)->where('attachment',0)->orWhere('attachment',null);
+
+		// number of filtered records
+		
+		$totalCount = $selector->count();
+		
+		$recordsFiltered = $selector->count();
+
+		// offset & limit
+		if (!empty($params['start']) && $params['start'] > 0) {
+			$selector->skip($params['start']);
+		}
+
+		if (!empty($params['length']) && $params['length'] > 0) {
+			$selector->take($params['length']);
+		}
+
+		$records = $selector->get();
+
+		return [
+			'draw' => $params['draw']+0,
+			'recordsTotal' =>  DB::table($this->table)->count(),
+			'recordsFiltered' => $recordsFiltered,
+			'data' => $records,
+			'error' => 0,
+		];
+	}
+
 	public function getYearList() {
 		$yearList = [];
         $info = self::orderBy('report_date', 'asc')->first();
