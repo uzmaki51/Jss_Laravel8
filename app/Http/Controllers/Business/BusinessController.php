@@ -985,7 +985,7 @@ class BusinessController extends Controller {
         if($origInfo != null) {
             $origNo = $origInfo->Voy_No;
             if($origNo == $voyNo)
-                return resonse()->json($ret);
+                return response()->json($ret);
         }
 
         $is_exist = CP::where('Ship_ID', $shipId)->where('Voy_No', $voyNo)->first();

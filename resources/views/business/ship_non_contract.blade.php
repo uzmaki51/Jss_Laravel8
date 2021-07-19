@@ -198,7 +198,7 @@
             <input type="hidden" value="{{ $shipId }}" name="shipId" v-model="shipId">
             <input type="hidden" value="{{ $voy_id }}" name="voy_id" id="voy_id">
             <label>航次: </label>
-            <input type="text" name="voy_no" v-model="voy_no" minlength="4" maxlength="4" style="width:80px;" @change="validateVoyNo" required>
+            <input type="text" name="voy_no" v-model="voy_no" minlength="4" maxlength="4" style="width:80px;" @focus="disableSubmit" @focusout="validateVoyNo" required>
             <span class="text-danger" v-bind:class="getValidClass">Voy No already exits.</span>
             <table class="contract-table mt-2">
                 <tr>
@@ -668,6 +668,9 @@
                         }
                     });
                     
+                },
+                disableSubmit() {
+                    $('#submit').attr('disabled', true);
                 },
                 getOptionCls: function(status) {
                     return status == 1 ? 'disable' : '';

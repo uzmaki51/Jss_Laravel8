@@ -99,6 +99,7 @@ class DecisionController extends Controller
 	public function reportSubmit(Request $request) {
 		$params = $request->all();
 
+		DB::beginTransaction();
 		$reportId = $params['reportId'];
 		if(isset($reportId) && $reportId != "")
 			$reportTbl = DecisionReport::find($reportId);
