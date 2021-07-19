@@ -611,8 +611,6 @@
                                     
                                     tmpData.forEach(function(data_value, data_key) {
                                         total_distance += __parseFloat(data_value["Sail_Distance"]);
-
-
                                         if(data_key > 0) {
                                             if(data_value['Voy_Type'] == DYNAMIC_SUB_SALING) {
                                                 let preKey = data_key - 1;
