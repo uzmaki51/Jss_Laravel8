@@ -196,9 +196,9 @@
                     <tr class="odd">
                         <td class="center">8</td>
                         <td colspan="2" class="text-profit font-weight-bold">收入</td>
-                        <td class="text-right text-profit">@{{ number_format(cpInfo.credit) }}</td>
-                        <td class="text-right text-profit">@{{ number_format(realInfo.credit) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.credit - cpInfo.credit) }}</td>
+                        <td class="text-right text-profit">@{{ number_format(cpInfo.credit, 0) }}</td>
+                        <td class="text-right text-profit">@{{ number_format(realInfo.credit, 0) }}</td>
+                        <td class="text-right">@{{ number_format(realInfo.credit - cpInfo.credit, 0) }}</td>
                     </tr>
 
 
