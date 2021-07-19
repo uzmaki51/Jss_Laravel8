@@ -362,7 +362,7 @@ $shipList = explode(',', Auth::user()->shipList);
                                     @endforeach
                                     <tr>
                                         <td style="background-color: #ffffff; height: 35px; vertical-align: middle;">CERTIFICATES OF COMPETENCY FOR SEAFARERS</td>
-                                        <td style="vertical-align: middle;">NO OF DOC</td>
+                                        <td style="vertical-align: middle;">NO OF COC</td>
                                         <td style="vertical-align: middle;">VALID UNTIL</td>
                                     </tr>
                                     @foreach($memberCertXls['COC'] as $key => $item)
@@ -370,7 +370,7 @@ $shipList = explode(',', Auth::user()->shipList);
                                             <td style="background-color: #f8f8f8;">{{ $item[1] }}</td>
                                             @if(isset($elseInfo['member'][$item[0]]))
                                                 <td>{{ $elseInfo['member'][$item[0]]['ItemNo'] }}</td>
-                                                <td>{{ $elseInfo['member'][$item[0]]['COC_IssueDate'] }}</td>
+                                                <td>{{ $elseInfo['member'][$item[0]]['COC_ExpiryDate'] }}</td>
                                             @else
                                                 <td></td>
                                                 <td></td>
@@ -382,8 +382,8 @@ $shipList = explode(',', Auth::user()->shipList);
                                         <tr>
                                             <td style="background-color: #f8f8f8;">{{ $item[1] }}</td>
                                             @if(isset($elseInfo['member'][$item[0]]))
-                                                <td>{{ $elseInfo['member'][$item[0]]['GMDSS_NO'] }}</td>
-                                                <td>{{ $elseInfo['member'][$item[0]]['GMD_ExpiryDate'] }}</td>
+                                                <td>{{ $elseInfo['member'][$item[0]]['ItemNo'] }}</td>
+                                                <td>{{ $elseInfo['member'][$item[0]]['COC_ExpiryDate'] }}</td>
                                             @else
                                                 <td></td>
                                                 <td></td>

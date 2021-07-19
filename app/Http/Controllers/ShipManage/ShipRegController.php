@@ -81,15 +81,15 @@ class ShipRegController extends Controller
     );
 
 	protected $__MEMBER_EXCEL_COC = array(
-		['MASTER', 'caption'],
+		['MASTER', 'captain'],
 		['CHIEF MATE', 'C / Officer'],
 		['2nd DECK OFFICER' , '2 / Officer'],
-		['3nd DECK OFFICER'   , '3 / Officer'],
+		['3rd DECK OFFICER'   , '3 / Officer'],
 		['RADIO OFFICER', 'Radio Officer personnel'],);
 	protected $__MEMBER_EXCEL_GOC = array(
 		['CHIEF ENGINEER'  , 'C / Engineer'],
-		['2nd ENGINEER', '2 / Engineer'],
-		['3rd ENGINEER'    , '3 / Engineer'],
+		['2nd ENGINEER OFFICER', '2 / Engineer'],
+		['3rd ENGINEER OFFICER'    , '3 / Engineer'],
 	);
 
     public function __construct() {
