@@ -602,14 +602,13 @@
 
                                     realData = [];
                                     realData['voy_no'] = value;
-                                    realData['voy_count'] = tmpData.length;
-                                    realData['voy_start'] = tmpData[0]['Voy_Date'];console.log(tmpData[0]['Voy_Date'])
-                                    realData['voy_end'] = tmpData[tmpData.length - 1]['Voy_Date'];
+                                    realData['voy_count'] = tmpData.length - 1;
+                                    realData['voy_start'] = tmpData[0]['Voy_Date'] + ' ' + tmpData[0]['Voy_Hour'] + ':' + tmpData[0]['Voy_Minute'];
+                                    realData['voy_end'] = tmpData[tmpData.length - 1]['Voy_Date'] + ' ' + tmpData[tmpData.length - 1]['Voy_Hour'] + ':' + tmpData[tmpData.length - 1]['Voy_Minute'];
                                     realData['lport'] = cpData[value]['LPort'] == false ? '-' : cpData[value]['LPort'];
                                     realData['dport'] = cpData[value]['DPort'] == false ? '-' : cpData[value]['DPort'];
                                     realData['sail_time'] = __getTermDay(realData['voy_start'], realData['voy_end'], tmpData[0]['GMT'], tmpData[tmpData.length - 1]['GMT']);
-
-                                    // searchObj.setTotalInfo(data);
+                                    
                                     tmpData.forEach(function(data_value, data_key) {
                                         total_distance += __parseFloat(data_value["Sail_Distance"]);
 
@@ -676,18 +675,17 @@
 
                                     realData.total_sail_time = total_sail_time.toFixed(2);
                                     realData.total_distance = total_distance;
-                                    realData.average_speed = BigNumber(realData.total_distance).div(realData.total_sail_time).div(24).toFixed(1);
+                                    realData.average_speed = BigNumber(realData.total_distance).div(total_sail_time).div(24).toFixed(1);
                                     realData.loading_time = loading_time.toFixed(COMMON_DECIMAL);
                                     realData.disch_time = disch_time.toFixed(COMMON_DECIMAL);
                                     realData.total_loading_time = BigNumber(loading_time).plus(disch_time).plus(total_sail_time).toFixed(2);
-                                    realData.economic_rate = BigNumber(loading_time).plus(disch_time).plus(realData.total_sail_time).div(realData.sail_time).multipliedBy(100).toFixed(1);
+                                    realData.economic_rate = BigNumber(loading_time).plus(disch_time).plus(total_sail_time).div(realData.sail_time).multipliedBy(100).toFixed(1);
                                     realData.total_waiting_time = total_waiting_time.toFixed(COMMON_DECIMAL);
                                     realData.total_weather_time = total_weather_time.toFixed(COMMON_DECIMAL);
                                     realData.total_repair_time = total_repair_time.toFixed(COMMON_DECIMAL);
                                     realData.total_supply_time = total_supply_time.toFixed(COMMON_DECIMAL);
                                     realData.total_else_time = total_else_time.toFixed(COMMON_DECIMAL);
 
-                                    console.log(realData['total_distance'])
                                     // Calc Footer data
                                     footerData['sail_time'] += parseInt(realData['sail_time']);
                                     footerData['total_distance'] += parseInt(realData['total_distance']);

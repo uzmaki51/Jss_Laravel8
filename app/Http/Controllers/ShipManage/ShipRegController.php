@@ -2160,35 +2160,45 @@ class ShipRegController extends Controller
                 $tmpVoyId = 0;
                 $cp_list = [];
                 foreach($retVal['currentData'] as $key => $item) {
-                    if(!in_array($item->CP_ID, $voyArray)) {
-                        $voyArray[] = $item->CP_ID;
-    
-                        $cp_list = CP::where('Ship_ID', $shipId)->where('Voy_No', $item->CP_ID)->orderBy('Voy_No', 'desc')->get();
-                        foreach($cp_list as $cp_key => $cp_item) {
-                            $LPort = $cp_item->LPort;
-                            $LPort = explode(',', $LPort);
-                            $LPort = ShipPort::whereIn('id', $LPort)->get();
-                            $tmp = '';
-                            foreach($LPort as $port)
-                                $tmp .= $port->Port_En . ', ';
-                            $cp_list[$cp_key]->LPort = substr($tmp, 0, strlen($tmp) - 3);
-                
-                            $DPort = $cp_item->DPort;
-                
-                            $DPort = $cp_item->DPort;
-                            $DPort = explode(',', $DPort);
-                            $DPort = ShipPort::whereIn('id', $DPort)->get();
-                            $tmp = '';
-                            foreach($DPort as $port)
-                                $tmp .= $port->Port_En . ', ';
-                            $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
-                        }
-
-                        if(count($cp_list) > 0)
-                            $retVal['cpData'][$item->CP_ID] = $cp_list[0];
-                    }
-    
+                    if($key == 0) {
+                        $beforeVoy = VoyLog::where('CP_ID', '<', $item->CP_ID)->where('Ship_ID', $item->Ship_ID)->orderBy('CP_ID', 'desc')->first();
+                        $firstVoy = VoyLog::where('CP_ID', $item->CP_ID)->where('Ship_ID', $item->Ship_ID)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc');
+                        if($beforeVoy != null)
+                            $retTmp[$item->CP_ID][] = $beforeVoy;
+                        else if($beforeVoy == null && $firstVoy != null)
+                            $retTmp[$item->CP_ID][] = $firstVoy;
+                        else
+                            $retTmp[$item->CP_ID][] = [];
+                    } else {
+                        if(!in_array($item->CP_ID, $voyArray)) {
+                            $voyArray[] = $item->CP_ID;
+        
+                            $cp_list = CP::where('Ship_ID', $shipId)->where('Voy_No', $item->CP_ID)->orderBy('Voy_No', 'desc')->get();
+                            foreach($cp_list as $cp_key => $cp_item) {
+                                $LPort = $cp_item->LPort;
+                                $LPort = explode(',', $LPort);
+                                $LPort = ShipPort::whereIn('id', $LPort)->get();
+                                $tmp = '';
+                                foreach($LPort as $port)
+                                    $tmp .= $port->Port_En . ', ';
+                                $cp_list[$cp_key]->LPort = substr($tmp, 0, strlen($tmp) - 3);
                     
+                                $DPort = $cp_item->DPort;
+                    
+                                $DPort = $cp_item->DPort;
+                                $DPort = explode(',', $DPort);
+                                $DPort = ShipPort::whereIn('id', $DPort)->get();
+                                $tmp = '';
+                                foreach($DPort as $port)
+                                    $tmp .= $port->Port_En . ', ';
+                                $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
+                            }
+
+                            if(count($cp_list) > 0)
+                                $retVal['cpData'][$item->CP_ID] = $cp_list[0];
+                        }
+    
+                    }
                     $year = $params['year'];
     
                     $selector = ReportSave::where('type', 0)
@@ -2206,6 +2216,8 @@ class ShipRegController extends Controller
                     $retTmp[$item->CP_ID][] = $item;
                     $tmpVoyId = $item->CP_ID;
                 }
+
+
     
                 $retVal['currentData'] = $retTmp;
                 $retVal['voyData'] = $voyArray;
