@@ -40,9 +40,16 @@ class Restore extends Command {
 			$user     = env('DB_USERNAME', 'root');
 			$password = env('DB_PASSWORD', '');
 
-			$mysqlPath = "C:\\xampp/mysql/bin/mysql";
+			$mysqlPath = "E:\\xampp/mysql/bin/mysql";
 
-			$command = sprintf('%s -h localhost -u %s -p%s %s < %s', $mysqlPath, $user, $password, $database, $path);
+			if ($password != "") {
+				$command = sprintf('%s -h localhost -u %s -p%s %s < %s', $mysqlPath, $user, $password, $database, $path);
+			}
+			else {
+				$command = sprintf('%s -h localhost -u %s %s < %s', $mysqlPath, $user, $database, $path);
+			}
+
+			
 			$result = exec($command);
 
             //$this->info($command);
