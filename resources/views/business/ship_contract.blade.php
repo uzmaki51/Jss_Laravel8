@@ -508,7 +508,7 @@ $ships = Session::get('shipList');
 
                                 getInitInfo(ship_id);
                             }
-                        })
+                        });
                     },
                     getFrtRate: function(a, b) {
                         return parseFloat(a) == 0 || a == undefined ? b : a;

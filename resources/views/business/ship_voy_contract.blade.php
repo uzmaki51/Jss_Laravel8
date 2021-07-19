@@ -170,18 +170,18 @@
                     </div>
                     <div class="d-flex horizontal">
                         <label>日净利润</label>
-                        <my-currency-input class="text-left bigger-input" :class="profitClass(output['net_profit_day'])" readonly v-model="output['net_profit_day']" name="net_profit_day" v-bind:fixedNumber="2" maxlength="5"></my-currency-input>
+                        <my-currency-input class="text-left bigger-input" :class="profitClass(output['net_profit_day'])" readonly v-model="output['net_profit_day']" name="net_profit_day" v-bind:fixedNumber="0" maxlength="5"></my-currency-input>
                         <span></span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>参考(最高)</label>
-                        <my-currency-input class="text-left double-input-left" style="color: #126EB9 !important; font-weight: bold" readonly v-model="output['max_profit']" name="max_profit" v-bind:fixednumber="2"></my-currency-input>
+                        <my-currency-input class="text-left double-input-left" style="color: #126EB9 !important; font-weight: bold" readonly v-model="output['max_profit']" v-bind:fixedNumber="0" name="max_profit" v-bind:fixednumber="2"></my-currency-input>
                         <input type="text" class="text-left double-input-right" readonly name="max_voy" v-model="output['max_voy']">
                         <span>航次</span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>(最低)</label>
-                        <my-currency-input class="text-left double-input-left" style="color: red!important; font-weight: bold" readonly v-model="output['min_profit']" name="min_profit" v-bind:fixednumber="0"></my-currency-input>
+                        <my-currency-input class="text-left double-input-left" style="color: red!important; font-weight: bold" readonly v-model="output['min_profit']" v-bind:fixedNumber="0" name="min_profit" v-bind:fixednumber="0"></my-currency-input>
                         <input type="text" class="text-left double-input-right" readonly name="min_voy" v-model="output['min_voy']">
                         <span>航次</span>
                     </div>
