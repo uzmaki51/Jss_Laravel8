@@ -25,7 +25,7 @@ class ShipPort extends Model
 
         }
 
-        return substr($retVal, 0, strlen($retVal) - 2);
+        return strlen($retVal) == 0 ? '' : substr($retVal, 0, strlen($retVal) - 2);
     }
 
 }
