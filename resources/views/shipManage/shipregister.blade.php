@@ -340,12 +340,13 @@ $shipList = Session::get('shipList');
             submitted = true;
         });
 
-        var $form = $('form'),
-        origForm = $form.serialize();
+        var $form = $('form');
         window.addEventListener("beforeunload", function (e) {
             var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
             if ($form.serialize() !== origForm && !submitted) {
+                console.log($form.serialize());
+                console.log(origForm);
                 (e || window.event).returnValue = confirmationMessage;
             }
             return confirmationMessage;

@@ -48,7 +48,7 @@ class DecisionController extends Controller
 
 	// Report List
 	public function receivedReport(Request $request) {
-		$shipList = ShipRegister::all();
+		$shipList = ShipRegister::orderBy('id')->get();
 		$params = $request->all();
 
 		$id = -1;
@@ -70,7 +70,7 @@ class DecisionController extends Controller
 
 	// Draft List
 	public function draftReport(Request $request) {
-		$shipList = ShipRegister::all();
+		$shipList = ShipRegister::orderBy('id')->get();
 		$params = $request->all();
 
 		$id = -1;
@@ -275,7 +275,7 @@ class DecisionController extends Controller
 	public function ajaxReportData(Request $request) {
 		$params = $request->all();
 
-		$shipList = ShipRegister::all();
+		$shipList = ShipRegister::orderBy('id')->get();
 		foreach($shipList as $key => $item) {
 			$shipList[$key]->NickName = $shipList[$key]->NickName == '' ? $shipList[$key]->shipName_En : $shipList[$key]->NickName;
 		}

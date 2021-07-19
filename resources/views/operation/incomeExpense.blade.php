@@ -96,7 +96,7 @@ $ships = Session::get('shipList');
                                         <div class="space-8"></div>
                                         <div class="card">
                                             <div class="space-8"></div>
-                                            <strong><span id="graph-first-title"style="font-size: 14px; padding-top: 6px;"></span></strong>
+                                            <strong><span id="graph-first-title"style="font-size: 16px; padding-top: 6px;"></span></strong>
                                             <div class="space-8"></div>
                                             <div class="card" id="graph_first" style="border:3px double #bbb7b7">
                                             </div>
@@ -109,7 +109,7 @@ $ships = Session::get('shipList');
                                         <div class="space-8"></div>
                                         <div class="card">
                                             <div class="space-8"></div>
-                                            <strong><span id="graph-second-title"style="font-size: 14px; padding-top: 6px;"></span></strong>
+                                            <strong><span id="graph-second-title"style="font-size: 16px; padding-top: 6px;"></span></strong>
                                             <div class="space-8"></div>
                                             <div class="card" id="graph_second" style="border:3px double #bbb7b7">
                                             </div>
@@ -122,7 +122,7 @@ $ships = Session::get('shipList');
                                         <div class="space-8"></div>
                                         <div class="card">
                                             <div class="space-8"></div>
-                                            <strong><span id="graph-third-title"style="font-size: 14px; padding-top: 6px;"></span></strong>
+                                            <strong><span id="graph-third-title"style="font-size: 16px; padding-top: 6px;"></span></strong>
                                             <div class="space-8"></div>
                                             <div class="" id="graph_third" style="border:3px double #bbb7b7">
                                             </div>
@@ -352,30 +352,13 @@ $ships = Session::get('shipList');
         shipid_graph = $("#select-graph-ship").val();
         var graph_title = $("#select-graph-ship option:selected").attr('data-name') + ' ' + year_graph + '年 ';
         $('#graph-first-title').html(graph_title + '利润&利润累计')
-        $('#graph-second-title').html(graph_title + '收支&收回')
+        $('#graph-second-title').html(graph_title + '收支')
         $('#graph-third-title').html(graph_title + '支出')
         initGraph();
         
-        function drawFirstGraph(labels,datasets) {
-            new Chart(document.getElementById("first-chart"), {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                        },
-                    }
-                }
-            });
-        }
-
         var color_table = ['#73b7ff','#ff655c','#50bc16','#ffc800','#9d00ff','#ff0000','#795548','#3f51b5','#00bcd4','#e91e63','#0000ff','#00ff00','#0d273a'];
         function drawFirstGraph(labels,datasets) {
+            /*
             $('#graph_first').html('');
             $('#graph_first').append('<canvas id="first-chart" height="250" class="chartjs-demo"></canvas>');
             new Chart(document.getElementById("first-chart"), {
@@ -411,10 +394,90 @@ $ships = Session::get('shipList');
                                 callback: function(value, index, values) {
                                     return '$ ' + prettyValue2(value);
                                 }
-                            }
+                            },
                         }
                     }
                 }
+            });
+            */
+            //*/
+            //datasets1[0].backgroundColor
+
+            Highcharts.setOptions({
+                lang: {
+                    thousandsSep: ','
+                }
+            });
+            
+            Highcharts.chart('graph_first', {
+                title: {
+                    text: null
+                },
+                xAxis: {
+                    categories: labels
+                },
+                yAxis: {
+                    allowDecimals: false,
+                    title: {
+                        text: null
+                    },
+                    labels: {
+                        formatter: function() {
+                            if (this.value < 0) {
+                                return '<label style="color:red">' + '$ ' + prettyValue2(this.value) + '</label>';
+                            }
+                            else return '$ ' + prettyValue2(this.value);
+                        }
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 2,
+                        color: '#000'
+                    }],
+                },
+                labels: {
+                    items: [{
+                        html: null,
+                        style: {
+                            left: '50px',
+                            top: '18px',
+                            color: ( // theme
+                                Highcharts.defaultOptions.title.style &&
+                                Highcharts.defaultOptions.title.style.color
+                            ) || 'black'
+                        }
+                    }]
+                },
+                credits: {
+                    enabled: false
+                },
+                tooltip: {
+                    valueDecimals: 0,
+                },
+                series: [{
+                    type: 'areaspline',
+                    name: '利润累计($)',
+                    data: datasets[0].data,
+                    lineColor: "#735df8",
+                    lineWidth: 2,
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, 'cyan'],
+                            [1, '#ff9f9f']
+                        ]
+                    },
+                }, {
+                    type: 'column',
+                    name: '利润($)',
+                    color: '#735df8',
+                    data: datasets[1].data
+                }]
             });
         }
 
@@ -506,7 +569,10 @@ $ships = Session::get('shipList');
                         ['检验费('+datasets[11]+'%)',datasets[11]],
                         ['证书费('+datasets[12]+'%)',datasets[12]]
                     ]
-                }]
+                }],
+                tooltip: {
+                    valueSuffix: "%",
+                },
             });
         }
 
@@ -650,7 +716,7 @@ $ships = Session::get('shipList');
             shipid_graph = $("#select-graph-ship").val();
             var graph_title = $("#select-graph-ship option:selected").attr('data-name') + ' ' + year_graph + '年 ';
             $('#graph-first-title').html(graph_title + '利润&利润累计');
-            $('#graph-second-title').html(graph_title + '收支&收回');
+            $('#graph-second-title').html(graph_title + '收支');
             $('#graph-third-title').html(graph_title + '支出');
 
             initGraph();
@@ -993,7 +1059,7 @@ $ships = Session::get('shipList');
                     $('#contract_amount').html(response.json.voy_info.Cgo_Qtty);
                     $('#contract_signon_port').html(response.json.LPort);
                     $('#contract_signoff_port').html(response.json.DPort);
-                    $('#contract_unit').html(response.json.voy_info.Freight);   //total_Freight zxc
+                    $('#contract_unit').html(response.json.voy_info.total_Freight);   //Freight zxc
                     if (response.json.voy_info.is_attachment == 1) {
                         $('#contract_attachment').html('<a href="' + response.json.voy_info.attachment_url + '" target="_blank" ><img src="' + "{{ cAsset('assets/images/document.png') }}" + '" width="15" height="15"></a>');
                     }
