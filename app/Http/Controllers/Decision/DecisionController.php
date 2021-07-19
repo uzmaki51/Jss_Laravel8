@@ -183,9 +183,11 @@ class DecisionController extends Controller
 			$lastId = $reportId;
 			$isRegister = false;
 		} else {
-			$last = DecisionReport::where('state', STATUS_ACTIVE)->orderBy('id', 'desc')->first();
-			if($last == null) return redirect()->back();
-			$lastId = $last['id'];
+			$last = DecisionReport::orderBy('id', 'desc')->first();
+			if($last == null) 
+				$lastId = 1;
+			else
+				$lastId = $last['id'];
 			$isRegister = true;
 		}
 

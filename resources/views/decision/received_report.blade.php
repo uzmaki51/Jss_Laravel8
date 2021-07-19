@@ -492,7 +492,7 @@
                     
                     disableProfit(result['flowid'], result['profit_type']);
 
-                    if(attach != null && attach != undefined) 
+                    if(attach != null && attach != undefined && !is_new) 
                         reportObj.fileName = attach['file_name'];
                     else 
                         reportObj.fileName = '添加附件';
