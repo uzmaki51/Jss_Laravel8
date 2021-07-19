@@ -111,7 +111,7 @@ $ships = Session::get('shipList');
                                         <td class="text-center"><div class="fixed-td">@{{ item.L_Rate }}</div></td>
                                         <td class="text-center"><span class="fixed-td">@{{ item.D_Rate }}</span></td>
                                         <td class="text-center">@{{ getFrtRate(item.Freight, item.total_Freight) }}</td>
-                                        <td class="text-center">@{{ item.net_profit_day }}</td>
+                                        <td class="text-center">@{{ item.net_profit_day == '' ? '' : '$ ' + item.net_profit_day }}</td>
                                         <td class="text-center">
                                             <a :href="item.attachment_url" target="_blank" v-bind:class="[item.is_attachment == 1 ? '' : 'd-none']">
                                                 <img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15">
@@ -511,7 +511,13 @@ $ships = Session::get('shipList');
                         });
                     },
                     getFrtRate: function(a, b) {
-                        return parseFloat(a) == 0 || a == undefined ? b : a;
+                        let val = '';
+                        if(__parseFloat(a) == 0)
+                            val = b;
+                        else
+                            val = a;
+
+                        return __parseFloat(val) == 0 ? '' : '$ ' + val;
                     },
                     getCargoName: function(ids) {
                         if(ids == '' || ids == undefined) return '';
@@ -741,6 +747,31 @@ $ships = Session::get('shipList');
                 portListObj.list.push([]);
 
                 var index = $('table > tbody> tr.selected').index();
+
+                voyContractObj.is_update = false;
+                voyInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
+                voyInputObj.input['do_sailing'] = shipInfo['DOSailCons_S'];
+                voyInputObj.input['fo_up_shipping'] = shipInfo['FOL/DCons_S'];
+                voyInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
+                voyInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
+                voyInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
+
+                tcContractObj.is_update = false;
+                tcInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
+                tcInputObj.input['do_sailing'] = shipInfo['DOSailCons_S'];
+                tcInputObj.input['fo_up_shipping'] = shipInfo['FOL/DCons_S'];
+                tcInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
+                tcInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
+                tcInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
+
+                nonContractObj.is_update = false;
+                nonInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
+                nonInputObj.input['do_sailing'] = shipInfo['DOSailCons_S'];
+                nonInputObj.input['fo_up_shipping'] = shipInfo['FOL/DCons_S'];
+                nonInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
+                nonInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
+                nonInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
+                
                 if (voy_id > 0)
                 {
                     ACTIVE_TAB = voyListObj.list[index].CP_kind.toLowerCase();
@@ -801,10 +832,10 @@ $ships = Session::get('shipList');
                         voyContractObj.can_date = voyListObj.list[index].LayCan_Date2;
                         voyContractObj.load_rate = voyListObj.list[index].L_Rate;
                         voyContractObj.disch_rate = voyListObj.list[index].D_Rate;
-                        voyContractObj.freight_rate = voyListObj.list[index].Freight;
-                        voyContractObj.lumpsum = voyListObj.list[index].total_Freight;
-                        voyContractObj.deten_fee = voyListObj.list[index].deten_fee;
-                        voyContractObj.dispatch_fee = voyListObj.list[index].dispatch_fee;
+                        voyContractObj.freight_rate = __parseFloat(voyListObj.list[index].Freight) == 0 ? '' : '$ ' + __parseFloat(voyListObj.list[index].Freight);
+                        voyContractObj.lumpsum = __parseFloat(voyListObj.list[index].total_Freight) == 0 ? '' : '$ ' + __parseFloat(voyListObj.list[index].total_Freight);
+                        voyContractObj.deten_fee = __parseFloat(voyListObj.list[index].deten_fee) == 0 ? '' : '$ ' + __parseFloat(voyListObj.list[index].deten_fee);
+                        voyContractObj.dispatch_fee = __parseFloat(voyListObj.list[index].dispatch_fee) == 0 ? '' : '$ ' + __parseFloat(voyListObj.list[index].dispatch_fee);
                         voyContractObj.com_fee = voyListObj.list[index].com_fee;
                         voyContractObj.charterer = voyListObj.list[index].charterer;
                         voyContractObj.tel_number = voyListObj.list[index].tel_number;
@@ -876,10 +907,10 @@ $ships = Session::get('shipList');
 
                         tcContractObj.dely = voyListObj.list[index].L_Rate;
                         tcContractObj.redely = voyListObj.list[index].D_Rate;
-                        tcContractObj.hire = voyListObj.list[index].Freight;
-                        tcContractObj.first_hire = voyListObj.list[index].total_Freight;
-                        tcContractObj.ilohc = voyListObj.list[index].ilohc;
-                        tcContractObj.c_v_e = voyListObj.list[index].c_v_e;
+                        tcContractObj.hire = __parseFloat(voyListObj.list[index].Freight) == 0 ? '' : '$ ' + __parseFloat(voyListObj.list[index].Freight);
+                        tcContractObj.first_hire = __parseFloat(voyListObj.list[index].total_Freight) == 0 ? '' : '$ ' + __parseFloat(voyListObj.list[index].total_Freight);
+                        tcContractObj.ilohc = __parseFloat(voyListObj.list[index].ilohc) == 0 ? '' : '$ ' + __parseFloat(voyListObj.list[index].ilohc);
+                        tcContractObj.c_v_e = __parseFloat(voyListObj.list[index].c_v_e) == 0 ? '' : '$ ' + __parseFloat(voyListObj.list[index].c_v_e);
                         tcContractObj.com_fee = voyListObj.list[index].com_fee;
                         tcContractObj.charterer = voyListObj.list[index].charterer;
                         tcContractObj.tel_number = voyListObj.list[index].tel_number;
@@ -951,32 +982,7 @@ $ships = Session::get('shipList');
                         nonContractObjTmp = JSON.parse(JSON.stringify(nonContractObj._data));                        
                     }
                 }
-                else
-                {
-                    voyContractObj.is_update = false;
-                    voyInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
-                    voyInputObj.input['do_sailing'] = shipInfo['DOSailCons_S'];
-                    voyInputObj.input['fo_up_shipping'] = shipInfo['FOL/DCons_S'];
-                    voyInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
-                    voyInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
-                    voyInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
 
-                    tcContractObj.is_update = false;
-                    tcInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
-                    tcInputObj.input['do_sailing'] = shipInfo['DOSailCons_S'];
-                    tcInputObj.input['fo_up_shipping'] = shipInfo['FOL/DCons_S'];
-                    tcInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
-                    tcInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
-                    tcInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
-
-                    nonContractObj.is_update = false;
-                    nonInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
-                    nonInputObj.input['do_sailing'] = shipInfo['DOSailCons_S'];
-                    nonInputObj.input['fo_up_shipping'] = shipInfo['FOL/DCons_S'];
-                    nonInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
-                    nonInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
-                    nonInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
-                }
                 voyInputObjTmp = JSON.parse(JSON.stringify(voyInputObj.input));
                 tcInputObjTmp = JSON.parse(JSON.stringify(tcInputObj.input));
                 nonInputObjTmp = JSON.parse(JSON.stringify(nonInputObj.input));

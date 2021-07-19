@@ -384,7 +384,7 @@
             <div class="attachment-div d-flex mt-20">
                 <img src="{{ cAsset('/assets/images/paper-clip.png') }}" width="15" height="15">
                 <span class="ml-1">附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件: </span>
-                <label for="contract_tc_attach" class="ml-1 blue contract-attach">
+                <label for="contract_tc_attach" class="ml-1 blue contract-attach d-flex">
                     <span class="contract-file-name">@{{ fileName }}</span>
                     <button type="button" class="btn btn-danger p-0" style="min-width: 30px;" @click="removeFile"><i class="icon-remove mr-0"></i></button>
                 </label>
@@ -464,9 +464,9 @@
                     else
                         tcContractObj.cp_date = tcContractObj.pre_cp_date;
 
-                    tcContractObj.hire = this.input['daily_rent'];
-                    tcContractObj.ilohc = this.input['ilohc'];
-                    tcContractObj.c_v_e = this.input['c_v_e'];
+                    tcContractObj.hire = __parseFloat(this.input['daily_rent']) == 0 ? '' : '$ ' + __parseFloat(this.input['daily_rent']);
+                    tcContractObj.ilohc = __parseFloat(this.input['ilohc']) == 0 ? '' : '$ ' + __parseFloat(this.input['ilohc']);
+                    tcContractObj.c_v_e = __parseFloat(this.input['c_v_e']) == 0 ? '' : '$ ' + __parseFloat(this.input['c_v_e']);
                     tcContractObj.com_fee = this.input['fee'];
                     tcContractObj.net_profit_day = this.output['net_profit_day']
                     tcContractObj.currency = this.input['currency'];
@@ -587,9 +587,9 @@
                 dely:      '',
                 redely:     '',
                 hire:   '',
-                first_hire:     '0.00',
-                ilohc:          '0.00',
-                c_v_e:          '0.00',
+                first_hire:     '',
+                ilohc:          '',
+                c_v_e:          '',
                 com_fee:        '0.00',
                 charterer:      '',
                 tel_number:     '',

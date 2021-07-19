@@ -388,7 +388,7 @@
         <div class="attachment-div d-flex mt-20">
             <img src="{{ cAsset('/assets/images/paper-clip.png') }}" width="15" height="15">
             <span class="ml-1">附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件: </span>
-            <label for="contract_attach" class="ml-1 blue contract-attach">
+            <label for="contract_attach" class="ml-1 blue contract-attach d-flex">
                 <span class="contract-file-name">@{{ fileName }}</span>
                 <button type="button" class="btn btn-danger p-0" style="min-width: 30px;" @click="removeFile"><i class="icon-remove mr-0"></i></button>
             </label>
@@ -473,16 +473,16 @@
                         voyContractObj.cp_date = voyContractObj.pre_cp_date;
 
                     voyContractObj.qty_amount = this.input['cargo_amount'];
-                    voyContractObj.freight_rate = this.input['fregith_price'];
+                    // voyContractObj.freight_rate = '$ ' + this.input['freight_price'];
                     voyContractObj.net_profit_day = this.output['net_profit_day'];
                     voyContractObj.currency = this.input['currency'];
                     voyContractObj.rate = this.input['rate'];
 
                     if(this.batchStatus == true) {
-                        voyContractObj.lumpsum = this.input['batch_price'];
-                        voyContractObj.freight_rate = 0;
+                        voyContractObj.lumpsum = '$ ' + this.input['batch_price'];
+                        voyContractObj.freight_rate = '';
                     } else {
-                        voyContractObj.freight_rate = this.input['freight_price'];
+                        voyContractObj.freight_rate = __parseFloat(this.input['freight_price']) == 0 ? '' : '$ ' + __parseFloat(this.input['freight_price']);
                     }
                     
                     voyContractObj.com_fee = this.input['fee'];
@@ -610,10 +610,10 @@
                 can_date:       '',
                 load_rate:      '',
                 disch_rate:     '',
-                freight_rate:   '0.00',
-                lumpsum:        '0.00',
-                deten_fee:      '0.00',
-                dispatch_fee:   '0.00',
+                freight_rate:   '',
+                lumpsum:        '',
+                deten_fee:      '',
+                dispatch_fee:   '',
                 com_fee:        '0.00',
                 charterer:      '',
                 tel_number:     '',
