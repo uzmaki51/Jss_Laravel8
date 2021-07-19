@@ -103,7 +103,7 @@ class ShipRegister extends Model
 			    $retVal['cert'][$item[0]]['issue_date'] = '';
 			    $retVal['cert'][$item[0]]['expire_date'] = '';
 		    } else {
-	    		$shipCertInfo = ShipCertRegistry::where('cert_id', $certItem->id)->where('ship_id', $ship_id)->first();
+	    		$shipCertInfo = ShipCertRegistry::where('cert_id', $certItem->id)->where('ship_id', $imo_no)->first();
 	    		if($shipCertInfo == null || $shipCertInfo == false) {
 				    $retVal['cert'][$item[0]]['issue_date'] = '';
 				    $retVal['cert'][$item[0]]['expire_date'] = '';

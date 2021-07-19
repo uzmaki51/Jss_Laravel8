@@ -66,13 +66,13 @@ class ShipRegController extends Controller
     private $control = 'shipManage';
     protected $__CERT_EXCEL = array(
     	['Nationality / Registry', 'COR'],
-	    ['Minimum Safe Manning', 'A-2 MSMC'],
+	    ['Minimum Safe Manning', 'MSMC'],
 	    ['Tonnage' , 'ITC'],
 	    ['Load Line'   , 'ILL'],
 	    ['IOPP', 'IOPP-A'],
 	    ['Safety Construction'  , 'SC'],
 	    ['Safety Equipment', 'SE'],
-	    ['Saftey Radio'    , 'SR'],
+	    ['Safety Radio'    , 'SR'],
 	    ['CLC' , 'BCC'],
 	    ['DOC' , 'DOC'],
 	    ['SMC', 'SMC'],

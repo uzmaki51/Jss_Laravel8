@@ -18,6 +18,11 @@ $ships = Session::get('shipList');
 
 
 @section('content')
+    <style>
+        #table-main-2 .text-warning {
+            font-weight: bold!important;
+        }
+    </style>
     <div class="main-content">
         <div class="page-content">
             <div class="page-header">
