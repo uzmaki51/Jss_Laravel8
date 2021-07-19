@@ -33,7 +33,6 @@ $ships = Session::get('shipList');
                 <div class="col-md-12">
                     <div class="col-md-7">
                         <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
-                        <div>{{$shipId}}</div>
                         <select class="custom-select d-inline-block" id="select-table-ship" style="width:80px">
                             <!--option value="" selected></option-->
                             <?php $index = 0 ?>

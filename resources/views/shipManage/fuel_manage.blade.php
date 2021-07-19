@@ -102,152 +102,154 @@
             <!-- Main Contents Begin -->
             <div class="row" style="margin-top: 4px;">
                 <div class="col-md-12">
-                    <form method="post" action="fuelSave" enctype="multipart/form-data" id="record-form">
-                        <input type="hidden" name="_token" value="{{csrf_token()}}">
-                        <input type="hidden" name="shipId" value="{{ $shipId }}">
-                        <input type="hidden" name="year" v-model="activeYear">
-                        <table class="dynamic-table table-striped" id="table-fuel-list">
-                                <thead>
-                                <tr>
-                                        <th class="text-center" rowspan="2">航次</th>
-                                        <th class="text-center" rowspan="2">平均<br>速度</th>
-                                        <th class="text-center" colspan="3">油槽测量(起)</th>
-                                        <th class="text-center" colspan="3">油槽测量(止)</th>
-                                        <th class="text-center" colspan="2">总消耗(MT)</th>
-                                        <th class="text-center" colspan="2" style="border-right: 2px solid #ff9207;">-节约/+超过</th>
-                                        <th class="text-center" colspan="2">加油量(MT)</th>
-                                        <th class="text-center" rowspan="2">油款($)</th>
-                                        <th class="text-center" colspan="3" style="border-right: 2px solid #ff9207;">油价($/MT)</th>
-                                        <th class="text-center" rowspan="2">备注</th>
+                    <div class="head-fix-div common-list">
+                        <form method="post" action="fuelSave" enctype="multipart/form-data" id="record-form">
+                            <input type="hidden" name="_token" value="{{csrf_token()}}">
+                            <input type="hidden" name="shipId" value="{{ $shipId }}">
+                            <input type="hidden" name="year" v-model="activeYear">
+                            <table class="dynamic-table table-striped" id="table-fuel-list">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" rowspan="2">航次</th>
+                                            <th class="text-center" rowspan="2">平均<br>速度</th>
+                                            <th class="text-center" colspan="3" style="padding: 8px;">油槽测量(起)</th>
+                                            <th class="text-center" colspan="3">油槽测量(止)</th>
+                                            <th class="text-center" colspan="2">总消耗(MT)</th>
+                                            <th class="text-center" colspan="2" style="border-right: 2px solid #ff9207;">-节约/+超过</th>
+                                            <th class="text-center" colspan="2">加油量(MT)</th>
+                                            <th class="text-center" rowspan="2" style="max-width: 90px;">油款($)</th>
+                                            <th class="text-center" colspan="3" style="border-right: 2px solid #ff9207;">油价($/MT)</th>
+                                            <th class="text-center" rowspan="2" style="width: 120px;">备注</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center">FO</th>
+                                            <th class="text-center">DO</th>
+                                            <th class="text-center" style="min-width: 40px;">报告</th>
+                                            <th class="text-center">FO</th>
+                                            <th class="text-center">DO</th>
+                                            <th class="text-center" style="min-width: 40px;">报告</th>
+                                            <th class="text-center">FO</th>
+                                            <th class="text-center">DO</th>
+                                            <th class="text-center">FO</th>
+                                            <th class="text-center" style="border-right: 2px solid #ff9207;">DO</th>
+                                            <th class="text-center">FO</th>
+                                            <th class="text-center">DO</th>
+                                            <th class="text-center">FO</th>
+                                            <th class="text-center">DO</th>
+                                            <th class="text-center" style="border-right: 2px solid #ff9207;">其他费</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <template v-for="(item, index) in analyze.list" v-cloak>
+                                        <tr :class="index % 2 == 0 ? 'even' : 'odd'">
+                                            <td class="center d-none">
+                                                <input type="hidden" name="id[]" v-model="item.id">
+                                                <input type="hidden" name="used_fo[]" v-model="item.used_fo">
+                                                <input type="hidden" name="used_do[]" v-model="item.used_do">
+                                            </td>
+                                            <td class="center">
+                                                <input type="text" class="form-control text-center" name="voy_no[]" v-model="item.voy_no" readonly>
+                                            </td>
+                                            <td class="center">
+                                                <input type="text" class="form-control text-center" name="avg_speed[]" v-model="item.avg_speed" readonly>
+                                            </td>
+                                            <td class="center">
+                                                <my-currency-input v-model="item.up_rob_fo" class="form-control text-center" name="up_rob_fo[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                            <td class="center">
+                                                <my-currency-input v-model="item.up_rob_do" class="form-control text-center" name="up_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                            </td>
+                                            <td class="center" style="width: 3%;">
+                                                <a :href="item.attachment_link_up" target="_blank"><img src="/assets/images/document.png" v-show="item.attachment_link_up != '' && item.attachment_link_up != null" width="15" height="15" style="cursor: pointer;"></a>
+                                                <label v-bind:for="index + 'up'">
+                                                    <img src="/assets/images/paper-clip.png" width="15" height="15" v-show="item.attachment_link_up == '' || item.attachment_link_up == null" style="cursor: pointer;" v-bind:title="item.file_name">
+                                                </label>
+                                                <input type="file" name="attachment_up[]" v-bind:id="index + 'up'" class="d-none" @change="onFileChange($event, 'up')" v-bind:data-index="index">
+                                                <input type="hidden" name="is_up_update[]" v-bind:id="index + 'up_status'" class="d-none" v-bind:value="item.is_up_attach">
+                                                <img v-bind:src="getClose()" width="10" height="10" style="cursor: pointer;" v-show="item.up_file_name != ''" @click="removeFile(index, 'up')">
+                                            </td>
+
+                                            <td class="center">
+                                                <my-currency-input v-model="item.down_rob_fo" class="form-control text-center" name="down_rob_fo[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                            </td>
+                                            <td class="center">
+                                                <my-currency-input v-model="item.down_rob_do" class="form-control text-center" name="down_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                            </td>
+                                            <td class="center" style="width: 3%;">
+                                                <a :href="item.attachment_link_down" target="_blank"><img src="/assets/images/document.png" v-show="item.attachment_link_down != '' && item.attachment_link_down != null" width="15" height="15" style="cursor: pointer;"></a>
+                                                <label v-bind:for="index + 'down'">
+                                                    <img src="/assets/images/paper-clip.png" v-show="item.attachment_link_down == '' || item.attachment_link_down == null" width="15" height="15" style="cursor: pointer;" v-bind:title="item.file_name">
+                                                </label>
+                                                <input type="file" name="attachment_down[]" v-bind:id="index + 'down'" class="d-none" @change="onFileChange($event, 'down')" v-bind:data-index="index">
+                                                <input type="hidden" name="is_down_update[]" v-bind:id="index + 'down_status'" class="d-none" v-bind:value="item.is_down_attach">
+                                                <img v-bind:src="getClose()" width="10" height="10" style="cursor: pointer;" v-show="item.down_file_name != ''" @click="removeFile(index, 'down')">
+                                            </td>
+
+
+                                            <td class="center">
+                                                <input type="text" class="form-control text-center" name="rob_fo[]" v-model="item.rob_fo" readonly>
+                                            </td>
+                                            <td class="center">
+                                                <input type="text" class="form-control text-center" name="rob_do[]" v-model="item.rob_do" readonly>
+                                            </td>
+
+                                            <td class="center">
+                                                <input type="text" class="form-control text-center" name="saved_fo[]" v-model="item.saved_fo" readonly>
+                                            </td>
+                                            <td class="center" style="border-right: 2px solid #ff9207;">
+                                                <input type="text" class="form-control text-center" name="saved_do[]" v-model="item.saved_do" readonly>
+                                            </td>
+
+                                            <td class="center">
+                                                <my-currency-input v-model="item.bunk_fo" class="form-control text-center" name="bunk_fo[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                            </td>
+                                            <td class="center">
+                                                <my-currency-input v-model="item.bunk_do" class="form-control text-center" name="bunk_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                            </td>
+
+
+                                            <td class="center">
+                                                <input type="text" class="form-control text-center" name="fuelSum[]" v-model="item.fuelSum" readonly>
+                                            </td>
+                                            <td class="center">
+                                                <my-currency-input v-model="item.oil_price_fo" class="form-control text-center" name="oil_price_fo[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                            </td>
+                                            <td class="center">
+                                                <my-currency-input v-model="item.oil_price_do" class="form-control text-center" name="oil_price_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                            </td>
+                                            <td class="center" style="border-right: 2px solid #ff9207;">
+                                                <input type="text" class="form-control text-center" name="oil_price_else[]" v-model="item.oil_price_else" readonly>
+                                            </td>
+                                            <td class="center">
+                                                <textarea class="form-control" name="remark[]" rows="1" style="resize: none" maxlength="50" autocomplete="off" v-model="item.remark"></textarea>
+                                            </td>
+                                        </tr>
+                                    </template>
+
+                                    <tr class="dynamic-footer bt-0">
+                                        <td class="center" style="padding: 4px!important;">@{{ number_format(analyze.total.voy_count, 0) }}</td>
+                                        <td class="center">@{{ number_format(analyze.total.average_speed) }}</td>
+                                        <td class="center">@{{ number_format(analyze.total.total_up_rob_fo) }}</td>
+                                        <td class="center">@{{ number_format(analyze.total.total_up_rob_do) }}</td>
+                                        <td class="center"></td>
+                                        <td class="center">@{{ number_format(analyze.total.total_down_rob_fo) }}</td>
+                                        <td class="center">@{{ number_format(analyze.total.total_down_rob_do) }}</td>
+                                        <td class="center"></td>
+                                        <td class="center">@{{ number_format(analyze.total.total_rob_fo) }}</td>
+                                        <td class="center">@{{ number_format(analyze.total.total_rob_do) }}</td>
+                                        <td class="center">@{{ number_format(analyze.total.total_saved_fo) }}</td>
+                                        <td class="center" style="border-right: 2px solid #ff9207;">@{{ number_format(analyze.total.total_saved_do) }}</td>
+                                        <td class="center">@{{ number_format(analyze.total.total_bunk_fo) }}</td>
+                                        <td class="center">@{{ number_format(analyze.total.total_bunk_do) }}</td>
+                                        <td class="center"></td>
+                                        <td class="center">@{{ number_format(analyze.total.total_oil_price_fo, 2) }}</td>
+                                        <td class="center">@{{ number_format(analyze.total.total_oil_price_do, 2) }}</td>
+                                        <td class="center" style="border-right: 2px solid #ff9207;">@{{ number_format(analyze.total.total_oil_price_else, 2) }}</td>
+                                        <td class="center"></td>
                                     </tr>
-                                    <tr>
-                                        <th class="text-center">FO</th>
-                                        <th class="text-center">DO</th>
-                                        <th class="text-center">报告</th>
-                                        <th class="text-center">FO</th>
-                                        <th class="text-center">DO</th>
-                                        <th class="text-center">报告</th>
-                                        <th class="text-center">FO</th>
-                                        <th class="text-center">DO</th>
-                                        <th class="text-center">FO</th>
-                                        <th class="text-center" style="border-right: 2px solid #ff9207;">DO</th>
-                                        <th class="text-center">FO</th>
-                                        <th class="text-center">DO</th>
-                                        <th class="text-center">FO</th>
-                                        <th class="text-center">DO</th>
-                                        <th class="text-center" style="border-right: 2px solid #ff9207;">其他费</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <template v-for="(item, index) in analyze.list" v-cloak>
-                                    <tr :class="index % 2 == 0 ? 'even' : 'odd'">
-                                        <td class="center d-none">
-                                            <input type="hidden" name="id[]" v-model="item.id">
-                                            <input type="hidden" name="used_fo[]" v-model="item.used_fo">
-                                            <input type="hidden" name="used_do[]" v-model="item.used_do">
-                                        </td>
-                                        <td class="center">
-                                            <input type="text" class="form-control text-center" name="voy_no[]" v-model="item.voy_no" readonly>
-                                        </td>
-                                        <td class="center">
-                                            <input type="text" class="form-control text-center" name="avg_speed[]" v-model="item.avg_speed" readonly>
-                                        </td>
-                                        <td class="center">
-                                            <my-currency-input v-model="item.up_rob_fo" class="form-control text-center" name="up_rob_fo[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
-                                        <td class="center">
-                                            <my-currency-input v-model="item.up_rob_do" class="form-control text-center" name="up_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
-                                        </td>
-                                        <td class="center" style="width: 3%;">
-                                            <a :href="item.attachment_link_up" target="_blank"><img src="/assets/images/document.png" v-show="item.attachment_link_up != '' && item.attachment_link_up != null" width="15" height="15" style="cursor: pointer;"></a>
-                                            <label v-bind:for="index + 'up'">
-                                                <img src="/assets/images/paper-clip.png" width="15" height="15" v-show="item.attachment_link_up == '' || item.attachment_link_up == null" style="cursor: pointer;" v-bind:title="item.file_name">
-                                            </label>
-                                            <input type="file" name="attachment_up[]" v-bind:id="index + 'up'" class="d-none" @change="onFileChange($event, 'up')" v-bind:data-index="index">
-                                            <input type="hidden" name="is_up_update[]" v-bind:id="index + 'up_status'" class="d-none" v-bind:value="item.is_up_attach">
-                                            <img v-bind:src="getClose()" width="10" height="10" style="cursor: pointer;" v-show="item.up_file_name != ''" @click="removeFile(index, 'up')">
-                                        </td>
-
-                                        <td class="center">
-                                            <my-currency-input v-model="item.down_rob_fo" class="form-control text-center" name="down_rob_fo[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
-                                        </td>
-                                        <td class="center">
-                                            <my-currency-input v-model="item.down_rob_do" class="form-control text-center" name="down_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
-                                        </td>
-                                        <td class="center" style="width: 3%;">
-                                            <a :href="item.attachment_link_down" target="_blank"><img src="/assets/images/document.png" v-show="item.attachment_link_down != '' && item.attachment_link_down != null" width="15" height="15" style="cursor: pointer;"></a>
-                                            <label v-bind:for="index + 'down'">
-                                                <img src="/assets/images/paper-clip.png" v-show="item.attachment_link_down == '' || item.attachment_link_down == null" width="15" height="15" style="cursor: pointer;" v-bind:title="item.file_name">
-                                            </label>
-                                            <input type="file" name="attachment_down[]" v-bind:id="index + 'down'" class="d-none" @change="onFileChange($event, 'down')" v-bind:data-index="index">
-                                            <input type="hidden" name="is_down_update[]" v-bind:id="index + 'down_status'" class="d-none" v-bind:value="item.is_down_attach">
-                                            <img v-bind:src="getClose()" width="10" height="10" style="cursor: pointer;" v-show="item.down_file_name != ''" @click="removeFile(index, 'down')">
-                                        </td>
-
-
-                                        <td class="center">
-                                            <input type="text" class="form-control text-center" name="rob_fo[]" v-model="item.rob_fo" readonly>
-                                        </td>
-                                        <td class="center">
-                                            <input type="text" class="form-control text-center" name="rob_do[]" v-model="item.rob_do" readonly>
-                                        </td>
-
-                                        <td class="center">
-                                            <input type="text" class="form-control text-center" name="saved_fo[]" v-model="item.saved_fo" readonly>
-                                        </td>
-                                        <td class="center" style="border-right: 2px solid #ff9207;">
-                                            <input type="text" class="form-control text-center" name="saved_do[]" v-model="item.saved_do" readonly>
-                                        </td>
-
-                                        <td class="center">
-                                            <my-currency-input v-model="item.bunk_fo" class="form-control text-center" name="bunk_fo[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
-                                        </td>
-                                        <td class="center">
-                                            <my-currency-input v-model="item.bunk_do" class="form-control text-center" name="bunk_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
-                                        </td>
-
-
-                                        <td class="center">
-                                            <input type="text" class="form-control text-center" name="fuelSum[]" v-model="item.fuelSum" readonly>
-                                        </td>
-                                        <td class="center">
-                                            <my-currency-input v-model="item.oil_price_fo" class="form-control text-center" name="oil_price_fo[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
-                                        </td>
-                                        <td class="center">
-                                            <my-currency-input v-model="item.oil_price_do" class="form-control text-center" name="oil_price_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
-                                        </td>
-                                        <td class="center" style="border-right: 2px solid #ff9207;">
-                                            <input type="text" class="form-control text-center" name="oil_price_else[]" v-model="item.oil_price_else" readonly>
-                                        </td>
-                                        <td class="center">
-                                            <textarea class="form-control" name="remark[]" rows="1" style="resize: none" maxlength="50" autocomplete="off" v-model="item.remark"></textarea>
-                                        </td>
-                                    </tr>
-                                </template>
-
-                                <tr class="dynamic-footer bt-0">
-                                    <td class="center">@{{ number_format(analyze.total.voy_count, 0) }}</td>
-                                    <td class="center">@{{ number_format(analyze.total.average_speed) }}</td>
-                                    <td class="center">@{{ number_format(analyze.total.total_up_rob_fo) }}</td>
-                                    <td class="center">@{{ number_format(analyze.total.total_up_rob_do) }}</td>
-                                    <td class="center"></td>
-                                    <td class="center">@{{ number_format(analyze.total.total_down_rob_fo) }}</td>
-                                    <td class="center">@{{ number_format(analyze.total.total_down_rob_do) }}</td>
-                                    <td class="center"></td>
-                                    <td class="center">@{{ number_format(analyze.total.total_rob_fo) }}</td>
-                                    <td class="center">@{{ number_format(analyze.total.total_rob_do) }}</td>
-                                    <td class="center">@{{ number_format(analyze.total.total_saved_fo) }}</td>
-                                    <td class="center" style="border-right: 2px solid #ff9207;">@{{ number_format(analyze.total.total_saved_do) }}</td>
-                                    <td class="center">@{{ number_format(analyze.total.total_bunk_fo) }}</td>
-                                    <td class="center">@{{ number_format(analyze.total.total_bunk_do) }}</td>
-                                    <td class="center"></td>
-                                    <td class="center">@{{ number_format(analyze.total.total_oil_price_fo, 2) }}</td>
-                                    <td class="center">@{{ number_format(analyze.total.total_oil_price_do, 2) }}</td>
-                                    <td class="center" style="border-right: 2px solid #ff9207;">@{{ number_format(analyze.total.total_oil_price_else, 2) }}</td>
-                                    <td class="center"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </form>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
                 </div>
             </div>            
             <!-- Main Contents End -->
@@ -555,17 +557,17 @@
                         this.analyze.list.forEach(function(realData, key) {
                             searchObj.analyze.list[key].bunk_fo = __parseFloat(searchObj.analyze.list[key].bunk_fo);
                             searchObj.analyze.list[key].bunk_do = __parseFloat(searchObj.analyze.list[key].bunk_do);
-                            
-                            searchObj.analyze.list[key].rob_fo = BigNumber(realData.up_rob_fo).plus(realData.bunk_fo).minus(realData.down_rob_fo).toFixed(1);
-                            searchObj.analyze.list[key].rob_do = BigNumber(realData.up_rob_do).plus(realData.bunk_do).minus(realData.down_rob_do).toFixed(1);
 
-                            searchObj.analyze.list[key].saved_fo = BigNumber($_this[key].rob_fo).minus(realData.used_fo).toFixed(1);
-                            searchObj.analyze.list[key].saved_do = BigNumber($_this[key].rob_do).minus(realData.used_do).toFixed(1);
+                            searchObj.analyze.list[key].rob_fo = __parseFloat(BigNumber(realData.up_rob_fo).plus(realData.bunk_fo).minus(realData.down_rob_fo).toFixed(1));
+                            searchObj.analyze.list[key].rob_do = __parseFloat(BigNumber(realData.up_rob_do).plus(realData.bunk_do).minus(realData.down_rob_do).toFixed(1));
+
+                            searchObj.analyze.list[key].saved_fo = __parseFloat(BigNumber($_this[key].rob_fo).minus(realData.used_fo).toFixed(1));
+                            searchObj.analyze.list[key].saved_do = __parseFloat(BigNumber($_this[key].rob_do).minus(realData.used_do).toFixed(1));
 
                             let else_price1 = BigNumber(realData.rob_fo).multipliedBy(realData.oil_price_fo).toFixed(1);
                             let else_price2 = BigNumber(realData.rob_do).multipliedBy(realData.oil_price_do).toFixed(1);
                             
-                            searchObj.analyze.list[key].oil_price_else = BigNumber(realData.fuelSum).minus(else_price1).minus(else_price2).toFixed(1);
+                            searchObj.analyze.list[key].oil_price_else = BigNumber(__parseFloat(realData.fuelSum)).minus(__parseFloat(else_price1)).minus(__parseFloat(else_price2)).toFixed(1);
                         });
 
                         this.calculate();
@@ -608,6 +610,21 @@
                             else
                                 searchObj.analyze.list[key].down_file_name = 'exist';
 
+                            $_this[key].up_rob_fo = __parseFloat(data.up_rob_fo);
+                            $_this[key].up_rob_do = __parseFloat(data.up_rob_do);
+                            $_this[key].down_rob_fo = __parseFloat(data.down_rob_fo);
+                            $_this[key].down_rob_do = __parseFloat(data.down_rob_do);
+                            $_this[key].save_fo = __parseFloat(data.save_fo);
+                            $_this[key].save_do = __parseFloat(data.save_do);
+                            $_this[key].bunk_fo = __parseFloat(data.bunk_fo);
+                            $_this[key].bunk_do = __parseFloat(data.bunk_do);
+                            $_this[key].fuelSum = __parseFloat(data.fuelSum);
+
+                            $_this[key].oil_price_fo = __parseFloat(data.oil_price_fo);
+                            $_this[key].oil_price_do = __parseFloat(data.oil_price_do);
+                            $_this[key].oil_price_else = __parseFloat(data.oil_price_else);
+
+
                             footerData['average_speed'] += __parseFloat(BigNumber(data.avg_speed).div(length).toFixed(1));
 
                             footerData['total_up_rob_fo'] += __parseFloat(BigNumber(data.up_rob_fo).toFixed(2));
@@ -630,7 +647,7 @@
                             footerData['total_oil_price_else'] += __parseFloat(BigNumber(data.oil_price_else).div(length).toFixed(2));
                         });
                         
-                        searchObj.analyze.total = footerData;                        
+                        searchObj.analyze.total = footerData;
                     },
                     getAnalyzeData() {
                         let $_this = this.analyze.list;
@@ -729,8 +746,6 @@
                                         realData.up_rob_do = 0;
                                         realData.down_rob_fo = 0;
                                         realData.down_rob_do = 0;
-
-                                        
 
                                         // searchObj.setTotalInfo(data);
                                         tmpData.forEach(function(data_value, data_key) {
@@ -906,6 +921,7 @@
                                     searchObj.calculate();
                                     searchObjTmp = Object.assign([], [], searchObj.analyze.list);
                                 }
+
                                 setTimeout(function() {
                                     origForm = JSON.parse(JSON.stringify($('#record-form').serialize()));
                                 }, 500);
