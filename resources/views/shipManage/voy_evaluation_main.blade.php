@@ -362,7 +362,9 @@
                             },
                             openNewPage: function(type) {
                                 if(type == 'soa') {
-                                    window.open(BASE_URL + 'business/contract?shipId=' + this.shipId, '_blank');
+                                    window.localStorage.setItem("soa_shipid",this.shipId);
+                                    window.localStorage.setItem("soa_voyNo",voyId);
+                                    window.open(BASE_URL + 'operation/incomeExpense', '_blank');
                                 } else {
                                     window.open(BASE_URL + 'shipManage/dynamicList?shipId=' + this.shipId + '&voyNo=' + voyId, '_blank');
                                 }

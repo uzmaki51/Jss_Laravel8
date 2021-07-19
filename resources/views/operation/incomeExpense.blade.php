@@ -356,53 +356,30 @@ $ships = Session::get('shipList');
         $('#graph-third-title').html(graph_title + '支出')
         initGraph();
         
+        var clicked_voyno = null;
+        var soa_shipid = window.localStorage.getItem("soa_shipid");
+        var soa_voyNo = window.localStorage.getItem("soa_voyNo");
+        if (soa_shipid != 'null' && soa_shipid != null && soa_shipid != undefined && soa_shipid != '') {
+            console.log(soa_shipid);
+
+            window.localStorage.setItem("soa_shipid",null);
+            window.localStorage.setItem("soa_voyNo",null);
+
+            clicked_voyno = soa_voyNo;
+            $('#select-soa-ship').val(soa_shipid);
+            getVoyList(soa_shipid);
+
+            if (listSOATable == null) {
+                shipid_soa = soa_shipid;
+                voyNo_soa = soa_voyNo;
+                currency_soa = $('#select-soa-currency').val();
+            }
+
+            $('a[href="#tab_soa"]').trigger('click');
+        }
+
         var color_table = ['#73b7ff','#ff655c','#50bc16','#ffc800','#9d00ff','#ff0000','#795548','#3f51b5','#00bcd4','#e91e63','#0000ff','#00ff00','#0d273a'];
         function drawFirstGraph(labels,datasets) {
-            /*
-            $('#graph_first').html('');
-            $('#graph_first').append('<canvas id="first-chart" height="250" class="chartjs-demo"></canvas>');
-            new Chart(document.getElementById("first-chart"), {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    var label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.y !== null) {
-                                        label += '$ ' + prettyValue2(context.parsed.y);
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            ticks: {
-                                callback: function(value, index, values) {
-                                    return '$ ' + prettyValue2(value);
-                                }
-                            },
-                        }
-                    }
-                }
-            });
-            */
-            //*/
-            //datasets1[0].backgroundColor
-
             Highcharts.setOptions({
                 lang: {
                     thousandsSep: ','
@@ -1056,10 +1033,10 @@ $ships = Session::get('shipList');
                     $('#contract_type').html(response.json.voy_info.CP_kind);
                     $('#contract_date').html(response.json.voy_info.CP_Date);
                     $('#contract_content').html(response.json.Cargo);
-                    $('#contract_amount').html(response.json.voy_info.Cgo_Qtty);
+                    $('#contract_amount').html(prettyValue(response.json.voy_info.Cgo_Qtty));
                     $('#contract_signon_port').html(response.json.LPort);
                     $('#contract_signoff_port').html(response.json.DPort);
-                    $('#contract_unit').html(response.json.voy_info.total_Freight);   //Freight zxc
+                    $('#contract_unit').html(getFrtRate(response.json.voy_info.Freight, response.json.voy_info.total_Freight));
                     if (response.json.voy_info.is_attachment == 1) {
                         $('#contract_attachment').html('<a href="' + response.json.voy_info.attachment_url + '" target="_blank" ><img src="' + "{{ cAsset('assets/images/document.png') }}" + '" width="15" height="15"></a>');
                     }
@@ -1071,6 +1048,10 @@ $ships = Session::get('shipList');
             $('.paging_simple_numbers').hide();
             $('.dataTables_info').hide();
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
+        }
+
+        function getFrtRate(a, b) {
+            return parseFloat(a) == 0 || a == undefined ? prettyValue(b) : prettyValue(a);
         }
 
         $(function () {
@@ -1153,7 +1134,7 @@ $ships = Session::get('shipList');
             }
         }
 
-        var clicked_voyno = null;
+        
         function setEvents() {
             $('.td_voy_no').on('click', function(e) {
                 alertAudio();
@@ -1198,6 +1179,7 @@ $ships = Session::get('shipList');
                     $('#select-soa-contract').html(select_html);
 
                     if (clicked_voyno != null) {
+                        
                         voyNo_soa = clicked_voyno;
                         $('#select-soa-contract').val(voyNo_soa);
                         clicked_voyno = null;
@@ -1289,28 +1271,31 @@ $ships = Session::get('shipList');
             }
             tab_text=tab_text+"</table>";
             var total_text = tab_text;
-
+            
             tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
             real_tab = document.getElementById('table-soa-list');
-            tab = real_tab.cloneNode(true);
-            tab_text=tab_text+"<tr><td colspan='8' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#soa_info').html() + "SOA</td></tr>";
-            for(var j = 0 ; j < tab.rows.length ; j++)
-            {
-                if (j == 0) {
-                    for (var i=0; i<tab.rows[j].childElementCount;i++) {
-                        tab.rows[j].childNodes[i].style.width = '100px';
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+            if (real_tab.innerHTML.indexOf('No matching records found') < 0)
+            {                
+                tab = real_tab.cloneNode(true);
+                tab_text=tab_text+"<tr><td colspan='8' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#soa_info').html() + "SOA</td></tr>";
+                for(var j = 0 ; j < tab.rows.length ; j++)
+                {
+                    if (j == 0) {
+                        for (var i=0; i<tab.rows[j].childElementCount;i++) {
+                            tab.rows[j].childNodes[i].style.width = '100px';
+                            tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                        }
+                        tab.rows[j].childNodes[2].style.width = '400px';
+                        tab.rows[j].childNodes[3].style.width = '60px';
+                        tab.rows[j].childNodes[4].style.width = '300px';
+                        tab.rows[j].childNodes[5].style.width = '300px';
                     }
-                    tab.rows[j].childNodes[2].style.width = '400px';
-                    tab.rows[j].childNodes[3].style.width = '60px';
-                    tab.rows[j].childNodes[4].style.width = '300px';
-                    tab.rows[j].childNodes[5].style.width = '300px';
+                    if (j < (tab.rows.length-1)) tab.rows[j].childNodes[7].remove();
+                    tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                 }
-                if (j < (tab.rows.length-1)) tab.rows[j].childNodes[7].remove();
-                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                tab_text=tab_text+"</table>";
+                total_text += tab_text;
             }
-            tab_text=tab_text+"</table>";
-            total_text += tab_text;
 
             total_text= total_text.replace(/<A[^>]*>|<\/A>/g, "");
             total_text= total_text.replace(/<img[^>]*>/gi,"");
