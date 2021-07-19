@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 class Cp extends Model
 {
     protected $table="tbl_cp";
+    protected $table_register ="tb_ship_register";
     public $timestamps = false;
 
     public function shipName(){
@@ -127,11 +128,11 @@ class Cp extends Model
 
     public static function getYearList($shipId) {
 		$yearList = [];
-        $info = self::orderBy('CP_Date', 'asc')->where('Ship_ID', $shipId)->first();
+        $info = DB::table('tb_ship_register')->where('IMO_No', $shipId)->first();
         if($info == null) {
             $baseYear = date('Y');
         } else {
-            $baseYear = substr($info->CP_Date, 0, 4);
+            $baseYear = substr($info->RegDate, 0, 4);
         }
 
         for($year = date('Y'); $year >= $baseYear; $year --) {

@@ -175,7 +175,6 @@ $ships = Session::get('shipList');
                         if (this.isInputActive) {
                             if(isNaN(this.value))
                                 return '';
-                            console.log(this.value)
                             return this.value == 0 ? '' : this.value;
                         } else {
                             let fixedLength = 2;

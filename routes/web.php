@@ -96,7 +96,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('shipManage/equipment/require/type/delete', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxShipReqEquipTypeDelete']);	
 
 	Route::post('shipManage/evaluation/list', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxEvaluation']);	
-	Route::post('shipManage/evaluation/else', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxEvaluationElse']);	
+	Route::post('shipManage/evaluation/else', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxEvaluationElse']);
 
 	//Business
 	Route::post('business/cp/list', [App\Http\Controllers\Business\BusinessController::class, 'ajaxCPList']);

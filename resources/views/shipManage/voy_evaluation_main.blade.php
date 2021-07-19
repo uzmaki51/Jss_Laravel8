@@ -412,7 +412,6 @@
                                                     tab.rows[j].childNodes[i].innerHTML = "";
                                                 }
                                                 else if(node.tagName=='INPUT'){
-                                                    console.log(j,i,type,node);
                                                     value = node.value;
                                                     tab.rows[j].childNodes[i].innerHTML = value;
                                                     

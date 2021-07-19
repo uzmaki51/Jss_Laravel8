@@ -147,7 +147,6 @@
                         location.href = '/shipManage/voy/evaluation?shipId=' + this.shipId + '&type=else';
                     },
                     onChangeVoy: function(e) {
-                        console.log(e.target.value)
                         location.href = '/shipManage/voy/evaluation?shipId=' + this.shipId + '&year=' + e.target.value + '&type=else';
                     },
                     onVoyDetail: function(voyId) {
@@ -204,7 +203,7 @@
                     }
                 }
             });
-            console.log('after: ', activeYear);
+
             $__this = compareObj;
             $__this.year = activeYear;
             getInitInfo();
@@ -239,7 +238,7 @@
 
 
 
-                    list.forEach(function(value, key) {console.log(value);
+                    list.forEach(function(value, key) {
                         let cpInfo = value['cpInfo'];
                         let realInfo = value['realInfo'];
 
