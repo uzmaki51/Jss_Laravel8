@@ -359,20 +359,29 @@ $ships = Session::get('shipList');
         var clicked_voyno = null;
         var soa_shipid = window.localStorage.getItem("soa_shipid");
         var soa_voyNo = window.localStorage.getItem("soa_voyNo");
-        if (soa_shipid != 'null' && soa_shipid != null && soa_shipid != undefined && soa_shipid != '') {
-            console.log(soa_shipid);
-
+        if (soa_shipid != 'null' && soa_shipid != null && soa_shipid != undefined && soa_shipid != '')
+        {
             window.localStorage.setItem("soa_shipid",null);
             window.localStorage.setItem("soa_voyNo",null);
-
-            clicked_voyno = soa_voyNo;
             $('#select-soa-ship').val(soa_shipid);
-            getVoyList(soa_shipid);
-
-            if (listSOATable == null) {
-                shipid_soa = soa_shipid;
-                voyNo_soa = soa_voyNo;
-                currency_soa = $('#select-soa-currency').val();
+            if (soa_voyNo != 'null' && soa_voyNo != null && soa_voyNo != undefined && soa_voyNo != '') 
+            {
+                clicked_voyno = soa_voyNo;
+                getVoyList(soa_shipid);
+                if (listSOATable == null) {
+                    shipid_soa = soa_shipid;
+                    voyNo_soa = soa_voyNo;
+                    currency_soa = $('#select-soa-currency').val();
+                }
+            }
+            else
+            {
+                getVoyList(soa_shipid);
+                if (listSOATable == null) {
+                    shipid_soa = soa_shipid;
+                    //voyNo_soa = soa_voyNo;
+                    currency_soa = $('#select-soa-currency').val();
+                }
             }
 
             $('a[href="#tab_soa"]').trigger('click');
