@@ -1067,9 +1067,22 @@
                         exportExcel(tab_text, filename, filename);
                         
                         return 0;
+                    },
+                    fetchData() {
+                        console.log('created')
                     }
                 },
+                created() {
+                    this.fetchData();
+                },
+                mounted() {
+                    console.log('mounted')
+                },
+                watch() {
+                    console.log('watched');
+                },
                 updated() {
+                    console.log('updated')
                     $('.date-picker').datepicker({
                         autoclose: true,
                     }).next().on(ace.click_event, function () {

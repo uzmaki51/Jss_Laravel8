@@ -30,78 +30,79 @@
     </div>
     
     <div class="row" style="margin-top: 4px;">
-        <div class="col-lg-12 head-fix-div common-list">
-            <table class="mt-2" id="table-else">
-                <tr class="dynamic-footer">
-                    <td class="center not-striped-td" rowspan="2" style="width: 5%">航次</td>
-                    <td class="center not-striped-td" rowspan="2">租船<br>种类</td>
-                    <td class="center not-striped-td" rowspan="2">期间</td>
-                    <td class="center not-striped-td" rowspan="2">航次<br>用时</td>
-                    <td class="center not-striped-td">里程</td>
-                    <td class="center not-striped-td" rowspan="2">货量<br>(租期)</td>
-                    <td class="center not-striped-td" rowspan="2">运费率<br>(日租金)</td>
-                    <td class="center not-striped-td" colspan="3">SOA($)</td>
-                    <td class="center not-striped-td" colspan="2">实际</td>
-                    <td class="center not-striped-td" colspan="5">支出因素占率(%)</td>
-                </tr>
-
-                <tr class="dynamic-footer">
-                    <td class="center not-striped-td">[NM]</td>
-                    <td class="center not-striped-td">收入</td>
-                    <td class="center not-striped-td">收入/里程</td>
-                    <td class="center not-striped-td">利润</td>
-                    <td class="center not-striped-td">利润</td>
-                    <td class="center not-striped-td">日利润</td>
-                    <td class="center not-striped-td">支出</td>
-                    <td class="center not-striped-td">耗油成本</td>
-                    <td class="center not-striped-td">港费</td>
-                    <td class="center not-striped-td">其他</td>
-                    <td class="center not-striped-td">管理成本</td>
-                </tr>
-
-                <tbody>
-                    <tr v-for="(item, index) in list" class="index % 2 == 0 ? 'odd' : 'even'">
-                        <td class="center voy-no" @click="onVoyDetail(item[0].Voy_No)">@{{ item[0].Voy_No }}</td>
-                        <td class="center">@{{ item[0].CP_kind }}</td>
-                        <td class="center" style="width: 145px;">@{{ _sailTime(item[1].start_date, item[1].end_date) }}</td>
-                        <td class="center">@{{ _number_format(item[1].total_sail_time) }}</td>
-                        <td class="center">@{{ _number_format(item[1].total_distance, 0) }}</td>
-                        <td class="center">@{{ _number_format(item[1].cgo_qty, 0) }}</td>
-                        <td class="center">@{{ _number_format(item[0].Freight, 1) }}</td>
-                        <td class="center">@{{ _number_format(item[1].credit, 0) }}</td>
-                        <td class="center">@{{ _number_format(item[1].credit_distance, 0) }}</td>
-                        <td class="center">@{{ _number_format(item[1].soa_credit) }}</td>
-                        <td class="center">@{{ _number_format(item[1].profit) }}</td>
-                        <td class="center">@{{ _number_format(item[1].day_profit) }}</td>
-                        <td class="center">@{{ _number_format(item[1].debit_percent, 1) }}</td>
-                        <td class="center">@{{ _number_format(item[1].fuel_percent, 1) }}</td>
-                        <td class="center">@{{ _number_format(item[1].sail_percent, 1) }}</td>
-                        <td class="center">@{{ _number_format(item[1].else_percent, 1) }}</td>
-                        <td class="center">@{{ _number_format(item[1].manage_percent, 1) }}</td>
+        <div class="col-lg-12">
+            <div class="">
+                <table id="table-else">
+                    <tr class="dynamic-footer">
+                        <td class="center not-striped-td" rowspan="2" style="width: 5%">航次</td>
+                        <td class="center not-striped-td" rowspan="2">租船<br>种类</td>
+                        <td class="center not-striped-td" rowspan="2">期间</td>
+                        <td class="center not-striped-td" rowspan="2">航次<br>用时</td>
+                        <td class="center not-striped-td">里程</td>
+                        <td class="center not-striped-td" rowspan="2">货量<br>(租期)</td>
+                        <td class="center not-striped-td" rowspan="2">运费率<br>(日租金)</td>
+                        <td class="center not-striped-td" colspan="3">SOA($)</td>
+                        <td class="center not-striped-td" colspan="2">实际</td>
+                        <td class="center not-striped-td" colspan="5">支出因素占率(%)</td>
                     </tr>
 
                     <tr class="dynamic-footer">
-                        <td class="text-center not-striped-td">@{{ _number_format(footer.count, 0) }}</td>
-                        <td class="text-center not-striped-td"></td>
-                        <td class="text-center not-striped-td"></td>
-                        <td class="text-center not-striped-td">@{{ _number_format(footer.sail_time, 2) }}</td>
-                        <td class="text-center not-striped-td">@{{ _number_format(footer.distance, 0) }}</td>
-                        <td class="text-center not-striped-td"></td>
-                        <td class="text-center not-striped-td"></td>
-                        <td class="text-center not-striped-td">@{{ _number_format(footer.credit, 0) }}</td>
-                        <td class="text-center not-striped-td">@{{ _number_format(footer.credit_distance, 0) }}</td>
-                        <td class="text-center not-striped-td">@{{ _number_format(footer.profit_soa, 0) }}</td>
-                        <td class="text-center not-striped-td">@{{ _number_format(footer.profit_real, 0) }}</td>
-                        <td class="text-center not-striped-td">@{{ _number_format(footer.day_profit_real, 0) }}</td>
-                        <td class="text-center not-striped-td">@{{ _number_format(footer.debit, 0) }}</td>
-                        <td class="text-center not-striped-td">@{{ _number_format(footer.fuel, 0) }}</td>
-                        <td class="text-center not-striped-td">@{{ _number_format(footer.sail, 0) }}</td>
-                        <td class="text-center not-striped-td">@{{ _number_format(footer.else, 0) }}</td>
-                        <td class="text-center not-striped-td">@{{ _number_format(footer.manage, 0) }}</td>
+                        <td class="center not-striped-td">[NM]</td>
+                        <td class="center not-striped-td">收入</td>
+                        <td class="center not-striped-td">收入/里程</td>
+                        <td class="center not-striped-td">利润</td>
+                        <td class="center not-striped-td">利润</td>
+                        <td class="center not-striped-td">日利润</td>
+                        <td class="center not-striped-td">支出</td>
+                        <td class="center not-striped-td">耗油成本</td>
+                        <td class="center not-striped-td">港费</td>
+                        <td class="center not-striped-td">其他</td>
+                        <td class="center not-striped-td">管理成本</td>
                     </tr>
-                </tbody>
-            </table>
 
+                    <tbody>
+                        <tr v-for="(item, index) in list" class="index % 2 == 0 ? 'odd' : 'even'">
+                            <td class="center voy-no" @click="onVoyDetail(item[0].Voy_No)">@{{ item[0].Voy_No }}</td>
+                            <td class="center">@{{ item[0].CP_kind }}</td>
+                            <td class="center" style="width: 145px;">@{{ _sailTime(item[1].start_date, item[1].end_date) }}</td>
+                            <td class="center">@{{ _number_format(item[1].total_sail_time) }}</td>
+                            <td class="center">@{{ _number_format(item[1].total_distance, 0) }}</td>
+                            <td class="center">@{{ _number_format(item[1].cgo_qty, 0) }}</td>
+                            <td class="center">@{{ _number_format(item[0].Freight, 1) }}</td>
+                            <td class="center">@{{ _number_format(item[1].credit, 0) }}</td>
+                            <td class="center">@{{ _number_format(item[1].credit_distance, 0) }}</td>
+                            <td class="center">@{{ _number_format(item[1].soa_credit) }}</td>
+                            <td class="center">@{{ _number_format(item[1].profit) }}</td>
+                            <td class="center">@{{ _number_format(item[1].day_profit) }}</td>
+                            <td class="center">@{{ _number_format(item[1].debit_percent, 1) }}</td>
+                            <td class="center">@{{ _number_format(item[1].fuel_percent, 1) }}</td>
+                            <td class="center">@{{ _number_format(item[1].sail_percent, 1) }}</td>
+                            <td class="center">@{{ _number_format(item[1].else_percent, 1) }}</td>
+                            <td class="center">@{{ _number_format(item[1].manage_percent, 1) }}</td>
+                        </tr>
+
+                        <tr class="dynamic-footer">
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.count, 0) }}</td>
+                            <td class="text-center not-striped-td"></td>
+                            <td class="text-center not-striped-td"></td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.sail_time, 2) }}</td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.distance, 0) }}</td>
+                            <td class="text-center not-striped-td"></td>
+                            <td class="text-center not-striped-td"></td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.credit, 0) }}</td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.credit_distance, 0) }}</td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.profit_soa, 0) }}</td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.profit_real, 0) }}</td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.day_profit_real, 0) }}</td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.debit, 0) }}</td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.fuel, 0) }}</td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.sail, 0) }}</td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.else, 0) }}</td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.manage, 0) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
