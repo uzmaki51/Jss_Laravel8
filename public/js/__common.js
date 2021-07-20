@@ -1,6 +1,6 @@
 // Coded by H(S
 var prevTime;
-var checkTime = 5000;
+var checkTime = 60000;
 var amountDecimals = [];
 var priceDecimals = [];
 var balanceDecimals = [];
@@ -42,6 +42,25 @@ function number_format (number, decimals, dec_point = '.', thousands_sep = ',') 
         s[1] += new Array(prec - s[1].length + 1).join('0');
     }
     return s.join(dec);
+}
+
+function _number_format(src, decimals) {
+    if (decimals == 0) {
+        return number_format(src, 0);
+    }
+
+    return removeTrailingZero(number_format(src, decimals));
+}
+
+function removeTrailingZero(src) {
+    var i = src.length - 1;
+    for (; i >= 0; i --) {
+        if (src[i] == '.' || src[i] != 0) break;
+    }
+    if (src[i] == '.') {
+        return src.substr(0, i);
+    }
+    return src.substr(0, i + 1);
 }
 
 function copyStringToClipboard (str) {
