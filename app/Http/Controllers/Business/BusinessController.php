@@ -1352,7 +1352,7 @@ class BusinessController extends Controller {
         $params = $request->all();
 
         $tbl = Ctm::orderBy('ctm_no', 'asc');
-        $prevTbl = Ctm::orderBy('reg_date', 'desc');
+        $prevTbl = Ctm::orderBy('reg_date', 'desc')->orderBy('ctm_no', 'desc');
         if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
             $tbl->where('shipId', $shipId);

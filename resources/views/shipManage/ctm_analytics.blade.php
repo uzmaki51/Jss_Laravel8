@@ -101,6 +101,20 @@ $ships = Session::get('shipList');
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <tr class="prev-voy">
+                                            <td style="height: 17px;"></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-right font-weight-bold" :style="debitClass(before.cny_balance)">
+                                                @{{ number_format(before.cny_balance) }}
+                                            </td>
+                                            <td style="border-left: 2px solid #000!important"></td>
+                                            <td></td>
+                                            <td class="text-right font-weight-bold" :style="debitClass(before.usd_balance)">
+                                                @{{ number_format(before.usd_balance, 2, '$') }}
+                                            </td>
+                                            <td style="border-left: 3px solid #000!important"></td>
+                                        </tr>
                                         <tr v-for="(item, array_index, key) in list">
                                             <td class="">
                                                 @{{ array_index }}
@@ -131,10 +145,10 @@ $ships = Session::get('shipList');
                                             <td class="style-header center" style="width: 4%;">合计</td>
                                             <td class="style-header right" style="width: 14%;" :class="creditClass(total.cny.credit)">@{{ number_format(total.cny.credit, 2) }}</td>
                                             <td class="style-header right" style="width: 14%;" :style="debitClass(total.cny.debit)">@{{ number_format(total.cny.debit, 2) }}</td>
-                                            <td class="style-header right" style="width: 14%;" :style="debitClass(total.cny.credit - total.cny.debit)">@{{ calcBalance(total.cny.credit, total.cny.debit) }}</td>
+                                            <td class="style-header right" style="width: 14%;" :style="debitClass(total.cny.credit - total.cny.debit)">@{{ number_format(total.cny.balance, 2) }}</td>
                                             <td class="style-header right" style="width: 14%; border-left: 2px solid #000!important" :class="creditClass(total.usd.credit)">@{{ number_format(total.usd.credit, 2, '$') }}</td>
                                             <td class="style-header right" style="width: 14%;" :style="debitClass(total.usd.debit)">@{{ number_format(total.usd.debit, 2, '$') }}</td>
-                                            <td class="style-header right" style="width: 14%;" :style="debitClass(total.usd.credit - total.usd.debit)">@{{ calcBalance(total.usd.credit, total.usd.debit, '$') }}</td>
+                                            <td class="style-header right" style="width: 14%;" :style="debitClass(total.usd.credit - total.usd.debit)">@{{ number_format(total.usd.balance, 2, '$') }}</td>
                                             <td class="style-header center" style="width: 14%; border-left: 3px solid #000!important;" :style="debitClass(total.usd.debit + total.cny.usd_amount)">@{{ calcUsd(total.usd.debit, total.cny.usd_amount) }}</td>
                                         </tr>
                                         </tbody>
@@ -256,6 +270,10 @@ $ships = Session::get('shipList');
                             balance: 0,
                         },
                         usd_amount: 0
+                    },
+                    before: {
+                        cny_balance: 0,
+                        usd_balance: 0,
                     }
                 },
                 methods: {
@@ -277,7 +295,8 @@ $ships = Session::get('shipList');
                     },
                     calcUsd: function(credit, debit) {
                         let usd = __parseFloat(credit);
-                        return this.number_format(BigNumber(usd).plus(debit).toFixed(2), 2, '$');
+                        let cny = __parseFloat(debit);
+                        return this.number_format(BigNumber(usd).plus(cny).toFixed(2), 2, '$');
                     },
                     changeYear: function(e) {
                         let val = e.target.value;
@@ -342,14 +361,26 @@ $ships = Session::get('shipList');
                     year: _totalThis.activeYear,
                 },
                 success: function(data) {
-                    let result = data;
+                    let result = data['current'];
+                    let before = data['before'];
                     _totalThis.list = result;
+                    if(before.cny != null && before.cny != undefined)
+                        _totalThis.before.cny_balance = __parseFloat(before.cny.balance);
+                    else
+                        _totalThis.before.cny_balance = 0;
 
+                    if(before.usd != null && before.usd != undefined)
+                        _totalThis.before.usd_balance = __parseFloat(before.usd.balance);
+                    else
+                        _totalThis.before.usd_balance = 0;
+                    
                     _totalThis.total.cny.credit = 0;
                     _totalThis.total.usd.credit = 0;
                     _totalThis.total.cny.debit = 0;
                     _totalThis.total.usd.debit = 0;
                     _totalThis.total.cny.credit = 0;
+                    _totalThis.total.cny.balance = 0;
+                    _totalThis.total.usd.balance = 0;
                     _totalThis.total.cny.credit = 0;
                     _totalThis.total.cny.usd_amount = 0;
 
@@ -371,6 +402,10 @@ $ships = Session::get('shipList');
                             _totalThis.total.cny.usd_amount += __parseFloat(item['CNY'].usd_debit);
                         }
                     }
+
+                    _totalThis.total.cny.balance = BigNumber(_totalThis.total.cny.credit).minus(_totalThis.total.cny.debit).plus(_totalThis.before.cny_balance).toFixed(2);
+                    _totalThis.total.usd.balance = BigNumber(_totalThis.total.usd.credit).minus(_totalThis.total.usd.debit).plus(_totalThis.before.usd_balance).toFixed(2);
+                    _totalThis.$forceUpdate();
                 }
             })
         }

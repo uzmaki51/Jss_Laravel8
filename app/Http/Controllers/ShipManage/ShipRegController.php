@@ -2064,7 +2064,18 @@ class ShipRegController extends Controller
         $year = $params['year'];
 
         $ctmTbl = new Ctm();
-        $retVal = $ctmTbl->getCtmTotal($shipId, $year);
+        $retVal['current'] = $ctmTbl->getCtmTotal($shipId, $year);
+
+        $prevTbl = Ctm::where('shipId', $shipId)->orderBy('reg_date', 'desc')->orderBy('ctm_no', 'desc');
+        $prevTbl2 = Ctm::where('shipId', $shipId)->orderBy('reg_date', 'desc')->orderBy('ctm_no', 'desc');
+        $prevTbl->whereRaw(DB::raw('mid(reg_date, 1, 4) < ' . $year));
+        $prevTbl2->whereRaw(DB::raw('mid(reg_date, 1, 4) < ' . $year));
+
+        $cnyTbl = $prevTbl->where('ctm_type', CNY_LABEL)->first();
+        $usdTbl = $prevTbl2->where('ctm_type', USD_LABEL)->first();
+
+        $retVal['before']['cny'] = $cnyTbl;
+        $retVal['before']['usd'] = $usdTbl;
 
         return response()->json($retVal);
     }

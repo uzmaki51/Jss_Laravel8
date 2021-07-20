@@ -15,7 +15,7 @@
                     @endforeach
                 </select>
                 @if(isset($shipName['shipName_En']))
-                    <strong class="f-right" style="font-size: 16px; padding-top: 6px;">"<span id="ship_name">{{ $shipName['shipName_En'] }}</span>&nbsp;&nbsp;<span class="usd-active-year"></span>年CTM记录(￥)</strong>
+                    <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="ship_name">{{ $shipName['shipName_En'] }}</span>&nbsp;&nbsp;<span class="usd-active-year"></span>年CTM记录($)</strong>
                 @endif
             </div>
             <div class="col-lg-6">
