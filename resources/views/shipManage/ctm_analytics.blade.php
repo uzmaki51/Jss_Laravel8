@@ -80,20 +80,20 @@ $ships = Session::get('shipList');
                                         <thead class="">
                                             <tr class="ctm-analytics">
                                                 <th colspan="4">
-                                                    {{ $shipName['shipName_En'] }}&nbsp;&nbsp;&nbsp;@{{ activeYear }}年 CTM(￥)
+                                                    {{ $shipName['shipName_En'] }}&nbsp;&nbsp;&nbsp;@{{ activeYear }}年 CTM(¥)
                                                 </th>
                                                 <th colspan="3" style="border-left: 2px solid #000;">
                                                     CTM($)
                                                 </th>
                                                 <th style="border-left: 3px solid #000;">
-                                                    支出(￥ + $)
+                                                    支出(¥ + $)
                                                 </th>
                                             </tr>
                                             <tr>
                                                 <th class="text-center style-header center">月份</th>
                                                 <th class="text-center style-header center">收入</th>
-                                                <th class="text-center style-header">支出(￥)</th>
-                                                <th class="text-center style-header">余额(￥)</th>
+                                                <th class="text-center style-header">支出(¥)</th>
+                                                <th class="text-center style-header">余额(¥)</th>
                                                 <th class="text-center style-header" style="border-left: 2px solid #000!important">收入($)</th>
                                                 <th class="text-center style-header">支出($)</th>
                                                 <th class="text-center style-header">余额($)</th>
@@ -281,7 +281,7 @@ $ships = Session::get('shipList');
                         let val = e.target.value;
                         location.href = '/shipManage/ctm/analytics?shipId=' + val + '&type=total';;
                     },
-                    number_format: function(value, decimal = 2, prefix = '￥') {
+                    number_format: function(value, decimal = 2, prefix = '¥') {
                         return isNaN(value) || value == null || value == 0 ? '' : prefix + ' ' + number_format(value, decimal);
                     },
                     creditClass: function(value) {
@@ -290,7 +290,7 @@ $ships = Session::get('shipList');
                     debitClass: function(value) {
                         return value < 0 ? 'color: red!important;' : '';
                     },
-                    calcBalance: function(credit, debit, prefix = '￥') {
+                    calcBalance: function(credit, debit, prefix = '¥') {
                         return this.number_format(BigNumber(credit).minus(debit).toFixed(2), 2, prefix);
                     },
                     calcUsd: function(credit, debit) {

@@ -17,10 +17,11 @@ nav .parent:hover{
 nav .parent:hover .link {
   color: #0077cc!important;
 }
+
 nav .children li {
   background: #ebf9ff;
-  transition: all .2s linear;
 }
+
 
 nav .children {
   border: 1px solid #c8d0d7;
@@ -70,8 +71,9 @@ nav .children a {
   color: #555555;
 }
 
-nav a:hover {
-  background-color: #ebf9ff;
+nav .children a:hover {
+  background-color: #7fa9fd;
+  color: white;
   transition: all .2s linear;
 }
 
@@ -90,7 +92,7 @@ nav ul li:hover > ul {
 
 /* Fisrt Tier Dropdown */
 nav ul ul li {
-  width: 170px;
+  width: 100px;
   float: none;
   display: list-item;
   position: relative;
@@ -101,7 +103,7 @@ nav ul ul li {
 nav ul ul ul li {
   position: relative;
   top: -60px;
-  left: 170px;
+  left: 100px;
   transition: .2s linear;
 }
 .has-child {
