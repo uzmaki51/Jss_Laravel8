@@ -24,7 +24,7 @@ $shipList = explode(',', Auth::user()->shipList);
                 <div class="page-header">
                     <div class="row">
                         <div class="col-lg-4">
-                            <h4><b>Ship List</b></h4>
+                            <h4><b>船舶规范</b></h4>
                         </div>
                     </div>
                 </div>
@@ -349,9 +349,9 @@ $shipList = explode(',', Auth::user()->shipList);
                                         <td>@if(isset($shipInfo['Owner_Cn'])){{$shipInfo['Owner_Cn']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #ffffff; height: 35px; vertical-align: middle;">SHIP'S CERTIFICATES</td>
-                                        <td style="vertical-align: middle;">DATE ISSUED</td>
-                                        <td style="vertical-align: middle;">DATE VALID</td>
+                                        <td style="background-color: #d9f8fb; height: 35px; vertical-align: middle;">SHIP'S CERTIFICATES</td>
+                                        <td style="vertical-align: middle;background-color: #d9f8fb;">DATE ISSUED</td>
+                                        <td style="vertical-align: middle;background-color: #d9f8fb;">DATE VALID</td>
                                     </tr>
                                     @foreach($elseInfo['cert'] as $key => $item)
                                         <tr>
@@ -361,9 +361,9 @@ $shipList = explode(',', Auth::user()->shipList);
                                         </tr>
                                     @endforeach
                                     <tr>
-                                        <td style="background-color: #ffffff; height: 35px; vertical-align: middle;">CERTIFICATES OF COMPETENCY FOR SEAFARERS</td>
-                                        <td style="vertical-align: middle;">NO OF COC</td>
-                                        <td style="vertical-align: middle;">VALID UNTIL</td>
+                                        <td style="background-color: #d9f8fb; height: 35px; vertical-align: middle;">CERTIFICATES OF COMPETENCY FOR SEAFARERS</td>
+                                        <td style="vertical-align: middle;background-color: #d9f8fb;">NO OF COC</td>
+                                        <td style="vertical-align: middle;background-color: #d9f8fb;">VALID UNTIL</td>
                                     </tr>
                                     @foreach($memberCertXls['COC'] as $key => $item)
                                         <tr>
