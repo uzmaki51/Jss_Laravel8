@@ -316,7 +316,7 @@
                 + 'If you leave before saving, your changes will be lost.';
             let newForm = $('#record-form').serialize();
 
-            if ((newForm !== origForm) && !submitted) {
+            if (isChangeStatus && !submitted) {
                 (e || window.event).returnValue = confirmationMessage;
             }
 
@@ -368,6 +368,7 @@
             },
             methods: {
                 calcValue: function() {
+                    isChangeStatus = true;
                     searchObj.calcValue();
                 },
                 keymonitor: function(e) {
@@ -498,7 +499,7 @@
                         let newForm = $('#record-form').serialize();
                         let currentVal = e.target.value;
                         if(currentVal == searchObj.activeYear)
-                            if (!submitted && origForm != newForm) {
+                            if (!submitted && isChangeStatus) {
                                 if(window.confirm(confirmationMessage))
                                     searchObj.getVoyList();
                                 else {
