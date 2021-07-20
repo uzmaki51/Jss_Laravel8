@@ -62,21 +62,21 @@ $ships = Session::get('shipList');
                                             </option>
                                         @endforeach
                                     </select>
-                                    <select class="text-center ml-1" style="width: 60px;" id="year_list" @change="changeYear">
+                                    <select class="text-center ml-1" style="width: 75px;" id="year_list" @change="changeYear">
                                         @foreach($yearList as $key => $item)
-                                            <option value="{{ $item }}" {{ $activeYear == $item ? 'selected' : '' }}>{{ $item }}</option>
+                                            <option value="{{ $item }}" {{ $activeYear == $item ? 'selected' : '' }}>{{ $item }}年</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="btn-group f-right">
-                                        <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
+                                        <button class="btn btn-warning btn-sm excel-btn" @click="fnExcelTotalReport"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="head-fix-div" style="margin-top: 4px;">
-                                    <table class="" v-cloak>
+                                    <table class="" id="table-all-list" v-cloak>
                                         <thead class="">
                                             <tr class="ctm-analytics">
                                                 <th colspan="4">
@@ -169,21 +169,21 @@ $ships = Session::get('shipList');
                                             </option>
                                         @endforeach
                                     </select>
-                                    <select class="text-center ml-1" style="width: 60px;" @change="changeYear">
+                                    <select class="text-center ml-1" style="width: 75px;" @change="changeYear">
                                         @foreach($yearList as $key => $item)
-                                            <option value="{{ $item }}" {{ $activeYear == $item ? 'selected' : '' }}>{{ $item }}</option>
+                                            <option value="{{ $item }}" {{ $activeYear == $item ? 'selected' : '' }}>{{ $item }}年</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="btn-group f-right">
-                                        <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
+                                        <button class="btn btn-warning btn-sm excel-btn" @click="fnExcelDebitReport"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="head-fix-div" style="margin-top: 4px;">
-                                        <table class="" v-cloak>
+                                        <table class="" id="table-debit-list" v-cloak>
                                             <thead class="">
                                                 <tr class="ctm-analytics">
                                                     <th colspan="13">
@@ -302,6 +302,44 @@ $ships = Session::get('shipList');
                         let val = e.target.value;
                         this.activeYear = val;
                         getTotalAnalyticsObj();
+                    },
+                    fnExcelTotalReport: function(e) {
+                        var tab_text = "";
+                        tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+                        real_tab = document.getElementById('table-all-list');
+                        var tab = real_tab.cloneNode(true);
+                        
+                        for(var j = 0; j < tab.rows.length ; j++)
+                        {
+                            if (j == 0) {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    tab.rows[j].childNodes[i].style.height = '40px';
+                                }
+                            }
+                            else if (j == 1) {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                                    tab.rows[j].childNodes[i].style.width = '120px';
+                                }
+                            }
+                            else if (j == (tab.rows.length - 1))
+                            {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    tab.rows[j].childNodes[i].style.fontWeight = "bold";
+                                    tab.rows[j].childNodes[i].style.backgroundColor = '#ebf1de';
+                                }
+                            }
+
+                            tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                        }
+                        tab_text=tab_text+"</table>";
+                        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+                        tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+                        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+                        var filename = $("#select-ship option:selected").html().substr(0,2) + '_' + $("#year_list option:selected").html() + '_CTM收支';
+                        exportExcel(tab_text, filename, filename);
+                        
+                        return 0;
                     }
                 }
             });
@@ -338,6 +376,55 @@ $ships = Session::get('shipList');
                         let val = e.target.value;
                         this.activeYear = val;
                         getDebitAnalyticsObj();
+                    },
+                    fnExcelDebitReport: function(e) {
+                        var tab_text = "";
+                        tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+                        real_tab = document.getElementById('table-debit-list');
+                        var tab = real_tab.cloneNode(true);
+                        
+                        for(var j = 0; j < tab.rows.length ; j++)
+                        {
+                            if (j == 0) {
+                                for (var i=0; i<tab.rows[j].childElementCount;i++) {
+                                    tab.rows[j].childNodes[i].style.height = '40px';
+                                }
+                            }
+                            else if (j == 1) {
+                                tab.rows[j].childNodes[3].remove();
+                                tab.rows[j].childNodes[1].remove();
+                                for (var i=0; i<tab.rows[j].childElementCount;i++) {
+                                    tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                                    tab.rows[j].childNodes[i].style.width = '120px';
+                                }
+                            }
+                            else if (j == (tab.rows.length - 1))
+                            {
+                                tab.rows[j].childNodes[1].remove();
+                                for (var i=0; i<tab.rows[j].childElementCount;i++) {
+                                    
+                                    console.log(j,i);
+                                    console.log(tab.rows[j].childNodes[i]);
+                                    tab.rows[j].childNodes[i].style.fontWeight = "bold";
+                                    tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                                }
+                            }
+                            else {
+                                tab.rows[j].childNodes[3].remove();
+                                tab.rows[j].childNodes[1].remove();
+                                tab.rows[j].childNodes[13].remove();
+                            }
+
+                            tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                        }
+                        tab_text=tab_text+"</table>";
+                        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+                        tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+                        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+                        var filename = $("#select-ship option:selected").html().substr(0,2) + '_' + $("#year_list option:selected").html() + '_支出分析';
+                        exportExcel(tab_text, filename, filename);
+                        
+                        return 0;
                     }
                 },
             });
