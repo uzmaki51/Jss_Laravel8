@@ -28,7 +28,7 @@ $isHolder = Session::get('IS_HOLDER');
         <div class="page-content">
             <div class="page-header">
                 <div class="col-sm-3">
-                    <h4><b>数据(备份/还原)</b></h4>
+                    <h4><b>数据备份</b></h4>
                 </div>
             </div>
             <div class="row col-md-12">
