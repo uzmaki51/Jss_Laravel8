@@ -76,7 +76,7 @@ $ships = Session::get('shipList');
                             </div>
                             <div class="row">
                                 <div class="head-fix-div" style="margin-top: 4px;">
-                                    <table class="table-layout-fixed" v-cloak>
+                                    <table class="" v-cloak>
                                         <thead class="">
                                             <tr class="ctm-analytics">
                                                 <th colspan="4">
@@ -90,14 +90,14 @@ $ships = Session::get('shipList');
                                                 </th>
                                             </tr>
                                             <tr>
-                                                <th class="text-center style-header center" style="width: 2%;">月析</th>
-                                                <th class="text-center style-header center" style="width: 14%;">收入</th>
-                                                <th class="text-center style-header" style="width: 14%;">支出(￥)</th>
-                                                <th class="text-center style-header" style="width: 14%;">余额(￥)</th>
-                                                <th class="text-center style-header" style="width: 14%; border-left: 2px solid #000!important">收入($)</th>
-                                                <th class="text-center style-header" style="width: 14%;">支出($)</th>
-                                                <th class="text-center style-header" style="width: 14%;">余额($)</th>
-                                                <th class="text-center style-header" style="width: 14%; border-left: 3px solid #000!important;">支出合计</th>
+                                                <th class="text-center style-header center">月份</th>
+                                                <th class="text-center style-header center">收入</th>
+                                                <th class="text-center style-header">支出(￥)</th>
+                                                <th class="text-center style-header">余额(￥)</th>
+                                                <th class="text-center style-header" style="border-left: 2px solid #000!important">收入($)</th>
+                                                <th class="text-center style-header">支出($)</th>
+                                                <th class="text-center style-header">余额($)</th>
+                                                <th class="text-center style-header" style="border-left: 3px solid #000!important;">支出合计</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -105,37 +105,37 @@ $ships = Session::get('shipList');
                                             <td class="">
                                                 @{{ array_index }}
                                             </td>
-                                            <td class="right">
+                                            <td class="right" :class="creditClass(item.CNY.credit)">
                                                 @{{ number_format(item.CNY.credit) }}
                                             </td>
-                                            <td class="right">
+                                            <td class="right" :style="debitClass(item.CNY.debit)">
                                                 @{{ number_format(item.CNY.debit) }}
                                             </td>
-                                            <td class="right">
+                                            <td class="right" :style="debitClass(item.CNY.credit - item.CNY.debit)">
                                                 @{{ calcBalance(item.CNY.credit, item.CNY.debit) }}
                                             </td>
-                                            <td class="right" style="border-left: 2px solid #000!important">
+                                            <td class="right" style="border-left: 2px solid #000!important" :class="creditClass(item.USD.credit)">
                                                 @{{ number_format(item.USD.credit, 2, '$') }}
                                             </td>
-                                            <td class="right">
+                                            <td class="right" :style="debitClass(item.USD.debit)">
                                                 @{{ number_format(item.USD.debit, 2, '$') }}
                                             </td>
-                                            <td class="right">
+                                            <td class="right" :style="debitClass(item.USD.credit - item.USD.credit)">
                                                 @{{ calcBalance(item.USD.credit, item.USD.debit, '$') }}
                                             </td>
-                                            <td class="center" style="border-left: 3px solid #000!important">
+                                            <td class="center" style="border-left: 3px solid #000!important" :style="debitClass(item.USD.debit + item.CNY.usd_debit)">
                                                 @{{ calcUsd(item.USD.debit, item.CNY.usd_debit) }}
                                             </td>
                                         </tr>
-                                        <tr class="ctm-analytics-footer">
+                                        <tr class="fixed-footer">
                                             <td class="style-header center" style="width: 4%;">合计</td>
-                                            <td class="style-header right" style="width: 7%;">@{{ number_format(total.cny.credit, 2) }}</td>
-                                            <td class="style-header right" style="width: 5%;">@{{ number_format(total.cny.debit, 2) }}</td>
-                                            <td class="style-header right" style="width: 6%;">@{{ calcBalance(total.cny.credit, total.cny.debit) }}</td>
-                                            <td class="style-header right" style="width: 25%; border-left: 2px solid #000!important">@{{ number_format(total.usd.credit, 2, '$') }}</td>
-                                            <td class="style-header right" style="width: 7%;">@{{ number_format(total.usd.debit, 2, '$') }}</td>
-                                            <td class="style-header right" style="width: 7%;">@{{ calcBalance(total.usd.credit, total.usd.debit, '$') }}</td>
-                                            <td class="style-header right" style="width: 8%; border-left: 3px solid #000!important;">@{{ calcUsd(total.usd.debit, total.cny.usd_amount) }}</td>
+                                            <td class="style-header right" style="width: 14%;" :class="creditClass(total.cny.credit)">@{{ number_format(total.cny.credit, 2) }}</td>
+                                            <td class="style-header right" style="width: 14%;" :style="debitClass(total.cny.debit)">@{{ number_format(total.cny.debit, 2) }}</td>
+                                            <td class="style-header right" style="width: 14%;" :style="debitClass(total.cny.credit - total.cny.debit)">@{{ calcBalance(total.cny.credit, total.cny.debit) }}</td>
+                                            <td class="style-header right" style="width: 14%; border-left: 2px solid #000!important" :class="creditClass(total.usd.credit)">@{{ number_format(total.usd.credit, 2, '$') }}</td>
+                                            <td class="style-header right" style="width: 14%;" :style="debitClass(total.usd.debit)">@{{ number_format(total.usd.debit, 2, '$') }}</td>
+                                            <td class="style-header right" style="width: 14%;" :style="debitClass(total.usd.credit - total.usd.debit)">@{{ calcBalance(total.usd.credit, total.usd.debit, '$') }}</td>
+                                            <td class="style-header center" style="width: 14%; border-left: 3px solid #000!important;" :style="debitClass(total.usd.debit + total.cny.usd_amount)">@{{ calcUsd(total.usd.debit, total.cny.usd_amount) }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -177,7 +177,7 @@ $ships = Session::get('shipList');
                                                     </th>
                                                 </tr>
                                                 <tr>
-                                                    <th class="style-header center" style="width: 40px;">月析</th>
+                                                    <th class="style-header center" style="width: 40px;">月份</th>
                                                     <th class="style-header center" style="border-right: 2px solid #000!important;">支出合计($)</th>
                                                     <th  class="style-header center" v-for="(item, index) in profitType">@{{ item }}</th>
                                                 </tr>
@@ -188,7 +188,7 @@ $ships = Session::get('shipList');
                                                     <td class="right" style="border-right: 2px solid #000!important;">@{{ number_format(item.debitTotal) }}</td>
                                                     <td class="right" v-for="(subItem, subIndex) in item" v-show="subIndex <= 12">@{{ number_format(subItem) }}</td>
                                                 </tr>
-                                                <tr class="ctm-analytics-footer">
+                                                <tr class="fixed-footer">
                                                     <td class="style-header center" style="width: 40px;">合计</td>
                                                     <td class="style-header right" v-for="(item, index) in total" :style="index == 1 ? 'border-right: 2px solid #000!important;' : ''">@{{ number_format(item) }}</td>
                                                 </tr>

@@ -23,7 +23,7 @@
         </div>
         <div class="col-lg-5">
             <div class="btn-group f-right">
-                <a class="btn btn-sm btn-default" @click="openNewPage('dynamic')">动态分析</a>
+                <a class="btn btn-sm btn-success" @click="openNewPage('dynamic')"><i class="icon-bar-chart"></i> 动态分析</a>
                 <button class="btn btn-warning btn-sm excel-btn" @click="fnExcelElse()"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
             </div>
         </div>
@@ -81,7 +81,7 @@
                             <td class="center">@{{ _number_format(item[1].manage_percent, 1) }}</td>
                         </tr>
 
-                        <tr class="dynamic-footer">
+                        <tr class="fixed-footer">
                             <td class="text-center not-striped-td">@{{ _number_format(footer.count, 0) }}</td>
                             <td class="text-center not-striped-td"></td>
                             <td class="text-center not-striped-td"></td>
