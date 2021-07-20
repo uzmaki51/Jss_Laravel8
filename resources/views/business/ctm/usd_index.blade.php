@@ -39,7 +39,7 @@
                         <th class="d-none"></th>
                         <th class="text-center style-header center" style="width: 4%;">NO</th>
                         <th class="text-center style-header center" style="width: 7%;">日期</th>
-                        <th class="text-center style-header" style="width: 5%;">航次</th>
+                        <th class="text-center style-header" style="width: 6%;">航次</th>
                         <th class="text-center style-header" style="width: 6%;">收支<br>种类</th>
                         <th class="text-center style-header" style="width: 25%;">摘要</th>
                         <th class="text-center style-header" style="width: 7%;">收入</th>
@@ -129,7 +129,7 @@
                         <tr class="dynamic-footer">
                             <td class="text-center" style="width: 4%;"></td>
                             <td class="text-center" style="width: 7%;"></td>
-                            <td class="text-center" style="width: 5%;"></td>
+                            <td class="text-center" style="width: 6%;"></td>
                             <td class="text-center" style="width: 6%;"></td>
                             <td class="text-center" style="width: 25%;">@{{ activeYearUsd }}年底余额</td>
                             <td class="text-right text-profit font-weight-bold" style="width: 7%;">¥ @{{ number_format(total.credit) }}</td>
@@ -254,7 +254,7 @@
 
                         _uThis.total.credit = credit;
                         _uThis.total.debit = debit;
-                        _uThis.total.balance = BigNumber(credit).minus(debit);
+                        _uThis.total.balance = BigNumber(credit).minus(debit).plus(_uThis.prevData.balance);
                     },
 
                     setDefault: function() {

@@ -169,7 +169,7 @@ $ships = Session::get('shipList');
                             </div>
                             <div class="row">
                                 <div class="head-fix-div" style="margin-top: 4px;">
-                                        <table class="table-layout-fixed" v-cloak>
+                                        <table class="" v-cloak>
                                             <thead class="">
                                                 <tr class="ctm-analytics">
                                                     <th colspan="13">
@@ -177,7 +177,7 @@ $ships = Session::get('shipList');
                                                     </th>
                                                 </tr>
                                                 <tr>
-                                                    <th class="style-header center" style="width: 40px;">月份</th>
+                                                    <th class="style-header center" style="width: 4%;">月份</th>
                                                     <th class="style-header center" style="border-right: 2px solid #000!important;">支出合计($)</th>
                                                     <th  class="style-header center" v-for="(item, index) in profitType">@{{ item }}</th>
                                                 </tr>
