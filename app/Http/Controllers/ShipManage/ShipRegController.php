@@ -181,9 +181,14 @@ class ShipRegController extends Controller
         $shipType = ShipType::all();
 
         $shipId = $request->get('shipId');
-        if(is_null($shipId))
-            $shipId = '0';
-        
+        if(is_null($shipId)) {
+            $first_ship = ShipRegister::orderBy('id')->first();
+            if (empty($first_ship)) {
+                $shipId = '0';
+            } else {
+                $shipId = $first_ship->id;
+            }
+        }
         if($shipId != '0') {
             $shipInfo = ShipRegister::where('id', $shipId)->first();
             $freeBoard = ShipFreeBoard::where('shipId', $shipId)->first();
