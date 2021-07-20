@@ -197,7 +197,7 @@ $shipList = explode(',', Auth::user()->shipList);
                                         <td style="text-align: left">@if(isset($shipInfo['Speed'])){{$shipInfo['Speed']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">PROPELLER DIA/PITCH</td>
+                                        <td style="background-color: #f8f8f8;">PROPELLER DIA/PITCH (mm)</td>
                                         <td style="text-align: left">@if(isset($shipInfo['Speed'])){{$shipInfo['AddressEngMaker']}}@endif</td>
                                     </tr>
                                     <tr>
