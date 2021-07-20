@@ -20,7 +20,6 @@ nav .parent:hover .link {
 
 nav .children li {
   background: #ebf9ff;
-  transition: all .2s linear;
 }
 
 
