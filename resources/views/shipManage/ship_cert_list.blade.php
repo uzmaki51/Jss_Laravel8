@@ -70,7 +70,7 @@ $ships = Session::get('shipList');
             <div class="row">
                 <div class="col-md-12" style="margin-top: 4px;">
                     <div class="row">
-                        <table class="table-bordered rank-table">
+                        <table class="table-bordered rank-table" id="table-ship-cert-list">
                             <thead>
                                 <th class="text-center style-header" style="width:60px;word-break: break-all;">{!! trans('shipManage.shipCertlist.No') !!}</th>
                                 <th class="text-center style-header" style="width:60px;word-break: break-all;">{{ trans('shipManage.shipCertlist.Code') }}</th>
@@ -150,7 +150,39 @@ $ships = Session::get('shipList');
                         this.getShipCertInfo();
                     },
                     onExport() {
-                        location.href='/shipManage/shipCertExcel?id=' + this.ship_id;
+                        //location.href='/shipManage/shipCertExcel?id=' + this.ship_id;
+                        //WEN XIANG_船舶证书_20210719
+                        var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+                        var real_tab = document.getElementById('table-ship-cert-list');
+                        var tab = real_tab.cloneNode(true);
+                        tab_text=tab_text+"<tr><td colspan='8' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + '"' + $('#ship_name').html() + '"' + "CERTIFICATES</td></tr>";
+                        for(var j = 0 ; j < tab.rows.length ; j++) 
+                        {
+                            if (j == 0) {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    tab.rows[j].childNodes[i].style.width = '100px';
+                                    tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                                }
+                                tab.rows[j].childNodes[0].style.width = '60px';
+                                tab.rows[j].childNodes[2].style.width = '60px';
+                                tab.rows[j].childNodes[4].style.width = '300px';
+                                tab.rows[j].childNodes[16].style.width = '200px';
+                            }
+                            
+                            tab.rows[j].childNodes[13].remove();
+                            tab.rows[j].childNodes[13].remove();
+
+                            tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                        }
+                        tab_text=tab_text+"</table>";
+                        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+                        tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+                        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+
+                        var filename = '"' + $('#ship_name').html() + '"' + "CERTIFICATES";
+                        exportExcel(tab_text, filename, filename);
+                        
+                        return 0;
                     },
                     getShipCertInfo() {
                         getShipInfo(this.ship_id, this.expire_date);
