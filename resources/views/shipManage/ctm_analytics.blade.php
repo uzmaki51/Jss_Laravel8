@@ -134,7 +134,7 @@ $ships = Session::get('shipList');
                                             <td class="right" :style="debitClass(item.USD.debit)">
                                                 @{{ number_format(item.USD.debit, 2, '$') }}
                                             </td>
-                                            <td class="right" :style="debitClass(item.USD.credit - item.USD.credit)">
+                                            <td class="right" :style="debitClass(item.USD.credit - item.USD.debit)">
                                                 @{{ calcBalance(item.USD.credit, item.USD.debit, '$') }}
                                             </td>
                                             <td class="center" style="border-left: 3px solid #000!important" :style="debitClass(item.USD.debit + item.CNY.usd_debit)">

@@ -78,191 +78,191 @@ $shipList = explode(',', Auth::user()->shipList);
                                     <tbody>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">SHIP NAME</td>
-                                        <td>@if(isset($shipInfo['shipName_En'])){{$shipInfo['shipName_En']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['shipName_En'])){{$shipInfo['shipName_En']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td  style="background-color: #f8f8f8;" class="font-bold">IMO NO</td>
-                                        <td>@if(isset($shipInfo['IMO_No'])){{$shipInfo['IMO_No']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['IMO_No'])){{$shipInfo['IMO_No']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">CLASS</td>
-                                        <td>@if(isset($shipInfo['Class'])){{$shipInfo['Class']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Class'])){{$shipInfo['Class']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">CALL SIGN</td>
-                                        <td>@if(isset($shipInfo['CallSign'])){{$shipInfo['CallSign']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['CallSign'])){{$shipInfo['CallSign']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">MMSI NO</td>
-                                        <td>@if(isset($shipInfo['MMSI'])){{$shipInfo['MMSI']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['MMSI'])){{$shipInfo['MMSI']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">INMARSAT Number (1/2)</td>
-                                        <td>@if(isset($shipInfo['INMARSAT'])){{$shipInfo['INMARSAT']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['INMARSAT'])){{$shipInfo['INMARSAT']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">ORIGINAL NAME</td>
-                                        <td>@if(isset($shipInfo['OriginalShipName'])){{$shipInfo['OriginalShipName']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['OriginalShipName'])){{$shipInfo['OriginalShipName']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">FORMER NAME</td>
-                                        <td>@if(isset($shipInfo['FormerShipName'])){{$shipInfo['FormerShipName']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['FormerShipName'])){{$shipInfo['FormerShipName']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">FLAG</td>
-                                        <td>@if(isset($shipInfo['Flag'])){{$shipInfo['Flag']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Flag'])){{$shipInfo['Flag']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">REGISTRY PORT</td>
-                                        <td>@if(isset($shipInfo['PortOfRegistry'])){{$shipInfo['PortOfRegistry']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['PortOfRegistry'])){{$shipInfo['PortOfRegistry']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">OWNER</td>
-                                        <td>@if(isset($shipInfo['Owner_Cn'])){{$shipInfo['Owner_Cn']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Owner_Cn'])){{$shipInfo['Owner_Cn']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">ISM COMPANY</td>
-                                        <td>@if(isset($shipInfo['ISM_Cn'])){{$shipInfo['ISM_Cn']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['ISM_Cn'])){{$shipInfo['ISM_Cn']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">SHIP TYPE</td>
-                                        <td>@if(isset($shipInfo['ShipType'])){{$shipInfo['ShipType']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['ShipType'])){{$shipInfo['ShipType']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">SHIP BUILDER</td>
-                                        <td>@if(isset($shipInfo['ShipBuilder'])){{$shipInfo['ShipBuilder']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['ShipBuilder'])){{$shipInfo['ShipBuilder']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">BUILD DATE/PLACE</td>
-                                        <td>@if(isset($shipInfo['BuildPlace_Cn'])){{$shipInfo['BuildPlace_Cn']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['BuildPlace_Cn'])){{$shipInfo['BuildPlace_Cn']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">GT</td>
-                                        <td>@if(isset($shipInfo['GrossTon'])){{$shipInfo['GrossTon']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['GrossTon'])){{$shipInfo['GrossTon']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">NT</td>
-                                        <td>@if(isset($shipInfo['NetTon'])){{$shipInfo['NetTon']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['NetTon'])){{$shipInfo['NetTon']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">DWT</td>
-                                        <td>@if(isset($shipInfo['Deadweight'])){{$shipInfo['Deadweight']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Deadweight'])){{$shipInfo['Deadweight']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">LDT</td>
-                                        <td>@if(isset($shipInfo['Displacement'])){{$shipInfo['Displacement']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Displacement'])){{$shipInfo['Displacement']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">LOA</td>
-                                        <td>@if(isset($shipInfo['LOA'])){{$shipInfo['LOA']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['LOA'])){{$shipInfo['LOA']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">BM</td>
-                                        <td>@if(isset($shipInfo['BM'])){{$shipInfo['BM']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['BM'])){{$shipInfo['BM']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">DM</td>
-                                        <td>@if(isset($shipInfo['DM'])){{$shipInfo['DM']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['DM'])){{$shipInfo['DM']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">SUMMER DRAFT</td>
-                                        <td>@if(isset($shipInfo['Draught'])){{$shipInfo['Draught']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Draught'])){{$shipInfo['Draught']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">TPC</td>
-                                        <td>@if(isset($shipInfo['DeckErection_F'])){{$shipInfo['DeckErection_F']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['DeckErection_F'])){{$shipInfo['DeckErection_F']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">FW_Allowance</td>
-                                        <td>{{ isset($freeBoard['new_free_fw']) ? $freeBoard['new_free_fw'] : '' }}</td>
+                                        <td style="text-align: left">{{ isset($freeBoard['new_free_fw']) ? $freeBoard['new_free_fw'] : '' }}</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">M/E NO_TYPE</td>
-                                        <td>{{ isset($shipInfo['No_TypeOfEngine']) ? $shipInfo['No_TypeOfEngine'] : '' }}</td>
+                                        <td style="text-align: left">{{ isset($shipInfo['No_TypeOfEngine']) ? $shipInfo['No_TypeOfEngine'] : '' }}</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">POWER</td>
-                                        <td>@if(isset($shipInfo['Power'])){{$shipInfo['Power']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Power'])){{$shipInfo['Power']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">RPM</td>
-                                        <td>@if(isset($shipInfo['rpm'])){{$shipInfo['rpm']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['rpm'])){{$shipInfo['rpm']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">MADE YEAR</td>
-                                        <td>@if(isset($shipInfo['EngineDate'])){{$shipInfo['EngineDate']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['EngineDate'])){{$shipInfo['EngineDate']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">SERVICE SPEED (Kn)</td>
-                                        <td>@if(isset($shipInfo['Speed'])){{$shipInfo['Speed']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Speed'])){{$shipInfo['Speed']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">PROPELLER DIA/PITCH...?</td>
-                                        <td>@if(isset($shipInfo['Speed'])){{$shipInfo['Speed']}}@endif</td>
+                                        <td style="background-color: #f8f8f8;">PROPELLER DIA/PITCH</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Speed'])){{$shipInfo['AddressEngMaker']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">GENERATOR SET</td>
-                                        <td>{{ isset($shipInfo['PrimeMover']) ? $shipInfo['PrimeMover'] : '' }}</td>
+                                        <td style="text-align: left">{{ isset($shipInfo['PrimeMover']) ? $shipInfo['PrimeMover'] : '' }}</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">OUTPUT</td>
-                                        <td>{{ isset($shipInfo['GeneratorOutput']) ? $shipInfo['GeneratorOutput'] : '' }}</td>
+                                        <td style="text-align: left">{{ isset($shipInfo['GeneratorOutput']) ? $shipInfo['GeneratorOutput'] : '' }}</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">BOILER NO_TYPE</td>
-                                        <td>@if(isset($shipInfo['Boiler'])){{$shipInfo['Boiler']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Boiler'])){{$shipInfo['Boiler']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">BOILER MAKER</td>
-                                        <td>@if(isset($shipInfo['BoilerManufacturer'])){{$shipInfo['BoilerManufacturer']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['BoilerManufacturer'])){{$shipInfo['BoilerManufacturer']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">PRESSURE</td>
-                                        <td>{{ isset($shipInfo['BoilerPressure']) ? $shipInfo['BoilerPressure'] : ''}}</td>
+                                        <td style="text-align: left">{{ isset($shipInfo['BoilerPressure']) ? $shipInfo['BoilerPressure'] : ''}}</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">FO CONSUMPTION (mt/day)</td>
-                                        <td>@if(isset($shipInfo['FOSailCons_S'])){{$shipInfo['FOSailCons_S']}}@endif/@if(isset($shipInfo['FOL/DCons_S'])){{$shipInfo['FOL/DCons_S']}}@endif/@if(isset($shipInfo['FOIdleCons_S'])){{$shipInfo['FOIdleCons_S']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($is_excel)){{ '="' }}@endif @if(isset($shipInfo['FOSailCons_S'])){{$shipInfo['FOSailCons_S']}}@endif/@if(isset($shipInfo['FOL/DCons_S'])){{$shipInfo['FOL/DCons_S']}}@endif/@if(isset($shipInfo['FOIdleCons_S'])){{$shipInfo['FOIdleCons_S']}}@endif @if(isset($is_excel)){{ '"' }}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">MDO CONSUMPTION (mt/day)</td>
-                                        <td>@if(isset($shipInfo['DOSailCons_S'])){{$shipInfo['DOSailCons_S']}}@endif/@if(isset($shipInfo['DOL/DCons_S'])){{$shipInfo['DOL/DCons_S']}}@endif/@if(isset($shipInfo['DOIdleCons_S'])){{$shipInfo['DOIdleCons_S']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($is_excel)){{ '="' }}@endif @if(isset($shipInfo['DOSailCons_S'])){{$shipInfo['DOSailCons_S']}}@endif/@if(isset($shipInfo['DOL/DCons_S'])){{$shipInfo['DOL/DCons_S']}}@endif/@if(isset($shipInfo['DOIdleCons_S'])){{$shipInfo['DOIdleCons_S']}}@endif @if(isset($is_excel)){{ '"' }}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">FO/DO TK CAPACITY (㎥)</td>
-                                        <td>@if(isset($shipInfo['FuelBunker'])){{$shipInfo['FuelBunker']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['FuelBunker'])){{$shipInfo['FuelBunker']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">BALLAST TK CAPACITY (㎥)</td>
-                                        <td>@if(isset($shipInfo['Ballast'])){{$shipInfo['Ballast']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Ballast'])){{$shipInfo['Ballast']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">HOLDS/HATCHES NO</td>
-                                        <td>@if(isset($shipInfo['NumberOfHolds'])){{$shipInfo['NumberOfHolds']}}@endif / @if(isset($shipInfo['NumberOfHatchways'])){{$shipInfo['NumberOfHatchways']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($is_excel)){{ '="' }}@endif @if(isset($shipInfo['NumberOfHolds'])){{$shipInfo['NumberOfHolds']}}@endif / @if(isset($shipInfo['NumberOfHatchways'])){{$shipInfo['NumberOfHatchways']}}@endif @if(isset($is_excel)){{ '"' }}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">HOLD CAPACITY(G/B)㎥</td>
-                                        <td>@if(isset($shipInfo['CapacityOfHoldsG'])){{$shipInfo['CapacityOfHoldsG']}}@endif / @if(isset($shipInfo['CapacityOfHoldsB'])){{$shipInfo['CapacityOfHoldsB']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($is_excel)){{ '="' }}@endif @if(isset($shipInfo['CapacityOfHoldsG'])){{$shipInfo['CapacityOfHoldsG']}}@endif / @if(isset($shipInfo['CapacityOfHoldsB'])){{$shipInfo['CapacityOfHoldsB']}}@endif @if(isset($is_excel)){{ '"' }}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">HATCH COVER SIZE/TYPE</td>
-                                        <td>{{ isset($shipInfo['SizeOfHatchways']) ? $shipInfo['SizeOfHatchways'] : '' }}</td>
+                                        <td style="text-align: left">{{ isset($shipInfo['SizeOfHatchways']) ? $shipInfo['SizeOfHatchways'] : '' }}</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">HOLD SIZE</td>
-                                        <td>@if(isset($shipInfo['HoldsDetail'])){{$shipInfo['HoldsDetail']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['HoldsDetail'])){{$shipInfo['HoldsDetail']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">CARGO GEAR</td>
-                                        <td>@if(isset($shipInfo['LiftingDevice'])){{$shipInfo['LiftingDevice']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['LiftingDevice'])){{$shipInfo['LiftingDevice']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">HEIGHT FM KEEL TO MAST</td>
-                                        <td>@if(isset($shipInfo['DeckErection_H'])){{$shipInfo['DeckErection_H']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['DeckErection_H'])){{$shipInfo['DeckErection_H']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">MAX PERMISSBLE LOAD(TANK TOP/ON DECK/HATCH COVER)</td>
-                                        <td>@if(isset($shipInfo['TK_TOP'])){{ $shipInfo['TK_TOP'] . '/' }}@endif  @if(isset($shipInfo['ON_DECK'])){{ $shipInfo['ON_DECK'] . '/' }}@endif @if(isset($shipInfo['H_COVER'])){{$shipInfo['H_COVER']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($is_excel)){{ '="' }}@endif @if(isset($shipInfo['TK_TOP'])){{ $shipInfo['TK_TOP'] . '/' }}@endif  @if(isset($shipInfo['ON_DECK'])){{ $shipInfo['ON_DECK'] . '/' }}@endif @if(isset($shipInfo['H_COVER'])){{$shipInfo['H_COVER']}}@endif @if(isset($is_excel)){{ '"' }}@endif</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -278,75 +278,75 @@ $shipList = explode(',', Auth::user()->shipList);
                                     <tbody>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">SHIP NAME</td>
-                                        <td>@if(isset($shipInfo['shipName_En'])){{$shipInfo['shipName_En']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['shipName_En'])){{$shipInfo['shipName_En']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">FLAG</td>
-                                        <td>@if(isset($shipInfo['Flag'])){{$shipInfo['Flag']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Flag'])){{$shipInfo['Flag']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">BUILD DATE/PLACE</td>
-                                        <td>@if(isset($shipInfo['BuildPlace_Cn'])){{$shipInfo['BuildPlace_Cn']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['BuildPlace_Cn'])){{$shipInfo['BuildPlace_Cn']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">SHIP TYPE</td>
-                                        <td>@if(isset($shipInfo['Owner_Cn'])){{$shipInfo['ShipType']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Owner_Cn'])){{$shipInfo['ShipType']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td  style="background-color: #f8f8f8;">IMO NO</td>
-                                        <td>@if(isset($shipInfo['IMO_No'])){{$shipInfo['IMO_No']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['IMO_No'])){{$shipInfo['IMO_No']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">GT</td>
-                                        <td>@if(isset($shipInfo['GrossTon'])){{$shipInfo['GrossTon']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['GrossTon'])){{$shipInfo['GrossTon']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">NT</td>
-                                        <td>@if(isset($shipInfo['NetTon'])){{$shipInfo['NetTon']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['NetTon'])){{$shipInfo['NetTon']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8; font-weight: bold;">DWT</td>
-                                        <td>@if(isset($shipInfo['Deadweight'])){{$shipInfo['Deadweight']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Deadweight'])){{$shipInfo['Deadweight']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">CALL SIGN</td>
-                                        <td>@if(isset($shipInfo['CallSign'])){{$shipInfo['CallSign']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['CallSign'])){{$shipInfo['CallSign']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">LOA</td>
-                                        <td>@if(isset($shipInfo['LOA'])){{$shipInfo['LOA']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['LOA'])){{$shipInfo['LOA']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">BM</td>
-                                        <td>@if(isset($shipInfo['BM'])){{$shipInfo['BM']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['BM'])){{$shipInfo['BM']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">DM</td>
-                                        <td>@if(isset($shipInfo['DM'])){{$shipInfo['DM']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['DM'])){{$shipInfo['DM']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">HEIGHT FM KEEL TO MAST</td>
-                                        <td>@if(isset($shipInfo['DeckErection_H'])){{$shipInfo['DeckErection_H']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['DeckErection_H'])){{$shipInfo['DeckErection_H']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">SUMMER DRAFT</td>
-                                        <td>@if(isset($shipInfo['Draught'])){{$shipInfo['Draught']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Draught'])){{$shipInfo['Draught']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">FW_Allowance</td>
-                                        <td>{{ isset($freeBoard['new_free_fw']) ? $freeBoard['new_free_fw'] : '' }}</td>
+                                        <td style="text-align: left">{{ isset($freeBoard['new_free_fw']) ? $freeBoard['new_free_fw'] : '' }}</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">POWER</td>
-                                        <td>@if(isset($shipInfo['Power'])){{$shipInfo['Power']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Power'])){{$shipInfo['Power']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">REGISTRY PORT</td>
-                                        <td>@if(isset($shipInfo['PortOfRegistry'])){{$shipInfo['PortOfRegistry']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['PortOfRegistry'])){{$shipInfo['PortOfRegistry']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #f8f8f8;">OWNER</td>
-                                        <td>@if(isset($shipInfo['Owner_Cn'])){{$shipInfo['Owner_Cn']}}@endif</td>
+                                        <td style="text-align: left">@if(isset($shipInfo['Owner_Cn'])){{$shipInfo['Owner_Cn']}}@endif</td>
                                     </tr>
                                     <tr>
                                         <td style="background-color: #d9f8fb; height: 35px; vertical-align: middle;">SHIP'S CERTIFICATES</td>
@@ -356,8 +356,8 @@ $shipList = explode(',', Auth::user()->shipList);
                                     @foreach($elseInfo['cert'] as $key => $item)
                                         <tr>
                                             <td style="background-color: #f8f8f8;">{{ $key }}</td>
-                                            <td>{{ $item['issue_date'] }}</td>
-                                            <td>{{ $item['expire_date'] }}</td>
+                                            <td style="text-align: left">{{ $item['issue_date'] }}</td>
+                                            <td style="text-align: left">{{ $item['expire_date'] }}</td>
                                         </tr>
                                     @endforeach
                                     <tr>
@@ -369,8 +369,8 @@ $shipList = explode(',', Auth::user()->shipList);
                                         <tr>
                                             <td style="background-color: #f8f8f8;">{{ $item[1] }}</td>
                                             @if(isset($elseInfo['member'][$item[0]]))
-                                                <td>{{ $elseInfo['member'][$item[0]]['ItemNo'] }}</td>
-                                                <td>{{ $elseInfo['member'][$item[0]]['COC_ExpiryDate'] }}</td>
+                                            <td style="text-align: left">{{ $elseInfo['member'][$item[0]]['ItemNo'] }}</td>
+                                            <td style="text-align: left">{{ $elseInfo['member'][$item[0]]['COC_ExpiryDate'] }}</td>
                                             @else
                                                 <td></td>
                                                 <td></td>
@@ -382,8 +382,8 @@ $shipList = explode(',', Auth::user()->shipList);
                                         <tr>
                                             <td style="background-color: #f8f8f8;">{{ $item[1] }}</td>
                                             @if(isset($elseInfo['member'][$item[0]]))
-                                                <td>{{ $elseInfo['member'][$item[0]]['ItemNo'] }}</td>
-                                                <td>{{ $elseInfo['member'][$item[0]]['COC_ExpiryDate'] }}</td>
+                                                <td style="text-align: left">{{ $elseInfo['member'][$item[0]]['ItemNo'] }}</td>
+                                                <td style="text-align: left">{{ $elseInfo['member'][$item[0]]['COC_ExpiryDate'] }}</td>
                                             @else
                                                 <td></td>
                                                 <td></td>
