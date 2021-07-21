@@ -95,16 +95,24 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="table-responsive">
                                     <table id="sample-table-1" class="table-bordered" style="margin-left:auto;margin-right:auto;">
                                         <tbody>
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger alert-light alert-dismissible" role="alert">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><i class="zmdi zmdi-close"></i></button>
+                                                @foreach ($errors->all() as $error)
+                                                    <strong><i class="zmdi zmdi-alert-triangle"></i> {{ $error }}</strong><br/>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                             <tr>
                                                 <td class="add-td-label" width="20%;">{{trans("orgManage.captions.name")}}<span class="require">*</span>:</td>
                                                 <td class="add-td-text">
-                                                    <input type="text" class="form-control add-td-input" name="name" id="name" value="@if(isset($userinfo)){{$userinfo['realname']}}@endif" required>
+                                                    <input type="text" class="form-control add-td-input" name="name" id="name" value="{{ isset($userinfo) ? $userinfo['realname'] : old('name') }}" required>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="add-td-label" >{{trans("orgManage.captions.loginID")}}<span class="require">*</span>:</td>
                                                 <td class="add-td-text">
-                                                    <input type="text" class="form-control add-td-input" name="account" id="account" value="@if(isset($userinfo)){{$userinfo['account']}}@endif" required>
+                                                    <input type="text" class="form-control add-td-input" name="account" id="account" value="{{ isset($userinfo) ? $userinfo['account'] : old('account') }}" required>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -112,7 +120,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                 <td class="add-td-text">
                                                     <select class="form-control add-td-select" id="pos" style="width: 98%; margin-left: 6px!important;" name="pos">
                                                         @foreach(g_enum('StaffLevelData') as $key => $item)
-                                                            <option value="{{ $key }}" @if ((isset($userinfo))&&($userinfo['pos']==$key)) selected @endif >{{ $item[0] }}</option>
+                                                            <option value="{{ $key }}" {{ (isset($userinfo) && ($userinfo['pos']==$key)) || old('pos') == $key ? 'selected' : '' }} >{{ $item[0] }}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>
@@ -121,7 +129,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                 <td class="add-td-label" colspan="1">{{trans("orgManage.captions.phoneNumber")}}:</td>
                                                 <td class="add-td-text">
                                                     <div class="input-group">
-                                                        <input type="tel" id="rantel" name="phone" class="form-control add-td-input" value="@if(isset($userinfo)){{trim($userinfo['phone'])}}@endif">
+                                                        <input type="tel" id="rantel" name="phone" class="form-control add-td-input" value="{{ isset($userinfo) ? trim($userinfo['phone']) : old('phone') }}">
                                                     </div>
                                                 </td>
                                             </tr>
@@ -136,23 +144,21 @@ $isHolder = Session::get('IS_HOLDER');
                                             <tr>
                                                 <td class="add-td-label" width="20%;" colspan="1">{{trans("orgManage.captions.enterDate")}}:</td>
                                                 <td class="add-td-text">
-                                                    <div class="input-group">
-                                                        <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['entryDate']}}@endif">
-                                                    </div>
+                                                    <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="{{ isset($userinfo) ? $userinfo['entryDate'] : old('enterdate') }}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="add-td-label" colspan="1">{{trans("orgManage.captions.missDate")}}:</td>
                                                 <td class="add-td-text">
                                                     <div class="input-group">
-                                                        <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['releaseDate']}}@endif">
+                                                        <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="{{ isset($userinfo) ? $userinfo['releaseDate'] : old('releaseDate') }}">
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="add-td-label" colspan="1">{{trans("orgManage.captions.remark")}}:</td>
                                                 <td class="add-td-text">
-                                                    <input type="text" class="form-control add-td-input" name="remark" id="remark" value="@if(isset($userinfo)){{$userinfo['remark']}}@endif" required>
+                                                    <input type="text" class="form-control add-td-input" name="remark" id="remark" value="{{ isset($userinfo) ? $userinfo['remark'] : old('remark') }}" required>
                                                 </td>
                                             </tr>
                                             @if(isset($userinfo))
@@ -192,8 +198,8 @@ $isHolder = Session::get('IS_HOLDER');
                                                     </td>
                                                 @endif
                                                 <td class="custom-td-text" style="width: 3%; text-align: center">
-                                                    <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" name="{{'group'.$index}}" @if ($cflag==true) checked="true" @endif>
-                                                    <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none" @if ($cflag==true) checked="true" @endif>
+                                                    <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" name="{{'group'.$index}}" @if ($cflag==true) checked="checked" @endif>
+                                                    <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none" @if ($cflag==true) checked="checked" @endif>
                                                 </td>
                                         @else
                                             <tr id="{{'row'.$index}}">
@@ -203,8 +209,8 @@ $isHolder = Session::get('IS_HOLDER');
                                                     </td>
                                                 @endif
                                                 <td class="custom-td-text" style="width: 3%; t ext-align: center">
-                                                    <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" name="{{'group'.$index}}">
-                                                    <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none">
+                                                    <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" checked="checked" name="{{'group'.$index}}">
+                                                    <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none" checked>
                                                 </td>
                                         @endif
                                                 <td class="custom-td-text" style="width: 77%">
@@ -217,8 +223,8 @@ $isHolder = Session::get('IS_HOLDER');
                                                                 @endif
                                                             @endif
                                                             <div class="col-md-2">&nbsp
-                                                                <input type="checkbox" class="{{'row'.$index}}" onclick="checkchild({{$index}}, this)" id="{{'row'.$menu['id']}}" name="{{'row'.$menu['id']}}" @if(($cflag==true) || ($flag1==true)) checked="true" @endif>
-                                                                <input type="checkbox" id="{{$menu['id']}}" name="{{$menu['id']}}" style="display: none" @if (($cflag==false) && ($flag1==true)) checked="true" @endif>
+                                                                <input type="checkbox" class="{{'row'.$index}}" onclick="checkchild({{$index}}, this)" id="{{'row'.$menu['id']}}" name="{{'row'.$menu['id']}}" @if(($cflag==true) || ($flag1==true)) checked="checked" @endif>
+                                                                <input type="checkbox" id="{{$menu['id']}}" name="{{$menu['id']}}" style="display: none" @if (($cflag==false) && ($flag1==true)) checked="checked" @endif>
                                                                 <label>&nbsp{{$menu['title']}}</label>
                                                             </div>
                                                         @endforeach

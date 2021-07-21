@@ -334,15 +334,7 @@ class OrgmanageController extends Controller
             $filename = null;
 
         $userid = $request->get('userid');
-
         $param = $request->all();
-
-        $account = $param['account'];
-        $isUser = User::where('account', $account)->where('id', '<>', $userid)->first();
-        if(!is_null($isUser)) {
-            $error = "错误!  ID重复了!";
-            return back()->with(['state'=> $error]);
-        }
 
         $user = User::find($userid);
 	    $user->account = $param['account'];
@@ -388,12 +380,9 @@ class OrgmanageController extends Controller
 
         $param = $request->all();
 
-        $account = $param['account'];
-        $isUser = User::where('account', $account)->first();
-        if(!is_null($isUser)) {
-            $error = "错误!  用户ID重复!";
-            return back()->with(['state'=>$error]);
-        }
+        $request->validate([
+            'account'       => 'required|unique:tb_users'
+        ]);
 
         $user = new User();
         $user->account = $param['account'];
@@ -416,6 +405,7 @@ class OrgmanageController extends Controller
         $request->merge([
             'userid' => $user->id,
         ]);
+
         $this->storePrivilege($request);
 
         return redirect('org/memberadd?uid='.$user->id);
@@ -516,6 +506,7 @@ class OrgmanageController extends Controller
 		$param = $request->all();
         $userid = $param['userid'];
         $pos = $param['pos'];
+
 		if(User::find($userid) == null)
 			return back()->with([
 				'state' => '不存在的用户。',
