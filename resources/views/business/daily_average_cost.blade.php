@@ -185,6 +185,8 @@ $ships = Session::get('shipList');
                                     + 'If you leave before saving, your changes will be lost.';
             var newForm = $form.serialize();
             if ((newForm !== origForm) && !submitted) {
+                console.log(newForm);
+                console.log(origForm);
                 (e || window.event).returnValue = confirmationMessage;
             }
             return confirmationMessage;
@@ -239,7 +241,7 @@ $ships = Session::get('shipList');
             var val = evt.target.value.replace(',','').replace('$','');
             $(evt.target).val('$' + prettyValue(val));
         });
-        setValues();
+        //setValues();
 
         $('body').on('keydown', 'input', function(e) {
             if (e.key === "Enter") {
