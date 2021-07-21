@@ -554,6 +554,20 @@ ul.timeline > li {
 .add-img:hover {
     opacity: .8;
 }
+
+.nav-tabs li {
+    font-size: 16px;
+}
+.nav-tabs li.active {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.nav-tabs li a {
+    background-color: rgb(243, 243, 243);
+    padding: 0.4em 0.6em!important;
+}
+
 @media (min-width: 1367px) {
     .inner-wrap {
         width: 1200px;
