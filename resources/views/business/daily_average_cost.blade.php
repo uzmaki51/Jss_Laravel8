@@ -41,7 +41,7 @@ $ships = Session::get('shipList');
                                 <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
                             @endforeach
                         </select>
-                        <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="table_info"></span>最新三年数据</strong>
+                        <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="table_info"></span>最近三年数据</strong>
                     </div>
                     <div class="col-md-5" style="padding:unset!important">
                         <div class="btn-group f-right">
@@ -138,7 +138,7 @@ $ships = Session::get('shipList');
                                 </tr>
                                 <tr style="height:30px;border:2px solid black;">
                                     <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>日成本</span></td>
-                                    <td colspan="8" class="sub-small-header style-normal-header text-center" id="total-sum">333</td>
+                                    <td colspan="8" class="sub-small-header style-normal-header text-center" id="total-sum"></td>
                                 </tbody>
                             </table>
                             </form>
@@ -197,6 +197,7 @@ $ships = Session::get('shipList');
             var total_sum = 0;
             for (var i=0;i<inputs.length;i++) {
                 var value = inputs[i].value;
+                //inputs[i].value = prettyValue(value);
                 value = value.replace("$","").replace(",","");
                 var value = parseFloat(value);
                 if (i < 3) {
@@ -211,6 +212,8 @@ $ships = Session::get('shipList');
                 }
             }
             if (!isNaN(total_sum) && total_sum != "" && total_sum != null) {
+                total_sum = total_sum / 365;
+                total_sum = total_sum.toFixed(0);
                 $('#total-sum').html('$' + prettyValue(total_sum));
             }
             else {
@@ -225,11 +228,16 @@ $ships = Session::get('shipList');
         });
 
         $('input[name="input[]"]').on('keydown', function(evt) {
-            if (evt.key == "Enter") {
+            if (evt.key == "Enter" || evt.key == "Tab") {
                 if (evt.target.value == '') return;
                 var val = evt.target.value.replace(',','').replace('$','');
                 $(evt.target).val('$' + prettyValue(val));
             }
+        });
+        $('input[name="input[]"]').on('focusout', function(evt) {
+            if (evt.target.value == '') return;
+            var val = evt.target.value.replace(',','').replace('$','');
+            $(evt.target).val('$' + prettyValue(val));
         });
         setValues();
 
