@@ -340,7 +340,7 @@ class OrgmanageController extends Controller
 	    $user->account = $param['account'];
 	    $user->realname = $param['name'];
 	    $user->phone = $param['phone'];
-        $user->remark = $param['remark'];
+        $user->remark = isset($param['remark']) ? $param['remark'] : '';
 	    $user->pos = $param['pos'];
         
 	    $user->entryDate = $param['enterdate'] == '' ? null : $param['enterdate'];
@@ -390,7 +390,7 @@ class OrgmanageController extends Controller
 	    $user->password = bcrypt(DEFAULT_PASS);
 	    $user->pos = $param['pos'];
 	    $user->phone = $param['phone'];
-        $user->remark = $param['remark'];
+        $user->remark = isset($param['remark']) ? $param['remark'] : '';
 	    if(!empty($param['enterdate']))
 	        $user->entryDate = $param['enterdate'];
 

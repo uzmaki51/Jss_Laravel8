@@ -71,9 +71,11 @@ $isHolder = Session::get('IS_HOLDER');
                         <a id="btnPrev" class="btn btn-sm btn-primary btn-add" style="width: 80px" href="/org/userInfoListView">
                             <i class=""></i>< {{trans("orgManage.captions.prevPage")}}
                         </a>
+                        @if(isset($userid)>0)
                         <a id="btnDelete" class="btn btn-sm btn-danger" style="width: 80px" onclick="javascript:deleteMember('{{ $userid }}')">
                             <i class="icon-remove"></i>{{ trans('common.label.delete') }}
                         </a>
+                        @endif
                         <a id="btnSave" type="button" class="btn btn-sm btn-success" style="width: 80px">
                             <i class="icon-save"></i>{{ trans('common.label.save') }}
                         </a>
@@ -112,7 +114,7 @@ $isHolder = Session::get('IS_HOLDER');
                                             <tr>
                                                 <td class="add-td-label" >{{trans("orgManage.captions.loginID")}}<span class="require">*</span>:</td>
                                                 <td class="add-td-text">
-                                                    <input type="text" class="form-control add-td-input" name="account" id="account" value="{{ isset($userinfo) ? $userinfo['account'] : old('account') }}" required>
+                                                    <input type="text" class="form-control add-td-input" name="account" id="account" {{ isset($userinfo) ? 'readonly' : '' }} value="{{ isset($userinfo) ? $userinfo['account'] : old('account') }}" required>
                                                 </td>
                                             </tr>
                                             <tr>
