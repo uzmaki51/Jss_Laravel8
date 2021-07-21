@@ -239,7 +239,7 @@ $isHolder = Session::get('IS_HOLDER');
             listTable.column(2).search($("#select-ship" ).val(), false, false);
             listTable.column(3).search('off', false, false).draw();
 
-            setRowSpanCls();
+            //setRowSpanCls();
         });
 
         var listTotalTable = null;
@@ -283,6 +283,7 @@ $isHolder = Session::get('IS_HOLDER');
                         $(row).attr('class', 'member-item-even');
                     else
                         $(row).attr('class', 'member-item-odd');
+                    $('td', row).eq(11).attr('style','word-wrap:break-word');
                     $('td', row).eq(9).attr('style','padding:2px!important');
                     $('td', row).eq(15).attr('style','padding:2px!important');
 
@@ -352,6 +353,7 @@ $isHolder = Session::get('IS_HOLDER');
                 else
                 {
                     tab.rows[j].childNodes[4].innerHTML = '="' + tab.rows[j].childNodes[4].innerHTML + '"';
+                    if (j%2 == 1) tab.rows[j].childNodes[7].innerHTML = '="' + tab.rows[j].childNodes[7].innerHTML + '"';
                     tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                 }
             }
