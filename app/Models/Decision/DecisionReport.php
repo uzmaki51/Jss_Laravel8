@@ -372,7 +372,8 @@ class DecisionReport extends Model {
 			$from_date = $year . "-01-01";
 			$to_date = $year . "-12-31";
 
-			$selector = CP::where('CP_Date','>=',$from_date)->where('CP_Date','<=',$to_date)->where('Ship_ID',$shipid)
+			//$selector = CP::where('CP_Date','>=',$from_date)->where('CP_Date','<=',$to_date)->where('Ship_ID',$shipid)
+			$selector = CP::where('Voy_No','>=', $voyNo_from)->where('Voy_No','<',$voyNo_to)->where('Ship_ID',$shipid)
 				->groupBy('CP_kind')->selectRaw('count(CP_kind) as count, CP_kind');
 			$cp_records = $selector->get();
 			foreach($cp_records as $count) {
@@ -380,13 +381,16 @@ class DecisionReport extends Model {
 				else if ($count->CP_kind == "VOY") $records[$index]['VOY_count'] = $count->count;
 				else if ($count->CP_kind == "NON") $records[$index]['NON_count'] = $count->count;
 			}
-			$min_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
+			//$min_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
+			$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)
 							  ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->select(DB::raw('MIN(Voy_Date) as min_date,tbl_voy_log.*'))->first();
-			$max_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
+			//$max_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
+			$max_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)
 							  ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->select(DB::raw('MAX(Voy_Date) as max_date,tbl_voy_log.*'))->first();
 
 			if($min_date->min_date == $max_date->max_date) {
-				$min_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
+				//$min_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
+				$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)
 				->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
 				if ($min_date == null) $min_date = false;
 			}
