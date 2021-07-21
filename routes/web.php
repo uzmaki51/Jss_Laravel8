@@ -238,4 +238,6 @@ Route::group(['prefix' => 'shipMember'], function() {
 // Route::get('FileUpload', 'HomeController::class, 'file_upload');
 // Route::get('FitleUpload', 'HomeController::class, 'file_upload');
 // Route::get('GotoWelcome', 'HomeController::class, 'gotoWelcome');
+Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+Route::post('/profile/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 });

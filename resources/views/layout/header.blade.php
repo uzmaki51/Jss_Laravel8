@@ -90,10 +90,10 @@
                     @endif
                     <li class="dropdown" style="height: auto;">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background: transparent;">
-                            <img src="{{ cAsset('assets/avatars/user.png') }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
+                            <img src="{{ Auth::user()->avatar == '' ? cAsset('assets/avatars/user.png') : Auth::user()->avatar }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
                             欢迎 | {{ Auth::user()->realname }}<b class="caret"></b></a>
                         <ul class="dropdown-menu" style="background: #5b79a5;">
-                            <li><a href="{{ url('/home/resetPassword') }}"><i class="icon-lock"></i>&nbsp;&nbsp;&nbsp;{{ trans('common.label.change_pass') }}</a></li>
+                            <li><a href="{{ route('profile') }}"><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;{{ trans('common.label.profile') }}</a></li>
                             <hr style="margin: 4px 0!important;">
                             <li><a href="{{ route('logout') }}"><i class="icon-signout"></i>&nbsp;&nbsp;{{ trans('common.label.logout') }}</a></li>
                         </ul>
