@@ -1107,7 +1107,7 @@ $ships = Session::get('shipList');
                         sum += response[i].debit_list[15];
                 }
                 sum = sum / 363;
-                elseCost = sum.toFixed(0);
+                elseCost = sum.toFixed(2);
             },
             error: function(error) {
             }

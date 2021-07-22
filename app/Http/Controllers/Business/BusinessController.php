@@ -155,10 +155,10 @@ class BusinessController extends Controller {
         else
             $costDay = ($costs['input1'] + $costs['input2'] + $costs['input3'] + ($costs['input4'] + $costs['input5'] + $costs['input6'] + $costs['input7'] + $costs['input8'])*12) / 365;
 
-		return view('business.ship_contract', array(
+        return view('business.ship_contract', array(
             'shipId'	    =>  $shipId,
             'shipName'	    =>  $shipName,
-			'shipList'      =>  $shipList,
+            'shipList'      =>  $shipList,
             'cp_list'       =>  $cp_list,
             'voy_id'        =>  $voy_id,
             'status'        =>  $status,
@@ -169,7 +169,7 @@ class BusinessController extends Controller {
             'minFreight'    => $minFreight,
 
             'costDay'       => round($costDay, 0),
-		));
+        ));
     }
 
     public function dynRecord(Request $request) {
