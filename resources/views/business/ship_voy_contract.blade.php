@@ -415,7 +415,8 @@
 
     function disabledVoy(type = true) {
         $('#voy_contract_table input, #voy_contract_table select, #voy_contract_table textarea').attr('disabled', type);
-        $('#submit').attr('disabled', type);
+        if(type)
+            $('#submit').attr('disabled', true);
     }
     function initializeVoy() {
         disabledVoy();
@@ -475,6 +476,7 @@
                 onEditFinish: function() {
                     this.is_finish = true;
                     disabledVoy(false);
+                    voyContractObj.checkVoyNo($('#voyContractForm [name=voy_no]').val());
                     if(voyContractObj.pre_cp_date == '')
                         voyContractObj.cp_date = this.getToday('-');
                     else 
@@ -736,6 +738,7 @@
                 validateVoyNo(e) {
                     $('#submit').attr('disabled', 'disabled');
                     if(!voyInputObj.is_finish) return ;
+                    if($('[name=voy_no]').val() == '')  return;
                     let value = $(e.target).val();
                     $.ajax({
                         url: BASE_URL + 'ajax/business/voyNo/validate',
@@ -743,6 +746,24 @@
                         data: {
                             shipId: this.shipId,
                             voyNo: value,
+                            id: this.id,
+                        },
+                        success: function(data, status, xhr) {
+                            voyContractObj.validate_voy_no = data;
+                            if(data)
+                                $('#submit').removeAttr('disabled');
+                            
+                        }
+                    });
+                },
+                checkVoyNo(id) {
+                    if($('#voyContractForm [name=voy_no]').val() == '')  return;
+                    $.ajax({
+                        url: BASE_URL + 'ajax/business/voyNo/validate',
+                        type: 'post',
+                        data: {
+                            shipId: this.shipId,
+                            voyNo: id,
                             id: this.id,
                         },
                         success: function(data, status, xhr) {

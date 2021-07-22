@@ -361,7 +361,8 @@
     var DECIMAL_SIZE = 2;
     function disabled(type = true) {
         $('#non_contract_table input, #non_contract_table select, #non_contract_table textarea').attr('disabled', type);
-        $('#submit').attr('disabled', type);
+        if(type)
+            $('#submit').attr('disabled', true);
     }
     function initializeNon() {
         disabled();
@@ -421,6 +422,7 @@
                 onEditFinish: function() {
                     this.is_finish = true;
                     disabled(false);
+                    nonContractObj.checkVoyNo($('#nonContractForm [name=voy_no]').val());
                     if(nonContractObj.pre_cp_date == '' || nonContractObj.pre_cp_date == null)
                         nonContractObj.cp_date = this.getToday('-');
                     else
@@ -685,6 +687,24 @@
                         }
                     });
                     
+                },
+                checkVoyNo(id) {
+                    if($('#nonContractForm [name=voy_no]').val() == '')  return;
+                    $.ajax({
+                        url: BASE_URL + 'ajax/business/voyNo/validate',
+                        type: 'post',
+                        data: {
+                            shipId: this.shipId,
+                            voyNo: id,
+                            id: this.id,
+                        },
+                        success: function(data, status, xhr) {
+                            nonContractObj.validate_voy_no = data;
+                            if(data)
+                                $('#submit').removeAttr('disabled');
+                            
+                        }
+                    });
                 },
                 disableSubmit() {
                     $('#submit').attr('disabled', true);
