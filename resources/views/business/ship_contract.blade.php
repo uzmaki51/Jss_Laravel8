@@ -105,13 +105,13 @@ $ships = Session::get('shipList');
                                         <td class="text-center">@{{ item.CP_kind }}</td>
                                         <td class="text-center">@{{ item.CP_Date }}</td>
                                         <td class="text-left"><div class="fixed-td">@{{ getCargoName(item.Cargo) }}</div></td>
-                                        <td class="text-center">@{{ item.Cgo_Qtty }}</td>
+                                        <td class="text-center">@{{ number_format(item.Cgo_Qtty) }}</td>
                                         <td class="text-center"><div class="fixed-td">@{{ getPortName(item.LPort) }}</div></td>
                                         <td class="text-center"><div class="fixed-td">@{{ getPortName(item.DPort) }}</div></td>
                                         <td class="text-center"><div class="fixed-td">@{{ item.L_Rate }}</div></td>
                                         <td class="text-center"><span class="fixed-td">@{{ item.D_Rate }}</span></td>
                                         <td class="text-center">@{{ getFrtRate(item.Freight, item.total_Freight) }}</td>
-                                        <td class="text-center">@{{ __parseFloat(item.net_profit_day) == 0 ? '' : '$ ' + item.net_profit_day }}</td>
+                                        <td class="text-center" :class="debitClass(item.net_profit_day)">@{{ __parseFloat(item.net_profit_day) == 0 ? '' : '$ ' + number_format(item.net_profit_day) }}</td>
                                         <td class="text-center">
                                             <a :href="item.attachment_url" target="_blank" v-bind:class="[item.is_attachment == 1 ? '' : 'd-none']">
                                                 <img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15">
@@ -284,7 +284,9 @@ $ships = Session::get('shipList');
 
     <script>
         var ship_id = '{!! $shipId !!}';
+        var costDay = '{!! $costDay !!}';
         var voy_id = '{!! $voy_id !!}';
+        var elseCost = '';
         var is_scrolled = false;
         var ACTIVE_TAB = 'nothing';
         var isChangeStatus = false;
@@ -509,6 +511,8 @@ $ships = Session::get('shipList');
                                 getInitInfo(ship_id);
                             }
                         });
+
+                        getDayAverage();
                     },
                     getFrtRate: function(a, b) {
                         let val = '';
@@ -517,7 +521,7 @@ $ships = Session::get('shipList');
                         else
                             val = a;
 
-                        return __parseFloat(val) == 0 ? '' : '$ ' + val;
+                        return __parseFloat(val) == 0 ? '' : '$ ' + _number_format(val, 2);
                     },
                     getCargoName: function(ids) {
                         if(ids == '' || ids == undefined) return '';
@@ -564,6 +568,9 @@ $ships = Session::get('shipList');
 
                             return tmpStr.slice(0,-2);
                         }
+                    },
+                    debitClass: function(value) {
+                        return __parseFloat(value) > 0 ? '' : 'text-danger'
                     },
                     deleteItem: function(id) {
                         __alertAudio();
@@ -755,6 +762,8 @@ $ships = Session::get('shipList');
                 voyInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
                 voyInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
                 voyInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
+                voyInputObj.input['cost_per_day'] = costDay;
+                voyInputObj.input['cost_else'] = BigNumber(elseCost).multipliedBy(voyInputObj.output['sail_time']);
 
                 tcContractObj.is_update = false;
                 tcInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
@@ -763,6 +772,8 @@ $ships = Session::get('shipList');
                 tcInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
                 tcInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
                 tcInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
+                tcInputObj.input['cost_per_day'] = costDay;
+                tcInputObj.input['cost_else'] = BigNumber(elseCost).multipliedBy(tcInputObj.output['sail_time']);
 
                 nonContractObj.is_update = false;
                 nonInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
@@ -771,6 +782,8 @@ $ships = Session::get('shipList');
                 nonInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
                 nonInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
                 nonInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
+                nonInputObj.input['cost_per_day'] = costDay;
+                nonInputObj.input['cost_else'] = BigNumber(elseCost).multipliedBy(nonInputObj.output['sail_time']);
                 
                 if (voy_id > 0)
                 {
@@ -979,7 +992,7 @@ $ships = Session::get('shipList');
                         $('#non_contract_div').addClass('active');
                         $('.voy-type').val('non')
 
-                        nonContractObjTmp = JSON.parse(JSON.stringify(nonContractObj._data));                        
+                        nonContractObjTmp = JSON.parse(JSON.stringify(nonContractObj._data));
                     }
                 }
 
@@ -1076,6 +1089,29 @@ $ships = Session::get('shipList');
 
     function offAutoCmplt() {
         $('.remark, input, textarea').attr('autocomplete', 'off');
+    }
+    function getDayAverage() {
+        $.ajax({
+            url: BASE_URL + 'ajax/operation/listByShipForPast',
+            type: 'POST',
+            data: {'shipId':ship_id},
+            success: function(response) {
+                if (response.length <= 0) return 0;
+                var sum = 0;
+                for (var i=0;i<response.length;i++) {
+                    if (response[i].debit_list[6] != 'undefined' && response[i].debit_list[6] != null)
+                        sum += response[i].debit_list[6];
+                    if (response[i].debit_list[4] != 'undefined' && response[i].debit_list[4] != null)
+                        sum += response[i].debit_list[4];
+                    if (response[i].debit_list[15] != 'undefined' && response[i].debit_list[15] != null)
+                        sum += response[i].debit_list[15];
+                }
+                sum = sum / 363;
+                elseCost = sum.toFixed(0);
+            },
+            error: function(error) {
+            }
+        });
     }
     function fnExcelTc(type)
     {

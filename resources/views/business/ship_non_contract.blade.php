@@ -188,12 +188,12 @@
             </div>
         </div>
         <div class="btn-group f-right mt-20">
-            <a class="btn btn-primary btn-sm" @click="onEditFinish">OK</a>
-            <a class="btn btn-danger btn-sm" @click="onEditContinue">Cancel</a>
+            <a class="btn btn-primary btn-sm" :disabled="is_finish" @click="onEditFinish">OK</a>
+            <a class="btn btn-danger btn-sm" :disabled="!is_finish" @click="onEditContinue">Cancel</a>
         </div>
     </div>
     
-        <div class="tab-right contract-input-div" id="non_contract_table" v-cloak>
+        <div class="tab-right contract-input-div" id="non_contract_table" v-cloak @click="resultDiv">
             <input type="hidden" name="_token" value="{{csrf_token()}}">
             <input type="hidden" value="{{ $shipId }}" name="shipId" v-model="shipId">
             <input type="hidden" value="{{ $voy_id }}" name="voy_id" id="voy_id">
@@ -359,12 +359,17 @@
 
     var DEFAULT_CURRENCY = '{!! USD_LABEL !!}';
     var DECIMAL_SIZE = 2;
-
+    function disabled(type = true) {
+        $('#non_contract_table input, #non_contract_table select, #non_contract_table textarea').attr('disabled', type);
+        $('#submit').attr('disabled', type);
+    }
     function initializeNon() {
+        disabled();
         nonInputObj = new Vue({
             el: "#non_input_div",
             data: {
                 batchStatus: false,
+                is_finish: false,
                 input: {
                     currency:           DEFAULT_CURRENCY,
                     rate:               0,
@@ -414,6 +419,8 @@
             },
             methods: {
                 onEditFinish: function() {
+                    this.is_finish = true;
+                    disabled(false);
                     if(nonContractObj.pre_cp_date == '' || nonContractObj.pre_cp_date == null)
                         nonContractObj.cp_date = this.getToday('-');
                     else
@@ -433,6 +440,8 @@
                     nonContractObjTmp = JSON.parse(JSON.stringify(nonContractObj._data));
                 },
                 onEditContinue: function() {
+                    this.is_finish = false;
+                    disabled(true);
                     $('#non_input_div input').removeAttr('readonly');
                     $('[name=currency]').removeAttr('readonly');
                     $('.for-readonly').attr('readonly', 'readonly')
@@ -466,6 +475,10 @@
                     this.output['moor'] = __parseFloat(BigNumber(moorTmp).toFixed(DECIMAL_SIZE));
                     this.output['sail_time'] = __parseFloat(BigNumber(this.output['moor']).plus(this.output['sail_term']).toFixed(DECIMAL_SIZE));
 
+                    if(voy_id <= 0) {
+                        this.input['cost_else'] = BigNumber(this.output['sail_time']).multipliedBy(elseCost).toFixed(0);
+                    }
+                    
                     // FO_MT
                     fo_sailTmp1 = fo_sailTmp1.multipliedBy(this.input['fo_up_shipping']);
                     fo_sailTmp2 = BigNumber(this.input['fo_sailing']).multipliedBy(this.output['sail_term']);
@@ -589,6 +602,10 @@
                     let fileName = files[0].name;
                     this.fileName = fileName;
                     $('#non_file_remove').val(0);
+                },
+                resultDiv: function() {
+                    if(!nonInputObj.is_finish)
+                        __alertAudio();
                 },
                 removeFile() {
                     this.fileName = '添加附件';

@@ -189,12 +189,12 @@
             </div>
         </div>
         <div class="btn-group f-right mt-20">
-            <a class="btn btn-primary btn-sm" @click="onEditFinish">OK</a>
-            <a class="btn btn-danger btn-sm" @click="onEditContinue">Cancel</a>
+            <a class="btn btn-primary btn-sm" :disabled="is_finish" @click="onEditFinish">OK</a>
+            <a class="btn btn-danger btn-sm" :disabled="!is_finish" @click="onEditContinue">Cancel</a>
         </div>
     </div>
     
-    <div class="tab-right contract-input-div" id="voy_contract_table" v-cloak>
+    <div class="tab-right contract-input-div" id="voy_contract_table" @click="resultDiv" v-cloak>
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <input type="hidden" value="{{ $shipId }}" name="shipId" v-model="shipId">
         <input type="hidden" value="{{ $voy_id }}" name="voy_id" id="voy_id">
@@ -413,11 +413,17 @@
     var DEFAULT_CURRENCY = '{!! USD_LABEL !!}';
     var DECIMAL_SIZE = 2;
 
+    function disabledVoy(type = true) {
+        $('#voy_contract_table input, #voy_contract_table select, #voy_contract_table textarea').attr('disabled', type);
+        $('#submit').attr('disabled', type);
+    }
     function initializeVoy() {
+        disabledVoy();
         voyInputObj = new Vue({
             el: "#voy_input_div",
             data: {
                 batchStatus: false,
+                is_finish: false,
                 input: {
                     currency:           DEFAULT_CURRENCY,
                     rate:               0,
@@ -467,6 +473,8 @@
             },
             methods: {
                 onEditFinish: function() {
+                    this.is_finish = true;
+                    disabledVoy(false);
                     if(voyContractObj.pre_cp_date == '')
                         voyContractObj.cp_date = this.getToday('-');
                     else 
@@ -492,6 +500,8 @@
                     voyContractObjTmp = JSON.parse(JSON.stringify(voyContractObj._data));
                 },
                 onEditContinue: function() {
+                    this.is_finish = false;
+                    disabledVoy(true)
                     $('#voy_input_div input').removeAttr('readonly');
                     $('[name=currency]').removeAttr('readonly');
                     if(voyInputObj.batchStatus) {
@@ -531,6 +541,10 @@
                     moorTmp = BigNumber(moorTmp).plus(this.input['wait_day']);
                     this.output['moor'] = parseFloat(BigNumber(moorTmp).toFixed(DECIMAL_SIZE));
                     this.output['sail_time'] = parseFloat(BigNumber(this.output['moor']).plus(this.output['sail_term']).toFixed(DECIMAL_SIZE));
+
+                    if(voy_id <= 0) {
+                        this.input['cost_else'] = BigNumber(this.output['sail_time']).multipliedBy(elseCost).toFixed(0);
+                    }
 
                     // FO_MT
                     fo_sailTmp1 = fo_sailTmp1.multipliedBy(this.input['fo_up_shipping']);
@@ -648,6 +662,10 @@
                         $(event.target).siblings(".dynamic-options").addClass('open');
                     }
                 },
+                resultDiv: function() {
+                    if(!voyInputObj.is_finish)
+                        __alertAudio();
+                },
                 closeDialog: function(index) {
                     $(".dynamic-select__trigger").removeClass('open');
                     $(".dynamic-options").removeClass('open');
@@ -717,6 +735,7 @@
                 },
                 validateVoyNo(e) {
                     $('#submit').attr('disabled', 'disabled');
+                    if(!voyInputObj.is_finish) return ;
                     let value = $(e.target).val();
                     $.ajax({
                         url: BASE_URL + 'ajax/business/voyNo/validate',
@@ -752,4 +771,4 @@
         }
     });
 
-</script>                                
+</script>

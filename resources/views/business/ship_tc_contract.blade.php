@@ -188,12 +188,12 @@
             </div>
         </div>
         <div class="btn-group f-right mt-20">
-            <a class="btn btn-primary btn-sm" @click="onEditFinish">OK</a>
-            <a class="btn btn-danger btn-sm" @click="onEditContinue">Cancel</a>
+            <a class="btn btn-primary btn-sm" :disabled="is_finish" @click="onEditFinish">OK</a>
+            <a class="btn btn-danger btn-sm" :disabled="!is_finish" @click="onEditContinue">Cancel</a>
         </div>
     </div>
     
-        <div class="tab-right contract-input-div" id="tc_contract_table" v-cloak>
+        <div class="tab-right contract-input-div" id="tc_contract_table" v-cloak @click="resultDiv">
             <input type="hidden" name="_token" value="{{csrf_token()}}">
             <input type="hidden" value="{{ $shipId }}" name="shipId" v-model="shipId">
             <input type="hidden" value="{{ $voy_id }}" name="voy_id" id="voy_id">
@@ -404,12 +404,17 @@
 
     var DEFAULT_CURRENCY = '{!! USD_LABEL !!}';
     var DECIMAL_SIZE = 2;
-
+    function disabledTc(type = true) {
+        $('#tc_contract_table input, #tc_contract_table select, #tc_contract_table textarea').attr('disabled', type);
+        $('#submit').attr('disabled', type);
+    }
     function initializeTc() {
+        disabledTc();
         tcInputObj = new Vue({
             el: "#tc_input_div",
             data: {
                 batchStatus: false,
+                is_finish: false,
                 input: {
                     currency:           DEFAULT_CURRENCY,
                     rate:               0,
@@ -459,6 +464,8 @@
             },
             methods: {
                 onEditFinish: function() {
+                    this.is_finish = true;
+                    disabledTc(false);
                     if(tcContractObj.pre_cp_date == '')
                         tcContractObj.cp_date = this.getToday('-');
                     else
@@ -478,6 +485,8 @@
                     tcContractObjTmp = JSON.parse(JSON.stringify(tcContractObj._data));
                 },
                 onEditContinue: function() {
+                    this.is_finish = false;
+                    disabledTc(true)
                     $('#tc_input_div input').removeAttr('readonly');
                     $('[name=currency]').removeAttr('readonly');
                 },
@@ -509,6 +518,10 @@
                     moorTmp = BigNumber(moorTmp).plus(this.input['wait_day']).toFixed(DECIMAL_SIZE);
                     this.output['moor'] = __parseFloat(BigNumber(moorTmp).toFixed(DECIMAL_SIZE));
                     this.output['sail_time'] = __parseFloat(BigNumber(this.output['moor']).plus(this.output['sail_term']).toFixed(DECIMAL_SIZE));
+
+                    if(voy_id <= 0) {
+                        this.input['cost_else'] = BigNumber(this.output['sail_time']).multipliedBy(elseCost).toFixed(0);
+                    }
 
                     // FO_MT
                     fo_sailTmp1 = fo_sailTmp1.multipliedBy(this.input['fo_up_shipping']);
@@ -634,6 +647,10 @@
                     this.fileName = fileName;
                     $('#tc_file_remove').val(0);
                 },
+                resultDiv: function() {
+                    if(!tcInputObj.is_finish)
+                        __alertAudio();
+                },
                 removeFile() {
                     this.fileName = '添加附件';
                     $('#contract_tc_attach').val('');
@@ -695,6 +712,7 @@
                 },
                 validateVoyNo(e) {
                     $('#submit').attr('disabled', 'disabled');
+                    if(!tcInputObj.is_finish) return ;
                     let value = $(e.target).val();
                     $.ajax({
                         url: BASE_URL + 'ajax/business/voyNo/validate',

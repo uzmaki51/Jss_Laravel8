@@ -499,7 +499,7 @@ class VoySettle extends Model
             if($mainInfo['total_sail_time'] > 0)
                 $mainInfo['avg_speed'] = round($total_distance / $mainInfo['total_sail_time'], 2);
             else
-                $mainInfo['avg_speed'] = 0;     
+                $mainInfo['avg_speed'] = 0;
 
             // 标准消耗
             $usedFoTmp1 = $_sailTime * $shipInfo['FOSailCons_S'];

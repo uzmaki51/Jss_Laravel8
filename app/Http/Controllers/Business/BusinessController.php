@@ -40,7 +40,6 @@ use App\Models\Board\NewsResponse;
 use App\Models\Board\NewsRecommend;
 use App\Models\Board\NewsHistory;
 
-//선원출근일보登记
 use App\Models\Attend\AttendUser;
 use App\Models\Attend\AttendType;
 use App\Models\Attend\AttendTime;
@@ -59,11 +58,9 @@ use App\Models\Convert\VoySettleProfit;
 use App\Models\ShipManage\Ctm;
 use Illuminate\Support\Facades\DB;
 
-// 일정계획
 use App\Models\Schedule;
 use App\Models\Decision\DecEnvironment;
 use Illuminate\Support\Str;
-//결재관리
 use Auth;
 
 
@@ -152,6 +149,11 @@ class BusinessController extends Controller {
         }
 
         $status = Session::get('status');
+        $costs = ExpectedCosts::where('shipNo', $shipId)->first();
+        if($costs == null)
+            $costDay = 0;
+        else
+            $costDay = ($costs['input1'] + $costs['input2'] + $costs['input3'] + ($costs['input4'] + $costs['input5'] + $costs['input6'] + $costs['input7'] + $costs['input8'])*12) / 365;
 
 		return view('business.ship_contract', array(
             'shipId'	    =>  $shipId,
@@ -165,6 +167,8 @@ class BusinessController extends Controller {
             'maxFreight'    => $maxFreight,
             'minVoyNo'      => $minVoyNo,
             'minFreight'    => $minFreight,
+
+            'costDay'       => round($costDay, 0),
 		));
     }
 
