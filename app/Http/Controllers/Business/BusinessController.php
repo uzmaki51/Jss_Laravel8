@@ -85,6 +85,11 @@ class BusinessController extends Controller {
         ));
     }
 
+    public function getNumber($value) {
+        $result = str_replace('$','',$value);
+        $result = str_replace(',','',$result);
+        return $result;
+    }
     public function updateCostInfo(Request $request) {
         $shipId = $request->get('select-ship');
         $inputs = $request->get('input');
@@ -94,14 +99,15 @@ class BusinessController extends Controller {
             $cost_record = new ExpectedCosts();
         }
         $cost_record->shipNo = $shipId;
-        $cost_record->input1 = $inputs[0];
-        $cost_record->input2 = $inputs[1];
-        $cost_record->input3 = $inputs[2];
-        $cost_record->input4 = $inputs[3];
-        $cost_record->input5 = $inputs[4];
-        $cost_record->input6 = $inputs[5];
-        $cost_record->input7 = $inputs[6];
-        $cost_record->input8 = $inputs[7];
+
+        $cost_record->input1 = $this->getNumber($inputs[0]);
+        $cost_record->input2 = $this->getNumber($inputs[1]);
+        $cost_record->input3 = $this->getNumber($inputs[2]);
+        $cost_record->input4 = $this->getNumber($inputs[3]);
+        $cost_record->input5 = $this->getNumber($inputs[4]);
+        $cost_record->input6 = $this->getNumber($inputs[5]);
+        $cost_record->input7 = $this->getNumber($inputs[6]);
+        $cost_record->input8 = $this->getNumber($inputs[7]);
 
         $cost_record->save();
         return redirect('business/dailyAverageCost?shipId='.$shipId);
@@ -150,11 +156,12 @@ class BusinessController extends Controller {
 
         $status = Session::get('status');
         $costs = ExpectedCosts::where('shipNo', $shipId)->first();
+        
         if($costs == null)
             $costDay = 0;
         else
             $costDay = ($costs['input1'] + $costs['input2'] + $costs['input3'] + ($costs['input4'] + $costs['input5'] + $costs['input6'] + $costs['input7'] + $costs['input8'])*12) / 365;
-
+        
 		return view('business.ship_contract', array(
             'shipId'	    =>  $shipId,
             'shipName'	    =>  $shipName,
