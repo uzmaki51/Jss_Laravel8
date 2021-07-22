@@ -276,6 +276,33 @@ $ships = Session::get('shipList');
         shipid_table = $("#select-table-ship").val();
         initTable();
 
+
+        function getDayAverage() {
+            $.ajax({
+                url: BASE_URL + 'ajax/operation/listByShipForPast',
+                type: 'POST',
+                data: {'shipId':shipid_table},
+                success: function(response) {
+                    if (response.length <= 0) return 0;
+                    var sum = 0;
+                    for (var i=0;i<response.length;i++) {
+                        if (response[i].debit_list[6] != 'undefined' && response[i].debit_list[6] != null)
+                            sum += response[i].debit_list[6];
+                        if (response[i].debit_list[4] != 'undefined' && response[i].debit_list[4] != null)
+                            sum += response[i].debit_list[4];
+                        if (response[i].debit_list[15] != 'undefined' && response[i].debit_list[15] != null)
+                            sum += response[i].debit_list[15];
+                    }
+                    sum = sum / 363;
+                    return sum.toFixed(2);
+                },
+                error: function(error) {
+                }
+            });
+        }
+        //getDayAverage();
+        
+
         function initTable() {
             listTable = $('#table-income-expense-list').DataTable({
                 processing: true,
