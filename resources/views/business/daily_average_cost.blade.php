@@ -380,11 +380,11 @@ $ships = Session::get('shipList');
 
                     $('td', row).eq(5).attr('class', 'style-blue-input text-right');
                     $('td', row).eq(5).attr('style', 'padding-right:5px!important;');
-                    $('td', row).eq(5).html(data['credit_sum']==0?'':prettyValue(data['credit_sum']));
+                    $('td', row).eq(5).html(data['credit_sum']==0?'':prettyValue2(data['credit_sum']));
 
                     $('td', row).eq(6).attr('class', 'text-right');
                     $('td', row).eq(6).attr('style', 'padding-right:5px!important;')
-                    $('td', row).eq(6).html(data['debit_sum']==0?'':prettyValue(data['debit_sum']));
+                    $('td', row).eq(6).html(data['debit_sum']==0?'':prettyValue2(data['debit_sum']));
                     //$('td', row).eq(6).attr('class', 'text-right right-border');
                     for (var i=1;i<16;i++)
                     {
@@ -449,7 +449,7 @@ $ships = Session::get('shipList');
                                 $(dest_obj).attr('style', 'padding-right:5px!important;')
                             }
                             
-                            $(dest_obj).html(prettyValue(data['debit_list'][i]));
+                            $(dest_obj).html(prettyValue2(data['debit_list'][i]));
                         }
                         else {
                             if (dest_obj != null) $(dest_obj).html('');
@@ -491,15 +491,15 @@ $ships = Session::get('shipList');
 
                         //style-normal-header sub-small-header style-red-header
                         if (i == 0) {
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
                         }
                         else if (i > 1 && i < 7)
                         {
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
                         }
                         else
                         {
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
                         }
                     }
                     report_html += "</tr>";
@@ -512,12 +512,12 @@ $ships = Session::get('shipList');
                         var value = table_sums[i] / 3 / 363 * 31;
                         if (i < 4) value = 0;
                         if (i == 1)
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right" + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right" + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
                             //report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right right-border" + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
                         else if (i > 1 && i < 7)
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
                         else
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
                     }
                     report_html += "</tr>";
 
@@ -530,9 +530,9 @@ $ships = Session::get('shipList');
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right' style='padding:5px!important;'></td>";
 
                     value = (table_sums[4] + table_sums[5] + table_sums[6]) / 363;
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-center " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;' colspan='3'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
+                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-center " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;' colspan='3'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
                     value = (table_sums[7] + table_sums[8] + table_sums[9] + table_sums[10] + table_sums[11] + table_sums[12] + table_sums[13]+ table_sums[14]) / 363;
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-center " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;' colspan='8'>" + (value==0?'': '$'+prettyValue(value)) + "</td>";
+                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-center " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;' colspan='8'>" + (value==0?'': '$'+prettyValue2(value)) + "</td>";
                     report_html += "</tr>";
                     $('#table-income-expense-body').append(report_html);
 
@@ -587,6 +587,11 @@ $ships = Session::get('shipList');
         function prettyValue(value)
         {
             return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+        }
+
+        function prettyValue2(value)
+        {
+            return parseFloat(value).toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
         const DAY_UNIT = 1000 * 3600;
