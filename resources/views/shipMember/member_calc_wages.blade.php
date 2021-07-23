@@ -310,7 +310,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(0).html('').append('<label>' + (pageInfo.page * pageInfo.length + index + 1)+ '</label><input type="hidden" name="MemberId[]" value="' + data['no'] + '">');
                     $('td', row).eq(1).html('<label>' + data['name'] + '</label><input type="hidden" name="Names[]" value="' + data['name'] + '">');
                     var rank = data['rank'];
-                    if (rank == 'null') rank = '';
+                    if (rank == 'null' || rank == null) rank = '';
                     $('td', row).eq(2).html('<label>' + rank + '</label><input type="hidden" name="Rank[]" value="' + __parseStr(rank) + '">');
                     $('td', row).eq(3).html('<label>' + ((data['WageCurrency'] == 0)?'¥':'$') + '</label><input type="hidden" name="Currency[]" value="' + data['WageCurrency'] + '">');
                     //$('td', row).eq(4).html('<label>' + data['Salary'] + '</label><input type="hidden" name="Salary[]" value="' + data['Salary'] + '">');
