@@ -195,7 +195,10 @@ $isHolder = Session::get('IS_HOLDER');
                         bank_info += '<option value="'+i+'"' + ((i==data['sendbank'])?'selected':'') + '>'+BankInfo[i]+'</option>';
                     bank_info += '</select>';
                     $('td', row).eq(7).html(bank_info);
-                    $('td', row).eq(8).html('<label>' + __parseStr(data['bankinfo']) + '</label><input type="hidden" name="BankInfo[]" value="' + __parseStr(data['bankinfo']) + '">');
+
+                    var bank_name = data['bankinfo'];
+                    if (bank_name == 'null' || bank_name == null) bank_name = '';
+                    $('td', row).eq(8).html('<label>' + __parseStr(bank_name) + '</label><input type="hidden" name="BankInfo[]" value="' + __parseStr(bank_name) + '">');
                     $('td', row).eq(9).html('<input type="text" autocomplete="off" class="form-control style-noncolor-input" name="Remark[]" value="' + __parseStr(data['remark']) + '" style="width: 100%;text-align: center" autocomplete="off">');
                 },
                 drawCallback: function (response) {

@@ -323,7 +323,9 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(10).html('<label>' + data['TransInD'] + '</label><input type="hidden" name="TransInD[]" value="' + __parseStr(data['TransInD']) + '">');
                     $('td', row).eq(11).html('<div class="input-group"><input class="form-control add-trans-date date-picker" name="TransDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + data['TransDate'] + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
                     $('td', row).eq(12).html('<input type="text" class="form-control" name="Remark[]" value="' + __parseStr(data['Remark']) + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(13).html('<label>' + __parseStr(data['BankInformation']) + '</label><input type="hidden" name="BankInfo[]" value="' + __parseStr(data['BankInformation']) + '">');
+                    var bank_info = data['BankInformation'];
+                    if (bank_info == 'null' || bank_info == null) bank_info = '';
+                    $('td', row).eq(13).html('<label>' + __parseStr(bank_info) + '</label><input type="hidden" name="BankInfo[]" value="' + __parseStr(bank_info) + '">');
 
                     //$('td', row).eq(11).attr('name', 'TransDate[]');
                 },
