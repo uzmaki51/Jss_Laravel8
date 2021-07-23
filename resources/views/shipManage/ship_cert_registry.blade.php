@@ -57,7 +57,7 @@ $ships = Session::get('shipList');
                             <button class="btn btn-warning btn-sm excel-btn d-none"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                             <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
                             @if(!$isHolder)
-                                <button class="btn btn-sm btn-warning" id="submit">
+                                <button class="btn btn-sm btn-success" id="submit">
                                     <i class="icon-save"></i>保存
                                 </button>
                             @endif

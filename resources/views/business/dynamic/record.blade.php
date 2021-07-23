@@ -86,7 +86,7 @@
                             <a class="btn btn-sm btn-danger refresh-btn-over d-none" type="button" click="refresh">
                                 <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">恢复
                             </a>
-                            <button class="btn btn-warning btn-sm save-btn" @click="submitForm"><i class="icon-save"></i> {{ trans('common.label.save') }}</button>
+                            <button class="btn btn-success btn-sm save-btn" @click="submitForm"><i class="icon-save"></i> {{ trans('common.label.save') }}</button>
                         </div>
                     </div>
                 </div>
