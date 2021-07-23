@@ -183,7 +183,9 @@ $isHolder = Session::get('IS_HOLDER');
 
                     $('td', row).eq(0).html('').append('<label>' + (pageInfo.page * pageInfo.length + index + 1)+ '</label><input type="hidden" name="MemberId[]" value="' + data['no'] + '">');
                     $('td', row).eq(1).html('<label>' + data['name'] + '</label><input type="hidden" name="Names[]" value="' + data['name'] + '">');
-                    $('td', row).eq(2).html('<label>' + __parseStr(data['rank']) + '</label><input type="hidden" name="Rank[]" value="' + data['rank'] + '">');
+                    var rank = data['rank'];
+                    if (rank == 'null') rank = '';
+                    $('td', row).eq(2).html('<label>' + __parseStr(rank) + '</label><input type="hidden" name="Rank[]" value="' + rank + '">');
                     $('td', row).eq(3).html('<label>' + __parseStr(data['cashR']) + '</label><input type="hidden" name="CashR[]" value="' + data['cashR'] + '">');
                     $('td', row).eq(4).html('<input type="text" autocomplete="off" class="form-control style-noncolor-input add-sendR" name="SendR[]" value="' + data['sendR'] + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(5).html('<input type="text" autocomplete="off" class="form-control style-noncolor-input add-sendD" name="SendD[]" value="' + data['sendD'] + '" style="width: 100%;text-align: center" autocomplete="off">');
