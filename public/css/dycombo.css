@@ -305,7 +305,7 @@ table {
 }
 .multi-dynamic-select {
     color: #12539b;
-    max-width: 240px;
+    max-width: 264px;
     overflow: hidden;
     padding-right: 16px;
     text-overflow: ellipsis;
