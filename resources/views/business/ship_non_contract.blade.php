@@ -360,7 +360,7 @@
     var DEFAULT_CURRENCY = '{!! USD_LABEL !!}';
     var DECIMAL_SIZE = 2;
     function disabled(type = true) {
-        $('#non_contract_table input, #non_contract_table select, #non_contract_table textarea').attr('disabled', type);
+        $('#non_contract_table  [name=voy_no]').attr('disabled', type);
         if(type)
             $('#submit').attr('disabled', true);
     }
@@ -670,6 +670,8 @@
                 },
                 validateVoyNo(e) {
                     $('#submit').attr('disabled', 'disabled');
+                    if($('#nonContractForm [name=voy_no]').val() == '')  return;
+                    if(!nonInputObj.is_finish) return ;
                     let value = $(e.target).val();
                     $.ajax({
                         url: BASE_URL + 'ajax/business/voyNo/validate',

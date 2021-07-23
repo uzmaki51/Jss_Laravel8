@@ -714,10 +714,22 @@ $ships = Session::get('shipList');
                         portListObj.list = [];
                         voyContractObj.portList = [];
                         voyContractObj.portList = Object.assign([], [], result);
+                        voyContractObj.$forceUpdate();
                         tcContractObj.portList = [];
                         tcContractObj.portList = Object.assign([], [], result);
+                        nonContractObj.portList = [];
+                        nonContractObj.portList = Object.assign([], [], result);
+                        // disabledVoy(false)
+                        // if(voyInputObj.is_finish)
+                        //     $('#voy_contract_table input, #voy_contract_table select, #voy_contract_table textarea').attr('disabled', false);
+                        // if(tcInputObj.is_finish)
+                        //     $('#tc_contract_table input, #tc_contract_table select, #tc_contract_table textarea').attr('disabled', false);
+                        // if(nonInputObj.is_finish)
+                        //     $('#non_contract_table input, #non_contract_table select, #non_contract_table textarea').attr('disabled', false);
+
                         portListObj.list = Object.assign([], [], result);
                         portListObj.list.push([]);
+                        console.log('asdfasdfasdfasdfasdf')
                         $('.close').click();
                     });
                 },
@@ -1075,8 +1087,10 @@ $ships = Session::get('shipList');
             if(ACTIVE_TAB == 'voy') {
                 form = $('#voy_contract_div');
             }
-            else {
+            else if(ACTIVE_TAB == 'tc') {
                 form = $('#tc_contract_div');
+            } else {
+                form = $('#non_contract_div');
             }
             focusable = form.find('input,a,select,textarea').filter(':visible');
             next = focusable.eq(focusable.index(this)+1);

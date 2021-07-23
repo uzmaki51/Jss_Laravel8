@@ -270,7 +270,7 @@
                             <div class="dynamic-options multi-select" style="margin-top: -17px;">
                                 <div class="dynamic-options-scroll">
                                     <div v-for="(portItem, index) in portList" class="d-flex dynamic-option">
-                                        <input type="checkbox" name="up_port_id[]" v-bind:value="index" v-bind:id="index + '_upPort'">
+                                        <input type="checkbox" name="up_port_id[]" v-bind:value="index" v-bind:id="index + '_upPort'" :disabled="false">
                                         <label :for="index + '_upPort'" class="width-100">@{{ portItem.Port_En }}</label>
                                     </div>
                                 </div>
@@ -414,7 +414,7 @@
     var DECIMAL_SIZE = 2;
 
     function disabledVoy(type = true) {
-        $('#voy_contract_table input, #voy_contract_table select, #voy_contract_table textarea').attr('disabled', type);
+        $('#voy_contract_table [name=voy_no]').attr('disabled', type);
         if(type)
             $('#submit').attr('disabled', true);
     }
@@ -471,6 +471,7 @@
             },
             ready: function() {
                 calcContractPreview();
+                console.log('aaaaaaa')
             },
             methods: {
                 onEditFinish: function() {
@@ -737,6 +738,7 @@
                 },
                 validateVoyNo(e) {
                     $('#submit').attr('disabled', 'disabled');
+                    if($('#voyContractForm [name=voy_no]').val() == '')  return;
                     if(!voyInputObj.is_finish) return ;
                     if($('[name=voy_no]').val() == '')  return;
                     let value = $(e.target).val();
