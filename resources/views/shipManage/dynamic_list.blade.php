@@ -137,9 +137,9 @@
                                 <th class="text-center font-style-italic" style="width: 130px;">STATUS</th>
                                 <th class="text-center">动态</th>
                                 <th class="text-center font-style-italic" style="width: 160px;">POSITION</th>
-                                <th class="text-center font-style-italic" style="width: 50px;">DTG[NM]</th>
-                                <th class="text-center font-style-italic" style="width: 40px;">SPEED</th>
-                                <th class="text-center font-style-italic">RPM</th>
+                                <th class="text-center font-style-italic" style="width: 60px;">DTG[NM]</th>
+                                <th class="text-center font-style-italic" style="width: 60px;">SPEED</th>
+                                <th class="text-center font-style-italic" style="width: 60px;">RPM</th>
                                 <th class="text-center font-style-italic">CGO QTY</th>
                                 <th class="text-center font-style-italic" colspan="2" style="border-right: 2px solid #ff9207;border-left: 2px solid #ff9207;">ROB</th>
                                 <th class="text-center font-style-italic" colspan="2">BUNKERING</th>
