@@ -106,8 +106,8 @@
                                 <th class="text-center font-style-italic">DATE</th>
                                 <th class="text-center font-style-italic" colspan="2">TIME[LT]</th>
                                 <th class="text-center font-style-italic" rowspan="2">GMT</th>
-                                <th class="text-center font-style-italic" style="width: 130px;">STATUS</th>
-                                <th class="text-center" style="width: 60px;">状态</th>
+                                <th class="text-center font-style-italic" style="width: 140px;">STATUS</th>
+                                <th class="text-center" style="width: 70px;">状态</th>
                                 <th class="text-center font-style-italic" style="width: 160px;">POSITION</th>
                                 <th class="text-center font-style-italic" style="width: 60px;">DTG[NM]</th>
                                 <th class="text-center font-style-italic" style="width: 60px;">SPEED</th>
