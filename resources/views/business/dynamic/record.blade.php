@@ -99,7 +99,7 @@
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" name="shipId" value="{{ $shipId }}">
                     <input type="hidden" name="_CP_ID" v-model="activeVoy">
-                    <table class="table-bordered dynamic-table table-striped">
+                    <table class="table-bordered dynamic-table table-striped" v-cloak>
                         <thead>
                             <tr>
                                 <th class="text-center font-style-italic" style="width: 40px;">VOY No</th>
@@ -285,6 +285,7 @@
         var isChangeStatus = false;
         var searchObjTmp = new Array();
         var submitted = false;
+        var tmp;
         
         $("form").submit(function() {
             submitted = true;
@@ -386,7 +387,8 @@
                     dangerClass: function(value) {
                         return isNaN(value) || value < 0 ? 'text-danger' : '';
                     },
-                    onChangeVoy: function(evt) {
+                    onChangeVoy(evt) {
+                        var newVal = this.activeVoy;
                         var confirmationMessage = 'It looks like you have been editing something. '
                                 + 'If you leave before saving, your changes will be lost.';
                         let currentObj = JSON.parse(JSON.stringify(searchObj.currentData));
@@ -396,11 +398,13 @@
                             isChangeStatus = false;
 
                         if (!submitted && isChangeStatus) {
+                            this.activeVoy = tmp;
                             bootbox.confirm(confirmationMessage, function (result) {
                                 if (!result) {
                                     return;
                                 }
                                 else {
+                                    searchObj.activeVoy = newVal;
                                     searchObj.setPortName();
                                     searchObj.getData();
                                 }
@@ -536,9 +540,9 @@
                                 }
 
                                 searchObj.total_count = searchObj.currentData.length;
-
+                                console.log(searchObj.currentData)
                                 searchObjTmp = JSON.parse(JSON.stringify(searchObj.currentData));
-
+                                tmp = $('[name=voy_list]').val();
                             }
                         })
                     },
@@ -640,17 +644,28 @@
                     setDefaultData() {
                         let length = searchObj.currentData.length;
                         searchObj.currentData.push([]);
-                        searchObj.currentData[length]['Voy_Status'] = DYNAMIC_SAILING;
-                        searchObj.currentData[length]['dynamicSub'] = getSubList(DYNAMIC_SAILING);
-                        searchObj.currentData[length]['Voy_Type'] = DYNAMIC_SUB_SALING;
-                        searchObj.currentData[length]['Voy_Hour'] = "08";
-                        searchObj.currentData[length]['Voy_Minute'] = "00";
                         if(length > 0) {
-                            searchObj.currentData[length]['Voy_Date'] = searchObj.currentData[length - 1]['Voy_Date'];
-                            searchObj.currentData[length]['GMT'] = searchObj.currentData[length - 1]['GMT'];
+                            let tmp = {
+                                Voy_Status: DYNAMIC_SAILING,
+                                dynamicSub: getSubList(DYNAMIC_SAILING),
+                                Voy_Type: DYNAMIC_SUB_SALING,
+                                Voy_Hour: "08",
+                                Voy_Minute: "00",
+                                Voy_Date: searchObj.currentData[length - 1]['Voy_Date'],
+                                GMT: searchObj.currentData[length - 1]['GMT']
+                            }
+                            searchObj.currentData[length] = tmp;
                         } else {
-                            searchObj.currentData[length]['Voy_Date'] = this.getToday('-');
-                            searchObj.currentData[length]['GMT'] = 8;
+                            let tmp1 = {
+                                Voy_Status: DYNAMIC_SAILING,
+                                dynamicSub: getSubList(DYNAMIC_SAILING),
+                                Voy_Type: DYNAMIC_SUB_SALING,
+                                Voy_Hour: "08",
+                                Voy_Minute: "00",
+                                Voy_Date: this.getToday('-'),
+                                GMT: 8
+                            }
+                            searchObj.currentData[length] = tmp1;
                         }
 
                         searchObj.$forceUpdate();
