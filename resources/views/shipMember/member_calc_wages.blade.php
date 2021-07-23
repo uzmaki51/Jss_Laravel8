@@ -140,7 +140,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <tbody>
                                 <tr>
                                     <td class="custom-modal-td-label" style="width:111px!important;">姓名*:</td>
-                                    <td><input type="text" name="decTitle" id="add-name" class="form-control" value="缺员" style="width: 100%"></td>
+                                    <td><input type="text" name="decTitle" id="add-name" class="form-control" value="缺员" style="width: 100%" autocomplete="off"></td>
                                 </tr>
                                 <tr>
                                     <td class="custom-modal-td-label">职员:</td>
@@ -156,39 +156,39 @@ $isHolder = Session::get('IS_HOLDER');
                                 <tr>
                                     <td class="custom-modal-td-label">币类:</td>
                                     <td>
-                                        <select id="add-currency" class="form-control" style="padding-left:unset!important;color:#1565C0!important;">
-                                            <option value="0">¥</option>
-                                            <option value="1">$</option>
+                                        <select id="add-currency" class="form-control" style="padding-left:unset!important;">
+                                            <option value="0" style="color:red!important;">¥</option>
+                                            <option value="1" style="color:#1565C0!important;">$</option>
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="custom-modal-td-label">合约薪资*:</td>
-                                    <td><input type="text" id="add-wage" class="form-control" style="width: 100%"></td>
+                                    <td><input type="text" id="add-wage" class="form-control" style="width: 100%" autocomplete="off"></td>
                                 </tr>
                                 <tr>
                                     <td class="custom-modal-td-label">上船日期*:</td>
-                                    <td><div class="input-group"><input id="add-signon-date" class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="icon-calendar "></i></span></div></td>
+                                    <td><div class="input-group"><input id="add-signon-date" class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd" autocomplete="off"><span class="input-group-addon"><i class="icon-calendar "></i></span></div></td>
                                 </tr>
                                 <tr>
                                     <td class="custom-modal-td-label">下船/截止日期*:</td>
-                                    <td><div class="input-group"><input id="add-signoff-date" class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="icon-calendar "></i></span></div></td>
+                                    <td><div class="input-group"><input id="add-signoff-date" class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd" autocomplete="off"><span class="input-group-addon"><i class="icon-calendar "></i></span></div></td>
                                 </tr>
                                 <tr>
                                     <td class="custom-modal-td-label">扣款:</td>
-                                    <td><input type="text" id="add-minus-money" value="0" class="form-control" style="width: 100%"></td>
+                                    <td><input type="text" id="add-minus-money" value="" class="form-control" style="width: 100%" autocomplete="off"></td>
                                 </tr>
                                 <tr>
                                     <td class="custom-modal-td-label">支付日期:</td>
-                                    <td><div class="input-group"><input id="add-purchase-date" class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="icon-calendar "></i></span></div></td>
+                                    <td><div class="input-group"><input id="add-purchase-date" class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd" autocomplete="off"><span class="input-group-addon"><i class="icon-calendar "></i></span></div></td>
                                 </tr>
                                 <tr>
                                     <td class="custom-modal-td-label">备注:</td>
-                                    <td><textarea type="text" id="add-remark" class="form-control" style="resize:none;" rows="2"></textarea></td>
+                                    <td><textarea type="text" id="add-remark" class="form-control" style="resize:none;" rows="2" autocomplete="off"></textarea></td>
                                 </tr>
                                 <tr>
                                     <td class="custom-modal-td-label">银行账号:</td>
-                                    <td><textarea type="text" id="add-bank-info" class="form-control" style="resize:none;" rows="2"></textarea></td>
+                                    <td><textarea type="text" id="add-bank-info" class="form-control" style="resize:none;" rows="2" autocomplete="off"></textarea></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -288,10 +288,14 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(0).attr('class', 'text-center disable-td add-no');
                     $('td', row).eq(1).attr('class', 'text-center disable-td');
                     $('td', row).eq(2).attr('class', 'text-center disable-td');
-                    if (data['WageCurrency'] == 0)
+                    if (data['WageCurrency'] == 0) {
                         $('td', row).eq(3).html('¥');
-                    else
+                        $('td', row).eq(3).attr('style','color:red');    
+                    }
+                    else {
                         $('td', row).eq(3).html('$');
+                        $('td', row).eq(3).attr('style','color:#026fcd!important');
+                    }
                     $('td', row).eq(3).attr('class', 'text-center disable-td add-currency');
                     $('td', row).eq(4).attr('class', 'text-center add-salary');
                     $('td', row).eq(5).attr('class', 'text-center disable-td');
@@ -305,10 +309,12 @@ $isHolder = Session::get('IS_HOLDER');
 
                     $('td', row).eq(0).html('').append('<label>' + (pageInfo.page * pageInfo.length + index + 1)+ '</label><input type="hidden" name="MemberId[]" value="' + data['no'] + '">');
                     $('td', row).eq(1).html('<label>' + data['name'] + '</label><input type="hidden" name="Names[]" value="' + data['name'] + '">');
-                    $('td', row).eq(2).html('<label>' + data['rank'] + '</label><input type="hidden" name="Rank[]" value="' + __parseStr(data['rank']) + '">');
+                    var rank = data['rank'];
+                    if (rank == 'null' || rank == null) rank = '';
+                    $('td', row).eq(2).html('<label>' + rank + '</label><input type="hidden" name="Rank[]" value="' + __parseStr(rank) + '">');
                     $('td', row).eq(3).html('<label>' + ((data['WageCurrency'] == 0)?'¥':'$') + '</label><input type="hidden" name="Currency[]" value="' + data['WageCurrency'] + '">');
                     //$('td', row).eq(4).html('<label>' + data['Salary'] + '</label><input type="hidden" name="Salary[]" value="' + data['Salary'] + '">');
-                    $('td', row).eq(4).html('<input type="text" class="form-control" name="Salary[]" value="' + prettyValue(data['Salary']) + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(4).html('<input type="text" class="form-control" name="Salary[]" value="' + (data['Salary']==''?'':prettyValue(data['Salary'])) + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(5).html('<label>' + data['DateOnboard'] + '</label><input type="hidden" name="DateOnboard[]" value="' + data['DateOnboard'] + '">');
                     $('td', row).eq(6).html('<label>' + data['DateOffboard'] + '</label><input type="hidden" name="DateOffboard[]" value="' + data['DateOffboard'] + '">');
                     $('td', row).eq(7).html('<label>' + data['SignDays'] + '</label><input type="hidden" name="SignDays[]" value="' + data['SignDays'] + '">');
@@ -317,7 +323,9 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(10).html('<label>' + data['TransInD'] + '</label><input type="hidden" name="TransInD[]" value="' + __parseStr(data['TransInD']) + '">');
                     $('td', row).eq(11).html('<div class="input-group"><input class="form-control add-trans-date date-picker" name="TransDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + data['TransDate'] + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
                     $('td', row).eq(12).html('<input type="text" class="form-control" name="Remark[]" value="' + __parseStr(data['Remark']) + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(13).html('<label>' + __parseStr(data['BankInformation']) + '</label><input type="hidden" name="BankInfo[]" value="' + data['BankInformation'] + '">');
+                    var bank_info = data['BankInformation'];
+                    if (bank_info == 'null' || bank_info == null) bank_info = '';
+                    $('td', row).eq(13).html('<label>' + __parseStr(bank_info) + '</label><input type="hidden" name="BankInfo[]" value="' + __parseStr(bank_info) + '">');
 
                     //$('td', row).eq(11).attr('name', 'TransDate[]');
                 },
@@ -348,8 +356,14 @@ $isHolder = Session::get('IS_HOLDER');
         initTable();
 
         function setValue(e, v, isNumber) {
-            e.closest("td").firstElementChild.innerHTML = isNumber ? prettyValue(v) : v;
-            e.value = v;
+            if (v == null || v == "NaN") {
+                e.closest("td").firstElementChild.innerHTML = '';
+                e.value = '';
+            }
+            else {
+                e.closest("td").firstElementChild.innerHTML = isNumber ? prettyValue(v) : v;
+                e.value = v;
+            }
         }
         function calcReport()
         {
@@ -432,8 +446,8 @@ $isHolder = Session::get('IS_HOLDER');
                 setValue(TransInR[i], _R, true);
                 setValue(TransInD[i], _D, true);
 
-                sum_R += (_R=='')?0:parseFloat(_R.replace(',',''));
-                sum_D += (_D=='')?0:parseFloat(_D.replace(',',''));
+                sum_R += (_R==''||_R=='NaN')?0:parseFloat(_R.replace(',',''));
+                sum_D += (_D==''||_D=='NaN')?0:parseFloat(_D.replace(',',''));
                 if (TransDate[i].value != '') {
                     sum_pre += (_R=='')?0:parseFloat(_R.replace(',',''));
                 }
@@ -450,6 +464,7 @@ $isHolder = Session::get('IS_HOLDER');
 
         function prettyValue(value)
         {
+            //console.log(value, ",", parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,"));
             return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
@@ -681,15 +696,24 @@ $isHolder = Session::get('IS_HOLDER');
         function openAddPage()
         {
             $("#modal-add-wage").modal("show");
+            $('#add-name').val("缺员");
             $('#add-rank').val("");
             $('#add-currency').val(0);
             $('#add-wage').val('');
             $('#add-signon-date').val('');
             $('#add-signoff-date').val('');
-            $('#add-minus-money').val('0');
+            $('#add-minus-money').val('');
             $('#add-purchase-date').val('');
             $('#add-remark').val('');
             $('#add-bank-info').val('');
+        }
+
+        function parseValue(value, isNumber=true)
+        {
+            if (value == ''){
+                return (isNumber?0:'');
+            }
+            return parseFloat(value);
         }
 
         function addWage()
@@ -698,13 +722,13 @@ $isHolder = Session::get('IS_HOLDER');
             if (add_name == '') { $('#add-name').focus(); return; }
             var add_rank = $('#add-rank').val();
             var add_currency = $('#add-currency').val();
-            var add_wage = parseFloat($('#add-wage').val());
+            var add_wage = parseValue($('#add-wage').val());
             if ($('#add-wage').val() == '') { $('#add-wage').focus(); return; }
             var add_signon_date = $('#add-signon-date').val();
             if (add_signon_date == '') { $('#add-signon-date').focus(); return; }
             var add_signoff_date = $('#add-signoff-date').val();
             if (add_signoff_date == '') { $('#add-signoff-date').focus(); return; }
-            var add_minus_money = parseFloat($('#add-minus-money').val());
+            var add_minus_money = parseValue($('#add-minus-money').val());
             var add_purchase_date = $('#add-purchase-date').val();
             var add_remark = $('#add-remark').val();
             var add_bank_info = $('#add-bank-info').val();
@@ -727,7 +751,7 @@ $isHolder = Session::get('IS_HOLDER');
             {
                 next_month ++;
             }
-
+            
             now = new Date(year + "-" + month + "-01");
             now.setDate(now.getDate());
             now = now.getFullYear() + "-"  +(now.getMonth() + 1).toString().padStart(2, '0') + "-" + now.getDate().toString().padStart(2, '0');
@@ -762,7 +786,7 @@ $isHolder = Session::get('IS_HOLDER');
             '</label><input type="hidden" name="MemberId[]" value="new_' + ($('.new-member').length) + '">' +
             '</td><td class="text-center disable-td"><label>' + add_name + '</label><input type="hidden" name="Names[]" value="' + add_name + '">' + 
             '</td><td class="text-center disable-td"><label>' + add_rank + '</label><input type="hidden" name="Rank[]" value="' + add_rank + '">'+
-            '</td><td class="text-center disable-td add-currency"><label>' + ((add_currency == 0)?'¥':'$') + '</label><input type="hidden" name="Currency[]" value="' + add_currency + '">' +
+            '</td><td class="text-center disable-td add-currency" ' + ((add_currency == 0)?'style="color:red"':'style="color:#026fcd!important"') + '><label>' + ((add_currency == 0)?'¥':'$') + '</label><input type="hidden" name="Currency[]" value="' + add_currency + '">' +
             '</td><td class="text-center add-salary"><input type="text" class="form-control" name="Salary[]" value="' + add_wage.toFixed(2) + '" style="width: 100%;text-align: center" autocomplete="off">'+ 
             '</td><td class="text-center disable-td"><label>' + add_signon_date + '</label><input type="hidden" name="DateOnboard[]" value="' + add_signon_date + '">'+
             '</td><td class="text-center disable-td"><label>' + add_signoff_date + '</label><input type="hidden" name="DateOffboard[]" value="' + add_signoff_date + '">'+
@@ -772,6 +796,7 @@ $isHolder = Session::get('IS_HOLDER');
             '</td><td class="text-center disable-td add-transD"><label>' + add_money_D.toFixed(2) + '</label><input type="hidden" name="TransInD[]" value="' + add_money_D.toFixed(2) + '">' +
             '</td><td class=" text-center""><div class="input-group"><input class="form-control add-trans-date date-picker" name="TransDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + add_purchase_date + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div></td><td class=" text-center"><input type="text" class="form-control" name="Remark[]" value="'+ add_remark + '" style="width: 100%;text-align: center" autocomplete="off"></td><td class="text-center disable-td add-bankinfo" style="word-wrap:break-word"><label>'+ add_bank_info + '</label><input type="hidden" name="BankInfo[]" value="' + add_bank_info + '">' +
             '</td><td class=" text-center"><div class="action-buttons"><a class="red" onclick="javascript:deleteItem(this)"><i class="icon-trash"></i></a></div></td></tr>';
+            
             $('.wage-item').last().after(new_row);
             setDatePicker();
             setEvents();
