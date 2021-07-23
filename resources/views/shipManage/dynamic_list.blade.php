@@ -126,10 +126,11 @@
             <!-- Main Contents Begin -->
             <div class="row" style="margin-top: 4px;">
                 <div class="col-md-12">
+                <div class="head-fix-div common-list">
                     <table class="table-bordered dynamic-table table-striped" v-show="record_type == 'all'" id="table-list-all">
                         <thead>
                             <tr>
-                                <th class="text-center font-style-italic" style="width: 60px;">VOY No</th>
+                                <th class="text-center font-style-italic" style="width: 40px;">VOY No</th>
                                 <th class="text-center font-style-italic" style="width: 60px;">DATE</th>
                                 <th class="text-center font-style-italic" colspan="2">TIME[LT]</th>
                                 <th class="text-center font-style-italic" rowspan="2">GMT</th>
@@ -361,6 +362,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-12 mt2" v-show="record_type == 'analyze'" >
