@@ -133,7 +133,7 @@
                                 <th class="text-center font-style-italic" style="width: 60px;">DATE</th>
                                 <th class="text-center font-style-italic" colspan="2">TIME[LT]</th>
                                 <th class="text-center font-style-italic" rowspan="2">GMT</th>
-                                <th class="text-center font-style-italic">STATUS</th>
+                                <th class="text-center font-style-italic" style="width: 130px;">STATUS</th>
                                 <th class="text-center">动态</th>
                                 <th class="text-center font-style-italic" style="width: 160px;">POSITION</th>
                                 <th class="text-center font-style-italic" style="width: 50px;">DTG[NM]</th>
@@ -156,10 +156,10 @@
                                 <th class="text-center">速度</th>
                                 <th class="text-center">转数</th>
                                 <th class="text-center">存货量</th>
-                                <th class="text-center font-style-italic" style="border-left: 2px solid #ff9207;width: 55px;">FO</th>
-                                <th class="text-center font-style-italic" style="border-right: 2px solid #ff9207; width: 55px;">DO</th>
-                                <th class="text-center font-style-italic" style="width: 55px;">FO</th>
-                                <th class="text-center font-style-italic" style="width: 55px;">DO</th>
+                                <th class="text-center font-style-italic" style="border-left: 2px solid #ff9207;width: 50px;">FO</th>
+                                <th class="text-center font-style-italic" style="border-right: 2px solid #ff9207; width: 50px;">DO</th>
+                                <th class="text-center font-style-italic" style="width: 50px;">FO</th>
+                                <th class="text-center font-style-italic" style="width: 50px;">DO</th>
                                 <th class="text-center" colspan="4"></th>
                             </tr>
                         </thead>
@@ -178,7 +178,7 @@
                                 <td class="text-center">@{{ prevData['RPM'] }}</td>
                                 <td class="text-right font-weight-bold text-danger">@{{ prevData['Cargo_Qtty'] }}</td>
                                 <td class="text-center font-weight-bold text-danger" style="border-left: 2px solid #ff9207;">@{{ prevData['ROB_FO'] }}</td>
-                                <td class="text-center font-weight-bold text-danger" style="border-right: 2px solid #ff9207; width: 55px;">@{{ prevData['ROB_DO'] }}</td>
+                                <td class="text-center font-weight-bold text-danger" style="border-right: 2px solid #ff9207; width: 50px;">@{{ prevData['ROB_DO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_FO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_DO'] }}</td>
                                 <td class="text-center" colspan="4">@{{ prevData['Remark'] }}</td>
@@ -199,7 +199,7 @@
                                     <td class="text-center">@{{ number_format(currentItem.RPM, 0) }}</td>
                                     <td class="text-right">@{{ number_format(currentItem.Cargo_Qtty, 2) }}</td>
                                     <td class="text-center" style="border-left: 2px solid #ff9207;">@{{ number_format(currentItem.ROB_FO, 2) }}</td>
-                                    <td class="text-center" style="border-right: 2px solid #ff9207; width: 55px;">@{{ number_format(currentItem.ROB_DO, 2) }}</td>
+                                    <td class="text-center" style="border-right: 2px solid #ff9207; width: 50px;">@{{ number_format(currentItem.ROB_DO, 2) }}</td>
                                     <td class="text-center">@{{ number_format(currentItem.BUNK_FO, 2) }}</td>
                                     <td class="text-center">@{{ number_format(currentItem.BUNK_DO, 2) }}</td>
                                     <td class="position-width" colspan="4">@{{ currentItem.Remark }}</td>
@@ -214,7 +214,7 @@
                                 <td class="text-center not-striped-td" rowspan="2">平均<br>速度</td>
                                 <td class="text-center fix-top not-striped-td">经济天</td>
                                 <td class="text-center fix-top not-striped-td"><span class="text-warning">@{{ number_format(economic_rate) }}%</span></td>
-                                <td class="text-center fix-top not-striped-td" colspan="2" style="border-left: 2px solid #ff9207;border-right: 2px solid #ff9207; width: 55px;">总消耗</td>
+                                <td class="text-center fix-top not-striped-td" colspan="2" style="border-left: 2px solid #ff9207;border-right: 2px solid #ff9207; width: 50px;">总消耗</td>
                                 <td class="text-center fix-top not-striped-td" colspan="2">加油量</td>
                                 <td class="text-center fix-top not-striped-td" colspan="2">标准消耗</td>
                                 <td class="text-center fix-top not-striped-td" colspan="2">-节约/+超过</td>
@@ -223,7 +223,7 @@
                                 <td class="text-center not-striped-td">航行</td>
                                 <td class="text-center not-striped-td">装卸货</td>
                                 <td class="text-center not-striped-td" style="border-left: 2px solid #ff9207;">FO</td>
-                                <td class="text-center not-striped-td" style="border-right: 2px solid #ff9207; width: 55px;">DO</td>
+                                <td class="text-center not-striped-td" style="border-right: 2px solid #ff9207; width: 50px;">DO</td>
                                 <td class="text-center not-striped-td">FO</td> 
                                 <td class="text-center not-striped-td">DO</td>
                                 <td class="text-center not-striped-td">FO</td>
@@ -241,7 +241,7 @@
                                 <td>@{{ number_format(total_sail_time, 2) }}</td>
                                 <td>@{{ number_format(total_loading_time) }}</td>
                                 <td style="border-left: 2px solid #ff9207;">@{{ number_format(rob_fo) }}</td>
-                                <td style="border-right: 2px solid #ff9207; width: 55px;">@{{ number_format(rob_do) }}</td>
+                                <td style="border-right: 2px solid #ff9207; width: 50px;">@{{ number_format(rob_do) }}</td>
                                 <td>@{{ number_format(bunker_fo) }}</td>
                                 <td>@{{ number_format(bunker_do) }}</td>
                                 <td>@{{ number_format(used_fo) }}</td>

@@ -106,14 +106,14 @@
                                 <th class="text-center font-style-italic">DATE</th>
                                 <th class="text-center font-style-italic" colspan="2">TIME[LT]</th>
                                 <th class="text-center font-style-italic" rowspan="2">GMT</th>
-                                <th class="text-center font-style-italic">STATUS</th>
-                                <th class="text-center">状态</th>
-                                <th class="text-center font-style-italic">POSITION</th>
-                                <th class="text-center font-style-italic">DTG[NM]</th>
-                                <th class="text-center font-style-italic">SPEED</th>
-                                <th class="text-center font-style-italic" style="width: 45px;">RPM</th>
-                                <th class="text-center font-style-italic" style="border-right: 2px solid #4c4c4c; width: 48px;">CGO QTY</th>
-                                <th class="text-center font-style-italic" colspan="2">ROB</th>
+                                <th class="text-center font-style-italic" style="width: 130px;">STATUS</th>
+                                <th class="text-center" style="width: 60px;">状态</th>
+                                <th class="text-center font-style-italic" style="width: 160px;">POSITION</th>
+                                <th class="text-center font-style-italic" style="width: 60px;">DTG[NM]</th>
+                                <th class="text-center font-style-italic" style="width: 60px;">SPEED</th>
+                                <th class="text-center font-style-italic" style="width: 60px;">RPM</th>
+                                <th class="text-center font-style-italic" style="border-right: 2px solid rgb(255, 146, 7); width: 100px;">CGO QTY</th>
+                                <th class="text-center font-style-italic" colspan="2" style="border-right: 2px solid rgb(255, 146, 7);">ROB</th>
                                 <th class="text-center font-style-italic" colspan="2">BUNKERING</th>
                                 <th class="text-center font-style-italic" colspan="4" style="width: 20%;">REMARK</th>
                                 <th style="width: 16px;"></th>
@@ -129,11 +129,11 @@
                                 <th class="text-center">距离</th>
                                 <th class="text-center">速度</th>
                                 <th class="text-center">转数</th>
-                                <th class="text-center" style="border-right: 2px solid #4c4c4c;">存货量</th>
-                                <th class="text-center font-style-italic">FO</th>
-                                <th class="text-center font-style-italic">DO</th>
-                                <th class="text-center font-style-italic">FO</th>
-                                <th class="text-center font-style-italic">DO</th>
+                                <th class="text-center" style="border-right: 2px solid rgb(255, 146, 7);">存货量</th>
+                                <th class="text-center font-style-italic" style="width: 50px;">FO</th>
+                                <th class="text-center font-style-italic" style="border-right: 2px solid rgb(255, 146, 7); width: 50px;">DO</th>
+                                <th class="text-center font-style-italic" style="width: 50px;">FO</th>
+                                <th class="text-center font-style-italic" style="width: 50px;">DO</th>
                                 <th class="text-center" colspan="4"></th>
                                 <th></th>
                             </tr>
@@ -145,15 +145,15 @@
                                 <td class="text-center">@{{ prevData['Voy_Hour'] }}</td>
                                 <td class="text-center">@{{ prevData['Voy_Minute'] }}</td>
                                 <td class="text-center">@{{ prevData['GMT'] }}</td>
-                                <td style="padding-left: 8px!important">@{{ prevData['Voy_Status'] }}</td>
-                                <td style="padding-left: 8px!important">@{{ prevData['Voy_Type'] }}</td>
+                                <td style="padding-left: 8px!important;">@{{ prevData['Voy_Status'] }}</td>
+                                <td style="padding-left: 8px!important;">@{{ prevData['Voy_Type'] }}</td>
                                 <td style="padding-left: 4px!important">@{{ prevData['Ship_Position'] }}</td>
                                 <td class="text-center">@{{ prevData['Sail_Distance'] }}</td>
                                 <td class="text-center">@{{ prevData['Speed'] }}</td>
                                 <td class="text-center">@{{ prevData['RPM'] }}</td>
-                                <td class="text-right font-weight-bold text-danger" style="border-right: 2px solid #484f5b;">@{{ prevData['Cargo_Qtty'] }}</td>
+                                <td class="text-right font-weight-bold text-danger" style="border-right: 2px solid rgb(255, 146, 7);">@{{ prevData['Cargo_Qtty'] }}</td>
                                 <td class="text-center font-weight-bold text-danger">@{{ prevData['ROB_FO'] }}</td>
-                                <td class="text-center font-weight-bold text-danger">@{{ prevData['ROB_DO'] }}</td>
+                                <td class="text-center font-weight-bold text-danger" style="border-right: 2px solid rgb(255, 146, 7);">@{{ prevData['ROB_DO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_FO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_DO'] }}</td>
                                 <td colspan="4">@{{ prevData['Remark'] }}</td>
@@ -168,12 +168,12 @@
                                     <td class="time-width"><input type="number" class="form-control text-center minute-input" name="Voy_Minute[]" v-model="currentItem.Voy_Minute" @blur="limitMinute($event, index)" @keyup="limitMinute($event, index)"></td>
                                     <td class="time-width"><input type="number" class="form-control text-center gmt-input" name="GMT[]" v-model="currentItem.GMT" @blur="limitGMT($event, index)" @keyup="limitGMT($event, index)"></td>
                                     <td>
-                                        <select type="number" class="form-control" name="Voy_Status[]" v-model="currentItem.Voy_Status" @change="onChangeStatus($event, index)" style="width: 120px;">
+                                        <select type="number" class="form-control" name="Voy_Status[]" v-model="currentItem.Voy_Status" @change="onChangeStatus($event, index)">
                                             <option v-for="(item, index) in dynamicStatus" v-bind:value="index">@{{ item[0] }}</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select type="number" class="form-control" name="Voy_Type[]" v-model="currentItem.Voy_Type" style="width: 55px;">
+                                        <select type="number" class="form-control" name="Voy_Type[]" v-model="currentItem.Voy_Type">
                                             <option v-for="(item, index) in currentItem.dynamicSub" v-bind:value="item[0]">@{{ item[1] }}</option>
                                         </select>
                                     </td>
@@ -181,9 +181,9 @@
                                     <td><input type="number" max="100000" class="form-control text-center" name="Sail_Distance[]" v-model="currentItem.Sail_Distance"></td>
                                     <td><input type="number" class="form-control text-center" name="Speed[]" v-model="currentItem.Speed"></td>
                                     <td><input type="number" class="form-control text-center" name="RPM[]" v-model="currentItem.RPM"></td>
-                                    <td style="border-right: 2px solid #484f5b;"><input type="number" class="form-control text-right font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty[]" v-model="currentItem.Cargo_Qtty"></td>
+                                    <td style="border-right: 2px solid rgb(255, 146, 7);"><input type="number" class="form-control text-right font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty[]" v-model="currentItem.Cargo_Qtty"></td>
                                     <td><input type="number" class="form-control text-center font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_FO[]" v-model="currentItem.ROB_FO"></td>
-                                    <td><input type="number" class="form-control text-center font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO[]" v-model="currentItem.ROB_DO"></td>
+                                    <td style="border-right: 2px solid rgb(255, 146, 7);"><input type="number" class="form-control text-center font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO[]" v-model="currentItem.ROB_DO"></td>
                                     <td><input type="number" class="form-control text-center" name="BUNK_FO[]"  style="color: blue!important" v-model="currentItem.BUNK_FO"></td>
                                     <td><input type="number" class="form-control text-center" name="BUNK_DO[]"  style="color: blue!important" v-model="currentItem.BUNK_DO"></td>
                                     <td class="position-width" colspan="4"><textarea class="form-control" name="Remark[]" rows="1" style="resize: none" @click="addRow(index)" maxlength="50" autocomplete="off" v-model="currentItem.Remark"></textarea></td>
@@ -204,8 +204,8 @@
                                 <td class="text-center not-striped-td" rowspan="2">距离<br>[NM]</td>
                                 <td class="text-center not-striped-td" rowspan="2">平均<br>速度</td>
                                 <td class="text-center fix-top not-striped-td">经济天</td>
-                                <td class="text-center fix-top not-striped-td" style="border-right: 2px solid rgb(72, 79, 91);"><span class="text-warning" :class="dangerClass(economic_rate)">@{{ number_format(economic_rate) }}%</span></td>
-                                <td class="text-center fix-top not-striped-td" colspan="2">总消耗</td>
+                                <td class="text-center fix-top not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);"><span class="text-warning" :class="dangerClass(economic_rate)">@{{ number_format(economic_rate) }}%</span></td>
+                                <td class="text-center fix-top not-striped-td" colspan="2" style="border-right: 2px solid rgb(255, 146, 7);">总消耗</td>
                                 <td class="text-center fix-top not-striped-td" colspan="2">加油量</td>
                                 <td class="text-center fix-top not-striped-td" colspan="2">标准消耗</td>
                                 <td class="text-center fix-top not-striped-td" colspan="2">-节约/+超过</td>
@@ -213,9 +213,9 @@
                             </tr>
                             <tr class="dynamic-footer">
                                 <td class="text-center not-striped-td">航行</td>
-                                <td class="text-center not-striped-td" style="border-right: 2px solid rgb(72, 79, 91);">装卸货</td>
+                                <td class="text-center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);">装卸货</td>
                                 <td class="text-center not-striped-td">FO</td>
-                                <td class="text-center not-striped-td">DO</td>
+                                <td class="text-center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);">DO</td>
                                 <td class="text-center not-striped-td">FO</td>
                                 <td class="text-center not-striped-td">DO</td>
                                 <td class="text-center not-striped-td">FO</td>
@@ -231,9 +231,9 @@
                                 <td :class="dangerClass(total_distance)">@{{ number_format(total_distance, 0) }}</td>
                                 <td :class="dangerClass(average_speed)">@{{ number_format(average_speed) }}</td>
                                 <td :class="dangerClass(total_sail_time)">@{{ number_format(total_sail_time, 2) }}</td>
-                                <td :class="dangerClass(total_loading_time)" style="border-right: 2px solid rgb(72, 79, 91);">@{{ number_format(total_loading_time) }}</td>
+                                <td :class="dangerClass(total_loading_time)" style="border-right: 2px solid rgb(255, 146, 7);">@{{ number_format(total_loading_time) }}</td>
                                 <td :class="dangerClass(rob_fo)">@{{ number_format(rob_fo) }}</td>
-                                <td :class="dangerClass(rob_do)">@{{ number_format(rob_do) }}</td>
+                                <td :class="dangerClass(rob_do)" style="border-right: 2px solid rgb(255, 146, 7);">@{{ number_format(rob_do) }}</td>
                                 <td :class="dangerClass(bunker_fo)">@{{ number_format(bunker_fo) }}</td>
                                 <td :class="dangerClass(bunker_do)">@{{ number_format(bunker_do) }}</td>
                                 <td :class="dangerClass(used_fo)">@{{ number_format(used_fo) }}</td>
@@ -540,7 +540,6 @@
                                 }
 
                                 searchObj.total_count = searchObj.currentData.length;
-                                console.log(searchObj.currentData)
                                 searchObjTmp = JSON.parse(JSON.stringify(searchObj.currentData));
                                 tmp = $('[name=voy_list]').val();
                             }
