@@ -115,7 +115,11 @@ $isHolder = Session::get('IS_HOLDER');
     <?php
 	echo '<script>';
 	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
-    echo 'var BankInfo = ' . json_encode(g_enum('BankData')) . ';';
+    //echo 'var BankInfo = ' . json_encode(g_enum('BankData')) . ';';
+    echo 'var BankInfo = [];';
+    for($i=0;$i<count($accounts);$i++) {
+        echo 'BankInfo[' . $i . ']="' . $accounts[$i]['account'] . '";';
+    }
     echo 'var start_year = ' . $start_year . ';';
     echo 'var start_month = ' . $start_month . ';';
     echo 'var now_year = ' . date("Y") . ';';
@@ -179,18 +183,18 @@ $isHolder = Session::get('IS_HOLDER');
 
                     $('td', row).eq(0).html('').append('<label>' + (pageInfo.page * pageInfo.length + index + 1)+ '</label><input type="hidden" name="MemberId[]" value="' + data['no'] + '">');
                     $('td', row).eq(1).html('<label>' + data['name'] + '</label><input type="hidden" name="Names[]" value="' + data['name'] + '">');
-                    $('td', row).eq(2).html('<label>' + data['rank'] + '</label><input type="hidden" name="Rank[]" value="' + data['rank'] + '">');
-                    $('td', row).eq(3).html('<label>' + data['cashR'] + '</label><input type="hidden" name="CashR[]" value="' + data['cashR'] + '">');
-                    $('td', row).eq(4).html('<input type="text" class="form-control style-noncolor-input add-sendR" name="SendR[]" value="' + data['sendR'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(5).html('<input type="text" class="form-control style-noncolor-input add-sendD" name="SendD[]" value="' + data['sendD'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(6).html('<div class="input-group"><input class="form-control style-noncolor-input add-trans-date date-picker" name="PurchDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + (data['purchdate'] == null ? "": data['purchdate'].substring(0,10)) + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
+                    $('td', row).eq(2).html('<label>' + __parseStr(data['rank']) + '</label><input type="hidden" name="Rank[]" value="' + data['rank'] + '">');
+                    $('td', row).eq(3).html('<label>' + __parseStr(data['cashR']) + '</label><input type="hidden" name="CashR[]" value="' + data['cashR'] + '">');
+                    $('td', row).eq(4).html('<input type="text" autocomplete="off" class="form-control style-noncolor-input add-sendR" name="SendR[]" value="' + data['sendR'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(5).html('<input type="text" autocomplete="off" class="form-control style-noncolor-input add-sendD" name="SendD[]" value="' + data['sendD'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(6).html('<div class="input-group"><input autocomplete="off" class="form-control style-noncolor-input add-trans-date date-picker" name="PurchDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + (data['purchdate'] == null ? "": data['purchdate'].substring(0,10)) + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
                     var bank_info = '<select class="form-control" name="SendBank[]">';
                     for (var i=0;i<BankInfo.length;i++)
                         bank_info += '<option value="'+i+'"' + ((i==data['sendbank'])?'selected':'') + '>'+BankInfo[i]+'</option>';
                     bank_info += '</select>';
                     $('td', row).eq(7).html(bank_info);
                     $('td', row).eq(8).html('<label>' + __parseStr(data['bankinfo']) + '</label><input type="hidden" name="BankInfo[]" value="' + __parseStr(data['bankinfo']) + '">');
-                    $('td', row).eq(9).html('<input type="text" class="form-control style-noncolor-input" name="Remark[]" value="' + __parseStr(data['remark']) + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(9).html('<input type="text" autocomplete="off" class="form-control style-noncolor-input" name="Remark[]" value="' + __parseStr(data['remark']) + '" style="width: 100%;text-align: center" autocomplete="off">');
                 },
                 drawCallback: function (response) {
                     original = response.json.original;
@@ -211,8 +215,23 @@ $isHolder = Session::get('IS_HOLDER');
         $('#search_info').html('"' + $("#select-ship option:selected").attr('data-name') + '" ' + year + '年' + month + '月');
         initTable();
         function setValue(e, v, isNumber) {
-            e.closest("td").firstElementChild.innerHTML = isNumber ? prettyValue(v) : v;
-            e.value = v;
+            console.log(v);
+            if (v == null || isNaN(v) || v == '') {
+                e.closest("td").firstElementChild.innerHTML = '';
+                e.value = '';
+            }
+            else {
+                e.closest("td").firstElementChild.innerHTML = isNumber ? prettyValue(v) : v;
+                e.value = v;
+            }
+        }
+
+        function parseValue(value, isNumber=true)
+        {
+            if (value == ''){
+                return (isNumber?0:'');
+            }
+            return parseFloat(value);
         }
 
         function calcReport()
@@ -235,9 +254,9 @@ $isHolder = Session::get('IS_HOLDER');
                 setValue(SendR[i], _D, true);
                 setValue(SendD[i], _P, true);
 
-                sum_R += parseFloat(_R.replace(',',''));
-                sum_D += parseFloat(_D.replace(',',''));
-                sum_P += (_P=='')?0:parseFloat(_P.replace(',',''));
+                sum_R += parseValue(_R.replace(',',''));
+                sum_D += parseValue(_D.replace(',',''));
+                sum_P += (_P==''||_P=='NaN')?0:parseValue(_P.replace(',',''));
             }
             if ($('#list-body tr:last').attr('class') == 'tr-report') {
                 $('#list-body tr:last').remove();

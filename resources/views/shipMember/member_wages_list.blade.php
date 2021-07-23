@@ -116,8 +116,8 @@ $isHolder = Session::get('IS_HOLDER');
                                                 <th class="text-center style-normal-header" style="width: 10%;"><span>职务</span></th>
                                                 <th class="text-center style-normal-header" style="width: 10%;"><span>币类</span></th>
                                                 <th class="text-center style-normal-header" style="width: 10%;"><span>合约薪资</span></th>
-                                                <th class="text-center style-normal-header" style="width: 10%;"><span>上班日期</span></th>
-                                                <th class="text-center style-normal-header" style="width: 10%;"><span>下班日期</span></th>
+                                                <th class="text-center style-normal-header" style="width: 10%;"><span>上船日期</span></th>
+                                                <th class="text-center style-normal-header" style="width: 10%;"><span>下船日期</span></th>
                                             </thead>
                                             <tbody class="list-body">
                                                 <tr class="member-item odd" role="row">
@@ -288,7 +288,14 @@ $isHolder = Session::get('IS_HOLDER');
                 createdRow: function (row, data, index) {
                     $(row).attr('data-index', data['no']);
                     $('td', row).eq(0).attr('class', 'style-search-header text-center');
-                    $('td', row).eq(3).html(data['currency']==0?'¥':'$');
+                    if (data['currency'] == 0) {
+                        $('td', row).eq(3).html('¥');
+                        $('td', row).eq(3).attr('style','color:red');    
+                    }
+                    else {
+                        $('td', row).eq(3).html('$');
+                        $('td', row).eq(3).attr('style','color:#026fcd!important');
+                    }
                     $('td', row).eq(4).html(prettyValue(data['salary']));
                 },
             });
@@ -353,10 +360,6 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
-                    if ((index%2) == 0)
-                        $(row).attr('class', 'cost-item-even');
-                    else
-                        $(row).attr('class', 'cost-item-odd');
                     //$(row).attr('data-index', data['no']);
                     if (index == 12) {
                         $('td', row).eq(0).attr('class', 'sub-small-header style-normal-header text-center');
@@ -372,7 +375,11 @@ $isHolder = Session::get('IS_HOLDER');
                         $('td', row).eq(5).remove();
                     }
                     else {
-                        $('td', row).eq(1).html(data['purchdate'].substr(0,10));
+                        if (data['purchdate'] == null || data['purchdate'] == '') {
+                            $('td', row).eq(1).html('');
+                        } else {
+                            $('td', row).eq(1).html(data['purchdate'].substr(0,10));
+                        }
                         $('td', row).eq(2).html(prettyValue(data['sendR']));
                         $('td', row).eq(2).attr('class', 'style-blue-header text-center');
                         $('td', row).eq(3).html(data['sendD']==0?'':prettyValue(data['sendD']));

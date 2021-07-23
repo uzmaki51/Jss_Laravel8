@@ -41,6 +41,7 @@ use App\Models\ShipManage\ShipFreeBoard;
 use App\Models\ShipMember\ShipWage;
 use App\Models\ShipMember\ShipWageSend;
 use App\Models\ShipMember\ShipWageList;
+use App\Models\Finance\AccountSetting;
 
 use Auth;
 use Config;
@@ -260,9 +261,11 @@ class WageController extends Controller
         }
         $start_month = date("m", strtotime($start_year));
         $start_year = date("Y", strtotime($start_year));
+        $accounts = AccountSetting::select('*')->get();
         return view('shipMember.member_send_wages', [
         	'shipList'      => $shipList,
             'posList'       => $posList,
+            'accounts'      => $accounts,
             'shipId'        => $shipId,
             'year'          => $year,
             'month'         => $month,
