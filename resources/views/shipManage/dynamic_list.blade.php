@@ -610,7 +610,7 @@
                                         realData['sail_time'] = __getTermDay(realData['voy_start'], realData['voy_end'], tmpData[0]['GMT'], tmpData[tmpData.length - 1]['GMT']);
                                         
                                         tmpData.forEach(function(data_value, data_key) {
-                                            total_distance += __parseFloat(data_value["Sail_Distance"]);
+                                            total_distance += data_key > 0 ? __parseFloat(data_value["Sail_Distance"]) : 0;
                                             if(data_key > 0) {
                                                 if(data_value['Voy_Type'] == DYNAMIC_SUB_SALING) {
                                                     let preKey = data_key - 1;
