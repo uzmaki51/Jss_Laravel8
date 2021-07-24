@@ -700,8 +700,6 @@
                                         footerData['total_supply_time'] += __parseFloat(realData['total_supply_time']);
                                         footerData['total_else_time'] += __parseFloat(realData['total_else_time']);
 
-                                        footerData['average_speed'] += __parseFloat(BigNumber(realData['average_speed']).div(voyData.length));
-
                                         searchObj.analyze.list.push(realData);
                                         let xAxisTmp = [];
                                         xAxisTmp.push(realData['voy_no']);
@@ -713,6 +711,7 @@
                                     footerData['voy_count'] = voyData.length;
                                     footerData['voy_start'] = searchObj.analyze.list[0].voy_start;
                                     footerData['voy_end'] = searchObj.analyze.list[searchObj.analyze.list.length - 1].voy_end;
+                                    footerData['average_speed'] = __parseFloat(BigNumber(footerData['total_distance']).div(footerData['total_sail_time']).div(24));
                                     footerData['economic_rate'] = BigNumber(footerData['loading_time']).plus(footerData['disch_time']).plus(footerData['total_sail_time']).div(footerData['sail_time']).multipliedBy(100).toFixed(1);
 
                                 }
