@@ -1342,7 +1342,7 @@ class BusinessController extends Controller {
             $LPort = ShipPort::whereIn('id', $LPort)->get();
             $tmp = '';
             foreach($LPort as $port)
-                $tmp .= $port->Port_En . ', (' . $port->Port_Cn . ') / ';
+                $tmp .= $port->Port_En . ' (' . $port->Port_Cn . ') / ';
             $cp_list[$key]->LPort = substr($tmp, 0, strlen($tmp) - 2);
 
             $DPort = $item->DPort;
@@ -1352,7 +1352,7 @@ class BusinessController extends Controller {
             $DPort = ShipPort::whereIn('id', $DPort)->get();
             $tmp = '';
             foreach($DPort as $port)
-                $tmp .= $port->Port_En . ', (' . $port->Port_Cn . ') / ';
+                $tmp .= $port->Port_En . ' (' . $port->Port_Cn . ') / ';
             $cp_list[$key]->DPort = substr($tmp, 0, strlen($tmp) - 2);
         }
 

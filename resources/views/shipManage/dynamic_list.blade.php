@@ -249,43 +249,43 @@
                                 <td>@{{ number_format(used_do) }}</td>
                                 <td>@{{ number_format(save_fo) }}</td>
                                 <td>@{{ number_format(save_do) }}</td>
-                            </tr>                            
+                            </tr>
                         </tbody>
                     </table>
 
                     <table class="dynamic-result-table analyze-table table-striped" v-show="record_type == 'analyze'"  id="table-list-analysis">
                         <thead>
                             <tr class="dynamic-footer">
-                                <td class="text-center" rowspan="2">航次</td>
-                                <td class="text-center" rowspan="2">报告次</td>
-                                <td class="text-center" rowspan="2" style="width: 90px;">期间</td>
-                                <td class="text-center">航次</td>
-                                <td class="text-center">装港</td>
-                                <td class="text-center">卸港</td>
-                                <td class="text-center">距离</td>
-                                <td class="text-center">平均</td>
-                                <td class="text-center" colspan="5" style="border-left: 2px solid #ff9207; border-right: 2px solid #ff9207">经济天数</td>
-                                <td class="text-center" colspan="6">非经济天数</td>
+                                <th class="text-center" rowspan="2">航次</th>
+                                <th class="text-center" rowspan="2">报告次</th>
+                                <th class="text-center" rowspan="2" style="width: 90px;">期间</th>
+                                <th class="text-center">航次</th>
+                                <th class="text-center">装港</th>
+                                <th class="text-center">卸港</th>
+                                <th class="text-center">距离</th>
+                                <th class="text-center">平均</th>
+                                <th class="text-center" colspan="5" style="border-left: 2px solid #ff9207; border-right: 2px solid #ff9207">经济天数</th>
+                                <th class="text-center" colspan="6">非经济天数</th>
                             </tr>
                             <tr class="dynamic-footer">
-                                <td class="text-center">用时</td>
-                                <td class="text-center font-style-italic font-weight-bold">LOADING PORT</td>
-                                <td class="text-center font-style-italic font-weight-bold">DISCHG PORT</td>
-                                <td class="text-center">[NM]</td>
-                                <td class="text-center">速度</td>
-                                <td class="text-center" style="border-left: 2px solid #ff9207;">合计</td>
-                                <td class="text-center">占率</td>
-                                <td class="text-center">航行</td>
-                                <td class="text-center">装货</td>
-                                <td class="text-center" style="border-right: 2px solid #ff9207">卸货</td>
-                                <td class="text-center">合计</td>
-                                <td class="text-center">待泊</td>
-                                <td class="text-center">天气</td>
-                                <td class="text-center">修理</td>
-                                <td class="text-center">供应</td>
-                                <td class="text-center">其他</td>
+                                <th class="text-center">用时</th>
+                                <th class="text-center font-style-italic font-weight-bold">LOADING PORT</th>
+                                <th class="text-center font-style-italic font-weight-bold">DISCHG PORT</th>
+                                <th class="text-center">[NM]</th>
+                                <th class="text-center">速度</th>
+                                <th class="text-center" style="border-left: 2px solid #ff9207;">合计</th>
+                                <th class="text-center">占率</th>
+                                <th class="text-center">航行</th>
+                                <th class="text-center">装货</th>
+                                <th class="text-center" style="border-right: 2px solid #ff9207">卸货</th>
+                                <th class="text-center">合计</th>
+                                <th class="text-center">待泊</th>
+                                <th class="text-center">天气</th>
+                                <th class="text-center">修理</th>
+                                <th class="text-center">供应</th>
+                                <th class="text-center">其他</th>
                             </tr>
-                        </thead>    
+                        </thead>
                         <tbody>
                             <template v-for="(item, index) in analyze.list" v-cloak>
                                 <tr class="dynamic-item">
@@ -673,12 +673,12 @@
                                             }
                                         });
 
-                                        realData.total_sail_time = total_sail_time.toFixed(2);
+                                        realData.total_sail_time = total_sail_time;
                                         realData.total_distance = total_distance;
                                         realData.average_speed = BigNumber(realData.total_distance).div(total_sail_time).div(24);
                                         realData.loading_time = loading_time.toFixed(COMMON_DECIMAL);
                                         realData.disch_time = disch_time.toFixed(COMMON_DECIMAL);
-                                        realData.total_loading_time = BigNumber(loading_time).plus(disch_time).plus(total_sail_time).toFixed(2);
+                                        realData.total_loading_time = BigNumber(loading_time).plus(disch_time).plus(total_sail_time);
                                         realData.economic_rate = BigNumber(loading_time).plus(disch_time).plus(total_sail_time).div(realData.sail_time).multipliedBy(100).toFixed(1);
                                         realData.total_waiting_time = total_waiting_time.toFixed(COMMON_DECIMAL);
                                         realData.total_weather_time = total_weather_time.toFixed(COMMON_DECIMAL);
@@ -686,12 +686,13 @@
                                         realData.total_supply_time = total_supply_time.toFixed(COMMON_DECIMAL);
                                         realData.total_else_time = total_else_time.toFixed(COMMON_DECIMAL);
 
+                                        console.log(realData.sail_time)
                                         // Calc Footer data
-                                        footerData['sail_time'] += __parseFloat(realData['sail_time']);
+                                        footerData['sail_time'] += __parseFloat(realData.sail_time.toFixed(2));
                                         footerData['total_count'] += __parseFloat(realData['voy_count']);
                                         footerData['total_distance'] += __parseFloat(realData['total_distance']);
-                                        footerData['total_sail_time'] += __parseFloat(total_sail_time);
-                                        footerData['total_loading_time'] += __parseFloat(realData['total_loading_time']);
+                                        footerData['total_sail_time'] += __parseFloat(total_sail_time.toFixed(2));
+                                        footerData['total_loading_time'] += __parseFloat(realData['total_loading_time'].toFixed(2));
                                         footerData['loading_time'] += __parseFloat(realData['loading_time']);
                                         footerData['disch_time'] += __parseFloat(realData['disch_time']);
                                         footerData['total_waiting_time'] += __parseFloat(realData['total_waiting_time']);
@@ -1120,7 +1121,7 @@
             currentDate = BigNumber(currentDate).minus(currentGMT).div(DAY_UNIT);
             prevDate = BigNumber(prevDate).minus(prevGMT).div(DAY_UNIT);
             diffDay = currentDate.minus(prevDate);
-            return parseFloat(diffDay.div(24));
+            return parseFloat(diffDay.div(24).toFixed(4));
         }
     </script>
 

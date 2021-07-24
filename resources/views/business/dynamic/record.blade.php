@@ -76,7 +76,7 @@
                                 <td style="width-10">卸港</td>
                                 <td class="font-style-italic width-30">DISCHARGING PORT</td>
                                 <td class="font-style-italic width-50 text-ellipsis white-bg" style="border-right: 1px solid #4c4c4c;">@{{ port['discharge'] }}</td>
-                            </tr>                            
+                            </tr>
                             </table>
                         </div>
                     </div>
@@ -182,10 +182,10 @@
                                     <td><input type="number" class="form-control text-center" name="Speed[]" v-model="currentItem.Speed"></td>
                                     <td><input type="number" class="form-control text-center" name="RPM[]" v-model="currentItem.RPM"></td>
                                     <td style="border-right: 2px solid rgb(255, 146, 7);"><input type="number" class="form-control text-right font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty[]" v-model="currentItem.Cargo_Qtty"></td>
-                                    <td><input type="number" class="form-control text-center font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_FO[]" v-model="currentItem.ROB_FO"></td>
-                                    <td style="border-right: 2px solid rgb(255, 146, 7);"><input type="number" class="form-control text-center font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO[]" v-model="currentItem.ROB_DO"></td>
-                                    <td><input type="number" class="form-control text-center" name="BUNK_FO[]"  style="color: blue!important" v-model="currentItem.BUNK_FO"></td>
-                                    <td><input type="number" class="form-control text-center" name="BUNK_DO[]"  style="color: blue!important" v-model="currentItem.BUNK_DO"></td>
+                                    <td><input type="number" class="form-control text-center" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_FO[]" v-model="currentItem.ROB_FO"></td>
+                                    <td style="border-right: 2px solid rgb(255, 146, 7);"><input type="number" class="form-control text-center" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO[]" v-model="currentItem.ROB_DO"></td>
+                                    <td><input type="number" class="form-control text-center" name="BUNK_FO[]"  style="color: blue!important; padding: 0!important;" v-model="currentItem.BUNK_FO"></td>
+                                    <td><input type="number" class="form-control text-center" name="BUNK_DO[]"  style="color: blue!important padding: 0!important;" v-model="currentItem.BUNK_DO"></td>
                                     <td class="position-width" colspan="4"><textarea class="form-control" name="Remark[]" rows="1" style="resize: none" @click="addRow(index)" maxlength="50" autocomplete="off" v-model="currentItem.Remark"></textarea></td>
                                     <td class="text-center">
                                         <div class="action-buttons">
