@@ -489,8 +489,8 @@ class ShipMember extends Model
             $newArr[$newindex]['name'] = $record->name;
             $newArr[$newindex]['rank'] = $record->rank;
             $newArr[$newindex]['cashR'] = $record->cashR;
-            $newArr[$newindex]['sendR'] = $record->cashR;
-            $newArr[$newindex]['sendD'] = '';
+            $newArr[$newindex]['sendR'] = $record->sendR;
+            $newArr[$newindex]['sendD'] = $record->sendD;
             $newArr[$newindex]['purchdate'] = $record->purchdate;
             /*
             if ($record->purchdate == null || $record->purchdate == '')
