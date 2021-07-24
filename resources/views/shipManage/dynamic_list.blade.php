@@ -75,7 +75,7 @@
                             </div>
                             <div class="d-flex mt-2">
                                 <input type="radio" class="width-auto mt-0" id="analyze" name="record_type" @change="onTypeChange('analyze')" :checked="record_type == 'analyze' ? 'true' : ''">
-                                <label for="analyze" class="ml-1">记录分析</label>
+                                <label for="analyze" class="ml-1">动态分析</label>
                             </div>
                         </div>
                         <label style="margin-left: 20px;" class="custom-label">年份</label>
@@ -126,7 +126,7 @@
             <!-- Main Contents Begin -->
             <div class="row" style="margin-top: 4px;">
                 <div class="col-md-12">
-                <div class="head-fix-div common-list">
+                <div class="">
                     <table class="table-bordered dynamic-table table-striped" v-show="record_type == 'all'" id="table-list-all">
                         <thead>
                             <tr>
@@ -296,7 +296,7 @@
                                     <td style="text-align: left">@{{ item.lport }}</td>
                                     <td style="text-align: left">@{{ item.dport }}</td>
                                     <td class="right">@{{ number_format(item.total_distance, 0) }}</td>
-                                    <td class="center">@{{ number_format(item.average_speed, 2) }}</td>
+                                    <td class="center">@{{ number_format(item.average_speed, 1) }}</td>
                                     <td class="right" style="border-left: 2px solid #ff9207;">@{{ number_format(item.total_loading_time, 2) }}</td>
                                     <td class="right">@{{ number_format(item.economic_rate, 1) }}%</td>
                                     <td class="right">@{{ number_format(item.total_sail_time, 2) }}</td>
@@ -313,7 +313,7 @@
 
                             <tr class="dynamic-footer">
                                 <td class="text-center not-striped-td" rowspan="2">航次数</td>
-                                <td class="text-center not-striped-td" rowspan="2">航次数</td>
+                                <td class="text-center not-striped-td" rowspan="2">报告次</td>
                                 <td class="text-center not-striped-td" rowspan="2">期间</td>
                                 <td class="text-center fix-top not-striped-td">航次</td>
                                 <td class="text-center not-striped-td" rowspan="2"></td>
@@ -341,13 +341,13 @@
                             </tr>
                             <tr class="dynamic-footer-result">
                                 <td>@{{ analyze.total.voy_count }}</td>
-                                <td>@{{ analyze.total.voy_count }}</td>
+                                <td>@{{ analyze.total.total_count }}</td>
                                 <td>@{{ dateFormat(analyze.total.voy_start) }} ~ @{{ dateFormat(analyze.total.voy_end) }}</td>
-                                <td>@{{ analyze.total.sail_time }}</td>
+                                <td>@{{ number_format(analyze.total.sail_time, 2) }}</td>
                                 <td></td>
                                 <td></td>
                                 <td>@{{ number_format(analyze.total.total_distance, 0) }}</td>
-                                <td>@{{ number_format(analyze.total.average_speed, 2) }}</td>
+                                <td>@{{ number_format(analyze.total.average_speed, 1) }}</td>
                                 <td style="border-left: 2px solid #ff9207;">@{{ number_format(analyze.total.total_loading_time, 2) }}</td>
                                 <td>@{{ number_format(analyze.total.economic_rate, 1) }}%</td>
                                 <td>@{{ number_format(analyze.total.total_sail_time, 2) }}</td>
@@ -529,7 +529,7 @@
                             this.getData();
                         } else {
                             this.page_title = '动态记录分析';
-                            $('.page-title').text('记录分析');
+                            $('.page-title').text('动态分析');
                             this.getAnalyzeData();
                         }
                         
@@ -569,6 +569,8 @@
                                 let realData = [];
                                 let footerData = [];
                                 footerData['voy_count'] = 0;
+                                footerData['total_count'] = 0;
+                                footerData['average_speed'] = 0;
                                 footerData['voy_start'] = '';
                                 footerData['voy_end'] = '';
                                 footerData['economic_rate'] = '-';
@@ -673,7 +675,7 @@
 
                                         realData.total_sail_time = total_sail_time.toFixed(2);
                                         realData.total_distance = total_distance;
-                                        realData.average_speed = BigNumber(realData.total_distance).div(total_sail_time).div(24).toFixed(1);
+                                        realData.average_speed = BigNumber(realData.total_distance).div(total_sail_time).div(24);
                                         realData.loading_time = loading_time.toFixed(COMMON_DECIMAL);
                                         realData.disch_time = disch_time.toFixed(COMMON_DECIMAL);
                                         realData.total_loading_time = BigNumber(loading_time).plus(disch_time).plus(total_sail_time).toFixed(2);
@@ -685,19 +687,20 @@
                                         realData.total_else_time = total_else_time.toFixed(COMMON_DECIMAL);
 
                                         // Calc Footer data
-                                        footerData['sail_time'] += parseInt(realData['sail_time']);
-                                        footerData['total_distance'] += parseInt(realData['total_distance']);
-                                        footerData['total_sail_time'] += parseFloat(realData['total_sail_time']);
-                                        footerData['total_loading_time'] += parseFloat(realData['total_loading_time']);
-                                        footerData['loading_time'] += parseFloat(realData['loading_time']);
-                                        footerData['disch_time'] += parseFloat(realData['disch_time']);
-                                        footerData['total_waiting_time'] += parseFloat(realData['total_waiting_time']);
-                                        footerData['total_weather_time'] += parseFloat(realData['total_weather_time']);
-                                        footerData['total_repair_time'] += parseFloat(realData['total_repair_time']);
-                                        footerData['total_supply_time'] += parseFloat(realData['total_supply_time']);
-                                        footerData['total_else_time'] += parseFloat(realData['total_else_time']);
+                                        footerData['sail_time'] += __parseFloat(realData['sail_time']);
+                                        footerData['total_count'] += __parseFloat(realData['voy_count']);
+                                        footerData['total_distance'] += __parseFloat(realData['total_distance']);
+                                        footerData['total_sail_time'] += __parseFloat(total_sail_time);
+                                        footerData['total_loading_time'] += __parseFloat(realData['total_loading_time']);
+                                        footerData['loading_time'] += __parseFloat(realData['loading_time']);
+                                        footerData['disch_time'] += __parseFloat(realData['disch_time']);
+                                        footerData['total_waiting_time'] += __parseFloat(realData['total_waiting_time']);
+                                        footerData['total_weather_time'] += __parseFloat(realData['total_weather_time']);
+                                        footerData['total_repair_time'] += __parseFloat(realData['total_repair_time']);
+                                        footerData['total_supply_time'] += __parseFloat(realData['total_supply_time']);
+                                        footerData['total_else_time'] += __parseFloat(realData['total_else_time']);
 
-                                        footerData['average_speed'] = parseFloat(BigNumber(realData['average_speed']).div(voyData.length).toFixed(2));
+                                        footerData['average_speed'] += __parseFloat(BigNumber(realData['average_speed']).div(voyData.length));
 
                                         searchObj.analyze.list.push(realData);
                                         let xAxisTmp = [];
