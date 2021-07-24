@@ -227,7 +227,7 @@ $isHolder = Session::get('IS_HOLDER');
             }
             else {
                 e.closest("td").firstElementChild.innerHTML = isNumber ? prettyValue(v) : v;
-                e.value = v;
+                e.value = prettyValue(v);
             }
         }
 
@@ -251,9 +251,9 @@ $isHolder = Session::get('IS_HOLDER');
             var sum_P = 0;
             for (var i=0;i<CashR.length;i++) {
                 setValue(No[i], i + 1, false);
-                var _R = CashR[i].value;
-                var _D = SendR[i].value;
-                var _P = SendD[i].value;
+                var _R = CashR[i].value.replace(',','');
+                var _D = SendR[i].value.replace(',','');
+                var _P = SendD[i].value.replace(',','');
 
                 setValue(CashR[i], _R, true);
                 setValue(SendR[i], _D, true);

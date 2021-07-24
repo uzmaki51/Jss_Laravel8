@@ -364,7 +364,7 @@ $isHolder = Session::get('IS_HOLDER');
                     if (index == 12) {
                         $('td', row).eq(0).attr('class', 'sub-small-header style-normal-header text-center');
                         $('td', row).eq(0).attr('colspan', '2');
-                        $('td', row).eq(1).html('¥ ' + prettyValue(data['sendR']));
+                        $('td', row).eq(1).html(data['sendR']==0?'-':'¥ ' + prettyValue(data['sendR']));
                         $('td', row).eq(1).attr('class', 'style-normal-header style-blue-header text-center');
                         $('td', row).eq(2).attr('class', 'style-normal-header text-center');
                         $('td', row).eq(2).html(data['sendD']==0?'-':'$ ' + prettyValue(data['sendD']));
@@ -382,6 +382,7 @@ $isHolder = Session::get('IS_HOLDER');
                         }
                         $('td', row).eq(2).html(prettyValue(data['sendR']));
                         $('td', row).eq(2).attr('class', 'style-blue-header text-center');
+                        $('td', row).eq(2).html(data['sendR']==0?'':prettyValue(data['sendR']));
                         $('td', row).eq(3).html(data['sendD']==0?'':prettyValue(data['sendD']));
                         $('td', row).eq(5).html('').append('<div class="action-buttons"><a class="blue" onclick="javascript:showReport(this)"><i class="icon-file"></i></a></div>');
                     }
