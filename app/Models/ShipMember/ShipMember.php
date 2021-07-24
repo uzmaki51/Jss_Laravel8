@@ -481,12 +481,35 @@ class ShipMember extends Model
         $selector = ShipWageSend::where('shipId', $shipId)->where('year', $year)->where('month', $month);
         $records = $selector->get();
         $recordsFiltered = $selector->count();
+
+        $newArr = [];
+        $newindex = 0;
+        foreach($records as $index => $record) {
+            $newArr[$newindex]['no'] = $record->member_id;
+            $newArr[$newindex]['name'] = $record->name;
+            $newArr[$newindex]['rank'] = $record->rank;
+            $newArr[$newindex]['cashR'] = $record->cashR;
+            $newArr[$newindex]['sendR'] = $record->cashR;
+            $newArr[$newindex]['sendD'] = '';
+            $newArr[$newindex]['purchdate'] = $record->purchdate;
+            /*
+            if ($record->purchdate == null || $record->purchdate == '')
+                $newArr[$newindex]['purchdate'] = '';
+            else
+                $newArr[$newindex]['purchdate'] = date('Y-m-d', strtotime($record->purchdate));
+            */
+            $newArr[$newindex]['sendbank'] = $record->sendbank;
+            $newArr[$newindex]['bankinfo'] = $record->bankinfo;
+            $newArr[$newindex]['remark'] = $record->remark;
+            $newindex++;
+        }
+
         return [
             'draw' => $params['draw']+0,
             'recordsTotal' => $recordsFiltered,
             'recordsFiltered' => $recordsFiltered,
             'original' => false,
-            'data' => $records,
+            'data' => $newArr,
             'error' => 0,
         ];
     }
