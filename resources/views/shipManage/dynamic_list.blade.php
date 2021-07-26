@@ -61,11 +61,9 @@
                 <div class="col-md-12 align-bottom">
                     <div class="col-md-6">
                         <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
-                        <select class="custom-select d-inline-block" style="padding: 4px;max-width: 100px;" @change="changeShip" v-model="shipId">
+                        <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px;max-width: 100px;" @change="changeShip" v-model="shipId">
                             @foreach($shipList as $ship)
-                                <option value="{{ $ship['IMO_No'] }}"
-                                        {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
-                                </option>
+                                <option value="{{ $ship['IMO_No'] }}"{{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}</option>
                             @endforeach
                         </select>
                         <div class="btn-group ml-1">
@@ -1014,7 +1012,7 @@
                             tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
                             tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
                             tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // remove input params
-                            var filename = '动态记录(' + $('#search_info').text() + ')';
+                            var filename = $('#select-ship option:selected').text() + '_' + searchObj.activeVoy + '动态记录';
                             exportExcel(tab_text, filename, filename);
                             return 0;
                         }
@@ -1043,7 +1041,7 @@
                                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                             }
                             tab_text=tab_text+"</table>";
-                            var filename = '动态记录分析(' + $('#search_info').text() + ')';
+                            var filename = $('#select-ship option:selected').text() + '_' + searchObj.activeYear + '年 动态记录分析';
                             exportExcel(tab_text, filename, filename);
                         }
                     }

@@ -156,7 +156,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <tr>
                                     <td class="custom-modal-td-label">币类:</td>
                                     <td>
-                                        <select id="add-currency" class="form-control" style="padding-left:unset!important;">
+                                        <select id="add-currency" onchange="javascript:selectCurrency()" class="form-control" style="padding-left:unset!important;color:red!important;">
                                             <option value="0" style="color:red!important;">¥</option>
                                             <option value="1" style="color:#1565C0!important;">$</option>
                                         </select>
@@ -824,6 +824,13 @@ $isHolder = Session::get('IS_HOLDER');
             }
             return confirmationMessage;
         });
+
+        function selectCurrency()
+        {
+            var value = this.value;
+            if (value == 0) $('#add-currency').attr('style','padding-left:unset!important;color:red!important');
+            else { $('#add-currency').attr('style','padding-left:unset!important;color:#026fcd!important'); }
+        }
 
         function fnExcelReport()
         {

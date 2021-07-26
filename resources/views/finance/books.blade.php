@@ -106,10 +106,10 @@ $isHolder = Session::get('IS_HOLDER');
                                                     <th class="text-center style-normal-header" style="width: 6%;"><span>审核<br/>编号</span></th>
                                                     <th class="text-center style-normal-header" style="width: 7%;"><span>记账编号</span></th>
                                                     <th class="text-center style-normal-header" style="width: 7%;"><span>日期</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 10%;"><span>对象</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 4%;"><span>对象</span></th>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>航次</span></th>
                                                     <th class="text-center style-normal-header" style="width: 8%;"><span>收支种类</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 23%;"><span>摘要</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 29%;"><span>摘要</span></th>
                                                     <th class="text-center style-normal-header" style="width: 3%;"><span>币类</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>收入</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>支出</span></th>
@@ -158,12 +158,11 @@ $isHolder = Session::get('IS_HOLDER');
                                                         <div class="col-lg-2">
                                                             <label class="custom-label d-inline-block font-bold" style="padding: 6px;">账户:</label>
                                                             <select class="" name="account_type" id="account_type">
+                                                                <option value="0"></option>
                                                             @if(isset($accounts) && count($accounts) > 0)
                                                             @foreach ($accounts as $account)
                                                                 <option value="{{ $account->id }}">{{ $account->account }}</option>
                                                             @endforeach
-                                                            @else
-                                                                <option value="0"></option>
                                                             @endif
                                                             </select>
                                                         </div>
@@ -244,8 +243,8 @@ $isHolder = Session::get('IS_HOLDER');
                                                 <thead class="">
                                                     <th class="text-center style-normal-header" style="width: 7%;height:35px;"><span>记账编号</span></th>
                                                     <th class="text-center style-normal-header" style="width: 7%;"><span>日期</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 10%;"><span>对象</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 21%;"><span>摘要</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 4%;"><span>对象</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 27%;"><span>摘要</span></th>
                                                     <th class="text-center style-normal-header" style="width: 3%;"><span>币类</span></th>
                                                     <th class="text-center style-normal-header" style="width: 12%;"><span>借方</span></th>
                                                     <th class="text-center style-normal-header" style="width: 12%;"><span>贷方</span></th>
@@ -652,6 +651,7 @@ $isHolder = Session::get('IS_HOLDER');
 
         var currency = "";
         var datetime = "";
+
         var rate = window.localStorage.getItem("rate");
         if (rate == null || rate == undefined) rate = 6.5;
         else $('#keep_rate').val(formatRate(rate));
@@ -660,9 +660,12 @@ $isHolder = Session::get('IS_HOLDER');
         if (pay_type == null || pay_type == undefined) pay_type = 0;
         else $('#pay_type').val(pay_type);
 
+        /*
         var account_type = window.localStorage.getItem("account_type");
         if (account_type == null || account_type == undefined) account_type = 0;
         else $('#account_type').val(account_type);
+        */
+        var account_type = 0;
 
         var account_name = "";
         var keepContent = "";
@@ -718,7 +721,7 @@ $isHolder = Session::get('IS_HOLDER');
                     row_html = "<tr data-ref='" + i + "' ship-no='" + book_list.rows[i].childNodes[0].childNodes[2].value + "'";
                     row_html += " report-id='" + book_list.rows[i].childNodes[0].childNodes[1].value + "'><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[1].innerText + "</td><td class='text-center disable-td no-padding'>"+ listBook[i].obj + "</td><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[5].innerText + "</td><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[6].innerText + "</td><td>";
                     row_html += '<input type="text" class="form-control" name="Keep_Remark[]" value="' + book_list.rows[i].childNodes[7].childNodes[0].value + '" style="width: 100%;" autocomplete="off">';
-                    row_html += "</td><td class='text-center disable-td no-padding'>" + listBook[i].currency + "</td><td>";
+                    row_html += "</td><td class='text-center disable-td no-padding' style='color:" + (listBook[i].currency=="$"?"#026fcd":"red") + "'>" + listBook[i].currency + "</td><td>";
                     if (credit >= 0)
                         row_html += '<input type="text" class="form-control style-blue-input keep_credit" name="Keep_credit[]" value="' + credit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
                     else
@@ -782,9 +785,9 @@ $isHolder = Session::get('IS_HOLDER');
             }
             
             var report_html = "";
-            report_html = "<tr><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header style-normal-header text-center'>合计</td><td class='style-normal-header sub-small-header text-center disable-td'>" + currency + "</td><td class='style-normal-header sub-small-header text-right disable-td' style='padding:5px!important;'>" + (sum_credit==0?"":prettyValue(sum_credit)) + "</td><td class='style-normal-header sub-small-header text-right disable-td' style='padding:5px!important;'>" + (sum_debit==0?"":prettyValue(sum_debit)) + "</td></tr>";
+            report_html = "<tr><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header style-normal-header text-center'>合计</td><td class='style-normal-header sub-small-header text-center disable-td' style='color:" + (currency=="$"?"#026fcd":"red") + "'>" + currency + "</td><td class='style-normal-header sub-small-header text-right disable-td' style='padding:5px!important;'>" + (sum_credit==0?"":prettyValue(sum_credit)) + "</td><td class='style-normal-header sub-small-header text-right disable-td' style='padding:5px!important;'>" + (sum_debit==0?"":prettyValue(sum_debit)) + "</td></tr>";
             $('#table-keep-body').append(report_html);
-            report_html = "<tr><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header style-normal-header text-center'>记账金额</td><td class='style-normal-header sub-small-header text-center disable-td'>" + currency + "</td>";
+            report_html = "<tr><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header style-normal-header text-center'>记账金额</td><td class='style-normal-header sub-small-header text-center disable-td' style='color:" + (currency=="$"?"#026fcd":"red") + "'>" + currency + "</td>";
             report_html += '<td><input type="text" class="form-control ' + (sum_credit>=0?'style-blue-input':'style-red-input') + '" name="sum_credit" value="' + "" + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off"></td>';
             report_html += '<td><input type="text" class="form-control style-black-input style-normal-input" name="sum_debit" value="' + "" + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off"></td>';
             report_html += "</tr>";
@@ -804,7 +807,8 @@ $isHolder = Session::get('IS_HOLDER');
             pay_type = $('#pay_type').val();
             account_type = $('#account_type').val();
             if (account_type == 0) {
-                alert("There are no account informations.");
+                //alert("There are no account informations.");
+                alert("Please select account information.");
                 return;
             }
             //else console.log(account_type);
@@ -831,7 +835,7 @@ $isHolder = Session::get('IS_HOLDER');
                 else {
                     window.localStorage.setItem("rate",rate);
                     window.localStorage.setItem("pay_type",pay_type);
-                    window.localStorage.setItem("account_type",account_type);
+                    //window.localStorage.setItem("account_type",account_type);
 
                     var book_list = document.getElementById('list-book-body');
                     var keep_list = document.getElementById('table-keep-body');
@@ -971,7 +975,7 @@ $isHolder = Session::get('IS_HOLDER');
         }
 
         function setEvents() {
-            $('.style-blue-input,.style-red-input,.style-normal-input').on('change', function(evt) {
+            $('.style-blue-input,.style-red-input').on('change', function(evt) {
                 if (evt.target.value == '') return;
                 var val = evt.target.value.replace(',','');
                 if (val >= 0)
@@ -982,6 +986,21 @@ $isHolder = Session::get('IS_HOLDER');
                 else
                 {
                     $(evt.target).removeClass("style-blue-input");
+                    $(evt.target).addClass("style-red-input");
+                }
+                $(evt.target).val(prettyValue(val));
+            })
+            $('.style-normal-input').on('change', function(evt) {
+                if (evt.target.value == '') return;
+                var val = evt.target.value.replace(',','');
+                if (val >= 0)
+                {
+                    $(evt.target).removeClass("style-red-input");
+                    $(evt.target).addClass("style-normal-input");
+                }
+                else
+                {
+                    $(evt.target).removeClass("style-normal-input");
                     $(evt.target).addClass("style-red-input");
                 }
                 $(evt.target).val(prettyValue(val));
