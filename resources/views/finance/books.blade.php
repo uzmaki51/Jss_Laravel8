@@ -1089,6 +1089,9 @@ $isHolder = Session::get('IS_HOLDER');
                             }
                         }
                     }
+                    origForm = $form.serialize();
+                    origForm = origForm.replace(/select-year\=|[0-9]/gi,'');
+                    origForm = origForm.replace(/select-month\=|[0-9]/gi,'');
                 }
             })
 
@@ -1100,7 +1103,6 @@ $isHolder = Session::get('IS_HOLDER');
                         type: 'POST',
                         data: {'book_no':selected_bookno},
                         success: function(books) {
-                            console.log(books);
                             if (books == 0) return;
 
                             var rows_to_remove = $('.style-blue-input[name="book_no[]"]').parent().parent();
@@ -1152,6 +1154,9 @@ $isHolder = Session::get('IS_HOLDER');
                                 $('[name="sum_credit"]').val(books.credit==0?"":prettyValue(books.credit));
                                 $('[name="sum_debit"]').val(books.debit==0?"":prettyValue(books.debit));
                             }
+                            origForm = $form.serialize();
+                            origForm = origForm.replace(/select-year\=|[0-9]/gi,'');
+                            origForm = origForm.replace(/select-month\=|[0-9]/gi,'');
                             return;
                         },
                         error: function(error) {
@@ -1159,8 +1164,6 @@ $isHolder = Session::get('IS_HOLDER');
                     });
                 }
             })
-
-            
 
             $('body').on('keydown', 'input', function(e) {
                 if (e.key === "Enter") {
@@ -1184,7 +1187,7 @@ $isHolder = Session::get('IS_HOLDER');
             newForm = newForm.replace(/select-year\=|[0-9]/gi,'');
             newForm = newForm.replace(/select-month\=|[0-9]/gi,'');
 
-            if ((newForm !== origForm) && (origForm != "") && !submitted) {
+            if ((newForm !== origForm) && (origForm != "") && !submitted && ACTIVE_TAB != "#tab_water") {
                 var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
                 alertAudio();
@@ -1269,7 +1272,8 @@ $isHolder = Session::get('IS_HOLDER');
             var newForm = $form.serialize();
             newForm = newForm.replace(/select-year\=|[0-9]/gi,'');
             newForm = newForm.replace(/select-month\=|[0-9]/gi,'');
-            if ((newForm !== origForm) && !submitted) {
+
+            if ((newForm !== origForm) && !submitted && ACTIVE_TAB != "#tab_water") {
                 (e || window.event).returnValue = confirmationMessage;
             }
             return confirmationMessage;
@@ -1402,6 +1406,15 @@ $isHolder = Session::get('IS_HOLDER');
             
             return 0;
         }
+
+        var ACTIVE_TAB = "tab_book";
+        $(function () {
+            $('ul li a[data-toggle=tab]').click(function(){
+                $nowTab = $(this).attr("href");
+                ACTIVE_TAB = $nowTab;
+                //window.localStorage.setItem("accountsTab",$nowTab);
+            });
+        });
         
     </script>
 
