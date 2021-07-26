@@ -594,12 +594,14 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(1).html('').append("J-" + data['book_no']);
                     if (data['currency']== 0)
                     {
+                        $('td', row).eq(4).attr('style','color:red');
                         $('td', row).eq(4).html('').append('¥');
                         sum_credit_R += data['credit'];
                         sum_debit_R += data['debit'];
                     }
                     else
                     {
+                        $('td', row).eq(4).attr('style','color:#026fcd!important');
                         $('td', row).eq(4).html('').append('$');
                         sum_credit_D += data['credit'];
                         sum_debit_D += data['debit'];
