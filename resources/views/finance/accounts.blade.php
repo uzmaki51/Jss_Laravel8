@@ -150,7 +150,7 @@ $isHolder = Session::get('IS_HOLDER');
                                         @endforeach
                                         @endif
                                         </select>
-                                        <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="account_analysis_title"></span>账户汇报</strong>
+                                        <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="account_analysis_title"></span>账户分析</strong>
                                     </div>
                                     <div class="col-md-5" style="padding:unset!important">
                                         <div class="btn-group f-right">
@@ -967,7 +967,7 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replace(/<img[^>]*>/gi,"");
             tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = year_report + '_' + (month_report==0?'全部':month_report) + '_账户汇报';
+            var filename = year_report + '年_' + (month_report==0?'全部':month_report) + '_账户汇报';
             exportExcel(tab_text, filename, filename);
             //exportExcel(tab_text, filename, year_report + '_' + (month_report==0?'全部':month_report) + '_流水账');
             
@@ -1000,7 +1000,14 @@ $isHolder = Session::get('IS_HOLDER');
                         tab.rows[j].childNodes[i].style.backgroundColor = '#ebf1de';
                     }
                 }
-                
+                else {
+                    for (var i=5;i<7;i++)
+                    {
+                        var info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                        tab.rows[j].childNodes[i].innerHTML = info;
+                    }
+                }
+                console.log(tab.rows[j].innerHTML);
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
             tab_text=tab_text+"</table>";
@@ -1008,7 +1015,7 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replace(/<img[^>]*>/gi,"");
             tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = year_analysis + '_' + (month_analysis==0?'全部':month_analysis) + '(' + $("#account_type option:selected").text() + ')_账户汇报';
+            var filename = year_analysis + '年_' + (month_analysis==0?'全部':month_analysis) + '(' + $("#account_type option:selected").text() + ')_账户汇报';
             exportExcel(tab_text, filename, $("#account_type option:selected").text());
             
             return 0;
