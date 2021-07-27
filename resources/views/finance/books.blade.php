@@ -675,6 +675,7 @@ $isHolder = Session::get('IS_HOLDER');
 
         function setKeepTable()
         {
+            $('#account_type').val(0);
             var count = $('input.need_chk:checked').length;
             if (count <= 0) return;
             
