@@ -53,7 +53,7 @@ $isHolder = Session::get('IS_HOLDER');
                             </li>
                             <li>
                                 <a data-toggle="tab" href="#tab_info">
-                                    人体信息
+                                    个体信息
                                 </a>
                             </li>
                         </ul>

@@ -230,9 +230,9 @@ $ships = Session::get('shipList');
                                         <select name="select-soa-contract" id="select-soa-contract" style="font-size:13px;width:80px;">
                                         </select>
                                         <label class="custom-label d-inline-block font-bold" style="padding: 6px;">币类:</label>
-                                        <select name="select-soa-currency" id="select-soa-currency" style="font-size:13px">
-                                            <option value="CNY" selected>¥</option>
-                                            <option value="USD" selected>$</option>
+                                        <select name="select-soa-currency" id="select-soa-currency" onchange="javascript:selectCurrency()" style="padding-left:unset!important;color:red!important;">
+                                            <option value="CNY" style="color:red!important;">¥</option>
+                                            <option value="USD" style="color:#1565C0!important;">$</option>
                                         </select>
                                     </div>
                                     <div class="col-md-5" style="padding:unset!important">
@@ -793,7 +793,7 @@ $ships = Session::get('shipList');
                     }
                     $('td', row).eq(7).attr('style', 'padding-right:5px!important;')
                     //$('td', row).eq(7).html(data['total_profit']==0?'':prettyValue(data['total_profit']));
-                    $('td', row).eq(7).html(data['profit_sum']==0?'':(data['total_profit']==0?'':prettyValue(data['total_profit'])))
+                    $('td', row).eq(7).html(data['total_profit']==0?'':(data['total_profit']==0?'':prettyValue(data['total_profit'])))
 
                     for (var i=1;i<16;i++)
                     {
@@ -1316,6 +1316,12 @@ $ships = Session::get('shipList');
             return 0;
         }
 
+        function selectCurrency()
+        {
+            var value = this.value;
+            if (value == 'CNY') $('#select-soa-currency').attr('style','padding-left:unset!important;color:red!important');
+            else { $('#select-soa-currency').attr('style','padding-left:unset!important;color:#026fcd!important'); }
+        }
     </script>
 
 @endsection
