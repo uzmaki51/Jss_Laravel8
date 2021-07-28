@@ -515,7 +515,7 @@ $ships = Session::get('shipList');
             });
         }
         
-        function drawThirdGraph(datasets) {
+        function drawThirdGraph(datasets, costs) {
             $('#graph_third').html('');
 
             Highcharts.chart('graph_third', {
@@ -540,8 +540,10 @@ $ships = Session::get('shipList');
                 },
                 series: [{
                     name: 'Percentage',
+                    /*
                     data: [
-                        ['油款('+datasets[0]+'%)', datasets[0]],
+                        [name:'油款('+datasets[0]+'%)', y:datasets[0], custom:datasets[0]]
+                        /*,
                         ['港费('+datasets[1]+'%)', datasets[1]],
                         ['劳务费('+datasets[2]+'%)',datasets[2]],
                         ['CTM('+datasets[3]+'%)',datasets[3]],
@@ -554,10 +556,81 @@ $ships = Session::get('shipList');
                         ['保险费('+datasets[10]+'%)',datasets[10]],
                         ['检验费('+datasets[11]+'%)',datasets[11]],
                         ['证书费('+datasets[12]+'%)',datasets[12]]
+                        */
+                    //]
+                    data: [
+                        {
+                            name: '油款('+datasets[0]+'%)',
+                            y: datasets[0],
+                            custom: costs[0],
+                        },
+                        {
+                            name: '港费('+datasets[1]+'%)',
+                            y: datasets[1],
+                            custom: costs[1],
+                        },
+                        {
+                            name: '劳务费('+datasets[2]+'%)',
+                            y: datasets[2],
+                            custom: costs[2],
+                        },
+                        {
+                            name: 'CTM('+datasets[3]+'%)',
+                            y: datasets[3],
+                            custom: costs[3],
+                        },
+                        {
+                            name: '其他('+datasets[4]+'%)',
+                            y: datasets[4],
+                            custom: costs[4],
+                        },
+                        {
+                            name: '工资('+datasets[5]+'%)',
+                            y: datasets[5],
+                            custom: costs[5],
+                        },
+                        {
+                            name: '伙食费('+datasets[6]+'%)',
+                            y: datasets[6],
+                            custom: costs[6],
+                        },
+                        {
+                            name: '物料费('+datasets[7]+'%)',
+                            y: datasets[7],
+                            custom: costs[7],
+                        },
+                        {
+                            name: '修理费('+datasets[8]+'%)',
+                            y: datasets[8],
+                            custom: costs[8],
+                        },
+                        {
+                            name: '管理费('+datasets[9]+'%)',
+                            y: datasets[9],
+                            custom: costs[9],
+                        },
+                        {
+                            name: '检验费('+datasets[10]+'%)',
+                            y: datasets[10],
+                            custom: costs[10],
+                        },
+                        {
+                            name: '检验费('+datasets[11]+'%)',
+                            y: datasets[11],
+                            custom: costs[11],
+                        },
+                        {
+                            name: '证书费('+datasets[12]+'%)',
+                            y: datasets[12],
+                            custom: costs[12],
+                        }
                     ]
                 }],
                 tooltip: {
                     valueSuffix: "%",
+                    formatter: function() {
+                        return this.point.name + '<b>:$ ' + prettyValue(this.point.custom) + '</b>';
+                    }
                 },
             });
         }
@@ -670,9 +743,11 @@ $ships = Session::get('shipList');
                         }
                     }
 
+                    var datasets3_cost = [];
                     for (var i=0;i<13;i++) {
                         if (debit_total_sum != 0) {
                             //datasets3[0].data[i] = prettyValue(datasets3[0].data[i] / debit_total_sum * 100)
+                            datasets3_cost[i] = datasets3[0].data[i].toFixed(0);
                             datasets3[0].data[i] = datasets3[0].data[i] / debit_total_sum * 100;
                             datasets3[0].data[i] = parseFloat(datasets3[0].data[i].toFixed(2));
                         }
@@ -683,7 +758,7 @@ $ships = Session::get('shipList');
 
                     drawFirstGraph(labels1, datasets1);
                     drawSecondGraph(labels2,datasets2);
-                    drawThirdGraph(datasets3[0].data);
+                    drawThirdGraph(datasets3[0].data, datasets3_cost);
                 }
             });
         }
@@ -1214,7 +1289,7 @@ $ships = Session::get('shipList');
             var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
             var real_tab = document.getElementById('table-income-expense-list');
             var tab = real_tab.cloneNode(true);
-            tab_text=tab_text+"<tr><td colspan='21' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#soa_title').html() + "合同简要</td></tr>";
+            tab_text=tab_text+"<tr><td colspan='21' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_info').html() + "收支分析表</td></tr>";
             for(var j = 0; j < tab.rows.length ; j++)
             {
                 if (j == 0) {
@@ -1249,7 +1324,7 @@ $ships = Session::get('shipList');
             tab_text= tab_text.replace(/<img[^>]*>/gi,"");
             tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = $('#table_info').html() + '_' + year_table + '_收支分析表';
+            var filename = $('#select-table-ship option:selected').text() + '_' + year_table + '_收支分析表';
             exportExcel(tab_text, filename, filename);
             
             return 0;

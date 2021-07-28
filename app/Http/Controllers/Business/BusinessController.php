@@ -1154,7 +1154,7 @@ class BusinessController extends Controller {
                 $prevData = $voyTbl->first();
 
             $retVal['prevData'] = $prevData;
-            $retVal['max_date'] = $voyTbl3->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+            $retVal['max_date'] = $voyTbl3->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('id', 'desc')->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
             if($retVal['max_date'] == null)
                 $retVal['max_date'] = false;
 
