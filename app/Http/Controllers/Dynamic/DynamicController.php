@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\Member\Unit;
+use App\Models\ShipManage\ShipRegister;
 
 use Auth;
 use Illuminate\Support\Facades\Session;
@@ -40,11 +41,11 @@ class DynamicController extends Controller
 			return response()->json($result);
 		}
 		else if ($type == 'capacity') {
-			$result = DB::table('tb_member_capacity')->select('*')->get();
+			$result = DB::table('tb_member_capacity')->select('*')->orderByRaw('CAST(OrderNo AS SIGNED) ASC')->get();
 			return response()->json($result);
 		}
 		else if ($type == 'shiptype') {
-			$result = DB::table('tb_ship_type')->select('*')->get();
+			$result = DB::table('tb_ship_type')->select('*')->orderBy('orderNo')->get();
 			return response()->json($result);
 		}
 		else if ($type == 'port') {
@@ -81,16 +82,22 @@ class DynamicController extends Controller
 			}
 		}
 		else if($type == 'shiptype') {
+			$ids = $params['ids'];
 			$orderno = $params['orderno'];
 			$name = $params['name'];
 
 			$result = DB::table('tb_ship_type')->truncate();
 			for ($i=0;$i<count($orderno);$i++)
 			{
-				if (/*$orderno[$i] != '' || */$name[$i] != '') {
+				if ($ids[$i] != '') {
+					DB::table('tb_ship_type')->insert(['id' => $ids[$i], 'OrderNo' => $orderno[$i], 'ShipType' => $name[$i]]);
+				}
+				else if ($name[$i] != '') {
 					DB::table('tb_ship_type')->insert(['OrderNo' => $orderno[$i], 'ShipType' => $name[$i]]);
 				}
 			}
+			$new_records = DB::table('tb_ship_type')->select('id','ShipType','OrderNo')->orderBy('OrderNo')->get();
+			return response()->json($new_records);
 		}
 		else if($type == 'rank') {
 			$ids = $params['id'];
@@ -99,19 +106,22 @@ class DynamicController extends Controller
 			$abb = $params['abb'];
 			$description = $params['description'];
 
-			//$result = DB::table('tb_ship_duty')->truncate();
-			DB::table('tb_ship_duty')->whereNotIn('id', $ids)->delete();
+			$result = DB::table('tb_ship_duty')->truncate();
+			//DB::table('tb_ship_duty')->whereNotIn('id', $ids)->delete();
 			for ($i=0;$i<count($orderno);$i++)
 			{
-				if (/*$orderno[$i] != '' || */$abb[$i] != '' || $name[$i] != '' || $description[$i] != '') {
-					if ($ids[$i] == '')
-						DB::table('tb_ship_duty')->insert(['OrderNo' => $orderno[$i], 'Abb' => $abb[$i], 'Duty_En' => $name[$i], 'Description' => $description[$i]]);
-					else
-						DB::table('tb_ship_duty')->where('id', $ids[$i])->update(['OrderNo' => $orderno[$i], 'Abb' => $abb[$i], 'Duty_En' => $name[$i], 'Description' => $description[$i]]);
-				}
+				if ($ids[$i] != '')
+					//DB::table('tb_ship_duty')->where('id', $ids[$i])->update(['OrderNo' => $orderno[$i], 'Abb' => $abb[$i], 'Duty_En' => $name[$i], 'Description' => $description[$i]]);
+					DB::table('tb_ship_duty')->insert(['id' => $ids[$i], 'OrderNo' => $orderno[$i], 'Abb' => $abb[$i], 'Duty_En' => $name[$i], 'Description' => $description[$i]]);
+				else if (/*$orderno[$i] != '' || */$abb[$i] != '' || $name[$i] != '' || $description[$i] != '')
+					DB::table('tb_ship_duty')->insert(['OrderNo' => $orderno[$i], 'Abb' => $abb[$i], 'Duty_En' => $name[$i], 'Description' => $description[$i]]);
 			}
+			$new_records = DB::table('tb_ship_duty')->select('id','Duty_En','OrderNo', 'Abb')->orderBy('OrderNo')->get();
+			return response()->json($new_records);
 		}
 		else if($type == 'capacity') {
+			$ids = $params['ids'];
+			$orderno = $params['orderno'];
 			$name = $params['name'];
 			$stcw = $params['STCW'];
 			$description = $params['description'];
@@ -119,10 +129,14 @@ class DynamicController extends Controller
 			$result = DB::table('tb_member_capacity')->truncate();
 			for ($i=0;$i<count($name);$i++)
 			{
-				if ($stcw[$i] != '' || $name[$i] != '' || $description[$i] != '') {
-					DB::table('tb_member_capacity')->insert(['Capacity_En' => $name[$i], 'STCWRegID' => $stcw[$i], 'Remarks' => $description[$i]]);
+				if ($ids[$i] != '')
+					DB::table('tb_member_capacity')->insert(['id' => $ids[$i], 'OrderNo' => $orderno[$i], 'Capacity_En' => $name[$i], 'STCWRegID' => $stcw[$i], 'Remarks' => $description[$i]]);
+				else if ($stcw[$i] != '' || $name[$i] != '' || $description[$i] != '') {
+					DB::table('tb_member_capacity')->insert(['OrderNo' => $orderno[$i], 'Capacity_En' => $name[$i], 'STCWRegID' => $stcw[$i], 'Remarks' => $description[$i]]);
 				}
 			}
+			$new_records = DB::table('tb_member_capacity')->select('id','OrderNo','Capacity_En')->orderBy('OrderNo')->get();
+			return response()->json($new_records);
 		}
 		else if($type == 'port') {
 			$Port_En = $params['port_en'];
@@ -249,6 +263,50 @@ class DynamicController extends Controller
 	public function ajaxGetDepartment() {
 		$retVal = Unit::where('parentId', '!=', 0)->get();
 
+		return response()->json($retVal);
+	}
+
+	public function ajaxCheckShipType(Request $request) {
+		$params = $request->all();
+		$shiptype = $params['type'];
+		$retVal = true;
+		if (isset($shiptype) && ($shiptype != null)) {
+			$result = ShipRegister::where('ShipType', $shiptype)->get();
+			if (!$result->isEmpty()) $retVal = false;
+		}
+		return response()->json($retVal);
+	}
+
+	public function ajaxCheckRankType(Request $request) {
+		$params = $request->all();
+		$ranktype = $params['rank'];
+		$retVal = true;
+		if (isset($ranktype) && ($ranktype != null)) {
+			$result = DB::table('tb_ship_member')->where('DutyID_Book', $ranktype)->select('id','GivenName')->get();
+			if (!$result->isEmpty()) $retVal = false;
+		}
+		return response()->json($retVal);
+	}
+
+	public function ajaxCheckCapacity(Request $request) {
+		$params = $request->all();
+		$capacity = $params['capacity'];
+		$retVal = true;
+		if (isset($capacity) && ($capacity != null)) {
+			$result = DB::table('tb_capacity_registry')->where('CapacityID', $capacity)->orWhere('COEId', $capacity)->select('id')->get();
+			if (!$result->isEmpty()) $retVal = false;
+		}
+		return response()->json($retVal);
+	}
+	
+	public function ajaxCheckAccount(Request $request) {
+		$params = $request->all();
+		$account = $params['account'];
+		$retVal = true;
+		if (isset($account) && ($account != null)) {
+			$result = DB::table('tb_water_list')->where('account_type', $account)->select('id')->get();
+			if (!$result->isEmpty()) $retVal = false;
+		}
 		return response()->json($retVal);
 	}
 }

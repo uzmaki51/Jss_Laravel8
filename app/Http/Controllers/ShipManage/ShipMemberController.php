@@ -113,7 +113,7 @@ class ShipMemberController extends Controller
         $portList = ShipPort::orderBy('Port_En')->get();
         $ksList = Ship::all();
         $typeList = ShipType::all();
-        $capacityList = ShipMemberCapacity::all();
+        $capacityList = ShipMemberCapacity::orderByRaw('CAST(OrderNo AS SIGNED) ASC')->get();
         $list = $this->getMemberGeneralInfo();
         $nationList = DB::table('tb_dynamic_nationality')->select('name')->get();
         $securityType = SecurityCert::all();
@@ -226,8 +226,8 @@ class ShipMemberController extends Controller
             $capacity = ShipCapacityRegister::where('memberId', $memberId)->first();
             $capacity_career = ShipMemberCapacityCareer::where('memberId', $memberId)->get();
             $school = ShipMemberSchool::where('memberId', $memberId)->orderBy("id")->get();
-            $typeList = ShipMemberCapacity::all();
-            $capacityList = ShipMemberCapacity::all();
+            $typeList = ShipMemberCapacity::orderByRaw('CAST(OrderNo AS SIGNED) ASC')->get();
+            $capacityList = ShipMemberCapacity::orderByRaw('CAST(OrderNo AS SIGNED) ASC')->get();
             return view('shipMember.member_capacity_tab', ['memberId'=>$memberId, 'capacity'=>$capacity, 'careerList'=>$career, 'schoolList'=>$school, 'capacityList'=>$capacityList]);
 
 
@@ -734,7 +734,7 @@ class ShipMemberController extends Controller
             $shipList = ShipRegister::orderBy('id')->get();
         }
 		$posList = ShipPosition::all();
-        $capacityList = ShipMemberCapacity::all();
+        $capacityList = ShipMemberCapacity::orderByRaw('CAST(OrderNo AS SIGNED) ASC')->get();
         $securityType = SecurityCert::all();
 
         return view('shipMember.member_cert_list', 
