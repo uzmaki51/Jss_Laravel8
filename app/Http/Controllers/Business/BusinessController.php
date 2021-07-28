@@ -1224,7 +1224,7 @@ class BusinessController extends Controller {
         }
 
         $voyTbl = VoyLog::where('Ship_ID', $shipId);
-        $voyTbl2 = VoyLog::where('Ship_ID', $shipId)->where('id', 'desc')->where('Voy_Status', DYNAMIC_CMPLT_DISCH);
+        $voyTbl2 = VoyLog::where('Ship_ID', $shipId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('id', 'desc');
         $voyTbl3 = VoyLog::where('Ship_ID', $shipId);
         $prevData = null;
         if(isset($params['type']) && isset($params['type']) != '') {
@@ -1264,7 +1264,7 @@ class BusinessController extends Controller {
             $prevData = $voyTbl->first();
 
         $retVal['prevData'] = $prevData;
-        $retVal['max_date'] = $voyTbl3->where('id', 'desc')->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+        $retVal['max_date'] = $voyTbl3->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('id', 'desc')->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
         if($retVal['max_date'] == null)
             $retVal['max_date'] = false;
 
