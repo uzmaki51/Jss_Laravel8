@@ -299,4 +299,14 @@ class DynamicController extends Controller
 		return response()->json($retVal);
 	}
 	
+	public function ajaxCheckAccount(Request $request) {
+		$params = $request->all();
+		$account = $params['account'];
+		$retVal = true;
+		if (isset($account) && ($account != null)) {
+			$result = DB::table('tb_water_list')->where('account_type', $account)->select('id')->get();
+			if (!$result->isEmpty()) $retVal = false;
+		}
+		return response()->json($retVal);
+	}
 }

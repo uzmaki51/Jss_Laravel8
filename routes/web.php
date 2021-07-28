@@ -140,6 +140,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('check/shipType', [App\Http\Controllers\Dynamic\DynamicController::class, 'ajaxCheckShipType']);
 	Route::post('check/rankType', [App\Http\Controllers\Dynamic\DynamicController::class, 'ajaxCheckRankType']);
 	Route::post('check/capacityType', [App\Http\Controllers\Dynamic\DynamicController::class, 'ajaxCheckCapacity']);
+	Route::post('check/account', [App\Http\Controllers\Dynamic\DynamicController::class, 'ajaxCheckAccount']);
 });
 
 Route::group(['prefix' => 'business'], function() {

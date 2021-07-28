@@ -96,7 +96,7 @@
                     }
                 },
                 error: function(error, status) {
-                    alert("Failed!");
+                    //alert("Failed!");
                 }
             })
         }
@@ -214,7 +214,7 @@
                     }
                 },
                 error: function(error, status) {
-                    alert("Failed!");
+                    //alert("Failed!");
                 }
             })
         }
@@ -240,7 +240,7 @@
                                 }
                             },
                             error: function(error, status) {
-                                alert("Failed!");
+                                //alert("Failed!");
                             }
                         })
                     }
@@ -344,7 +344,7 @@
                     }
                 },
                 error: function(error, status) {
-                    alert("Failed!");
+                    //alert("Failed!");
                 }
             })
         }
@@ -370,7 +370,7 @@
                                 }
                             },
                             error: function(error, status) {
-                                alert("Failed!");
+                                //alert("Failed!");
                             }
                         })
                     }
@@ -467,7 +467,7 @@
                     }
                 },
                 error: function(error, status) {
-                    alert("Failed!");
+                    //alert("Failed!");
                 }
             })
         }
@@ -585,7 +585,7 @@
                     }
                 },
                 error: function(error, status) {
-                    alert("Failed!");
+                    //alert("Failed!");
                 }
             })
         }
@@ -619,7 +619,7 @@
                                 }
                             },
                             error: function(error, status) {
-                                alert("Failed!");
+                                //alert("Failed!");
                             }
                         })
                     }
@@ -713,7 +713,7 @@
                     }
                 },
                 error: function(error, status) {
-                    alert("Failed!");
+                    //alert("Failed!");
                 }
             })
         }

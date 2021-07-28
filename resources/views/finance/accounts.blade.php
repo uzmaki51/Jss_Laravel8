@@ -830,7 +830,24 @@ $isHolder = Session::get('IS_HOLDER');
             alertAudio();
             bootbox.confirm("Are you sure you want to delete?", function (result) {
                 if (result) {
-                    $(e).closest("tr").remove();
+                    var account = parseInt($(e).closest("tr").children().eq(0).children().eq(0).val());
+                    $.ajax({
+                        url: BASE_URL + 'ajax/check/account',
+                        type: 'post',
+                        data: {
+                            account: account,
+                        },
+                        success: function(data, status, xhr) {
+                            if (data == true) {
+                                $(e).closest("tr").remove();
+                            } else {
+                                alert("It cannot be deleted because the related data remains!")
+                            }
+                        },
+                        error: function(error, status) {
+                            //alert("Failed!");
+                        }
+                    })
                 }
             });
         }
