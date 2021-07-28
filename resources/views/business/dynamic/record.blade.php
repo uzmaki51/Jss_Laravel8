@@ -52,7 +52,7 @@
                                 <template v-for="voyItem in voy_list">
                                     <option :value="voyItem.Voy_No">@{{ voyItem.Voy_No }}</option>
                                 </template>
-                            </select>                        
+                            </select>
                         @if(isset($shipName['shipName_En']))
                             <strong class="f-right" style="font-size: 16px; padding-top: 6px;">"<span id="ship_name">{{ $shipName['shipName_En'] }}</span>" CERTIFICATES</strong>
                         @endif
@@ -185,7 +185,7 @@
                                     <td><input type="number" class="form-control text-center" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_FO[]" v-model="currentItem.ROB_FO"></td>
                                     <td style="border-right: 2px solid rgb(255, 146, 7);"><input type="number" class="form-control text-center" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO[]" v-model="currentItem.ROB_DO"></td>
                                     <td><input type="number" class="form-control text-center" name="BUNK_FO[]"  style="color: blue!important; padding: 0!important;" v-model="currentItem.BUNK_FO"></td>
-                                    <td><input type="number" class="form-control text-center" name="BUNK_DO[]"  style="color: blue!important padding: 0!important;" v-model="currentItem.BUNK_DO"></td>
+                                    <td><input type="number" class="form-control text-center" name="BUNK_DO[]"  style="color: blue!important; padding: 0!important;" v-model="currentItem.BUNK_DO"></td>
                                     <td class="position-width" colspan="4"><textarea class="form-control" name="Remark[]" rows="1" style="resize: none" @click="addRow(index)" maxlength="50" autocomplete="off" v-model="currentItem.Remark"></textarea></td>
                                     <td class="text-center">
                                         <div class="action-buttons">
@@ -231,7 +231,7 @@
                                 <td :class="dangerClass(total_distance)">@{{ number_format(total_distance, 0) }}</td>
                                 <td :class="dangerClass(average_speed)">@{{ number_format(average_speed) }}</td>
                                 <td :class="dangerClass(total_sail_time)">@{{ number_format(total_sail_time, 2) }}</td>
-                                <td :class="dangerClass(total_loading_time)" style="border-right: 2px solid rgb(255, 146, 7);">@{{ number_format(total_loading_time) }}</td>
+                                <td :class="dangerClass(total_loading_time)" style="border-right: 2px solid rgb(255, 146, 7);">@{{ number_format(total_loading_time, 2) }}</td>
                                 <td :class="dangerClass(rob_fo)">@{{ number_format(rob_fo) }}</td>
                                 <td :class="dangerClass(rob_do)" style="border-right: 2px solid rgb(255, 146, 7);">@{{ number_format(rob_do) }}</td>
                                 <td :class="dangerClass(bunker_fo)">@{{ number_format(bunker_fo) }}</td>

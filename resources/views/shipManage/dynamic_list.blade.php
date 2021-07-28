@@ -353,7 +353,7 @@
                                 <td>@{{ number_format(analyze.total.total_sail_time, 2) }}</td>
                                 <td>@{{ number_format(analyze.total.loading_time, 2) }}</td>
                                 <td style="border-right: 2px solid #ff9207">@{{ number_format(analyze.total.disch_time, 2) }}</td>
-                                <td>@{{ number_format(analyze.total.sail_time - analyze.total.total_loading_time, 2) }}</td>
+                                <td>@{{ number_format(analyze.total.total_waiting_time + analyze.total.total_weather_time + analyze.total.total_repair_time + analyze.total.total_supply_time + analyze.total.total_else_time, 2) }}</td>
                                 <td>@{{ number_format(analyze.total.total_waiting_time, 2) }}</td>
                                 <td>@{{ number_format(analyze.total.total_weather_time, 2) }}</td>
                                 <td>@{{ number_format(analyze.total.total_repair_time, 2) }}</td>
