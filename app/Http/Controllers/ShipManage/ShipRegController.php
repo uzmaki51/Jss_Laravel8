@@ -181,7 +181,10 @@ class ShipRegController extends Controller
         $shipType = ShipType::all();
 
         $shipId = $request->get('shipId');
-        if(is_null($shipId)) {
+        $params = $request->all();
+        if(isset($params['type']) && $params['type'] == 'new') {
+            $shipId = 0;
+        } else if(is_null($shipId)) {
             $first_ship = ShipRegister::orderBy('id')->first();
             if (empty($first_ship)) {
                 $shipId = '0';

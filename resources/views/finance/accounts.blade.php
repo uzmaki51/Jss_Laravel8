@@ -53,7 +53,7 @@ $isHolder = Session::get('IS_HOLDER');
                             </li>
                             <li>
                                 <a data-toggle="tab" href="#tab_info">
-                                    人体信息
+                                    个体信息
                                 </a>
                             </li>
                         </ul>
@@ -150,7 +150,7 @@ $isHolder = Session::get('IS_HOLDER');
                                         @endforeach
                                         @endif
                                         </select>
-                                        <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="account_analysis_title"></span>账户汇报</strong>
+                                        <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="account_analysis_title"></span>账户分析</strong>
                                     </div>
                                     <div class="col-md-5" style="padding:unset!important">
                                         <div class="btn-group f-right">
@@ -167,10 +167,10 @@ $isHolder = Session::get('IS_HOLDER');
                                         <div class="head-fix-div" id="crew-table" style="height: 600px;">
                                             <table id="table-accounts-analysis" style="table-layout:fixed;">
                                                 <thead class="">
-                                                    <th class="text-center style-normal-header" style="width: 8%;height:35px;"><span>对象</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 4%;height:35px;"><span>对象</span></th>
                                                     <th class="text-center style-normal-header" style="width: 6%;"><span>记账编号</span></th>
                                                     <th class="text-center style-normal-header" style="width: 7%;"><span>日期</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 21%;"><span>摘要</span></th>
+                                                    <th class="text-left style-normal-header" style="width: 25%;"><span>摘要</span></th>
                                                     <th class="text-center style-normal-header" style="width: 3%;"><span>币类</span></th>
                                                     <th class="text-center style-normal-header" style="width: 20%;"><span>借方</span></th>
                                                     <th class="text-center style-normal-header" style="width: 20%;"><span>贷方</span></th>
@@ -355,6 +355,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(4).attr('style', 'padding: 5px!important');
                     $('td', row).eq(5).attr('style', 'padding: 5px!important');
 
+                    $('td', row).eq(2).attr('style',data['currency'] == 0?'color:red':'color:#026fcd!important')
                     $('td', row).eq(2).html('').append(data['currency'] == 0?'¥':'$');
                     if (data['credit'] >= 0) {
                         $('td', row).eq(3).attr('class', 'text-right style-blue-input');
@@ -431,7 +432,11 @@ $isHolder = Session::get('IS_HOLDER');
         }
         year_report = $("#select-report-year option:selected").val();
         month_report = $("#select-report-month option:selected").val();
-        $('#account_report_title').html(year_report + '年' + month_report + '月份');
+        if (month_report == 0)
+            $('#account_report_title').html(year_report + '年' + '全部');
+        else
+            $('#account_report_title').html(year_report + '年' + month_report + '月份');
+        
         initReportTable();
         function prettyValue(value)
         {
@@ -472,6 +477,7 @@ $isHolder = Session::get('IS_HOLDER');
             }
             
             var months = "";
+            months += '<option value="0">全部</option>';
             if (check_year == now_year) {
                 for(var i=1;i<=now_month;i++)
                 {
@@ -503,7 +509,10 @@ $isHolder = Session::get('IS_HOLDER');
         {
             year_report = $("#select-report-year option:selected").val();
             month_report = $("#select-report-month option:selected").val();
-            $('#account_report_title').html(year_report + '年' + month_report + '月份');
+            if (month_report == 0)
+                $('#account_report_title').html(year_report + '年' + '全部');
+            else
+                $('#account_report_title').html(year_report + '年' + month_report + '月份');
 
             if (listReportTable == null) {
                 initTable();
@@ -525,7 +534,10 @@ $isHolder = Session::get('IS_HOLDER');
             year_analysis = $("#select-analysis-year option:selected").val();
             month_analysis = $("#select-analysis-month option:selected").val();
             analysis_account = $("#account_type").val();
-            $('#account_analysis_title').html(year_analysis + '年' + month_analysis + '月份');
+            if (month_analysis == 0)
+                $('#account_analysis_title').html(year_analysis + '年' + '全部');
+            else
+                $('#account_analysis_title').html(year_analysis + '年' + month_analysis + '月份');
 
             if (listAnalysisTable == null) {
                 initAnalysisTable();
@@ -584,7 +596,8 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(1).attr('style', 'height:20px;');
                     $('td', row).eq(1).attr('class', 'text-center');
                     $('td', row).eq(2).attr('class', 'text-center');
-                    $('td', row).eq(3).attr('class', 'text-center');
+                    $('td', row).eq(3).attr('class', 'text-left');
+                    $('td', row).eq(3).attr('style', 'padding-left:2px!important;');
                     $('td', row).eq(4).attr('class', 'text-center');
                     $('td', row).eq(5).attr('class', 'text-center');
                     $('td', row).eq(6).attr('class', 'text-center');
@@ -594,12 +607,14 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(1).html('').append("J-" + data['book_no']);
                     if (data['currency']== 0)
                     {
+                        $('td', row).eq(4).attr('style','color:red');
                         $('td', row).eq(4).html('').append('¥');
                         sum_credit_R += data['credit'];
                         sum_debit_R += data['debit'];
                     }
                     else
                     {
+                        $('td', row).eq(4).attr('style','color:#026fcd!important');
                         $('td', row).eq(4).html('').append('$');
                         sum_credit_D += data['credit'];
                         sum_debit_D += data['debit'];
@@ -658,13 +673,18 @@ $isHolder = Session::get('IS_HOLDER');
             selectAnalysisInfo();
         });
 
-        $('#account_analysis_title').html(year_analysis + '年' + month_analysis + '月份');
+        if (month_analysis == 0)
+            $('#account_analysis_title').html(year_analysis + '年' + '全部');
+        else
+            $('#account_analysis_title').html(year_analysis + '年' + month_analysis + '月份');
+
         initAnalysisTable();
         
         function setEvents() {
             $('.select-account').on('click', function(e) {
                 var val = e.target.childNodes[1].value;
                 $('#select-analysis-year').val(year_report);
+                $('#select-analysis-year').trigger('change');
                 $('#select-analysis-month').val(month_report);
                 $('#account_type').val(val);
                 $('#account_type').trigger('change');
@@ -702,9 +722,9 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(0).html('').append(index + 1);
                     $('td', row).eq(0).attr('style', 'height:20px;')
                     $('td', row).eq(0).append('<input type="hidden" name="info_id[]" value="' + data['id'] + '">');
-                    $('td', row).eq(1).html('<input type="text" class="form-control style-noncolor-input" name="info_name[]" value="' + data['person'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(2).html('<input type="text" class="form-control style-noncolor-input" name="info_content[]" value="' + data['info'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(3).html('<input type="text" class="form-control style-noncolor-input" name="info_remark[]" value="' + data['remark'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(1).html('<input type="text" class="form-control style-noncolor-input" name="info_name[]" value="' + __parseStr(data['person']) + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(2).html('<input type="text" class="form-control style-noncolor-input" name="info_content[]" value="' + __parseStr(data['info']) + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(3).html('<input type="text" class="form-control style-noncolor-input" name="info_remark[]" value="' + __parseStr(data['remark']) + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(4).html('').append('<div class="action-buttons"><a class="red" onclick="javascript:deletePersonalInfo(this)"><i class="icon-trash"></i></a></div>');
                 },
                 drawCallback: function (response) {
@@ -947,8 +967,9 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replace(/<img[^>]*>/gi,"");
             tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = year_report + '_' + month_report + '_账户汇报';
-            exportExcel(tab_text, filename, year_report + '_' + month_report + '_流水账');
+            var filename = year_report + '年_' + (month_report==0?'全部':month_report) + '_账户汇报';
+            exportExcel(tab_text, filename, filename);
+            //exportExcel(tab_text, filename, year_report + '_' + (month_report==0?'全部':month_report) + '_流水账');
             
             return 0;
         }
@@ -979,7 +1000,14 @@ $isHolder = Session::get('IS_HOLDER');
                         tab.rows[j].childNodes[i].style.backgroundColor = '#ebf1de';
                     }
                 }
-                
+                else {
+                    for (var i=5;i<7;i++)
+                    {
+                        var info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                        tab.rows[j].childNodes[i].innerHTML = info;
+                    }
+                }
+                console.log(tab.rows[j].innerHTML);
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
             tab_text=tab_text+"</table>";
@@ -987,7 +1015,7 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replace(/<img[^>]*>/gi,"");
             tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = year_analysis + '_' + (month_analysis==0?'全部':month_analysis) + '(' + $("#account_type option:selected").text() + ')_账户汇报';
+            var filename = year_analysis + '年_' + (month_analysis==0?'全部':month_analysis) + '(' + $("#account_type option:selected").text() + ')_账户汇报';
             exportExcel(tab_text, filename, $("#account_type option:selected").text());
             
             return 0;

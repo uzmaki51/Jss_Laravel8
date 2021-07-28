@@ -20,7 +20,7 @@ $shipList = Session::get('shipList');
                 <div class="col-sm-3">
                     @if(!$isHolder)
                         <div class="btn-group f-right">
-                            <a href="/shipManage/registerShipData" class="btn btn-sm btn-primary btn-add" style="width: 80px">
+                            <a href="/shipManage/registerShipData?type=new" class="btn btn-sm btn-primary btn-add" style="width: 80px">
                                 <i class="icon-plus"></i>{{ trans('common.label.add') }}
                             </a>
                             <button type="submit" id="btnRegister" class="btn btn-sm btn-success" style="width: 80px">
