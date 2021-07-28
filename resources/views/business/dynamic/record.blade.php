@@ -522,12 +522,12 @@
 
                                     let usedFoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['FOSailCons_S']);
                                     let usedFoTmp2 = BigNumber(searchObj.total_loading_time).multipliedBy(shipInfo['FOL/DCons_S']);
-                                    let usedFoTmp3 = BigNumber(total_waiting_time).multipliedBy(shipInfo['FOIdleCons_S']);
+                                    let usedFoTmp3 = BigNumber(searchObj.sail_time).minus(searchObj.total_sail_time).minus(searchObj.total_loading_time).multipliedBy(shipInfo['FOIdleCons_S']);
 
                                     let usedDoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['DOSailCons_S']);
                                     let usedDoTmp2 = BigNumber(searchObj.total_loading_time).multipliedBy(shipInfo['DOL/DCons_S']);
-                                    let usedDoTmp3 = BigNumber(total_waiting_time).multipliedBy(shipInfo['DOIdleCons_S']);
-
+                                    let usedDoTmp3 = BigNumber(searchObj.sail_time).minus(searchObj.total_sail_time).minus(searchObj.total_loading_time).multipliedBy(shipInfo['DOIdleCons_S']);
+                                    console.log(BigNumber(searchObj.sail_time).minus(searchObj.total_sail_time).minus(searchObj.total_loading_time).toFixed(2));
                                     searchObj.used_fo = BigNumber(usedFoTmp1).plus(usedFoTmp2).plus(usedFoTmp3).toFixed(2);
                                     searchObj.used_do = BigNumber(usedDoTmp1).plus(usedDoTmp2).plus(usedDoTmp3).toFixed(2);
 
@@ -548,8 +548,8 @@
                     setTotalInfo: function(data) {
                         searchObj.sail_term['min_date'] = data['min_date'] == false ? '' : data['min_date']['Voy_Date'];
                         searchObj.sail_term['max_date'] = data['max_date'] == false ? '' : data['max_date']['Voy_Date'];
-                        let start_date = data['min_date']['Voy_Date'] + ' ' + data['min_date']['Voy_Hour'] + ':' + data['min_date']['Voy_Minute'];
-                        let end_date = data['max_date']['Voy_Date'] + ' ' + data['max_date']['Voy_Hour'] + ':' + data['max_date']['Voy_Minute'];
+                        let start_date = data['min_date']['Voy_Date'] + ' ' + data['min_date']['Voy_Hour'] + ':' + data['min_date']['Voy_Minute'] + ':' + '00';
+                        let end_date = data['max_date']['Voy_Date'] + ' ' + data['max_date']['Voy_Hour'] + ':' + data['max_date']['Voy_Minute'] + ':' + '00';
                         this.sail_time = __getTermDay(start_date, end_date, data['min_date']['GMT'], data['max_date']['GMT']);
                     },
                     setTotalDefault: function() {
@@ -819,11 +819,11 @@
             let prevDate = moment(start_date).valueOf();
             let prevGMT = DAY_UNIT * start_gmt;
             let diffDay = 0;
-            currentDate = BigNumber(currentDate).minus(currentGMT).div(DAY_UNIT);
-            prevDate = BigNumber(prevDate).minus(prevGMT).div(DAY_UNIT);
-            diffDay = currentDate.minus(prevDate);
+            currentDate = BigNumber(currentDate).minus(currentGMT).div(DAY_UNIT).toFixed(2);
+            prevDate = BigNumber(prevDate).minus(prevGMT).div(DAY_UNIT).toFixed(2);
+            diffDay = BigNumber(currentDate).minus(prevDate).toFixed(2);
 
-            return parseFloat(diffDay.div(24));
+            return parseFloat(parseFloat(BigNumber(diffDay).div(24).toFixed(4)));
         }
 
         $('body').on('keydown', 'input, select', function(e) {
