@@ -196,7 +196,7 @@
                                     <td class="text-center">@{{ number_format(currentItem.Sail_Distance, 0) }}</td>
                                     <td class="text-center">@{{ number_format(currentItem.Speed, 1) }}</td>
                                     <td class="text-center">@{{ number_format(currentItem.RPM, 0) }}</td>
-                                    <td class="text-right">@{{ __number_format(currentItem.Cargo_Qtty, 2) }}</td>
+                                    <td class="text-right">@{{ __number_format(currentItem.Cargo_Qtty, currentItem.Voy_Status, 2) }}</td>
                                     <td class="text-center" style="border-left: 2px solid #ff9207;">@{{ number_format(currentItem.ROB_FO, 2) }}</td>
                                     <td class="text-center" style="border-right: 2px solid #ff9207; width: 50px;">@{{ number_format(currentItem.ROB_DO, 2) }}</td>
                                     <td class="text-center">@{{ number_format(currentItem.BUNK_FO, 2) }}</td>
@@ -515,8 +515,11 @@
                     number_format: function(value, decimal = 1) {
                         return isNaN(value) || value == 0 || value == null || value == undefined ? '' : number_format(value, decimal);
                     },
-                    __number_format: function(value, decimal = 0) {
-                        return  number_format(__parseFloat(value), decimal);
+                    __number_format: function(value, voy_status, decimal = 0) {
+                        if(voy_status == DYNAMIC_CMPLT_DISCH)
+                            return  number_format(__parseFloat(value), decimal);
+                        else
+                            return isNaN(value) || value == 0 || value == null || value == undefined ? '' : number_format(value, decimal);
                     },
                     dangerClass: function(value) {
                         return isNaN(value) || value < 0 ? 'text-danger' : '';
