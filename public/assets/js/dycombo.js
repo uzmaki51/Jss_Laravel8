@@ -34,7 +34,7 @@
                     $('#modal-dynamic').modal('show');
                 },
                 error: function(error, status) {
-                    alert(error);
+                    //alert(error);
                 }
             });
         }
@@ -128,11 +128,17 @@
                     type: type
                 },
                 success: function(data, status, xhr) {
+                    console.log(data);
                     $('#shiptype-table').html('');
                     for (var i = 0; i < data.length; i ++) {
                         var row = '<tr class="rank-tr"><td class="no-padding center">';
-                        row += (i + 1);
-                        row += '</td><td class="no-padding"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_Name[]"value="';
+                        row += '<input type="hidden" name="ShipType_Id[]" value="';
+                        row += data[i].id;
+                        row += '">';
+                        row += '<input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_OrderNo[]" value="';
+                        row += data[i].OrderNo;
+                        row += '" style="width: 100%;text-align: center">';
+                        row += '</td><td class="no-padding"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_Name[]" value="';
                         row += (data[i].ShipType != null) ? data[i].ShipType : '';
                         row += '" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteShipType(this)"><i class="icon-trash"></i></a></div></td></tr>';
                         $('#shiptype-table').append(row);
@@ -141,7 +147,7 @@
                     $('#modal-shiptype-list').modal('show');
                 },
                 error: function(error, status) {
-                    alert(error);
+                    //alert(error);
                 }
             });
         }
@@ -149,6 +155,7 @@
         function dynamicShipTypeSubmit(type) {
             var list = [];
             if (type == 'shiptype') {
+                list['ids'] = $("input[name='ShipType_Id[]']").map(function(){return $(this).val();}).get();
                 list['orderno'] = $("input[name='ShipType_OrderNo[]']").map(function(){return $(this).val();}).get();
                 list['name'] = $("input[name='ShipType_Name[]']").map(function(){return $(this).val();}).get();
             }
@@ -158,12 +165,35 @@
                 url: BASE_URL + 'ajax/setDynamicData', 
                 type: 'post',
                 data: {
+                    ids: list['ids'],
                     orderno: list['orderno'],
                     name: list['name'],
                     type: type,
                 },
                 success: function(data, status, xhr) {
                     if (data != '-1') {
+                        console.log(data);
+                        var def = 0;
+                        var id='';
+                        if (type == 'shiptype') {
+                            id = 'ShipType';
+                        }
+                        var def = 0;
+                        var id='';
+                        if (type == 'shiptype') {
+                            id = 'ShipType';
+                        }
+                        var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
+                        dest.find('.dynamic-select__trigger input').val("");
+                        dest.children(":first").val(def);
+                        dest = dest.find('.dynamic-options-scroll');
+                        dest.html('');
+                        dest.html(dest.html() + '<span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>');
+                        for (var i=0;i<data.length;i++) {
+                            dest.html(dest.html() + '<span class="dynamic-option" data-value="' + data[i].id + '" data-text="' + data[i].ShipType + '">' + data[i].ShipType + '</span>');
+                        }
+                        addCustomEvent();
+                        /*
                         var def = 0;
                         var id='';
                         if (type == 'shiptype') {
@@ -180,6 +210,7 @@
                         
                         addCustomEvent();
                         //alert("Success!");
+                        */
                     }
                 },
                 error: function(error, status) {
@@ -192,9 +223,26 @@
         {
             if ($('#shiptype-table tr').length > 2 && !$(e).closest("tr").is(":last-child")) { // && !$(e).closest("tr").is(":last-child")) {
                 bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    var typeid = parseInt($(e).closest("tr").children().eq(0).children().eq(0).val());
                     if (result) {
-                        $(e).closest("tr").remove();
-                        resortCapacity();
+                        $.ajax({
+                            url: BASE_URL + 'ajax/check/shipType', 
+                            type: 'post',
+                            data: {
+                                type: typeid,
+                            },
+                            success: function(data, status, xhr) {
+                                if (data == true) {
+                                    $(e).closest("tr").remove();
+                                    resortShipType();
+                                } else {
+                                    alert("It cannot be deleted because the related data remains!")
+                                }
+                            },
+                            error: function(error, status) {
+                                alert("Failed!");
+                            }
+                        })
                     }
                 });
             }
@@ -205,7 +253,7 @@
             if ($('#shiptype-table tr').length > 0)
             {
                 if (e == null || $(e).closest("tr").is(":last-child")) {
-                    $("#shiptype-table").append('<tr class="rank-tr"><td class="no-padding center"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_OrderNo[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteShipType(this)"><i class="icon-trash"></i></a></div></td></tr>');
+                    $("#shiptype-table").append('<tr class="rank-tr"><td class="no-padding center"><input type="hidden" name="ShipType_Id[]" value=""><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_OrderNo[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteShipType(this)"><i class="icon-trash"></i></a></div></td></tr>');
                     resortShipType();
                 }
             }
@@ -214,7 +262,8 @@
         function resortShipType()
         {
             for (var i=0;i<$('#shiptype-table').children().length;i++) {
-                $($('#shiptype-table').children()[i].firstChild.firstChild).val(i+1);
+                //$($('#shiptype-table').children()[i].firstChild.firstChild).val(i+1);
+                $($($('#shiptype-table').children()[i].firstChild).children()[1]).val(i+1)
             }
         }
 
@@ -246,7 +295,7 @@
                     $('#modal-rank-list').modal('show');
                 },
                 error: function(error, status) {
-                    alert(error);
+                    //alert(error);
                 }
             });
         }
@@ -286,13 +335,12 @@
                         dest = dest.find('.dynamic-options-scroll');
                         dest.html('');
                         dest.html(dest.html() + '<span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>');
-                        for (var i=0;i<list['name'].length;i++) {
+                        for (var i=0;i<data.length;i++) {
                             if (list['abb'][i] != '' || list['name'][i] != '')
-                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + (i+1) + '" data-text="' + list['abb'][i] + '">' + list['name'][i] + '(' + list['abb'][i] + ')' + '</span>');
+                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + data[i].id + '" data-text="' + data[i].Abb + '">' + data[i].Duty_En + '(' + data[i].Abb + ')' + '</span>');
                         }
                         
                         addCustomEvent();
-                        //alert("Success!");
                     }
                 },
                 error: function(error, status) {
@@ -305,9 +353,26 @@
         {
             if ($('#rank-table tr').length > 2 && !$(e).closest("tr").is(":last-child")) { // && !$(e).closest("tr").is(":last-child")) {
                 bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    var rankid = parseInt($(e).closest("tr").children().eq(0).val());
                     if (result) {
-                        resortRank(e);
-                        $(e).closest("tr").remove();
+                        $.ajax({
+                            url: BASE_URL + 'ajax/check/rankType', 
+                            type: 'post',
+                            data: {
+                                rank: rankid,
+                            },
+                            success: function(data, status, xhr) {
+                                if (data == true) {
+                                    resortRank(e);
+                                    $(e).closest("tr").remove();
+                                } else {
+                                    alert("It cannot be deleted because the related data remains!")
+                                }
+                            },
+                            error: function(error, status) {
+                                alert("Failed!");
+                            }
+                        })
                     }
                 });
             }
@@ -358,7 +423,7 @@
                     $('#modal-port-list').modal('show');
                 },
                 error: function(error, status) {
-                    alert(error);
+                    //alert(error);
                 }
             });
         }
@@ -442,7 +507,12 @@
                     $('#capacity-table').html('');
                     for (var i = 0; i < data.length; i ++) {
                         var row = '<tr class="rank-tr"><td class="no-padding center">';
-                        row += (i + 1);
+                        row += '<input type="hidden" name="Capacity_Id[]" value="';
+                        row += data[i].id;
+                        row += '">';
+                        row += '<input type="text" onfocus="addShipType(this)" class="form-control" name="Capacity_OrderNo[]" value="';
+                        row += data[i].OrderNo;
+                        row += '" style="width: 100%;text-align: center">';
                         row += '</td><td class="no-padding"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_Name[]"value="';
                         row += (data[i].Capacity_En != null) ? data[i].Capacity_En : '';
                         row += '" style="width: 100%;text-align: center"></td><td class="no-padding center"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_STCW[]"value="';
@@ -456,7 +526,7 @@
                     $('#modal-capacity-list').modal('show');
                 },
                 error: function(error, status) {
-                    alert(error);
+                    //alert(error);
                 }
             });
         }
@@ -464,6 +534,8 @@
         function dynamicCapacitySubmit(type) {
             var list = [];
             if (type == 'capacity') {
+                list['ids'] = $("input[name='Capacity_Id[]']").map(function(){return $(this).val();}).get();
+                list['orderno'] = $("input[name='Capacity_OrderNo[]']").map(function(){return $(this).val();}).get();
                 list['name'] = $("input[name='Capacity_Name[]']").map(function(){return $(this).val();}).get();
                 list['STCW'] = $("input[name='Capacity_STCW[]']").map(function(){return $(this).val();}).get();
                 list['description'] = $("input[name='Capacity_Description[]']").map(function(){return $(this).val();}).get();
@@ -474,6 +546,8 @@
                 url: BASE_URL + 'ajax/setDynamicData', 
                 type: 'post',
                 data: {
+                    ids: list['ids'],
+                    orderno: list['orderno'],
                     name: list['name'],
                     STCW: list['STCW'],
                     description: list['description'],
@@ -494,8 +568,8 @@
                         dest = dest.find('.dynamic-options-scroll');
                         dest.html('');
                         dest.html(dest.html() + '<span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>');
-                        for (var i=0;i<list['name'].length;i++)
-                            dest.html(dest.html() + '<span class="dynamic-option" data-value="' + (i+1) + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
+                        for (var i=0;i<data.length;i++)
+                            dest.html(dest.html() + '<span class="dynamic-option" data-value="' + data[i].id + '" data-text="' + data[i].Capacity_EN + '">' + data[i].Capacity_EN + '</span>');
 
                         var dest2 = $('input[name="' + id2 + '"]').closest('.dynamic-select');
                         dest2.find('.dynamic-select__trigger input').val("");
@@ -503,8 +577,8 @@
                         dest2 = dest2.find('.dynamic-options-scroll');
                         dest2.html('');
                         dest2.html(dest.html() + '<span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>');
-                        for (var i=0;i<list['name'].length;i++)
-                            dest2.html(dest2.html() + '<span class="dynamic-option" data-value="' + (i+1) + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
+                        for (var i=0;i<data.length;i++)
+                            dest2.html(dest2.html() + '<span class="dynamic-option" data-value="' + data[i].id + '" data-text="' + data[i].Capacity_EN + '">' + data[i].Capacity_EN + '</span>');
                         
                         
                         //alert("Success!");
@@ -519,7 +593,8 @@
         function resortCapacity()
         {
             for (var i=0;i<$('#capacity-table').children().length;i++) {
-                $($('#capacity-table').children()[i].firstChild.firstChild).val(i+1);
+                //$($('#capacity-table').children()[i].firstChild.firstChild).val(i+1);
+                $($($('#capacity-table').children()[i].firstChild).children()[1]).val(i+1)
             }
         }
 
@@ -527,20 +602,41 @@
         {
             if ($('#capacity-table tr').length > 2 && !$(e).closest("tr").is(":last-child")) { // && !$(e).closest("tr").is(":last-child")) {
                 bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    var capacity = parseInt($(e).closest("tr").children().eq(0).children().eq(0).val());
                     if (result) {
-                        $(e).closest("tr").remove();
-                        resortCapacity();
+                        $.ajax({
+                            url: BASE_URL + 'ajax/check/capacityType', 
+                            type: 'post',
+                            data: {
+                                capacity: capacity,
+                            },
+                            success: function(data, status, xhr) {
+                                if (data == true) {
+                                    $(e).closest("tr").remove();
+                                    resortCapacity();
+                                } else {
+                                    alert("It cannot be deleted because the related data remains!")
+                                }
+                            },
+                            error: function(error, status) {
+                                alert("Failed!");
+                            }
+                        })
+                    }
+
+                    if (result) {
+                        
                     }
                 });
             }
         }
-
+                        
         function addCapacity(e)
         {
             if ($('#capacity-table tr').length > 0)
             {
                 if (e == null || $(e).closest("tr").is(":last-child")) {
-                    $("#capacity-table").append('<tr class="rank-tr"><td class="no-padding center">' + ($('#capacity-table tr').length + 1) + '<td class="no-padding"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_STCW[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_Description[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteCapacity(this)"><i class="icon-trash"></i></a></div></td></tr>');
+                    $("#capacity-table").append('<tr class="rank-tr"><td class="no-padding center"><input type="hidden" name="Capacity_Id[]" value=""><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_OrderNo[]" value="" style="width:100%;text-align:center"></td><td class="no-padding"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_STCW[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_Description[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteCapacity(this)"><i class="icon-trash"></i></a></div></td></tr>');
                     resortCapacity();
                 }
             }
@@ -571,7 +667,7 @@
                     $('#modal-pos-list').modal('show');
                 },
                 error: function(error, status) {
-                    alert(error);
+                    //alert(error);
                 }
             });
         }

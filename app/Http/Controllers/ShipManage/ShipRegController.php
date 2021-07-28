@@ -178,7 +178,7 @@ class ShipRegController extends Controller
         $GLOBALS['submenu'] = 0;
 
         $shipList = Ship::all();
-        $shipType = ShipType::all();
+        $shipType = ShipType::orderByRaw('CAST(OrderNo AS SIGNED) ASC')->get();
 
         $shipId = $request->get('shipId');
         $params = $request->all();

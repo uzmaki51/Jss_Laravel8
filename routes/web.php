@@ -136,6 +136,10 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('operation/listByShip', [App\Http\Controllers\Operation\OperationController::class, 'ajaxIncomeExportListByShip']);		// incomeExpense -> Table, Graph
 	Route::post('operation/listBySOA', [App\Http\Controllers\Operation\OperationController::class, 'ajaxListBySOA']);					// incomeExpense -> SOA
 	Route::post('operation/listByAll', [App\Http\Controllers\Operation\OperationController::class, 'ajaxListByAll']);					// incomeExpenseAll -> Table
+
+	Route::post('check/shipType', [App\Http\Controllers\Dynamic\DynamicController::class, 'ajaxCheckShipType']);
+	Route::post('check/rankType', [App\Http\Controllers\Dynamic\DynamicController::class, 'ajaxCheckRankType']);
+	Route::post('check/capacityType', [App\Http\Controllers\Dynamic\DynamicController::class, 'ajaxCheckCapacity']);
 });
 
 Route::group(['prefix' => 'business'], function() {
