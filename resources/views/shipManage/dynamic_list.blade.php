@@ -238,15 +238,15 @@
                                 <td>@{{ number_format(total_distance, 0) }}</td>
                                 <td>@{{ number_format(average_speed) }}</td>
                                 <td>@{{ number_format(total_sail_time, 2) }}</td>
-                                <td>@{{ number_format(total_loading_time) }}</td>
-                                <td style="border-left: 2px solid #ff9207;">@{{ number_format(rob_fo) }}</td>
-                                <td style="border-right: 2px solid #ff9207; width: 50px;">@{{ number_format(rob_do) }}</td>
-                                <td>@{{ number_format(bunker_fo) }}</td>
-                                <td>@{{ number_format(bunker_do) }}</td>
-                                <td>@{{ number_format(used_fo) }}</td>
-                                <td>@{{ number_format(used_do) }}</td>
-                                <td>@{{ number_format(save_fo) }}</td>
-                                <td>@{{ number_format(save_do) }}</td>
+                                <td>@{{ number_format(total_loading_time, 2) }}</td>
+                                <td  :class="dangerClass(rob_fo)" style="border-left: 2px solid #ff9207;">@{{ number_format(rob_fo) }}</td>
+                                <td  :class="dangerClass(rob_do)" style="border-right: 2px solid #ff9207; width: 50px;">@{{ number_format(rob_do) }}</td>
+                                <td :class="dangerClass(bunker_fo)">@{{ number_format(bunker_fo) }}</td>
+                                <td :class="dangerClass(bunker_do)">@{{ number_format(bunker_do) }}</td>
+                                <td :class="dangerClass(used_fo)">@{{ number_format(used_fo) }}</td>
+                                <td :class="dangerClass(used_do)">@{{ number_format(used_do) }}</td>
+                                <td :class="dangerClass(save_fo)">@{{ number_format(save_fo) }}</td>
+                                <td :class="dangerClass(save_do)">@{{ number_format(save_do) }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -300,7 +300,7 @@
                                     <td class="right">@{{ number_format(item.total_sail_time, 2) }}</td>
                                     <td class="right">@{{ number_format(item.loading_time, 2) }}</td>
                                     <td class="right" style="border-right: 2px solid #ff9207">@{{ number_format(item.disch_time, 2) }}</td>
-                                    <td class="right">@{{ number_format(item.sail_time - item.total_loading_time, 2) }}</td>
+                                    <td class="right">@{{ number_format(item.non_economic_date, 2) }}</td>
                                     <td class="right">@{{ number_format(item.total_waiting_time, 2) }}</td>
                                     <td class="right">@{{ number_format(item.total_weather_time, 2) }}</td>
                                     <td class="right">@{{ number_format(item.total_repair_time, 2) }}</td>
@@ -515,6 +515,9 @@
                     number_format: function(value, decimal = 1) {
                         return isNaN(value) || value == 0 || value == null || value == undefined ? '' : number_format(value, decimal);
                     },
+                    dangerClass: function(value) {
+                        return isNaN(value) || value < 0 ? 'text-danger' : '';
+                    },
                     onChangeVoy: function(evt) {
                         this.setPortName();
                         this.getData();
@@ -676,15 +679,16 @@
                                         realData.average_speed = BigNumber(realData.total_distance).div(total_sail_time).div(24);
                                         realData.loading_time = loading_time.toFixed(COMMON_DECIMAL);
                                         realData.disch_time = disch_time.toFixed(COMMON_DECIMAL);
-                                        realData.total_loading_time = BigNumber(loading_time).plus(disch_time).plus(total_sail_time);
-                                        realData.economic_rate = BigNumber(loading_time).plus(disch_time).plus(total_sail_time).div(realData.sail_time).multipliedBy(100).toFixed(1);
+                                        realData.total_loading_time = BigNumber(__parseFloat(loading_time.toFixed(2))).plus(__parseFloat(disch_time.toFixed(2))).plus(__parseFloat(total_sail_time.toFixed(2)));
+                                        realData.economic_rate = BigNumber(realData.total_loading_time).div(__parseFloat(realData.sail_time.toFixed(2))).multipliedBy(100).toFixed(1);
+                                        
                                         realData.total_waiting_time = total_waiting_time.toFixed(COMMON_DECIMAL);
                                         realData.total_weather_time = total_weather_time.toFixed(COMMON_DECIMAL);
                                         realData.total_repair_time = total_repair_time.toFixed(COMMON_DECIMAL);
                                         realData.total_supply_time = total_supply_time.toFixed(COMMON_DECIMAL);
                                         realData.total_else_time = total_else_time.toFixed(COMMON_DECIMAL);
+                                        realData.non_economic_date = BigNumber(__parseFloat(realData.total_waiting_time)).plus(__parseFloat(realData.total_weather_time)).plus(__parseFloat(realData.total_repair_time)).plus(__parseFloat(realData.total_supply_time)).plus(__parseFloat(realData.total_else_time))
 
-                                        console.log(realData.sail_time)
                                         // Calc Footer data
                                         footerData['sail_time'] += __parseFloat(realData.sail_time.toFixed(2));
                                         footerData['total_count'] += __parseFloat(realData['voy_count']);
