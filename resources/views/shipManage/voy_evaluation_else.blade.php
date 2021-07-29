@@ -37,10 +37,10 @@
                         <th class="center not-striped-td" rowspan="2" style="width: 5%">航次</th>
                         <th class="center not-striped-td" rowspan="2">租船<br>种类</th>
                         <th class="center not-striped-td" rowspan="2">期间</th>
-                        <th class="center not-striped-td" rowspan="2">航次<br>用时</th>
-                        <th class="center not-striped-td">里程</th>
-                        <th class="center not-striped-td" rowspan="2">货量<br>(租期)</th>
-                        <th class="center not-striped-td" rowspan="2">运费率<br>(日租金)</th>
+                        <th class="center not-striped-td" rowspan="2" style="width: 60px;">航次<br>用时</th>
+                        <th class="center not-striped-td" style="width: 50px;">里程</th>
+                        <th class="center not-striped-td" rowspan="2" style="width: 80px;">货量<br>(租期)</th>
+                        <th class="center not-striped-td" rowspan="2" style="width: 80px;">运费率<br>(日租金)</th>
                         <th class="center not-striped-td" colspan="3" style="border-right: 2px solid rgb(255, 146, 7);">SOA($)</th>
                         <th class="center not-striped-td" colspan="2" style="border-right: 2px solid rgb(255, 146, 7);">实际</th>
                         <th class="center not-striped-td" colspan="5">支出因素占率(%)</th>
@@ -48,16 +48,16 @@
 
                     <tr class="dynamic-footer">
                         <th class="center not-striped-td">[NM]</th>
-                        <th class="center not-striped-td">收入</th>
+                        <th class="center not-striped-td" style="width: 120px;">收入</th>
                         <th class="center not-striped-td">收入/<br>里程</th>
                         <th class="center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);">利润</th>
-                        <th class="center not-striped-td">利润</th>
-                        <th class="center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);">日利润</th>
-                        <th class="center not-striped-td">支出</th>
+                        <th class="center not-striped-td" style="width: 120px;">利润</th>
+                        <th class="center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7); width: 70px;">日利润</th>
+                        <th class="center not-striped-td" style="width: 80px;">支出</th>
                         <th class="center not-striped-td style-red-header">耗油<br>成本</th>
                         <th class="center not-striped-td style-red-header">港费</th>
                         <th class="center not-striped-td style-red-header">其他</th>
-                        <th class="center not-striped-td ">管理成本</th>
+                        <th class="center not-striped-td" style="width: 50px;">管理成本</th>
                     </tr>
 
                     <tbody>
