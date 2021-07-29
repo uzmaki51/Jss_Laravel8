@@ -347,6 +347,19 @@ class DecisionReport extends Model {
 
 			$cost_records = $selector->get();
 			
+			// Get 物料费, 修理费 for NON
+			$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo','>=', $voyNo_from)->where('voyNo','<',$voyNo_to)->whereNotNull('book_no')
+			->whereIn('profit_type',['7','8'])
+			->groupBy('flowid','profit_type')
+			->selectRaw('sum(CASE WHEN tb_decision_report_save.currency="CNY" THEN tb_decision_report_save.amount/tb_decision_report_save.rate ELSE tb_decision_report_save.amount END) as sum, tb_decision_report_save.flowid, tb_decision_report_save.profit_type, tb_decision_report_save.currency')
+			->groupBy('flowid','profit_type')
+			->leftJoin("tbl_cp", function($join) {
+				$join->on('tbl_cp.Voy_No', '=', 'tb_decision_report_save.voyNo');
+				$join->on('tbl_cp.Ship_ID', '=', 'tb_decision_report_save.shipNo');
+			})->whereIn("tbl_cp.CP_kind",["NON"]);
+			$non_records = $selector->get()->keyBy('profit_type');
+			//
+
 			$newArr = [];
 			$credit_sum = 0;
 			$debit_sum = 0;
@@ -357,6 +370,18 @@ class DecisionReport extends Model {
 				}
 				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != 13 && $cost->profit_type != 14)
 				{
+					if ($cost->profit_type == 7)
+					{
+						if (isset($non_records[7]) && $non_records[7] != null) {
+							$cost->sum = $cost->sum - $non_records[7]['sum'];
+						}
+					}
+					else if ($cost->profit_type == 8)
+					{
+						if (isset($non_records[8]) && $non_records[8] != null) {
+							$cost->sum = $cost->sum - $non_records[8]['sum'];
+						}
+					}
 					$newArr[$cost->profit_type] = $cost->sum;
 					$debit_sum += $cost->sum;
 				}
@@ -382,16 +407,30 @@ class DecisionReport extends Model {
 				else if ($count->CP_kind == "NON") $records[$index]['NON_count'] = $count->count;
 			}
 			//$min_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
-			$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)
-							  ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->select(DB::raw('MIN(Voy_Date) as min_date,tbl_voy_log.*'))->first();
-			//$max_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
-			$max_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)
-							  ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->select(DB::raw('MAX(Voy_Date) as max_date,tbl_voy_log.*'))->first();
+			//$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->select(DB::raw('MIN(Voy_Date) as min_date,tbl_voy_log.*'))->first();
+			//$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->select(DB::raw('MIN(Voy_Date) as min_date,tbl_voy_log.*'))->first();
+			$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','<',$voyNo_from)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
 
+			//$max_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
+			//$max_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->select(DB::raw('MAX(Voy_Date) as max_date,tbl_voy_log.*'))->first();
+			//$max_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->select(DB::raw('MAX(Voy_Date) as max_date,tbl_voy_log.*'))->first();
+			$max_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','<',$voyNo_to)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+
+			if ($min_date == null)																			 {
+				$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID', '<', $voyNo_to)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
+			}
+
+			if ($min_date == null)
+				$min_date = false;
+
+			if ($max_date == null)
+				$max_date = false;
+
+				/*
 			if($min_date->min_date == $max_date->max_date) {
 				//$min_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
-				$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)
-				->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
+				//$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
+				$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
 				if ($min_date == null) $min_date = false;
 			}
 			else
@@ -402,6 +441,7 @@ class DecisionReport extends Model {
 					$max_date = false;
 			}
 			if ($max_date->max_date == null) $max_date = false;
+			*/
 
 			$records[$index]['min_date'] = $min_date;
 			$records[$index]['max_date'] = $max_date;
