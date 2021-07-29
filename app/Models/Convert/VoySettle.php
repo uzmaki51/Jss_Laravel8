@@ -455,7 +455,7 @@ class VoySettle extends Model
                         $_dischTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
                     }
 
-                    if($item->Voy_Type == DYNAMIC_SUB_WAITING) {
+                    if($item->Voy_Type != DYNAMIC_SUB_SALING && $item->Voy_Type != DYNAMIC_SUB_LOADING && $item->Voy_Type != DYNAMIC_SUB_DISCH) {
                         $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
                         $_waitTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
                     }
@@ -496,8 +496,8 @@ class VoySettle extends Model
             $end_date = $lastVoyDate->Voy_Date . ' ' . $lastVoyDate->Voy_Hour . ':' . $lastVoyDate->Voy_Minute . ':00';
             $mainInfo['total_sail_time'] = round($this->getTermDay($start_date, $end_date), 2);
             $mainInfo['total_distance'] = round($total_distance, 0);
-            if($mainInfo['total_sail_time'] > 0)
-                $mainInfo['avg_speed'] = round($total_distance / $mainInfo['total_sail_time'], 2);
+            if($mainInfo['total_sail_time'] > 0 && $_sailTime != 0)
+                $mainInfo['avg_speed'] = round($total_distance / $_sailTime / 24, 2);
             else
                 $mainInfo['avg_speed'] = 0;
 
@@ -621,6 +621,6 @@ class VoySettle extends Model
         $prevDate = ($prevDate - $prevGMT) / $this->_DAY_UNIT;
         $diffDay = $currentDate - $prevDate;
 
-        return floatval($diffDay / 24);
+        return round($diffDay / 24, 4);
     }
 }

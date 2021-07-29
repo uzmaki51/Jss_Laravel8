@@ -419,6 +419,7 @@
                 (data.credit == 0 && data.debit == 0) || 
                 data.abstract == '' || 
                 data.profit_type == '' || 
+                __parseFloat(data.rate) == 0 || 
                 data.voy_no == '' || 
                 data.voy_no == undefined)
                     isEmpty = true;

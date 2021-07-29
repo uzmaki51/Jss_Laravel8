@@ -409,6 +409,7 @@
                 data.abstract == '' || 
                 data.profit_type == '' || 
                 data.voy_no == '' || 
+                __parseFloat(data.rate) == 0 || 
                 data.voy_no == undefined)
                     isEmpty = true;
             });
