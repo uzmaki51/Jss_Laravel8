@@ -418,6 +418,7 @@
                 if(data.reg_date == '0000-00-00' || 
                 (data.credit == 0 && data.debit == 0) || 
                 data.abstract == '' || 
+                data.profit_type == '' || 
                 data.voy_no == '' || 
                 data.voy_no == undefined)
                     isEmpty = true;

@@ -130,9 +130,9 @@
                             <td class="text-center" style="width: 6%;"></td>
                             <td class="text-center" style="width: 6%;"></td>
                             <td class="text-center" style="width: 25%;">@{{ activeYearUsd }}年底余额</td>
-                            <td class="text-right text-profit font-weight-bold" style="width: 7%;">¥ @{{ number_format(total.credit) }}</td>
-                            <td class="text-right font-weight-bold" style="width: 7%">¥ @{{ number_format(total.debit) }}</td>
-                            <td class="text-right font-weight-bold" style="width: 8%" :style="debitClass(total.balance)">¥ @{{ number_format(total.balance) }}</td>
+                            <td class="text-right text-profit font-weight-bold" style="width: 7%;">$ @{{ number_format(total.credit) }}</td>
+                            <td class="text-right font-weight-bold" style="width: 7%">$ @{{ number_format(total.debit) }}</td>
+                            <td class="text-right font-weight-bold" style="width: 8%" :style="debitClass(total.balance)">$ @{{ number_format(total.balance) }}</td>
                             <td class="text-center" style="width: 7%"></td>
                             <td class="text-center" style="width: 16%"></td>
                             <td class="text-center" style="width: 3%"></td>
@@ -407,6 +407,7 @@
                 if(data.reg_date == '0000-00-00' || 
                 (data.credit == 0 && data.debit == 0) || 
                 data.abstract == '' || 
+                data.profit_type == '' || 
                 data.voy_no == '' || 
                 data.voy_no == undefined)
                     isEmpty = true;
