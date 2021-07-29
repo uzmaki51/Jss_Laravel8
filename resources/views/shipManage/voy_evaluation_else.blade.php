@@ -34,30 +34,30 @@
             <div class="">
                 <table id="table-else">
                     <tr class="dynamic-footer">
-                        <td class="center not-striped-td" rowspan="2" style="width: 5%">航次</td>
-                        <td class="center not-striped-td" rowspan="2">租船<br>种类</td>
-                        <td class="center not-striped-td" rowspan="2">期间</td>
-                        <td class="center not-striped-td" rowspan="2">航次<br>用时</td>
-                        <td class="center not-striped-td">里程</td>
-                        <td class="center not-striped-td" rowspan="2">货量<br>(租期)</td>
-                        <td class="center not-striped-td" rowspan="2">运费率<br>(日租金)</td>
-                        <td class="center not-striped-td" colspan="3">SOA($)</td>
-                        <td class="center not-striped-td" colspan="2">实际</td>
-                        <td class="center not-striped-td" colspan="5">支出因素占率(%)</td>
+                        <th class="center not-striped-td" rowspan="2" style="width: 5%">航次</th>
+                        <th class="center not-striped-td" rowspan="2">租船<br>种类</th>
+                        <th class="center not-striped-td" rowspan="2">期间</th>
+                        <th class="center not-striped-td" rowspan="2">航次<br>用时</th>
+                        <th class="center not-striped-td">里程</th>
+                        <th class="center not-striped-td" rowspan="2">货量<br>(租期)</th>
+                        <th class="center not-striped-td" rowspan="2">运费率<br>(日租金)</th>
+                        <th class="center not-striped-td" colspan="3" style="border-right: 2px solid rgb(255, 146, 7);">SOA($)</th>
+                        <th class="center not-striped-td" colspan="2" style="border-right: 2px solid rgb(255, 146, 7);">实际</th>
+                        <th class="center not-striped-td" colspan="5">支出因素占率(%)</th>
                     </tr>
 
                     <tr class="dynamic-footer">
-                        <td class="center not-striped-td">[NM]</td>
-                        <td class="center not-striped-td">收入</td>
-                        <td class="center not-striped-td">收入/里程</td>
-                        <td class="center not-striped-td">利润</td>
-                        <td class="center not-striped-td">利润</td>
-                        <td class="center not-striped-td">日利润</td>
-                        <td class="center not-striped-td">支出</td>
-                        <td class="center not-striped-td">耗油成本</td>
-                        <td class="center not-striped-td">港费</td>
-                        <td class="center not-striped-td">其他</td>
-                        <td class="center not-striped-td">管理成本</td>
+                        <th class="center not-striped-td">[NM]</th>
+                        <th class="center not-striped-td">收入</th>
+                        <th class="center not-striped-td">收入/<br>里程</th>
+                        <th class="center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);">利润</th>
+                        <th class="center not-striped-td">利润</th>
+                        <th class="center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);">日利润</th>
+                        <th class="center not-striped-td">支出</th>
+                        <th class="center not-striped-td style-red-header">耗油<br>成本</th>
+                        <th class="center not-striped-td style-red-header">港费</th>
+                        <th class="center not-striped-td style-red-header">其他</th>
+                        <th class="center not-striped-td ">管理成本</th>
                     </tr>
 
                     <tbody>
@@ -69,11 +69,11 @@
                             <td class="center">@{{ _number_format(item[1].total_distance, 0) }}</td>
                             <td class="center">@{{ _number_format(item[1].cgo_qty, 0) }}</td>
                             <td class="center">@{{ _number_format(item[0].Freight, 1) }}</td>
-                            <td class="center">@{{ _number_format(item[1].credit, 0) }}</td>
+                            <td class="center text-profit">@{{ _number_format(item[1].credit, 0) }}</td>
                             <td class="center">@{{ _number_format(item[1].credit_distance, 0) }}</td>
-                            <td class="center">@{{ _number_format(item[1].soa_credit) }}</td>
-                            <td class="center">@{{ _number_format(item[1].profit) }}</td>
-                            <td class="center">@{{ _number_format(item[1].day_profit) }}</td>
+                            <td class="center" :style="debitClass(item[1].soa_credit)" style="border-right: 2px solid rgb(255, 146, 7);">@{{ _number_format(item[1].soa_credit) }}</td>
+                            <td class="center" :style="debitClass(item[1].profit)">@{{ _number_format(item[1].profit) }}</td>
+                            <td class="center" style="border-right: 2px solid rgb(255, 146, 7);" :style="debitClass(item[1].day_profit)">@{{ _number_format(item[1].day_profit) }}</td>
                             <td class="center">@{{ _number_format(item[1].debit_percent, 1) }}</td>
                             <td class="center">@{{ _number_format(item[1].fuel_percent, 1) }}</td>
                             <td class="center">@{{ _number_format(item[1].sail_percent, 1) }}</td>
@@ -91,13 +91,13 @@
                             <td class="text-center not-striped-td"></td>
                             <td class="text-center not-striped-td">@{{ _number_format(footer.credit, 0) }}</td>
                             <td class="text-center not-striped-td">@{{ _number_format(footer.credit_distance, 0) }}</td>
-                            <td class="text-center not-striped-td">@{{ _number_format(footer.profit_soa, 0) }}</td>
-                            <td class="text-center not-striped-td">@{{ _number_format(footer.profit_real, 0) }}</td>
-                            <td class="text-center not-striped-td">@{{ _number_format(footer.day_profit_real, 0) }}</td>
+                            <td class="text-center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);" :style="debitClass(footer.profit_soa)">@{{ _number_format(footer.profit_soa, 0) }}</td>
+                            <td class="text-center not-striped-td" :style="debitClass(footer.profit_real)">@{{ _number_format(footer.profit_real, 0) }}</td>
+                            <td class="text-center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);" :style="debitClass(footer.day_profit_real)">@{{ _number_format(footer.day_profit_real, 0) }}</td>
                             <td class="text-center not-striped-td">@{{ _number_format(footer.debit, 0) }}</td>
-                            <td class="text-center not-striped-td">@{{ _number_format(footer.fuel, 0) }}</td>
-                            <td class="text-center not-striped-td">@{{ _number_format(footer.sail, 0) }}</td>
-                            <td class="text-center not-striped-td">@{{ _number_format(footer.else, 0) }}</td>
+                            <td class="text-center not-striped-td style-red-header">@{{ _number_format(footer.fuel, 0) }}</td>
+                            <td class="text-center not-striped-td style-red-header">@{{ _number_format(footer.sail, 0) }}</td>
+                            <td class="text-center not-striped-td style-red-header">@{{ _number_format(footer.else, 0) }}</td>
                             <td class="text-center not-striped-td">@{{ _number_format(footer.manage, 0) }}</td>
                         </tr>
                     </tbody>
@@ -170,6 +170,9 @@
                         } else {
                             window.open(BASE_URL + 'shipManage/dynamicList?shipId=' + this.shipId + '&year=' + this.year + '&type=analyze', '_blank');
                         }
+                    },
+                    debitClass: function(value) {
+                        return value < 0 ? 'color: red!important;' : '';
                     },
                     fnExcelElse: function() {
                         //table-else

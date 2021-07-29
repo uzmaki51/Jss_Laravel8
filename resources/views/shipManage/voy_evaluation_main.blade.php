@@ -83,14 +83,16 @@
                 </tr>
             </table>
             <table class="mt-2 main-info-table evalution" id="table-main-2">
-                <tr class="dynamic-footer">
-                    <td class="center not-striped-td" style="width: 5%">No.</td>
-                    <td class="center not-striped-td" colspan="2" style="width: 20%">项目</td>
-                    <td class="center not-striped-td" style="width: 10%">预计</td>
-                    <td class="center not-striped-td" style="width: 10%">实际</td>
-                    <td class="center not-striped-td" style="width: 10%">方差</td>
-                    <td class="center not-striped-td" style="width: 45%"></td>
-                </tr>
+                <thead>
+                    <tr class="dynamic-footer">
+                        <td class="center not-striped-td" style="width: 5%">No.</td>
+                        <td class="center not-striped-td" colspan="2" style="width: 20%">项目</td>
+                        <td class="center not-striped-td" style="width: 10%">预计</td>
+                        <td class="center not-striped-td" style="width: 10%">实际</td>
+                        <td class="center not-striped-td" style="width: 10%">方差</td>
+                        <td class="center not-striped-td" style="width: 45%"></td>
+                    </tr>
+                </thead>
 
                 <tbody>
                     <tr class="even">

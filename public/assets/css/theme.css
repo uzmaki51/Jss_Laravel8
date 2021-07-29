@@ -1000,3 +1000,7 @@ footer {
     display: block;
     vertical-align: middle;
 }
+
+#table-main-2 tr:first-child td {
+    border-top: 1px solid #484f5b!important;
+}

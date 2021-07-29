@@ -448,7 +448,7 @@ ul.timeline > li {
     border-top: unset!important;
 }
 .fixed-footer td {
-    background: #d9f8fb!important;
+    background: #d9f8fb;
     position: sticky!important;
     bottom: 0;
     border-bottom: unset!important;
