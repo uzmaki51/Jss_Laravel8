@@ -89,7 +89,7 @@
                             <td class="text-center not-striped-td">@{{ _number_format(footer.distance, 0) }}</td>
                             <td class="text-center not-striped-td"></td>
                             <td class="text-center not-striped-td"></td>
-                            <td class="text-center not-striped-td">@{{ _number_format(footer.credit, 0) }}</td>
+                            <td class="text-center not-striped-td text-profit">@{{ _number_format(footer.credit, 0) }}</td>
                             <td class="text-center not-striped-td">@{{ _number_format(footer.credit_distance, 0) }}</td>
                             <td class="text-center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);" :style="debitClass(footer.profit_soa)">@{{ _number_format(footer.profit_soa, 0) }}</td>
                             <td class="text-center not-striped-td" :style="debitClass(footer.profit_real)">@{{ _number_format(footer.profit_real, 0) }}</td>
