@@ -42,12 +42,14 @@ class VoyLog extends Model
         else
             $orderBy = 'asc';
 
+        // $beforeVoyInfo = $this->getBeforeInfo($shipId, $voyId);
         $selector = self::where('Ship_ID', $shipId)
-                        ->where('CP_ID', $voyId)
-                        ->orderBy('Voy_Date', $orderBy)
-                        ->orderBy('Voy_Hour', $orderBy)
-                        ->orderBy('Voy_Minute', $orderBy)
-                        ->orderBy('GMT', $orderBy);
+            ->where('CP_ID', $voyId)
+            ->orderBy('Voy_Date', $orderBy)
+            ->orderBy('Voy_Hour', $orderBy)
+            ->orderBy('Voy_Minute', $orderBy)
+            ->orderBy('GMT', $orderBy);
+
         if($all) {
             $result = $selector->get();
             if(!isset($result) || count($result) == 0)
@@ -63,13 +65,20 @@ class VoyLog extends Model
 
     public function getBeforeInfo($shipId, $voyId) {
         $selector = self::where('Ship_ID', $shipId)
-                    ->where('CP_ID', '<', $voyId)
-                    ->where('Voy_Type', DYNAMIC_CMPLT_DISCH)
-                    ->orderBy('CP_ID', 'desc')
-                    ->first();
+                ->where('CP_ID', '<', $voyId)
+                ->where('Voy_Type', DYNAMIC_CMPLT_DISCH)
+                ->orderBy('CP_ID', 'desc')
+                ->first();
 
         if($selector == null) 
-            return [];
+            return self::where('Ship_ID', $shipId)
+                ->where('CP_ID', $voyId)
+                // ->orderBy('id', 'asc')
+                ->orderBy('Voy_Date', 'asc')
+                ->orderBy('Voy_Hour', 'asc')
+                ->orderBy('Voy_Minute', 'asc')
+                ->orderBy('GMT', 'asc')
+                ->first();
         
         return $selector;
     }

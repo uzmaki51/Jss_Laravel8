@@ -157,13 +157,13 @@
                         <td class="text-center" rowspan="2">5</td>
                         <td rowspan="2">耗油</td>
                         <td>FO (MT)</td>
-                        <td class="text-right">@{{ number_format(realInfo.used_fo) }}</td>
+                        <td class="text-right">@{{ number_format(realInfo.fo_mt) }}</td>
                         <td class="text-right">@{{ number_format(realInfo.rob_fo) }}</td>
                         <td class="text-right">@{{ number_format(realInfo.rob_fo - realInfo.used_fo) }}</td>
                     </tr>
                     <tr class="even">
                         <td>DO (MT)</td>
-                        <td class="text-right">@{{ number_format(realInfo.used_do) }}</td>
+                        <td class="text-right">@{{ number_format(realInfo.do_mt) }}</td>
                         <td class="text-right">@{{ number_format(realInfo.rob_do) }}</td>
                         <td class="text-right">@{{ number_format(realInfo.rob_do - realInfo.used_do) }}</td>
                     </tr>
@@ -257,7 +257,7 @@
                     <tr class="odd">
                         <td class="center">12</td>
                         <td colspan="2">日均成本</td>
-                        <td class="text-right">@{{ number_format(realInfo.cost_day, 0) }}</td>
+                        <td class="text-right">@{{ number_format(cpInfo.cost_per_day, 0) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.cost_day, 0) }}</td>
                         <td class="text-right"></td>
                     </tr>

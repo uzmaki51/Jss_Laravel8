@@ -39,6 +39,7 @@ use App\Models\Convert\VoySettleFuel;
 use App\Models\Convert\VoySettleProfit;
 use App\Models\Decision\DecisionReport;
 use App\Models\Finance\ExpectedCosts;
+use Litipk\BigNumbers\Decimal;
 
 use Carbon\Carbon;
 use Auth;
@@ -408,7 +409,7 @@ class VoySettle extends Model
             return false;
 
         $beforeVoyInfo = $voyLog->getBeforeInfo($shipId, $voyId);
-        $lastVoyInfo = $voyLog->getBeforeInfo($shipId, $voyId);
+        $lastVoyInfo = $voyLog->getLastInfo($shipId, $voyId);
 
         $mainInfo = [];
         $elseInfo = [];
@@ -417,6 +418,7 @@ class VoySettle extends Model
         $debitInfo = [];
 
         $voyInfo = $voyLog->getVoyRecord($shipId, $voyId);
+        // $voyInfo = array_push($beforeVoyInfo, $voyInfo);
         if($voyInfo != []) {
             $firstVoyDate = $voyInfo[0];
             $lastVoyDate = $voyInfo[count($voyInfo) - 1];
@@ -428,8 +430,8 @@ class VoySettle extends Model
 
             $_cmpltCgoQty = 0;
 
-            $start_date = '';
-            $start_gmt = '';
+            $start_date = $beforeVoyInfo->Voy_Date . ' ' . $beforeVoyInfo->Voy_Hour . ':' . $beforeVoyInfo->Voy_Minute . ':00';
+            $start_gmt = $beforeVoyInfo->GMT;
             $total_distance = 0;
             $departStatus = false;
 
@@ -437,9 +439,9 @@ class VoySettle extends Model
             $_usedDo = 0;
             $_bunkFo = 0;
             $_bunkDo = 0;
-
+// var_dump($beforeVoyInfo);
             foreach($voyInfo as $key => $item) {
-                if($key > 0) {
+                // if($key > 0) {
                     if($item->Voy_Type == DYNAMIC_SUB_SALING) {
                         $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
                         $_sailTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
@@ -458,12 +460,13 @@ class VoySettle extends Model
                     if($item->Voy_Type != DYNAMIC_SUB_SALING && $item->Voy_Type != DYNAMIC_SUB_LOADING && $item->Voy_Type != DYNAMIC_SUB_DISCH) {
                         $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
                         $_waitTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                        // var_dump($this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT));
                     }
 
                     if($item->Voy_Status == DYNAMIC_CMPLT_LOADING) {
                         $_cmpltCgoQty = $item->Cargo_Qtty;
                     }
-                }
+                // }
 
                 if($item->Voy_Status == DYNAMIC_DEPARTURE && !$departStatus) {
                     $elseInfo['position'] = $item->Ship_Position;
@@ -483,7 +486,7 @@ class VoySettle extends Model
 
                 $total_distance += $item->Sail_Distance;
             }
-
+// die;
             $mainInfo['sail_time'] = round($_sailTime, 2);
             $mainInfo['load_time'] = round($_loadTime, 2);
             $mainInfo['disch_time'] = round($_dischTime, 2);
@@ -581,6 +584,18 @@ class VoySettle extends Model
                 $mainInfo['lport'] = $portTbl->getPortNames($contractInfo->LPort);
                 $mainInfo['dport'] = $portTbl->getPortNames($contractInfo->DPort);
                 $mainInfo['com_fee'] = $contractInfo->com_fee;
+
+                $fo_sailTmp1 = $contractInfo['up_ship_day'] + $contractInfo['down_ship_day'];
+                $do_sailTmp1 = $fo_sailTmp1;
+                $fo_sailTmp1 = $fo_sailTmp1 * $contractInfo['fo_up_shipping'];
+                $fo_sailTmp2 = $contractInfo['fo_sailing'] * $contractInfo['sail_term'];
+                $fo_sailTmp3 = $contractInfo['fo_waiting'] * $contractInfo['wait_day'];
+                $mainInfo['fo_mt'] = round($fo_sailTmp1 + $fo_sailTmp2 + $fo_sailTmp3, 2);
+
+                $do_sailTmp1 = $do_sailTmp1 * $contractInfo['do_up_shipping'];
+                $do_sailTmp2 = $contractInfo['do_sailing'] * $contractInfo['sail_term'];
+                $do_sailTmp3 = $contractInfo['do_waiting'] * $contractInfo['wait_day'];
+                $mainInfo['do_mt'] = round($do_sailTmp1 + $do_sailTmp2 + $do_sailTmp3, 2);
                 
                 $fuelInfo['rob_fo_price_1'] = round($contractInfo->fo_price, 2);
                 $fuelInfo['rob_do_price_1'] = round($contractInfo->do_price, 2);
@@ -588,6 +603,7 @@ class VoySettle extends Model
                 $fuelInfo['rob_fo_price_2'] = 0;
                 $fuelInfo['rob_do_price_2'] = 0;
 
+                $mainInfo['cost_day']  = $contractInfo['cost_per_day'];
             } else {
                 $mainInfo['cargo_name'] = '';
                 $mainInfo['voy_type'] = '';
@@ -603,10 +619,6 @@ class VoySettle extends Model
         
         $mainInfo['com_fee'] = isset($mainInfo['com_fee']) ? $mainInfo['com_fee'] : 0;
         $costs = ExpectedCosts::where('shipNo', $shipId)->first();
-        if($costs == null)
-            $mainInfo['cost_day'] = 0;
-        else
-            $mainInfo['cost_day'] = ($costs['input1'] + $costs['input2'] + $costs['input3'] + ($costs['input4'] + $costs['input5'] + $costs['input6'] + $costs['input7'] + $costs['input8'])*12) / 365;
 
         return $mainInfo;
     }
@@ -617,10 +629,10 @@ class VoySettle extends Model
         $prevDate = Carbon::parse($start_date)->timestamp * 1000;
         $prevGMT = $this->_DAY_UNIT * $start_gmt;
         $diffDay = 0;
-        $currentDate = ($currentDate - $currentGMT) / $this->_DAY_UNIT;
-        $prevDate = ($prevDate - $prevGMT) / $this->_DAY_UNIT;
-        $diffDay = $currentDate - $prevDate;
+        $currentDate = Decimal::create($currentDate - $currentGMT)->div(Decimal::create($this->_DAY_UNIT));
+        $prevDate = Decimal::create($prevDate - $prevGMT)->div(Decimal::create($this->_DAY_UNIT));
+        $diffDay = $currentDate->sub($prevDate)->div(Decimal::create(24))->__toString();
 
-        return round($diffDay / 24, 4);
+        return round(floatval($diffDay), 4);
     }
 }

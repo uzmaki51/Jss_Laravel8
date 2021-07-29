@@ -860,7 +860,7 @@
                                                 total_loading_time += __getTermDay(start_date, end_date, searchObj.currentData[preKey]['GMT'], value['GMT']);
                                             }
 
-                                            if(value['Voy_Type'] == DYNAMIC_SUB_WAITING) {
+                                            if(value['Voy_Type'] != DYNAMIC_SUB_SALING && value['Voy_Type'] != DYNAMIC_SUB_LOADING && value['Voy_Type'] != DYNAMIC_SUB_DISCH) {
                                                 let preKey = key - 1;
                                                 let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'];
                                                 let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'];
