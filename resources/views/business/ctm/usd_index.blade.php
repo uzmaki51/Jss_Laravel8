@@ -4,12 +4,10 @@
                 <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
                 <select class="custom-select d-inline-block" id="usd-select-ship" style="padding: 4px; max-width: 100px;">
                     @foreach($shipList as $ship)
-                        <option value="{{ $ship['IMO_No'] }}"
-                                {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
-                        </option>
+                        <option value="{{ $ship['IMO_No'] }}"{{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}</option>
                     @endforeach
                 </select>
-                <select class="text-center ml-1" style="width: 60px;" id="usd_year_list">
+                <select class="text-center ml-1" id="usd_year_list">
                     @foreach($yearList as $key => $item)
                         <option value="{{ $item }}" {{ $activeYear == $item ? 'selected' : '' }}>{{ $item }}年</option>
                     @endforeach
@@ -22,7 +20,7 @@
                 <div class="btn-group f-right">
                     <button class="btn btn-primary btn-sm search-btn" onclick="addRowUsd()"><i class="icon-plus"></i>添加</button>
                     <button class="btn btn-sm btn-success" id="usd-submit"><i class="icon-save"></i>保存</button>
-                    <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
+                    <button class="btn btn-warning btn-sm excel-btn" onclick="fnExcelUsdReport()"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                 </div>
             </div>
         </div>
@@ -34,7 +32,7 @@
                     <input type="hidden" value="{{ $shipId }}" name="shipId">
                     <input type="hidden" value="{{ USD_LABEL }}" name="ctm_type">
                     <input type="hidden" v-model="activeYearUsd" name="activeYear">
-                    <table class="table-layout-fixed">
+                    <table class="table-layout-fixed" id="table-usd-list">
                         <thead class="">
                         <th class="d-none"></th>
                         <th class="text-center style-header center" style="width: 4%;">NO</th>
@@ -124,7 +122,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <table class="dynamic-result-table table-layout-fixed ctm-footer">
+                    <table class="dynamic-result-table table-layout-fixed ctm-footer" id="table-usd-footer">
                         <tbody>
                         <tr class="dynamic-footer">
                             <td class="text-center" style="width: 4%;"></td>
@@ -436,5 +434,81 @@
                 }
                 return false;
             }
-        });        
+        });
+        
+        function fnExcelUsdReport()
+        {
+            var tab_text = "";
+            tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+            real_tab = document.getElementById('table-usd-list');
+            var tab = real_tab.cloneNode(true);
+            
+            tab_text=tab_text+"<tr><td colspan='10' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#ship_name').html() + ' ' + $('#usd_year_list option:selected').val() + "年_CTM记录($)</td></tr>";
+
+            for(var j = 0; j < tab.rows.length ; j++)
+            {
+                if (j == 0) {
+                    for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                        tab.rows[j].childNodes[i].style.height = '30px';
+                        if (i == 10) tab.rows[j].childNodes[i].style.width = '300px';
+                    }
+                    tab.rows[j].childNodes[24].remove();
+                    tab.rows[j].childNodes[22].remove();
+                    tab.rows[j].childNodes[0].remove();
+                }
+                else if (j == 1) {
+                    for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                    }
+                    tab.rows[j].childNodes[22].remove();
+                    tab.rows[j].childNodes[20].remove();
+                }
+                else {
+                    for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                        var info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                        if (i == 20) info = '="' + info + '"';
+                        if (i == 8) {
+                            info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                            info = profitTypes[info];
+                        }
+                        tab.rows[j].childNodes[i].innerHTML = info;
+                    }
+                    tab.rows[j].childNodes[24].remove();
+                    tab.rows[j].childNodes[22].remove();
+                    tab.rows[j].childNodes[0].remove();
+                }
+
+                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+            }
+            tab_text=tab_text+"</table>";
+
+            tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+            real_tab = document.getElementById('table-usd-footer');
+            var tab = real_tab.cloneNode(true);
+
+            for(var j = 0; j < tab.rows.length ; j++)
+            {
+                if (j == 0) {
+                    for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                        tab.rows[j].childNodes[i].style.width = '120px';
+                        tab.rows[j].childNodes[i].style.height = '30px';
+                    }
+                    
+                    tab.rows[j].childNodes[22].remove();
+                    tab.rows[j].childNodes[20].remove();
+                }
+                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+            }
+            tab_text=tab_text+"</table>";
+
+            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+            $('#test').html(tab_text);            
+            var filename = $("#select-ship option:selected").text() + '_' + $('#usd_year_list option:selected').val() + '_CTM记录($)';
+            exportExcel(tab_text, filename, filename);
+            
+            return 0;
+        }
     </script>
