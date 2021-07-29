@@ -64,7 +64,7 @@
                         <tr v-for="(item, index) in list" class="index % 2 == 0 ? 'odd' : 'even'">
                             <td class="center voy-no" @click="onVoyDetail(item[0].Voy_No)">@{{ item[0].Voy_No }}</td>
                             <td class="center">@{{ item[0].CP_kind }}</td>
-                            <td class="center" style="width: 145px;">@{{ _sailTime(item[1].start_date, item[1].end_date) }}</td>
+                            <td class="center" style="width: 120px;">@{{ _sailTime(item[1].start_date, item[1].end_date) }}</td>
                             <td class="center">@{{ _number_format(item[1].total_sail_time) }}</td>
                             <td class="center">@{{ _number_format(item[1].total_distance, 0) }}</td>
                             <td class="center">@{{ _number_format(item[1].cgo_qty, 0) }}</td>
