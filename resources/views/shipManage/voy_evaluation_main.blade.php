@@ -290,6 +290,7 @@
 </div>
 
     <script src="{{ cAsset('/assets/js/highcharts.js') }}"></script>
+    <script src="{{ cAsset('/assets/js/highcharts-3d.js') }}"></script>
 
 	<?php
 	echo '<script>';
@@ -437,13 +438,16 @@
                                 return 0;
                             }
                         },
-                        mounted: function() {
+                        mounted: function() {             // dengdai   //hangci   //zhuanghuo  //xiehuo
+                            Highcharts.setOptions({colors: ['#ffc000', '#a1c9f9', '#3eb373', '#b19fc5']});
                             economicGraph = Highcharts.chart('economic_graph', {
                                 chart: {
-                                    plotBackgroundColor: null,
-                                    plotBorderWidth: null,
-                                    plotShadow: false,
-                                    type: 'pie'
+                                    
+                                    type: 'pie',
+                                    options3d: {
+                                        enabled: true,
+                                        alpha: 45
+                                    }
                                 },
                                 title: {
                                     text: '天数占率'
@@ -468,7 +472,9 @@
                                         enabled: true,
                                         format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                                         connectorColor: 'silver'
-                                    }
+                                    },
+                                        innerSize: 0,
+                                        depth: 45
                                     }
                                 },
                                 series: [{
@@ -482,12 +488,14 @@
                                 }]
                             });                    
 
+                            Highcharts.setOptions({colors: ['#ffc000', '#e86f6f', '#3eb373', '#b19fc5']});
                             Highcharts.chart('debit_graph', {
                                 chart: {
-                                    plotBackgroundColor: null,
-                                    plotBorderWidth: null,
-                                    plotShadow: false,
-                                    type: 'pie'
+                                    type: 'pie',
+                                    options3d: {
+                                        enabled: true,
+                                        alpha: 45
+                                    }
                                 },
                                 title: {
                                     text: '支出占率'
@@ -512,7 +520,9 @@
                                             enabled: true,
                                             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                                             connectorColor: 'silver'
-                                        }
+                                        },
+                                        innerSize: 0,
+                                        depth: 45
                                     }
                                 },
                                 series: [{
