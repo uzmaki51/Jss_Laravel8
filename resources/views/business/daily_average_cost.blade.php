@@ -59,16 +59,16 @@ $ships = Session::get('shipList');
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <div class="row">
                         <div class="table-head-fix-div" id="div-income-expense" style="height: 700px">
-                            <table id="table-income-expense-list" style="max-width:unset!important;table-layout:fixed;width:1500px!important;">
+                            <table id="table-income-expense-list" style="max-width:unset!important;table-layout:fixed;">
                                 <thead class="">
                                 <tr>
-                                    <th class="text-center style-normal-header" rowspan="2" style="width: 2.5%;"><span>年</span></th>
-                                    <th class="text-center style-normal-header" rowspan="2" style="width: 3%;"><span>航次用时</span></th>
+                                    <th class="text-center style-normal-header" rowspan="2" style="width: 3%;"><span>年</span></th>
+                                    <th class="text-center style-normal-header" rowspan="2" style="width: 3.5%;"><span>航次用时</span></th>
                                     <th class="text-center style-normal-header" rowspan="2" style="width: 3%;"><span>VOY</span></th>
                                     <th class="text-center style-normal-header" rowspan="2" style="width: 3%;"><span>TC</span></th>
                                     <th class="text-center style-normal-header" rowspan="2" style="width: 3%;"><span>NON</span></th>
-                                    <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>收入</span></th>
-                                    <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>支出</span></th>
+                                    <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>收入 ($)</span></th>
+                                    <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>支出 ($)</span></th>
                                     <th class="text-center style-normal-header" colspan="13"><span>支出分类 ($)</span></th>
                                 </tr>
                                 <tr>
@@ -100,7 +100,7 @@ $ships = Session::get('shipList');
                                 <thead class="">
                                 <tr>
                                     <th class="text-center style-normal-header" rowspan="2"><span></span></th>
-                                    <th class="text-center style-normal-header" colspan="8"><span>管理成本</span></th>
+                                    <th class="text-center style-normal-header" colspan="8"><span>管理成本 ($)</span></th>
                                 </tr>
                                 <tr>
                                     <th class="text-center style-normal-header"><span>工资</span></th>
@@ -208,13 +208,13 @@ $ships = Session::get('shipList');
                     total_sum += value;
                 }
                 if (!isNaN(value) && value != "" && value != null) {
-                    outputs[(i+5)%8].value = '$' + prettyValue(value);
+                    outputs[(i+5)%8].value = '' + prettyValue(value);
                 }
             }
             if (!isNaN(total_sum) && total_sum != "" && total_sum != null) {
                 total_sum = total_sum / 365;
                 total_sum = total_sum.toFixed(0);
-                $('#total-sum').html('$' + prettyValue(total_sum));
+                $('#total-sum').html('' + prettyValue(total_sum));
             }
             else {
                 $('#total-sum').html('-');
@@ -231,13 +231,13 @@ $ships = Session::get('shipList');
             if (evt.key == "Enter" || evt.key == "Tab") {
                 if (evt.target.value == '') return;
                 var val = evt.target.value.replace(',','').replace('$','');
-                $(evt.target).val('$' + prettyValue(val));
+                $(evt.target).val('' + prettyValue(val));
             }
         });
         $('input[name="input[]"]').on('focusout', function(evt) {
             if (evt.target.value == '') return;
             var val = evt.target.value.replace(',','').replace('$','');
-            $(evt.target).val('$' + prettyValue(val));
+            $(evt.target).val('' + prettyValue(val));
         });
         //setValues();
 
@@ -341,16 +341,13 @@ $ships = Session::get('shipList');
                     {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
-                    console.log(data);
                     if ((index%2) == 0)
                         $(row).attr('class', 'cost-item-even');
                     else
                         $(row).attr('class', 'cost-item-odd');
-
                     if (data['max_date'] != false && data['min_date'] != false) {
                         var start_date = data['min_date'].Voy_Date + ' ' + data['min_date'].Voy_Hour + ':' + data['min_date'].Voy_Minute;
                         var end_date = data['max_date'].Voy_Date + ' ' + data['max_date'].Voy_Hour + ':' + data['max_date'].Voy_Minute;
-
                         var sail_time = __getTermDay(start_date, end_date, data['min_date'].GMT, data['max_date'].GMT);
                         $('td', row).eq(1).html(sail_time.toFixed(2));
                     }
@@ -372,6 +369,7 @@ $ships = Session::get('shipList');
                     }
 
                     if (data['NON_count'] != null) {
+                        $('td', row).eq(4).attr('style', 'color:darkred;font-weight:bold;');
                         $('td', row).eq(4).html(data['NON_count']);
                     } else {
                         $('td', row).eq(4).html('-');
@@ -443,8 +441,10 @@ $ships = Session::get('shipList');
                                 $(dest_obj).attr('class', 'text-right');
                             }
                             
-                            if ((i==1) || (i==2) || (i==4)|| (i==6) || (i==15)) {
-                                $(dest_obj).attr('style', 'padding-right:5px!important;color:#9c9c9c!important')
+                            if ((i==7)||(i==8)) {
+                                if (data['NON_count'] != null) {
+                                    $(dest_obj).attr('style', 'color:darkred;font-weight:bold;padding-right:5px!important;')
+                                }
                             } else {
                                 $(dest_obj).attr('style', 'padding-right:5px!important;')
                             }
@@ -491,15 +491,15 @@ $ships = Session::get('shipList');
 
                         //style-normal-header sub-small-header style-red-header
                         if (i == 0) {
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
                         }
                         else if (i > 1 && i < 7)
                         {
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
                         }
                         else
                         {
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
                         }
                     }
                     report_html += "</tr>";
@@ -512,12 +512,12 @@ $ships = Session::get('shipList');
                         var value = table_sums[i] / 3 / 363 * 31;
                         if (i < 4) value = 0;
                         if (i == 1)
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right" + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right" + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
                             //report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right right-border" + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
                         else if (i > 1 && i < 7)
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
                         else
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
                     }
                     report_html += "</tr>";
 
@@ -530,9 +530,9 @@ $ships = Session::get('shipList');
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right' style='padding:5px!important;'></td>";
 
                     value = (table_sums[4] + table_sums[5] + table_sums[6]) / 363;
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-center " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;' colspan='3'>" + (value==0?'':'$'+prettyValue2(value)) + "</td>";
+                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-center " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;' colspan='3'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
                     value = (table_sums[7] + table_sums[8] + table_sums[9] + table_sums[10] + table_sums[11] + table_sums[12] + table_sums[13]+ table_sums[14]) / 363;
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-center " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;' colspan='8'>" + (value==0?'': '$'+prettyValue2(value)) + "</td>";
+                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-center " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;' colspan='8'>" + (value==0?'': ''+prettyValue2(value)) + "</td>";
                     report_html += "</tr>";
                     $('#table-income-expense-body').append(report_html);
 
@@ -606,7 +606,7 @@ $ships = Session::get('shipList');
             currentDate = BigNumber(currentDate).minus(currentGMT).div(DAY_UNIT);
             prevDate = BigNumber(prevDate).minus(prevGMT).div(DAY_UNIT);
             diffDay = currentDate.minus(prevDate);
-            return parseFloat(diffDay.div(24));
+            return parseFloat(diffDay.div(24).toFixed(4));
         }
 
         function alertAudio() {
