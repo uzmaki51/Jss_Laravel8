@@ -159,7 +159,7 @@
                         if(start == undefined) start = '';
                         if(end == undefined) end = '';
 
-                        return start + ' ~ ' + end;
+                        return this.voyDateFormat(start) + ' ~ ' + this.voyDateFormat(end);
                     },
                     _number_format: function(value, decimal = 2) {
                         return __parseFloat(value) == 0 ? '' : number_format(value, decimal);
@@ -173,6 +173,9 @@
                     },
                     debitClass: function(value) {
                         return value < 0 ? 'color: red!important;' : '';
+                    },
+                    voyDateFormat: function(date, format = '-') {
+                        return moment(date).format('YY-MM-DD');
                     },
                     fnExcelElse: function() {
                         //table-else
