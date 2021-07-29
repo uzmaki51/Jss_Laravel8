@@ -143,7 +143,7 @@ class Cp extends Model
     }
     
     public static function getCpList($shipId, $year) {
-        $info = self::orderBy('Voy_No', 'asc')->where('Ship_ID', $shipId)->whereRaw(DB::raw('mid(CP_Date, 1, 4) like ' . $year))->get();
+        $info = self::orderBy('Voy_No', 'asc')->where('Ship_ID', $shipId)->whereRaw(DB::raw('mid(Voy_No, 1, 2) like ' . substr($year, -2)))->get();
 
         if(!isset($info) || count($info) == 0) return [];
 
