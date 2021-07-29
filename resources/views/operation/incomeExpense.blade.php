@@ -1038,7 +1038,7 @@ $ships = Session::get('shipList');
             currentDate = BigNumber(currentDate).minus(currentGMT).div(DAY_UNIT);
             prevDate = BigNumber(prevDate).minus(prevGMT).div(DAY_UNIT);
             diffDay = currentDate.minus(prevDate);
-            return parseFloat(diffDay.div(24));
+            return parseFloat(diffDay.div(24).toFixed(4));
         }
 
 
