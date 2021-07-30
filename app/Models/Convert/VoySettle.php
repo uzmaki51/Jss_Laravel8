@@ -444,62 +444,51 @@ class VoySettle extends Model
             $_bunkFo = 0;
             $_bunkDo = 0;
 
-// var_dump($beforeVoyInfo);
             foreach($voyInfo as $key => $item) {
-                // if($key > 0) {
-                    if($item->Voy_Type == DYNAMIC_SUB_SALING) {
-                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
-                        $_sailTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
-                    }
+                if($item->Voy_Type == DYNAMIC_SUB_SALING) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_sailTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
 
-                    if($item->Voy_Type == DYNAMIC_SUB_LOADING) {
-                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
-                        $_loadTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
-                    }
+                if($item->Voy_Type == DYNAMIC_SUB_LOADING) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_loadTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
 
-                    if($item->Voy_Type == DYNAMIC_SUB_DISCH) {
-                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
-                        $_dischTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
-                    }
+                if($item->Voy_Type == DYNAMIC_SUB_DISCH) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_dischTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
 
-                    if($item->Voy_Type == DYNAMIC_SUB_WAITING) {
-                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
-                        $_waitTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
-                        // var_dump('wait', $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT));
-                        // var_dump($this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT));
-                    }
+                if($item->Voy_Type == DYNAMIC_SUB_WAITING) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_waitTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
 
-                    if($item->Voy_Type == DYNAMIC_SUB_WEATHER) {
-                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
-                        $_weatherTime  += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
-                        // var_dump('weather', $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT));
-                    }
+                if($item->Voy_Type == DYNAMIC_SUB_WEATHER) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_weatherTime  += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
 
-                    if($item->Voy_Type == DYNAMIC_SUB_REPAIR) {
-                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
-                        $_repairTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
-                        // var_dump('repair', $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT));
-                    }
+                if($item->Voy_Type == DYNAMIC_SUB_REPAIR) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_repairTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
 
-                    if($item->Voy_Type == DYNAMIC_SUB_SUPPLY) {
-                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
-                        $_supplyTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
-                        // var_dump('supply', $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT));
-                    }
+                if($item->Voy_Type == DYNAMIC_SUB_SUPPLY) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_supplyTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
 
-                    if($item->Voy_Type == DYNAMIC_SUB_ELSE) {
-                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
-                        $_elseTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
-                        // var_dump('else', $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT));
-                    }
+                if($item->Voy_Type == DYNAMIC_SUB_ELSE) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_elseTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
 
-                    if($item->Voy_Status == DYNAMIC_CMPLT_LOADING) {
-                        $_cmpltCgoQty = $item->Cargo_Qtty;
-                    }
-                // }
+                if($item->Voy_Status == DYNAMIC_CMPLT_LOADING) {
+                    $_cmpltCgoQty = $item->Cargo_Qtty;
+                }
 
-
-                // var_dump('wait', $_waitTime);
                 if($item->Voy_Status == DYNAMIC_DEPARTURE && !$departStatus) {
                     $elseInfo['position'] = $item->Ship_Position;
                     $elseInfo['date'] = $item->Voy_Date;

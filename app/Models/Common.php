@@ -11,10 +11,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Litipk\BigNumbers\Decimal;
 
 class Common extends Model
 {
-    protected $table = 'tb_decision_report';
+	protected $table = 'tb_decision_report';
+	protected $_DAY_UNIT = 1000 * 3600;
 
     public function generateReportID($report_data) {
 		$retVal = false;
@@ -57,4 +59,18 @@ class Common extends Model
 
 		return $retVal;
 	}
+
+	public static function getTermDay($start_date, $end_date, $start_gmt = 0, $end_gmt = 0) {
+		$_DAY_UNIT = 1000 * 3600;
+        $currentDate = strtotime($end_date) * 1000;
+        $currentGMT = $_DAY_UNIT * $end_gmt;
+        $prevDate = strtotime($start_date) * 1000;
+        $prevGMT = $_DAY_UNIT * $start_gmt;
+        $diffDay = 0;
+        $currentDate = Decimal::create($currentDate - $currentGMT)->div(Decimal::create($_DAY_UNIT));
+        $prevDate = Decimal::create($prevDate - $prevGMT)->div(Decimal::create($_DAY_UNIT));
+        $diffDay = $currentDate->sub($prevDate)->div(Decimal::create(24))->__toString();
+
+        return round($diffDay, 4);
+    }
 }
