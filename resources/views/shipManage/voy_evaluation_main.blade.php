@@ -108,7 +108,7 @@
                         <td colspan="2">速度 (Kn)</td>
                         <td class="text-right">@{{ number_format(cpInfo.speed) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.avg_speed) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.avg_speed - cpInfo.speed) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.avg_speed) - __parseFloat(cpInfo.speed)) }}</td>
                     </tr>
 
                     <tr class="even">
@@ -116,14 +116,14 @@
                         <td colspan="2">里程 (NM)</td>
                         <td class="text-right">@{{ number_format(cpInfo.distance) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.total_distance) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.total_distance - cpInfo.distance) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.total_distance) - __parseFloat(cpInfo.distance)) }}</td>
                     </tr>
                     <tr class="odd">
                         <td class="center" rowspan="5">4</td>
                         <td colspan="2">航次用时</td>
                         <td class="text-right">@{{ number_format(cpInfo.sail_time) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.total_sail_time) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.total_sail_time - cpInfo.sail_time) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.total_sail_time) - __parseFloat(cpInfo.sail_time)) }}</td>
                     </tr>
 
                     <tr class="even">
@@ -131,26 +131,26 @@
                         <td class="text-left">装货天数</td>
                         <td class="text-right">@{{ number_format(cpInfo.up_ship_day) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.load_time) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.load_time - cpInfo.up_ship_day) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.load_time) - __parseFloat(cpInfo.up_ship_day)) }}</td>
                     </tr>
 
                     <tr class="odd">
                         <td class="text-left">卸货天数</td>
                         <td class="text-right">@{{ number_format(cpInfo.down_ship_day) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.disch_time) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.disch_time - cpInfo.down_ship_day) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.disch_time) - __parseFloat(cpInfo.down_ship_day)) }}</td>
                     </tr>
                     <tr class="even">
                         <td class="text-left">等待天数</td>
                         <td class="text-right">@{{ number_format(cpInfo.wait_day) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.wait_time) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.wait_time - cpInfo.wait_day) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.wait_time) - __parseFloat(cpInfo.wait_day)) }}</td>
                     </tr>
                     <tr class="odd">
                         <td class="text-left">航行天数</td>
                         <td class="text-right">@{{ number_format(cpInfo.sail_term) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.sail_time) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.sail_time - cpInfo.sail_term) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.sail_time) - __parseFloat(cpInfo.sail_term)) }}</td>
                     </tr>
 
                     <tr class="odd">
@@ -159,13 +159,13 @@
                         <td>FO (MT)</td>
                         <td class="text-right">@{{ number_format(realInfo.fo_mt) }}</td>
                         <td class="text-right">@{{ number_format(realInfo.rob_fo) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.rob_fo - realInfo.used_fo) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.rob_fo) - __parseFloat(realInfo.fo_mt)) }}</td>
                     </tr>
                     <tr class="even">
                         <td>DO (MT)</td>
                         <td class="text-right">@{{ number_format(realInfo.do_mt) }}</td>
                         <td class="text-right">@{{ number_format(realInfo.rob_do) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.rob_do - realInfo.used_do) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.rob_do) - __parseFloat(realInfo.do_mt)) }}</td>
                     </tr>
 
                     <tr class="even">
@@ -174,13 +174,13 @@
                         <td>FO ($/MT)</td>
                         <td class="text-right">@{{ number_format(cpInfo.fo_price) }}</td>
                         <td class="text-right">@{{ number_format(realInfo.rob_fo_price) }}</td>
-                        <td class="text-right">@{{ number_format(cpInfo.fo_price - realInfo.rob_fo_price) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(cpInfo.fo_price) - __parseFloat(realInfo.rob_fo_price)) }}</td>
                     </tr>
                     <tr class="odd">
                         <td>DO ($/MT)</td>
                         <td class="text-right">@{{ number_format(cpInfo.do_price) }}</td>
                         <td class="text-right">@{{ number_format(realInfo.rob_do_price) }}</td>
-                        <td class="text-right">@{{ number_format(cpInfo.do_price - realInfo.rob_do_price) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(cpInfo.do_price) - __parseFloat(realInfo.rob_do_price)) }}</td>
                     </tr>
 
                     <tr class="even">
@@ -188,7 +188,7 @@
                         <td colspan="2">货量（租期）</td>
                         <td class="text-right">@{{ number_format(cpInfo.Cgo_Qtty) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.cgo_qty) }}</td>
-                        <td class="text-right">@{{ number_format(cpInfo.Cgo_Qtty - realInfo.cgo_qty) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(cpInfo.Cgo_Qtty) - __parseFloat(realInfo.cgo_qty)) }}</td>
                         <td  rowspan="13">
                             <div id="debit_graph" style="height: 265px;"></div>
                         </td>
@@ -199,7 +199,7 @@
                         <td colspan="2" class="text-profit font-weight-bold">收入</td>
                         <td class="text-right text-profit">@{{ number_format(cpInfo.credit, 0) }}</td>
                         <td class="text-right text-profit">@{{ number_format(realInfo.credit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.credit - cpInfo.credit, 0) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.credit) - __parseFloat(cpInfo.credit), 0) }}</td>
                     </tr>
 
 
@@ -208,7 +208,7 @@
                         <td colspan="2" class="font-weight-bold">支出</td>
                         <td class="text-right">@{{ number_format(cpInfo.debit, 0) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.debit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.debit - cpInfo.debit, 0) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.debit) - __parseFloat(cpInfo.debit), 0) }}</td>
                     </tr>
 
                     <tr class="odd">
@@ -223,7 +223,7 @@
                         <td class="text-left">耗油成本</td>
                         <td class="text-right">@{{ number_format(cpInfo.fuel_consumpt, 0) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.fuel_consumpt, 0) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.fuel_consumpt - cpInfo.fuel_consumpt, 0) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.fuel_consumpt) - __parseFloat(cpInfo.fuel_consumpt), 0) }}</td>
                     </tr>
                     <tr class="odd">
                         <td class="text-left">其他(运营)</td>
@@ -235,7 +235,7 @@
                         <td class="text-left">管理成本</td>
                         <td class="text-right">@{{ number_format(cpInfo.manage_cost_day, 0) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.manage_cost_day, 0) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.manage_cost_day - cpInfo.manage_cost_day, 0) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.manage_cost_day) - __parseFloat(cpInfo.manage_cost_day), 0) }}</td>
                     </tr>
 
 
@@ -244,7 +244,7 @@
                         <td colspan="2">毛利润</td>
                         <td class="text-right">@{{ number_format(cpInfo.gross_profit, 0) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.gross_profit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.gross_profit - cpInfo.gross_profit, 0) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.gross_profit) - __parseFloat(cpInfo.gross_profit), 0) }}</td>
                     </tr>
 
                     <tr class="even">
@@ -252,7 +252,7 @@
                         <td colspan="2">日毛利润</td>
                         <td class="text-right">@{{ number_format(cpInfo.day_gross_profit, 0) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.day_gross_profit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.day_gross_profit - cpInfo.day_gross_profit, 0) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.day_gross_profit) - __parseFloat(cpInfo.day_gross_profit), 0) }}</td>
                     </tr>
                     <tr class="odd">
                         <td class="center">12</td>
@@ -266,21 +266,21 @@
                         <td colspan="2">净利润</td>
                         <td class="text-right">@{{ number_format(cpInfo.profit, 0) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.profit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.profit - cpInfo.profit, 0) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.profit) - __parseFloat(cpInfo.profit), 0) }}</td>
                     </tr>
                     <tr class="odd">
                         <td class="center">14</td>
                         <td colspan="2">日净利润</td>
                         <td class="text-right">@{{ number_format(cpInfo.day_profit, 0) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.day_profit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.day_profit - cpInfo.day_profit, 0) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.day_profit) - __parseFloat(cpInfo.day_profit), 0) }}</td>
                     </tr>
                     <tr class="even">
                         <td class="center">15</td>
                         <td colspan="2">预计利润(1年)</td>
                         <td class="text-right">@{{ number_format(cpInfo.year_profit, 0) }}</td>
                         <td class="text-right text-warning">@{{ number_format(realInfo.year_profit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(realInfo.year_profit - cpInfo.year_profit, 0) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.year_profit) - __parseFloat(cpInfo.year_profit), 0) }}</td>
                     </tr>
                 </tbody>
             </table>
