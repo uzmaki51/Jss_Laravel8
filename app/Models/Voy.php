@@ -30,28 +30,30 @@ class Voy extends Model
         $total_sail_time = Decimal::create(0);
         foreach($voyList as $key => $item) {
             $total_sail_time = $total_sail_time->add(Decimal::create($this->getVoyInfoByCP($shipId, $item->CP_ID)));
+            // $total_sail_time[] = [$this->getVoyInfoByCP($shipId, $item->CP_ID), $item->CP_ID];
         }
         
         return round($total_sail_time->__toString(), 2);
+        // return $total_sail_time;
     }
 
     public function getVoyInfoByCP($shipId, $voyId) {
         $beforInfo = self::where('Ship_ID', $shipId)
             ->where('CP_ID', '<', $voyId)
             ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)
-            ->orderBy('id', 'desc')
             ->orderBy('Voy_Date', 'desc')
             ->orderBy('Voy_Hour', 'desc')
             ->orderBy('Voy_Minute', 'desc')
             ->orderBy('GMT', 'desc')
+            ->orderBy('id', 'desc')
             ->first();
         $currentTbl = self::where('Ship_ID', $shipId)
             ->where('CP_ID', $voyId)
-            ->orderBy('id', 'asc')
             ->orderBy('Voy_Date', 'asc')
             ->orderBy('Voy_Hour', 'asc')
             ->orderBy('Voy_Minute', 'asc')
-            ->orderBy('GMT', 'asc');
+            ->orderBy('GMT', 'asc')
+            ->orderBy('id', 'asc');
 
         if($beforInfo == null) {
             $tmp = $currentTbl;
@@ -59,14 +61,14 @@ class Voy extends Model
             if($beforInfo == null)
                 return -98;
         }
-
+// if($voyId == 2005) return $beforInfo;
         $currentTbl = self::where('Ship_ID', $shipId)
             ->where('CP_ID', $voyId)
-            ->orderBy('id', 'asc')
             ->orderBy('Voy_Date', 'asc')
             ->orderBy('Voy_Hour', 'asc')
             ->orderBy('Voy_Minute', 'asc')
-            ->orderBy('GMT', 'asc');
+            ->orderBy('GMT', 'asc')
+            ->orderBy('id', 'asc');
 
         $currentInfo = $currentTbl->get();
 
@@ -125,7 +127,7 @@ class Voy extends Model
         $mainInfo['disch_time'] = round($_dischTime, 2);
         $mainInfo['wait_time'] = round($_waitTime + $_weatherTime + $_repairTime + $_supplyTime + $_elseTime, 2);
 
-        $total_time = $_sailTime + $_loadTime + $_dischTime + $_waitTime + $_weatherTime + $_repairTime + $_supplyTime + $_elseTime + $_otherTime;
+        $total_time = round($_sailTime, 2) + round($_loadTime, 2) + round($_dischTime, 2) + round($_waitTime, 2) + round($_weatherTime, 2) + round($_repairTime, 2) + round($_supplyTime, 2) + round($_elseTime, 2) + round($_otherTime, 2);
         $total_time = round($total_time, 2);
 
         return $total_time;

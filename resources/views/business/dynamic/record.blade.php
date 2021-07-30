@@ -279,8 +279,10 @@
         var DYNAMIC_SUB_LOADING = '{!! DYNAMIC_SUB_LOADING !!}';
         var DYNAMIC_SUB_DISCH = '{!! DYNAMIC_SUB_DISCH !!}';
         var DYNAMIC_SUB_WAITING = '{!! DYNAMIC_SUB_WAITING !!}';
-        var DYNAMIC_SAILING = '{!! DYNAMIC_SAILING !!}';
-        var DYNAMIC_CMPLT_DISCH = '{!! DYNAMIC_CMPLT_DISCH !!}';
+        var DYNAMIC_SUB_WEATHER = '{!! DYNAMIC_SUB_WEATHER !!}';
+        var DYNAMIC_SUB_REPAIR = '{!! DYNAMIC_SUB_REPAIR !!}';
+        var DYNAMIC_SUB_SUPPLY = '{!! DYNAMIC_SUB_SUPPLY !!}';
+        var DYNAMIC_SUB_ELSE = '{!! DYNAMIC_SUB_ELSE !!}';
         const DAY_UNIT = 1000 * 3600;
         var isChangeStatus = false;
         var searchObjTmp = new Array();
@@ -442,96 +444,140 @@
                                 
                                 if(data['currentData'] != undefined && data['currentData'] != null && data['currentData'].length > 0) {
                                     searchObj.currentData = Object.assign([], [], data['currentData']);
-
+                                    searchObj.sail_term['min_date']= searchObj.currentData[0]['Voy_Date'];
+                                    let tmpData = searchObj.currentData;
+                                    searchObj.sail_term['max_date'] = tmpData[tmpData.length - 1]['Voy_Date'];
                                     let total_sail_time = 0;
                                     let total_loading_time = 0;
+                                    let loading_time = 0;
+                                    let disch_time = 0;
                                     let total_waiting_time = 0;
+                                    let total_weather_time = 0;
+                                    let total_repair_time = 0;
+                                    let total_supply_time = 0;
+                                    let total_else_time = 0;
+                                    let total_distance = 0;
 
-                                    searchObj.setTotalDefault();
-                                    searchObj.setTotalInfo(data);
+                                    searchObj.rob_fo = 0;
+                                    searchObj.rob_do = 0;
+                                    searchObj.bunker_fo = 0;
+                                    searchObj.bunker_do = 0;
+                                    searchObj.used_fo = 0;
+                                    searchObj.used_fo = 0;
+                                    searchObj.save_fo = 0;
+                                    searchObj.save_do = 0;
+                                    searchObj.total_distance = 0;
+                                    searchObj.average_speed = 0;
+
+                                    var start_date = searchObj.prevData['Voy_Date'] + ' ' + searchObj.prevData['Voy_Hour'] + ':' + searchObj.prevData['Voy_Minute'] + ':00';
+                                    var start_gmt = searchObj.prevData['GMT'];
                                     searchObj.currentData.forEach(function(value, key) {
-                                        searchObj.currentData[key]['dynamicSub'] = getSubList(value['Voy_Status']);
-                                        value['Sail_Distance'] = __parseFloat(value['Sail_Distance']);
-                                        value['Speed'] = __parseFloat(value['Speed']);
-                                        value['RPM'] = __parseFloat(value['RPM']);
-                                        value['ROB_FO'] = __parseFloat(value['ROB_FO']);
-                                        value['ROB_DO'] = __parseFloat(value['ROB_DO']);
-                                        value['BUNK_FO'] = __parseFloat(value['BUNK_FO']);
-                                        value['BUNK_DO'] = __parseFloat(value['BUNK_DO']);
+                                        searchObj.currentData[key]['Voy_Status_Name'] = DynamicStatus[value['Voy_Status']][0];
+                                        searchObj.currentData[key]['Voy_Type_Name'] = DynamicSub[value['Voy_Type']];
+                                        searchObj.total_distance += __parseFloat(value["Sail_Distance"]);
+                                        searchObj.bunker_fo += __parseFloat(value['BUNK_FO']);
+                                        searchObj.bunker_do += __parseFloat(value['BUNK_DO']);
+                                        searchObj.rob_fo += __parseFloat(value['ROB_FO']);
+                                        searchObj.rob_do += __parseFloat(value['ROB_DO']);
 
-                                        searchObj.total_distance += parseInt(value["Sail_Distance"]);
-
-                                        searchObj.bunker_fo += value['BUNK_FO'];
-                                        searchObj.bunker_do += value['BUNK_DO'];
-
-                                        searchObj.currentData[key]['Sail_Distance'] = parseFloat(value['Sail_Distance']) == 0 ? '' : value['Sail_Distance'];
-                                        searchObj.currentData[key]['Speed'] = parseFloat(value['Speed']) == 0 ? '' : value['Speed'];
-                                        if(value['Voy_Status'] == DYNAMIC_CMPLT_DISCH)
-                                            searchObj.currentData[key]['Cargo_Qtty'] = parseFloat(value['Cargo_Qtty']).toFixed(0);
-                                        else
-                                            searchObj.currentData[key]['Cargo_Qtty'] = __parseFloat(value['Cargo_Qtty']) == 0 ? '' : __parseFloat(value['Cargo_Qtty']);
-
-                                        searchObj.currentData[key]['RPM'] = parseFloat(value['RPM']) == 0 ? '' : value['RPM'];
-                                        searchObj.currentData[key]['ROB_FO'] = parseFloat(value['ROB_FO']) == 0 ? '' : value['ROB_FO'];
-                                        searchObj.currentData[key]['ROB_DO'] = parseFloat(value['ROB_DO']) == 0 ? '' : value['ROB_DO'];
-                                        searchObj.currentData[key]['BUNK_FO'] = parseFloat(value['BUNK_FO']) == 0 ? '' : value['BUNK_FO'];
-                                        searchObj.currentData[key]['BUNK_DO'] = parseFloat(value['BUNK_DO']) == 0 ? '' : value['BUNK_DO'];
-
-                                        if(key > 0) {
+                                        // if(key > 0) {
                                             // Calc Sail Count
                                             if(value['Voy_Type'] == DYNAMIC_SUB_SALING) {
                                                 let preKey = key - 1;
-                                                let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'];
-                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'];
-                                                total_sail_time += __getTermDay(start_date, end_date, searchObj.currentData[preKey]['GMT'], value['GMT']);
+                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                                total_sail_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
                                             }
                                             // Calc Sail Count
-                                            if(value['Voy_Type'] == DYNAMIC_SUB_LOADING || value['Voy_Type'] == DYNAMIC_SUB_DISCH) {
+                                            if(value['Voy_Type'] == DYNAMIC_SUB_LOADING ) {
                                                 let preKey = key - 1;
-                                                let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'];
-                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'];
-                                                total_loading_time += __getTermDay(start_date, end_date, searchObj.currentData[preKey]['GMT'], value['GMT']);
+                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                                loading_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
+                                            }
+
+                                            if(value['Voy_Type'] == DYNAMIC_SUB_DISCH) {
+                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                                disch_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
                                             }
 
                                             if(value['Voy_Type'] == DYNAMIC_SUB_WAITING) {
                                                 let preKey = key - 1;
-                                                let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'];
-                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'];
-                                                total_waiting_time += __getTermDay(start_date, end_date, searchObj.currentData[preKey]['GMT'], value['GMT']);
+                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                                total_waiting_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
                                             }
-                                        }
 
+                                            if(value['Voy_Type'] == DYNAMIC_SUB_WEATHER) {
+                                                let preKey = key - 1;
+                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                                total_weather_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
+                                            }
+
+                                            if(value['Voy_Type'] == DYNAMIC_SUB_REPAIR) {
+                                                let preKey = key - 1;
+                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                                total_repair_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
+                                            }
+
+                                            if(value['Voy_Type'] == DYNAMIC_SUB_SUPPLY) {
+                                                let preKey = key - 1;
+                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                                total_supply_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
+                                            }
+
+                                            if(value['Voy_Type'] == DYNAMIC_SUB_ELSE) {
+                                                let preKey = key - 1;
+                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                                total_else_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
+                                            }
+                                        // }
+
+                                        start_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                        start_gmt = value['GMT'];
                                         if(searchObj.currentData[key]['Voy_Hour'] < 10)
                                             searchObj.currentData[key]['Voy_Hour'] = "0" + searchObj.currentData[key]['Voy_Hour'];
 
                                         if(searchObj.currentData[key]['Voy_Minute'] < 10)
                                             searchObj.currentData[key]['Voy_Minute'] = "0" + searchObj.currentData[key]['Voy_Minute'];
-                                        
                                     });
 
-                                    
                                     searchObj.total_sail_time = total_sail_time.toFixed(2);
-                                    searchObj.total_loading_time = total_loading_time.toFixed(2);
+                                    searchObj.total_loading_time = BigNumber(loading_time.toFixed(2)).plus(disch_time.toFixed(2)).toFixed(2);
+                                    
                                     searchObj.average_speed = BigNumber(searchObj.total_distance).div(searchObj.total_sail_time).div(24).toFixed(1);
                                     
-                                    searchObj.economic_rate = BigNumber(total_loading_time).plus(searchObj.total_sail_time).div(searchObj.sail_time).multipliedBy(100).toFixed(1);
-                                    searchObj.prevData['ROB_FO'] = searchObj.prevData['ROB_FO'] == null || searchObj.prevData['ROB_FO'] == undefined ? 0 : searchObj.prevData['ROB_FO'];
-                                    searchObj.prevData['ROB_DO'] = searchObj.prevData['ROB_DO'] == null || searchObj.prevData['ROB_DO'] == undefined ? 0 : searchObj.prevData['ROB_DO'];
-                                    searchObj.rob_fo = BigNumber(searchObj.prevData['ROB_FO']).plus(searchObj.bunker_fo).minus(__parseFloat(data['max_date']['ROB_FO'])).toFixed(1);
+                                    // searchObj.economic_rate = BigNumber(total_loading_time).plus(searchObj.total_sail_time).div(searchObj.sail_time).multipliedBy(100).toFixed(1);
+                                    searchObj.prevData['ROB_FO'] = __parseFloat(searchObj.prevData['ROB_FO']);
+                                    searchObj.prevData['ROB_DO'] = __parseFloat(searchObj.prevData['ROB_DO']);
+                                    data['max_date']['ROB_FO'] = __parseFloat(data['max_date']['ROB_FO']);
+                                    data['max_date']['ROB_DO'] = __parseFloat(data['max_date']['ROB_DO']);
+                                    searchObj.rob_fo = BigNumber(searchObj.prevData['ROB_FO']).plus(searchObj.bunker_fo).minus(data['max_date']['ROB_FO']).toFixed(1);
                                     searchObj.rob_do = BigNumber(searchObj.prevData['ROB_DO']).plus(searchObj.bunker_do).minus(data['max_date']['ROB_DO']).toFixed(1);
 
+                                    let loadTmp = BigNumber(__parseFloat(loading_time.toFixed(2))).plus(__parseFloat(disch_time.toFixed(2))).plus(__parseFloat(total_sail_time.toFixed(2)));
+                                    let non_economic_date = BigNumber(__parseFloat(total_waiting_time.toFixed(2))).plus(__parseFloat(total_weather_time.toFixed(2))).plus(__parseFloat(total_repair_time.toFixed(2))).plus(__parseFloat(total_supply_time.toFixed(2))).plus(__parseFloat(total_else_time.toFixed(2))).toFixed(2)
+                                    
+                                    searchObj.sail_time = __parseFloat(non_economic_date) + __parseFloat(loadTmp);
+                                    searchObj.economic_rate = BigNumber(loadTmp).div(__parseFloat(searchObj.sail_time.toFixed(2))).multipliedBy(100).toFixed(1);
+
+
+                                    console.log(non_economic_date)
                                     let usedFoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['FOSailCons_S']);
                                     let usedFoTmp2 = BigNumber(searchObj.total_loading_time).multipliedBy(shipInfo['FOL/DCons_S']);
-                                    let usedFoTmp3 = BigNumber(searchObj.sail_time).minus(searchObj.total_sail_time).minus(searchObj.total_loading_time).multipliedBy(shipInfo['FOIdleCons_S']);
+                                    let usedFoTmp3 = BigNumber(total_waiting_time).multipliedBy(shipInfo['FOIdleCons_S']);
 
                                     let usedDoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['DOSailCons_S']);
                                     let usedDoTmp2 = BigNumber(searchObj.total_loading_time).multipliedBy(shipInfo['DOL/DCons_S']);
-                                    let usedDoTmp3 = BigNumber(searchObj.sail_time).minus(searchObj.total_sail_time).minus(searchObj.total_loading_time).multipliedBy(shipInfo['DOIdleCons_S']);
+                                    let usedDoTmp3 = BigNumber(total_waiting_time).multipliedBy(shipInfo['DOIdleCons_S']);
 
                                     searchObj.used_fo = BigNumber(usedFoTmp1).plus(usedFoTmp2).plus(usedFoTmp3).toFixed(2);
                                     searchObj.used_do = BigNumber(usedDoTmp1).plus(usedDoTmp2).plus(usedDoTmp3).toFixed(2);
 
-                                    // tmp
                                     searchObj.save_fo = BigNumber(searchObj.used_fo).minus(searchObj.rob_fo).toFixed(2);
                                     searchObj.save_do = BigNumber(searchObj.used_do).minus(searchObj.rob_do).toFixed(2);
 
@@ -548,9 +594,9 @@
                     setTotalInfo: function(data) {
                         searchObj.sail_term['min_date'] = data['min_date'] == false ? '' : data['min_date']['Voy_Date'];
                         searchObj.sail_term['max_date'] = data['max_date'] == false ? '' : data['max_date']['Voy_Date'];
-                        let start_date = data['min_date']['Voy_Date'] + ' ' + data['min_date']['Voy_Hour'] + ':' + data['min_date']['Voy_Minute'] + ':' + '00';
-                        let end_date = data['max_date']['Voy_Date'] + ' ' + data['max_date']['Voy_Hour'] + ':' + data['max_date']['Voy_Minute'] + ':' + '00';
-                        this.sail_time = __getTermDay(start_date, end_date, data['min_date']['GMT'], data['max_date']['GMT']);
+                        // let start_date = data['min_date']['Voy_Date'] + ' ' + data['min_date']['Voy_Hour'] + ':' + data['min_date']['Voy_Minute'] + ':' + '00';
+                        // let end_date = data['max_date']['Voy_Date'] + ' ' + data['max_date']['Voy_Hour'] + ':' + data['max_date']['Voy_Minute'] + ':' + '00';
+                        // this.sail_time = __getTermDay(start_date, end_date, data['min_date']['GMT'], data['max_date']['GMT']);
                     },
                     setTotalDefault: function() {
                         this.sail_time = 0;

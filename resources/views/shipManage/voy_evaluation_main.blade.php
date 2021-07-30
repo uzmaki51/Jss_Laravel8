@@ -48,31 +48,31 @@
                     <td class="not-striped-td">租船种类</td>
                     <td colspan="2">@{{ cpInfo.CP_kind }}</td>
                     <td class="not-striped-td">运费率（日租金）</td>
-                    <td>@{{ cpInfo.Freight }}</td>
+                    <td>@{{ number_format(cpInfo.Freight) == '' ? '' : '$ ' + number_format(cpInfo.Freight) }}</td>
                 </tr>
                 <tr>
                     <td class="not-striped-td">货名</td>
                     <td colspan="2">@{{ cpInfo.Cargo_Name }}</td>
                     <td class="not-striped-td">包船（首付金）</td>
-                    <td>@{{ cpInfo.batch_price }}</td>
+                    <td>@{{ number_format(cpInfo.batch_price) == '' ? '' : '$ ' + number_format(cpInfo.batch_price)}}</td>
                 </tr>
                 <tr>
                     <td class="not-striped-td">货量（租期）</td>
-                    <td colspan="2">@{{ cpInfo.Cgo_Qtty }}</td>
+                    <td colspan="2">@{{ number_format(cpInfo.Cgo_Qtty) }}</td>
                     <td class="not-striped-td">滞期费（ILOHC）</td>
-                    <td>@{{ cpInfo.deten_fee }}</td>
+                    <td>@{{ number_format(cpInfo.deten_fee) == '' ? '' : '$ ' + number_format(cpInfo.deten_fee) }}</td>
                 </tr>
                 <tr>
                     <td class="not-striped-td">装港</td>
                     <td colspan="2">@{{ cpInfo.lport }}</td>
                     <td class="not-striped-td">速遣费（C/V/E）</td>
-                    <td>@{{ cpInfo.dispatch_fee }}</td>
+                    <td>@{{ number_format(cpInfo.dispatch_fee) == '' ? '' : '$ ' + number_format(cpInfo.dispatch_fee) }}</td>
                 </tr>
                 <tr>
                     <td class="not-striped-td">卸港</td>
                     <td colspan="2">@{{ cpInfo.dport }}</td>
-                    <td class="not-striped-td">佣金</td>
-                    <td>@{{ cpInfo.com_fee }}</td>
+                    <td class="not-striped-td">佣金(%)</td>
+                    <td>@{{ number_format(cpInfo.com_fee) }}</td>
                 </tr>
                 <tr>
                     <td class="not-striped-td">受载期</td>
@@ -481,7 +481,7 @@
                                     name: '天数占率',
                                     data: [
                                     { name: '等待天数', y: __parseFloat(realInfo.wait_time) },
-                                    { name: '航次天数', y: __parseFloat(realInfo.sail_time) },
+                                    { name: '航行天数', y: __parseFloat(realInfo.sail_time) },
                                     { name: '装货天数', y: __parseFloat(realInfo.load_time) },
                                     { name: '卸货天数', y: __parseFloat(realInfo.disch_time) },
                                     ]
@@ -551,8 +551,8 @@
                     $_this.cpInfo = Object.assign([], [], cpInfo);
                     $_this.realInfo = Object.assign([], [], realInfo);
 
-                    let tmp1 = BigNumber($_this.realInfo.used_fo).multipliedBy($_this.cpInfo.fo_price).toFixed(2);
-                    let tmp2 = BigNumber($_this.realInfo.used_do).multipliedBy($_this.cpInfo.do_price).toFixed(2);
+                    let tmp1 = BigNumber($_this.realInfo.fo_mt).multipliedBy($_this.cpInfo.fo_price).toFixed(2);
+                    let tmp2 = BigNumber($_this.realInfo.do_mt).multipliedBy($_this.cpInfo.do_price).toFixed(2);
                     $_this.cpInfo['fuel_consumpt'] = BigNumber(tmp1).plus(tmp2).toFixed(2);
 
                     tmp1 = BigNumber($_this.realInfo.rob_fo).multipliedBy($_this.realInfo.rob_fo_price).toFixed(2);

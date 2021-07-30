@@ -528,7 +528,7 @@
                 calcContractPreview: function() {
                     if(parseInt(this.input['speed']) != 0) {
                         let tmp = BigNumber(this.input['distance']).div(this.input['speed']);
-                        this.output['sail_term'] = parseFloat(BigNumber(tmp).div(24).toFixed(DECIMAL_SIZE));
+                        this.output['sail_term'] = parseFloat(tmp.div(24).toFixed(DECIMAL_SIZE));
                     } else {
                         this.output['sail_term'] = 0;
                     }
