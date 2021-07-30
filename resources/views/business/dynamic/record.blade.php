@@ -526,8 +526,8 @@
 
                                     let usedDoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['DOSailCons_S']);
                                     let usedDoTmp2 = BigNumber(searchObj.total_loading_time).multipliedBy(shipInfo['DOL/DCons_S']);
-                                    let usedDoTmp3 = BigNumber(searchObj.sail_time).minus(total_waiting_time).multipliedBy(shipInfo['DOIdleCons_S']);
-                                    // console.log(BigNumber(searchObj.sail_time).minus(total_waiting_time).toFixed(2));
+                                    let usedDoTmp3 = BigNumber(searchObj.sail_time).minus(searchObj.total_sail_time).minus(searchObj.total_loading_time).multipliedBy(shipInfo['DOIdleCons_S']);
+
                                     searchObj.used_fo = BigNumber(usedFoTmp1).plus(usedFoTmp2).plus(usedFoTmp3).toFixed(2);
                                     searchObj.used_do = BigNumber(usedDoTmp1).plus(usedDoTmp2).plus(usedDoTmp3).toFixed(2);
 
