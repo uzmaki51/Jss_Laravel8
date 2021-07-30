@@ -561,9 +561,9 @@
                     let tmp2 = BigNumber($_this.realInfo.do_mt).multipliedBy($_this.cpInfo.do_price).toFixed(2);
                     $_this.cpInfo['fuel_consumpt'] = BigNumber(tmp1).plus(tmp2).toFixed(2);
 
-                    tmp1 = BigNumber($_this.realInfo.rob_fo).multipliedBy($_this.realInfo.rob_fo_price).toFixed(2);
-                    tmp2 = BigNumber($_this.realInfo.rob_do).multipliedBy($_this.realInfo.rob_do_price).toFixed(2);
-                    $_this.realInfo['fuel_consumpt'] = BigNumber(tmp1).plus(tmp2).toFixed(2);
+                    // tmp1 = BigNumber($_this.realInfo.rob_fo).multipliedBy($_this.realInfo.rob_fo_price).toFixed(2);
+                    // tmp2 = BigNumber($_this.realInfo.rob_do).multipliedBy($_this.realInfo.rob_do_price).toFixed(2);
+                    // $_this.realInfo['fuel_consumpt'] = BigNumber(tmp1).plus(tmp2).toFixed(2);
 
                     let debitTmp1 = BigNumber($_this.cpInfo['up_port_price']).plus($_this.cpInfo['down_port_price']);
                     let debitTmp2 = BigNumber($_this.cpInfo['fuel_consumpt']).plus($_this.cpInfo['cost_else']);
@@ -572,7 +572,7 @@
 
                     debitTmp1 = $_this.realInfo['sail_credit'];
                     debitTmp2 = BigNumber($_this.realInfo['fuel_consumpt']).plus($_this.cpInfo['cost_else']);
-                    $_this.realInfo['manage_cost_day'] = BigNumber($_this.realInfo['cost_day']).multipliedBy($_this.realInfo['total_sail_time']).toFixed(2);
+                    // $_this.realInfo['manage_cost_day'] = BigNumber($_this.realInfo['cost_day']).multipliedBy($_this.realInfo['total_sail_time']).toFixed(2);
                     $_this.realInfo['debit'] = BigNumber(debitTmp1).plus(debitTmp2).plus($_this.realInfo['manage_cost_day']).toFixed(2);
 
                     $_this.cpInfo['profit'] = BigNumber($_this.cpInfo['credit']).minus($_this.cpInfo['debit']).toFixed(2);

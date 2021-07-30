@@ -570,6 +570,10 @@ class VoySettle extends Model
                 $mainInfo['rob_fo_price'] = $info['rob_fo_price'];
                 $mainInfo['rob_do_price'] = $info['rob_do_price'];
             }
+
+            $tmp1 = round($mainInfo['rob_fo'] * $mainInfo['rob_fo_price'], 2);
+            $tmp2 = round($mainInfo['rob_do'] * $mainInfo['rob_do_price'], 2);
+            $mainInfo['fuel_consumpt'] = round($tmp1 + $tmp2, 2);
         }
 
         
@@ -625,6 +629,8 @@ class VoySettle extends Model
                 $fuelInfo['rob_do_price_2'] = 0;
 
                 $mainInfo['cost_day']  = $contractInfo['cost_per_day'];
+
+                $mainInfo['manage_cost_day'] = round($mainInfo['cost_day'] * $mainInfo['total_sail_time'], 2);
             } else {
                 $mainInfo['cargo_name'] = '';
                 $mainInfo['voy_type'] = '';
