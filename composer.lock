@@ -1376,6 +1376,11 @@
                 "gmp",
                 "number"
             ],
+            "support": {
+                "email": "castarco@litipk.com",
+                "issues": "http://github.com/Litipk/php-bignumbers/issues",
+                "source": "http://github.com/Litipk/php-bignumbers"
+            },
             "time": "2017-08-31T04:45:41+00:00"
         },
         {
@@ -7055,5 +7060,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
