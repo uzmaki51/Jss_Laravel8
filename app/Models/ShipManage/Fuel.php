@@ -21,14 +21,8 @@ class Fuel extends Model
         $is_exist = self::where('shipId', $shipId)->where('voy_no', $voyId)->first();
 
         if($is_exist == null) 
-            return array(
-                'rob_fo'    => 0,
-                'rob_do'    => 0,
+            return [];
 
-                'rob_fo_price'      => 0,
-                'rob_do_price'      => 0,
-            );
-        
         return array(
             'rob_fo'    => $is_exist->rob_fo,
             'rob_do'    => $is_exist->rob_do,

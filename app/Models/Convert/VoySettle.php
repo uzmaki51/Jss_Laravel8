@@ -518,12 +518,7 @@ class VoySettle extends Model
 
                 $total_distance += $item->Sail_Distance;
             }
-// die;
-// var_dump('wait', $_waitTime);
-// var_dump('weather', $_weatherTime);
-// var_dump('repair', $_repairTime);
-// var_dump('supply', $_supplyTime);
-// var_dump('else', $_elseTime);
+
             $mainInfo['sail_time'] = round($_sailTime, 2);
             $mainInfo['load_time'] = round($_loadTime, 2);
             $mainInfo['disch_time'] = round($_dischTime, 2);
@@ -572,9 +567,9 @@ class VoySettle extends Model
                 $lastFo = $lastVoyInfo->ROB_FO;
                 $lastDo = $lastVoyInfo->ROB_DO;
             }
-
+            
             $fuelTbl = new Fuel();
-            if(!$fuelTbl->getFuelForEval($shipId, $voyId)) {
+            if($fuelTbl->getFuelForEval($shipId, $voyId) == []) {
                 $mainInfo['rob_fo'] = round($beforeFo + $_bunkFo - $lastFo, 2);
                 $mainInfo['rob_do'] = round($beforeDo + $_bunkDo - $lastDo, 2);
                 $mainInfo['rob_fo_price'] = 0;

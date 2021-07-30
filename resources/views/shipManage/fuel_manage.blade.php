@@ -675,7 +675,6 @@
                                     let realData = [];
                                     let footerData = [];
                                     footerData['voy_count'] = 0;
-                                    // footerData['voy_start'] = 0;
                                     footerData['sail_time'] = 0;
                                     footerData['average_speed'] = 0;
                                     footerData['total_distance'] = 0;
