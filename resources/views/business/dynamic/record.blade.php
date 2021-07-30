@@ -566,13 +566,12 @@
                                     searchObj.economic_rate = BigNumber(loadTmp).div(__parseFloat(searchObj.sail_time.toFixed(2))).multipliedBy(100).toFixed(1);
 
 
-                                    console.log(non_economic_date)
-                                    let usedFoTmp1 = BigNumber(loading_time).plus(disch_time).multipliedBy(shipInfo['FOSailCons_S']);
-                                    let usedFoTmp2 = BigNumber(searchObj.total_loading_time).multipliedBy(shipInfo['FOL/DCons_S']);
+                                    let usedFoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['FOSailCons_S']);
+                                    let usedFoTmp2 = BigNumber(loading_time).plus(disch_time).multipliedBy(shipInfo['FOL/DCons_S']);
                                     let usedFoTmp3 = BigNumber(non_economic_date).multipliedBy(shipInfo['FOIdleCons_S']);
 
-                                    let usedDoTmp1 = BigNumber(loading_time).plus(disch_time).multipliedBy(shipInfo['DOSailCons_S']);
-                                    let usedDoTmp2 = BigNumber(searchObj.total_loading_time).multipliedBy(shipInfo['DOL/DCons_S']);
+                                    let usedDoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['DOSailCons_S']);
+                                    let usedDoTmp2 = BigNumber(loading_time).plus(disch_time).multipliedBy(shipInfo['DOL/DCons_S']);
                                     let usedDoTmp3 = BigNumber(non_economic_date).multipliedBy(shipInfo['DOIdleCons_S']);
 
                                     searchObj.used_fo = BigNumber(usedFoTmp1).plus(usedFoTmp2).plus(usedFoTmp3).toFixed(2);
@@ -699,7 +698,7 @@
                                 Voy_Date: searchObj.currentData[length - 1]['Voy_Date'],
                                 GMT: searchObj.currentData[length - 1]['GMT']
                             }
-                            searchObj.currentData[length] = tmp;
+
                         } else {
                             let tmp1 = {
                                 Voy_Status: DYNAMIC_SAILING,
@@ -710,10 +709,12 @@
                                 Voy_Date: this.getToday('-'),
                                 GMT: 8
                             }
+                            
                             searchObj.currentData[length] = tmp1;
+                            searchObjTmp = JSON.parse(JSON.stringify(searchObj.currentData));
                         }
 
-                        searchObj.$forceUpdate();
+                        // searchObj.$forceUpdate();
                     },
                     limitHour: function(e, index) {
                         let val = e.target.value;
