@@ -59,7 +59,7 @@ class Voy extends Model
             $tmp = $currentTbl;
             $beforInfo = $tmp->first();
             if($beforInfo == null)
-                return -98;
+                return false;
         }
 
         $currentTbl = self::where('Ship_ID', $shipId)
@@ -72,6 +72,8 @@ class Voy extends Model
 
         $currentInfo = $currentTbl->get();
 
+        if(count($currentInfo) == 0) return false;
+        
         $_sailTime = 0;
         $_loadTime = 0;
         $_dischTime = 0;
