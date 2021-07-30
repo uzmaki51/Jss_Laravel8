@@ -176,7 +176,7 @@ $ships = Session::get('shipList');
                                                 <tr>
                                                     <th class="text-center style-normal-header" rowspan="2" style="width: 2.5%;"><span>航次</span></th>
                                                     <th class="text-center style-normal-header" rowspan="2" style="width: 2.5%;"><span>租船种类</span></th>
-                                                    <th class="text-center style-normal-header" rowspan="2" style="width: 4.5%;"><span>截止日期</span></th>
+                                                    <th class="text-center style-normal-header" rowspan="2" style="width: 6%;"><span>截止日期</span></th>
                                                     <th class="text-center style-normal-header" rowspan="2" style="width: 3%;"><span>航次用时</span></th>
                                                     <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>收入($)</span></th>
                                                     <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>支出($)</span></th>
@@ -829,6 +829,7 @@ $ships = Session::get('shipList');
 
                     $('td', row).eq(0).attr('class', 'text-center td_voy_no');
                     $('td', row).eq(0).attr('style', 'cursor:pointer;background:linear-gradient(#fff, #d9f8fb);');
+                    /*
                     if (data['max_date'] == false) {
                         $('td', row).eq(2).html('-');
                     } else {
@@ -843,6 +844,14 @@ $ships = Session::get('shipList');
                     }
                     if (data['max_date'] == false) {
                         $('td', row).eq(3).html('-');
+                    }
+                    */
+                    if (data['voy_time'] == false) {
+                        $('td', row).eq(2).html('-');
+                        $('td', row).eq(3).html('-');  
+                    } else {
+                        $('td', row).eq(2).html(data['voy_time']['start_date'].substr(5,5) + ' ~ ' + data['voy_time']['end_date'].substr(5,5));
+                        $('td', row).eq(3).html(data['voy_time']['total_time']);
                     }
 
                     $('td', row).eq(4).attr('class', 'style-blue-input text-right');

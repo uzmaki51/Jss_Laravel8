@@ -345,6 +345,8 @@ $ships = Session::get('shipList');
                         $(row).attr('class', 'cost-item-even');
                     else
                         $(row).attr('class', 'cost-item-odd');
+
+                        /*
                     if (data['max_date'] != false && data['min_date'] != false) {
                         var start_date = data['min_date'].Voy_Date + ' ' + data['min_date'].Voy_Hour + ':' + data['min_date'].Voy_Minute;
                         var end_date = data['max_date'].Voy_Date + ' ' + data['max_date'].Voy_Hour + ':' + data['max_date'].Voy_Minute;
@@ -355,6 +357,8 @@ $ships = Session::get('shipList');
                     {
                         $('td', row).eq(1).html('-');
                     }
+                    */
+                    $('td', row).eq(1).html(data['voy_time']);
 
                     if (data['VOY_count'] != null) {
                         $('td', row).eq(2).html(data['VOY_count']);

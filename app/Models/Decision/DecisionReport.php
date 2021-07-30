@@ -22,6 +22,7 @@ use App\Models\Operations\Cargo;
 use App\Models\Finance\AccountPersonalInfo;
 use App\Models\Decision\DecisionReportAttachment;
 use App\Models\Member\Unit;
+use App\Models\Voy;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -406,16 +407,14 @@ class DecisionReport extends Model {
 				else if ($count->CP_kind == "VOY") $records[$index]['VOY_count'] = $count->count;
 				else if ($count->CP_kind == "NON") $records[$index]['NON_count'] = $count->count;
 			}
-			//$min_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
-			//$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->select(DB::raw('MIN(Voy_Date) as min_date,tbl_voy_log.*'))->first();
-			//$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->select(DB::raw('MIN(Voy_Date) as min_date,tbl_voy_log.*'))->first();
+
+			$voy = new Voy();
+			$retVal = $voy->getVoyInfoByYear($shipid, $year);
+			$records[$index]['voy_time'] = $retVal;
+
+
 			$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','<',$voyNo_from)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
-
-			//$max_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
-			//$max_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->select(DB::raw('MAX(Voy_Date) as max_date,tbl_voy_log.*'))->first();
-			//$max_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->select(DB::raw('MAX(Voy_Date) as max_date,tbl_voy_log.*'))->first();
 			$max_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','<',$voyNo_to)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
-
 			if ($min_date == null)																			 {
 				$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID', '<', $voyNo_to)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
 			}
@@ -425,24 +424,7 @@ class DecisionReport extends Model {
 
 			if ($max_date == null)
 				$max_date = false;
-
-				/*
-			if($min_date->min_date == $max_date->max_date) {
-				//$min_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
-				//$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
-				$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','>=', $voyNo_from)->where('CP_ID','<',$voyNo_to)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
-				if ($min_date == null) $min_date = false;
-			}
-			else
-			{
-				if($min_date->min_date == null)
-					$min_date = false;
-				if($max_date->max_date == null)
-					$max_date = false;
-			}
-			if ($max_date->max_date == null) $max_date = false;
-			*/
-
+				
 			$records[$index]['min_date'] = $min_date;
 			$records[$index]['max_date'] = $max_date;
 			$index ++;
@@ -537,9 +519,12 @@ class DecisionReport extends Model {
 			$total_profit += $record->profit_sum;
 			if ($index == 0) $total_profit += $this->getPastProfit($shipid, $year);
 			$record->total_profit = $total_profit;
-			
-
 			$record->debit_list = $newArr;
+
+			$voy = new Voy();
+			$retVal = $voy->getVoyInfoByCP($shipid, $record->Voy_No);
+			$record->voy_time = $retVal;
+
 
 			/*
 			$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID', '<',$record->Voy_No)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
