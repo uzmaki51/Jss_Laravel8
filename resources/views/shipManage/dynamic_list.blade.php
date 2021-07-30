@@ -948,14 +948,14 @@
                                     searchObj.economic_rate = BigNumber(loadTmp).div(__parseFloat(searchObj.sail_time.toFixed(2))).multipliedBy(100).toFixed(1);
 
 
-                                    console.log(non_economic_date)
-                                    let usedFoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['FOSailCons_S']);
+                                    
+                                    let usedFoTmp1 = BigNumber(loading_time).plus(disch_time).multipliedBy(shipInfo['FOSailCons_S']);
                                     let usedFoTmp2 = BigNumber(searchObj.total_loading_time).multipliedBy(shipInfo['FOL/DCons_S']);
-                                    let usedFoTmp3 = BigNumber(total_waiting_time).multipliedBy(shipInfo['FOIdleCons_S']);
+                                    let usedFoTmp3 = BigNumber(non_economic_date).multipliedBy(shipInfo['FOIdleCons_S']);
 
-                                    let usedDoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['DOSailCons_S']);
+                                    let usedDoTmp1 = BigNumber(loading_time).plus(disch_time).multipliedBy(shipInfo['DOSailCons_S']);
                                     let usedDoTmp2 = BigNumber(searchObj.total_loading_time).multipliedBy(shipInfo['DOL/DCons_S']);
-                                    let usedDoTmp3 = BigNumber(total_waiting_time).multipliedBy(shipInfo['DOIdleCons_S']);
+                                    let usedDoTmp3 = BigNumber(non_economic_date).multipliedBy(shipInfo['DOIdleCons_S']);
 
                                     searchObj.used_fo = BigNumber(usedFoTmp1).plus(usedFoTmp2).plus(usedFoTmp3).toFixed(2);
                                     searchObj.used_do = BigNumber(usedDoTmp1).plus(usedDoTmp2).plus(usedDoTmp3).toFixed(2);
