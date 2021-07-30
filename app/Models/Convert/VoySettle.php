@@ -511,14 +511,14 @@ class VoySettle extends Model
             $mainInfo['sail_time'] = round($_sailTime, 2);
             $mainInfo['load_time'] = round($_loadTime, 2);
             $mainInfo['disch_time'] = round($_dischTime, 2);
-            $mainInfo['wait_time'] = round($_waitTime + $_weatherTime + $_repairTime + $_supplyTime + $_elseTime, 2);
+            $mainInfo['wait_time'] = round(round($_waitTime, 2) + round($_weatherTime, 2) + round($_repairTime, 2) + round($_supplyTime, 2) + round($_elseTime, 2), 2);
             $mainInfo['start_date'] = $firstVoyDate->Voy_Date;
 
             $mainInfo['end_date'] = $lastVoyDate->Voy_Date;
 
             $start_date = $firstVoyDate->Voy_Date . ' ' . $firstVoyDate->Voy_Hour . ':' . $firstVoyDate->Voy_Minute . ':00';
             $end_date = $lastVoyDate->Voy_Date . ' ' . $lastVoyDate->Voy_Hour . ':' . $lastVoyDate->Voy_Minute . ':00';
-            $mainInfo['total_sail_time'] = $mainInfo['sail_time'] + $mainInfo['load_time'] + $mainInfo['disch_time'] + $mainInfo['wait_time'];
+            $mainInfo['total_sail_time'] = round($mainInfo['sail_time'] + $mainInfo['load_time'] + $mainInfo['disch_time'] + $mainInfo['wait_time'], 2);
             $mainInfo['total_distance'] = round($total_distance, 0);
             if($mainInfo['total_sail_time'] > 0 && $_sailTime != 0)
                 $mainInfo['avg_speed'] = round($total_distance / $_sailTime / 24, 2);
