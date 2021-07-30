@@ -68,6 +68,10 @@ class VoyLog extends Model
                 ->where('CP_ID', '<', $voyId)
                 ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)
                 ->orderBy('CP_ID', 'desc')
+                ->orderBy('Voy_Date', 'desc')
+                ->orderBy('Voy_Hour', 'desc')
+                ->orderBy('Voy_Minute', 'desc')
+                ->orderBy('GMT', 'desc')
                 ->first();
 
         if($selector == null) 
