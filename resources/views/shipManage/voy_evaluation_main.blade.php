@@ -480,10 +480,10 @@
                                 series: [{
                                     name: '天数占率',
                                     data: [
-                                    { name: '等待天数', y: realInfo.wait_time },
-                                    { name: '航次天数', y: realInfo.sail_time },
-                                    { name: '装货天数', y: realInfo.load_time },
-                                    { name: '卸货天数', y: realInfo.disch_time },
+                                    { name: '等待天数', y: __parseFloat(realInfo.wait_time) },
+                                    { name: '航次天数', y: __parseFloat(realInfo.sail_time) },
+                                    { name: '装货天数', y: __parseFloat(realInfo.load_time) },
+                                    { name: '卸货天数', y: __parseFloat(realInfo.disch_time) },
                                     ]
                                 }]
                             });                    
