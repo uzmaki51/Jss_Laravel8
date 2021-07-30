@@ -420,13 +420,17 @@ class VoySettle extends Model
         $voyInfo = $voyLog->getVoyRecord($shipId, $voyId);
         // $voyInfo = array_push($beforeVoyInfo, $voyInfo);
         if($voyInfo != []) {
-            $firstVoyDate = $voyInfo[0];
+            $firstVoyDate = $beforeVoyInfo;
             $lastVoyDate = $voyInfo[count($voyInfo) - 1];
             
             $_sailTime = 0;
             $_loadTime = 0;
             $_dischTime = 0;
             $_waitTime = 0;
+            $_weatherTime = 0;
+            $_repairTime = 0;
+            $_supplyTime = 0;
+            $_elseTime = 0;
 
             $_cmpltCgoQty = 0;
 
@@ -439,6 +443,7 @@ class VoySettle extends Model
             $_usedDo = 0;
             $_bunkFo = 0;
             $_bunkDo = 0;
+
 // var_dump($beforeVoyInfo);
             foreach($voyInfo as $key => $item) {
                 // if($key > 0) {
@@ -457,10 +462,35 @@ class VoySettle extends Model
                         $_dischTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
                     }
 
-                    if($item->Voy_Type != DYNAMIC_SUB_SALING && $item->Voy_Type != DYNAMIC_SUB_LOADING && $item->Voy_Type != DYNAMIC_SUB_DISCH) {
+                    if($item->Voy_Type == DYNAMIC_SUB_WAITING) {
                         $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
                         $_waitTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                        // var_dump('wait', $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT));
                         // var_dump($this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT));
+                    }
+
+                    if($item->Voy_Type == DYNAMIC_SUB_WEATHER) {
+                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                        $_weatherTime  += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                        // var_dump('weather', $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT));
+                    }
+
+                    if($item->Voy_Type == DYNAMIC_SUB_REPAIR) {
+                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                        $_repairTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                        // var_dump('repair', $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT));
+                    }
+
+                    if($item->Voy_Type == DYNAMIC_SUB_SUPPLY) {
+                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                        $_supplyTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                        // var_dump('supply', $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT));
+                    }
+
+                    if($item->Voy_Type == DYNAMIC_SUB_ELSE) {
+                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                        $_elseTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                        // var_dump('else', $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT));
                     }
 
                     if($item->Voy_Status == DYNAMIC_CMPLT_LOADING) {
@@ -468,6 +498,8 @@ class VoySettle extends Model
                     }
                 // }
 
+
+                // var_dump('wait', $_waitTime);
                 if($item->Voy_Status == DYNAMIC_DEPARTURE && !$departStatus) {
                     $elseInfo['position'] = $item->Ship_Position;
                     $elseInfo['date'] = $item->Voy_Date;
@@ -487,17 +519,22 @@ class VoySettle extends Model
                 $total_distance += $item->Sail_Distance;
             }
 // die;
+// var_dump('wait', $_waitTime);
+// var_dump('weather', $_weatherTime);
+// var_dump('repair', $_repairTime);
+// var_dump('supply', $_supplyTime);
+// var_dump('else', $_elseTime);
             $mainInfo['sail_time'] = round($_sailTime, 2);
             $mainInfo['load_time'] = round($_loadTime, 2);
             $mainInfo['disch_time'] = round($_dischTime, 2);
-            $mainInfo['wait_time'] = round($_waitTime, 2);
+            $mainInfo['wait_time'] = round($_waitTime + $_weatherTime + $_repairTime + $_supplyTime + $_elseTime, 2);
             $mainInfo['start_date'] = $firstVoyDate->Voy_Date;
 
             $mainInfo['end_date'] = $lastVoyDate->Voy_Date;
 
             $start_date = $firstVoyDate->Voy_Date . ' ' . $firstVoyDate->Voy_Hour . ':' . $firstVoyDate->Voy_Minute . ':00';
             $end_date = $lastVoyDate->Voy_Date . ' ' . $lastVoyDate->Voy_Hour . ':' . $lastVoyDate->Voy_Minute . ':00';
-            $mainInfo['total_sail_time'] = round($this->getTermDay($start_date, $end_date), 2);
+            $mainInfo['total_sail_time'] = $mainInfo['sail_time'] + $mainInfo['load_time'] + $mainInfo['disch_time'] + $mainInfo['wait_time'];
             $mainInfo['total_distance'] = round($total_distance, 0);
             if($mainInfo['total_sail_time'] > 0 && $_sailTime != 0)
                 $mainInfo['avg_speed'] = round($total_distance / $_sailTime / 24, 2);
@@ -624,15 +661,15 @@ class VoySettle extends Model
     }
 
     public function getTermDay($start_date, $end_date, $start_gmt = 0, $end_gmt = 0) {
-        $currentDate = Carbon::parse($end_date)->timestamp * 1000;
+        $currentDate = strtotime($end_date) * 1000;
         $currentGMT = $this->_DAY_UNIT * $end_gmt;
-        $prevDate = Carbon::parse($start_date)->timestamp * 1000;
+        $prevDate = strtotime($start_date) * 1000;
         $prevGMT = $this->_DAY_UNIT * $start_gmt;
         $diffDay = 0;
         $currentDate = Decimal::create($currentDate - $currentGMT)->div(Decimal::create($this->_DAY_UNIT));
         $prevDate = Decimal::create($prevDate - $prevGMT)->div(Decimal::create($this->_DAY_UNIT));
         $diffDay = $currentDate->sub($prevDate)->div(Decimal::create(24))->__toString();
 
-        return round(floatval($diffDay), 4);
+        return round($diffDay, 4);
     }
 }

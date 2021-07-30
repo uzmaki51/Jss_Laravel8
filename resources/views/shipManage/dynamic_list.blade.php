@@ -675,11 +675,17 @@
                                                     let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
                                                     let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
                                                     total_else_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
+                                                    if(value == '2017') console.log(total_else_time)
                                                 }
-
                                             }
                                         });
 
+                                        // if(value == '2017') {
+                                        // console.log('wait', total_waiting_time);
+                                        // console.log('weather', total_weather_time);
+                                        // console.log('repair', total_repair_time);
+                                        // console.log('supply',  total_supply_time);
+                                        // console.log('else', total_else_time);}
                                         realData.total_sail_time = total_sail_time;
                                         realData.total_distance = total_distance;
                                         realData.average_speed = BigNumber(realData.total_distance).div(total_sail_time).div(24);
@@ -865,6 +871,7 @@
                                                 let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'];
                                                 let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'];
                                                 total_waiting_time += __getTermDay(start_date, end_date, searchObj.currentData[preKey]['GMT'], value['GMT']);
+                                                console.log(total_waiting_time);
                                             }
                                         }
 

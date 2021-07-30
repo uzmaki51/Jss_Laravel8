@@ -66,7 +66,7 @@ class VoyLog extends Model
     public function getBeforeInfo($shipId, $voyId) {
         $selector = self::where('Ship_ID', $shipId)
                 ->where('CP_ID', '<', $voyId)
-                ->where('Voy_Type', DYNAMIC_CMPLT_DISCH)
+                ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)
                 ->orderBy('CP_ID', 'desc')
                 ->first();
 
@@ -86,12 +86,16 @@ class VoyLog extends Model
     public function getLastInfo($shipId, $voyId) {
         $selector = self::where('Ship_ID', $shipId)
                     ->where('CP_ID', $voyId)
-                    ->where('Voy_Type', DYNAMIC_CMPLT_DISCH)
+                    ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)
+                    ->orderByDesc('Voy_Date')
+                    ->orderByDesc('Voy_Hour')
+                    ->orderByDesc('Voy_Minute')
+                    ->orderByDesc('GMT')
                     ->first();
 
         if($selector == null)
             return [];
         
-        return $selector;        
+        return $selector;
     }
 }
