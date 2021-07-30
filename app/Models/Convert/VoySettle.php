@@ -630,7 +630,7 @@ class VoySettle extends Model
 
                 $mainInfo['cost_day']  = $contractInfo['cost_per_day'];
 
-                $mainInfo['manage_cost_day'] = round($mainInfo['cost_day'] * $mainInfo['total_sail_time'], 2);
+                $mainInfo['manage_cost_day'] = round($mainInfo['cost_day'] * isset($mainInfo['total_sail_time']) ? $mainInfo['total_sail_time'] : 0, 2);
             } else {
                 $mainInfo['cargo_name'] = '';
                 $mainInfo['voy_type'] = '';
