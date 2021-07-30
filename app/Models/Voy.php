@@ -61,7 +61,7 @@ class Voy extends Model
             if($beforInfo == null)
                 return -98;
         }
-// if($voyId == 2005) return $beforInfo;
+
         $currentTbl = self::where('Ship_ID', $shipId)
             ->where('CP_ID', $voyId)
             ->orderBy('Voy_Date', 'asc')

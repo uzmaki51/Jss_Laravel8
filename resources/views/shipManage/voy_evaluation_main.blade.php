@@ -315,6 +315,7 @@
         var economicGraph2 = null;
         var economicGraph3 = null;
         var economicGraph4 = null;
+        var debitGraph = null;
         var initLoad = true;
         var activeId = 0;
 
@@ -439,57 +440,62 @@
                             }
                         },
                         mounted: function() {             // dengdai   //hangci   //zhuanghuo  //xiehuo
-                            Highcharts.setOptions({colors: ['#ffc000', '#a1c9f9', '#3eb373', '#b19fc5']});
-                            economicGraph = Highcharts.chart('economic_graph', {
-                                chart: {
-                                    
-                                    type: 'pie',
-                                    options3d: {
-                                        enabled: true,
-                                        alpha: 45
-                                    }
-                                },
-                                title: {
-                                    text: '天数占率'
-                                },
-                                tooltip: {
-                                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                                },
-                                exporting: { enabled: false },
-                                credits: {
-                                    enabled: false
-                                },
-                                accessibility: {
-                                    point: {
-                                    valueSuffix: '%'
-                                    }
-                                },
-                                plotOptions: {
-                                    pie: {
-                                    allowPointSelect: true,
-                                    cursor: 'pointer',
-                                    dataLabels: {
-                                        enabled: true,
-                                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                                        connectorColor: 'silver'
+                            Highcharts.setOptions({
+                                colors: ['#ffc000', '#a1c9f9', '#3eb373', '#b19fc5']
+                            });
+                                economicGraph = Highcharts.chart('economic_graph', {
+                                    chart: {
+                                        
+                                        type: 'pie',
+                                        options3d: {
+                                            enabled: true,
+                                            alpha: 45
+                                        }
                                     },
-                                        innerSize: 0,
-                                        depth: 45
-                                    }
-                                },
-                                series: [{
-                                    name: '天数占率',
-                                    data: [
-                                    { name: '等待天数', y: __parseFloat(realInfo.wait_time) },
-                                    { name: '航行天数', y: __parseFloat(realInfo.sail_time) },
-                                    { name: '装货天数', y: __parseFloat(realInfo.load_time) },
-                                    { name: '卸货天数', y: __parseFloat(realInfo.disch_time) },
-                                    ]
-                                }]
-                            });                    
+                                    title: {
+                                        text: '天数占率'
+                                    },
+                                    tooltip: {
+                                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                                    },
+                                    exporting: { enabled: false },
+                                    credits: {
+                                        enabled: false
+                                    },
+                                    accessibility: {
+                                        point: {
+                                        valueSuffix: '%'
+                                        }
+                                    },
+                                    plotOptions: {
+                                        pie: {
+                                        allowPointSelect: true,
+                                        cursor: 'pointer',
+                                        dataLabels: {
+                                            enabled: true,
+                                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                            connectorColor: 'silver'
+                                        },
+                                            innerSize: 0,
+                                            depth: 45
+                                        }
+                                    },
+                                    series: [{
+                                        name: '天数占率',
+                                        data: [
+                                        { name: '等待天数', y: __parseFloat(realInfo.wait_time) },
+                                        { name: '航行天数', y: __parseFloat(realInfo.sail_time) },
+                                        { name: '装货天数', y: __parseFloat(realInfo.load_time) },
+                                        { name: '卸货天数', y: __parseFloat(realInfo.disch_time) },
+                                        ]
+                                    }]
+                                });                    
 
-                            Highcharts.setOptions({colors: ['#ffc000', '#e86f6f', '#3eb373', '#b19fc5']});
-                            Highcharts.chart('debit_graph', {
+                            Highcharts.setOptions({
+                                colors: ['#ffc000', '#e86f6f', '#3eb373', '#b19fc5']
+                            });
+
+                            debitGraph = Highcharts.chart('debit_graph', {
                                 chart: {
                                     type: 'pie',
                                     options3d: {
