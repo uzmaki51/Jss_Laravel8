@@ -29,7 +29,7 @@ class Voy extends Model
 
         $total_sail_time = Decimal::create(0);
         foreach($voyList as $key => $item) {
-            $total_sail_time = $total_sail_time->add(Decimal::create($this->getVoyInfoByCP($shipId, $item->CP_ID)));
+            $total_sail_time = $total_sail_time->add(Decimal::create($this->getVoyInfoByCP($shipId, $item->CP_ID)['total_time']));
             // $total_sail_time[] = [$this->getVoyInfoByCP($shipId, $item->CP_ID), $item->CP_ID];
         }
         
@@ -130,7 +130,11 @@ class Voy extends Model
         $total_time = round($_sailTime, 2) + round($_loadTime, 2) + round($_dischTime, 2) + round($_waitTime, 2) + round($_weatherTime, 2) + round($_repairTime, 2) + round($_supplyTime, 2) + round($_elseTime, 2) + round($_otherTime, 2);
         $total_time = round($total_time, 2);
 
-        return $total_time;
+        return array(
+            'total_time'        => $total_time,
+            'start_date'        => $beforInfo->Voy_Date,
+            'end_date'          => $currentInfo[count($currentInfo) - 1]->Voy_Date,
+        );
 
     }
 }
