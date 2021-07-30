@@ -283,6 +283,9 @@
         var DYNAMIC_SUB_REPAIR = '{!! DYNAMIC_SUB_REPAIR !!}';
         var DYNAMIC_SUB_SUPPLY = '{!! DYNAMIC_SUB_SUPPLY !!}';
         var DYNAMIC_SUB_ELSE = '{!! DYNAMIC_SUB_ELSE !!}';
+
+        var DYNAMIC_SAILING = '{!! DYNAMIC_SAILING !!}';
+        var DYNAMIC_CMPLT_DISCH = '{!! DYNAMIC_CMPLT_DISCH !!}';
         const DAY_UNIT = 1000 * 3600;
         var isChangeStatus = false;
         var searchObjTmp = new Array();
@@ -688,7 +691,7 @@
                     setDefaultData() {
                         let length = searchObj.currentData.length;
                         searchObj.currentData.push([]);
-                        if(length > 0) {
+                        if(length > 1) {
                             let tmp = {
                                 Voy_Status: DYNAMIC_SAILING,
                                 dynamicSub: getSubList(DYNAMIC_SAILING),
@@ -709,7 +712,7 @@
                                 Voy_Date: this.getToday('-'),
                                 GMT: 8
                             }
-                            
+
                             searchObj.currentData[length] = tmp1;
                             searchObjTmp = JSON.parse(JSON.stringify(searchObj.currentData));
                         }
