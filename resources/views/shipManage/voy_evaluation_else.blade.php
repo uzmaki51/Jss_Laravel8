@@ -34,70 +34,70 @@
             <div class="">
                 <table id="table-else">
                     <tr class="dynamic-footer">
-                        <th class="center not-striped-td" rowspan="2" style="width: 5%">航次</th>
-                        <th class="center not-striped-td" rowspan="2">租船<br>种类</th>
-                        <th class="center not-striped-td" rowspan="2">期间</th>
-                        <th class="center not-striped-td" rowspan="2" style="width: 60px;">航次<br>用时</th>
-                        <th class="center not-striped-td" style="width: 50px;">里程</th>
-                        <th class="center not-striped-td" rowspan="2" style="width: 80px;">货量<br>(租期)</th>
-                        <th class="center not-striped-td" rowspan="2" style="width: 80px;">运费率<br>(日租金)</th>
+                        <th class="center not-striped-td" rowspan="2" style="width: 3%;">航次</th>
+                        <th class="center not-striped-td" rowspan="2" style="width: 3%;">租船<br><br>种类</th>
+                        <th class="center not-striped-td" rowspan="2" style="width: 10%;">期间</th>
+                        <th class="center not-striped-td" rowspan="2" style="width: 6%;">航次<br><br>用时</th>
+                        <th class="center not-striped-td" style="height: 25px;">里程</th>
+                        <th class="center not-striped-td" rowspan="2" style="width: 7%;">货量<br>(租期)</th>
+                        <th class="center not-striped-td" rowspan="2" style="width: 7%;">运费率<br>(日租金)</th>
                         <th class="center not-striped-td" colspan="3" style="border-right: 2px solid rgb(255, 146, 7);">SOA($)</th>
-                        <th class="center not-striped-td" colspan="2" style="border-right: 2px solid rgb(255, 146, 7);">实际</th>
+                        <th class="center not-striped-td" colspan="2" style="border-right: 2px solid rgb(255, 146, 7);">实际($)</th>
                         <th class="center not-striped-td" colspan="5">支出因素占率(%)</th>
                     </tr>
 
                     <tr class="dynamic-footer">
-                        <th class="center not-striped-td">[NM]</th>
-                        <th class="center not-striped-td" style="width: 120px;">收入</th>
-                        <th class="center not-striped-td">收入/<br>里程</th>
-                        <th class="center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);">利润</th>
-                        <th class="center not-striped-td" style="width: 120px;">利润</th>
-                        <th class="center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7); width: 70px;">日利润</th>
-                        <th class="center not-striped-td" style="width: 80px;">支出</th>
-                        <th class="center not-striped-td style-red-header">耗油<br>成本</th>
-                        <th class="center not-striped-td style-red-header">港费</th>
-                        <th class="center not-striped-td style-red-header">其他</th>
-                        <th class="center not-striped-td" style="width: 50px;">管理成本</th>
+                        <th class="center not-striped-td" style="width: 6%;">[NM]</th>
+                        <th class="center not-striped-td" style="width: 8%;">收入</th>
+                        <th class="center not-striped-td" style="width: 4%;">收入/<br>里程</th>
+                        <th class="center not-striped-td" style="width: 6%; border-right: 2px solid rgb(255, 146, 7);">利润</th>
+                        <th class="center not-striped-td" style="width: 6%;">利润</th>
+                        <th class="center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7); width: 5%;">日利润</th>
+                        <th class="center not-striped-td" style="width: 7%;">支出</th>
+                        <th class="center not-striped-td style-red-header" style="width: 5%;">耗油<br>成本</th>
+                        <th class="center not-striped-td style-red-header" style="width: 5%;">港费</th>
+                        <th class="center not-striped-td style-red-header" style="width: 5%;">其他</th>
+                        <th class="center not-striped-td" style="width: 5%">管理<br>成本</th>
                     </tr>
 
                     <tbody>
                         <tr v-for="(item, index) in list" class="index % 2 == 0 ? 'odd' : 'even'">
-                            <td class="center voy-no" @click="onVoyDetail(item[0].Voy_No)">@{{ item[0].Voy_No }}</td>
+                            <td class="center voy-no" style="height: 22px;cursor:pointer;background:linear-gradient(#fff, #d9f8fb)!important;" @click="onVoyDetail(item[0].Voy_No)">@{{ item[0].Voy_No }}</td>
                             <td class="center">@{{ item[0].CP_kind }}</td>
-                            <td class="center" style="width: 120px;">@{{ _sailTime(item[1].start_date, item[1].end_date) }}</td>
-                            <td class="center">@{{ _number_format(item[1].total_sail_time) }}</td>
-                            <td class="center">@{{ _number_format(item[1].total_distance, 0) }}</td>
-                            <td class="center">@{{ _number_format(item[1].cgo_qty, 0) }}</td>
-                            <td class="center">@{{ _number_format(item[0].Freight, 1) }}</td>
-                            <td class="center text-profit">@{{ _number_format(item[1].credit, 0) }}</td>
+                            <td class="center">@{{ _sailTime(item[1].start_date, item[1].end_date) }}</td>
+                            <td class="text-right">@{{ _number_format(item[1].total_sail_time) }}</td>
+                            <td class="text-right">@{{ _number_format(item[1].total_distance, 0) }}</td>
+                            <td class="text-right">@{{ _number_format(item[1].cgo_qty, 0) }}</td>
+                            <td class="text-right">@{{ _number_format(item[0].Freight, 2) }}</td>
+                            <td class="text-right text-profit">@{{ _number_format(item[1].credit, 0) }}</td>
                             <td class="center">@{{ _number_format(item[1].credit_distance, 0) }}</td>
-                            <td class="center" :style="debitClass(item[1].soa_credit)" style="border-right: 2px solid rgb(255, 146, 7);">@{{ _number_format(item[1].soa_credit) }}</td>
-                            <td class="center" :style="debitClass(item[1].profit)">@{{ _number_format(item[1].profit) }}</td>
-                            <td class="center" style="border-right: 2px solid rgb(255, 146, 7);" :style="debitClass(item[1].day_profit)">@{{ _number_format(item[1].day_profit) }}</td>
-                            <td class="center">@{{ _number_format(item[1].debit_percent, 1) }}</td>
+                            <td class="text-right" :style="debitClass(item[1].soa_credit)" style="border-right: 2px solid rgb(255, 146, 7);">@{{ _number_format(item[1].soa_credit, 0) }}</td>
+                            <td class="text-right" :style="debitClass(item[1].profit)">@{{ _number_format(item[1].profit, 0) }}</td>
+                            <td class="text-right" style="border-right: 2px solid rgb(255, 146, 7);" :style="debitClass(item[1].day_profit)">@{{ _number_format(item[1].day_profit, 0) }}</td>
+                            <td class="center">@{{ _number_format(item[1].debit_percent, 1) + (_number_format(item[1].debit_percent, 1) == '' ? '' : '%') }}</td>
                             <td class="center">@{{ _number_format(item[1].fuel_percent, 1) }}</td>
                             <td class="center">@{{ _number_format(item[1].sail_percent, 1) }}</td>
                             <td class="center">@{{ _number_format(item[1].else_percent, 1) }}</td>
                             <td class="center">@{{ _number_format(item[1].manage_percent, 1) }}</td>
                         </tr>
 
-                        <tr class="fixed-footer">
-                            <td class="text-center not-striped-td">@{{ _number_format(footer.count, 0) }}</td>
+                        <tr class="dynamic-footer">
+                            <td class="text-center not-striped-td" style="height: 22ppx!important">@{{ _number_format(footer.count, 0) }}</td>
                             <td class="text-center not-striped-td"></td>
                             <td class="text-center not-striped-td"></td>
-                            <td class="text-center not-striped-td">@{{ _number_format(footer.sail_time, 2) }}</td>
+                            <td class="text-center not-striped-td" style="height: 22ppx!important">@{{ _number_format(footer.sail_time, 2) }}</td>
                             <td class="text-center not-striped-td">@{{ _number_format(footer.distance, 0) }}</td>
                             <td class="text-center not-striped-td"></td>
                             <td class="text-center not-striped-td"></td>
                             <td class="text-center not-striped-td text-profit">@{{ _number_format(footer.credit, 0) }}</td>
                             <td class="text-center not-striped-td">@{{ _number_format(footer.credit_distance, 0) }}</td>
-                            <td class="text-center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);" :style="debitClass(footer.profit_soa)">@{{ _number_format(footer.profit_soa, 0) }}</td>
+                            <td class="text-center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7); height: 22px;" :style="debitClass(footer.profit_soa)">@{{ _number_format(footer.profit_soa, 0) }}</td>
                             <td class="text-center not-striped-td" :style="debitClass(footer.profit_real)">@{{ _number_format(footer.profit_real, 0) }}</td>
                             <td class="text-center not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);" :style="debitClass(footer.day_profit_real)">@{{ _number_format(footer.day_profit_real, 0) }}</td>
                             <td class="text-center not-striped-td">@{{ _number_format(footer.debit, 0) }}</td>
-                            <td class="text-center not-striped-td style-red-header">@{{ _number_format(footer.fuel, 0) }}</td>
-                            <td class="text-center not-striped-td style-red-header">@{{ _number_format(footer.sail, 0) }}</td>
-                            <td class="text-center not-striped-td style-red-header">@{{ _number_format(footer.else, 0) }}</td>
+                            <td class="text-center not-striped-td" style="background: #f2dcdb!important">@{{ _number_format(footer.fuel, 0) }}</td>
+                            <td class="text-center not-striped-td" style="background: #f2dcdb!important">@{{ _number_format(footer.sail, 0) }}</td>
+                            <td class="text-center not-striped-td" style="background: #f2dcdb!important">@{{ _number_format(footer.else, 0) }}</td>
                             <td class="text-center not-striped-td">@{{ _number_format(footer.manage, 0) }}</td>
                         </tr>
                     </tbody>
