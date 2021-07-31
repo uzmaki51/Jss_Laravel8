@@ -462,13 +462,6 @@
                     reportId: reportId
                 },
                 success: function(data, status, xhr) {
-                    if(is_new == false)
-                        $('[name=reportId]').val(reportId);
-                    else {
-                        $('.save-draft').removeAttr('disabled');
-                        $('[name=reportId]').val('');
-                    }
-
                     let result = data['list'];
                     let attach = data['attach'];
                     reportObj.object_type = result['obj_type'];
@@ -481,8 +474,16 @@
                         $('#obj_type_ship').prop('checked', false);
                         getObject(result['obj_no']);
                     }
-                    
-                    reportObj.report_date = result['report_date'];
+
+                    if(!is_new) {
+                        $('[name=reportId]').val(reportId);
+                        reportObj.report_date = result['report_date'];
+                    } else {
+                        $('.save-draft').removeAttr('disabled');
+                        $('[name=reportId]').val('');
+                        reportObj.report_date = reportObj.getToday('-');
+                    }
+
                     reportObj.currentReportType = result['flowid'];
                     reportObj.currentShipNo = result['shipNo'];
                     reportObj.amount = is_new == false ? result['amount'] : 0;
@@ -512,10 +513,6 @@
                 error: function(error) {
                 }
             });
-
-            // $('.show-modal').on('click', function() {
-
-            // });
         }
 
         $('.show-modal').on('click', function() {
