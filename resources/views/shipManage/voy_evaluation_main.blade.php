@@ -16,7 +16,7 @@
                 @endforeach
             </select>
 
-            <strong style="font-size: 16px; padding-top: 6px; margin-left: 30px;" class="f-right">
+            <strong style="font-size: 20px; padding-top: 6px; margin-left: 30px;" class="f-right">
                 <span id="search_info">{{ $shipName }}</span>&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ voyId }}次评估</span>
             </strong>
         </div>
