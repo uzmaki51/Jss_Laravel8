@@ -2159,13 +2159,13 @@ class ShipRegController extends Controller
             }
     
     
-            $retVal['currentData'] = $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->get();
+            $retVal['currentData'] = $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->orderBy('id', 'asc')->get();
             $prevData = $voyTbl2->first();
             if($prevData == null)
                 $prevData = $voyTbl->first();
     
             $retVal['prevData'] = $prevData;
-            $retVal['max_date'] = $voyTbl3->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+            $retVal['max_date'] = $voyTbl3->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->orderBy('id', 'desc')->first();
             if($retVal['max_date'] == null)
                 $retVal['max_date'] = false;
     
@@ -2180,19 +2180,15 @@ class ShipRegController extends Controller
                 $cp_list = [];
                 
                 foreach($retVal['currentData'] as $key => $item) {
-                    if($key == 0) {
-
-                    } else {
                         if(!in_array($item->CP_ID, $voyArray)) {
                             $voyArray[] = $item->CP_ID;
-                            $beforeVoy = VoyLog::where('Voy_Status', DYNAMIC_CMPLT_DISCH)->where('CP_ID', '<', $item->CP_ID)->where('Ship_ID', $item->Ship_ID)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
-                            $firstVoy = VoyLog::where('CP_ID', $item->CP_ID)->where('Ship_ID', $item->Ship_ID)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc');
+                            $beforeVoy = VoyLog::where('Voy_Status', DYNAMIC_CMPLT_DISCH)->where('CP_ID', '<', $item->CP_ID)->where('Ship_ID', $item->Ship_ID)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->orderBy('id', 'desc')->first();
+                            $firstVoy = VoyLog::where('CP_ID', $item->CP_ID)->where('Ship_ID', $item->Ship_ID)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->orderBy('id', 'asc')->first();
                             if($beforeVoy != null)
                                 $retTmp[$item->CP_ID][] = $beforeVoy;
-                            else if($beforeVoy == null && $firstVoy != null)
+                            else if($firstVoy != null)
                                 $retTmp[$item->CP_ID][] = $firstVoy;
-                            else
-                                $retTmp[$item->CP_ID][] = [];
+
         
                             $cp_list = CP::where('Ship_ID', $shipId)->where('Voy_No', $item->CP_ID)->orderBy('Voy_No', 'desc')->get();
                             foreach($cp_list as $cp_key => $cp_item) {
@@ -2219,7 +2215,6 @@ class ShipRegController extends Controller
                                 $retVal['cpData'][$item->CP_ID] = $cp_list[0];
                         }
     
-                    }
                     $year = $params['year'];
     
                     $selector = ReportSave::where('type', 0)
