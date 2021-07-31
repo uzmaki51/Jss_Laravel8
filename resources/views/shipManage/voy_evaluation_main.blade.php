@@ -448,7 +448,6 @@
                             });
                                 economicGraph = Highcharts.chart('economic_graph', {
                                     chart: {
-                                        
                                         type: 'pie',
                                         options3d: {
                                             enabled: true,
@@ -456,7 +455,10 @@
                                         }
                                     },
                                     title: {
-                                        text: '天数占率'
+                                        text: '天数占率',
+                                        style: {
+                                            fontWeight: 'bold'
+                                        }
                                     },
                                     tooltip: {
                                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -490,7 +492,12 @@
                                         { name: '航行天数', y: __parseFloat(realInfo.sail_time) },
                                         { name: '装货天数', y: __parseFloat(realInfo.load_time) },
                                         { name: '卸货天数', y: __parseFloat(realInfo.disch_time) },
-                                        ]
+                                        ],
+                                        dataLabels: {
+                                            style: {
+                                                fontSize: 14
+                                            }
+                                        }
                                     }]
                                 });                    
 
@@ -507,7 +514,10 @@
                                     }
                                 },
                                 title: {
-                                    text: '支出占率'
+                                    text: '支出占率',
+                                    style: {
+                                        fontWeight: 'bold'
+                                    }
                                 },
                                 tooltip: {
                                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -541,7 +551,12 @@
                                         { name: '耗油成本', y: __parseFloat(realInfo.fuel_consumpt) },
                                         { name: '其他(运营)', y: __parseFloat(cpInfo.cost_else) },
                                         { name: '管理成本', y: __parseFloat(realInfo.manage_cost_day) },
-                                    ]
+                                    ],
+                                    dataLabels: {
+                                        style: {
+                                            fontSize: 14
+                                        }
+                                    }
                                 }]
                             });
                         },

@@ -92,7 +92,7 @@ $ships = Session::get('shipList');
                                 </div>
                                 <div class="col-md-12" style="margin-top:4px;">
                                     <div class="row" style="text-align:center;">
-                                        <strong style="font-size: 16px; padding-top: 6px;">1. 利润分析</strong>
+                                        <strong style="font-size: 20px; padding-top: 6px;">1. 利润分析</strong>
                                         <div class="space-8"></div>
                                         <div class="card">
                                             <div class="space-8"></div>
@@ -105,7 +105,7 @@ $ships = Session::get('shipList');
                                     <div class="space-4"></div>
                                     <div class="space-10"></div>
                                     <div class="row" style="text-align:center;">
-                                        <strong style="font-size: 16px; padding-top: 6px;">2. 收支分析</strong>
+                                        <strong style="font-size: 20px; padding-top: 6px;">2. 收支分析</strong>
                                         <div class="space-8"></div>
                                         <div class="card">
                                             <div class="space-8"></div>
@@ -118,7 +118,7 @@ $ships = Session::get('shipList');
                                     <div class="space-4"></div>
                                     <div class="space-10"></div>
                                     <div class="row" style="text-align:center;">
-                                        <strong style="font-size: 16px; padding-top: 6px;">3. 支出分析</strong>
+                                        <strong style="font-size: 20px; padding-top: 6px;">3. 支出分析</strong>
                                         <div class="space-8"></div>
                                         <div class="card">
                                             <div class="space-8"></div>
@@ -156,7 +156,7 @@ $ships = Session::get('shipList');
                                             <option value="{{$i}}" @if($i==date("Y")) selected @endif>{{$i}}年</option>
                                             @endfor
                                         </select>
-                                        <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="table_info"></span>收支分析表</strong>
+                                        <strong class="f-right" style="font-size: 20px; padding-top: 6px;"><span id="table_info"></span>收支分析表</strong>
                                     </div>
                                     <div class="col-md-5" style="padding:unset!important">
                                         <div class="btn-group f-right">
@@ -249,7 +249,7 @@ $ships = Session::get('shipList');
                                 <div class="col-md-12" style="margin-top:4px;">
                                     <div class="space-10"></div>
                                     <div class="row" style="text-align:center;">
-                                        <strong style="font-size: 16px; padding-top: 6px;"><span id="soa_title"></span>合同简要</strong>
+                                        <strong style="font-size: 20px; padding-top: 6px;"><span id="soa_title"></span>合同简要</strong>
                                     </div>
                                     <div class="space-4"></div>
                                     <div class="row">
@@ -282,7 +282,7 @@ $ships = Session::get('shipList');
                                     </div>
                                     <div class="space-10"></div>
                                     <div class="row" style="text-align:center;">
-                                        <strong class="text-center" style="font-size: 16px; padding-top: 6px;"><span id="soa_info"></span>SOA</strong>
+                                        <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="soa_info"></span>SOA</strong>
                                     </div>
                                     <div class="space-4"></div>
                                     <div class="row">
@@ -624,7 +624,12 @@ $ships = Session::get('shipList');
                             y: datasets[12],
                             custom: costs[12],
                         }
-                    ]
+                    ],
+                    dataLabels: {
+                        style: {
+                            fontSize: 14
+                        }
+                    }
                 }],
                 tooltip: {
                     valueSuffix: "%",
