@@ -476,7 +476,7 @@
                                             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                                             connectorColor: 'silver'
                                         },
-                                            innerSize: 0,
+                                            innerSize: 80,
                                             depth: 45
                                         }
                                     },
@@ -527,7 +527,7 @@
                                             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                                             connectorColor: 'silver'
                                         },
-                                        innerSize: 0,
+                                        innerSize: 80,
                                         depth: 45
                                     }
                                 },
