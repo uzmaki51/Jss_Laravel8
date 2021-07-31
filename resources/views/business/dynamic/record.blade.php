@@ -475,6 +475,7 @@
                                     var start_date = searchObj.prevData['Voy_Date'] + ' ' + searchObj.prevData['Voy_Hour'] + ':' + searchObj.prevData['Voy_Minute'] + ':00';
                                     var start_gmt = searchObj.prevData['GMT'];
                                     searchObj.currentData.forEach(function(value, key) {
+                                        searchObj.currentData[key]['dynamicSub'] = getSubList(value['Voy_Status']);
                                         searchObj.currentData[key]['Voy_Status_Name'] = DynamicStatus[value['Voy_Status']][0];
                                         searchObj.currentData[key]['Voy_Type_Name'] = DynamicSub[value['Voy_Type']];
                                         searchObj.total_distance += __parseFloat(value["Sail_Distance"]);
@@ -701,7 +702,7 @@
                                 Voy_Date: searchObj.currentData[length - 1]['Voy_Date'],
                                 GMT: searchObj.currentData[length - 1]['GMT']
                             }
-
+                            searchObj.currentData[length] = tmp;
                         } else {
                             let tmp1 = {
                                 Voy_Status: DYNAMIC_SAILING,
