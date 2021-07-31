@@ -288,7 +288,7 @@ class DecisionReport extends Model {
 			$selector = $selector->leftJoin("tbl_cp", function($join) {
 				$join->on('tbl_cp.Voy_No', '=', 'tb_decision_report_save.voyNo');
 				$join->on('tbl_cp.Ship_ID', '=', 'tb_decision_report_save.shipNo');
-			})->whereIn("tbl_cp.CP_kind",["TC","VOY"]);
+			})->whereIn("tbl_cp.CP_kind",["TC","VOY","NON"]);
 
 			$cost_records = $selector->get();
 			
