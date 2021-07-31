@@ -482,8 +482,7 @@
                         getObject(result['obj_no']);
                     }
                     
-                    //reportObj.report_date = result['report_date'];
-                    reportObj.report_date = reportObj.getToday('-');
+                    reportObj.report_date = result['report_date'];
                     reportObj.currentReportType = result['flowid'];
                     reportObj.currentShipNo = result['shipNo'];
                     reportObj.amount = is_new == false ? result['amount'] : 0;
