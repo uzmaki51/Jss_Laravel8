@@ -268,11 +268,11 @@ table:not(.general, .not-striped) tbody tr:not(.selected, .dynamic-footer, .fixe
 table:not(.general, .not-striped) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(odd) textarea {
     background-color: #f5f5f5!important;
 }
-table:not(.general) tbody tr:not(.selected):not(.selected, .dynamic-footer, .fixed-footer):nth-child(odd):hover, 
-table:not(.general) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(odd):hover td, 
-table:not(.general) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(odd):hover input,
-table:not(.general) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(odd):hover select,
-table:not(.general) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(odd):hover textarea {
+table:not(.general, .not-striped) tbody tr:not(.selected):not(.selected, .dynamic-footer, .fixed-footer):nth-child(odd):hover, 
+table:not(.general, .not-striped) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(odd):hover td, 
+table:not(.general, .not-striped) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(odd):hover input,
+table:not(.general, .not-striped) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(odd):hover select,
+table:not(.general, .not-striped) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(odd):hover textarea {
     background-color: #ffe3e082!important;
 }
 
@@ -282,11 +282,11 @@ table:not(.general, .not-striped) tbody tr:not(.selected, .dynamic-footer, .fixe
 table:not(.general, .not-striped) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(even) textarea {
     background-color: #ffffff!important;
 }
-table:not(.general) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(even):hover, 
-table:not(.general) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(even):hover td, 
-table:not(.general) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(even):hover input,
-table:not(.general) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(even):hover select,
-table:not(.general) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(even):hover textarea {
+table:not(.general, .not-striped) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(even):hover, 
+table:not(.general, .not-striped) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(even):hover td, 
+table:not(.general, .not-striped) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(even):hover input,
+table:not(.general, .not-striped) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(even):hover select,
+table:not(.general, .not-striped) tbody tr:not(.selected, .dynamic-footer, .fixed-footer):nth-child(even):hover textarea {
     background-color: #ffe3e082!important;
 }
 

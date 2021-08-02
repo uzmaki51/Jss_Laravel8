@@ -154,9 +154,9 @@
                                                 <input type="text" class="form-control text-center" name="avg_speed[]" v-model="item.avg_speed" readonly>
                                             </td>
                                             <td class="center">
-                                                <my-currency-input v-model="item.up_rob_fo" class="form-control text-center" name="up_rob_fo[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.up_rob_fo" class="form-control text-center" :style="debitClass(item.up_rob_fo)" name="up_rob_fo[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             <td class="center">
-                                                <my-currency-input v-model="item.up_rob_do" class="form-control text-center" name="up_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.up_rob_do" class="form-control text-center" :style="debitClass(item.up_rob_do)" name="up_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center" style="width: 3%;">
                                                 <a :href="item.attachment_link_up" target="_blank"><img src="/assets/images/document.png" v-show="item.attachment_link_up != '' && item.attachment_link_up != null" width="15" height="15" style="cursor: pointer;"></a>
@@ -169,10 +169,10 @@
                                             </td>
 
                                             <td class="center">
-                                                <my-currency-input v-model="item.down_rob_fo" class="form-control text-center" name="down_rob_fo[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.down_rob_fo" :style="debitClass(item.down_rob_fo)" class="form-control text-center" name="down_rob_fo[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center">
-                                                <my-currency-input v-model="item.down_rob_do" class="form-control text-center" name="down_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.down_rob_do" :style="debitClass(item.down_rob_do)" class="form-control text-center" name="down_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center" style="width: 3%;">
                                                 <a :href="item.attachment_link_down" target="_blank"><img src="/assets/images/document.png" v-show="item.attachment_link_down != '' && item.attachment_link_down != null" width="15" height="15" style="cursor: pointer;"></a>
@@ -186,40 +186,40 @@
 
 
                                             <td class="center">
-                                                <my-currency-input v-model="item.rob_fo" class="form-control text-center" name="rob_fo[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.rob_fo" :style="debitClass(item.rob_fo)" class="form-control text-center" name="rob_fo[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center">
-                                                <my-currency-input v-model="item.rob_do" class="form-control text-center" name="rob_do[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.rob_do" :style="debitClass(item.rob_do)" class="form-control text-center" name="rob_do[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
 
                                             <td class="center">
-                                                <my-currency-input v-model="item.saved_fo" class="form-control text-center" name="saved_fo[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.saved_fo" :style="debitClass(item.saved_fo)" class="form-control text-center" name="saved_fo[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center" style="border-right: 2px solid #ff9207;">
-                                                <my-currency-input v-model="item.saved_do" class="form-control text-center" name="saved_do[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.saved_do" :style="debitClass(item.saved_do)" class="form-control text-center" name="saved_do[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
 
                                             <td class="center">
-                                                <my-currency-input v-model="item.bunk_fo" class="form-control text-center" name="bunk_fo[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.bunk_fo" :style="debitClass(item.bunk_fo, 1)" class="form-control text-center" name="bunk_fo[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center">
-                                                <my-currency-input v-model="item.bunk_do" class="form-control text-center" name="bunk_do[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.bunk_do" :style="debitClass(item.bunk_do, 1)" class="form-control text-center" name="bunk_do[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
 
                                             <td class="center">
-                                                <my-currency-input v-model="item.fuelSum" class="form-control text-center" name="fuelSum[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.fuelSum" :style="debitClass(item.fuelSum, 1)" class="form-control text-center" name="fuelSum[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center">
-                                                <my-currency-input v-model="item.oil_price_fo" class="form-control text-center" name="oil_price_fo[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.oil_price_fo" :style="debitClass(item.oil_price_fo)" class="form-control text-center" name="oil_price_fo[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center">
-                                                <my-currency-input v-model="item.oil_price_do" class="form-control text-center" name="oil_price_do[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.oil_price_do" :style="debitClass(item.oil_price_do)" class="form-control text-center" name="oil_price_do[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center" style="border-right: 2px solid #ff9207;">
-                                                <my-currency-input v-model="item.oil_price_else" class="form-control text-center" name="oil_price_else[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.oil_price_else" :style="debitClass(item.oil_price_else)" class="form-control text-center" name="oil_price_else[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center">
-                                                <textarea class="form-control" name="remark[]" rows="1" style="resize: none" maxlength="50" autocomplete="off" v-model="item.remark"></textarea>
+                                                <textarea class="form-control" name="remark[]" rows="1" style="resize: none; padding: 0 2px!important;" maxlength="50" autocomplete="off" v-model="item.remark"></textarea>
                                             </td>
                                         </tr>
                                     </template>
@@ -487,6 +487,17 @@
                     onChangeVoy: function(evt) {
 
                     },
+                     debitClass: function(value, profit = 0) {
+                        if(profit == 0) {
+                            color = 'red';
+                            return __parseFloat(value) >= 0 ? '' : 'color: '+color+'!important';
+                        } else {
+                            color = '#026fcd';
+                            return __parseFloat(value) < 0 ? 'color: red!important;' : 'color: '+color+'!important';
+                        }
+                            
+
+                     },
                     onTypeChange(val) {
                         this.page_title = '燃油管理';
                         $('.page-title').text('燃油管理');

@@ -1257,7 +1257,6 @@ class BusinessController extends Controller {
                     $voyTbl3->where('CP_ID', 0);
                     $voyTbl2->where('CP_ID', '<', 0)->orderBy('CP_ID', 'desc');
                 }
-
             } else if($params['type'] == 'analyze') {
                 if(isset($params['year']) && $params['year'] != 0) {
                     $voyTbl->whereRaw(DB::raw('mid(CP_ID, 1, 2) like ' . $params['year']));

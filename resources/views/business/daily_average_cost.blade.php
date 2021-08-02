@@ -59,7 +59,7 @@ $ships = Session::get('shipList');
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <div class="row">
                         <div class="table-head-fix-div" id="div-income-expense" style="height: 700px">
-                            <table id="table-income-expense-list" style="max-width:unset!important;table-layout:fixed;">
+                            <table id="table-income-expense-list" style="max-width:unset!important;table-layout:fixed;" class="not-striped">
                                 <thead class="">
                                 <tr>
                                     <th class="text-center style-normal-header" rowspan="2" style="width: 3%;"><span>年</span></th>
@@ -96,7 +96,7 @@ $ships = Session::get('shipList');
                             </div>
                             <form id="form-costs-list" action="updateCostInfo" role="form" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
-                            <table id="table-expect-cost" style="table-layout:fixed;width:900px!important;">
+                            <table id="table-expect-cost" style="table-layout:fixed;width:900px!important;" class="not-striped">
                                 <thead class="">
                                 <tr>
                                     <th class="text-center style-normal-header" rowspan="2"><span></span></th>
