@@ -128,7 +128,7 @@ $ships = Session::get('shipList');
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ number_format($costs['input1']) }}" style="width: 100%"></td>
+                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input1'] }}" style="width: 100%"></td>
                                     <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input2'] }}" style="width: 100%"></td>
                                     <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input3'] }}" style="width: 100%"></td>
                                 </tr>
