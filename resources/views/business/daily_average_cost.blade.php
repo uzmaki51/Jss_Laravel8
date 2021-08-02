@@ -511,6 +511,25 @@ $ships = Session::get('shipList');
                             }
                         }
                     }
+
+                    var inputs = $('input[name="input[]"]');
+                    var outputs = $('input[name="output[]"]');
+                    for (var i=0;i<8;i++) { inputs[i].value = ""; outputs[i].value = "";}
+                    if (response.json.costs != null) {
+                        inputs[0].value = response.json.costs['input1'];
+                        inputs[1].value = response.json.costs['input2'];
+                        inputs[2].value = response.json.costs['input3'];
+                        inputs[3].value = response.json.costs['input4'];
+                        inputs[4].value = response.json.costs['input5'];
+                        inputs[5].value = response.json.costs['input6'];
+                        inputs[6].value = response.json.costs['input7'];
+                        inputs[7].value = response.json.costs['input8'];
+                        inputs[8].value = response.json.costs['input9'];
+                        inputs[9].value = response.json.costs['input10'];
+                        inputs[10].value = response.json.costs['input11'];
+
+                    }
+
                     setValues();
                 }
             });
