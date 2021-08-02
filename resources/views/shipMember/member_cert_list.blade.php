@@ -257,9 +257,9 @@ $isHolder = Session::get('IS_HOLDER');
 
             tab_text=tab_text+"</table>";
             //tab_text='<table border="2px" style="text-align:center;vertical-align:middle;"><tr><th class="text-center sorting_disabled" style="width: 78px;text-align:center;vertical-align:center;" rowspan="1" colspan="1"><span>No</span></th></tr><tr style="width: 78px;text-align:center;vertical-align:middle;"><td class="text-center sorting_disabled" rowspan="2" style="">你好</td></tr></table>';
-            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-            tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
-            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+            tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+            tab_text= tab_text.replaceAll(/<img[^>]*>/gi,""); // remove if u want images in your table
+            tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
             //document.getElementById('test').innerHTML = tab_text;
             var filename = 'CREW CERTIFICATES LIST(' + shipName + ')';

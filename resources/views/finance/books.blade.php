@@ -391,8 +391,8 @@ $isHolder = Session::get('IS_HOLDER');
                     listBook = response.json.data;
                     setEvents();
                     origForm = $form.serialize();
-                    origForm = origForm.replace(/select-year\=|[0-9]/gi,'');
-                    origForm = origForm.replace(/select-month\=|[0-9]/gi,'');
+                    origForm = origForm.replaceAll(/select-year\=|[0-9]/gi,'');
+                    origForm = origForm.replaceAll(/select-month\=|[0-9]/gi,'');
 
                     book_no = response.json.book_no;
                     //console.log("BOOK_NO:", response.json.book_no);
@@ -562,7 +562,7 @@ $isHolder = Session::get('IS_HOLDER');
 
         function prettyValue(value)
         {
-            return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+            return parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
         function selectInfo()
@@ -715,9 +715,9 @@ $isHolder = Session::get('IS_HOLDER');
                 if (book_list.rows[i].childNodes[0].childNodes[0].checked && !book_list.rows[i].childNodes[0].childNodes[0].disabled) {
                     var row_html = '';
                     var credit_text = book_list.rows[i].childNodes[9].childNodes[0].value;
-                    var credit = credit_text.replace(",","");
+                    var credit = credit_text.replaceAll(",","");
                     var debit_text = book_list.rows[i].childNodes[10].childNodes[0].value;
-                    var debit = debit_text.replace(",","");
+                    var debit = debit_text.replaceAll(",","");
                     
                     row_html = "<tr data-ref='" + i + "' ship-no='" + book_list.rows[i].childNodes[0].childNodes[2].value + "'";
                     row_html += " report-id='" + book_list.rows[i].childNodes[0].childNodes[1].value + "'><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[1].innerText + "</td><td class='text-center disable-td no-padding'>"+ listBook[i].obj + "</td><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[5].innerText + "</td><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[6].innerText + "</td><td>";
@@ -781,8 +781,8 @@ $isHolder = Session::get('IS_HOLDER');
             sum_credit = 0;
             sum_debit = 0;
             for (var i=0;i<credit.length;i++) {
-                if (credit[i] != "") sum_credit += credit[i].value==""?0:parseFloat(credit[i].value.replace(",",""));
-                if (debit[i] != "") sum_debit += debit[i].value==""?0:parseFloat(debit[i].value.replace(",",""));
+                if (credit[i] != "") sum_credit += credit[i].value==""?0:parseFloat(credit[i].value.replaceAll(",",""));
+                if (debit[i] != "") sum_debit += debit[i].value==""?0:parseFloat(debit[i].value.replaceAll(",",""));
             }
             
             var report_html = "";
@@ -841,7 +841,7 @@ $isHolder = Session::get('IS_HOLDER');
                     var book_list = document.getElementById('list-book-body');
                     var keep_list = document.getElementById('table-keep-body');
                     
-                    var new_book_no = parseInt($('#keep-list-bookno').val().replace("J-",""));
+                    var new_book_no = parseInt($('#keep-list-bookno').val().replaceAll("J-",""));
                     if (new_book_no == (book_no+1)) {
                         book_no = book_no + 1;
                         new_book_no = book_no;
@@ -888,8 +888,8 @@ $isHolder = Session::get('IS_HOLDER');
                     }
                     setState(false);
 
-                    var input_sum_credit = $('[name="sum_credit"]').val().replace(",","");
-                    var input_sum_debit = $('[name="sum_debit"]').val().replace(",","");
+                    var input_sum_credit = $('[name="sum_credit"]').val().replaceAll(",","");
+                    var input_sum_debit = $('[name="sum_debit"]').val().replaceAll(",","");
                     if (input_sum_credit == "") input_sum_credit = 0;
                     if (input_sum_debit == "") input_sum_debit = 0;
 
@@ -931,8 +931,8 @@ $isHolder = Session::get('IS_HOLDER');
             var prevYear = $('#select-year').val();
             $('#select-year').val(year);
             var newForm = $form.serialize();
-            newForm = newForm.replace(/select-year\=|[0-9]/gi,'');
-            newForm = newForm.replace(/select-month\=|[0-9]/gi,'');
+            newForm = newForm.replaceAll(/select-year\=|[0-9]/gi,'');
+            newForm = newForm.replaceAll(/select-month\=|[0-9]/gi,'');
             if ((newForm !== origForm) && (origForm != "") && !submitted) {
                 var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
@@ -958,7 +958,7 @@ $isHolder = Session::get('IS_HOLDER');
         });
         
         $('#keep_rate').on('keyup', function(evt) {
-            $(evt.target).val(evt.target.value.replace(/(\.\d{4})\d+/g, '$1'));
+            $(evt.target).val(evt.target.value.replaceAll(/(\.\d{4})\d+/g, '$1'));
         });
 
         $('#keepTab').on('click', function() {
@@ -978,7 +978,7 @@ $isHolder = Session::get('IS_HOLDER');
         function setEvents() {
             $('.style-blue-input,.style-red-input').on('change', function(evt) {
                 if (evt.target.value == '') return;
-                var val = evt.target.value.replace(',','');
+                var val = evt.target.value.replaceAll(',','');
                 if (val >= 0)
                 {
                     $(evt.target).removeClass("style-red-input");
@@ -993,7 +993,7 @@ $isHolder = Session::get('IS_HOLDER');
             })
             $('.style-normal-input').on('change', function(evt) {
                 if (evt.target.value == '') return;
-                var val = evt.target.value.replace(',','');
+                var val = evt.target.value.replaceAll(',','');
                 if (val >= 0)
                 {
                     $(evt.target).removeClass("style-red-input");
@@ -1033,7 +1033,7 @@ $isHolder = Session::get('IS_HOLDER');
             })
 
             $('.style-red-input[name="book_no[]"]').unbind().click(function(evt) {
-                var selected_bookno = evt.target.value.replace("J-","");
+                var selected_bookno = evt.target.value.replaceAll("J-","");
                 if (selected_bookno != '') {
                     for (var k=books.length-1;k>=0;k--)
                     {
@@ -1052,9 +1052,9 @@ $isHolder = Session::get('IS_HOLDER');
 
                                     var row_html = '';
                                     var credit_text = rows_to_remove[i].childNodes[9].childNodes[0].value;
-                                    var credit = credit_text.replace(",","");
+                                    var credit = credit_text.replaceAll(",","");
                                     var debit_text = rows_to_remove[i].childNodes[10].childNodes[0].value;
-                                    var debit = debit_text.replace(",","");
+                                    var debit = debit_text.replaceAll(",","");
                                     
                                     row_html = "<tr data-ref='" + i + "' ship-no='" + rows_to_remove[i].childNodes[0].childNodes[2].value + "'";
                                     row_html += " report-id='" + rows_to_remove[i].childNodes[0].childNodes[1].value + "'><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[1].innerText + "</td><td class='text-center disable-td no-padding'>"+ listBook[i].obj + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[5].innerText + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[6].innerText + "</td><td>";
@@ -1091,13 +1091,13 @@ $isHolder = Session::get('IS_HOLDER');
                         }
                     }
                     origForm = $form.serialize();
-                    origForm = origForm.replace(/select-year\=|[0-9]/gi,'');
-                    origForm = origForm.replace(/select-month\=|[0-9]/gi,'');
+                    origForm = origForm.replaceAll(/select-year\=|[0-9]/gi,'');
+                    origForm = origForm.replaceAll(/select-month\=|[0-9]/gi,'');
                 }
             })
 
             $('.style-blue-input[name="book_no[]"]').unbind().click(function(evt) {
-                var selected_bookno = evt.target.value.replace("J-","");
+                var selected_bookno = evt.target.value.replaceAll("J-","");
                 if (selected_bookno != '') {
                     $.ajax({
                         url: BASE_URL + 'ajax/finance/waters/find',
@@ -1119,9 +1119,9 @@ $isHolder = Session::get('IS_HOLDER');
 
                                     var row_html = '';
                                     var credit_text = rows_to_remove[i].childNodes[9].childNodes[0].value;
-                                    var credit = credit_text.replace(",","");
+                                    var credit = credit_text.replaceAll(",","");
                                     var debit_text = rows_to_remove[i].childNodes[10].childNodes[0].value;
-                                    var debit = debit_text.replace(",","");
+                                    var debit = debit_text.replaceAll(",","");
                                     
                                     row_html = "<tr data-ref='" + i + "' ship-no='" + rows_to_remove[i].childNodes[0].childNodes[2].value + "'";
                                     row_html += " report-id='" + rows_to_remove[i].childNodes[0].childNodes[1].value + "'><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[1].innerText + "</td><td class='text-center disable-td no-padding'>"+ listBook[i].obj + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[5].innerText + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[6].innerText + "</td><td>";
@@ -1156,8 +1156,8 @@ $isHolder = Session::get('IS_HOLDER');
                                 $('[name="sum_debit"]').val(books.debit==0?"":prettyValue(books.debit));
                             }
                             origForm = $form.serialize();
-                            origForm = origForm.replace(/select-year\=|[0-9]/gi,'');
-                            origForm = origForm.replace(/select-month\=|[0-9]/gi,'');
+                            origForm = origForm.replaceAll(/select-year\=|[0-9]/gi,'');
+                            origForm = origForm.replaceAll(/select-month\=|[0-9]/gi,'');
                             return;
                         },
                         error: function(error) {
@@ -1185,8 +1185,8 @@ $isHolder = Session::get('IS_HOLDER');
             var prevMonth = $('#select-month').val();
             $('#select-month').val(month);
             var newForm = $form.serialize();
-            newForm = newForm.replace(/select-year\=|[0-9]/gi,'');
-            newForm = newForm.replace(/select-month\=|[0-9]/gi,'');
+            newForm = newForm.replaceAll(/select-year\=|[0-9]/gi,'');
+            newForm = newForm.replaceAll(/select-month\=|[0-9]/gi,'');
 
             if ((newForm !== origForm) && (origForm != "") && !submitted && ACTIVE_TAB != "#tab_water") {
                 var confirmationMessage = 'It looks like you have been editing something. '
@@ -1258,6 +1258,7 @@ $isHolder = Session::get('IS_HOLDER');
             $('.style-red-input').parent().parent().find('[type="checkbox"]').attr("class", "");
             $('.style-red-input').parent().parent().find('[type="checkbox"]').prop("checked", true);
             $('.style-red-input').attr("class","form-control style-blue-input");
+            setEvents();
         }
 
         function clearSelection()
@@ -1271,8 +1272,8 @@ $isHolder = Session::get('IS_HOLDER');
             var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
             var newForm = $form.serialize();
-            newForm = newForm.replace(/select-year\=|[0-9]/gi,'');
-            newForm = newForm.replace(/select-month\=|[0-9]/gi,'');
+            newForm = newForm.replaceAll(/select-year\=|[0-9]/gi,'');
+            newForm = newForm.replaceAll(/select-month\=|[0-9]/gi,'');
 
             if ((newForm !== origForm) && !submitted && ACTIVE_TAB != "#tab_water") {
                 (e || window.event).returnValue = confirmationMessage;
@@ -1346,9 +1347,9 @@ $isHolder = Session::get('IS_HOLDER');
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
             tab_text=tab_text+"</table>";
-            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
-            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+            tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
             var filename = year + '_' + month + '_记账簿';
             exportExcel(tab_text, filename, year + '_' + month + '_记账簿');
@@ -1398,9 +1399,9 @@ $isHolder = Session::get('IS_HOLDER');
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
             tab_text=tab_text+"</table>";
-            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
-            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+            tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
             var filename = year + '_' + month + '_流水账';
             exportExcel(tab_text, filename, year + '_' + month + '_流水账');

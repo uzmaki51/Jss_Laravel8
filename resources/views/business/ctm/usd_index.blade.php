@@ -504,9 +504,9 @@
             }
             tab_text=tab_text+"</table>";
 
-            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
-            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+            tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
             $('#test').html(tab_text);            
             var filename = $("#select-ship option:selected").text() + '_' + $('#usd_year_list option:selected').val() + '_CTM记录($)';
             exportExcel(tab_text, filename, filename);

@@ -397,7 +397,7 @@
         var searchObj = null;
         var shipId = '{!! $shipId !!}';
         var shipInfo = '{!! $shipInfo !!}';
-        shipInfo=shipInfo.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
+        shipInfo=shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
         shipInfo = JSON.parse(shipInfo);
         var DYNAMIC_SUB_SALING = '{!! DYNAMIC_SUB_SALING !!}';
         var DYNAMIC_SUB_LOADING = '{!! DYNAMIC_SUB_LOADING !!}';
@@ -1076,9 +1076,9 @@
                                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                             }
                             tab_text=tab_text+"</table>";
-                            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-                            tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
-                            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // remove input params
+                            tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+                            tab_text= tab_text.replaceAll(/<img[^>]*>/gi,""); // remove if u want images in your table
+                            tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, ""); // remove input params
                             var filename = $('#select-ship option:selected').text() + '_' + searchObj.activeVoy + '动态记录';
                             exportExcel(tab_text, filename, filename);
                             return 0;

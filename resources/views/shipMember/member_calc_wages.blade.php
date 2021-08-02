@@ -421,8 +421,8 @@ $isHolder = Session::get('IS_HOLDER');
             var td = daysInMonth(month, year);
             for (var i=0;i<TransInR.length;i++) {
                 setValue(No[i], i + 1, false);
-                var m = parseFloat(minus[i].value.replace(',',''));
-                var s = parseFloat(salary[i].value.replace(',',''));
+                var m = parseFloat(minus[i].value.replaceAll(',',''));
+                var s = parseFloat(salary[i].value.replaceAll(',',''));
                 var don = dateon[i].value;
                 var doff = dateoff[i].value;
                 if (don < now) don = now;
@@ -446,10 +446,10 @@ $isHolder = Session::get('IS_HOLDER');
                 setValue(TransInR[i], _R, true);
                 setValue(TransInD[i], _D, true);
 
-                sum_R += (_R==''||_R=='NaN')?0:parseFloat(_R.replace(',',''));
-                sum_D += (_D==''||_D=='NaN')?0:parseFloat(_D.replace(',',''));
+                sum_R += (_R==''||_R=='NaN')?0:parseFloat(_R.replaceAll(',',''));
+                sum_D += (_D==''||_D=='NaN')?0:parseFloat(_D.replaceAll(',',''));
                 if (TransDate[i].value != '') {
-                    sum_pre += (_R=='')?0:parseFloat(_R.replace(',',''));
+                    sum_pre += (_R=='')?0:parseFloat(_R.replaceAll(',',''));
                 }
             }
             var sum_Real = sum_R - sum_pre;
@@ -464,8 +464,8 @@ $isHolder = Session::get('IS_HOLDER');
 
         function prettyValue(value)
         {
-            //console.log(value, ",", parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,"));
-            return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+            //console.log(value, ",", parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,"));
+            return parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
         function setDatePicker() {
@@ -876,9 +876,9 @@ $isHolder = Session::get('IS_HOLDER');
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
             tab_text=tab_text+"</table>";
-            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
-            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+            tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
             var filename = $("#select-ship option:selected").html() + '_' + year + '_' + month + '_工资单';
             exportExcel(tab_text, filename, year + '_' + month + '_工资单');

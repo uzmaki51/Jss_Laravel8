@@ -382,9 +382,9 @@
                             tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                         }
                         tab_text=tab_text+"</table>";
-                        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-                        tab_text= tab_text.replace(/<img[^>]*>/gi,"");
-                        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+                        tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+                        tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+                        tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
                         var filename = $('#search_info').html() + '_' + equipRequireObj._data.activeYear + "必修备件表";
                         exportExcel(tab_text, filename, filename);

@@ -251,17 +251,17 @@ $isHolder = Session::get('IS_HOLDER');
             var sum_P = 0;
             for (var i=0;i<CashR.length;i++) {
                 setValue(No[i], i + 1, false);
-                var _R = CashR[i].value.replace(',','');
-                var _D = SendR[i].value.replace(',','');
-                var _P = SendD[i].value.replace(',','');
+                var _R = CashR[i].value.replaceAll(',','');
+                var _D = SendR[i].value.replaceAll(',','');
+                var _P = SendD[i].value.replaceAll(',','');
 
                 setValue(CashR[i], _R, true);
                 setValue(SendR[i], _D, true);
                 setValue(SendD[i], _P, true);
 
-                sum_R += parseValue(_R.replace(',',''));
-                sum_D += parseValue(_D.replace(',',''));
-                sum_P += (_P==''||_P=='NaN')?0:parseValue(_P.replace(',',''));
+                sum_R += parseValue(_R.replaceAll(',',''));
+                sum_D += parseValue(_D.replaceAll(',',''));
+                sum_P += (_P==''||_P=='NaN')?0:parseValue(_P.replaceAll(',',''));
             }
             if ($('#list-body tr:last').attr('class') == 'tr-report') {
                 $('#list-body tr:last').remove();
@@ -303,7 +303,7 @@ $isHolder = Session::get('IS_HOLDER');
 
         function prettyValue(value)
         {
-            return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+            return parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
         function setDatePicker() {
@@ -487,9 +487,9 @@ $isHolder = Session::get('IS_HOLDER');
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
             tab_text=tab_text+"</table>";
-            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
-            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+            tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
             var filename = $("#select-ship option:selected").html() + '_' + year + '_' + month + '_工资汇款单';
 
@@ -513,7 +513,7 @@ $isHolder = Session::get('IS_HOLDER');
             var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
             var newForm = $form.serialize();
-            newForm = newForm.replace("editable-image-input-hidden=&", "");
+            newForm = newForm.replaceAll("editable-image-input-hidden=&", "");
             if ((newForm !== origForm) && !submitted) {
                 (e || window.event).returnValue = confirmationMessage;
             }

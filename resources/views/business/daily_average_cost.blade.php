@@ -26,7 +26,7 @@ $ships = Session::get('shipList');
         <div class="page-content">
             <div class="page-header">
                 <div class="col-sm-3">
-                    <h4><b>日均成本</b></h4>
+                    <h4><b>成本预计</b></h4>
                 </div>
             </div>
             <div class="row">
@@ -41,7 +41,7 @@ $ships = Session::get('shipList');
                                 <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
                             @endforeach
                         </select>
-                        <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="table_info"></span>最近三年数据</strong>
+                        <strong class="f-right" style="font-size: 20px; padding-top: 6px;"><span id="table_info"></span>年份数据</strong>
                     </div>
                     <div class="col-md-5" style="padding:unset!important">
                         <div class="btn-group f-right">
@@ -92,7 +92,7 @@ $ships = Session::get('shipList');
                             </table>
                             <div class="space-12"></div>
                             <div class="col-md-6">
-                                <strong class="f-right" style="font-size: 16px; padding-top: 6px; padding-bottom:8px;"><span id="costs_info"></span>日均成本</strong>
+                                <strong class="f-right" style="font-size: 20px; padding-top: 6px; padding-bottom:8px;"><span id="costs_info"></span>成本预计</strong>
                             </div>
                             <form id="form-costs-list" action="updateCostInfo" role="form" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
@@ -100,9 +100,13 @@ $ships = Session::get('shipList');
                                 <thead class="">
                                 <tr>
                                     <th class="text-center style-normal-header" rowspan="2"><span></span></th>
+                                    <th class="text-center style-red-header" colspan="3"><span>运营成本 ($)</span></th>
                                     <th class="text-center style-normal-header" colspan="8"><span>管理成本 ($)</span></th>
                                 </tr>
                                 <tr>
+                                    <th class="text-center style-red-header"><span>劳务费</span></th>
+                                    <th class="text-center style-red-header"><span>CTM</span></th>
+                                    <th class="text-center style-red-header"><span>其他</span></th>
                                     <th class="text-center style-normal-header"><span>工资</span></th>
                                     <th class="text-center style-normal-header"><span>伙食费</span></th>
                                     <th class="text-center style-normal-header"><span>物料费</span></th>
@@ -115,7 +119,10 @@ $ships = Session::get('shipList');
                                 </thead>
                                 <tbody class="" id="">
                                 <tr>
-                                    <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>年份</span></td>
+                                    <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>年成本</span></td>
+                                    <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                    <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                    <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
@@ -126,18 +133,22 @@ $ships = Session::get('shipList');
                                     <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input3'] }}" style="width: 100%"></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>月份</span></td>
+                                    <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>月成本</span></td>
                                     <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input4'] }}" style="width: 100%"></td>
                                     <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input5'] }}" style="width: 100%"></td>
                                     <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input6'] }}" style="width: 100%"></td>
                                     <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input7'] }}" style="width: 100%"></td>
                                     <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input8'] }}" style="width: 100%"></td>
+                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input9'] }}" style="width: 100%"></td>
+                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input10'] }}" style="width: 100%"></td>
+                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input11'] }}" style="width: 100%"></td>
                                     <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                 </tr>
                                 <tr style="height:30px;border:2px solid black;">
                                     <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>日成本</span></td>
+                                    <td colspan="3" class="sub-small-header style-red-header text-center" id="total-extra-sum"></td>
                                     <td colspan="8" class="sub-small-header style-normal-header text-center" id="total-sum"></td>
                                 </tbody>
                             </table>
@@ -195,29 +206,46 @@ $ships = Session::get('shipList');
             var inputs = $('input[name="input[]"]');
             var outputs = $('input[name="output[]"]');
             var total_sum = 0;
+            var total_extra_sum = 0;
             for (var i=0;i<inputs.length;i++) {
                 var value = inputs[i].value;
-                //inputs[i].value = prettyValue(value);
-                value = value.replace("$","").replace(",","");
-                var value = parseFloat(value);
+                value = value.replaceAll("$","").replaceAll(",","");
+                value = parseFloat(value);
+                if (isNaN(value)) inputs[i].value = '';
+                else inputs[i].value = prettyValue2(value);
                 if (i < 3) {
-                    total_sum += value;
+                    if (!isNaN(value)) total_sum += value;
                     value = value / 12;
-                } else {
+                }
+                else if (i < 6)
+                {
                     value = value * 12;
-                    total_sum += value;
+                    if (!isNaN(value)) total_extra_sum += value;
+                }
+                else {
+                    value = value * 12;
+                    if (!isNaN(value)) total_sum += value;
                 }
                 if (!isNaN(value) && value != "" && value != null) {
-                    outputs[(i+5)%8].value = '' + prettyValue(value);
+                    outputs[(i+8)%11].value = '' + prettyValue2(value);
                 }
             }
             if (!isNaN(total_sum) && total_sum != "" && total_sum != null) {
                 total_sum = total_sum / 365;
                 total_sum = total_sum.toFixed(0);
-                $('#total-sum').html('' + prettyValue(total_sum));
+                $('#total-sum').html('' + prettyValue2(total_sum));
             }
             else {
                 $('#total-sum').html('-');
+            }
+
+            if (!isNaN(total_extra_sum) && total_extra_sum != "" && total_extra_sum != null) {
+                total_extra_sum = total_extra_sum / 365;
+                total_extra_sum = total_extra_sum.toFixed(0);
+                $('#total-extra-sum').html('' + prettyValue2(total_extra_sum));
+            }
+            else {
+                $('#total-extra-sum').html('-');
             }
 
             if (origForm == "")
@@ -230,14 +258,14 @@ $ships = Session::get('shipList');
         $('input[name="input[]"]').on('keydown', function(evt) {
             if (evt.key == "Enter" || evt.key == "Tab") {
                 if (evt.target.value == '') return;
-                var val = evt.target.value.replace(',','').replace('$','');
-                $(evt.target).val('' + prettyValue(val));
+                var val = evt.target.value.replaceAll(',','').replaceAll('$','');
+                $(evt.target).val('' + prettyValue2(val));
             }
         });
         $('input[name="input[]"]').on('focusout', function(evt) {
             if (evt.target.value == '') return;
-            var val = evt.target.value.replace(',','').replace('$','');
-            $(evt.target).val('' + prettyValue(val));
+            var val = evt.target.value.replaceAll(',','').replaceAll('$','');
+            $(evt.target).val('' + prettyValue2(val));
         });
         //setValues();
 
@@ -256,16 +284,16 @@ $ships = Session::get('shipList');
 /*
         $('input[name="input[]"]').on('change', function(evt) {
             if (evt.target.value == '') return;
-            var val = evt.target.value.replace(',','').replace('$','');
+            var val = evt.target.value.replaceAll(',','').replaceAll('$','');
             $(evt.target).val('$' + prettyValue(val));
         });
 */
         $('input[name="input[]"]').on('focus', function(evt) {
-            $(evt.target).val($(evt.target).val().replace(',','').replace('$',''));
+            $(evt.target).val($(evt.target).val().replaceAll(',','').replaceAll('$',''));
         });
 
-        $('#table_info').html('"' + $("#select-table-ship option:selected").attr('data-name') + '"');
-        $('#costs_info').html('"' + $("#select-table-ship option:selected").attr('data-name') + '"');
+        $('#table_info').html('' + $("#select-table-ship option:selected").attr('data-name') + ' ');
+        $('#costs_info').html('' + $("#select-table-ship option:selected").attr('data-name') + ' ');
 
         var token = '{!! csrf_token() !!}';
         var shipid_table;
@@ -471,7 +499,7 @@ $ships = Session::get('shipList');
                         var value_str = tab.rows[j].childNodes[1].innerHTML;
                         if ((value_str != "") && (value_str != "-"))
                         {
-                            time_average += parseFloat(value_str.replace(",",""));
+                            time_average += parseFloat(value_str.replaceAll(",",""));
                         }
 
                         for (var i=0;i<15;i++)
@@ -479,70 +507,14 @@ $ships = Session::get('shipList');
                             var value_str = tab.rows[j].childNodes[5+i].innerHTML;
                             if ((value_str != "") && (value_str != "-"))
                             {
-                                table_sums[i] += parseFloat(value_str.replace(",",""));
+                                table_sums[i] += parseFloat(value_str.replaceAll(",",""));
                             }
                         }
                     }
-                    
-                    var report_html = "";
-                    report_html = "<tr style='height:20px;'><td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer style-normal-header sub-small-header text-center disable-td'>年均</td>";
-                    time_average = prettyValue(time_average / 3);
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='text-center table-footer sub-small-header disable-td'>" + time_average + "</td>";
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer sub-small-header disable-td' colspan='3'></td>";
-                    for(i=0;i<15;i++)
-                    {
-                        var value = table_sums[i] / 3;
-
-                        //style-normal-header sub-small-header style-red-header
-                        if (i == 0) {
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
-                        }
-                        else if (i > 1 && i < 7)
-                        {
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
-                        }
-                        else
-                        {
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
-                        }
-                    }
-                    report_html += "</tr>";
-
-                    report_html += "<tr style='height:20px;'><td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer style-normal-header sub-small-header text-center disable-td'>月均</td>";
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='text-center table-footer sub-small-header disable-td'></td>";
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer sub-small-header disable-td' colspan='3'></td>";
-                    for(i=0;i<15;i++)
-                    {
-                        var value = table_sums[i] / 3 / 363 * 31;
-                        if (i < 4) value = 0;
-                        if (i == 1)
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right" + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
-                            //report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right right-border" + (value>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':'$'+prettyValue(value)) + "</td>";
-                        else if (i > 1 && i < 7)
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
-                        else
-                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
-                    }
-                    report_html += "</tr>";
-
-                    report_html += "<tr style='height:20px;'><td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer style-normal-header sub-small-header text-center disable-td'>日均</td>";
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='text-center table-footer sub-small-header disable-td'></td>";
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer sub-small-header disable-td' colspan='3'></td>";
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='text-center table-footer sub-small-header disable-td'></td>";
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='text-center table-footer sub-small-header disable-td'></td>";
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right' style='padding:5px!important;'></td>";
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right' style='padding:5px!important;'></td>";
-
-                    value = (table_sums[4] + table_sums[5] + table_sums[6]) / 363;
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-center " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;' colspan='3'>" + (value==0?'':''+prettyValue2(value)) + "</td>";
-                    value = (table_sums[7] + table_sums[8] + table_sums[9] + table_sums[10] + table_sums[11] + table_sums[12] + table_sums[13]+ table_sums[14]) / 363;
-                    report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-center " + (value>=0?'':'style-red-input') + "' style='padding:5px!important;' colspan='8'>" + (value==0?'': ''+prettyValue2(value)) + "</td>";
-                    report_html += "</tr>";
-                    $('#table-income-expense-body').append(report_html);
 
                     var inputs = $('input[name="input[]"]');
                     var outputs = $('input[name="output[]"]');
-                    for (var i=0;i<8;i++) { inputs[i].value = ""; outputs[i].value = "";}
+                    for (var i=0;i<11;i++) { inputs[i].value = ""; outputs[i].value = "";}
                     if (response.json.costs != null) {
                         inputs[0].value = response.json.costs['input1'];
                         inputs[1].value = response.json.costs['input2'];
@@ -552,7 +524,12 @@ $ships = Session::get('shipList');
                         inputs[5].value = response.json.costs['input6'];
                         inputs[6].value = response.json.costs['input7'];
                         inputs[7].value = response.json.costs['input8'];
+                        inputs[8].value = response.json.costs['input9'];
+                        inputs[9].value = response.json.costs['input10'];
+                        inputs[10].value = response.json.costs['input11'];
+
                     }
+
                     setValues();
                 }
             });
@@ -590,12 +567,12 @@ $ships = Session::get('shipList');
 
         function prettyValue(value)
         {
-            return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+            return parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
         function prettyValue2(value)
         {
-            return parseFloat(value).toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+            return parseFloat(value).toFixed(0).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
         const DAY_UNIT = 1000 * 3600;
@@ -622,7 +599,7 @@ $ships = Session::get('shipList');
             var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
             var real_tab = document.getElementById('table-income-expense-list');
             var tab = real_tab.cloneNode(true);
-            tab_text=tab_text+"<tr><td colspan='20' style='font-size:20px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_info').html() + "最新三年数据</td></tr>";
+            tab_text=tab_text+"<tr><td colspan='20' style='font-size:20px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_info').html() + "年份数据</td></tr>";
             for(var j = 0; j < tab.rows.length ; j++)
             {
                 if (j == 0) {
@@ -656,7 +633,7 @@ $ships = Session::get('shipList');
             real_tab = document.getElementById('table-expect-cost');
             tab_text+="<table border='1px' style='text-align:center;vertical-align:middle;'>";
             tab = real_tab.cloneNode(true);
-            tab_text+="<tr><td colspan='9' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_info').html() + "日均成本</td></tr>";
+            tab_text+="<tr><td colspan='12' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_info').html() + "成本预计</td></tr>";
             for(var j = 0; j < tab.rows.length ; j++)
             {
                 if (j == 0) {
@@ -689,11 +666,11 @@ $ships = Session::get('shipList');
             }
             tab_text=tab_text+"</table>";
             
-            tab_text=tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-            tab_text=tab_text.replace(/<img[^>]*>/gi,"");
-            tab_text=tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+            tab_text=tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+            tab_text=tab_text.replaceAll(/<img[^>]*>/gi,"");
+            tab_text=tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = $('#table_info').html() + '_日均成本';
+            var filename = $('#select-table-ship option:selected').text() + '_成本预计';
             exportExcel(tab_text, filename, filename);
             
             return 0;
