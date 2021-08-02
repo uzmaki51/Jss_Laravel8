@@ -51,6 +51,7 @@ use App\Models\ShipManage\Fuel;
 use App\Models\Convert\VoyLog;
 use App\Models\Convert\VoySettle;
 use App\Models\Finance\ReportSave;
+use App\Models\Decision\DecisionReport;
 
 use App\Models\ShipTechnique\EquipmentUnit;
 
@@ -2211,8 +2212,13 @@ class ShipRegController extends Controller
                                 $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
                             }
 
-                            if(count($cp_list) > 0)
+                            if(count($cp_list) > 0) {
                                 $retVal['cpData'][$item->CP_ID] = $cp_list[0];
+                                $decideTbl = new DecisionReport();
+                                $debit_credit = $decideTbl->getIncome($shipId, $item->CP_ID);
+                                $oil_fee = isset($debit_credit[2][OUTCOME_FEE2]) ? $debit_credit[2][OUTCOME_FEE2] : 0;
+                                $retVal['cpData'][$item->CP_ID]->fuelSum = $oil_fee;
+                            }
                         }
     
                     $year = $params['year'];

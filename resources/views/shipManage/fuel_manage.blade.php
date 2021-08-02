@@ -754,6 +754,7 @@
                                         realData['lport'] = cpData[value]['LPort'] == false ? '-' : cpData[value]['LPort'];
                                         realData['dport'] = cpData[value]['DPort'] == false ? '-' : cpData[value]['DPort'];
                                         realData['sail_time'] = __getTermDay(realData['voy_start'], realData['voy_end'], tmpData[0]['GMT'], tmpData[tmpData.length - 1]['GMT']);
+                                        realData.fuelSum = __parseFloat(cpData[value]['fuelSum']) == 0 ? '-' : __parseFloat(cpData[value]['fuelSum']);
                                         realData.up_rob_fo = 0;
                                         realData.up_rob_do = 0;
                                         realData.down_rob_fo = 0;
@@ -764,7 +765,6 @@
                                             total_distance += __parseFloat(data_value["Sail_Distance"]);
                                             bunk_fo += __parseFloat(data_value['BUNK_FO']);
                                             bunk_do += __parseFloat(data_value['BUNK_DO']);
-                                            fuelSum = __parseFloat(data_value['fuelSum']);
 
                                             if(data_key > 0) {
                                                 if(data_value['Voy_Type'] == DYNAMIC_SUB_SALING) {
@@ -860,7 +860,6 @@
                                         realData.saved_fo = BigNumber(realData.rob_fo).minus(realData.used_fo).toFixed(2);
                                         realData.saved_do = BigNumber(realData.rob_do).minus(realData.used_do).toFixed(2);
 
-                                        realData.fuelSum = fuelSum;
 
                                         realData.oil_price_fo = 0;
                                         realData.oil_price_do = 0;
