@@ -800,9 +800,9 @@ $isHolder = Session::get('IS_HOLDER');
             var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
             var newForm = $form.serialize();
-            newForm = newForm.replace("editable-image-input-hidden=&", "");
-            newForm = newForm.replace("avatar-hidden=&", "");
-            newForm = newForm.replace("avatar=&", "");
+            newForm = newForm.replaceAll("editable-image-input-hidden=&", "");
+            newForm = newForm.replaceAll("avatar-hidden=&", "");
+            newForm = newForm.replaceAll("avatar=&", "");
 
             if (newForm !== origForm && !submitted) {
                 (e || window.event).returnValue = confirmationMessage;

@@ -440,7 +440,7 @@ $isHolder = Session::get('IS_HOLDER');
         initReportTable();
         function prettyValue(value)
         {
-            return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+            return parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
         $('#select-report-year').on('change', function() {
             changeYear(0);
@@ -980,9 +980,9 @@ $isHolder = Session::get('IS_HOLDER');
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
             tab_text=tab_text+"</table>";
-            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
-            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+            tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
             var filename = year_report + '年_' + (month_report==0?'全部':month_report) + '_账户汇报';
             exportExcel(tab_text, filename, filename);
@@ -1028,9 +1028,9 @@ $isHolder = Session::get('IS_HOLDER');
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
             tab_text=tab_text+"</table>";
-            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
-            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+            tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
             var filename = year_analysis + '年_' + (month_analysis==0?'全部':month_analysis) + '(' + $("#account_type option:selected").text() + ')_账户汇报';
             exportExcel(tab_text, filename, $("#account_type option:selected").text());

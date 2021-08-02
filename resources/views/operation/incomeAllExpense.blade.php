@@ -400,12 +400,12 @@ $ships = Session::get('shipList');
 
     function prettyValue(value)
     {
-        return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+        return parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
     }
 
     function prettyValue2(value)
     {
-        return parseFloat(value).toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+        return parseFloat(value).toFixed(0).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
     }
 
     function addAlpha(color, opacity) {
@@ -1472,9 +1472,9 @@ $ships = Session::get('shipList');
             }
             tab_text=tab_text+"</table>";
         }
-        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-        tab_text= tab_text.replace(/<img[^>]*>/gi,"");
-        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+        tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+        tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+        tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
         var filename = '收支(综合)_' + $('#table_first_title').html() + '_' + year_table;
         exportExcel(tab_text, filename, filename);

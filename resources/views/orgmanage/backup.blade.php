@@ -107,8 +107,8 @@ $isHolder = Session::get('IS_HOLDER');
                         
                     var pageInfo = listTable.page.info();
                     $('td', row).eq(0).html(index+1);
-                    $('td', row).eq(4).html('').append('<div class="action-buttons"><a class="blue" href="javascript:open_backup_folder(' + "'" + data['filepath'].replace(/\\/g,"/") + "','" + data['filename'] + "'" + ')"' + ' title="File Path"><i class="icon-book"></i></a></div>');
-                    $('td', row).eq(5).html('').append('<div class="action-buttons"><a class="red" href="javascript:restore(' + "'" + data['filepath'].replace(/\\/g,"/") + "','" + data['filename'] + "'" + ')"' + ' title="Restore"><i class="icon-plus"></i></a></div>');
+                    $('td', row).eq(4).html('').append('<div class="action-buttons"><a class="blue" href="javascript:open_backup_folder(' + "'" + data['filepath'].replaceAll(/\\/g,"/") + "','" + data['filename'] + "'" + ')"' + ' title="File Path"><i class="icon-book"></i></a></div>');
+                    $('td', row).eq(5).html('').append('<div class="action-buttons"><a class="red" href="javascript:restore(' + "'" + data['filepath'].replaceAll(/\\/g,"/") + "','" + data['filename'] + "'" + ')"' + ' title="Restore"><i class="icon-plus"></i></a></div>');
                 },
             });
 

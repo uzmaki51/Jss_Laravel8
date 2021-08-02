@@ -198,7 +198,7 @@ $ships = Session::get('shipList');
             for (var i=0;i<inputs.length;i++) {
                 var value = inputs[i].value;
                 //inputs[i].value = prettyValue(value);
-                value = value.replace("$","").replace(",","");
+                value = value.replaceAll("$","").replaceAll(",","");
                 var value = parseFloat(value);
                 if (i < 3) {
                     total_sum += value;
@@ -230,13 +230,13 @@ $ships = Session::get('shipList');
         $('input[name="input[]"]').on('keydown', function(evt) {
             if (evt.key == "Enter" || evt.key == "Tab") {
                 if (evt.target.value == '') return;
-                var val = evt.target.value.replace(',','').replace('$','');
+                var val = evt.target.value.replaceAll(',','').replaceAll('$','');
                 $(evt.target).val('' + prettyValue(val));
             }
         });
         $('input[name="input[]"]').on('focusout', function(evt) {
             if (evt.target.value == '') return;
-            var val = evt.target.value.replace(',','').replace('$','');
+            var val = evt.target.value.replaceAll(',','').replaceAll('$','');
             $(evt.target).val('' + prettyValue(val));
         });
         //setValues();
@@ -256,12 +256,12 @@ $ships = Session::get('shipList');
 /*
         $('input[name="input[]"]').on('change', function(evt) {
             if (evt.target.value == '') return;
-            var val = evt.target.value.replace(',','').replace('$','');
+            var val = evt.target.value.replaceAll(',','').replaceAll('$','');
             $(evt.target).val('$' + prettyValue(val));
         });
 */
         $('input[name="input[]"]').on('focus', function(evt) {
-            $(evt.target).val($(evt.target).val().replace(',','').replace('$',''));
+            $(evt.target).val($(evt.target).val().replaceAll(',','').replaceAll('$',''));
         });
 
         $('#table_info').html('"' + $("#select-table-ship option:selected").attr('data-name') + '"');
@@ -471,7 +471,7 @@ $ships = Session::get('shipList');
                         var value_str = tab.rows[j].childNodes[1].innerHTML;
                         if ((value_str != "") && (value_str != "-"))
                         {
-                            time_average += parseFloat(value_str.replace(",",""));
+                            time_average += parseFloat(value_str.replaceAll(",",""));
                         }
 
                         for (var i=0;i<15;i++)
@@ -479,7 +479,7 @@ $ships = Session::get('shipList');
                             var value_str = tab.rows[j].childNodes[5+i].innerHTML;
                             if ((value_str != "") && (value_str != "-"))
                             {
-                                table_sums[i] += parseFloat(value_str.replace(",",""));
+                                table_sums[i] += parseFloat(value_str.replaceAll(",",""));
                             }
                         }
                     }
@@ -590,12 +590,12 @@ $ships = Session::get('shipList');
 
         function prettyValue(value)
         {
-            return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+            return parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
         function prettyValue2(value)
         {
-            return parseFloat(value).toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+            return parseFloat(value).toFixed(0).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
         const DAY_UNIT = 1000 * 3600;
@@ -689,9 +689,9 @@ $ships = Session::get('shipList');
             }
             tab_text=tab_text+"</table>";
             
-            tab_text=tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-            tab_text=tab_text.replace(/<img[^>]*>/gi,"");
-            tab_text=tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+            tab_text=tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+            tab_text=tab_text.replaceAll(/<img[^>]*>/gi,"");
+            tab_text=tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
             var filename = $('#table_info').html() + '_日均成本';
             exportExcel(tab_text, filename, filename);

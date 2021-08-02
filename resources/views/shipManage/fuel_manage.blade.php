@@ -278,7 +278,7 @@
         var $_this = null;
         var shipId = '{!! $shipId !!}';
         var shipInfo = '{!! $shipInfo !!}';
-        shipInfo=shipInfo.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
+        shipInfo=shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
         shipInfo = JSON.parse(shipInfo);
         var DYNAMIC_SUB_SALING = '{!! DYNAMIC_SUB_SALING !!}';
         var DYNAMIC_SUB_LOADING = '{!! DYNAMIC_SUB_LOADING !!}';
@@ -1059,9 +1059,9 @@
                             tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                         }
                         tab_text=tab_text+"</table>";
-                        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-                        tab_text= tab_text.replace(/<img[^>]*>/gi,"");
-                        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+                        tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+                        tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+                        tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
                         var filename = $('#search_info').html() + '_' + searchObj._data.activeYear + "年"+ searchObj._data.page_title;
                         exportExcel(tab_text, filename, filename);

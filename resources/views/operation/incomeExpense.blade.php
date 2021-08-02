@@ -971,10 +971,10 @@ $ships = Session::get('shipList');
                             if ((value_str != "") && (value_str != "-"))
                             {
                                 if (i == 4) {
-                                    table_sums[i] = parseFloat(value_str.replace(",",""));
+                                    table_sums[i] = parseFloat(value_str.replaceAll(",",""));
                                 }
                                 else {
-                                    table_sums[i] += parseFloat(value_str.replace(",",""));
+                                    table_sums[i] += parseFloat(value_str.replaceAll(",",""));
                                 }
                             }
                         }
@@ -1037,7 +1037,7 @@ $ships = Session::get('shipList');
 
         function prettyValue(value)
         {
-            return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+            return parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
         const DAY_UNIT = 1000 * 3600;
@@ -1334,9 +1334,9 @@ $ships = Session::get('shipList');
             }
             tab_text=tab_text+"</table>";
             
-            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
-            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+            tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
             var filename = $('#select-table-ship option:selected').text() + '_' + year_table + '_收支分析表';
             exportExcel(tab_text, filename, filename);
@@ -1395,9 +1395,9 @@ $ships = Session::get('shipList');
                 total_text += tab_text;
             }
 
-            total_text= total_text.replace(/<A[^>]*>|<\/A>/g, "");
-            total_text= total_text.replace(/<img[^>]*>/gi,"");
-            total_text= total_text.replace(/<input[^>]*>|<\/input>/gi, "");
+            total_text= total_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+            total_text= total_text.replaceAll(/<img[^>]*>/gi,"");
+            total_text= total_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
             var filename = $('#select-soa-ship option:selected').text() + '_' + voyType_soa + voyNo_soa + '_SOA';
             exportExcel(total_text, filename, filename);

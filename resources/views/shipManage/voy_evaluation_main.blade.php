@@ -432,9 +432,9 @@
                                 }
                                 tab_text=tab_text+"</table>";
                                 
-                                tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-                                tab_text= tab_text.replace(/<img[^>]*>/gi,"");
-                                tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+                                tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+                                tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+                                tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
                                 var filename = $('#search_info').html() + '_'  + $('#voy_list').val() + "次评估";
                                 exportExcel(tab_text, filename, filename);
