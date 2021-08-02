@@ -481,8 +481,8 @@
                                             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                                             connectorColor: 'silver'
                                         },
-                                            innerSize: 80,
-                                            depth: 45
+                                            innerSize: 40,
+                                            depth: 30
                                         }
                                     },
                                     series: [{
@@ -540,8 +540,8 @@
                                             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                                             connectorColor: 'silver'
                                         },
-                                        innerSize: 80,
-                                        depth: 45
+                                        innerSize: 40,
+                                        depth: 30
                                     }
                                 },
                                 series: [{
