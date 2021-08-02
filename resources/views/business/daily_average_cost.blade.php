@@ -514,7 +514,7 @@ $ships = Session::get('shipList');
 
                     var inputs = $('input[name="input[]"]');
                     var outputs = $('input[name="output[]"]');
-                    for (var i=0;i<8;i++) { inputs[i].value = ""; outputs[i].value = "";}
+                    for (var i=0;i<11;i++) { inputs[i].value = ""; outputs[i].value = "";}
                     if (response.json.costs != null) {
                         inputs[0].value = response.json.costs['input1'];
                         inputs[1].value = response.json.costs['input2'];
