@@ -321,17 +321,26 @@ class DecisionReport extends Model {
 			$shipid = $params['columns'][1]['search']['value'];
 		}
 
-		$start_year = DecisionReport::select(DB::raw('MAX(report_date) as max_date'))->first();
+		$start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
         if(empty($start_year)) {
             $start_year = date("Y");
         } else {
-            $start_year = substr($start_year['max_date'],0,4);
+            $start_year = substr($start_year['min_date'],0,4);
         }
+
+		$end_year = DecisionReport::select(DB::raw('MAX(report_date) as max_date'))->first();
+        if(empty($end_year)) {
+            $end_year = date("Y");
+        } else {
+            $end_year = substr($end_year['max_date'],0,4);
+        }
+
 		$total_profit = 0;
 		$start_year = intval($start_year);
+		$end_year = intval($end_year);
 		$records = [];
 		$index = 0;
-		for ($year=$start_year-2;$year<=$start_year;$year ++) {
+		for ($year=$start_year;$year<=$end_year;$year ++) {
 			$voyNo_from = substr($year, 2, 2) . '00';
 			$voyNo_to = substr($year, 2, 2) + 1;
 			$voyNo_to = $voyNo_to . '00';

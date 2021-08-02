@@ -99,6 +99,7 @@ class BusinessController extends Controller {
             $cost_record = new ExpectedCosts();
         }
         $cost_record->shipNo = $shipId;
+        /*
         $cost_record->input1 = $inputs[0];
         $cost_record->input2 = $inputs[1];
         $cost_record->input3 = $inputs[2];
@@ -107,6 +108,10 @@ class BusinessController extends Controller {
         $cost_record->input6 = $inputs[5];
         $cost_record->input7 = $inputs[6];
         $cost_record->input8 = $inputs[7];
+        $cost_record->input9 = $inputs[8];
+        $cost_record->input10 = $inputs[9];
+        $cost_record->input11 = $inputs[1];
+        */
 
         $cost_record->input1 = $this->getNumber($inputs[0]);
         $cost_record->input2 = $this->getNumber($inputs[1]);
@@ -116,6 +121,9 @@ class BusinessController extends Controller {
         $cost_record->input6 = $this->getNumber($inputs[5]);
         $cost_record->input7 = $this->getNumber($inputs[6]);
         $cost_record->input8 = $this->getNumber($inputs[7]);
+        $cost_record->input9 = $this->getNumber($inputs[8]);
+        $cost_record->input10 = $this->getNumber($inputs[9]);
+        $cost_record->input11 = $this->getNumber($inputs[10]);
 
         $cost_record->save();
         return redirect('business/dailyAverageCost?shipId='.$shipId);
@@ -165,12 +173,15 @@ class BusinessController extends Controller {
         $status = Session::get('status');
         $costs = ExpectedCosts::where('shipNo', $shipId)->first();
         
-        if($costs == null)
+        if($costs == null) {
             $costDay = 0;
-        else
-            $costDay = ($costs['input1'] + $costs['input2'] + $costs['input3'] + ($costs['input4'] + $costs['input5'] + $costs['input6'] + $costs['input7'] + $costs['input8'])*12) / 365;
+            $elseCost = 0;
+        }
+        else {
+            $costDay = ($costs['input1'] + $costs['input2'] + $costs['input3'] + ($costs['input7'] + $costs['input8'] + $costs['input9'] + $costs['input10'] + $costs['input11'])*12) / 365;
+            $elseCost = ($costs['input4'] + $costs['input5'] + $costs['input6'])*12/365;
+        }
 
-        
 		return view('business.ship_contract', array(
             'shipId'	    =>  $shipId,
             'shipName'	    =>  $shipName,
@@ -185,6 +196,7 @@ class BusinessController extends Controller {
             'minFreight'    => $minFreight,
 
             'costDay'       => round($costDay, 0),
+            'elseCost'      => round($elseCost, 0)
 		));
     }
 

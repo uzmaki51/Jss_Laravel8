@@ -286,7 +286,7 @@ $ships = Session::get('shipList');
         var ship_id = '{!! $shipId !!}';
         var costDay = '{!! $costDay !!}';
         var voy_id = '{!! $voy_id !!}';
-        var elseCost = '';
+        var elseCost = '{!! $elseCost !!}';
         var is_scrolled = false;
         var ACTIVE_TAB = 'nothing';
         var isChangeStatus = false;
@@ -511,8 +511,6 @@ $ships = Session::get('shipList');
                                 getInitInfo(ship_id);
                             }
                         });
-
-                        getDayAverage();
                     },
                     getFrtRate: function(a, b) {
                         let val = '';
@@ -1104,29 +1102,7 @@ $ships = Session::get('shipList');
     function offAutoCmplt() {
         $('.remark, input, textarea').attr('autocomplete', 'off');
     }
-    function getDayAverage() {
-        $.ajax({
-            url: BASE_URL + 'ajax/operation/listByShipForPast',
-            type: 'POST',
-            data: {'shipId':ship_id},
-            success: function(response) {
-                if (response.length <= 0) return 0;
-                var sum = 0;
-                for (var i=0;i<response.length;i++) {
-                    if (response[i].debit_list[6] != 'undefined' && response[i].debit_list[6] != null)
-                        sum += response[i].debit_list[6];
-                    if (response[i].debit_list[4] != 'undefined' && response[i].debit_list[4] != null)
-                        sum += response[i].debit_list[4];
-                    if (response[i].debit_list[15] != 'undefined' && response[i].debit_list[15] != null)
-                        sum += response[i].debit_list[15];
-                }
-                sum = sum / 363;
-                elseCost = sum.toFixed(0);
-            },
-            error: function(error) {
-            }
-        });
-    }
+    
     function fnExcelTc(type)
     {
         var tab_text;
