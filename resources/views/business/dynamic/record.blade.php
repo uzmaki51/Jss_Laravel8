@@ -232,14 +232,14 @@
                                 <td :class="dangerClass(average_speed)">@{{ number_format(average_speed) }}</td>
                                 <td :class="dangerClass(total_sail_time)">@{{ number_format(total_sail_time, 2) }}</td>
                                 <td :class="dangerClass(total_loading_time)" style="border-right: 2px solid rgb(255, 146, 7);">@{{ number_format(total_loading_time, 2) }}</td>
-                                <td :class="dangerClass(rob_fo)">@{{ number_format(rob_fo) }}</td>
-                                <td :class="dangerClass(rob_do)" style="border-right: 2px solid rgb(255, 146, 7);">@{{ number_format(rob_do) }}</td>
-                                <td :class="dangerClass(bunker_fo)">@{{ number_format(bunker_fo) }}</td>
-                                <td :class="dangerClass(bunker_do)">@{{ number_format(bunker_do) }}</td>
-                                <td :class="dangerClass(used_fo)">@{{ number_format(used_fo) }}</td>
-                                <td :class="dangerClass(used_do)">@{{ number_format(used_do) }}</td>
-                                <td :class="dangerClass(save_fo)">@{{ number_format(save_fo) }}</td>
-                                <td :class="dangerClass(save_do)">@{{ number_format(save_do) }}</td>
+                                <td :class="dangerClass(rob_fo)">@{{ number_format(rob_fo, 2) }}</td>
+                                <td :class="dangerClass(rob_do)" style="border-right: 2px solid rgb(255, 146, 7);">@{{ number_format(rob_do, 2) }}</td>
+                                <td :class="dangerClass(bunker_fo)">@{{ number_format(bunker_fo, 2) }}</td>
+                                <td :class="dangerClass(bunker_do)">@{{ number_format(bunker_do, 2) }}</td>
+                                <td :class="dangerClass(used_fo)">@{{ number_format(used_fo, 2) }}</td>
+                                <td :class="dangerClass(used_do)">@{{ number_format(used_do, 2) }}</td>
+                                <td :class="dangerClass(save_fo)">@{{ number_format(save_fo, 2) }}</td>
+                                <td :class="dangerClass(save_do)">@{{ number_format(save_do, 2) }}</td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -560,8 +560,8 @@
                                     searchObj.prevData['ROB_DO'] = __parseFloat(searchObj.prevData['ROB_DO']);
                                     data['max_date']['ROB_FO'] = __parseFloat(data['max_date']['ROB_FO']);
                                     data['max_date']['ROB_DO'] = __parseFloat(data['max_date']['ROB_DO']);
-                                    searchObj.rob_fo = BigNumber(searchObj.prevData['ROB_FO']).plus(searchObj.bunker_fo).minus(data['max_date']['ROB_FO']).toFixed(1);
-                                    searchObj.rob_do = BigNumber(searchObj.prevData['ROB_DO']).plus(searchObj.bunker_do).minus(data['max_date']['ROB_DO']).toFixed(1);
+                                    searchObj.rob_fo = BigNumber(searchObj.prevData['ROB_FO']).plus(searchObj.bunker_fo).minus(data['max_date']['ROB_FO']).toFixed(2);
+                                    searchObj.rob_do = BigNumber(searchObj.prevData['ROB_DO']).plus(searchObj.bunker_do).minus(data['max_date']['ROB_DO']).toFixed(2);
 
                                     let loadTmp = BigNumber(__parseFloat(loading_time.toFixed(2))).plus(__parseFloat(disch_time.toFixed(2))).plus(__parseFloat(total_sail_time.toFixed(2)));
                                     let non_economic_date = BigNumber(__parseFloat(total_waiting_time.toFixed(2))).plus(__parseFloat(total_weather_time.toFixed(2))).plus(__parseFloat(total_repair_time.toFixed(2))).plus(__parseFloat(total_supply_time.toFixed(2))).plus(__parseFloat(total_else_time.toFixed(2))).toFixed(2)

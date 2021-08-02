@@ -32,12 +32,6 @@
     <script src="{{ cAsset('assets/js/chartjs/c3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/flot.js') }}"></script>
     
-    <script>
-
-
-  
-    </script>
-    
     <div class="main-content">
         <style>
             .filter_row {
@@ -47,6 +41,12 @@
                 width : 350px !important;
             }
             [v-cloak] { display: none; }
+            table tbody tr td {
+                padding: 0!important;
+            }
+            .form-control {
+                padding: 0!important;
+            }
         </style>
         <div class="page-header">
             <div class="col-md-3">
@@ -110,33 +110,33 @@
                             <table class="dynamic-table table-striped" id="table-fuel-list">
                                     <thead>
                                         <tr>
-                                            <th class="text-center" rowspan="2">航次</th>
-                                            <th class="text-center" rowspan="2">平均<br>速度</th>
-                                            <th class="text-center" colspan="3" style="padding: 8px;">油槽测量(起)</th>
-                                            <th class="text-center" colspan="3">油槽测量(止)</th>
+                                            <th class="text-center" rowspan="2" style="width: 4%;">航次</th>
+                                            <th class="text-center" rowspan="2" style="width: 3%;">平均<br>速度</th>
+                                            <th class="text-center" colspan="3" style="padding: 8px;">油槽测量(起)(MT)</th>
+                                            <th class="text-center" colspan="3">油槽测量(止)(MT)</th>
                                             <th class="text-center" colspan="2">总消耗(MT)</th>
-                                            <th class="text-center" colspan="2" style="border-right: 2px solid #ff9207;">-节约/+超过</th>
+                                            <th class="text-center" colspan="2" style="border-right: 2px solid #ff9207;">-节约/+超过(MT)</th>
                                             <th class="text-center" colspan="2">加油量(MT)</th>
-                                            <th class="text-center" rowspan="2" style="max-width: 90px;">油款($)</th>
+                                            <th class="text-center" rowspan="2" style="width: 7%;">油款($)</th>
                                             <th class="text-center" colspan="3" style="border-right: 2px solid #ff9207;">油价($/MT)</th>
-                                            <th class="text-center" rowspan="2" style="width: 120px;">备注</th>
+                                            <th class="text-center" rowspan="2" >备注</th>
                                         </tr>
                                         <tr>
-                                            <th class="text-center">FO</th>
-                                            <th class="text-center">DO</th>
+                                            <th class="text-center" style="width: 5%;">FO</th>
+                                            <th class="text-center" style="width: 4%;">DO</th>
                                             <th class="text-center" style="min-width: 40px;">报告</th>
-                                            <th class="text-center">FO</th>
-                                            <th class="text-center">DO</th>
+                                            <th class="text-center" style="width: 5%;">FO</th>
+                                            <th class="text-center" style="width: 4%;">DO</th>
                                             <th class="text-center" style="min-width: 40px;">报告</th>
-                                            <th class="text-center">FO</th>
-                                            <th class="text-center">DO</th>
-                                            <th class="text-center">FO</th>
-                                            <th class="text-center" style="border-right: 2px solid #ff9207;">DO</th>
-                                            <th class="text-center">FO</th>
-                                            <th class="text-center">DO</th>
-                                            <th class="text-center">FO</th>
-                                            <th class="text-center">DO</th>
-                                            <th class="text-center" style="border-right: 2px solid #ff9207;">其他费</th>
+                                            <th class="text-center" style="width: 4%;">FO</th>
+                                            <th class="text-center" style="width: 4%;">DO</th>
+                                            <th class="text-center" style="width: 4%;">FO</th>
+                                            <th class="text-center" style="border-right: 2px solid #ff9207; width: 4%;">DO</th>
+                                            <th class="text-center" style="width: 5%;">FO</th>
+                                            <th class="text-center" style="width: 5%;">DO</th>
+                                            <th class="text-center" style="width: 5%;">FO</th>
+                                            <th class="text-center" style="width: 5%;">DO</th>
+                                            <th class="text-center" style="border-right: 2px solid #ff9207;width: 4%;">其他费</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -154,9 +154,9 @@
                                                 <input type="text" class="form-control text-center" name="avg_speed[]" v-model="item.avg_speed" readonly>
                                             </td>
                                             <td class="center">
-                                                <my-currency-input v-model="item.up_rob_fo" class="form-control text-center" name="up_rob_fo[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.up_rob_fo" class="form-control text-center" name="up_rob_fo[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             <td class="center">
-                                                <my-currency-input v-model="item.up_rob_do" class="form-control text-center" name="up_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.up_rob_do" class="form-control text-center" name="up_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center" style="width: 3%;">
                                                 <a :href="item.attachment_link_up" target="_blank"><img src="/assets/images/document.png" v-show="item.attachment_link_up != '' && item.attachment_link_up != null" width="15" height="15" style="cursor: pointer;"></a>
@@ -169,10 +169,10 @@
                                             </td>
 
                                             <td class="center">
-                                                <my-currency-input v-model="item.down_rob_fo" class="form-control text-center" name="down_rob_fo[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.down_rob_fo" class="form-control text-center" name="down_rob_fo[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center">
-                                                <my-currency-input v-model="item.down_rob_do" class="form-control text-center" name="down_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.down_rob_do" class="form-control text-center" name="down_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center" style="width: 3%;">
                                                 <a :href="item.attachment_link_down" target="_blank"><img src="/assets/images/document.png" v-show="item.attachment_link_down != '' && item.attachment_link_down != null" width="15" height="15" style="cursor: pointer;"></a>
@@ -186,38 +186,37 @@
 
 
                                             <td class="center">
-                                                <input type="text" class="form-control text-center" name="rob_fo[]" v-model="item.rob_fo" readonly>
+                                                <my-currency-input v-model="item.rob_fo" class="form-control text-center" name="rob_fo[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center">
-                                                <input type="text" class="form-control text-center" name="rob_do[]" v-model="item.rob_do" readonly>
+                                                <my-currency-input v-model="item.rob_do" class="form-control text-center" name="rob_do[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
 
                                             <td class="center">
-                                                <input type="text" class="form-control text-center" name="saved_fo[]" v-model="item.saved_fo" readonly>
+                                                <my-currency-input v-model="item.saved_fo" class="form-control text-center" name="saved_fo[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center" style="border-right: 2px solid #ff9207;">
-                                                <input type="text" class="form-control text-center" name="saved_do[]" v-model="item.saved_do" readonly>
+                                                <my-currency-input v-model="item.saved_do" class="form-control text-center" name="saved_do[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
 
                                             <td class="center">
-                                                <my-currency-input v-model="item.bunk_fo" class="form-control text-center" name="bunk_fo[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.bunk_fo" class="form-control text-center" name="bunk_fo[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center">
-                                                <my-currency-input v-model="item.bunk_do" class="form-control text-center" name="bunk_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.bunk_do" class="form-control text-center" name="bunk_do[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
 
-
                                             <td class="center">
-                                                <input type="text" class="form-control text-center" name="fuelSum[]" v-model="item.fuelSum" readonly>
+                                                <my-currency-input v-model="item.fuelSum" class="form-control text-center" name="fuelSum[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center">
-                                                <my-currency-input v-model="item.oil_price_fo" class="form-control text-center" name="oil_price_fo[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.oil_price_fo" class="form-control text-center" name="oil_price_fo[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center">
-                                                <my-currency-input v-model="item.oil_price_do" class="form-control text-center" name="oil_price_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
+                                                <my-currency-input v-model="item.oil_price_do" class="form-control text-center" name="oil_price_do[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center" style="border-right: 2px solid #ff9207;">
-                                                <input type="text" class="form-control text-center" name="oil_price_else[]" v-model="item.oil_price_else" readonly>
+                                                <my-currency-input v-model="item.oil_price_else" class="form-control text-center" name="oil_price_else[]" :readonly="true" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                                             </td>
                                             <td class="center">
                                                 <textarea class="form-control" name="remark[]" rows="1" style="resize: none" maxlength="50" autocomplete="off" v-model="item.remark"></textarea>
@@ -228,18 +227,18 @@
                                     <tr class="dynamic-footer bt-0">
                                         <td class="center" style="padding: 4px!important;">@{{ number_format(analyze.total.voy_count, 0) }}</td>
                                         <td class="center">@{{ number_format(analyze.total.average_speed) }}</td>
-                                        <td class="center">@{{ number_format(analyze.total.total_up_rob_fo) }}</td>
-                                        <td class="center">@{{ number_format(analyze.total.total_up_rob_do) }}</td>
                                         <td class="center"></td>
-                                        <td class="center">@{{ number_format(analyze.total.total_down_rob_fo) }}</td>
-                                        <td class="center">@{{ number_format(analyze.total.total_down_rob_do) }}</td>
                                         <td class="center"></td>
-                                        <td class="center">@{{ number_format(analyze.total.total_rob_fo) }}</td>
-                                        <td class="center">@{{ number_format(analyze.total.total_rob_do) }}</td>
-                                        <td class="center">@{{ number_format(analyze.total.total_saved_fo) }}</td>
-                                        <td class="center" style="border-right: 2px solid #ff9207;">@{{ number_format(analyze.total.total_saved_do) }}</td>
-                                        <td class="center">@{{ number_format(analyze.total.total_bunk_fo) }}</td>
-                                        <td class="center">@{{ number_format(analyze.total.total_bunk_do) }}</td>
+                                        <td class="center"></td>
+                                        <td class="center"></td>
+                                        <td class="center"></td>
+                                        <td class="center"></td>
+                                        <td class="center">@{{ number_format(analyze.total.total_rob_fo, 2) }}</td>
+                                        <td class="center">@{{ number_format(analyze.total.total_rob_do, 2) }}</td>
+                                        <td class="center">@{{ number_format(analyze.total.total_saved_fo, 2) }}</td>
+                                        <td class="center" style="border-right: 2px solid #ff9207;">@{{ number_format(analyze.total.total_saved_do, 2) }}</td>
+                                        <td class="center">@{{ number_format(analyze.total.total_bunk_fo, 2) }}</td>
+                                        <td class="center">@{{ number_format(analyze.total.total_bunk_do, 2) }}</td>
                                         <td class="center"></td>
                                         <td class="center">@{{ number_format(analyze.total.total_oil_price_fo, 2) }}</td>
                                         <td class="center">@{{ number_format(analyze.total.total_oil_price_do, 2) }}</td>
@@ -561,16 +560,16 @@
                             searchObj.analyze.list[key].bunk_fo = __parseFloat(searchObj.analyze.list[key].bunk_fo);
                             searchObj.analyze.list[key].bunk_do = __parseFloat(searchObj.analyze.list[key].bunk_do);
 
-                            searchObj.analyze.list[key].rob_fo = __parseFloat(BigNumber(realData.up_rob_fo).plus(realData.bunk_fo).minus(realData.down_rob_fo).toFixed(1));
-                            searchObj.analyze.list[key].rob_do = __parseFloat(BigNumber(realData.up_rob_do).plus(realData.bunk_do).minus(realData.down_rob_do).toFixed(1));
+                            searchObj.analyze.list[key].rob_fo = __parseFloat(BigNumber(realData.up_rob_fo).plus(realData.bunk_fo).minus(realData.down_rob_fo).toFixed(2));
+                            searchObj.analyze.list[key].rob_do = __parseFloat(BigNumber(realData.up_rob_do).plus(realData.bunk_do).minus(realData.down_rob_do).toFixed(2));
 
-                            searchObj.analyze.list[key].saved_fo = __parseFloat(BigNumber($_this[key].rob_fo).minus(realData.used_fo).toFixed(1));
-                            searchObj.analyze.list[key].saved_do = __parseFloat(BigNumber($_this[key].rob_do).minus(realData.used_do).toFixed(1));
+                            searchObj.analyze.list[key].saved_fo = __parseFloat(BigNumber($_this[key].rob_fo).minus(realData.used_fo).toFixed(2));
+                            searchObj.analyze.list[key].saved_do = __parseFloat(BigNumber($_this[key].rob_do).minus(realData.used_do).toFixed(2));
 
-                            let else_price1 = BigNumber(realData.rob_fo).multipliedBy(realData.oil_price_fo).toFixed(1);
-                            let else_price2 = BigNumber(realData.rob_do).multipliedBy(realData.oil_price_do).toFixed(1);
+                            let else_price1 = BigNumber(realData.rob_fo).multipliedBy(realData.oil_price_fo).toFixed(2);
+                            let else_price2 = BigNumber(realData.rob_do).multipliedBy(realData.oil_price_do).toFixed(2);
                             
-                            searchObj.analyze.list[key].oil_price_else = BigNumber(__parseFloat(realData.fuelSum)).minus(__parseFloat(else_price1)).minus(__parseFloat(else_price2)).toFixed(1);
+                            searchObj.analyze.list[key].oil_price_else = BigNumber(__parseFloat(realData.fuelSum)).minus(__parseFloat(else_price1)).minus(__parseFloat(else_price2)).toFixed(2);
                         });
 
                         this.calculate();
@@ -832,32 +831,32 @@
                                         realData.bunk_fo = bunk_fo;
                                         realData.bunk_do = bunk_do;
                                         
-                                        let usedFoTmp1 = BigNumber(total_sail_time).multipliedBy(shipInfo['FOSailCons_S']).toFixed(1);
-                                        let usedFoTmp2 = BigNumber(loading_time).multipliedBy(shipInfo['FOL/DCons_S']).toFixed(1);
-                                        let usedFoTmp3 = BigNumber(total_waiting_time).multipliedBy(shipInfo['FOIdleCons_S']).toFixed(1);
+                                        let usedFoTmp1 = BigNumber(total_sail_time).multipliedBy(shipInfo['FOSailCons_S']).toFixed(2);
+                                        let usedFoTmp2 = BigNumber(loading_time).multipliedBy(shipInfo['FOL/DCons_S']).toFixed(2);
+                                        let usedFoTmp3 = BigNumber(total_waiting_time).multipliedBy(shipInfo['FOIdleCons_S']).toFixed(2);
 
-                                        let usedDoTmp1 = BigNumber(total_sail_time).multipliedBy(shipInfo['DOSailCons_S']).toFixed(1);
-                                        let usedDoTmp2 = BigNumber(loading_time).multipliedBy(shipInfo['DOL/DCons_S']).toFixed(1);
-                                        let usedDoTmp3 = BigNumber(total_waiting_time).multipliedBy(shipInfo['DOIdleCons_S']).toFixed(1);
+                                        let usedDoTmp1 = BigNumber(total_sail_time).multipliedBy(shipInfo['DOSailCons_S']).toFixed(2);
+                                        let usedDoTmp2 = BigNumber(loading_time).multipliedBy(shipInfo['DOL/DCons_S']).toFixed(2);
+                                        let usedDoTmp3 = BigNumber(total_waiting_time).multipliedBy(shipInfo['DOIdleCons_S']).toFixed(2);
 
-                                        realData.used_fo = BigNumber(usedFoTmp1).plus(usedFoTmp2).plus(usedFoTmp3).toFixed(1);
-                                        realData.used_do = BigNumber(usedDoTmp1).plus(usedDoTmp2).plus(usedDoTmp3).toFixed(1);
+                                        realData.used_fo = BigNumber(usedFoTmp1).plus(usedFoTmp2).plus(usedFoTmp3).toFixed(2);
+                                        realData.used_do = BigNumber(usedDoTmp1).plus(usedDoTmp2).plus(usedDoTmp3).toFixed(2);
 
 
-                                        realData.rob_fo = BigNumber(up_rob_fo).plus(bunk_fo).minus(down_rob_fo).toFixed(1);
-                                        realData.rob_do = BigNumber(up_rob_do).plus(bunk_do).minus(down_rob_do).toFixed(1);
+                                        realData.rob_fo = BigNumber(up_rob_fo).plus(bunk_fo).minus(down_rob_fo).toFixed(2);
+                                        realData.rob_do = BigNumber(up_rob_do).plus(bunk_do).minus(down_rob_do).toFixed(2);
 
-                                        realData.saved_fo = BigNumber(realData.rob_fo).minus(realData.used_fo).toFixed(1);
-                                        realData.saved_do = BigNumber(realData.rob_do).minus(realData.used_do).toFixed(1);
+                                        realData.saved_fo = BigNumber(realData.rob_fo).minus(realData.used_fo).toFixed(2);
+                                        realData.saved_do = BigNumber(realData.rob_do).minus(realData.used_do).toFixed(2);
 
                                         realData.fuelSum = fuelSum;
 
                                         realData.oil_price_fo = 0;
                                         realData.oil_price_do = 0;
 
-                                        let else_price1 = BigNumber(realData.rob_fo).multipliedBy(realData.oil_price_fo).toFixed(1);
-                                        let else_price2 = BigNumber(realData.rob_do).multipliedBy(realData.oil_price_do).toFixed(1);
-                                        realData.oil_price_else = BigNumber(fuelSum).minus(else_price1).minus(else_price2).toFixed(1);
+                                        let else_price1 = BigNumber(realData.rob_fo).multipliedBy(realData.oil_price_fo).toFixed(2);
+                                        let else_price2 = BigNumber(realData.rob_do).multipliedBy(realData.oil_price_do).toFixed(2);
+                                        realData.oil_price_else = BigNumber(fuelSum).minus(else_price1).minus(else_price2).toFixed(2);
 
                                         realData.total_sail_time = total_sail_time.toFixed(2);
                                         realData.total_distance = total_distance;
@@ -917,7 +916,6 @@
                                     });
                                     footerData['voy_count'] = voyData.length;
                                     searchObj.analyze.total = footerData;
-                                    // searchObjTmp = searchObj.analyze.list;
                                 } else {
                                     searchObj.analyze.list = currentData;
                                     searchObj.calculate();
