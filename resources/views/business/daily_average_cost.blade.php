@@ -22,6 +22,11 @@ $ships = Session::get('shipList');
 @endsection
 
 @section('content')
+<style>
+    #table-income-expense-body tr td {    
+        background:#ececec!important;
+    }
+</style>
     <div class="main-content">
         <div class="page-content">
             <div class="page-header">
