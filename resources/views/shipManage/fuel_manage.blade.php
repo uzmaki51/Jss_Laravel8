@@ -941,6 +941,8 @@
                                     searchObjTmp = Object.assign([], [], searchObj.analyze.list);
                                 }
 
+                                isChangeStatus = false;
+
                                 tmp = $('[name=year_list]').val();
                                 
                             }

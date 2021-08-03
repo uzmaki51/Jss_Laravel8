@@ -66,7 +66,7 @@
                     <input type="hidden" name="shipId" value="{{ $shipId }}">
                     <input type="hidden" name="voyId" v-model="voyId">
 
-                    <table class="table-bordered dynamic-table" id="table-settlement">
+                    <table class="table-bordered dynamic-table not-striped" id="table-settlement">
                         <thead>
                             <tr class="sub-head-tr">
                                 <td class="text-center" colspan="9">
