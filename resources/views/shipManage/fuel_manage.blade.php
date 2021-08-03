@@ -136,7 +136,7 @@
                                             <th class="text-center" style="width: 5%;">DO</th>
                                             <th class="text-center" style="width: 5%;">FO</th>
                                             <th class="text-center" style="width: 5%;">DO</th>
-                                            <th class="text-center" style="border-right: 2px solid #ff9207;width: 4%;">其他费</th>
+                                            <th class="text-center" style="border-right: 2px solid #ff9207;width: 5%;">其他费</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -935,6 +935,7 @@
                                     });
                                     footerData['voy_count'] = voyData.length;
                                     searchObj.analyze.total = footerData;
+                                    searchObj.calcValue();
                                 } else {
                                     searchObj.analyze.list = currentData;
                                     searchObj.calculate();
