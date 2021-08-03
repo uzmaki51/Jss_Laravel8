@@ -893,7 +893,7 @@ $isHolder = Session::get('IS_HOLDER');
                     if (input_sum_credit == "") input_sum_credit = 0;
                     if (input_sum_debit == "") input_sum_debit = 0;
 
-                    console.log(input_sum_credit, ",", input_sum_debit);
+                    //console.log(input_sum_credit, ",", input_sum_debit);
                     //var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_ids, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, account_name:account_name, currency:(currency=="$"?1:0), credit:sum_credit, debit:sum_debit };
                     var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_ids, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, account_name:account_name, currency:(currency=="$"?1:0), credit:input_sum_credit, debit:input_sum_debit };
 
@@ -1235,8 +1235,10 @@ $isHolder = Session::get('IS_HOLDER');
                 $.post('books/save', form).done(function (data) {
                     let result = data;
                     if (result == 1) {
+                        $('#keep_list').val('');
                         $('#btnInit').attr('disabled', false);
                         $('#btnSave').attr('disabled', false);
+                        
                         clearList();
                         
                         books = [];
