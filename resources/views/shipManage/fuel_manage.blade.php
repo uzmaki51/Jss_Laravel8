@@ -303,6 +303,7 @@
         var isChangeStatus = false;
         var searchObjTmp = [];
         var submitted = false;
+        var tmp;
 
         $("form").submit(function() {
             submitted = true;
@@ -504,19 +505,26 @@
                         this.getAnalyzeData();
                     },
                     onChangeYear: function(e) {
+                        var newVal = this.activeYear;
                         var confirmationMessage = 'It looks like you have been editing something. '
                                 + 'If you leave before saving, your changes will be lost.';
-                        let newForm = $('#record-form').serialize();
-                        let currentVal = e.target.value;
-                        if(currentVal == searchObj.activeYear)
-                            if (!submitted && isChangeStatus) {
-                                if(window.confirm(confirmationMessage))
+                        // let currentObj = JSON.parse(JSON.stringify(searchObj.currentData));
+                        // if(JSON.stringify(searchObjTmp) != JSON.stringify(currentObj))
+                        //     isChangeStatus = true;
+                        // else
+                        //     isChangeStatus = false;
+
+                        if (!submitted && isChangeStatus) {
+                            __alertAudio();
+                            this.activeYear = tmp;
+                            bootbox.confirm(confirmationMessage, function (result) {
+                                if (!result) {
+                                    return;
+                                } else {
+                                    searchObj.activeYear = newVal;
                                     searchObj.getVoyList();
-                                else {
-                                    e.preventDefault();
-                                    return false;
                                 }
-                                    
+                            });
                         } else {
                             this.getVoyList();
                         }
@@ -933,9 +941,7 @@
                                     searchObjTmp = Object.assign([], [], searchObj.analyze.list);
                                 }
 
-                                setTimeout(function() {
-                                    origForm = JSON.parse(JSON.stringify($('#record-form').serialize()));
-                                }, 500);
+                                tmp = $('[name=year_list]').val();
                                 
                             }
                         });

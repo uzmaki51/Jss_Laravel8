@@ -403,6 +403,7 @@
                             isChangeStatus = false;
 
                         if (!submitted && isChangeStatus) {
+                            __alertAudio();
                             this.activeVoy = tmp;
                             bootbox.confirm(confirmationMessage, function (result) {
                                 if (!result) {

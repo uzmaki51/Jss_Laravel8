@@ -2181,59 +2181,47 @@ class ShipRegController extends Controller
                 $cp_list = [];
                 
                 foreach($retVal['currentData'] as $key => $item) {
-                        if(!in_array($item->CP_ID, $voyArray)) {
-                            $voyArray[] = $item->CP_ID;
-                            $beforeVoy = VoyLog::where('Voy_Status', DYNAMIC_CMPLT_DISCH)->where('CP_ID', '<', $item->CP_ID)->where('Ship_ID', $item->Ship_ID)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->orderBy('id', 'desc')->first();
-                            $firstVoy = VoyLog::where('CP_ID', $item->CP_ID)->where('Ship_ID', $item->Ship_ID)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->orderBy('id', 'asc')->first();
-                            if($beforeVoy != null)
-                                $retTmp[$item->CP_ID][] = $beforeVoy;
-                            else if($firstVoy != null)
-                                $retTmp[$item->CP_ID][] = $firstVoy;
+                    if(!in_array($item->CP_ID, $voyArray)) {
+                        $voyArray[] = $item->CP_ID;
+                        $beforeVoy = VoyLog::where('Voy_Status', DYNAMIC_CMPLT_DISCH)->where('CP_ID', '<', $item->CP_ID)->where('Ship_ID', $item->Ship_ID)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->orderBy('id', 'desc')->first();
+                        $firstVoy = VoyLog::where('CP_ID', $item->CP_ID)->where('Ship_ID', $item->Ship_ID)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->orderBy('id', 'asc')->first();
+                        if($beforeVoy != null)
+                            $retTmp[$item->CP_ID][] = $beforeVoy;
+                        else if($firstVoy != null)
+                            $retTmp[$item->CP_ID][] = $firstVoy;
 
-        
-                            $cp_list = CP::where('Ship_ID', $shipId)->where('Voy_No', $item->CP_ID)->orderBy('Voy_No', 'desc')->get();
-                            foreach($cp_list as $cp_key => $cp_item) {
-                                $LPort = $cp_item->LPort;
-                                $LPort = explode(',', $LPort);
-                                $LPort = ShipPort::whereIn('id', $LPort)->get();
-                                $tmp = '';
-                                foreach($LPort as $port)
-                                    $tmp .= $port->Port_En . ', ';
-                                $cp_list[$cp_key]->LPort = substr($tmp, 0, strlen($tmp) - 3);
-                    
-                                $DPort = $cp_item->DPort;
-                    
-                                $DPort = $cp_item->DPort;
-                                $DPort = explode(',', $DPort);
-                                $DPort = ShipPort::whereIn('id', $DPort)->get();
-                                $tmp = '';
-                                foreach($DPort as $port)
-                                    $tmp .= $port->Port_En . ', ';
-                                $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
-                            }
-
-                            if(count($cp_list) > 0) {
-                                $retVal['cpData'][$item->CP_ID] = $cp_list[0];
-                                $decideTbl = new DecisionReport();
-                                $debit_credit = $decideTbl->getIncome($shipId, $item->CP_ID);
-                                $oil_fee = isset($debit_credit[2][OUTCOME_FEE2]) ? $debit_credit[2][OUTCOME_FEE2] : 0;
-                                $retVal['cpData'][$item->CP_ID]->fuelSum = $oil_fee;
-                            }
+    
+                        $cp_list = CP::where('Ship_ID', $shipId)->where('Voy_No', $item->CP_ID)->orderBy('Voy_No', 'desc')->get();
+                        foreach($cp_list as $cp_key => $cp_item) {
+                            $LPort = $cp_item->LPort;
+                            $LPort = explode(',', $LPort);
+                            $LPort = ShipPort::whereIn('id', $LPort)->get();
+                            $tmp = '';
+                            foreach($LPort as $port)
+                                $tmp .= $port->Port_En . ', ';
+                            $cp_list[$cp_key]->LPort = substr($tmp, 0, strlen($tmp) - 3);
+                
+                            $DPort = $cp_item->DPort;
+                
+                            $DPort = $cp_item->DPort;
+                            $DPort = explode(',', $DPort);
+                            $DPort = ShipPort::whereIn('id', $DPort)->get();
+                            $tmp = '';
+                            foreach($DPort as $port)
+                                $tmp .= $port->Port_En . ', ';
+                            $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
                         }
+
+                        if(count($cp_list) > 0) {
+                            $retVal['cpData'][$item->CP_ID] = $cp_list[0];
+                            $decideTbl = new DecisionReport();
+                            $debit_credit = $decideTbl->getIncome($shipId, $item->CP_ID);
+                            $oil_fee = isset($debit_credit[2][OUTCOME_FEE2]) ? $debit_credit[2][OUTCOME_FEE2] : 0;
+                            $retVal['cpData'][$item->CP_ID]->fuelSum = round($oil_fee, 2);
+                        }
+                    }
     
-                    $year = $params['year'];
-    
-                    $selector = ReportSave::where('type', 0)
-                        ->where('shipNo',   $shipId)
-                        ->where('voyNo',    $item->CP_ID)
-                        ->where('year',     $year)
-                        ->where('flowid',   REPORT_TYPE_EVIDENCE_OUT)
-                        ->where('profit_type',  OUTCOME_FEE2)  //OUTCOME_FEE2 = 2		OUTCOME_FEE2 => '油款',
-                        ->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum');
-                    
-                    $sum = $selector->first();
-    
-                    $item->fuelSum = $sum->sum;
+                    $item->fuelSum = 0;
     
                     $retTmp[$item->CP_ID][] = $item;
                     $tmpVoyId = $item->CP_ID;
@@ -2278,22 +2266,22 @@ class ShipRegController extends Controller
             
             $tbl['voy_no'] = $params['voy_no'][$key];
             $tbl['avg_speed'] = $params['avg_speed'][$key];
-            $tbl['up_rob_fo'] = $params['up_rob_fo'][$key];
-            $tbl['up_rob_do'] = $params['up_rob_do'][$key];
-            $tbl['down_rob_fo'] = $params['down_rob_fo'][$key];
-            $tbl['down_rob_do'] = $params['down_rob_do'][$key];
-            $tbl['bunk_fo'] = $params['bunk_fo'][$key];
-            $tbl['bunk_do'] = $params['bunk_do'][$key];
-            $tbl['rob_fo'] = $params['rob_fo'][$key];
-            $tbl['rob_do'] = $params['rob_do'][$key];
-            $tbl['used_fo'] = $params['used_fo'][$key];
-            $tbl['used_do'] = $params['used_do'][$key];
-            $tbl['saved_fo'] = $params['saved_fo'][$key];
-            $tbl['saved_do'] = $params['saved_do'][$key];
-            $tbl['fuelSum'] = $params['fuelSum'][$key];
-            $tbl['oil_price_fo'] = $params['oil_price_fo'][$key];
-            $tbl['oil_price_do'] = $params['oil_price_do'][$key];
-            $tbl['oil_price_else'] = $params['oil_price_else'][$key];
+            $tbl['up_rob_fo'] = _convertStr2Int($params['up_rob_fo'][$key]);
+            $tbl['up_rob_do'] = _convertStr2Int($params['up_rob_do'][$key]);
+            $tbl['down_rob_fo'] = _convertStr2Int($params['down_rob_fo'][$key]);
+            $tbl['down_rob_do'] = _convertStr2Int($params['down_rob_do'][$key]);
+            $tbl['bunk_fo'] = _convertStr2Int($params['bunk_fo'][$key]);
+            $tbl['bunk_do'] = _convertStr2Int($params['bunk_do'][$key]);
+            $tbl['rob_fo'] = _convertStr2Int($params['rob_fo'][$key]);
+            $tbl['rob_do'] = _convertStr2Int($params['rob_do'][$key]);
+            $tbl['used_fo'] = _convertStr2Int($params['used_fo'][$key]);
+            $tbl['used_do'] = _convertStr2Int($params['used_do'][$key]);
+            $tbl['saved_fo'] = _convertStr2Int($params['saved_fo'][$key]);
+            $tbl['saved_do'] = _convertStr2Int($params['saved_do'][$key]);
+            $tbl['fuelSum'] = _convertStr2Int($params['fuelSum'][$key]);
+            $tbl['oil_price_fo'] = _convertStr2Int($params['oil_price_fo'][$key]);
+            $tbl['oil_price_do'] = _convertStr2Int($params['oil_price_do'][$key]);
+            $tbl['oil_price_else'] = _convertStr2Int($params['oil_price_else'][$key]);
             $tbl['remark'] = $params['remark'][$key];
 
 		    // Attachment Upload
