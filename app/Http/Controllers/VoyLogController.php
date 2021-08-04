@@ -20,4 +20,18 @@ class VoyLogController extends Controller
 
         return response()->json($retVal);
     }
+
+    public function ajaxGetVoyDatas(Request $request) {
+        $tbl = new Voy();
+
+        $shipIds = $request->get('shipIds');
+        $year = $request->get('year');
+
+        $retVal = [];
+        foreach($shipIds as $id) {
+            $retVal[$id] = $tbl->getVoyInfoByYear($id, $year);
+        }
+
+        return response()->json($retVal);
+    }
 }

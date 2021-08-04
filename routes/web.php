@@ -143,6 +143,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('check/account', [App\Http\Controllers\Dynamic\DynamicController::class, 'ajaxCheckAccount']);
 
 	Route::post('voy/total', [App\Http\Controllers\VoyLogController::class, 'ajaxGetVoyData']);
+	Route::post('voy/totals', [App\Http\Controllers\VoyLogController::class, 'ajaxGetVoyDatas']);
 });
 
 Route::group(['prefix' => 'business'], function() {
