@@ -737,7 +737,7 @@ class ShipRegController extends Controller
 					}
 
 				    $shipCertTbl['attachment'] = public_path('/shipCertList/') . $name;
-				    $shipCertTbl['attachment_link'] = url('/') . '/shipCertList/' . $name;
+				    $shipCertTbl['attachment_link'] = '/shipCertList/' . $name;
 				    $shipCertTbl['file_name'] = $fileName;
 			    }
 		    }
