@@ -89,10 +89,10 @@
                                         <input class="form-control text-center date-picker" name="load_date" v-model="mainInfo.start_date" @click="dateModify($event, '', 'main', 'start')">
                                     </label>
                                     <label class="time-width hour-label">
-                                        <input class="form-control text-center hour-input" name="load_hour" v-model="mainInfo.start_hour">
+                                        <input class="form-control text-center hour-input" name="load_hour" v-model="mainInfo.start_hour" @change="inputChange">
                                     </label>
                                     <label class="time-width minute-label">
-                                        <input class="form-control text-center minute-input" name="load_minute" v-model="mainInfo.start_minute">
+                                        <input class="form-control text-center minute-input" name="load_minute" v-model="mainInfo.start_minute" @change="inputChange">
                                     </label>
                                     </div>
                                     <input type="hidden" name="main_id" v-model="mainInfo.id">
@@ -105,10 +105,10 @@
                                             <input class="form-control text-center date-picker" name="dis_date" v-model="mainInfo.end_date" @click="dateModify($event, '', 'main', 'end')">
                                         </label>
                                         <label class="time-width hour-label">
-                                            <input class="form-control text-center hour-input" name="dis_hour" v-model="mainInfo.end_hour">
+                                            <input class="form-control text-center hour-input" name="dis_hour" v-model="mainInfo.end_hour" @change="inputChange">
                                         </label>
                                         <label class="time-width minute-label">
-                                            <input class="form-control text-center minute-input" name="dis_minute" v-model="mainInfo.end_minute">
+                                            <input class="form-control text-center minute-input" name="dis_minute" v-model="mainInfo.end_minute" @change="inputChange">
                                         </label>
                                     </div>
                                 </td>
@@ -119,7 +119,7 @@
                             <tr class="gray-tr">
                                 <td class="no-border-td text-left first-td">货名</td>
                                 <td class="text-center" colspan="2">
-                                    <input class="form-control" v-model="mainInfo.cargo_name" class="form-control" name="cargo_name">
+                                    <input class="form-control" v-model="mainInfo.cargo_name" class="form-control" name="cargo_name" @change="inputChange">
                                 </td>
                                 <td class="text-center">
                                     <input v-model="mainInfo.voy_type" class="form-control text-center" name="voy_type" readonly>
@@ -169,9 +169,9 @@
                             </tr>
                             <tr class="gray-tr">
                                 <td class="no-border-td text-left first-td">卸港</td>
-                                <td class="text-center" colspan="3"><input class="form-control" v-model="mainInfo.dport" name="dport"></td>
+                                <td class="text-center" colspan="3"><input class="form-control" v-model="mainInfo.dport" name="dport" @change="inputChange"></td>
                                 <td class="text-left" style="padding-left: 8px!important;">佣金(%)</td>
-                                <td class="text-center"><input class="form-control text-center" v-model="mainInfo.com_fee" name="com_fee"></td>
+                                <td class="text-center"><input class="form-control text-center" v-model="mainInfo.com_fee" name="com_fee" @change="inputChange"></td>
                                 <td class="no-border"></td>
                                 <td class="no-border"></td>
                                 <td class="no-border"></td>
@@ -194,7 +194,7 @@
                             <tr class="gray-tr">
                                 <td class="text-left first-td">起始港</td>
                                 <td class="center">
-                                    <input class="form-control" v-model="elseInfo.position" name="origin_position">
+                                    <input class="form-control" v-model="elseInfo.position" name="origin_position" @change="inputChange">
                                     <input type="hidden" v-model="elseInfo.id" name="origin_id">
                                 </td>
                                 <td class="center" colspan="2"></td>
@@ -204,19 +204,19 @@
                                             <input class="form-control date-picker text-center" v-model="elseInfo.date" name="origin_date" @click="dateModify($event, '', 'origin', '')">
                                         </label>
                                         <label class="time-width hour-label">
-                                            <input class="form-control hour-input" v-model="elseInfo.hour" name="origin_hour">
+                                            <input class="form-control hour-input" v-model="elseInfo.hour" name="origin_hour" @change="inputChange">
                                         </label>
                                         <label class="time-width minute-label">
-                                            <input class="form-control minute-input" v-model="elseInfo.minute" name="origin_minute">
+                                            <input class="form-control minute-input" v-model="elseInfo.minute" name="origin_minute" @change="inputChange">
                                         </label>
                                     </div>
                                     
                                 </td>
                                 <td class="center">
-                                    <my-currency-input name="origin_fo" v-model="elseInfo.rob_fo" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="origin_fo" v-model="elseInfo.rob_fo" class="form-control text-center" :style="debitClass(elseInfo.rob_fo)" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center">
-                                    <my-currency-input name="origin_do" v-model="elseInfo.rob_do" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="origin_do" v-model="elseInfo.rob_do" class="form-control text-center" :style="debitClass(elseInfo.rob_do)" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                             </tr>
                             <tr class="gray-tr" v-for="(item, index) in elseInfo.load">
@@ -231,10 +231,10 @@
                                             <input class="form-control date-picker text-center" name="load_arrival_date[]" v-model="item.arrival_date" @click="dateModify($event, index, 'load', 'arrival')">
                                         </label>
                                         <label class="time-width hour-label">
-                                            <input class="form-control hour-input" name="load_arrival_hour[]" v-model="item.arrival_hour">
+                                            <input class="form-control hour-input" name="load_arrival_hour[]" v-model="item.arrival_hour" @change="inputChange">
                                         </label>
                                         <label class="time-width minute-label">
-                                            <input class="form-control minute-input" name="load_arrival_minute[]" v-model="item.arrival_minute">
+                                            <input class="form-control minute-input" name="load_arrival_minute[]" v-model="item.arrival_minute" @change="inputChange">
                                         </label>
                                     </div>
                                 </td>
@@ -244,18 +244,18 @@
                                             <input class="form-control date-picker text-center" name="load_depart_date[]" v-model="item.load_date" @click="dateModify($event, index, 'load', 'load')">
                                         </label>
                                         <label class="time-width hour-label">
-                                            <input class="form-control hour-input" name="load_depart_hour[]" v-model="item.load_hour">
+                                            <input class="form-control hour-input" name="load_depart_hour[]" v-model="item.load_hour" @change="inputChange">
                                         </label>
                                         <label class="time-width minute-label">
-                                            <input class="form-control minute-input" name="load_depart_minute[]" v-model="item.load_minute">
+                                            <input class="form-control minute-input" name="load_depart_minute[]" v-model="item.load_minute" @change="inputChange">
                                         </label>
                                     </div>
                                 </td>
                                 <td class="center">
-                                    <my-currency-input name="load_fo[]" v-model="item.rob_fo" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="load_fo[]" v-model="item.rob_fo" class="form-control text-center" :style="debitClass(item.rob_fo)" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center">
-                                    <my-currency-input name="load_do[]" v-model="item.rob_do" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="load_do[]" v-model="item.rob_do" class="form-control text-center" :style="debitClass(item.rob_do)" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                             </tr>
 
@@ -271,10 +271,10 @@
                                             <input class="form-control date-picker text-center" name="dis_arrival_date[]" v-model="item.arrival_date" @click="dateModify($event, index, 'discharge', 'arrival')">
                                         </label>
                                         <label class="time-width hour-label">
-                                            <input class="form-control hour-input" name="dis_arrival_hour[]" v-model="item.arrival_hour">
+                                            <input class="form-control hour-input" name="dis_arrival_hour[]" v-model="item.arrival_hour" @change="inputChange">
                                         </label>
                                         <label class="time-width minute-label">
-                                            <input class="form-control minute-input" name="dis_arrival_minute[]" v-model="item.arrival_minute">
+                                            <input class="form-control minute-input" name="dis_arrival_minute[]" v-model="item.arrival_minute" @change="inputChange">
                                         </label>
                                     </div>
                                 </td>
@@ -284,18 +284,18 @@
                                             <input class="form-control date-picker text-center" name="dis_depart_date[]" v-model="item.load_date" @click="dateModify($event, index, 'discharge', 'load')">
                                         </label>
                                         <label class="time-width hour-label">
-                                            <input class="form-control hour-input" name="dis_depart_hour[]" v-model="item.load_hour">
+                                            <input class="form-control hour-input" name="dis_depart_hour[]" v-model="item.load_hour" @change="inputChange">
                                         </label>
                                         <label class="time-width minute-label">
-                                            <input class="form-control minute-input" name="dis_depart_minute[]" v-model="item.load_minute">
+                                            <input class="form-control minute-input" name="dis_depart_minute[]" v-model="item.load_minute" @change="inputChange">
                                         </label>
                                     </div>
                                 </td>
                                 <td class="center">
-                                    <my-currency-input name="dis_fo[]" v-model="item.rob_fo" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="dis_fo[]" v-model="item.rob_fo" class="form-control text-center" :style="debitClass(item.rob_fo)" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center">
-                                    <my-currency-input name="dis_do[]" v-model="item.rob_do" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="dis_do[]" v-model="item.rob_do" class="form-control text-center" :style="debitClass(item.rob_do)" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                             </tr>
                             <tr class="gray-tr" v-for="(item, index) in elseInfo.fuel">
@@ -310,10 +310,10 @@
                                             <input class="form-control date-picker text-center" name="fuel_arrival_date[]" v-model="item.arrival_date" @click="dateModify($event, index, 'fuel', 'arrival')">
                                         </label>
                                         <label class="time-width hour-label">
-                                            <input class="form-control hour-input" name="fuel_arrival_hour[]" v-model="item.arrival_hour">
+                                            <input class="form-control hour-input" name="fuel_arrival_hour[]" v-model="item.arrival_hour" @change="inputChange">
                                         </label>
                                         <label class="time-width minute-label">
-                                            <input class="form-control minute-input" name="fuel_arrival_minute[]" v-model="item.arrival_minute">
+                                            <input class="form-control minute-input" name="fuel_arrival_minute[]" v-model="item.arrival_minute" @change="inputChange">
                                         </label>
                                     </div>
                                 </td>
@@ -323,18 +323,18 @@
                                             <input class="form-control date-picker text-center" name="fuel_depart_date[]" v-model="item.load_date" @click="dateModify($event, index, 'fuel', 'load')">
                                         </label>
                                         <label class="time-width hour-label">
-                                            <input class="form-control hour-input" name="fuel_depart_hour[]" v-model="item.load_hour">
+                                            <input class="form-control hour-input" name="fuel_depart_hour[]" v-model="item.load_hour" @change="inputChange">
                                         </label>
                                         <label class="time-width minute-label">
-                                            <input class="form-control minute-input" name="fuel_depart_minute[]" v-model="item.load_minute">
+                                            <input class="form-control minute-input" name="fuel_depart_minute[]" v-model="item.load_minute" @change="inputChange">
                                         </label>
                                     </div>
                                 </td>
                                 <td class="center">
-                                    <my-currency-input name="fuel_fo[]" v-model="item.rob_fo" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="fuel_fo[]" v-model="item.rob_fo" class="form-control text-center" :style="debitClass(item.rob_fo, 1)" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center">
-                                    <my-currency-input name="fuel_do[]" v-model="item.rob_do" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="fuel_do[]" v-model="item.rob_do" class="form-control text-center" :style="debitClass(item.rob_do, 1)" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                             </tr>
 
@@ -357,69 +357,69 @@
                             <tr class="gray-tr">
                                 <td class="text-left dot first-td">重油-1</td>
                                 <td class="center dot">
-                                    <my-currency-input name="rob_fo_1"  v-model="fuelInfo.rob_fo_1" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="rob_fo_1"  v-model="fuelInfo.rob_fo_1" :style="debitClass(fuelInfo.rob_fo_1)" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                     <input type="hidden" name="fuelCalcId" v-model="fuelInfo.id">
                                 </td>
                                 <td class="center" rowspan="2">
-                                    <my-currency-input name="used_fo" readonly v-model="fuelInfo.used_fo" class="form-control  text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="used_fo" readonly v-model="fuelInfo.used_fo" :style="debitClass(fuelInfo.used_fo)" class="form-control  text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center dot">
-                                    <my-currency-input name="rob_fo_price_1"  v-model="fuelInfo.rob_fo_price_1" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="rob_fo_price_1"  v-model="fuelInfo.rob_fo_price_1" :style="debitClass(fuelInfo.rob_fo_price_1)" class="form-control text-right" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" rowspan="2">
-                                    <my-currency-input name="total_fo" readonly v-model="fuelInfo.total_fo" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="total_fo" readonly v-model="fuelInfo.total_fo" :style="debitClass(fuelInfo.total_fo)" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" rowspan="2">
-                                    <my-currency-input name="total_fo_price" readonly v-model="fuelInfo.total_fo_price" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="total_fo_price" readonly v-model="fuelInfo.total_fo_price" :style="debitClass(fuelInfo.total_fo_price)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" rowspan="2">
-                                    <my-currency-input name="total_fo_diff" readonly v-model="fuelInfo.total_fo_diff" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="total_fo_diff" readonly v-model="fuelInfo.total_fo_diff" :style="debitClass(fuelInfo.total_fo_diff)" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" rowspan="2">
-                                    <my-currency-input name="total_fo_price_diff" readonly v-model="fuelInfo.total_fo_price_diff" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="total_fo_price_diff" readonly v-model="fuelInfo.total_fo_price_diff" :style="debitClass(fuelInfo.total_fo_price_diff)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                             </tr>
                             <tr class="gray-tr">
                                 <td class="text-left no-top first-td">重油-2</td>
                                 <td class="center no-top">
-                                    <my-currency-input name="rob_fo_2" v-model="fuelInfo.rob_fo_2" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="rob_fo_2" v-model="fuelInfo.rob_fo_2" class="form-control text-right" :style="debitClass(fuelInfo.rob_fo_2)" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center no-top">
-                                    <my-currency-input name="rob_fo_price_2" v-model="fuelInfo.rob_fo_price_2" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="rob_fo_price_2" v-model="fuelInfo.rob_fo_price_2" :style="debitClass(fuelInfo.rob_fo_price_2)" class="form-control text-right" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                             </tr>
 
                             <tr class="gray-tr">
                                 <td class="text-left dot first-td">轻油-1</td>
                                 <td class="center dot">
-                                    <my-currency-input name="rob_do_1"  v-model="fuelInfo.rob_do_1" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="rob_do_1"  v-model="fuelInfo.rob_do_1" :style="debitClass(fuelInfo.rob_do_1)" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" rowspan="2">
-                                    <my-currency-input name="used_do" readonly v-model="fuelInfo.used_do" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="used_do" readonly v-model="fuelInfo.used_do" :style="debitClass(fuelInfo.used_do)" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center dot">
-                                    <my-currency-input name="rob_do_price_1"  v-model="fuelInfo.rob_do_price_1" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="rob_do_price_1"  v-model="fuelInfo.rob_do_price_1" :style="debitClass(fuelInfo.rob_do_price_1)" class="form-control text-right" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" rowspan="2">
-                                    <my-currency-input name="total_do" readonly v-model="fuelInfo.total_do" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="total_do" readonly v-model="fuelInfo.total_do" :style="debitClass(fuelInfo.total_do)" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" rowspan="2">
-                                    <my-currency-input name="total_do_price" readonly v-model="fuelInfo.total_do_price" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="total_do_price" readonly v-model="fuelInfo.total_do_price" :style="debitClass(fuelInfo.total_do_price)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" rowspan="2">
-                                    <my-currency-input name="total_do_diff" readonly v-model="fuelInfo.total_do_diff" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="total_do_diff" readonly v-model="fuelInfo.total_do_diff" :style="debitClass(fuelInfo.total_do_diff)" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" rowspan="2">
-                                    <my-currency-input name="total_do_price_diff" readonly v-model="fuelInfo.total_do_price_diff" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="total_do_price_diff" readonly v-model="fuelInfo.total_do_price_diff" :style="debitClass(fuelInfo.total_do_price_diff)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                             </tr>
                             <tr class="gray-tr">
                                 <td class="text-left no-top first-td">轻油-2</td>
                                 <td class="center no-top">
-                                    <my-currency-input name="rob_do_2" v-model="fuelInfo.rob_do_2" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="rob_do_2" v-model="fuelInfo.rob_do_2" :style="debitClass(fuelInfo.rob_do_2)" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center no-top">
-                                    <my-currency-input name="rob_do_price_2" v-model="fuelInfo.rob_do_price_2" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="rob_do_price_2" v-model="fuelInfo.rob_do_price_2" :style="debitClass(fuelInfo.rob_do_price_2)" class="form-control text-right" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                             </tr>
                             <!-- Fuel Dynami Info End -->
@@ -442,19 +442,19 @@
                             </tr-->
                             <tr class="gray-tr" v-for="(item, index) in creditInfo.else">
                                 <td class="center" colspan="2">
-                                    <input name="credit_name[]" v-model="item.name" class="form-control text-center" :readonly="index < 1">
+                                    <input name="credit_name[]" v-model="item.name" class="form-control text-center" :readonly="index < 1" @change="inputChange">
                                     <input type="hidden" name="credit_id[]" v-model="item.id">
                                 </td>
                                 <td class="center" colspan="3">
-                                    <my-currency-input name="credit_amount[]" v-model="item.amount" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="credit_amount[]" v-model="item.amount" :style="debitClass(item.amount)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" colspan="2">
-                                    <input name="credit_remark[]" v-model="item.remark" class="form-control">
+                                    <input name="credit_remark[]" v-model="item.remark" class="form-control" @change="inputChange">
                                 </td>
                             </tr>
                             <tr class="gray-tr">
                                 <td class="center total-td" colspan="2">收入总计</td>
-                                <td class="center" colspan="3">@{{ number_format(creditInfo.total) }}</td>
+                                <td class="center" colspan="3">@{{ number_format(creditInfo.total) == '' ? '' : '$' }} @{{ number_format(creditInfo.total) }}</td>
                                 <td class="center" colspan="2"></td>
                             </tr>
                             <!-- Credit Dynami Info End -->
@@ -467,22 +467,22 @@
                             </tr>
                             <tr class="gray-tr" v-for="(item, index) in debitInfo.else">
                                 <td class="center" colspan="2">
-                                    <input class="form-control text-center" name="debit_name[]" v-model="item.name" :readonly="index < 4">
+                                    <input class="form-control text-center" name="debit_name[]" v-model="item.name" :readonly="index < 4" @change="inputChange">
                                     <input type="hidden" name="debit_id[]" v-model="item.id">
                                 </td>
                                 <td class="center" colspan="3">
-                                    <my-currency-input name="debit_amount[]" v-model="item.amount" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="debit_amount[]" v-model="item.amount" :style="debitClass(item.amount)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" colspan="2">
-                                    <input class="form-control" name="debit_remark[]" v-model="item.remark">
+                                    <input class="form-control" name="debit_remark[]" v-model="item.remark" @change="inputChange">
                                 </td>
                             </tr>
 
                             <tr class="gray-tr">
                                 <td class="center font-weight-bold total-td" colspan="2" style="background: #d9f8fb!important">收入总计</td>
-                                <td class="center font-weight-bold" colspan="2"><span :class="profitCls(total_profit)">@{{ number_format(total_profit) }}</span></td>
+                                <td class="center font-weight-bold" colspan="2"><span :class="profitCls(total_profit)">@{{ (number_format(total_profit) == '' ? '' : '$ ') + number_format(total_profit) }}</span></td>
                                 <td class="center font-weight-bold" colspan="2" style="background: #d9f8fb!important">日毛利润</td>
-                                <td class="center font-weight-bold" colspan="2"><span :class="profitCls(total_profit)">@{{ number_format(total_profit_day) }}</span></td>
+                                <td class="center font-weight-bold" colspan="2"><span :class="profitCls(total_profit)">@{{ (number_format(total_profit_day) == '' ? '' : '$ ') + number_format(total_profit_day) }}</span></td>
                             </tr>
                             <!-- Debit Dynami Info End -->
                         </tbody>
@@ -523,6 +523,7 @@
         const DAY_UNIT = 1000 * 3600;
         var isChangeStatus = false;
         var searchObjTmp = new Array();
+        var tmp;
 
 
         var submitted = false;
@@ -535,9 +536,8 @@
         window.addEventListener("beforeunload", function (e) {
             var confirmationMessage = 'It looks like you have been editing something. '
                 + 'If you leave before saving, your changes will be lost.';
-            let newForm = $('#voy-settle-form').serialize();
 
-            if ((newForm !== origForm) && !submitted) {
+            if (isChangeStatus && !submitted) {
                 (e || window.event).returnValue = confirmationMessage;
                 origForm = '';
             }
@@ -590,6 +590,7 @@
             },
             methods: {
                 setValue: function() {
+                    isChangeStatus = true;
                     $_this.$forceUpdate();
                 },
                 keymonitor: function(e) {
@@ -666,13 +667,8 @@
                             $_this.total_profit_day = 0;
 
                         this.$forceUpdate();
-
-                        if(origForm == '') {
-                            setTimeout(function() {
-                                origForm = $('#voy-settle-form').serialize();
-                            }, 500);
-                        }
-                            
+                        tmp = $('#voy_list').val();
+                        isChangeStatus = false;
                     },
                     deleteElseInfo: function(type, index, id) {
                         __alertAudio();
@@ -732,8 +728,21 @@
 
                         this.$forceUpdate();
                     },
+                    debitClass: function(value, profit = 0) {
+                        if(profit == 0) {
+                            color = 'red';
+                            return __parseFloat(value) >= 0 ? '' : 'color: '+color+'!important';
+                        } else {
+                            color = '#026fcd';
+                            return __parseFloat(value) < 0 ? 'color: red!important;' : 'color: '+color+'!important';
+                        }
+                    },
+                    inputChange: function() {
+                        isChangeStatus = true;
+                    },
                     dateModify(e, index, where, type) {
                         $(e.target).on("change", function() {
+                            isChangeStatus = true;
                             if(where == 'main') {
                                 $_this.mainInfo[type + '_date'] = $(this).val();
                             } else if(where == 'origin') {
@@ -842,21 +851,25 @@
         });
 
         $('#voy_list').on('change', function () {
+            var newVal = $(this).val();
             var confirmationMessage = 'It looks like you have been editing something. '
-                                + 'If you leave before saving, your changes will be lost.';
-            let newForm = $('#voy-settle-form').serialize();
-            let currentVal = $(this).val();
-            if (!submitted && origForm != newForm) {
-                if(window.confirm(confirmationMessage)) {
-                    origForm = '';
-                    $_this.voyId = currentVal;
-                    getInitInfo();
-                } else {
-                    return false;
-                }
+                    + 'If you leave before saving, your changes will be lost.';
+
+            if (!submitted && isChangeStatus) {
+                __alertAudio();
+                $_this.voyId = tmp;
+                $(this).val(tmp)
+                bootbox.confirm(confirmationMessage, function (result) {
+                    if (!result) {
+                        return;
+                    } else {
+                        $_this.voyId = newVal;
+                        $('#voy_list').val(newVal);
+                        getInitInfo();
+                    }
+                });
             } else {
-                origForm = '';
-                $_this.voyId = currentVal;
+                $_this.voyId = newVal;
                 getInitInfo();
             }
         })

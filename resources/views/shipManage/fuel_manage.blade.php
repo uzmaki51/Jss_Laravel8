@@ -488,7 +488,7 @@
                     onChangeVoy: function(evt) {
 
                     },
-                     debitClass: function(value, profit = 0) {
+                    debitClass: function(value, profit = 0) {
                         if(profit == 0) {
                             color = 'red';
                             return __parseFloat(value) >= 0 ? '' : 'color: '+color+'!important';
@@ -496,9 +496,7 @@
                             color = '#026fcd';
                             return __parseFloat(value) < 0 ? 'color: red!important;' : 'color: '+color+'!important';
                         }
-                            
-
-                     },
+                    },
                     onTypeChange(val) {
                         this.page_title = '燃油管理';
                         $('.page-title').text('燃油管理');
@@ -508,11 +506,6 @@
                         var newVal = this.activeYear;
                         var confirmationMessage = 'It looks like you have been editing something. '
                                 + 'If you leave before saving, your changes will be lost.';
-                        // let currentObj = JSON.parse(JSON.stringify(searchObj.currentData));
-                        // if(JSON.stringify(searchObjTmp) != JSON.stringify(currentObj))
-                        //     isChangeStatus = true;
-                        // else
-                        //     isChangeStatus = false;
 
                         if (!submitted && isChangeStatus) {
                             __alertAudio();
