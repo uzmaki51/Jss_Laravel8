@@ -429,7 +429,7 @@
                                         @foreach ($sites as $site)
                                             @if ($site['link'] != null && $site['image'] != null)
                                             <tr>
-                                                <td class="center"><a href="{{$site['link']}}" target="_blank"><img src="{{$site['image']}}"></a></td>
+                                                <td class="center"><a href="{{$site['link']}}" target="_blank"><img src="{{ cAsset($site['image']) }}"></a></td>
                                             </tr>
                                             @endif
                                         @endforeach
