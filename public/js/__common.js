@@ -12,6 +12,7 @@ $(function() {
 
     checkDecisionRecord();
     setInterval(checkDecisionRecord, checkTime);
+
 });
 
 $(window).resize(function(e) {
