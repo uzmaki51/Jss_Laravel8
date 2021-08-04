@@ -772,6 +772,48 @@
             });
 
             $.ajax({
+                url: BASE_URL + 'ajax/shipmanage/ctm/debits',
+                type: 'post',
+                data: {
+                    year:year_graph,
+                    shipId:shipids_graph,
+                },
+                success: function(data) {
+                    var debits_sum = [];
+                    for(var i=0;i<12;i++) debits_sum[i] = 0;
+                    var index = 0;
+                    var datasets = [];
+
+                    for (index=0;index<shipids_graph.length;index++) {
+                        var ship_name = ships[shipids_graph[index]];
+                        var ship_no = shipids_graph[index];
+                        datasets[index] = {};
+                        datasets[index].label = ship_name;
+                        datasets[index].data = [];
+                        datasets[index].borderColor = addAlpha(color_table[index],0.8);
+                        datasets[index].backgroundColor = color_table[index];
+                        for(var i=1;i<12;i++) {
+                            var offset;
+                            if (i == 0) offset = 1;
+                            else if (i == 1) offset = 3;
+                            else if (i == 2) offset = 4;
+                            else if (i == 3) offset = 6;
+                            else if (i == 4) offset = 7;
+                            else if (i == 5) offset = 8;
+                            else if (i == 6) offset = 11;
+                            else if (i == 7) offset = 12;
+                            else if (i == 8) offset = 2;
+                            else if (i == 9) offset = 5;
+                            else if (i == 10) offset = 9;
+                            else if (i == 11) offset = 10;
+                            datasets[index].data[i] = data[ship_no]['total'][offset];
+                        }
+                    }
+                    drawFifthGraph(datasets);
+                }
+            })
+
+            $.ajax({
                 url: BASE_URL + 'ajax/business/dynamic/multiSearch',
                 type: 'post', 
                 data: {
