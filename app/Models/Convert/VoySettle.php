@@ -62,11 +62,8 @@ class VoySettle extends Model
         $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
         if($shipInfo == null)
             return false;
-
         
         $beforeVoyInfo = $voyLog->getBeforeInfo($shipId, $voyId);
-        // $lastVoyInfo = $voyLog->getBeforeInfo($shipId, $voyId);
-
         $mainInfo = [];
         $elseInfo = [];
         $fuelInfo = [];
@@ -186,12 +183,12 @@ class VoySettle extends Model
                 $mainInfo['avg_speed'] = 0;
 
             // 标准消耗
-            $usedFoTmp1 = $_sailTime * $shipInfo['FOSailCons_S'];
-            $usedFoTmp2 = ($_loadTime + $_dischTime) * $shipInfo['FOL/DCons_S'];
+            $usedFoTmp1 = round($_sailTime, 2) * $shipInfo['FOSailCons_S'];
+            $usedFoTmp2 = round($_loadTime + $_dischTime, 2) * $shipInfo['FOL/DCons_S'];
             $usedFoTmp3 = $mainInfo['wait_time'] * $shipInfo['FOIdleCons_S'];
 
-            $usedDoTmp1 = $_sailTime * $shipInfo['DOSailCons_S'];
-            $usedDoTmp2 = ($_loadTime + $_dischTime) * $shipInfo['DOL/DCons_S'];
+            $usedDoTmp1 = round($_sailTime, 2) * $shipInfo['DOSailCons_S'];
+            $usedDoTmp2 = round($_loadTime + $_dischTime, 2) * $shipInfo['DOL/DCons_S'];
             $usedDoTmp3 = $mainInfo['wait_time'] * $shipInfo['DOIdleCons_S'];
 
             $used_fo = $usedFoTmp1 + $usedFoTmp2 + $usedFoTmp3;
@@ -205,16 +202,16 @@ class VoySettle extends Model
                 $beforeFo = 0;
                 $beforeDo = 0;
             } else {
-                $beforeFo = $beforeVoyInfo->ROB_FO;
-                $beforeDo = $beforeVoyInfo->ROB_DO;
+                $beforeFo = round($beforeVoyInfo->ROB_FO, 2);
+                $beforeDo = round($beforeVoyInfo->ROB_DO, 2);
             }
 
             if($lastVoyDate == []) {
                 $lastFo = 0;
                 $lastDo = 0;
             } else {
-                $lastFo = $lastVoyDate->ROB_FO;
-                $lastDo = $lastVoyDate->ROB_DO;
+                $lastFo = round($lastVoyDate->ROB_FO, 2);
+                $lastDo = round($lastVoyDate->ROB_DO, 2);
             }
 
             $fuelInfo['rob_fo_1'] = round($beforeFo + $_bunkFo - $lastFo, 2);
