@@ -63,6 +63,10 @@
     white-space: nowrap;
     align-items: center;
 }
+.justify-content-center {
+    justify-content: center!important;
+    background: white;
+}
 
 .v-middle {
     vertical-align: middle;
@@ -501,10 +505,15 @@ ul.timeline > li {
     background: #f2f2f2;
 }
 .first-td {
-    padding-left: 12px;
+    padding-left: 8px!important;
+    text-align: left!important;
 }
 .date-label {
     float: left;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s!important;
+}
+.date-label input {
+    border: 1px solid white!important;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s!important;
 }
 .hour-label {

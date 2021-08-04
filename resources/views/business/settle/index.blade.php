@@ -66,7 +66,7 @@
                     <input type="hidden" name="shipId" value="{{ $shipId }}">
                     <input type="hidden" name="voyId" v-model="voyId">
 
-                    <table class="table-bordered dynamic-table not-striped" id="table-settlement">
+                    <table class="table-bordered dynamic-table not-striped" id="table-settlement" style="width: 76%!important; margin: 0 auto; background: #f2f2f2;">
                         <thead>
                             <tr class="sub-head-tr">
                                 <td class="text-center" colspan="9">
@@ -80,11 +80,11 @@
                             <tr class="gray-tr">
                                 <td class="no-border-td" colspan="9">&nbsp;</td>
                             </tr>
-                            <!-- Main Dynami Info Begin -->                            
+                            <!-- Main Dynami Info Begin -->
                             <tr class="gray-tr">
-                                <td class="no-border-td text-left first-td">航次期间(起)</td>
+                                <td class="no-border-td text-left first-td" style="width: 11%;">航次期间(起)</td>
                                 <td class="text-center" colspan="2">
-                                    <div class="d-flex">
+                                    <div class="d-flex justify-content-center">
                                     <label class="date-label">
                                         <input class="form-control text-center date-picker" name="load_date" v-model="mainInfo.start_date" @click="dateModify($event, '', 'main', 'start')">
                                     </label>
@@ -100,7 +100,7 @@
 
                                 <td class="text-center" style="width: 100px;">(至)</td>
                                 <td class="text-center" colspan="2">
-                                    <div>
+                                    <div class="d-flex justify-content-center">
                                         <label class="date-label">
                                             <input class="form-control text-center date-picker" name="dis_date" v-model="mainInfo.end_date" @click="dateModify($event, '', 'main', 'end')">
                                         </label>
@@ -112,8 +112,8 @@
                                         </label>
                                     </div>
                                 </td>
-                                <td class="text-left no-border-td first-td">航次用时</td>
-                                <td class="text-center"><input v-model="mainInfo.total_sail_time" class="form-control text-center" name="total_sail_time" readonly></td>
+                                <td class="text-left no-border-td first-td" style="width: 100px;">航次用时</td>
+                                <td class="text-center" style="width: 100px;"><input v-model="mainInfo.total_sail_time" class="form-control text-center" name="total_sail_time" readonly></td>
                                 <td class="no-border"></td>
                             </tr>
                             <tr class="gray-tr">
@@ -124,8 +124,8 @@
                                 <td class="text-center">
                                     <input v-model="mainInfo.voy_type" class="form-control text-center" name="voy_type" readonly>
                                 </td>
-                                <td class="text-center">货量（租期）</td>
-                                <td class="text-center">
+                                <td class="text-left" style="padding-left: 8px!important; width: 120px;">货量（租期）</td>
+                                <td class="text-center" style="width: 120px;">
                                     <my-currency-input name="cgo_qty" class="form-control text-center" v-model="mainInfo.cgo_qty" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="text-left no-border-td first-td">航行天数</td>
@@ -138,13 +138,13 @@
                             <tr class="gray-tr">
                                 <td class="no-border-td text-left first-td">运费(租金)</td>
                                 <td class="text-center">
-                                    <my-currency-input name="freight_price" class="form-control" v-model="mainInfo.freight_price" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="freight_price" class="form-control" v-model="mainInfo.freight_price" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
-                                <td class="text-center">运费率(日租金)</td>
+                                <td class="text-left" style="padding-left: 8px!important; width: 140px;">运费率(日租金)</td>
                                 <td class="text-center">
                                     <my-currency-input name="freight" class="form-control text-center" v-model="mainInfo.freight" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
-                                <td class="text-center">里程(NM)</td>
+                                <td class="text-left" style="padding-left: 8px!important;">里程(NM)</td>
                                 <td class="text-center">
                                     <my-currency-input name="total_distance" class="form-control text-center" v-model="mainInfo.total_distance" v-bind:prefix="''" v-bind:fixednumber="0"></my-currency-input>
                                 </td>
@@ -157,20 +157,20 @@
                             <tr class="gray-tr">
                                 <td class="no-border-td text-left first-td">装港</td>
                                 <td class="text-center" colspan="3"><input class="form-control" v-model="mainInfo.lport" name="lport"></td>
-                                <td class="text-center">平均速度</td>
+                                <td class="text-left" style="padding-left: 8px!important;">平均速度</td>
                                 <td class="text-center">
-                                    <my-currency-input name="avg_speed" class="form-control text-center" v-model="mainInfo.avg_speed" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="avg_speed" class="form-control text-center" v-model="mainInfo.avg_speed" v-bind:prefix="''" v-bind:fixednumber="1"></my-currency-input>
                                 </td>
                                 <td class="text-left no-border-td first-td">其他天数</td>
                                 <td class="text-center">
-                                    <my-currency-input name="else_time" class="form-control text-center" v-model="mainInfo.else_time" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="else_time" class="form-control text-center" v-model="mainInfo.else_time" v-bind:prefix="''" v-bind:fixednumber="2" :readonly="true"></my-currency-input>
                                 </td>
                                 <td class="no-border"></td>
                             </tr>
                             <tr class="gray-tr">
                                 <td class="no-border-td text-left first-td">卸港</td>
                                 <td class="text-center" colspan="3"><input class="form-control" v-model="mainInfo.dport" name="dport"></td>
-                                <td class="text-center">佣金(%)</td>
+                                <td class="text-left" style="padding-left: 8px!important;">佣金(%)</td>
                                 <td class="text-center"><input class="form-control text-center" v-model="mainInfo.com_fee" name="com_fee"></td>
                                 <td class="no-border"></td>
                                 <td class="no-border"></td>
@@ -185,7 +185,7 @@
 
                             <tr class="sub-head-tr">
                                 <td class="center" style="background: #d9f8fb!important;"></td>
-                                <td class="center" style="background: #d9f8fb!important;">港口名城</td>
+                                <td class="center" style="background: #d9f8fb!important;">港口名称</td>
                                 <td class="center" colspan="2" style="background: #d9f8fb!important;">抵港时间</td>
                                 <td class="center" colspan="2" style="background: #d9f8fb!important;">离港时间</td>
                                 <td class="center" style="background: #d9f8fb!important;">重油(MT)</td>
@@ -199,7 +199,7 @@
                                 </td>
                                 <td class="center" colspan="2"></td>
                                 <td class="center" colspan="2">
-                                    <div>
+                                    <div class="d-flex justify-content-center">
                                         <label class="date-label">
                                             <input class="form-control date-picker text-center" v-model="elseInfo.date" name="origin_date" @click="dateModify($event, '', 'origin', '')">
                                         </label>
@@ -226,7 +226,7 @@
                                     <input type="hidden" v-model="item.id" name="load_id[]">
                                 </td>
                                 <td class="center" colspan="2">
-                                    <div>
+                                    <div class="d-flex justify-content-center">
                                         <label class="date-label">
                                             <input class="form-control date-picker text-center" name="load_arrival_date[]" v-model="item.arrival_date" @click="dateModify($event, index, 'load', 'arrival')">
                                         </label>
@@ -239,7 +239,7 @@
                                     </div>
                                 </td>
                                 <td class="center" colspan="2">
-                                    <div>
+                                    <div class="d-flex justify-content-center">
                                         <label class="date-label">
                                             <input class="form-control date-picker text-center" name="load_depart_date[]" v-model="item.load_date" @click="dateModify($event, index, 'load', 'load')">
                                         </label>
@@ -266,7 +266,7 @@
                                     <input type="hidden" v-model="item.id" name="dis_id[]">
                                 </td>
                                 <td class="center" colspan="2">
-                                    <div>
+                                    <div class="d-flex justify-content-center">
                                         <label class="date-label">
                                             <input class="form-control date-picker text-center" name="dis_arrival_date[]" v-model="item.arrival_date" @click="dateModify($event, index, 'discharge', 'arrival')">
                                         </label>
@@ -279,7 +279,7 @@
                                     </div>
                                 </td>
                                 <td class="center" colspan="2">
-                                    <div>
+                                    <div class="d-flex justify-content-center">
                                         <label class="date-label">
                                             <input class="form-control date-picker text-center" name="dis_depart_date[]" v-model="item.load_date" @click="dateModify($event, index, 'discharge', 'load')">
                                         </label>
@@ -305,7 +305,7 @@
                                     <input type="hidden" v-model="item.id" name="fuel_id[]">
                                 </td>
                                 <td class="center" colspan="2">
-                                    <div>
+                                    <div class="d-flex justify-content-center">
                                         <label class="date-label">
                                             <input class="form-control date-picker text-center" name="fuel_arrival_date[]" v-model="item.arrival_date" @click="dateModify($event, index, 'fuel', 'arrival')">
                                         </label>
@@ -318,7 +318,7 @@
                                     </div>
                                 </td>
                                 <td class="center" colspan="2">
-                                    <div>
+                                    <div class="d-flex justify-content-center">
                                         <label class="date-label">
                                             <input class="form-control date-picker text-center" name="fuel_depart_date[]" v-model="item.load_date" @click="dateModify($event, index, 'fuel', 'load')">
                                         </label>
@@ -467,7 +467,7 @@
                             </tr>
                             <tr class="gray-tr" v-for="(item, index) in debitInfo.else">
                                 <td class="center" colspan="2">
-                                    <input class="form-control text-center" name="debit_name[]" v-model="item.name" :readonly="index < 6">
+                                    <input class="form-control text-center" name="debit_name[]" v-model="item.name" :readonly="index < 4">
                                     <input type="hidden" name="debit_id[]" v-model="item.id">
                                 </td>
                                 <td class="center" colspan="3">

@@ -65,7 +65,7 @@ class VoySettle extends Model
 
         
         $beforeVoyInfo = $voyLog->getBeforeInfo($shipId, $voyId);
-        $lastVoyInfo = $voyLog->getBeforeInfo($shipId, $voyId);
+        // $lastVoyInfo = $voyLog->getBeforeInfo($shipId, $voyId);
 
         $mainInfo = [];
         $elseInfo = [];
@@ -75,17 +75,22 @@ class VoySettle extends Model
 
         $voyInfo = $voyLog->getVoyRecord($shipId, $voyId);
         if($voyInfo != []) {
-            $firstVoyDate = $voyInfo[0];
+            $firstVoyDate = $beforeVoyInfo;
             $lastVoyDate = $voyInfo[count($voyInfo) - 1];
             
             $_sailTime = 0;
             $_loadTime = 0;
+            $_dischTime = 0;
             $_waitTime = 0;
+            $_weatherTime = 0;
+            $_repairTime = 0;
+            $_supplyTime = 0;
+            $_elseTime = 0;
 
             $_cmpltCgoQty = 0;
 
-            $start_date = '';
-            $start_gmt = '';
+            $start_date = $beforeVoyInfo->Voy_Date . ' ' . $beforeVoyInfo->Voy_Hour . ':' . $beforeVoyInfo->Voy_Minute . ':00';
+            $start_gmt = $beforeVoyInfo->GMT;
             $total_distance = 0;
             $departStatus = false;
 
@@ -95,25 +100,48 @@ class VoySettle extends Model
             $_bunkDo = 0;
 
             foreach($voyInfo as $key => $item) {
-                if($key > 0) {
-                    if($item->Voy_Type == DYNAMIC_SUB_SALING) {
-                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
-                        $_sailTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
-                    }
+                if($item->Voy_Type == DYNAMIC_SUB_SALING) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_sailTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
 
-                    if($item->Voy_Type == DYNAMIC_SUB_LOADING || $item->Voy_Type == DYNAMIC_SUB_DISCH) {
-                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
-                        $_loadTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
-                    }
+                if($item->Voy_Type == DYNAMIC_SUB_LOADING) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_loadTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
 
-                    if($item->Voy_Type == DYNAMIC_SUB_WAITING) {
-                        $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
-                        $_waitTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
-                    }
+                if($item->Voy_Type == DYNAMIC_SUB_DISCH) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_dischTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
 
-                    if($item->Voy_Status == DYNAMIC_CMPLT_LOADING) {
-                        $_cmpltCgoQty = $item->Cargo_Qtty;
-                    }
+                if($item->Voy_Type == DYNAMIC_SUB_WAITING) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_waitTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
+
+                if($item->Voy_Type == DYNAMIC_SUB_WEATHER) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_weatherTime  += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
+
+                if($item->Voy_Type == DYNAMIC_SUB_REPAIR) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_repairTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
+
+                if($item->Voy_Type == DYNAMIC_SUB_SUPPLY) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_supplyTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
+
+                if($item->Voy_Type == DYNAMIC_SUB_ELSE) {
+                    $end_date = $item->Voy_Date . ' ' . $item->Voy_Hour . ':' . $item->Voy_Minute . ':00';
+                    $_elseTime += $this->getTermDay($start_date, $end_date, $start_gmt, $item->GMT);
+                }
+
+                if($item->Voy_Status == DYNAMIC_CMPLT_LOADING) {
+                    $_cmpltCgoQty = $item->Cargo_Qtty;
                 }
 
                 if($item->Voy_Status == DYNAMIC_DEPARTURE && !$departStatus) {
@@ -136,8 +164,10 @@ class VoySettle extends Model
             }
 
             $mainInfo['sail_time'] = round($_sailTime, 2);
-            $mainInfo['load_time'] = round($_loadTime, 2);
-            $mainInfo['wait_time'] = round($_waitTime, 2);
+            $mainInfo['load_time'] = round($_loadTime + $_dischTime, 2);
+            $mainInfo['disch_time'] = round($_dischTime, 2);
+            $mainInfo['wait_time'] = round(round($_waitTime, 2) + round($_weatherTime, 2) + round($_repairTime, 2) + round($_supplyTime, 2) + round($_elseTime, 2), 2);
+
             $mainInfo['start_date'] = $firstVoyDate->Voy_Date;
             $mainInfo['start_hour'] = $firstVoyDate->Voy_Hour;
             $mainInfo['start_minute'] = $firstVoyDate->Voy_Minute;
@@ -148,21 +178,21 @@ class VoySettle extends Model
 
             $start_date = $firstVoyDate->Voy_Date . ' ' . $firstVoyDate->Voy_Hour . ':' . $firstVoyDate->Voy_Minute . ':00';
             $end_date = $lastVoyDate->Voy_Date . ' ' . $lastVoyDate->Voy_Hour . ':' . $lastVoyDate->Voy_Minute . ':00';
-            $mainInfo['total_sail_time'] = round($this->getTermDay($start_date, $end_date), 2);
+            $mainInfo['total_sail_time'] = round($mainInfo['sail_time'] + $mainInfo['load_time'] + $mainInfo['wait_time'], 2);
             $mainInfo['total_distance'] = round($total_distance, 0);
-            if($mainInfo['total_sail_time'] > 0)
-                $mainInfo['avg_speed'] = round($total_distance / $mainInfo['total_sail_time'], 2);
+            if($mainInfo['total_sail_time'] > 0 && $_sailTime != 0)
+                $mainInfo['avg_speed'] = round($total_distance / $_sailTime / 24, 1);
             else
                 $mainInfo['avg_speed'] = 0;
 
             // 标准消耗
             $usedFoTmp1 = $_sailTime * $shipInfo['FOSailCons_S'];
-            $usedFoTmp2 = $_loadTime * $shipInfo['FOL/DCons_S'];
-            $usedFoTmp3 = $_waitTime * $shipInfo['FOIdleCons_S'];
+            $usedFoTmp2 = ($_loadTime + $_dischTime) * $shipInfo['FOL/DCons_S'];
+            $usedFoTmp3 = $mainInfo['wait_time'] * $shipInfo['FOIdleCons_S'];
 
             $usedDoTmp1 = $_sailTime * $shipInfo['DOSailCons_S'];
-            $usedDoTmp2 = $_loadTime * $shipInfo['DOL/DCons_S'];
-            $usedDoTmp3 = $_waitTime * $shipInfo['DOIdleCons_S'];
+            $usedDoTmp2 = ($_loadTime + $_dischTime) * $shipInfo['DOL/DCons_S'];
+            $usedDoTmp3 = $mainInfo['wait_time'] * $shipInfo['DOIdleCons_S'];
 
             $used_fo = $usedFoTmp1 + $usedFoTmp2 + $usedFoTmp3;
             $used_do = $usedDoTmp1 + $usedDoTmp2 + $usedDoTmp3;
@@ -179,12 +209,12 @@ class VoySettle extends Model
                 $beforeDo = $beforeVoyInfo->ROB_DO;
             }
 
-            if($lastVoyInfo == []) {
+            if($lastVoyDate == []) {
                 $lastFo = 0;
                 $lastDo = 0;
             } else {
-                $lastFo = $lastVoyInfo->ROB_FO;
-                $lastDo = $lastVoyInfo->ROB_DO;
+                $lastFo = $lastVoyDate->ROB_FO;
+                $lastDo = $lastVoyDate->ROB_DO;
             }
 
             $fuelInfo['rob_fo_1'] = round($beforeFo + $_bunkFo - $lastFo, 2);
@@ -273,16 +303,6 @@ class VoySettle extends Model
             array(
                 'name'          => '耗油成本',
                 'amount'        => 0,
-                'readonly'      => true,
-            ),
-            array(
-                'name'          => '招待费',
-                'amount'        => 0,
-                'readonly'      => true,
-            ),
-            array(
-                'name'          => '劳务费',
-                'amount'        => $debitInfo['service_charge'],
                 'readonly'      => true,
             ),
             
