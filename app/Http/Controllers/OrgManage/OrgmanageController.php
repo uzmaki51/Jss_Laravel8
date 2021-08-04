@@ -214,7 +214,7 @@ class OrgmanageController extends Controller
                     $fileName = $file->getClientOriginalName();
                     $name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
                     $file->move(public_path() . '/shipCertList/', $name);
-                    $siteTbl['image'] = url('/') . '/shipCertList/' . $name;
+                    $siteTbl['image'] = '/shipCertList/' . $name;
                     $siteTbl['image_path'] = public_path('/shipCertList/') . $name;
                 }
                 else {
