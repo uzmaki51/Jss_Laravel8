@@ -674,7 +674,7 @@
                                                     let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
                                                     let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
                                                     total_else_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
-                                                    if(value == '2017') console.log(total_else_time)
+                                                    //if(value == '2017') console.log(total_else_time)
                                                 }
                                             }
                                         });
@@ -688,7 +688,7 @@
 
                                         realData.total_sail_time = total_sail_time;
                                         realData.total_distance = total_distance;
-                                        realData.average_speed = BigNumber(realData.total_distance).div(total_sail_time).div(24);console.log(realData.average_speed.toFixed(6))
+                                        realData.average_speed = BigNumber(realData.total_distance).div(total_sail_time).div(24);//console.log(realData.average_speed.toFixed(6))
                                         realData.loading_time = loading_time.toFixed(COMMON_DECIMAL);
                                         realData.disch_time = disch_time.toFixed(COMMON_DECIMAL);
                                         realData.total_loading_time = BigNumber(__parseFloat(loading_time.toFixed(2))).plus(__parseFloat(disch_time.toFixed(2))).plus(__parseFloat(total_sail_time.toFixed(2)));

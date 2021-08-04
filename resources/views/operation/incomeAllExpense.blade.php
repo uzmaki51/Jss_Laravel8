@@ -848,67 +848,67 @@ $ships = Session::get('shipList');
                             realData['voy_end'] = tmpData[tmpData.length - 1]['Voy_Date'] + ' ' + tmpData[tmpData.length - 1]['Voy_Hour'] + ':' + tmpData[tmpData.length - 1]['Voy_Minute'];
                             realData['lport'] = cpData[value]['LPort'] == false ? '-' : cpData[value]['LPort'];
                             realData['dport'] = cpData[value]['DPort'] == false ? '-' : cpData[value]['DPort'];
-                            realData['sail_time'] = __getTermDay(realData['voy_start'], realData['voy_end'], tmpData[0]['GMT'], tmpData[tmpData.length - 1]['GMT']);
+                            //realData['sail_time'] = __getTermDay(realData['voy_start'], realData['voy_end'], tmpData[0]['GMT'], tmpData[tmpData.length - 1]['GMT']);
                             
                             tmpData.forEach(function(data_value, data_key) {
                                 total_distance += data_key > 0 ? __parseFloat(data_value["Sail_Distance"]) : 0;
                                 if(data_key > 0) {
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_SALING) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
-                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
+                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'] + ':00';
                                         total_sail_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_LOADING) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
-                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
+                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'] + ':00';
                                         loading_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_DISCH) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
-                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
+                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'] + ':00';
                                         disch_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_WAITING) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
-                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
+                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'] + ':00';
                                         total_waiting_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_WEATHER) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
-                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
+                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'] + ':00';
                                         total_weather_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_REPAIR) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
                                         let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
                                         total_repair_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_SUPPLY) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
                                         let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
                                         total_supply_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_ELSE) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
                                         let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
                                         total_else_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
+                                        if(value == '2017') console.log(total_else_time)
                                     }
-
                                 }
                             });
 
@@ -918,7 +918,7 @@ $ships = Session::get('shipList');
                             realData.loading_time = loading_time.toFixed(COMMON_DECIMAL);
                             realData.disch_time = disch_time.toFixed(COMMON_DECIMAL);
                             realData.total_loading_time = BigNumber(__parseFloat(loading_time.toFixed(2))).plus(__parseFloat(disch_time.toFixed(2))).plus(__parseFloat(total_sail_time.toFixed(2)));
-                            realData.economic_rate = BigNumber(realData.total_loading_time).div(__parseFloat(realData.sail_time.toFixed(2))).multipliedBy(100).toFixed(1);
+                            //realData.economic_rate = BigNumber(realData.total_loading_time).div(__parseFloat(realData.sail_time.toFixed(2))).multipliedBy(100).toFixed(1);
                             
                             realData.total_waiting_time = total_waiting_time.toFixed(COMMON_DECIMAL);
                             realData.total_weather_time = total_weather_time.toFixed(COMMON_DECIMAL);
@@ -926,6 +926,8 @@ $ships = Session::get('shipList');
                             realData.total_supply_time = total_supply_time.toFixed(COMMON_DECIMAL);
                             realData.total_else_time = total_else_time.toFixed(COMMON_DECIMAL);
                             realData.non_economic_date = BigNumber(__parseFloat(realData.total_waiting_time)).plus(__parseFloat(realData.total_weather_time)).plus(__parseFloat(realData.total_repair_time)).plus(__parseFloat(realData.total_supply_time)).plus(__parseFloat(realData.total_else_time))
+                            realData['sail_time'] = __parseFloat(realData.non_economic_date) + __parseFloat(realData.total_loading_time);
+                            realData.economic_rate = BigNumber(realData.total_loading_time).div(__parseFloat(realData.sail_time.toFixed(2))).multipliedBy(100).toFixed(1);
 
                             // Calc Footer data
                             footerData['sail_time'] += __parseFloat(realData.sail_time.toFixed(2));
@@ -1194,67 +1196,67 @@ $ships = Session::get('shipList');
                             realData['voy_end'] = tmpData[tmpData.length - 1]['Voy_Date'] + ' ' + tmpData[tmpData.length - 1]['Voy_Hour'] + ':' + tmpData[tmpData.length - 1]['Voy_Minute'];
                             realData['lport'] = cpData[value]['LPort'] == false ? '-' : cpData[value]['LPort'];
                             realData['dport'] = cpData[value]['DPort'] == false ? '-' : cpData[value]['DPort'];
-                            realData['sail_time'] = __getTermDay(realData['voy_start'], realData['voy_end'], tmpData[0]['GMT'], tmpData[tmpData.length - 1]['GMT']);
+                            //realData['sail_time'] = __getTermDay(realData['voy_start'], realData['voy_end'], tmpData[0]['GMT'], tmpData[tmpData.length - 1]['GMT']);
                             
                             tmpData.forEach(function(data_value, data_key) {
                                 total_distance += data_key > 0 ? __parseFloat(data_value["Sail_Distance"]) : 0;
                                 if(data_key > 0) {
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_SALING) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
-                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
+                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'] + ':00';
                                         total_sail_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_LOADING) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
-                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
+                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'] + ':00';
                                         loading_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_DISCH) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
-                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
+                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'] + ':00';
                                         disch_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_WAITING) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
-                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
+                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'] + ':00';
                                         total_waiting_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_WEATHER) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
-                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
+                                        let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'] + ':00';
                                         total_weather_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_REPAIR) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
                                         let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
                                         total_repair_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_SUPPLY) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
                                         let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
                                         total_supply_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                     }
 
                                     if(data_value['Voy_Type'] == DYNAMIC_SUB_ELSE) {
                                         let preKey = data_key - 1;
-                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'];
+                                        let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
                                         let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
                                         total_else_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
+                                        //if(value == '2017') console.log(total_else_time)
                                     }
-
                                 }
                             });
 
@@ -1264,7 +1266,7 @@ $ships = Session::get('shipList');
                             realData.loading_time = loading_time.toFixed(COMMON_DECIMAL);
                             realData.disch_time = disch_time.toFixed(COMMON_DECIMAL);
                             realData.total_loading_time = BigNumber(__parseFloat(loading_time.toFixed(2))).plus(__parseFloat(disch_time.toFixed(2))).plus(__parseFloat(total_sail_time.toFixed(2)));
-                            realData.economic_rate = BigNumber(realData.total_loading_time).div(__parseFloat(realData.sail_time.toFixed(2))).multipliedBy(100).toFixed(1);
+                            //realData.economic_rate = BigNumber(realData.total_loading_time).div(__parseFloat(realData.sail_time.toFixed(2))).multipliedBy(100).toFixed(1);
                             
                             realData.total_waiting_time = total_waiting_time.toFixed(COMMON_DECIMAL);
                             realData.total_weather_time = total_weather_time.toFixed(COMMON_DECIMAL);
@@ -1272,6 +1274,8 @@ $ships = Session::get('shipList');
                             realData.total_supply_time = total_supply_time.toFixed(COMMON_DECIMAL);
                             realData.total_else_time = total_else_time.toFixed(COMMON_DECIMAL);
                             realData.non_economic_date = BigNumber(__parseFloat(realData.total_waiting_time)).plus(__parseFloat(realData.total_weather_time)).plus(__parseFloat(realData.total_repair_time)).plus(__parseFloat(realData.total_supply_time)).plus(__parseFloat(realData.total_else_time))
+                            realData['sail_time'] = __parseFloat(realData.non_economic_date) + __parseFloat(realData.total_loading_time);
+                            realData.economic_rate = BigNumber(realData.total_loading_time).div(__parseFloat(realData.sail_time.toFixed(2))).multipliedBy(100).toFixed(1);
 
                             // Calc Footer data
                             footerData['sail_time'] += __parseFloat(realData.sail_time.toFixed(2));
@@ -1314,7 +1318,7 @@ $ships = Session::get('shipList');
                     row_html += "<td>" + footerData['voy_start'] + "~" + "<br>" + footerData['voy_end'] + "</td>";
                     row_html += "<td>" + _format(footerData['sail_time']) + "</td>";
                     row_html += "<td>" + _format(footerData['total_distance']) + "</td>";
-                    row_html += "<td class='right-border'>" + _format(footerData['average_speed']) + "</td>";
+                    row_html += "<td class='right-border'>" + _format(footerData['average_speed'].toFixed(1)) + "</td>";
                     row_html += "<td>" + _format(footerData['total_sail_time']+footerData['loading_time']+footerData['disch_time']) + "</td>";
                     var percent = _format((footerData['loading_time'] + footerData['disch_time'] + footerData['total_sail_time'])/footerData['sail_time']*100,1);
                     // /BigNumber(loading_time).plus(disch_time).plus(realData.total_sail_time).div(realData.sail_time).multipliedBy(100).toFixed(1);
@@ -1411,7 +1415,7 @@ $ships = Session::get('shipList');
         currentDate = BigNumber(currentDate).minus(currentGMT).div(DAY_UNIT);
         prevDate = BigNumber(prevDate).minus(prevGMT).div(DAY_UNIT);
         diffDay = currentDate.minus(prevDate);
-        return parseFloat(diffDay.div(24));
+        return parseFloat(diffDay.div(24).toFixed(4));
     }
 
     function fnExcelTableReport()
