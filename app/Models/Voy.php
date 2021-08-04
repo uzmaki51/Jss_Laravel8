@@ -28,13 +28,21 @@ class Voy extends Model
         if($voyList == null || count($voyList) == 0) return 0;
 
         $total_sail_time = Decimal::create(0);
+        $total_count = Decimal::create(0);
         foreach($voyList as $key => $item) {
-            $total_sail_time = $total_sail_time->add(Decimal::create($this->getVoyInfoByCP($shipId, $item->CP_ID)['total_time']));
-            // $total_sail_time[] = [$this->getVoyInfoByCP($shipId, $item->CP_ID), $item->CP_ID];
+            $voyInfo = $this->getVoyInfoByCP($shipId, $item->CP_ID);
+
+            $_total_time = $voyInfo['total_time'];
+            $_total_count = $voyInfo['voy_count'];
+
+            $total_sail_time = $total_sail_time->add(Decimal::create($_total_time));
+            $total_count = $total_count->add(Decimal::create($_total_count));
         }
         
-        return round($total_sail_time->__toString(), 2);
-        // return $total_sail_time;
+        return array(
+            'total_time'        => round($total_sail_time->__toString(), 2),
+            'total_count'       => round($total_count->__toString(), 2),
+        );
     }
 
     public function getVoyInfoByCP($shipId, $voyId) {
@@ -136,6 +144,7 @@ class Voy extends Model
             'total_time'        => $total_time,
             'start_date'        => $beforInfo->Voy_Date,
             'end_date'          => $currentInfo[count($currentInfo) - 1]->Voy_Date,
+            'voy_count'         => count($currentInfo)
         );
 
     }
