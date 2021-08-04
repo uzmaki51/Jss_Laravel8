@@ -71,7 +71,7 @@ class ProfileController extends Controller
             $fileName = $file->getClientOriginalName();
             $name = $fileName . '.' . $file->getClientOriginalExtension();
             $file->move(public_path() . '/avatar/', $name);
-            $avatar_url = url('/') . '/avatar/' . $name;
+            $avatar_url = '/avatar/' . $name;
         }
 
         $userTbl = User::find($params['id']);

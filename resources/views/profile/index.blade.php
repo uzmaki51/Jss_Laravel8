@@ -70,7 +70,7 @@ $isHolder = Session::get('IS_HOLDER');
                     <div class="col-xs-12 col-sm-3 center">
                         <div>
                             <label class="profile-picture" style="width: 140px; height: 160px;" for="attachment">
-                                <img class="editable img-responsive editable-click editable-empty" id="avatar" style="width: 100%; height: 100%; cursor: pointer;" alt="{{ $userinfo['realname'] }}" src="{{ !isset($userinfo['avatar']) || $userinfo['avatar'] == '' ? cAsset('assets/avatars/user.png') : $userinfo['avatar'] }}">
+                                <img class="editable img-responsive editable-click editable-empty" id="avatar" style="width: 100%; height: 100%; cursor: pointer;" alt="{{ $userinfo['realname'] }}" src="{{ !isset($userinfo['avatar']) || $userinfo['avatar'] == '' ? cAsset('assets/avatars/user.png') : cAsset($userinfo['avatar']) }}">
                             </label>
                             <input type="file" style="display: none;" id="attachment" name="avatar" accept="image/png, image/jpeg">
 
