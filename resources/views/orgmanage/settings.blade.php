@@ -65,28 +65,31 @@ $isHolder = Session::get('IS_HOLDER');
                 background-color: #ffe3e082;
             }
         </style>
-        <div class="page-content">
-            <div class="page-header">
-                <div class="col-sm-3">
-                    <h4><b>看板管理</b></h4>
-                </div>
+        <div class="page-header">
+            <div class="col-sm-3">
+                <h4><b>看板管理</b></h4>
             </div>
-            <div class="row col-md-12">
-                <div class="col-md-6" style="padding:unset!important">
-                </div>
-                <div class="col-md-6" style="padding:unset!important">
-                    <div class="btn-group f-right">
-                        <a id="btnSave" class="btn btn-sm btn-success" style="width: 80px">
-                            <i class="icon-save"></i>{{ trans('common.label.save') }}
-                        </a>
+        </div>
+        <div class="page-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6" style="padding:unset!important">
+                    </div>
+                    <div class="col-md-6" style="padding:unset!important">
+                        <div class="btn-group f-right">
+                            <a id="btnSave" class="btn btn-sm btn-success" style="width: 80px">
+                                <i class="icon-save"></i>{{ trans('common.label.save') }}
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
             <form id="validation-form" action="updateSettings" role="form" method="POST" enctype="multipart/form-data">
-            <div class="col-md-12" style="margin-top:4px;">
+            <div class="row">
+                <div class="col-md-12" style="margin-top:4px;">
                 <div id="item-manage-dialog" class="hide"></div>
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <div class="row">
+                
                     <div class="common-list" style="">
                         <div class="col-md-6" style="padding-left: 0px!important;">
                             <div class="table-responsive">
@@ -251,21 +254,14 @@ $isHolder = Session::get('IS_HOLDER');
                             @endfor
                             </tbody>
                         </table>
-                        <div class="head-fix-div" style="height: 256px;margin-top:20px;">
-                            <table id="table-report-list" style="table-layout:fixed;">
-                                <tfooter class="">
-                                    <td></td>
-                                    <td></td>
-                                    <td colspan="5"></td>
-                                    <td></td>
-                                </tfooter>
-                                <tbody class="" id="table-report-list-body" style="">
-                                </tbody>
+                        <div class="head-fix-div" style="height: 200px;margin-top:20px;padding: 0 1px;table table-bordered">
+                            <table id="table-report-list">
                             </table>
                         </div>
                         <div class="space-12"></div>
                     </div>
                 </div>
+            
             </div>
             </form>
         </div>
