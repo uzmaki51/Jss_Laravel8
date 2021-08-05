@@ -29,7 +29,7 @@
 
         <div class="page-content">
             <div class="row">
-                <div class="col-md-12 align-bottom" v-cloak>
+                <div class="col-md-12 align-bottom" style="width: 88%;" v-cloak>
                     <div class="col-md-3">
                         <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                         <select class="custom-select d-inline-block" style="padding: 4px;max-width: 100px;" id="ship_list">
@@ -347,18 +347,21 @@
                             <tr class="sub-head-tr">
                                 <td class="center" style="background: #d9f8fb!important;"></td>
                                 <td class="center" style="background: #d9f8fb!important;">实际耗油(MT)</td>
+                                <td class="center" style="background: #d9f8fb!important;">总差价(MT)</td>
                                 <td class="center" style="background: #d9f8fb!important;">理论耗油</td>
                                 <td class="center" style="background: #d9f8fb!important;">油价</td>
                                 <td class="center" style="background: #d9f8fb!important;">总油量(MT)</td>
                                 <td class="center" style="background: #d9f8fb!important;">总油价</td>
                                 <td class="center" style="background: #d9f8fb!important;">总差量(MT)</td>
-                                <td class="center" style="background: #d9f8fb!important;">总差价(MT)</td>
                             </tr>
                             <tr class="gray-tr">
                                 <td class="text-left dot first-td">重油-1</td>
                                 <td class="center dot">
                                     <my-currency-input name="rob_fo_1"  v-model="fuelInfo.rob_fo_1" :style="debitClass(fuelInfo.rob_fo_1)" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                     <input type="hidden" name="fuelCalcId" v-model="fuelInfo.id">
+                                </td>
+                                <td class="center" rowspan="2">
+                                    <my-currency-input name="total_fo_price_diff" readonly v-model="fuelInfo.total_fo_price_diff" :style="debitClass(fuelInfo.total_fo_price_diff)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" rowspan="2">
                                     <my-currency-input name="used_fo" readonly v-model="fuelInfo.used_fo" :style="debitClass(fuelInfo.used_fo)" class="form-control  text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
@@ -374,9 +377,6 @@
                                 </td>
                                 <td class="center" rowspan="2">
                                     <my-currency-input name="total_fo_diff" readonly v-model="fuelInfo.total_fo_diff" :style="debitClass(fuelInfo.total_fo_diff)" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
-                                </td>
-                                <td class="center" rowspan="2">
-                                    <my-currency-input name="total_fo_price_diff" readonly v-model="fuelInfo.total_fo_price_diff" :style="debitClass(fuelInfo.total_fo_price_diff)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                             </tr>
                             <tr class="gray-tr">
@@ -395,6 +395,9 @@
                                     <my-currency-input name="rob_do_1"  v-model="fuelInfo.rob_do_1" :style="debitClass(fuelInfo.rob_do_1)" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" rowspan="2">
+                                    <my-currency-input name="total_do_price_diff" readonly v-model="fuelInfo.total_do_price_diff" :style="debitClass(fuelInfo.total_do_price_diff)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
+                                </td>
+                                <td class="center" rowspan="2">
                                     <my-currency-input name="used_do" readonly v-model="fuelInfo.used_do" :style="debitClass(fuelInfo.used_do)" class="form-control text-right" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center dot">
@@ -408,9 +411,6 @@
                                 </td>
                                 <td class="center" rowspan="2">
                                     <my-currency-input name="total_do_diff" readonly v-model="fuelInfo.total_do_diff" :style="debitClass(fuelInfo.total_do_diff)" class="form-control text-center" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
-                                </td>
-                                <td class="center" rowspan="2">
-                                    <my-currency-input name="total_do_price_diff" readonly v-model="fuelInfo.total_do_price_diff" :style="debitClass(fuelInfo.total_do_price_diff)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                             </tr>
                             <tr class="gray-tr">

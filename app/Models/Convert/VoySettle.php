@@ -225,7 +225,7 @@ class VoySettle extends Model
             $contractInfo = $cpTbl->getContractInfo($shipId, $voyId);
             if($contractInfo != []) {
                 $currency = $contractInfo->currency;
-                $rate = $currency == USD_LABEL ? 1 : ($contractInfo->rate == 0 ? 1 : $contractInfo->rate);
+                $rate = /*$currency == USD_LABEL ? 1 : ($contractInfo->rate == 0 ? 1 : $contractInfo->rate)*/ 1;
                 $mainInfo['cargo_name'] = $cargoTbl->getCargoNames($contractInfo->Cargo);
                 $mainInfo['voy_type'] = $contractInfo->CP_kind;
 
@@ -238,7 +238,7 @@ class VoySettle extends Model
                 if($contractInfo->Freight == null || $contractInfo->Freight == 0)
                     $mainInfo['freight_price'] = $contractInfo->total_Freight / $rate;
                 else
-                    $mainInfo['freight_price'] = $contractInfo->Freight * $mainInfo['total_sail_time'];
+                    $mainInfo['freight_price'] = $contractInfo->Freight * $_cmpltCgoQty;
 
                 $mainInfo['cgo_qty'] = $_cmpltCgoQty;
                 $mainInfo['freight_price'] = round($mainInfo['freight_price'] / $rate, 2);
