@@ -711,8 +711,8 @@
                         reportObj.attachments = [];
 
                         this.currentReportType = '';
-                        if(this.shipList.length > 0)
-                            this.currentShipNo = this.shipList[0].IMO_No;
+                        // if(this.shipList.length > 0)
+                        //     this.currentShipNo = this.shipList[0].IMO_No;
                         getVoyList(this.currentShipNo);
                         
                         if(this.profitType.length > 0)
