@@ -279,7 +279,7 @@ $ships = Session::get('shipList');
                 methods: {
                     goToUrl: function(e) {
                         let val = e.target.value;
-                        location.href = '/shipManage/ctm/analytics?shipId=' + val + '&type=total';;
+                        location.href = '/shipManage/ctm/analytics?shipId=' + val + '&type=total';
                     },
                     number_format: function(value, decimal = 2, prefix = '¥') {
                         return isNaN(value) || value == null || value == 0 ? '' : prefix + ' ' + number_format(value, decimal);

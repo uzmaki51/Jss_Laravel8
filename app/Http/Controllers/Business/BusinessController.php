@@ -1382,7 +1382,7 @@ class BusinessController extends Controller {
     public function ajaxCtm(Request $request) {
         $params = $request->all();
 
-        $tbl = Ctm::orderBy('ctm_no', 'asc');
+        $tbl = Ctm::orderBy('reg_date', 'asc');
         $prevTbl = Ctm::orderBy('reg_date', 'desc')->orderBy('ctm_no', 'desc');
         if(isset($params['shipId'])) {
             $shipId = $params['shipId'];

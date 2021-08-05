@@ -468,30 +468,50 @@
                     if(result['obj_type'] == OBJECT_TYPE_SHIP) {
                         $('#obj_type_person').prop('checked', false);
                         $('#obj_type_ship').prop('checked', true);
-                        getVoyList(result['shipNo'], result['voyNo']);
+                        if(!is_new)
+                            getVoyList(result['shipNo'], result['voyNo']);
+                        else
+                            getVoyList(result['shipNo']);
                     } else {
                         $('#obj_type_person').prop('checked', true);
                         $('#obj_type_ship').prop('checked', false);
-                        getObject(result['obj_no']);
+                        if(!is_new)
+                            getObject(result['obj_no']);
+                        else {
+                            reportObj.object_type = OBJECT_TYPE_SHIP;
+                            $('#obj_type_person').prop('checked', false);
+                            $('#obj_type_ship').prop('checked', true);
+                        }
                     }
 
                     if(!is_new) {
                         $('[name=reportId]').val(reportId);
                         reportObj.report_date = result['report_date'];
+                        reportObj.currentReportType = result['flowid'];
+                        reportObj.currentShipNo = result['shipNo'];
+                        // reportObj.currentVoyNo = result['shipNo'];
+                        // reportObj.currentProfitType = '';
                     } else {
                         $('.save-draft').removeAttr('disabled');
                         $('[name=reportId]').val('');
                         reportObj.report_date = reportObj.getToday('-');
+                        reportObj.currentReportType = '';
+                        reportObj.currentShipNo = '';
+                        reportObj.currentVoyNo = '';
+                        reportObj.currentProfitType = '';
                     }
 
-                    reportObj.currentReportType = result['flowid'];
-                    reportObj.currentShipNo = result['shipNo'];
+                    
+                    
                     reportObj.amount = is_new == false ? result['amount'] : 0;
                     reportObj.currentDepartment = result['depart_id'];
                     reportObj.currentCurrency = result['currency'];
                     reportObj.content = is_new == false ? result['content'] : '';
                     
-                    disableProfit(result['flowid'], result['profit_type']);
+                    if(!is_new)
+                        disableProfit(result['flowid'], result['profit_type']);
+                    else
+                        disableProfit(result['flowid']);
 
                     if(attach != null && attach != undefined && !is_new) 
                         reportObj.fileName = attach['file_name'];
@@ -540,8 +560,8 @@
                     if(selected != false)
                         reportObj.currentVoyNo = selected;
                     else {
-                        if(data['voyList'] != undefined && data['voyList'].length > 0)
-                            reportObj.currentVoyNo = data['voyList'][0].Voy_No;
+                        // if(data['voyList'] != undefined && data['voyList'].length > 0)
+                        //     reportObj.currentVoyNo = data['voyList'][0].Voy_No;
                     }
                         
                 }
@@ -563,7 +583,7 @@
 
         function getProfit(profitType, selected = false) {
             reportObj.profitType = FeeTypeData[profitType];
-            reportObj.currentProfitType = 1;
+            reportObj.currentProfitType = '';
             if(selected != false)
                 reportObj.currentProfitType = selected;
         }
@@ -664,7 +684,7 @@
                     content: '',
                     fileName: '添加附件',
 
-                    currentReportType: REPORT_TYPE_EVIDENCE_IN,
+                    currentReportType: '',
                     currentShipNo: '',
                     currentProfitType: '',
                     currentVoyNo: '',
@@ -690,7 +710,7 @@
                         this.content = '';
                         reportObj.attachments = [];
 
-                        this.currentReportType = REPORT_TYPE_EVIDENCE_IN;
+                        this.currentReportType = '';
                         if(this.shipList.length > 0)
                             this.currentShipNo = this.shipList[0].IMO_No;
                         getVoyList(this.currentShipNo);
@@ -764,6 +784,7 @@
                         $('[name=reportType]').val(0);
                         let obj_type = reportObj.object_type;
                         let shipNo = 'required';
+                        let flowid = true;
                         let voyNo = 'required';
                         let profit_type = 'required';
                         let amount = 'required';
@@ -771,6 +792,7 @@
                         let content = 'required';
                         let obj_no = 'required';
 
+                        let flowMsg = '请选择文件种类。';
                         let shipNoMsg = '请选择对象。';
                         let obj_noMsg = '请选择对象。';
                         let voyNoMsg = '请选择航次号码。';
@@ -800,6 +822,9 @@
 
                         let validateParams = {
                             rules: {
+                                flowid: {
+                                    required: true
+                                },
                                 shipNo : {
                                     required: true
                                 },
@@ -823,6 +848,7 @@
                                 },
                             },
                             messages: {
+                                flowid: flowMsg,
                                 shipNo : shipNoMsg,
                                 voyNo: voyNoMsg,
                                 profit_type: profit_typeMsg,
@@ -835,6 +861,9 @@
 
                         if($('#report-form').validate({
                             rules: {
+                                flowid: {
+                                    required: true
+                                },
                                 shipNo : {
                                     required: true
                                 },
@@ -858,6 +887,7 @@
                                 },
                             },
                             messages: {
+                                flowid: flowMsg,
                                 shipNo : shipNoMsg,
                                 voyNo: voyNoMsg,
                                 profit_type: profit_typeMsg,
