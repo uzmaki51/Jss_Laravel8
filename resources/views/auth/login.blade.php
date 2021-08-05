@@ -36,13 +36,13 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" name="account" value="{{ old('account') }}" placeholder="用户名" style="font-size: 18px;padding: 8px!important;">
+                                    <input type="text" class="form-control" name="account" value="{{ old('account') }}" placeholder="用户名" style="font-size: 18px;padding: 8px!important;" autocomplete="off">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <input type="password" class="form-control" name="password" placeholder="密码" style="font-size: 18px;padding: 8px!important;">
+                                    <input type="password" class="form-control" name="password" placeholder="密码" style="font-size: 18px;padding: 8px!important;" autocomplete="off">
                                 </div>
                             </div>
 
