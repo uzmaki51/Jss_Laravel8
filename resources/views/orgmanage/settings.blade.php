@@ -294,6 +294,7 @@ $isHolder = Session::get('IS_HOLDER');
     <script>
         var token = '{!! csrf_token() !!}';
         var shipName = '';
+        var OBJECT_TYPE_SHIP = '{!! OBJECT_TYPE_SHIP !!}';
 
         document.multiselect('#select-graph-ship')
         .setCheckBoxClick("checkboxAll", function(target, args) {
@@ -399,11 +400,30 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: null, className: "text-center report-visible"},
                 ],
                 createdRow: function (row, data, index) {
+                    if (data['flowid'] == "Credit") {
+                        $('td', row).eq(2).attr('class', 'text-center text-profit');
+                    }
                     $('td', row).eq(2).html(ReportTypeData[data['flowid']]);
-                    $('td', row).eq(3).html(ships[data['shipNo']]);
-                    var profit_type = FeeTypeData['Debit'][data['profit_type']];
+                    if(data['obj_type'] == OBJECT_TYPE_SHIP) {
+                        $('td', row).eq(3).html(ships[data['shipNo']]);
+                    } else {
+                        $('td', row).eq(3).html(__parseStr(data['obj_name']));
+                    }
+
+                    var profit_type = FeeTypeData[data['flowid']][data['profit_type']];
                     if (profit_type == null || profit_type == 'null' || profit_type == undefined) profit_type = "";
-                    $('td', row).eq(5).html(profit_type);
+                    //$('td', row).eq(5).html(profit_type);
+                    if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other') {
+                        $('td', row).eq(5).html('').append(
+                            '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + __parseStr(profit_type) + '</span>'
+                        );  
+                    } else {
+                        $('td', row).eq(5).html('').append(
+                            ''
+                        );  
+                    }
+
+
                     $('td', row).eq(6).html('<img src="' + "{{ cAsset('assets/images/paper-clip.png') }}" + '"' + ' width="15" height="15">');
                     $('td', row).eq(7).html(data['ishide']?"✓":"");
                     $('td', row).eq(7).css('cursor','pointer');

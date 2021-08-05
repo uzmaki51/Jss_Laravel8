@@ -145,10 +145,10 @@
                                             @endif
                                         @endforeach
                                         <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif>
-                                            <td class="center" style="height:20px!important;">{{g_enum('ReportTypeData')[$report['flowid']]}}</td>
-                                            <td class="center">{{$nickName}}</td>
+                                            <td class="center" style="height:20px!important;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{g_enum('ReportTypeData')[$report['flowid']]}}</span></td>
+                                            <td class="center">{{$report['obj_type'] == OBJECT_TYPE_SHIP?$nickName:$report['obj_name']}}</td>
                                             <td class="center">{{$report['voyNo']}}</td>
-                                            <td class="center">{{($report['profit_type']!=null)&&($report['profit_type']!="")?g_enum('FeeTypeData')['Debit'][$report['profit_type']]:""}}</td>
+                                            <td class="center" style="width:25%"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{isset(g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']])?g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']]:""}}</span></td>
                                             <td class="center" style="background-color:#fdb971!important"><span class="blink">等待</span></td>
                                             <?php $index++;?>
                                         </tr>
@@ -187,10 +187,10 @@
                                             @endif
                                         @endforeach
                                         <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif>
-                                            <td class="center" style="height:20px!important;">{{g_enum('ReportTypeData')[$report['flowid']]}}</td>
-                                            <td class="center">{{$nickName}}</td>
+                                            <td class="center" style="height:20px!important;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{g_enum('ReportTypeData')[$report['flowid']]}}</span></td>
+                                            <td class="center">{{$report['obj_type'] == OBJECT_TYPE_SHIP?$nickName:$report['obj_name']}}</td>
                                             <td class="center">{{$report['voyNo']}}</td>
-                                            <td class="center">{{isset(g_enum('FeeTypeData')['Debit'][$report['profit_type']])?g_enum('FeeTypeData')['Debit'][$report['profit_type']]:""}}</td>
+                                            <td class="center" style="width:25%"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{isset(g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']])?g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']]:""}}</span></td>
                                             <td class="center"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="margin: 0px 0px"></td>
                                             <?php $index++;?>
                                         </tr>
