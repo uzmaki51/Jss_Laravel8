@@ -144,7 +144,7 @@ class DecisionController extends Controller
 		} else
 			$reportTbl['report_date'] = $params['report_date'];
 
-		$reportTbl['flowid'] = $params['flowid'];
+		$reportTbl['flowid'] = isset($params['flowid']) ? $params['flowid'] : '';
 		if($params['object_type'] == OBJECT_TYPE_SHIP) {
 			$reportTbl['shipNo'] = isset($params['shipNo']) ? $params['shipNo'] : null;
 			$reportTbl['voyNo'] = isset($params['voyNo']) ? $params['voyNo'] : null;
@@ -161,7 +161,7 @@ class DecisionController extends Controller
 			$reportTbl['voyNo'] = null;
 		}
 
-		if($params['flowid'] == REPORT_TYPE_CONTRACT) {
+		if(isset($params['flowid']) && $params['flowid'] == REPORT_TYPE_CONTRACT) {
 			$reportTbl['profit_type'] = null;
 			$reportTbl['amount'] = null;
 			$reportTbl['currency'] = null;
@@ -239,7 +239,7 @@ class DecisionController extends Controller
 		$userid = Auth::user()->id;
 
 		$decideTbl = new DecisionReport();
-		$reportList = $decideTbl->getForDatatable($params, REPORT_STATUS_DRAFT);
+		$reportList = $decideTbl->getDraft($params, REPORT_STATUS_DRAFT);
 
 		return response()->json($reportList);
 	}

@@ -839,7 +839,7 @@
                         );
                     }
                     
-                    if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other') {
+                    if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other' && data['flowid'] != '') {
                         $('td', row).eq(5).html('').append(
                             '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + __parseStr(FeeTypeData[data['flowid']][data['profit_type']]) + '</span>'
                         );  

@@ -904,6 +904,112 @@ class DecisionReport extends Model {
 		];
 	}
 
+	public function getDraft($params) {
+		$user = Auth::user();
+		$is_booker = $user->pos;
+		$years = $this->getYearList();
+		$selector = DB::table($this->table)
+			->where('state', REPORT_STATUS_DRAFT)
+			->orderBy('report_id', 'desc')
+			->select('*');
+
+		if (isset($params['columns'][0]['search']['value'])
+			&& $params['columns'][0]['search']['value'] !== ''
+		) {
+			$selector->whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $params['columns'][0]['search']['value']));
+		}
+		
+		if (isset($params['columns'][1]['search']['value'])
+			&& $params['columns'][1]['search']['value'] !== ''
+		) {
+			$selector->whereRaw(DB::raw('mid(report_date, 6, 7) = ' . sprintf("%'02d\n", $params['columns'][1]['search']['value'])));
+		}
+
+		if (isset($params['columns'][2]['search']['value'])
+			&& $params['columns'][2]['search']['value'] !== ''
+		) {
+			$obj = $params['columns'][2]['search']['value'];
+			if($obj == 'OBJ') {
+				$selector->where('obj_type', OBJECT_TYPE_PERSON);
+			} else {
+				$selector->where('obj_type', OBJECT_TYPE_SHIP);
+				$selector->where('shipNo', $obj);
+			}
+		}
+
+		// number of filtered records
+		$recordsFiltered = $selector->count();
+		
+		// offset & limit
+		if (!empty($params['start']) && $params['start'] > 0) {
+			$selector->skip($params['start']);
+		}
+
+		if (!empty($params['length']) && $params['length'] > 0) {
+			$selector->take($params['length']);
+		}
+
+		// get records
+		$records = $selector->get();
+		
+		foreach($records as $key => $item) {
+			if($item->obj_type == OBJECT_TYPE_SHIP) {
+				$shipInfo = ShipRegister::where('IMO_No', $item->shipNo)->first();
+				if($shipInfo == null)
+					$shipName = '';
+				else {
+					$shipName = $shipInfo->NickName == '' ? $shipInfo->shipName_En : $shipInfo->NickName;
+				}
+			} else {
+				$personInfo = AccountPersonalInfo::where('id', $item->obj_no)->first();
+				if($personInfo == null) 
+					$shipName = '';
+				else {
+					$shipName = $personInfo->person;
+				}
+			}
+				
+			$attach = DecisionReportAttachment::where('reportId', $item->id)->first();
+			if($attach != null)
+				$records[$key]->attach_link = $attach->file_link;
+			else
+				$records[$key]->attach_link = '';
+
+			if(ACItem::where('id', $item->profit_type)->first())
+				$profit = ACItem::where('id', $item->profit_type)->first()->AC_Item_Cn;
+			else
+				$profit = '';
+
+			$retVal = Unit::where('parentId', '!=', 0)->where('id', $item->depart_id)->first();
+			if($retVal == null)
+				$records[$key]->depart_name = '';
+			else
+				$records[$key]->depart_name = $retVal->title;
+
+			$reporter = User::where('id', $item->creator)->first()->realname;
+
+			$records[$key]->shipName = $shipName;
+			$records[$key]->realname = $reporter;
+
+			if($user->isAdmin == SUPER_ADMIN) {
+				if(isset($_saved_ids) && $_saved_ids != null) {
+					if(isset($_saved_ids[$key]) && $records[$key]->id == $_saved_ids[$key])
+						$records[$key]->readed_at = date('Y-m-d H:i:s');
+				}
+			}
+				
+		}
+		
+		return [
+			'draw' => $params['draw']+0,
+			'recordsTotal' => DB::table($this->table)->count(),
+			'recordsFiltered' => $recordsFiltered,
+			'data' => $records,
+			'error' => 0,
+		];
+	}
+
+
 	public function getForAccountReportDatatable($params) {
 		if (!isset($params['columns'][1]['search']['value']) ||
             $params['columns'][1]['search']['value'] == '' ||
