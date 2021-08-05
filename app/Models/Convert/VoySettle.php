@@ -279,7 +279,7 @@ class VoySettle extends Model
                 array()
             );
 
-        $debitInfo['commission'] = $mainInfo['freight_price'] * $mainInfo['com_fee'] / 100;
+        $debitInfo['commission'] = round($mainInfo['freight_price'] * $mainInfo['com_fee'] / 100, 2);
         $debitInfo['service_charge'] = $reportSave->getServiceAmount($shipId, $voyId);
         $debitInfo['else'] = array(
             array(

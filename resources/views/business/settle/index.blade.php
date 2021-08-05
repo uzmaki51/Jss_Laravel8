@@ -113,7 +113,9 @@
                                     </div>
                                 </td>
                                 <td class="text-left no-border-td first-td" style="width: 100px;">航次用时</td>
-                                <td class="text-center" style="width: 100px;"><input v-model="mainInfo.total_sail_time" class="form-control text-center" name="total_sail_time" readonly></td>
+                                <td class="text-center" style="width: 100px;">
+                                    <input v-model="mainInfo.total_sail_time" class="form-control text-center" name="total_sail_time" readonly>
+                                </td>
                                 <td class="no-border"></td>
                             </tr>
                             <tr class="gray-tr">
@@ -477,9 +479,18 @@
                                     <input class="form-control" name="debit_remark[]" v-model="item.remark" @change="inputChange">
                                 </td>
                             </tr>
+                            <tr class="gray-tr">
+                                <td class="center" colspan="2">
+                                    支出总计
+                                </td>
+                                <td class="center" colspan="3">@{{ number_format(debitInfo.total) == '' ? '' : '$' }} @{{ number_format(debitInfo.total) }}</td>
+                                <td class="center" colspan="2">
+                                    
+                                </td>
+                            </tr>
 
                             <tr class="gray-tr">
-                                <td class="center font-weight-bold total-td" colspan="2" style="background: #d9f8fb!important">收入总计</td>
+                                <td class="center font-weight-bold total-td" colspan="2" style="background: #d9f8fb!important">总毛利润</td>
                                 <td class="center font-weight-bold" colspan="2"><span :class="profitCls(total_profit)">@{{ (number_format(total_profit) == '' ? '' : '$ ') + number_format(total_profit) }}</span></td>
                                 <td class="center font-weight-bold" colspan="2" style="background: #d9f8fb!important">日毛利润</td>
                                 <td class="center font-weight-bold" colspan="2"><span :class="profitCls(total_profit)">@{{ (number_format(total_profit_day) == '' ? '' : '$ ') + number_format(total_profit_day) }}</span></td>
@@ -590,6 +601,7 @@
             },
             methods: {
                 setValue: function() {
+                    $_this.calcInfo();
                     isChangeStatus = true;
                     $_this.$forceUpdate();
                 },
@@ -660,6 +672,7 @@
                             $_this.debitInfo.total += __parseFloat(value['amount']);
                         });
 
+                        $_this.debitInfo.total = $_this.debitInfo.total.toFixed(2);
                         $_this.total_profit = BigNumber($_this.creditInfo.total).minus($_this.debitInfo.total).toFixed(2);
                         if($_this.mainInfo.total_sail_time > 0)
                             $_this.total_profit_day = BigNumber($_this.total_profit).div($_this.mainInfo.total_sail_time).toFixed(2);
