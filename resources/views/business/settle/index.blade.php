@@ -642,6 +642,12 @@
                 },
                 methods: {
                     calcInfo: function() {
+                        if(__parseFloat(this.mainInfo.freight) != 0)
+                            this.mainInfo.freight_price = BigNumber(this.mainInfo.freight).multipliedBy(this.mainInfo.cgo_qty).toFixed(2);
+                        // else
+                        
+
+                        // this.mainInfo.freight_price = BigNumber
                         this.mainInfo.else_time = BigNumber(this.mainInfo.total_sail_time).minus(this.mainInfo.sail_time).minus(this.mainInfo.load_time).toFixed(2);
                         this.fuelInfo.total_fo = BigNumber(this.fuelInfo.rob_fo_1).plus(this.fuelInfo.rob_fo_2).toFixed(2);
                         this.fuelInfo.total_do = BigNumber(this.fuelInfo.rob_do_1).plus(this.fuelInfo.rob_do_2).toFixed(2);
@@ -662,7 +668,7 @@
                         this.fuelInfo.total_fo_price_diff = BigNumber(this.fuelInfo.total_fo_price).minus(foTmp1).toFixed(2);
                         this.fuelInfo.total_do_price_diff = BigNumber(this.fuelInfo.total_do_price).minus(doTmp1).toFixed(2);
 
-                        this.debitInfo.else[0].amount = BigNumber(this.creditInfo.else[0].amount).multipliedBy(this.mainInfo.com_fee).div(100).toFixed(2);
+                        this.debitInfo.else[0].amount = BigNumber(this.mainInfo.freight_price).multipliedBy(this.mainInfo.com_fee).div(100).toFixed(2);
                         this.debitInfo.else[3].amount = BigNumber(this.fuelInfo.total_fo_price).plus(this.fuelInfo.total_do_price).toFixed(2);
 
                         this.creditInfo.total = 0;
