@@ -174,7 +174,7 @@
                                 <td class="text-center" colspan="3"><input class="form-control" v-model="mainInfo.dport" name="dport" @change="inputChange"></td>
                                 <td class="text-left" style="padding-left: 8px!important;">佣金(%)</td>
                                 <td class="text-center">
-                                    <my-currency-input name="com_fee" class="form-control text-center" v-model="mainInfo.com_fee" v-bind:prefix="''" v-bind:fixednumber="1"></my-currency-input>
+                                    <my-currency-input name="com_fee" class="form-control text-center" v-model="mainInfo.com_fee" v-bind:prefix="''" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="no-border"></td>
                                 <td class="no-border"></td>
@@ -475,7 +475,7 @@
                                     <input type="hidden" name="debit_id[]" v-model="item.id">
                                 </td>
                                 <td class="center" colspan="3">
-                                    <my-currency-input name="debit_amount[]" v-model="item.amount" :readonly="index == 0" :style="debitClass(item.amount)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="debit_amount[]" v-model="item.amount" :readonly="index == 0 || index == 3" :style="debitClass(item.amount)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" colspan="2">
                                     <input class="form-control" name="debit_remark[]" v-model="item.remark" @change="inputChange">

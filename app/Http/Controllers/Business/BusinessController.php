@@ -178,8 +178,8 @@ class BusinessController extends Controller {
             $elseCost = 0;
         }
         else {
-            $costDay = (_convertStr2Int($costs['input1']) + _convertStr2Int($costs['input2']) + _convertStr2Int($costs['input3']) + (_convertStr2Int($costs['input7']) + _convertStr2Int($costs['input8']) + _convertStr2Int($costs['input9']) + _convertStr2Int($costs['input10']) + _convertStr2Int($costs['input11']))*12) / 365;
-            $elseCost = (_convertStr2Int($costs['input4']) + _convertStr2Int($costs['input5']) + _convertStr2Int($costs['input6']))*12/365;
+            $costDay = ($costs['input1'] + $costs['input2'] + $costs['input3'] + ($costs['input7'] + $costs['input8'] + $costs['input9'] + $costs['input10'] + $costs['input11'])*12) / 365;
+            $elseCost = ($costs['input4'] + $costs['input5'] + $costs['input6'])*12/365;
         }
 
 		return view('business.ship_contract', array(
@@ -1236,8 +1236,8 @@ class BusinessController extends Controller {
         }
 
         $voyTbl = VoyLog::where('Ship_ID', $shipId);
-        $voyTbl2 = VoyLog::where('Ship_ID', $shipId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('id', 'desc');
-        $voyTbl3 = VoyLog::where('Ship_ID', $shipId);
+        $voyTbl2 = VoyLog::where('Ship_ID', $shipId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc');
+        $voyTbl3 = VoyLog::where('Ship_ID', $shipId)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc');
         $prevData = null;
         if(isset($params['type']) && isset($params['type']) != '') {
             $params['year'] = substr($params['year'], 2, 2);

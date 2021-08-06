@@ -304,7 +304,7 @@ class VoySettle extends Model
                 'name'          => '耗油成本',
                 'amount'        => 0,
                 'readonly'      => true,
-                'is_readonly'      => false,
+                'is_readonly'      => true,
             ),
             
             [], [], [], [], [], []);

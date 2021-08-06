@@ -960,8 +960,8 @@
                                     searchObj.used_fo = BigNumber(usedFoTmp1).plus(usedFoTmp2).plus(usedFoTmp3).toFixed(2);
                                     searchObj.used_do = BigNumber(usedDoTmp1).plus(usedDoTmp2).plus(usedDoTmp3).toFixed(2);
 
-                                    searchObj.save_fo = BigNumber(searchObj.used_fo).minus(searchObj.rob_fo).toFixed(2);
-                                    searchObj.save_do = BigNumber(searchObj.used_do).minus(searchObj.rob_do).toFixed(2);
+                                    searchObj.save_fo = BigNumber(searchObj.rob_fo).minus(searchObj.used_fo).toFixed(2);
+                                    searchObj.save_do = BigNumber(searchObj.rob_do).minus(searchObj.used_do).toFixed(2);
 
                                 }
                             }
