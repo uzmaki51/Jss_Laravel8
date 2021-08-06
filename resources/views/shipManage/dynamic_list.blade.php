@@ -947,12 +947,10 @@
                                     searchObj.sail_time = __parseFloat(non_economic_date) + __parseFloat(loadTmp);
                                     searchObj.economic_rate = BigNumber(loadTmp).div(__parseFloat(searchObj.sail_time.toFixed(2))).multipliedBy(100).toFixed(1);
 
-
-                                    
                                     let usedFoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['FOSailCons_S']);
                                     let usedFoTmp2 = BigNumber(loading_time).plus(disch_time).multipliedBy(shipInfo['FOL/DCons_S']);
                                     let usedFoTmp3 = BigNumber(non_economic_date).multipliedBy(shipInfo['FOIdleCons_S']);
-
+                                    console.log(usedFoTmp1.toNumber(), usedFoTmp2.toNumber(), usedFoTmp3.toNumber());
                                     let usedDoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['DOSailCons_S']);
                                     let usedDoTmp2 = BigNumber(loading_time).plus(disch_time).multipliedBy(shipInfo['DOL/DCons_S']);
                                     let usedDoTmp3 = BigNumber(non_economic_date).multipliedBy(shipInfo['DOIdleCons_S']);

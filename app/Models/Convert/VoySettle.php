@@ -184,11 +184,11 @@ class VoySettle extends Model
 
             // 标准消耗
             $usedFoTmp1 = round($_sailTime, 2) * $shipInfo['FOSailCons_S'];
-            $usedFoTmp2 = round($_loadTime + $_dischTime, 2) * $shipInfo['FOL/DCons_S'];
+            $usedFoTmp2 = ($_loadTime + $_dischTime) * $shipInfo['FOL/DCons_S'];
             $usedFoTmp3 = $mainInfo['wait_time'] * $shipInfo['FOIdleCons_S'];
 
             $usedDoTmp1 = round($_sailTime, 2) * $shipInfo['DOSailCons_S'];
-            $usedDoTmp2 = round($_loadTime + $_dischTime, 2) * $shipInfo['DOL/DCons_S'];
+            $usedDoTmp2 = ($_loadTime + $_dischTime) * $shipInfo['DOL/DCons_S'];
             $usedDoTmp3 = $mainInfo['wait_time'] * $shipInfo['DOIdleCons_S'];
 
             $used_fo = $usedFoTmp1 + $usedFoTmp2 + $usedFoTmp3;

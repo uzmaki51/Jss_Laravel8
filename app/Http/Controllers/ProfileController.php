@@ -63,13 +63,12 @@ class ProfileController extends Controller
             $password = bcrypt($params['password']);
         }
 
-
-
+        $account = Auth::user()->account;
         $avatar_url = '';
         if($request->file('avatar')) {
             $file = $request->file('avatar');
-            $fileName = $file->getClientOriginalName();
-            $name = $fileName . '.' . $file->getClientOriginalExtension();
+            $fileName = $account;
+            $name = $fileName . '.' . $file->extension();
             $file->move(public_path() . '/avatar/', $name);
             $avatar_url = '/avatar/' . $name;
         }
