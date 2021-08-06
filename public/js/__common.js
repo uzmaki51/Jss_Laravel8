@@ -12,7 +12,6 @@ $(function() {
 
     checkDecisionRecord();
     setInterval(checkDecisionRecord, checkTime);
-
 });
 
 $(window).resize(function(e) {
@@ -210,4 +209,9 @@ function checkDecisionRecord() {
             }
         }
     })
+}
+
+function offAutoCmplt() {
+    $('.remark').attr('autocomplete', 'off');
+    $('input').attr('autocomplete', 'off');
 }

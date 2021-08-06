@@ -89,10 +89,10 @@
                                         <input class="form-control text-center date-picker" name="load_date" v-model="mainInfo.start_date" @click="dateModify($event, '', 'main', 'start')">
                                     </label>
                                     <label class="time-width hour-label">
-                                        <input class="form-control text-center hour-input" name="load_hour" v-model="mainInfo.start_hour" @change="inputChange">
+                                        <input class="form-control text-center hour-input" name="load_hour" v-model="mainInfo.start_hour" onchange="dateChange()">
                                     </label>
                                     <label class="time-width minute-label">
-                                        <input class="form-control text-center minute-input" name="load_minute" v-model="mainInfo.start_minute" @change="inputChange">
+                                        <input class="form-control text-center minute-input" name="load_minute" v-model="mainInfo.start_minute" onchange="dateChange()">
                                     </label>
                                     </div>
                                     <input type="hidden" name="main_id" v-model="mainInfo.id">
@@ -105,10 +105,10 @@
                                             <input class="form-control text-center date-picker" name="dis_date" v-model="mainInfo.end_date" @click="dateModify($event, '', 'main', 'end')">
                                         </label>
                                         <label class="time-width hour-label">
-                                            <input class="form-control text-center hour-input" name="dis_hour" v-model="mainInfo.end_hour" @change="inputChange">
+                                            <input class="form-control text-center hour-input" name="dis_hour" v-model="mainInfo.end_hour" onchange="dateChange()">
                                         </label>
                                         <label class="time-width minute-label">
-                                            <input class="form-control text-center minute-input" name="dis_minute" v-model="mainInfo.end_minute" @change="inputChange">
+                                            <input class="form-control text-center minute-input" name="dis_minute" v-model="mainInfo.end_minute" onchange="dateChange()">
                                         </label>
                                     </div>
                                 </td>
@@ -140,7 +140,7 @@
                             <tr class="gray-tr">
                                 <td class="no-border-td text-left first-td">运费(租金)</td>
                                 <td class="text-center">
-                                    <my-currency-input name="freight_price" class="form-control" v-model="mainInfo.freight_price" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="freight_price" class="form-control" v-model="mainInfo.freight_price" v-bind:prefix="'$'" v-bind:fixednumber="2" :readonly="true"></my-currency-input>
                                 </td>
                                 <td class="text-left" style="padding-left: 8px!important; width: 140px;">运费率(日租金)</td>
                                 <td class="text-center">
@@ -173,7 +173,9 @@
                                 <td class="no-border-td text-left first-td">卸港</td>
                                 <td class="text-center" colspan="3"><input class="form-control" v-model="mainInfo.dport" name="dport" @change="inputChange"></td>
                                 <td class="text-left" style="padding-left: 8px!important;">佣金(%)</td>
-                                <td class="text-center"><input class="form-control text-center" v-model="mainInfo.com_fee" name="com_fee" @change="inputChange"></td>
+                                <td class="text-center">
+                                    <my-currency-input name="com_fee" class="form-control text-center" v-model="mainInfo.com_fee" v-bind:prefix="''" v-bind:fixednumber="1"></my-currency-input>
+                                </td>
                                 <td class="no-border"></td>
                                 <td class="no-border"></td>
                                 <td class="no-border"></td>
@@ -473,7 +475,7 @@
                                     <input type="hidden" name="debit_id[]" v-model="item.id">
                                 </td>
                                 <td class="center" colspan="3">
-                                    <my-currency-input name="debit_amount[]" v-model="item.amount" :style="debitClass(item.amount)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
+                                    <my-currency-input name="debit_amount[]" v-model="item.amount" :readonly="index == 0" :style="debitClass(item.amount)" class="form-control text-center" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                                 </td>
                                 <td class="center" colspan="2">
                                     <input class="form-control" name="debit_remark[]" v-model="item.remark" @change="inputChange">
@@ -660,9 +662,11 @@
                         this.fuelInfo.total_fo_price_diff = BigNumber(this.fuelInfo.total_fo_price).minus(foTmp1).toFixed(2);
                         this.fuelInfo.total_do_price_diff = BigNumber(this.fuelInfo.total_do_price).minus(doTmp1).toFixed(2);
 
+                        this.debitInfo.else[0].amount = BigNumber(this.creditInfo.else[0].amount).multipliedBy(this.mainInfo.com_fee).div(100).toFixed(2);
                         this.debitInfo.else[3].amount = BigNumber(this.fuelInfo.total_fo_price).plus(this.fuelInfo.total_do_price).toFixed(2);
 
                         this.creditInfo.total = 0;
+                        // this.creditInfo.else[0] = this.mainInfo.freight_price;
                         this.creditInfo.else.forEach(function(value, key) {
                             $_this.creditInfo.total += __parseFloat(value['amount']);
                         });
@@ -753,11 +757,24 @@
                     inputChange: function() {
                         isChangeStatus = true;
                     },
+
                     dateModify(e, index, where, type) {
                         $(e.target).on("change", function() {
                             isChangeStatus = true;
                             if(where == 'main') {
                                 $_this.mainInfo[type + '_date'] = $(this).val();
+                                let load_date = $("[name=load_date]").val();
+                                let load_hour = $("[name=load_hour]").val();
+                                let load_minute = $("[name=load_minute]").val();
+
+                                let dis_date = $("[name=dis_date]").val();
+                                let dis_hour = $("[name=dis_hour]").val();
+                                let dis_minute = $("[name=dis_minute]").val();
+                                
+                                $_this.mainInfo.total_sail_time = __getTermDay(load_date + ' ' + load_hour + ':' + load_minute + ':00', dis_date + ' ' + dis_hour + ':' + dis_minute + ':00');
+                                $_this.calcInfo();
+                                isChangeStatus = true;
+                                $_this.$forceUpdate();
                             } else if(where == 'origin') {
                                 $_this.elseInfo.date = $(this).val();
                             } else {
@@ -781,7 +798,7 @@
                     }).next().on(ace.click_event, function () {
                         $(this).prev().focus();
                     });
-
+                    offAutoCmplt();
                     $('.hour-input').on('blur keyup', function() {
                         let val = $(this).val();
                         if(val > 25)
@@ -838,7 +855,7 @@
             prevDate = BigNumber(prevDate).minus(prevGMT).div(DAY_UNIT);
             diffDay = currentDate.minus(prevDate);
 
-            return parseFloat(diffDay.div(24));
+            return parseFloat(diffDay.div(24).toFixed(2));
         }
 
         function submitForm() {
@@ -956,7 +973,7 @@
             //if (e.target.id == "search-name") return;
             if (e.key === "Enter") {
                 var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
-                focusable = form.find('input').filter(':visible');
+                focusable = form.find('input:not([readonly="readonly"])').filter(':visible');
                 next = focusable.eq(focusable.index(this)+1);
                 if (next.length) {
                     next.focus();
@@ -965,6 +982,20 @@
                 return false;
             }
         });
+
+        function dateChange() {
+            let load_date = $("[name=load_date]").val();
+            let load_hour = $("[name=load_hour]").val();
+            let load_minute = $("[name=load_minute]").val();
+
+            let dis_date = $("[name=dis_date]").val();
+            let dis_hour = $("[name=dis_hour]").val();
+            let dis_minute = $("[name=dis_minute]").val();
+            
+            $_this.mainInfo.total_sail_time = __getTermDay(load_date + ' ' + load_hour + ':' + load_minute + ':00', dis_date + ' ' + dis_hour + ':' + dis_minute + ':00');
+            $_this.calcInfo(); 
+            isChangeStatus = true;
+        }
 
     </script>
 

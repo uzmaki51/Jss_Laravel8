@@ -286,21 +286,25 @@ class VoySettle extends Model
                 'name'          => '佣金',
                 'amount'        => $debitInfo['commission'],
                 'readonly'      => true,
+                'is_readonly'      => true,
             ), 
             array(
                 'name'          => '装货港',
                 'amount'        => 0,
                 'readonly'      => true,
+                'is_readonly'      => false,
             ),
             array(
                 'name'          => '卸货港',
                 'amount'        => 0,
                 'readonly'      => true,
+                'is_readonly'      => false,
             ),
             array(
                 'name'          => '耗油成本',
                 'amount'        => 0,
                 'readonly'      => true,
+                'is_readonly'      => false,
             ),
             
             [], [], [], [], [], []);
