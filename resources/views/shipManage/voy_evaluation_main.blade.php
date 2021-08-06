@@ -197,90 +197,90 @@
                     <tr class="odd">
                         <td class="center">8</td>
                         <td colspan="2" class="text-profit font-weight-bold">收入</td>
-                        <td class="text-right text-profit">@{{ number_format(cpInfo.credit, 0) }}</td>
-                        <td class="text-right text-profit">@{{ number_format(realInfo.credit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.credit) - __parseFloat(cpInfo.credit), 0) }}</td>
+                        <td class="text-right text-profit">@{{ number_format(cpInfo.credit, 0, '$ ') }}</td>
+                        <td class="text-right text-profit">@{{ number_format(realInfo.credit, 0, '$ ') }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.credit) - __parseFloat(cpInfo.credit), 0, '$ ') }}</td>
                     </tr>
 
 
                     <tr class="even">
                         <td class="center" rowspan="5">9</td>
                         <td colspan="2" class="font-weight-bold">支出</td>
-                        <td class="text-right" :style="dangerStyle(cpInfo.debit)">@{{ number_format(cpInfo.debit, 0) }}</td>
-                        <td class="text-right text-warning" :style="dangerStyle(realInfo.debit)">@{{ number_format(realInfo.debit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.debit) - __parseFloat(cpInfo.debit), 0) }}</td>
+                        <td class="text-right" :style="dangerStyle(cpInfo.debit)">@{{ number_format(cpInfo.debit, 0, '$ ') }}</td>
+                        <td class="text-right text-warning" :style="dangerStyle(realInfo.debit)">@{{ number_format(realInfo.debit, 0, '$ ') }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.debit) - __parseFloat(cpInfo.debit), 0, '$ ') }}</td>
                     </tr>
 
                     <tr class="odd">
                         <td rowspan="4" class="center">其中</td>
                         <td class="text-left">装卸港费</td>
-                        <td class="text-right">@{{ number_format(__parseFloat(cpInfo.up_port_price) + __parseFloat(cpInfo.down_port_price), 0) }}</td>
-                        <td class="text-right text-warning" :style="dangerStyle(realInfo.sail_credit)">@{{ number_format(__parseFloat(realInfo.sail_credit), 0) }}</td>
-                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.sail_credit) - __parseFloat(cpInfo.up_port_price) - __parseFloat(cpInfo.down_port_price), 0) }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(cpInfo.up_port_price) + __parseFloat(cpInfo.down_port_price), 0, '$ ') }}</td>
+                        <td class="text-right text-warning" :style="dangerStyle(realInfo.sail_credit)">@{{ number_format(__parseFloat(realInfo.sail_credit), 0, '$ ') }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.sail_credit) - __parseFloat(cpInfo.up_port_price) - __parseFloat(cpInfo.down_port_price), 0, '$ ') }}</td>
                     </tr>
 
                     <tr class="even">
                         <td class="text-left">耗油成本</td>
-                        <td class="text-right" :style="dangerStyle(cpInfo.fuel_consumpt)">@{{ number_format(cpInfo.fuel_consumpt, 0) }}</td>
-                        <td class="text-right text-warning" :style="dangerStyle(realInfo.fuel_consumpt)">@{{ number_format(realInfo.fuel_consumpt, 0) }}</td>
-                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.fuel_consumpt) - __parseFloat(cpInfo.fuel_consumpt), 0) }}</td>
+                        <td class="text-right" :style="dangerStyle(cpInfo.fuel_consumpt)">@{{ number_format(cpInfo.fuel_consumpt, 0, '$ ') }}</td>
+                        <td class="text-right text-warning" :style="dangerStyle(realInfo.fuel_consumpt)">@{{ number_format(realInfo.fuel_consumpt, 0, '$ ') }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.fuel_consumpt) - __parseFloat(cpInfo.fuel_consumpt), 0, '$ ') }}</td>
                     </tr>
                     <tr class="odd">
                         <td class="text-left">其他(运营)</td>
-                        <td class="text-right" :style="dangerStyle(cpInfo.cost_else)">@{{ number_format(cpInfo.cost_else, 0) }}</td>
-                        <td class="text-right text-warning" :style="dangerStyle(realInfo.cost_else)">@{{ number_format(cpInfo.cost_else, 0) }}</td>
+                        <td class="text-right" :style="dangerStyle(cpInfo.cost_else)">@{{ number_format(cpInfo.cost_else, 0, '$ ') }}</td>
+                        <td class="text-right text-warning" :style="dangerStyle(realInfo.cost_else)">@{{ number_format(cpInfo.cost_else, 0, '$ ') }}</td>
                         <td class="text-right"></td>
                     </tr>
                     <tr class="even">
                         <td class="text-left">管理成本</td>
-                        <td class="text-right" :style="dangerStyle(cpInfo.manage_cost_day)">@{{ number_format(cpInfo.manage_cost_day, 0) }}</td>
-                        <td class="text-right text-warning" :style="dangerStyle(realInfo.manage_cost_day)">@{{ number_format(realInfo.manage_cost_day, 0) }}</td>
-                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.manage_cost_day) - __parseFloat(cpInfo.manage_cost_day), 0) }}</td>
+                        <td class="text-right" :style="dangerStyle(cpInfo.manage_cost_day)">@{{ number_format(cpInfo.manage_cost_day, 0, '$ ') }}</td>
+                        <td class="text-right text-warning" :style="dangerStyle(realInfo.manage_cost_day)">@{{ number_format(realInfo.manage_cost_day, 0, '$ ') }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.manage_cost_day) - __parseFloat(cpInfo.manage_cost_day), 0, '$ ') }}</td>
                     </tr>
 
 
                     <tr class="odd">
                         <td class="center">10</td>
                         <td colspan="2">毛利润</td>
-                        <td class="text-right" :style="dangerStyle(cpInfo.gross_profit)">@{{ number_format(cpInfo.gross_profit, 0) }}</td>
-                        <td class="text-right text-warning" :style="dangerStyle(realInfo.gross_profit)">@{{ number_format(realInfo.gross_profit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.gross_profit) - __parseFloat(cpInfo.gross_profit), 0) }}</td>
+                        <td class="text-right" :style="dangerStyle(cpInfo.gross_profit)">@{{ number_format(cpInfo.gross_profit, 0, '$ ') }}</td>
+                        <td class="text-right text-warning" :style="dangerStyle(realInfo.gross_profit)">@{{ number_format(realInfo.gross_profit, 0, '$ ') }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.gross_profit) - __parseFloat(cpInfo.gross_profit), 0, '$ ') }}</td>
                     </tr>
 
                     <tr class="even">
                         <td class="center">11</td>
                         <td colspan="2">日毛利润</td>
-                        <td class="text-right" :style="dangerStyle(cpInfo.day_gross_profit)">@{{ number_format(cpInfo.day_gross_profit, 0) }}</td>
-                        <td class="text-right text-warning" :style="dangerStyle(realInfo.day_gross_profit)">@{{ number_format(realInfo.day_gross_profit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.day_gross_profit) - __parseFloat(cpInfo.day_gross_profit), 0) }}</td>
+                        <td class="text-right" :style="dangerStyle(cpInfo.day_gross_profit)">@{{ number_format(cpInfo.day_gross_profit, 0, '$ ') }}</td>
+                        <td class="text-right text-warning" :style="dangerStyle(realInfo.day_gross_profit)">@{{ number_format(realInfo.day_gross_profit, 0, '$ ') }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.day_gross_profit) - __parseFloat(cpInfo.day_gross_profit), 0, '$ ') }}</td>
                     </tr>
                     <tr class="odd">
                         <td class="center">12</td>
                         <td colspan="2">日均成本</td>
-                        <td class="text-right" :style="dangerStyle(cpInfo.cost_per_day)">@{{ number_format(cpInfo.cost_per_day, 0) }}</td>
-                        <td class="text-right text-warning" :style="dangerStyle(realInfo.cost_day)">@{{ number_format(realInfo.cost_day, 0) }}</td>
+                        <td class="text-right" :style="dangerStyle(cpInfo.cost_per_day)">@{{ number_format(cpInfo.cost_per_day, 0, '$ ') }}</td>
+                        <td class="text-right text-warning" :style="dangerStyle(realInfo.cost_day)">@{{ number_format(realInfo.cost_day, 0, '$ ') }}</td>
                         <td class="text-right"></td>
                     </tr>
                     <tr class="even">
                         <td class="center">13</td>
                         <td colspan="2">净利润</td>
-                        <td class="text-right" :style="dangerStyle(cpInfo.profit)">@{{ number_format(cpInfo.profit, 0) }}</td>
-                        <td class="text-right text-warning" :style="dangerStyle(realInfo.profit)">@{{ number_format(realInfo.profit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.profit) - __parseFloat(cpInfo.profit), 0) }}</td>
+                        <td class="text-right" :style="dangerStyle(cpInfo.profit)">@{{ number_format(cpInfo.profit, 0, '$ ') }}</td>
+                        <td class="text-right text-warning" :style="dangerStyle(realInfo.profit)">@{{ number_format(realInfo.profit, 0, '$ ') }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.profit) - __parseFloat(cpInfo.profit), 0, '$ ') }}</td>
                     </tr>
                     <tr class="odd">
                         <td class="center">14</td>
                         <td colspan="2">日净利润</td>
-                        <td class="text-right" :style="dangerStyle(cpInfo.day_profit)">@{{ number_format(cpInfo.day_profit, 0) }}</td>
-                        <td class="text-right text-warning" :style="dangerStyle(realInfo.day_profit)">@{{ number_format(realInfo.day_profit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.day_profit) - __parseFloat(cpInfo.day_profit), 0) }}</td>
+                        <td class="text-right" :style="dangerStyle(cpInfo.day_profit)">@{{ number_format(cpInfo.day_profit, 0, '$ ') }}</td>
+                        <td class="text-right text-warning" :style="dangerStyle(realInfo.day_profit)">@{{ number_format(realInfo.day_profit, 0, '$ ') }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.day_profit) - __parseFloat(cpInfo.day_profit), 0, '$ ') }}</td>
                     </tr>
                     <tr class="even">
                         <td class="center">15</td>
                         <td colspan="2">预计利润(1年)</td>
-                        <td class="text-right" :style="dangerStyle(cpInfo.year_profit)">@{{ number_format(cpInfo.year_profit, 0) }}</td>
-                        <td class="text-right" :style="dangerStyle(realInfo.year_profit)">@{{ number_format(realInfo.year_profit, 0) }}</td>
-                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.year_profit) - __parseFloat(cpInfo.year_profit), 0) }}</td>
+                        <td class="text-right" :style="dangerStyle(cpInfo.year_profit)">@{{ number_format(cpInfo.year_profit, 0, '$ ') }}</td>
+                        <td class="text-right text-warning" :style="dangerStyle(realInfo.year_profit)">@{{ number_format(realInfo.year_profit, 0, '$ ') }}</td>
+                        <td class="text-right">@{{ number_format(__parseFloat(realInfo.year_profit) - __parseFloat(cpInfo.year_profit), 0, '$ ') }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -360,8 +360,8 @@
                             onChangeVoy: function(e) {
                                 location.href = '/shipManage/voy/evaluation?shipId=' + $_this.shipId + '&voyId=' + this.voyId + '&type=main';
                             },
-                            number_format: function(value, decimal = 2) {
-                                return __parseFloat(value) == 0 ? '' : number_format(value, decimal);
+                            number_format: function(value, decimal = 2, symbol = '') {
+                                return __parseFloat(value) == 0 ? '' : symbol + number_format(value, decimal);
                             },
                             dangerStyle: function(value) {
                                 return value < 0 ? 'color: red!important;' : '';
@@ -585,28 +585,28 @@
 
                     let debitTmp1 = BigNumber($_this.cpInfo['up_port_price']).plus($_this.cpInfo['down_port_price']);
                     let debitTmp2 = BigNumber($_this.cpInfo['fuel_consumpt']).plus($_this.cpInfo['cost_else']);
-                    $_this.cpInfo['manage_cost_day'] = BigNumber($_this.realInfo['cost_day']).multipliedBy($_this.cpInfo['sail_time']).toFixed(2);
-                    $_this.cpInfo['debit'] = debitTmp1.plus(debitTmp2).plus($_this.cpInfo['manage_cost_day']).toFixed(2);
+                    $_this.cpInfo['manage_cost_day'] = BigNumber($_this.realInfo['cost_day']).multipliedBy($_this.cpInfo['sail_time']).toFixed(0);
+                    $_this.cpInfo['debit'] = debitTmp1.plus(debitTmp2).plus($_this.cpInfo['manage_cost_day']).toFixed(0);
 
                     debitTmp1 = $_this.realInfo['sail_credit'];
                     debitTmp2 = BigNumber($_this.realInfo['fuel_consumpt']).plus($_this.cpInfo['cost_else']);
                     // $_this.realInfo['manage_cost_day'] = BigNumber($_this.realInfo['cost_day']).multipliedBy($_this.realInfo['total_sail_time']).toFixed(2);
-                    $_this.realInfo['debit'] = BigNumber(debitTmp1).plus(debitTmp2).plus($_this.realInfo['manage_cost_day']).toFixed(2);
+                    $_this.realInfo['debit'] = BigNumber(debitTmp1).plus(debitTmp2).plus($_this.realInfo['manage_cost_day']).toFixed(0);
 
-                    $_this.cpInfo['profit'] = BigNumber($_this.cpInfo['credit']).minus($_this.cpInfo['debit']).toFixed(2);
-                    $_this.realInfo['profit'] = BigNumber($_this.realInfo['credit']).minus($_this.realInfo['debit']).toFixed(2);
+                    $_this.cpInfo['profit'] = BigNumber($_this.cpInfo['credit']).minus($_this.cpInfo['debit']).toFixed(0);
+                    $_this.realInfo['profit'] = BigNumber($_this.realInfo['credit']).minus($_this.realInfo['debit']).toFixed(0);
 
-                    $_this.cpInfo['day_profit'] = BigNumber($_this.cpInfo['profit']).div($_this.cpInfo['sail_time']).toFixed(2);
-                    $_this.realInfo['day_profit'] = BigNumber($_this.realInfo['profit']).div($_this.realInfo['total_sail_time']).toFixed(2);
+                    $_this.cpInfo['day_profit'] = BigNumber($_this.cpInfo['profit']).div($_this.cpInfo['sail_time']).toFixed(0);
+                    $_this.realInfo['day_profit'] = BigNumber($_this.realInfo['profit']).div($_this.realInfo['total_sail_time']).toFixed(0);
 
-                    $_this.cpInfo['year_profit'] = BigNumber($_this.cpInfo['day_profit']).multipliedBy(360).toFixed(2);
-                    $_this.realInfo['year_profit'] = BigNumber($_this.realInfo['day_profit']).multipliedBy(360).toFixed(2);
+                    $_this.cpInfo['year_profit'] = BigNumber($_this.cpInfo['day_profit']).multipliedBy(360).toFixed(0);
+                    $_this.realInfo['year_profit'] = BigNumber($_this.realInfo['day_profit']).multipliedBy(360).toFixed(0);
 
-                    $_this.cpInfo['gross_profit'] = BigNumber($_this.cpInfo['profit']).plus($_this.cpInfo['manage_cost_day']).toFixed(2);
-                    $_this.realInfo['gross_profit'] = BigNumber($_this.realInfo['profit']).plus($_this.realInfo['manage_cost_day']).toFixed(2);
+                    $_this.cpInfo['gross_profit'] = BigNumber($_this.cpInfo['profit']).plus($_this.cpInfo['manage_cost_day']).toFixed(0);
+                    $_this.realInfo['gross_profit'] = BigNumber($_this.realInfo['profit']).plus($_this.realInfo['manage_cost_day']).toFixed(0);
 
-                    $_this.cpInfo['day_gross_profit'] = BigNumber($_this.cpInfo['gross_profit']).div($_this.cpInfo['sail_time']).toFixed(2);
-                    $_this.realInfo['day_gross_profit'] = BigNumber($_this.realInfo['gross_profit']).plus($_this.realInfo['total_sail_time']).toFixed(2);
+                    $_this.cpInfo['day_gross_profit'] = BigNumber($_this.cpInfo['gross_profit']).div($_this.cpInfo['sail_time']).toFixed(0);
+                    $_this.realInfo['day_gross_profit'] = BigNumber($_this.realInfo['gross_profit']).div($_this.realInfo['total_sail_time']).toFixed(0);
 
                     $_this.test = 25;
                     economicGraph1 = BigNumber($_this.realInfo.wait_time).div($_this.realInfo.total_sail_time).multipliedBy(100).toFixed(2);

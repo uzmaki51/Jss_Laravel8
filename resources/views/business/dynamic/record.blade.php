@@ -273,7 +273,7 @@
         var shipId = '{!! $shipId !!}';
         var voyId = '{!! $voyId !!}';
         var shipInfo = '{!! $shipInfo !!}';
-        shipInfo=shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
+        shipInfo = shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
         shipInfo = JSON.parse(shipInfo);
         var DYNAMIC_SUB_SALING = '{!! DYNAMIC_SUB_SALING !!}';
         var DYNAMIC_SUB_LOADING = '{!! DYNAMIC_SUB_LOADING !!}';

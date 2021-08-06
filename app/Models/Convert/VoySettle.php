@@ -660,7 +660,7 @@ class VoySettle extends Model
         $rep = new DecisionReport();
         $debit_credit = $rep->getIncome($shipId, $voyId);
         $mainInfo['credit'] = $debit_credit[0];
-        $mainInfo['sail_credit'] = isset($debit_credit[2][OUTCOME_FEE1]) ? $debit_credit[2][OUTCOME_FEE1] : 0;
+        $mainInfo['sail_credit'] = isset($debit_credit[2][OUTCOME_FEE1]) ? round($debit_credit[2][OUTCOME_FEE1], 0) : 0;
         $mainInfo['soa_credit'] = $debit_credit[0] - $debit_credit[1];
 
         $mainInfo['freight_price'] = isset($mainInfo['freight_price']) ? $mainInfo['freight_price'] : 0;
