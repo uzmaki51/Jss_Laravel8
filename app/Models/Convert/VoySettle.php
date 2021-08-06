@@ -161,7 +161,7 @@ class VoySettle extends Model
             }
 
             $mainInfo['sail_time'] = round($_sailTime, 2);
-            $mainInfo['load_time'] = round($_loadTime + $_dischTime, 2);
+            $mainInfo['load_time'] = round($_loadTime, 2) + round($_dischTime, 2);
             $mainInfo['disch_time'] = round($_dischTime, 2);
             $mainInfo['wait_time'] = round(round($_waitTime, 2) + round($_weatherTime, 2) + round($_repairTime, 2) + round($_supplyTime, 2) + round($_elseTime, 2), 2);
 
