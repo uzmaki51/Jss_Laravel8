@@ -871,11 +871,10 @@
             let prevDate = moment(start_date).valueOf();
             let prevGMT = DAY_UNIT * start_gmt;
             let diffDay = 0;
-            currentDate = BigNumber(currentDate).minus(currentGMT).div(DAY_UNIT).toFixed(2);
-            prevDate = BigNumber(prevDate).minus(prevGMT).div(DAY_UNIT).toFixed(2);
-            diffDay = BigNumber(currentDate).minus(prevDate).toFixed(2);
-
-            return parseFloat(parseFloat(BigNumber(diffDay).div(24).toFixed(4)));
+            currentDate = BigNumber(currentDate).minus(currentGMT).div(DAY_UNIT);
+            prevDate = BigNumber(prevDate).minus(prevGMT).div(DAY_UNIT);
+            diffDay = currentDate.minus(prevDate);
+            return parseFloat(diffDay.div(24).toFixed(4));
         }
 
         $('body').on('keydown', 'input, select', function(e) {
