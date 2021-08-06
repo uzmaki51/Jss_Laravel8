@@ -552,11 +552,33 @@ $ships = Session::get('shipList');
         }
         
         $('#select-table-ship').on('change', function() {
-            selectTableInfo();
+            //selectTableInfo();
+            var prevShip = $('#select-table-ship').val();
+            $('#select-table-ship').val(shipid_table);
+            var newForm = $form.serialize();
+            if ((newForm !== origForm) && !submitted) {
+                var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+                alertAudio();
+                bootbox.confirm(confirmationMessage, function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    else {
+                        $('#select-table-ship').val(prevShip);
+                        selectTableInfo();
+                    }
+                });
+            }
+            else {
+                $('#select-table-ship').val(prevShip);
+                selectTableInfo();
+            }
         });
 
         function selectTableInfo()
         {
+            origForm = "";
             shipid_table = $("#select-table-ship").val();
             $('#table_info').html('"' + $("#select-table-ship option:selected").attr('data-name') + '"');
             $('#costs_info').html('"' + $("#select-table-ship option:selected").attr('data-name') + '"');

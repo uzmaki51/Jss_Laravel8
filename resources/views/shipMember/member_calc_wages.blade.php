@@ -699,6 +699,7 @@ $isHolder = Session::get('IS_HOLDER');
             $('#add-name').val("缺员");
             $('#add-rank').val("");
             $('#add-currency').val(0);
+            $('#add-currency').attr('style','padding-left:unset!important;color:red!important');
             $('#add-wage').val('');
             $('#add-signon-date').val('');
             $('#add-signoff-date').val('');
@@ -827,7 +828,7 @@ $isHolder = Session::get('IS_HOLDER');
 
         function selectCurrency()
         {
-            var value = this.value;
+            var value = $('#add-currency').val();
             if (value == 0) $('#add-currency').attr('style','padding-left:unset!important;color:red!important');
             else { $('#add-currency').attr('style','padding-left:unset!important;color:#026fcd!important'); }
         }
