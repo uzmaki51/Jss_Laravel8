@@ -951,6 +951,21 @@
             
             return 0;
         }
+
+        $('body').on('keydown', 'input', function(e) {
+            //if (e.target.id == "search-name") return;
+            if (e.key === "Enter") {
+                var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
+                focusable = form.find('input').filter(':visible');
+                next = focusable.eq(focusable.index(this)+1);
+                if (next.length) {
+                    next.focus();
+                    next.select();
+                }
+                return false;
+            }
+        });
+
     </script>
 
 @endsection
