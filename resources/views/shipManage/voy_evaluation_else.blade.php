@@ -68,7 +68,7 @@
                             <td class="text-right">@{{ _number_format(item[1].total_sail_time) }}</td>
                             <td class="text-right">@{{ _number_format(item[1].total_distance, 0) }}</td>
                             <td class="text-right">@{{ _number_format(item[1].cgo_qty, 0) }}</td>
-                            <td class="text-right">@{{ _number_format(item[0].Freight, 2) }}</td>
+                            <td class="text-right">@{{ getFrtRate(item[0].Freight, item[0].total_Freight) }}</td>
                             <td class="text-right text-profit">@{{ _number_format(item[1].credit, 0) }}</td>
                             <td class="center">@{{ _number_format(item[1].credit_distance, 0) }}</td>
                             <td class="text-right" :style="debitClass(item[1].soa_credit)" style="border-right: 2px solid rgb(255, 146, 7);">@{{ _number_format(item[1].soa_credit, 0) }}</td>
@@ -176,6 +176,15 @@
                     },
                     voyDateFormat: function(date, format = '-') {
                         return moment(date).format('YY-MM-DD');
+                    },
+                    getFrtRate: function(a, b) {
+                        let val = '';
+                        if(__parseFloat(a) == 0)
+                            val = b;
+                        else
+                            val = a;
+
+                        return __parseFloat(val) == 0 ? '' : '$ ' + _number_format(val, 2);
                     },
                     fnExcelElse: function() {
                         //table-else
