@@ -614,7 +614,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $.post('deleteShipMember', {'_token':token, 'dataId':memberId}, function (result) {
                         var code = parseInt(result);
                         if (code > 0) {
-                            location.reload();
+                            location.href = BASE_URL + 'shipMember/registerShipMember';
                         } else {
 
                         }
