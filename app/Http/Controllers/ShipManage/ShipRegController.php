@@ -109,15 +109,28 @@ class ShipRegController extends Controller
             $ship_infolist = ShipRegister::orderBy('id')->get();
         }
 
+        // var_dump($ship_infolist);die;
+		$memberCertXls['COC'] = $this->__MEMBER_EXCEL_COC;
+        $memberCertXls['GOC'] = $this->__MEMBER_EXCEL_GOC;
+        
 	    $params = $request->all();
 
-	    if(isset($params['id']))
+	    if(isset($params['id'])) {
 		    $ship_id = $params['id'];
-	    else {
-		    $ship_id = ShipRegister::orderBy('id')->first()->id;
-	    }
-
-	    $ship_id = isset($ship_id) ? $ship_id : 0;
+        } else {
+            // $ship_id = ShipRegister::orderBy('id')->first()->id;
+            if(count($ship_infolist) > 0)
+                $ship_id = $ship_infolist[0]->id;
+            else
+                return view('shipManage.shipinfo', [
+                    'list'      => [],
+                    'shipInfo'  => [],
+                    'shipName'	=> '',
+                    'elseInfo'  => array('cert' => []),
+                    'id'        => 0,
+                    'memberCertXls'       =>    $memberCertXls
+                ]);
+        }
 
 	    $shipRegTbl = new ShipRegister();
 	    $elseInfo = $shipRegTbl->getShipForExcel($ship_id, $this->__CERT_EXCEL);
@@ -131,9 +144,6 @@ class ShipRegController extends Controller
 	    $shipInfo['ShipType'] = isset($shipTypeTbl) ? $shipTypeTbl['ShipType'] : '';
 
 		$shipMembers = ShipMember::where('ShipId', $imo_no)->get();
-
-		$memberCertXls['COC'] = $this->__MEMBER_EXCEL_COC;
-	    $memberCertXls['GOC'] = $this->__MEMBER_EXCEL_GOC;
 
         return view('shipManage.shipinfo', [
         	'list'      => $ship_infolist,

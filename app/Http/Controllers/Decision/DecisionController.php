@@ -398,7 +398,13 @@ class DecisionController extends Controller
 
 		$decision = new DecisionReport();
 
-		$retVal = $decision->checkReport($isAdmin);
+		if($isAdmin == STAFF_LEVEL_MANAGER)
+			$retVal = $decision->checkReport();
+		else if($isAdmin == STAFF_LEVEL_FINANCIAL) {
+			$retVal = $decision->checkBookReport();
+		} else {
+			$retVal = false;
+		}
 
 		return response()->json($retVal);
 	}

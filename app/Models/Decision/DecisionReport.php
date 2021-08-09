@@ -1242,15 +1242,19 @@ class DecisionReport extends Model {
 		return $last->id;
 	}
 
-	public function checkReport($isAdmin) {
-		if($isAdmin == SUPER_ADMIN) {
+	public function checkReport() {
 			$isExist = self::where('state', REPORT_STATUS_REQUEST)->whereNull('readed_at')->get();
 			if(!isset($isExist) || count($isExist) == 0)
 				return false;
 			else
 				return count($isExist);
-		} else {
-			return false;
-		}
+	}
+
+	public function checkBookReport() {
+			$isExist = self::where('state', REPORT_STATUS_ACCEPT)->whereNull('readed_at')->count();
+			if($isExist == 0)
+				return false;
+			else
+				return $isExist;
 	}
 }

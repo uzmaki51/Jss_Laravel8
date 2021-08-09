@@ -51,7 +51,9 @@ $shipList = Session::get('shipList');
                                 <th class="text-center style-header" style="width: 4%;"><span>BM</span></th>
                                 <th class="text-center style-header" style="width: 4%;"><span>DM</span></th>
                                 <th class="text-center style-header" style="width: 5%;"><span>Draught</span></th>
-                                <th style="width: 2%;"></th>
+                                @if(Auth::user()->isAdmin == STAFF_LEVEL_MANAGER)
+                                    <th style="width: 2%;"></th>
+                                @endif
                             </tr>
                             </thead>
                             <tbody>
@@ -74,15 +76,17 @@ $shipList = Session::get('shipList');
                                             <td class="text-center no-padding">{{ $item['BM'] }}</td>
                                             <td class="text-center no-padding">{{ $item['DM'] }}</td>
                                             <td class="text-center no-padding">{{ $item['Draught'] }}</td>
-                                            <td class="text-center no-padding">
-                                                <div class="action-buttons">
-                                                    @if(!$isHolder)
-                                                        <a class="red" href="javascript:deleteItem('{{ $item['id'] }}', '{{ $item['shipName_Cn'] }}')">
-                                                            <i class="icon-trash"></i>
-                                                        </a>
-                                                    @endif
-                                                </div>
-                                            </td>
+                                            @if(Auth::user()->isAdmin == STAFF_LEVEL_MANAGER)
+                                                <td class="text-center no-padding">
+                                                    <div class="action-buttons">
+                                                        @if(!$isHolder)
+                                                            <a class="red" href="javascript:deleteItem('{{ $item['id'] }}', '{{ $item['shipName_Cn'] }}')">
+                                                                <i class="icon-trash"></i>
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endif
 									<?php $index ++; ?>
