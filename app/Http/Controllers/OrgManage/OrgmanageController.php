@@ -260,7 +260,7 @@ class OrgmanageController extends Controller
         $unitList = Unit::all(['id', 'title']);
         $posList = Post::all(['id', 'title']);
 
-        $userlist = User::where('status', STATUS_ACTIVE)->where('isAdmin', '!=', STAFF_LEVEL_MANAGER)->orderBy('pos', 'asc')->get();
+        $userlist = User::where('status', STATUS_ACTIVE)->where('is_show', '!=', STAFF_LEVEL_MANAGER)->orderBy('pos', 'asc')->get();
         
         return view('orgmanage.memberinfo',
                 ['list'         =>$userlist,
