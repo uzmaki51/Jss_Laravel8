@@ -325,9 +325,8 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(12).html('<input type="text" class="form-control" name="Remark[]" value="' + __parseStr(data['Remark']) + '" style="width: 100%;text-align: center" autocomplete="off">');
                     var bank_info = data['BankInformation'];
                     if (bank_info == 'null' || bank_info == null) bank_info = '';
-                    $('td', row).eq(13).html('<label>' + __parseStr(bank_info) + '</label><input type="hidden" name="BankInfo[]" value="' + __parseStr(bank_info) + '">');
-
-                    //$('td', row).eq(11).attr('name', 'TransDate[]');
+                    //$('td', row).eq(13).html('<label>' + __parseStr(bank_info) + '</label><input type="hidden" name="BankInfo[]" value="' + __parseStr(bank_info) + '">');
+                    $('td', row).eq(13).html('<input type="text" class="form-control" name="BankInfo[]" value="' + __parseStr(bank_info) + '" style="width: 100%;text-align: center" autocomplete="off">');
                 },
                 drawCallback: function (response) {
                     original = response.json.original;
