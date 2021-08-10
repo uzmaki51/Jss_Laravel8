@@ -668,7 +668,7 @@
                         this.fuelInfo.total_fo_price_diff = BigNumber(this.fuelInfo.total_fo_price).minus(foTmp1).toFixed(2);
                         this.fuelInfo.total_do_price_diff = BigNumber(this.fuelInfo.total_do_price).minus(doTmp1).toFixed(2);
 
-                        this.debitInfo.else[0].amount = BigNumber(this.mainInfo.freight_price).multipliedBy(this.mainInfo.com_fee).div(100).toFixed(2);
+                        this.debitInfo.else[0].amount = BigNumber(this.creditInfo.else[0].amount).multipliedBy(this.mainInfo.com_fee).div(100).toFixed(2);
                         this.debitInfo.else[3].amount = BigNumber(this.fuelInfo.total_fo_price).plus(this.fuelInfo.total_do_price).toFixed(2);
 
                         this.creditInfo.total = 0;
