@@ -94,11 +94,11 @@
                             <td class="text-right not-striped-td" style="border-right: 2px solid rgb(255, 146, 7); height: 22px;" :style="debitClass(footer.profit_soa)">@{{ _number_format(footer.profit_soa, 0) }}</td>
                             <td class="text-right not-striped-td" :style="debitClass(footer.profit_real)">@{{ _number_format(footer.profit_real, 0) }}</td>
                             <td class="text-right not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);" :style="debitClass(footer.day_profit_real)">@{{ _number_format(footer.day_profit_real, 0) }}</td>
-                            <td class="text-center not-striped-td">@{{ _number_format(footer.debit, 0) }}</td>
-                            <td class="text-center not-striped-td" style="background: #f2dcdb!important">@{{ _number_format(footer.fuel, 0) }}</td>
-                            <td class="text-center not-striped-td" style="background: #f2dcdb!important">@{{ _number_format(footer.sail, 0) }}</td>
-                            <td class="text-center not-striped-td" style="background: #f2dcdb!important">@{{ _number_format(footer.else, 0) }}</td>
-                            <td class="text-center not-striped-td">@{{ _number_format(footer.manage, 0) }}</td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.debit, 1) }}</td>
+                            <td class="text-center not-striped-td" style="background: #f2dcdb!important">@{{ _number_format(footer.fuel, 1) }}</td>
+                            <td class="text-center not-striped-td" style="background: #f2dcdb!important">@{{ _number_format(footer.sail, 1) }}</td>
+                            <td class="text-center not-striped-td" style="background: #f2dcdb!important">@{{ _number_format(footer.else, 1) }}</td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.manage, 1) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -324,7 +324,7 @@
                     $__this.footer.count = $__this.list.length;
                     $__this.footer.sail_time = _sail_time;
                     $__this.footer.distance = _distance;
-                    $__this.footer.credit = BigNumber(_credit).div(cnt).toFixed(0);
+                    $__this.footer.credit = BigNumber(_credit).toFixed(0);
                     $__this.footer.credit_distance = BigNumber(_credit_distance).div(cnt).toFixed(0);
                     $__this.footer.profit_soa = BigNumber(_profit_soa).toFixed(0);
                     $__this.footer.profit_real = BigNumber(_profit_real).toFixed(0);
