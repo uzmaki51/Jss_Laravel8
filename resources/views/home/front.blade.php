@@ -217,7 +217,7 @@
                             </a>
                             <div class="card-body expired-cert-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
                                 <table id="" style="border:0px solid black;">
-                                    <thead>
+                                    <thead style="position:sticky;top:0;box-shadow: inset 0 -1px #000, 1px -1px #000;">
                                         <td class="center decide-sub-title" style="width: 35px;">船名</td>
                                         <td class="center decide-sub-title">证书</td>
                                         <td class="center decide-sub-title" style="width: 60px;">有效期</td>
@@ -248,7 +248,7 @@
                             </a>
                             <div class="card-body decide-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
                                 <table id="" style="border:0px solid black;">
-                                    <thead>
+                                    <thead style="position:sticky;top:0;box-shadow: inset 0 -1px #000, 1px -1px #000;">
                                         <td class="center decide-sub-title">船名</td>
                                         <td class="center decide-sub-title" style="width: 30px;">部门</td>
                                         <td class="center decide-sub-title">缺件</td>
@@ -403,8 +403,8 @@
                                 </div>
                             </div>
                             <div class="card-body common-decide-border" style="padding: 0 0px!important;max-height:101px!important;overflow-y: auto;">
-                                <table id="" style="table-layout:fixed;border:0px solid black;">
-                                    <thead>
+                                <table id="" style="border:0px solid black;">
+                                    <thead style="position:sticky;top:0;box-shadow: inset 0 -1px #000, 1px -1px #000;">
                                         <td class="center decide-sub-title">船名</td>
                                         <td class="center decide-sub-title">报告次</td>
                                         <td class="center decide-sub-title">占率</td>

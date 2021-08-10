@@ -228,9 +228,9 @@
                             <span class="style-header">Wage (Month)</span>
                         </td>
                         <td class="custom-td-report-text" style="width:40%;">
-                            <select class="form-control currency-type" name="WageCurrency" style="border-right: 1px solid #cccccc!important;color:#12539b!important">
-                                <option value="0" @if(isset($info) && ($info['WageCurrency'] == 0)) selected @endif>{{g_enum('CurrencyLabel')['CNY']}}</option>
-                                <option value="1" @if(isset($info) && ($info['WageCurrency'] == 1)) selected @endif>{{g_enum('CurrencyLabel')['USD']}}</option>
+                            <select onchange="javascript:selectCurrency()" class="form-control currency-type" name="WageCurrency" id="wageCurrency" style="border-right: 1px solid #cccccc!important;color:@if(isset($info) && ($info['WageCurrency'] == 0)) red!important; @else #12539b!important; @endif">
+                                <option value="0" @if(isset($info) && ($info['WageCurrency'] == 0)) selected @endif style="color:red!important;">{{g_enum('CurrencyLabel')['CNY']}}</option>
+                                <option value="1" @if(isset($info) && ($info['WageCurrency'] == 1)) selected @endif style="color:#12539b!important;">{{g_enum('CurrencyLabel')['USD']}}</option>
                                 <!--option value="2" @if(isset($info) && ($info['WageCurrency'] == 2)) selected @endif>{{g_enum('CurrencyLabel')['OTHER']}}</option-->
                             </select>
                             <input type="text" name="Salary" class="form-control currency-input" value="@if(isset($info)){{$info['Salary']}}@endif" placeholder="">

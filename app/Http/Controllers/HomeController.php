@@ -94,10 +94,12 @@ class HomeController extends Controller {
 		$now = date('Y-m-d', strtotime("$report_year-1-1"));
 		$next = date('Y-m-d', strtotime("$report_year-12-31"));
 			
-		$reportSummary = DecisionReport::where('report_date', '>=', $now)->where('report_date', '<=', $next)->groupBy('depart_id')->selectRaw('tb_unit.title,tb_decision_report.depart_id,count(depart_id) as count, count(depart_id)*100/(select count(depart_id) from tb_decision_report) as percent')
+		$reportSummary = DecisionReport::where('report_date', '>=', $now)->where('report_date', '<=', $next)->groupBy('depart_id')->selectRaw('tb_unit.title,tb_decision_report.depart_id,count(depart_id) as count, count(depart_id)/(select count(depart_id) from tb_decision_report where report_date >= "'.$now.'" and report_date <= "'.$next.'")*100 as percent')
 					->groupBy('depart_id')
 					->leftJoin('tb_unit','tb_unit.id','=','tb_decision_report.depart_id')
 					->get();
+		$reportSummary = $reportSummary->sortByDesc('count');
+		//return $reportSummary;
         $voyList = [];
         $index = 0;
         foreach($shipList as $ship)
