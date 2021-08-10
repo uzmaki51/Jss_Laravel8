@@ -197,6 +197,15 @@ class VoySettle extends Model
             $fuelInfo['used_fo'] = round($used_fo, 2);
             $fuelInfo['used_do'] = round($used_do, 2);
 
+            $fuelInfoTbl = Fuel::where('shipId', $shipId)->where('voy_no', $voyId)->first();
+            if($fuelInfoTbl == null) {
+                $fuelInfo['rob_fo_price_1'] = 0;
+                $fuelInfo['rob_do_price_1'] = 0;
+            } else {
+                $fuelInfo['rob_fo_price_1'] = round($fuelInfoTbl->oil_price_fo, 2);
+                $fuelInfo['rob_do_price_1'] = round($fuelInfoTbl->oil_price_do, 2);
+            }
+
             // 总消耗
             if($beforeVoyInfo == []) {
                 $beforeFo = 0;
@@ -248,8 +257,8 @@ class VoySettle extends Model
                 $mainInfo['dport'] = $portTbl->getPortNames($contractInfo->DPort);
                 $mainInfo['com_fee'] = $contractInfo->com_fee;
                 
-                $fuelInfo['rob_fo_price_1'] = round($contractInfo->fo_price, 2);
-                $fuelInfo['rob_do_price_1'] = round($contractInfo->do_price, 2);
+                // $fuelInfo['rob_fo_price_1'] = round($contractInfo->fo_price, 2);
+                // $fuelInfo['rob_do_price_1'] = round($contractInfo->do_price, 2);
 
                 $fuelInfo['rob_fo_price_2'] = 0;
                 $fuelInfo['rob_do_price_2'] = 0;
