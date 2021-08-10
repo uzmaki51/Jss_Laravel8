@@ -32,7 +32,6 @@ $isHolder = Session::get('IS_HOLDER');
                 <div class="col-md-6">
                     <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                     <select class="custom-select d-inline-block" id="select-ship" style="max-width: 100px;">
-                        <option value="" selected></option>
                         @foreach($shipList as $ship)
                             <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}</option>
                         @endforeach
@@ -112,6 +111,10 @@ $isHolder = Session::get('IS_HOLDER');
             $.fn.editable.defaults.mode = 'inline';
             $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
             $.fn.editableform.buttons = '';
+
+            shipName = $('#select-ship option:selected').attr('data-name');
+            $('#ship_name').html('"' + shipName + '"');
+            doSearch();
         });
             
         function setDatePicker() {

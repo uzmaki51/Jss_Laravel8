@@ -59,7 +59,6 @@ $isHolder = Session::get('IS_HOLDER');
                                         <div class="col-md-6">
                                             <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                                             <select class="custom-select d-inline-block" id="select-ship-total" style="width:80px">
-                                                <option value="" selected></option>
                                                 @foreach($shipList as $ship)
                                                     <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
                                                 @endforeach
@@ -115,7 +114,6 @@ $isHolder = Session::get('IS_HOLDER');
                                         <div class="col-md-6">
                                             <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                                             <select class="custom-select d-inline-block" id="select-ship" style="width:80px">
-                                                <option value="" selected></option>
                                                 @foreach($shipList as $ship)
                                                     <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
                                                 @endforeach
@@ -177,6 +175,21 @@ $isHolder = Session::get('IS_HOLDER');
             $.fn.editable.defaults.mode = 'inline';
             $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
             $.fn.editableform.buttons = '';
+
+
+            shipName_total = $("#select-ship-total").text();
+            if (shipName_total == "") return;
+            if (listTotalTable == null) initTotalTable();
+            $('#ship_name_total').html('"' + $("#select-ship-total option:selected").attr('data-name') + '"');
+            listTotalTable.column(1).search($("#select-ship-total" ).val(), false, false).draw();
+
+            shipName = $("#select-ship option:selected").text();
+            if (shipName == "") return;
+            if (listTable == null) initTable();
+            $('#ship_name').html('"' + $("#select-ship option:selected").attr('data-name') + '"');
+            listTable.column(2).search($("#select-ship" ).val(), false, false);
+            listTable.column(3).search('off', false, false).draw();
+
         });
             
         function setDatePicker() {
