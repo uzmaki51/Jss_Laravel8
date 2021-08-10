@@ -178,6 +178,11 @@ class BusinessController extends Controller {
             $elseCost = 0;
         }
         else {
+            for($i = 1; $i <= 11; $i ++) {
+                if(!isset($costs['input' . $i]))
+                    $costs['input' . $i] = 0;
+            }
+
             $costDay = ($costs['input1'] + $costs['input2'] + $costs['input3'] + ($costs['input7'] + $costs['input8'] + $costs['input9'] + $costs['input10'] + $costs['input11'])*12) / 365;
             $elseCost = ($costs['input4'] + $costs['input5'] + $costs['input6'])*12/365;
         }
