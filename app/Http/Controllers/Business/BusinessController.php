@@ -179,7 +179,7 @@ class BusinessController extends Controller {
         }
         else {
             for($i = 1; $i <= 11; $i ++) {
-                if(!isset($costs['input' . $i]))
+                if(!isset($costs['input' . $i]) || $costs['input' . $i] == '')
                     $costs['input' . $i] = 0;
             }
 
