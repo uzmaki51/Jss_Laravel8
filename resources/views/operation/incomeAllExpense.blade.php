@@ -159,7 +159,7 @@ $ships = Session::get('shipList');
                                         <thead class="">
                                         <tr>
                                             <th class="text-center style-normal-header" width="4%"><span>船名</span></th>
-                                            <th class="text-center style-normal-header right-border"><span>2020年</span></th>
+                                            <th class="text-center style-normal-header right-border" id="total-year"><span></span></th>
                                             <th class="text-center style-normal-header"><span>1月</span></th>
                                             <th class="text-center style-normal-header"><span>2月</span></th>
                                             <th class="text-center style-normal-header"><span>3月</span></th>
@@ -371,6 +371,7 @@ $ships = Session::get('shipList');
             return $(this).text();
         }).get().join('+');
         year_table = $("#select-table-year option:selected").val();
+        $('#total-year').html(year_table + "年");
         $('#table_first_title').text(shipnames_table + " " + year_table + "年");
         $('#table_second_title').text(shipnames_table + " " + year_table + "年");
         $('#table_third_title').text(shipnames_table + " " + year_table + "年");

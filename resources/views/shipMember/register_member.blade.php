@@ -782,6 +782,13 @@ $isHolder = Session::get('IS_HOLDER');
                     selector.firstElementChild.classList.remove('open');
             }
         });
+
+        function selectCurrency()
+        {
+            var value = $('#wageCurrency').val();
+            if (value == 0) $('#wageCurrency').attr('style','padding-left:unset!important;color:red!important');
+            else { $('#wageCurrency').attr('style','padding-left:unset!important;color:#026fcd!important'); }
+        }
         
         function setDatePicker() {
             $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {

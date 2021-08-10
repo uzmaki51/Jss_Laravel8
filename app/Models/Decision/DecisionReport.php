@@ -1068,7 +1068,7 @@ class DecisionReport extends Model {
 			$selector = WaterList::where('year', $year)->where('month', $month)->where('account_type',$account_type)->select('*');
 		}
 		$recordsFiltered = $selector->count();
-		$records = $selector->get();
+		$records = $selector->orderBy('register_time', 'asc')->get();
 
 		$newArr = [];
         $newindex = 0;
@@ -1122,7 +1122,7 @@ class DecisionReport extends Model {
 
 		$selector = WaterList::where('year', $year)->where('month', $month)->select('*');
 		$recordsFiltered = $selector->count();
-		$records = $selector->get();
+		$records = $selector->orderBy('register_time', 'asc')->get();
 
 		$newArr = [];
         $newindex = 0;

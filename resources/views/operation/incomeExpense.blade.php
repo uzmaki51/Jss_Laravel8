@@ -230,9 +230,9 @@ $ships = Session::get('shipList');
                                         <select name="select-soa-contract" id="select-soa-contract" style="font-size:13px;width:80px;">
                                         </select>
                                         <label class="custom-label d-inline-block font-bold" style="padding: 6px;">币类:</label>
-                                        <select name="select-soa-currency" id="select-soa-currency" onchange="javascript:selectCurrency()" style="padding-left:unset!important;color:red!important;">
+                                        <select name="select-soa-currency" id="select-soa-currency" onchange="javascript:selectCurrency()" style="padding-left:unset!important;color:#1565C0!important;">
                                             <option value="CNY" style="color:red!important;">¥</option>
-                                            <option value="USD" style="color:#1565C0!important;">$</option>
+                                            <option value="USD" style="color:#1565C0!important;" selected>$</option>
                                         </select>
                                     </div>
                                     <div class="col-md-5" style="padding:unset!important">
@@ -1407,7 +1407,7 @@ $ships = Session::get('shipList');
 
         function selectCurrency()
         {
-            var value = this.value;
+            var value = $('#select-soa-currency').val();
             if (value == 'CNY') $('#select-soa-currency').attr('style','padding-left:unset!important;color:red!important');
             else { $('#select-soa-currency').attr('style','padding-left:unset!important;color:#026fcd!important'); }
         }
