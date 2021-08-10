@@ -94,7 +94,7 @@
                             <td class="text-right not-striped-td" style="border-right: 2px solid rgb(255, 146, 7); height: 22px;" :style="debitClass(footer.profit_soa)">@{{ _number_format(footer.profit_soa, 0) }}</td>
                             <td class="text-right not-striped-td" :style="debitClass(footer.profit_real)">@{{ _number_format(footer.profit_real, 0) }}</td>
                             <td class="text-right not-striped-td" style="border-right: 2px solid rgb(255, 146, 7);" :style="debitClass(footer.day_profit_real)">@{{ _number_format(footer.day_profit_real, 0) }}</td>
-                            <td class="text-center not-striped-td">@{{ _number_format(footer.debit, 1) }}</td>
+                            <td class="text-center not-striped-td">@{{ _number_format(footer.debit, 1, '%') }}</td>
                             <td class="text-center not-striped-td" style="background: #f2dcdb!important">@{{ _number_format(footer.fuel, 1) }}</td>
                             <td class="text-center not-striped-td" style="background: #f2dcdb!important">@{{ _number_format(footer.sail, 1) }}</td>
                             <td class="text-center not-striped-td" style="background: #f2dcdb!important">@{{ _number_format(footer.else, 1) }}</td>
@@ -161,8 +161,8 @@
 
                         return this.voyDateFormat(start) + ' ~ ' + this.voyDateFormat(end);
                     },
-                    _number_format: function(value, decimal = 2) {
-                        return __parseFloat(value) == 0 ? '' : number_format(value, decimal);
+                    _number_format: function(value, decimal = 2, symbol = '') {
+                        return __parseFloat(value) == 0 ? '' : number_format(value, decimal) + symbol;
                     },
                     openNewPage: function(type) {
                         if(type == 'soa') {
