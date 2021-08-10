@@ -329,11 +329,11 @@
                     $__this.footer.profit_soa = BigNumber(_profit_soa).toFixed(0);
                     $__this.footer.profit_real = BigNumber(_profit_real).toFixed(0);
                     $__this.footer.day_profit_real = BigNumber(_profit_day).div(cnt).toFixed(0);
-                    $__this.footer.debit = BigNumber(_debit).div(cnt).toFixed(0);
-                    $__this.footer.fuel = BigNumber(_fuel).div(cnt).toFixed(0);
-                    $__this.footer.sail = BigNumber(_sail).div(cnt).toFixed(0);
-                    $__this.footer.else = BigNumber(_else).div(cnt).toFixed(0);
-                    $__this.footer.manage = BigNumber(_manage).div(cnt).toFixed(0);
+                    $__this.footer.debit = BigNumber(_debit).div(cnt).toFixed(1);
+                    $__this.footer.fuel = BigNumber(_fuel).div(cnt).toFixed(1);
+                    $__this.footer.sail = BigNumber(_sail).div(cnt).toFixed(1);
+                    $__this.footer.else = BigNumber(_else).div(cnt).toFixed(1);
+                    $__this.footer.manage = BigNumber(_manage).div(cnt).toFixed(1);
 
                 }
             });
