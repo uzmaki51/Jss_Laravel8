@@ -104,6 +104,28 @@
                             <tbody>
                             </tbody>
                         </table>
+                        <table id="report_info_table_all" class="table table-bordered" style="display:none">
+                            <thead>
+                            <tr class="br-hblue">
+                                <th class="text-center style-normal-header" style="width: 5%;">{!! trans('decideManage.table.no') !!}</th>
+                                <th style="width: 5%;">{!! trans('decideManage.table.type') !!}</th>
+                                <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
+                                <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
+                                <th style="width: 7%;">{{ trans('decideManage.table.voy_no') }}</th>
+                                <th style="width: 7%;">{!! trans('decideManage.table.profit_type') !!}</th>
+                                <th style="width: 25%;">{{ trans('decideManage.table.content') }}</th>
+                                <th style="width: 5%;">{{ trans('decideManage.table.currency') }}</th>
+                                <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
+                                <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
+                                <th style="width: 5%;">涉及<br>部门</th>
+                                <th style="width: 5%;">{!! trans('decideManage.table.attachment') !!}</th>
+                                <th style="width: 5%;">{!! trans('decideManage.table.state') !!}</th>
+                                <th class="{{ Auth::user()->isAdmin == SUPER_ADMIN ? '' : 'd-none' }}"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 				</div>
@@ -268,6 +290,7 @@
 
     <script src="{{ cAsset('assets/js/datatables.min.js') }}"></script>
     <script src="{{ cAsset('assets/js/vue.js') }}"></script>
+    <script src="{{ asset('/assets/js/loadingoverlay.min.js') }}"></script>
 	<?php
 	echo '<script>';
 	echo 'var ReportTypeLabelData = ' . json_encode(g_enum('ReportTypeLabelData')) . ';';
@@ -617,6 +640,235 @@
             listTable.draw();
         }
 
+        var listTableAll = null;
+        function fnExport() {
+            $('.main-content').LoadingOverlay('show', {
+                text : "处理中..."
+            });
+
+            let year = $('#year').val();
+            let month = $('#month').val();
+            let obj = $('#ship_name').val();
+
+            if (listTableAll != null) {
+                
+
+                listTableAll.column(0).search(year, false, false);
+                listTableAll.column(1).search(month, false, false);
+                listTableAll.column(2).search(obj, false, false);
+                listTableAll.draw();
+                return;
+            }
+            
+            listTableAll = $('#report_info_table_all').DataTable({
+                processing: true,
+                serverSide: true,
+                searching: true,
+                ajax: {
+                    url: BASE_URL + 'ajax/decide/receive',
+                    type: 'POST',
+                    data: {
+                        'columns': [
+                            { "search": {'value': year} },
+                            { "search": {'value': month} },
+                            { "search": {'value': obj} },
+                        ]
+                    },
+                },
+                "ordering": false,
+                "pageLength": 100000,
+                columnDefs: [{
+                    targets: [2],
+                    orderable: false,
+                    searchable: false
+                }],
+                columns: [
+                    {data: 'report_id', className: "text-center each"},
+                    {data: 'flowid', className: "text-center each"},
+                    {data: 'report_date', className: "text-center each"},
+                    {data: 'shipName', className: "text-center each"},
+                    {data: 'voyNo', className: "text-center each"},
+                    {data: 'profit_type', className: "text-center each"},
+                    {data: 'content', className: "text-left each"},
+                    {data: 'currency', className: "text-center each"},
+                    {data: 'amount', className: "text-right each"},
+                    {data: 'realname', className: "text-center each"},
+                    {data: 'depart_name', className: "text-center each"},
+                    {data: 'attachment', className: "text-center each"},
+                    {data: 'state', className: "text-center not-striped-td"},
+                    {data: null, className: "text-center"},
+                ],
+                createdRow: function (row, data, index) {
+                    if ((index%2) == 0)
+                        $(row).attr('class', 'cost-item-even');
+                    else
+                        $(row).attr('class', 'cost-item-odd');
+
+                    var pageInfo = listTable.page.info();
+                    $(row).attr('data-index', data['id']);
+                    $(row).attr('data-status', data['state']);
+                    if(data['attachment'] == 1)
+                        $(row).attr('is-attach', 1);
+                    else
+                        $(row).attr('is-attach', 0);
+                    $('td', row).eq(1).html('').append(
+                        '<span data-index="' + data['id'] + '" class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + __parseStr(ReportTypeData[data['flowid']]) + '</span>'
+                    );
+
+                    $('td', row).eq(2).html('').append(
+                        '<span>' + data['report_date'] + '</span>'
+                    );
+
+                    if(data['obj_type'] == OBJECT_TYPE_SHIP) {
+                        $('td', row).eq(3).html('').append(
+                            '<span>' + __parseStr(data['shipName']) + '</span>'
+                        );
+                    } else {
+                        $('td', row).eq(3).html('').append(
+                            '<span>' + __parseStr(data['obj_name']) + '</span>'
+                        );
+                    }
+                    
+                    if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other') {
+                        $('td', row).eq(5).html('').append(
+                            '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + __parseStr(FeeTypeData[data['flowid']][data['profit_type']]) + '</span>'
+                        );  
+                    } else {
+                        $('td', row).eq(5).html('').append(
+                            ''
+                        );  
+                    }
+
+                    $('td', row).eq(6).html('').append(
+                        '<span style="padding: 0 4px!important">'+data['content']+'</span>'
+                    )
+
+                    if(data['currency'] != '') {
+                        if(data['currency'] == 'CNY') {
+                            $('td', row).eq(7).html('').append(
+                                '<span class="text-danger">' + __parseStr(CurrencyLabel[data['currency']]) + '</span>'
+                            );
+                        } else if(data['currency'] == 'USD') {
+                            $('td', row).eq(7).html('').append(
+                                '<span class="text-profit">' + __parseStr(CurrencyLabel[data['currency']]) + '</span>'
+                            );
+                        } else {
+                            $('td', row).eq(7).html('').append(
+                                '<span>' + __parseStr(CurrencyLabel[data['currency']]) + '</span>'
+                            );
+                        }
+                    }
+
+                    if(data['amount'] != 0 && data['amount'] != null)
+                        $('td', row).eq(8).html('').append(
+                            '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + number_format(data['amount'], 2) + '</span>'
+                        );
+                    else 
+                        $('td', row).eq(8).html('').append('');
+
+                    $('td', row).eq(8).attr('style', 'padding-right:5px!important;')
+
+                    if(data['attachment']  == 1) {
+                        $('td', row).eq(11).html('').append(
+                            '<div class="report-attachment">' + 
+                            '<a href="' + data['attach_link'] + '" target="_blank">' +
+                                '<img src="{{ cAsset('assets/images/document.png') }}" width="15" heighddet="15">' +
+                            '</a>' + 
+                            '<img src="{{ cAsset('assets/images/cancel.png') }}" onclick="deleteAttach(' + data['id'] + ')" width="10" height="10"></div>'
+                        );
+                    } else {
+                        $('td', row).eq(11).html('').append(
+                            '<label for="upload_' + data['id'] + '"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="margin: 2px 4px"></label><input type="file" id="upload_' + data['id'] + '" class="d-none" onchange="fileUpload(this, '+ data['id'] +', \'' + data['flowid'] + '\')" class="form-control attach-upload">'
+                        );
+                    }
+
+                    let status = '';
+                    if (data['state'] == 0) {
+                        let blink_cls = '';
+                        if(isAdmin == 1 && data['readed_at'] == null)
+                            blink_cls = 'blink';
+                        else
+                            blink_cls = '';
+                            
+                        $('td', row).eq(12).css({'background': '#ffb871'});
+                        status = '<div class="report-status"><span class="'+blink_cls+'">' + ReportStatusData[data['state']][0] + '</span></div>';
+                    } else if (data['state'] == 1) {
+                        $('td', row).eq(12).css({'background': '#ccffcc'});
+                        status = '<div class="report-status"><span><i class="icon-ok"></i></span></div>';
+                    } else if (data['state'] == 2) {
+                        $('td', row).eq(12).css({'background': '#ff7c80'});
+                        status = '<div class="report-status"><span><i class="icon-remove"></i></span></div>';
+                    }
+                    $('td', row).eq(12).html('').append(status);
+                    if(isAdmin == 1)
+                        $('td', row).eq(13).html('').append(
+                                '<div class="action-buttons"><a class="red" onclick="deleteItem(' + data['id'] + ')"><i class="icon-trash"></i></a></div>'
+                        );
+                    else
+                    $('td', row).eq(13).addClass('d-none');
+
+                },
+                drawCallback: function (response) {
+                    $('.main-content').LoadingOverlay('hide');
+                    fnExportAll();
+                }
+            });
+            $('.dataTables_length').hide();
+            $('.dataTables_info').hide();
+            $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
+            $($('.dataTables_paginate')[1]).hide();
+        }
+
+        function fnExportAll() {
+            var tab_text = "";
+            tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+            real_tab = document.getElementById('report_info_table_all');
+            var tab = real_tab.cloneNode(true);
+
+            var ship_name = $('#ship_name option:selected').text();
+            if (ship_name == '') ship_name = '全部';
+            var month = $('#month').val();
+            if (month == '') month = '全月';
+            else month += '月';
+            var filename = "审批文件" + "(" + ship_name + "_" +  $('#year').val() + "年_" + month + ")";
+
+            tab_text=tab_text+"<tr><td colspan='13' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + filename + "</td></tr>";
+            
+            for(var j = 0; j < tab.rows.length ; j++)
+            {
+                if (j == 0) {
+                    for (var i=0; i<tab.rows[j].childElementCount;i++) {
+                        if (i==6) {
+                            tab.rows[j].childNodes[i].style.width = '400px';
+                        } else if (i == 7) {
+                            tab.rows[j].childNodes[i].style.width = '50px';
+                        } else {
+                            tab.rows[j].childNodes[i].style.width = '100px';
+                        }
+                            
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                    }
+                    tab.rows[j].childNodes[13].remove();
+                }
+                else
+                {
+                    tab.rows[j].childNodes[6].style.textAlign = 'left';
+                    tab.rows[j].childNodes[13].remove();
+                }
+                
+                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+            }
+            tab_text=tab_text+"</table>";
+            tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
+
+            
+            exportExcel(tab_text, filename, filename);
+            
+            return 0;
+        }
+        /*
         function fnExport() {
             var tab_text = "";
             tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
@@ -651,6 +903,8 @@
             
             return 0;
         }
+        */
+
 
         function initialize() {
             $.ajax({
@@ -1088,7 +1342,7 @@
                     else
                     $('td', row).eq(13).addClass('d-none');
 
-                },
+                }
             });
 
             // $('.paginate_button').hide();

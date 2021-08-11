@@ -293,6 +293,8 @@ $isHolder = Session::get('IS_HOLDER');
 
     <script>
         var token = '{!! csrf_token() !!}';
+        var isAdmin = '{!! Auth::user()->isAdmin !!}';
+        
         var year = '';
         var month = '';
 
@@ -1179,6 +1181,13 @@ $isHolder = Session::get('IS_HOLDER');
                     $('#btn_OK').focus();
                 }
             });
+
+            if (isAdmin != 1) {
+                $('.keep_credit').attr('readonly', 'true');
+                $('.keep_debit').attr('readonly', 'true');
+                //$('[name="sum_credit"]').attr('readonly', 'true');
+                //$('[name="sum_debit"]').attr('readonly', 'true');
+            }
         }
 
         $('#select-month').on('change', function() {
