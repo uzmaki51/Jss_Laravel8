@@ -1186,7 +1186,7 @@
             listTable.column(0).search(year, false, false);
             listTable.column(1).search(month, false, false);
             listTable.column(2).search(obj, false, false);
-            listTable.draw();            
+            listTable.draw();
         });
         $('#ship_name').on('change', function() {
             let obj = $(this).val();

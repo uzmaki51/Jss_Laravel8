@@ -239,7 +239,7 @@
                                         <td class="center" style="border-right: 2px solid #ff9207;">@{{ number_format(analyze.total.total_saved_do, 2) }}</td>
                                         <td class="center">@{{ number_format(analyze.total.total_bunk_fo, 2) }}</td>
                                         <td class="center">@{{ number_format(analyze.total.total_bunk_do, 2) }}</td>
-                                        <td class="center"></td>
+                                        <td class="center">@{{ number_format(analyze.total.total_fuelSum, 2) }}</td>
                                         <td class="center">@{{ number_format(analyze.total.total_oil_price_fo, 2) }}</td>
                                         <td class="center">@{{ number_format(analyze.total.total_oil_price_do, 2) }}</td>
                                         <td class="center" style="border-right: 2px solid #ff9207;">@{{ number_format(analyze.total.total_oil_price_else, 2) }}</td>
@@ -581,7 +581,8 @@
                             let else_price1 = BigNumber(realData.bunk_fo).multipliedBy(realData.oil_price_fo).toFixed(2);
                             let else_price2 = BigNumber(realData.bunk_do).multipliedBy(realData.oil_price_do).toFixed(2);
                             
-                            searchObj.analyze.list[key].oil_price_else = BigNumber(__parseFloat(realData.fuelSum)).minus(__parseFloat(else_price1)).minus(__parseFloat(else_price2)).toFixed(2);
+                            if(__parseFloat(realData.fuelSum) != 0)
+                                searchObj.analyze.list[key].oil_price_else = BigNumber(__parseFloat(realData.fuelSum)).minus(__parseFloat(else_price1)).minus(__parseFloat(else_price2)).toFixed(2);
                         });
 
                         this.calculate();
@@ -607,6 +608,8 @@
                         footerData['total_bunk_do'] = 0;
 
                         footerData['total_fuelSum'] = 0;
+
+                        footerData['total_oil_price'] = 0;
 
                         footerData['total_oil_price_fo'] = 0;
                         footerData['total_oil_price_do'] = 0;
@@ -655,7 +658,6 @@
                             footerData['total_bunk_do'] += __parseFloat(BigNumber(data.bunk_do).toFixed(2));
 
                             footerData['total_fuelSum'] += __parseFloat(BigNumber(data.fuelSum).toFixed(2));
-
                             footerData['total_oil_price_fo'] += __parseFloat(BigNumber(data.oil_price_fo).div(length).toFixed(2));
                             footerData['total_oil_price_do'] += __parseFloat(BigNumber(data.oil_price_do).div(length).toFixed(2));
                             footerData['total_oil_price_else'] += __parseFloat(BigNumber(data.oil_price_else).div(length).toFixed(2));
@@ -1100,6 +1102,7 @@
                         $(this).prev().focus();
                     });
 
+                    offAutoCmplt();
                     // $form = $('#record-form');
                     // if (origForm == "") {
                     //     origForm = $('#record-form');
