@@ -311,10 +311,6 @@
         var isChangeStatus = false;
 
         var economicGraph = null;
-        var economicGraph1 = null;
-        var economicGraph2 = null;
-        var economicGraph3 = null;
-        var economicGraph4 = null;
         var debitGraph = null;
         var initLoad = true;
         var activeId = 0;
@@ -609,11 +605,13 @@
                     $_this.realInfo['day_gross_profit'] = BigNumber($_this.realInfo['gross_profit']).div($_this.realInfo['total_sail_time']).toFixed(0);
 
                     $_this.test = 25;
-                    economicGraph1 = BigNumber($_this.realInfo.wait_time).div($_this.realInfo.total_sail_time).multipliedBy(100).toFixed(2);
-                    economicGraph2 = BigNumber($_this.realInfo.sail_time).div($_this.realInfo.total_sail_time).multipliedBy(100).toFixed(2);
-                    economicGraph3 = BigNumber($_this.realInfo.load_time).div($_this.realInfo.total_sail_time).multipliedBy(100).toFixed(2);
-                    economicGraph4 = BigNumber($_this.realInfo.load_time).div($_this.realInfo.total_sail_time).multipliedBy(100).toFixed(2);
-                    economicGraph.series[0].data[0].options.y = economicGraph1;
+                    
+                    if(__parseFloat($_this.cpInfo['fo_price']) == 0 || __parseFloat($_this.realInfo['rob_fo_price']) == 0)
+                        alert('信息输入不齐全会导致输出结果不正确。')
+                    else if(__parseFloat($_this.cpInfo['do_price']) == 0 || __parseFloat($_this.realInfo['rob_do_price']) == 0)
+                        alert('信息输入不齐全会导致输出结果不正确。')
+                    
+
                 }
             });
         }
