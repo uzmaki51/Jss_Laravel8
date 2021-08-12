@@ -57,7 +57,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <a href="/shipMember/registerShipMember" class="btn btn-sm btn-primary btn-add" style="width: 80px">
                                     <i class="icon-plus"></i>{{ trans('common.label.add') }}
                                 </a>
-                                <button type="submit" id="btnRegister" class="btn btn-sm btn-info" style="width: 80px">
+                                <button type="submit" id="btnRegister" class="btn btn-sm btn-success" style="width: 80px">
                                     <i class="icon-save"></i>{{ trans('common.label.save') }}
                                 </button>
                             </div>
