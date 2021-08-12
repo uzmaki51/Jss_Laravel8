@@ -338,7 +338,7 @@
                     <td>首付金</td>
                     <td class="font-style-italic">1st HIRE</td>
                     <td><input type="text" class="form-control" name="first_hire" v-model="first_hire"></td>
-                    <td></td>
+                    <td>天</td>
                 </tr>
                 <tr>
                     <td>ILOHC</td>
