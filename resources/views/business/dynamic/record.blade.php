@@ -286,6 +286,7 @@
 
         var DYNAMIC_SAILING = '{!! DYNAMIC_SAILING !!}';
         var DYNAMIC_CMPLT_DISCH = '{!! DYNAMIC_CMPLT_DISCH !!}';
+		var DYNAMIC_CMPLT_LOADING = '{!! DYNAMIC_CMPLT_LOADING !!}';
         const DAY_UNIT = 1000 * 3600;
         var isChangeStatus = false;
         var searchObjTmp = new Array();
@@ -668,6 +669,9 @@
                                         retVal = -2;
                                     }
                                 }
+                            } else if($this[key]['Voy_Status'] == DYNAMIC_CMPLT_LOADING) {
+				                if(value['Cargo_Qtty'] == undefined || value['Cargo_Qtty'] == null)
+                                    retVal = -1;
                             }
                         });
                         
