@@ -53,20 +53,20 @@
                 <tr>
                     <td class="not-striped-td">货名</td>
                     <td colspan="2">@{{ cpInfo.Cargo_Name }}</td>
-                    <td class="not-striped-td">包船（首付金）</td>
-                    <td>@{{ number_format(cpInfo.batch_price) == '' ? '' : '$ ' + number_format(cpInfo.batch_price)}}</td>
+                    <td class="not-striped-td">包船（首付天数）</td>
+                    <td>@{{ downPayment(cpInfo) }}</td>
                 </tr>
                 <tr>
                     <td class="not-striped-td">货量（租期）</td>
                     <td colspan="2">@{{ number_format(cpInfo.Cgo_Qtty) }}</td>
                     <td class="not-striped-td">滞期费（ILOHC）</td>
-                    <td>@{{ number_format(cpInfo.deten_fee) == '' ? '' : '$ ' + number_format(cpInfo.deten_fee) }}</td>
+                    <td>@{{ customValue1(cpInfo) }}</td>
                 </tr>
                 <tr>
                     <td class="not-striped-td">装港</td>
                     <td colspan="2">@{{ cpInfo.lport }}</td>
                     <td class="not-striped-td">速遣费（C/V/E）</td>
-                    <td>@{{ number_format(cpInfo.dispatch_fee) == '' ? '' : '$ ' + number_format(cpInfo.dispatch_fee) }}</td>
+                    <td>@{{ customValue2(cpInfo) }}</td>
                 </tr>
                 <tr>
                     <td class="not-striped-td">卸港</td>
@@ -256,7 +256,7 @@
                     </tr>
                     <tr class="odd">
                         <td class="center">12</td>
-                        <td colspan="2">日均成本</td>
+                        <td colspan="2">日成本(管理)</td>
                         <td class="text-right" :style="dangerStyle(cpInfo.cost_per_day)">@{{ number_format(cpInfo.cost_per_day, 0, '$ ') }}</td>
                         <td class="text-right text-warning" :style="dangerStyle(realInfo.cost_day)">@{{ number_format(realInfo.cost_day, 0, '$ ') }}</td>
                         <td class="text-right"></td>
@@ -314,6 +314,7 @@
         var debitGraph = null;
         var initLoad = true;
         var activeId = 0;
+        var type = '{!! $type !!}';
 
         function initRecord() {
             $('.year-title').text(activeVoy);
@@ -359,6 +360,37 @@
                             number_format: function(value, decimal = 2, symbol = '') {
                                 return __parseFloat(value) == 0 ? '' : symbol + number_format(value, decimal);
                             },
+                            downPayment: function(cpInfo) {
+                                let retVal = 0;
+                                if(cpInfo['CP_kind'] == 'TC') {
+                                    retVal = cpInfo['total_Freight'];
+                                    // return this.number_format(retVal) == '' ? '' : this.number_format(retVal) + '天';
+                                    return this.number_format(retVal)
+                                } else {
+                                    retVal = cpInfo['deten_fee'];
+                                    return this.number_format(retVal, 2, '$ ');
+                                }
+                            },
+                            customValue1: function(cpInfo) {
+                                let retVal = 0;
+                                if(cpInfo['CP_kind'] == 'TC') {
+                                    retVal = cpInfo['ilohc'];
+                                } else {
+                                    retVal = cpInfo['dispatch_fee'];
+                                }
+
+                                return this.number_format(retVal, 2, '$ ');
+                            },
+                            customValue2: function(cpInfo) {
+                                let retVal = 0;
+                                if(cpInfo['CP_kind'] == 'TC') {
+                                    retVal = cpInfo['c_v_e'];
+                                } else {
+                                    retVal = cpInfo['batch_price'];
+                                }
+
+                                return this.number_format(retVal, 2, '$ ');
+                            },
                             dangerStyle: function(value) {
                                 return value < 0 ? 'color: red!important;' : '';
                             },
@@ -369,6 +401,21 @@
                                     window.open(BASE_URL + 'operation/incomeExpense', '_blank');
                                 } else {
                                     window.open(BASE_URL + 'shipManage/dynamicList?shipId=' + this.shipId + '&voyNo=' + voyId, '_blank');
+                                }
+                            },
+                            warningAlert: function() {
+                                
+                                // console.log('alertAudio')
+
+                                let confirmationMessage = '信息输入不齐全会导致输出结果不正确。';
+                                if($_this.cpInfo['CP_kind'] == 'VOY' && type == 'main') {
+                                    if(__parseFloat($_this.cpInfo['fo_price']) == 0 || __parseFloat($_this.realInfo['rob_fo_price']) == 0 || __parseFloat($_this.cpInfo['do_price']) == 0 || __parseFloat($_this.realInfo['rob_do_price']) == 0) {
+                                        // document.getElementById('warning-audio1').play();
+                                        bootbox.alert(confirmationMessage);
+                                        setTimeout(function() {
+                                            bootbox.hideAll();
+                                        }, 5000);
+                                    }
                                 }
                             },
                             fnExcelMain: function() {
@@ -604,10 +651,8 @@
                     $_this.cpInfo['day_gross_profit'] = BigNumber($_this.cpInfo['gross_profit']).div($_this.cpInfo['sail_time']).toFixed(0);
                     $_this.realInfo['day_gross_profit'] = BigNumber($_this.realInfo['gross_profit']).div($_this.realInfo['total_sail_time']).toFixed(0);
 
-                    if(__parseFloat($_this.cpInfo['fo_price']) == 0 || __parseFloat($_this.realInfo['rob_fo_price']) == 0)
-                        alert('信息输入不齐全会导致输出结果不正确。')
-                    else if(__parseFloat($_this.cpInfo['do_price']) == 0 || __parseFloat($_this.realInfo['rob_do_price']) == 0)
-                        alert('信息输入不齐全会导致输出结果不正确。')
+                    $_this.warningAlert();
+
                     
 
                 }

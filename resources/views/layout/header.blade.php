@@ -186,6 +186,10 @@
     <source src="{{ cAsset('assets/sound/delete.wav') }}">
     <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
 </audio>
+<audio controls="controls" class="d-none" id="warning-audio1">
+    <source src="{{ cAsset('assets/sound/delete.wav') }}">
+    <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
+</audio>
 <script type="text/javascript">
     window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>" + "<" + "/script>");
 </script>
