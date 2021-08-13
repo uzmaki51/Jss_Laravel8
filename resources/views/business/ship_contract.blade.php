@@ -1132,7 +1132,7 @@ $ships = Session::get('shipList');
         tab_text += '<tr style="font-size:14px;font-family:simsun;">';
         tab_text += '<td style="background:#f3f3f3;text-align:right;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;padding:5px!important;">' + '货名' + '</td>';
         tab_text += '<td colspan="2" style="text-align:left;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;padding:5px!important;">' + tcContractObj.cargoNames + '</td>';
-        tab_text += '<td style="background:#f3f3f3;text-align:right;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;">' + '首付金' + '</td>';
+        tab_text += '<td style="background:#f3f3f3;text-align:right;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;">' + '首付天数' + '</td>';
         tab_text += '<td colspan="4" style="text-align:left;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;padding:5px!important;">' + $('[name=first_hire]').val() + '</td>';
         tab_text += '</tr>';
         tab_text += '<tr style="font-size:14px;font-family:simsun;">';

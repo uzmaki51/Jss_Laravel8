@@ -290,8 +290,8 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td>首付金</td>
-                    <td class="font-style-italic">1st HIRE</td>
+                    <td>首付天数</td>
+                    <td class="font-style-italic">1st HIRE days</td>
                     <td></td>
                     <td></td>
                 </tr>
