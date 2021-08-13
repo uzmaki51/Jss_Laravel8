@@ -144,7 +144,7 @@
                                             <?php $nickName = $ship['NickName'];?>
                                             @endif
                                         @endforeach
-                                        <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif>
+                                        <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif title="{{$report['report_id']}}">
                                             <td class="center" style="height:20px!important;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{g_enum('ReportTypeData')[$report['flowid']]}}</span></td>
                                             <td class="center">{{$report['obj_type'] == OBJECT_TYPE_SHIP?$nickName:$report['obj_name']}}</td>
                                             <td class="center">{{$report['voyNo']}}</td>
@@ -186,7 +186,7 @@
                                             <?php $nickName = $ship['NickName'];?>
                                             @endif
                                         @endforeach
-                                        <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif>
+                                        <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif title="{{$report['report_id']}}">
                                             <td class="center" style="height:20px!important;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{g_enum('ReportTypeData')[$report['flowid']]}}</span></td>
                                             <td class="center">{{$report['obj_type'] == OBJECT_TYPE_SHIP?$nickName:$report['obj_name']}}</td>
                                             <td class="center">{{$report['voyNo']}}</td>
@@ -287,7 +287,7 @@
                                                 @endforeach
                                                 <div style="height: auto; outline: unset;">
                                                     <h5>
-                                                        <a href="/shipManage/dynamicList" style="color: white; outline: unset;" target="_blank">
+                                                        <a href="/shipManage/dynamicList" style="color: white; outline: unset;" target="_blank" >
                                                         <table style="width:100%;border:unset!important;table-layout:fixed;" class="not-striped">
                                                             <tbody><tr>
                                                                 <td class="td-notice-yellow" style="width:4%">{{$nickName}}</td>
