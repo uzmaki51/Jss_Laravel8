@@ -79,7 +79,7 @@
                                                     <td class="d-flex" colspan="2">
                                                         <label for="obj_type_ship" class="d-inline-block">船舶</label>
                                                         <input type="radio" name="obj_type" id="obj_type_ship" class="form-control d-inline-block mt-0" checked value="{{ OBJECT_TYPE_SHIP }}" @change="changeObjType">
-                                                        <label for="obj_type_person" class="d-inline-block">个体</label>
+                                                        <label for="obj_type_person" class="d-inline-block">其他</label>
                                                         <input type="radio" name="obj_type" id="obj_type_person" class="form-control d-inline-block mt-0" value="{{ OBJECT_TYPE_PERSON }}" @change="changeObjType">
                                                     </td>
                                                 </tr>
