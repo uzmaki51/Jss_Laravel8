@@ -187,10 +187,10 @@ class BusinessController extends Controller {
             $elseCost = ($costs['input4'] + $costs['input5'] + $costs['input6'])*12/365;
         }
 
-		return view('business.ship_contract', array(
+        return view('business.ship_contract', array(
             'shipId'	    =>  $shipId,
             'shipName'	    =>  $shipName,
-			'shipList'      =>  $shipList,
+            'shipList'      =>  $shipList,
             'cp_list'       =>  $cp_list,
             'voy_id'        =>  $voy_id,
             'status'        =>  $status,

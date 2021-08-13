@@ -658,7 +658,22 @@ class VoySettle extends Model
                 $fuelInfo['rob_fo_price_2'] = 0;
                 $fuelInfo['rob_do_price_2'] = 0;
 
+                $costs = ExpectedCosts::where('shipNo', $shipId)->first();
+        
+                if($costs == null) {
+                    $elseCost = 0;
+                }
+                else {
+                    for($i = 1; $i <= 11; $i ++) {
+                        if(!isset($costs['input' . $i]) || $costs['input' . $i] == '')
+                            $costs['input' . $i] = 0;
+                    }
+        
+                    $elseCost = round(($costs['input4'] + $costs['input5'] + $costs['input6'])*12/365, 0);
+                }
+
                 $mainInfo['cost_day']  = $contractInfo['cost_per_day'];
+                $mainInfo['cost_else'] = round($elseCost * (isset($mainInfo['total_sail_time']) ? $mainInfo['total_sail_time'] : 0));
 
                 $mainInfo['manage_cost_day'] = round($mainInfo['cost_day'] * (isset($mainInfo['total_sail_time']) ? $mainInfo['total_sail_time'] : 0), 2);
             } else {

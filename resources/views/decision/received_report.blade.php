@@ -53,7 +53,7 @@
                             <option value="11">11月</option>
                             <option value="12">12月</option>
                         </select>
-                        <label style="margin-left: 8px;">对象</label>              
+                        <label style="margin-left: 8px;">对象</label>
                         <select type="text" class="custom-select d-inline-block" id="ship_name" style="width:80px">
                             <option value=""></option>
                             <option value="OBJ">其他</option>
