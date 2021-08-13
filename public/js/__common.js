@@ -166,6 +166,18 @@ function __alertAudio() {
     document.getElementById('warning-audio').play();
 }
 
+function __noticeAudio() {
+    var count = 1;
+    var audio = document.getElementById('alert-audio');
+        audio.onended = function() {
+            if(count <= 2){
+            count++;
+            this.play();
+        }
+    };
+    audio.play();
+}
+
 function __parseFloat(value) {
     if(value == undefined || value == null || isNaN(value) || value == '' || value == 'Infinity') 
         return 0;
@@ -200,7 +212,7 @@ function checkDecisionRecord() {
                 let beforeCnt = __parseFloat($('#unread_receive').attr('data-val'));
 
                 $('#unread_receive').attr('data-val', data);
-                if(beforeCnt < data) __alertAudio();
+                if(beforeCnt < data) __noticeAudio();
                 if(data >= 100)
                     $('#unread_receive').text('+99');
                 else if(data != 0)

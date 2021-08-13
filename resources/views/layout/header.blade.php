@@ -176,6 +176,7 @@
         <i class="icon-double-angle-up icon-only bigger-110"></i>
     </a>
 </div>
+<button id="trigger-btn" type="button" class="d-none"></button>
 
 <footer class="footer d-none">
     <p class="footer-title">
@@ -186,9 +187,9 @@
     <source src="{{ cAsset('assets/sound/delete.wav') }}">
     <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
 </audio>
-<audio controls="controls" class="d-none" id="warning-audio1">
-    <source src="{{ cAsset('assets/sound/delete.wav') }}">
-    <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
+<audio controls="controls" class="d-none" id="alert-audio">
+    <source allow="autoplay" src="{{ cAsset('assets/sound/alert.mp3') }}">
+    <embed allow="autoplay" src="{{ cAsset('assets/sound/alert.mp3') }}" type="audio/mp3">
 </audio>
 <script type="text/javascript">
     window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>" + "<" + "/script>");
@@ -201,3 +202,8 @@
 @yield('scripts')
 </body>
 </html>
+<script>
+    $(function() {
+        $('#trigger-btn').click();
+    });
+</script>
