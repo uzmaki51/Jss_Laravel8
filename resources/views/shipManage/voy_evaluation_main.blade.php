@@ -604,8 +604,6 @@
                     $_this.cpInfo['day_gross_profit'] = BigNumber($_this.cpInfo['gross_profit']).div($_this.cpInfo['sail_time']).toFixed(0);
                     $_this.realInfo['day_gross_profit'] = BigNumber($_this.realInfo['gross_profit']).div($_this.realInfo['total_sail_time']).toFixed(0);
 
-                    $_this.test = 25;
-                    
                     if(__parseFloat($_this.cpInfo['fo_price']) == 0 || __parseFloat($_this.realInfo['rob_fo_price']) == 0)
                         alert('信息输入不齐全会导致输出结果不正确。')
                     else if(__parseFloat($_this.cpInfo['do_price']) == 0 || __parseFloat($_this.realInfo['rob_do_price']) == 0)

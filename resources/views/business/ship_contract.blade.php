@@ -931,7 +931,7 @@ $ships = Session::get('shipList');
                         tcContractObj.dely = voyListObj.list[index].L_Rate;
                         tcContractObj.redely = voyListObj.list[index].D_Rate;
                         tcContractObj.hire = __parseFloat(voyListObj.list[index].Freight) == 0 ? '' : '$ ' + __parseFloat(voyListObj.list[index].Freight);
-                        tcContractObj.first_hire = __parseFloat(voyListObj.list[index].total_Freight) == 0 ? '' : '$ ' + __parseFloat(voyListObj.list[index].total_Freight);
+                        tcContractObj.first_hire = __parseFloat(voyListObj.list[index].total_Freight) == 0 ? '' : __parseFloat(voyListObj.list[index].total_Freight);
                         tcContractObj.ilohc = __parseFloat(voyListObj.list[index].ilohc) == 0 ? '' : '$ ' + __parseFloat(voyListObj.list[index].ilohc);
                         tcContractObj.c_v_e = __parseFloat(voyListObj.list[index].c_v_e) == 0 ? '' : '$ ' + __parseFloat(voyListObj.list[index].c_v_e);
                         tcContractObj.com_fee = voyListObj.list[index].com_fee;
