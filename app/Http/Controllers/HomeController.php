@@ -87,8 +87,12 @@ class HomeController extends Controller {
 
 		/////////////////////////////////////////////
 		$settings = Settings::where('id', 1)->first();
-        $reportList = DecisionReport::where('state','0')->get();
-        $noattachments = DecisionReport::where('attachment',0)->orWhere('attachment',null)->get();
+        $reportList = DecisionReport::where('state','0')->where('ishide',0)->get();
+        $noattachments = DecisionReport::where(function($query) {
+			$query->where('attachment',0)->orWhere('attachment',null);
+		})->where('ishide',0)->get();
+		
+		//return $noattachments;
 
 		$report_year = $settings['report_year'];
 		$now = date('Y-m-d', strtotime("$report_year-1-1"));
