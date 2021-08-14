@@ -367,7 +367,7 @@
                                     // return this.number_format(retVal) == '' ? '' : this.number_format(retVal) + '天';
                                     return this.number_format(retVal)
                                 } else {
-                                    retVal = cpInfo['deten_fee'];
+                                    retVal = cpInfo['total_Freight'];
                                     return this.number_format(retVal, 2, '$ ');
                                 }
                             },
@@ -376,7 +376,7 @@
                                 if(cpInfo['CP_kind'] == 'TC') {
                                     retVal = cpInfo['ilohc'];
                                 } else {
-                                    retVal = cpInfo['dispatch_fee'];
+                                    retVal = cpInfo['deten_fee'];
                                 }
 
                                 return this.number_format(retVal, 2, '$ ');
@@ -386,7 +386,7 @@
                                 if(cpInfo['CP_kind'] == 'TC') {
                                     retVal = cpInfo['c_v_e'];
                                 } else {
-                                    retVal = cpInfo['batch_price'];
+                                    retVal = cpInfo['dispatch_fee'];
                                 }
 
                                 return this.number_format(retVal, 2, '$ ');
