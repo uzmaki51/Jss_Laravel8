@@ -99,6 +99,9 @@ class DecisionReport extends Model {
 			if (!empty($attachment)) {
 				$newArr[$newindex]['attachment'] = $attachment->file_link;
 			}
+
+			$reporter = User::where('id', $record->creator)->first()->realname;
+			$newArr[$newindex]['user'] = $reporter;
 			
 			$newindex ++;
 		}
@@ -144,6 +147,10 @@ class DecisionReport extends Model {
 			if (!empty($attachment)) {
 				$newArr[$newindex]['attachment'] = $attachment->file_link;
 			}
+
+			$reporter = User::where('id', $record->creator)->first()->realname;
+			$newArr[$newindex]['user'] = $reporter;
+
 			$newindex ++;
 		}
 
@@ -767,6 +774,9 @@ class DecisionReport extends Model {
 			if (!empty($attachment)) {
 				$newArr[$newindex]['attachment'] = $attachment->file_link;
 			}
+			
+			$reporter = User::where('id', $record->creator)->first()->realname;
+			$newArr[$newindex]['user'] = $reporter;
 			
 			$newindex ++;
 		}

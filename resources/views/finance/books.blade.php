@@ -346,6 +346,7 @@ $isHolder = Session::get('IS_HOLDER');
                 ],
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
+                    $(row).attr('title', data['user']);
 
                     $('td', row).eq(1).attr('class', 'text-center disable-td');
                     $('td', row).eq(2).attr('class', 'text-center');
