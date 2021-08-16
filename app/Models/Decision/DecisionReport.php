@@ -48,61 +48,16 @@ class DecisionReport extends Model {
 		$now = date('Y-m-d', strtotime("$year-$month-1"));
 		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
 		//$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
-			
-		$selector = ReportSave::where('report_date', '>=', $now)->where('report_date', '<', $next);
-
-        $recordsFiltered = $selector->count();
-		$records = $selector->orderBy('report_id', 'asc')->get();
+		
 		$newArr = [];
         $newindex = 0;
-		foreach($records as $index => $record) {
-			$newArr[$newindex]['id'] = $record->orig_id;
-			$newArr[$newindex]['flowid'] = $record->flowid;
-			$newArr[$newindex]['report_no'] = $record->report_id;
-			$newArr[$newindex]['book_no'] = $record->book_no == null ? '' : $record->book_no;
-			$newArr[$newindex]['datetime'] = $record->report_date;
-
-			if ($record->obj_type == 1) {
-				$newArr[$newindex]['ship_no'] = $record->shipNo;
-				$newArr[$newindex]['voyNo'] = $record->voyNo;
-
-				$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
-				$newArr[$newindex]['obj'] = $ship->NickName;
-			}
-			else
-			{
-				$newArr[$newindex]['ship_no'] = $record->obj_no;
-				$newArr[$newindex]['voyNo'] = '';
-				$newArr[$newindex]['obj'] = $record->obj_name;
-			}
-			/*
-			$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
-			$newArr[$newindex]['obj'] = $ship->NickName;
-			$newArr[$newindex]['ship_no'] = $record->shipNo;
-			$contract = VoyLog::where('id', $record->voyNo)->first();
-			$newArr[$newindex]['voyNo'] = $contract->CP_ID;
-			*/
-			$newArr[$newindex]['currency'] = $record->currency == 'USD' ? "$" : "¥";
-			$newArr[$newindex]['type'] = $record->type;
-			$newArr[$newindex]['profit_type'] = $record->profit_type;
-			$newArr[$newindex]['content'] = $record->content;
-			$newArr[$newindex]['amount'] = $record->amount;
-			$newArr[$newindex]['rate'] = $record->rate == null ? '' : $record->rate;
-			$attachment = DecisionReportAttachment::where('reportId', $record->orig_id)->first();
-			$newArr[$newindex]['attachment'] = null;
-			if (!empty($attachment)) {
-				$newArr[$newindex]['attachment'] = $attachment->file_link;
-			}
-			$newindex ++;
-		}
 
 		///////////////// Need to Optimize
 		$selector = DB::table($this->table)
-			->orderBy('report_id', 'asc')
+			->orderBy('report_id', 'desc')
 			->where('state', 1);
 
 		$selector->where('report_date', '>=', $now)->where('report_date', '<', $next);
-		$recordsFiltered = $selector->count();
 		$records = $selector->get();
 		foreach($records as $index => $record) {
 			$report_original_record = ReportSave::where('orig_id', $record->id)->first();
@@ -145,6 +100,50 @@ class DecisionReport extends Model {
 				$newArr[$newindex]['attachment'] = $attachment->file_link;
 			}
 			
+			$newindex ++;
+		}
+
+		$selector = ReportSave::where('report_date', '>=', $now)->where('report_date', '<', $next);
+		//$records = $selector->orderByRaw('ISNULL(book_no), book_no ASC')->orderBy('report_id', 'asc')->get();
+		$records = $selector->orderByRaw('-book_no ASC')->get();
+		foreach($records as $index => $record) {
+			$newArr[$newindex]['id'] = $record->orig_id;
+			$newArr[$newindex]['flowid'] = $record->flowid;
+			$newArr[$newindex]['report_no'] = $record->report_id;
+			$newArr[$newindex]['book_no'] = $record->book_no == null ? '' : $record->book_no;
+			$newArr[$newindex]['datetime'] = $record->report_date;
+
+			if ($record->obj_type == 1) {
+				$newArr[$newindex]['ship_no'] = $record->shipNo;
+				$newArr[$newindex]['voyNo'] = $record->voyNo;
+
+				$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
+				$newArr[$newindex]['obj'] = $ship->NickName;
+			}
+			else
+			{
+				$newArr[$newindex]['ship_no'] = $record->obj_no;
+				$newArr[$newindex]['voyNo'] = '';
+				$newArr[$newindex]['obj'] = $record->obj_name;
+			}
+			/*
+			$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
+			$newArr[$newindex]['obj'] = $ship->NickName;
+			$newArr[$newindex]['ship_no'] = $record->shipNo;
+			$contract = VoyLog::where('id', $record->voyNo)->first();
+			$newArr[$newindex]['voyNo'] = $contract->CP_ID;
+			*/
+			$newArr[$newindex]['currency'] = $record->currency == 'USD' ? "$" : "¥";
+			$newArr[$newindex]['type'] = $record->type;
+			$newArr[$newindex]['profit_type'] = $record->profit_type;
+			$newArr[$newindex]['content'] = $record->content;
+			$newArr[$newindex]['amount'] = $record->amount;
+			$newArr[$newindex]['rate'] = $record->rate == null ? '' : $record->rate;
+			$attachment = DecisionReportAttachment::where('reportId', $record->orig_id)->first();
+			$newArr[$newindex]['attachment'] = null;
+			if (!empty($attachment)) {
+				$newArr[$newindex]['attachment'] = $attachment->file_link;
+			}
 			$newindex ++;
 		}
 
@@ -696,15 +695,6 @@ class DecisionReport extends Model {
 			$month = $params['columns'][2]['search']['value'];
 		}
 
-		$report_list_record = BooksList::where('year', $year)->where('month', $month)->first();
-        if (!is_null($report_list_record)) {
-            return $this->getForSavedBookDatatable($params, $year, $month);
-        }
-
-		$selector = DB::table($this->table)
-			->orderBy('report_id', 'asc')
-			->where('state', 1);
-
 		$next_year = $year;
         $next_month = $month;
         if ($month == 12) {
@@ -717,8 +707,28 @@ class DecisionReport extends Model {
         }
 		$now = date('Y-m-d', strtotime("$year-$month-1"));
 		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
+		
+		$user = Auth::user();
+		if ($user->pos == STAFF_LEVEL_FINANCIAL) {
+			DB::table($this->table)
+				->where('state', 1)
+				->where('report_date', '>=', $now)->where('report_date', '<', $next)
+				->where('readed_at', null)
+				->update ([
+					'readed_at'		=> date('Y-m-d H:i:s')
+				]);
+		}
 		//$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
 			
+		$report_list_record = BooksList::where('year', $year)->where('month', $month)->first();
+        if (!is_null($report_list_record)) {
+            return $this->getForSavedBookDatatable($params, $year, $month);
+        }
+
+		$selector = DB::table($this->table)
+			->orderBy('report_id', 'desc')
+			->where('state', 1);
+
 		$selector->where('report_date', '>=', $now)->where('report_date', '<', $next);
 		$recordsFiltered = $selector->count();
 		$records = $selector->get();
@@ -842,7 +852,7 @@ class DecisionReport extends Model {
 			foreach($records as $key => $item) {
 				$ids[] = $item->id;
 			}
-			self::whereIn('id', $ids)->update([
+			self::whereIn('id', $ids)->where('state', REPORT_STATUS_REQUEST)->update([
 				'readed_at'		=> date('Y-m-d H:i:s')
 			]);
 		}
@@ -884,15 +894,7 @@ class DecisionReport extends Model {
 			$reporter = User::where('id', $item->creator)->first()->realname;
 
 			$records[$key]->shipName = $shipName;
-			$records[$key]->realname = $reporter;
-
-			if($user->isAdmin == SUPER_ADMIN) {
-				if(isset($_saved_ids) && $_saved_ids != null) {
-					if(isset($_saved_ids[$key]) && $records[$key]->id == $_saved_ids[$key])
-						$records[$key]->readed_at = date('Y-m-d H:i:s');
-				}
-			}
-				
+			$records[$key]->realname = $reporter;				
 		}
 		
 		return [
@@ -1163,7 +1165,8 @@ class DecisionReport extends Model {
 		$ret = DB::table($this->table)
 			->where('id', $params['reportId'])
 			->update([
-				'state' => $params['decideType']
+				'state' => $params['decideType'],
+				'readed_at' => null,
 			]);
 
 		return $ret;
@@ -1251,7 +1254,8 @@ class DecisionReport extends Model {
 	}
 
 	public function checkBookReport() {
-			$isExist = self::where('state', REPORT_STATUS_ACCEPT)->whereNotNull('readed_at')->count();
+			$isExist = self::where('state', REPORT_STATUS_ACCEPT)->whereNull('readed_at')->count();
+			
 			if($isExist == 0)
 				return false;
 			else

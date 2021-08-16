@@ -400,7 +400,7 @@ class DecisionController extends Controller
 			$isAdmin = 2;
 		else 
 			$isAdmin = 3;
-
+		
 		$decision = new DecisionReport();
 
 		if($isAdmin == 1)
