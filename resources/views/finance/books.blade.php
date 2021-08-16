@@ -224,6 +224,16 @@ $isHolder = Session::get('IS_HOLDER');
                                                 @endfor
                                             @endif
                                         </select>
+                                        <label style="margin-left: 8px;">对象</label>
+                                        <select type="text" class="custom-select d-inline-block" id="ship_name" style="width:80px">
+                                            <option value=""></option>
+                                            <option value="OBJ">其他</option>
+                                            @if(isset($shipList))
+                                                @foreach($shipList as $key => $item)
+                                                    <option value="{{ $item->IMO_No }}" {{ isset($shipId) && $shipId == $item->IMO_No ?  "selected" : "" }}>{{$item->NickName == '' ? $item->shipName_En : $item->NickName }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
                                         <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_water_info"></span>流水账</strong>
                                     </div>
                                     <div class="col-md-5" style="padding:unset!important">
@@ -300,6 +310,7 @@ $isHolder = Session::get('IS_HOLDER');
 
         var year_water = '';
         var month_water = '';
+        var ship_name;
 
         var listTable = null;
         var listBook = null;
@@ -383,6 +394,9 @@ $isHolder = Session::get('IS_HOLDER');
                             //$('td', row).eq(10).html('<input type="text" class="form-control style-red-input" name="debit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                             $('td', row).eq(10).html('<input type="text" class="form-control" name="debit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                         $('td', row).eq(9).html('<input type="text" class="form-control style-blue-input" name="credit[]" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                    } else {
+                        $('td', row).eq(9).html('<input type="text" class="form-control style-blue-input" name="credit[]" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                        $('td', row).eq(10).html('<input type="text" class="form-control style-blue-input" name="debit[]" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                     }
                     var link_html = '<label><a href="' + data['attachment'] + '" target="_blank" class="' + (data['attachment']==null ? 'visible-hidden':'') + '"><img src="' + "{{ cAsset('assets/images/document.png') }}" + '"' + ' width="15" height="15" style="cursor: pointer;"></a></label>';
                     $('td', row).eq(11).html('<input type="text" class="form-control" readonly name="rate[]" value="' + formatRate(data['rate']) + '" style="width: 100%;text-align: center" autocomplete="off">');
@@ -425,7 +439,7 @@ $isHolder = Session::get('IS_HOLDER');
                 ajax: {
                     url: BASE_URL + 'ajax/finance/waters/list',
                     type: 'POST',
-                    data: {'year':year_water, 'month':month_water},
+                    data: {'year':year_water, 'month':month_water, 'ship_name':ship_name},
                 },
                 "ordering": false,
                 "pageLength": 500,
@@ -538,6 +552,7 @@ $isHolder = Session::get('IS_HOLDER');
 
         year_water = $("#select-water-year option:selected").val();
         month_water = $("#select-water-month option:selected").val();
+        ship_name = $("#ship_name option:selected").val();
         $('#search_water_info').html(year_water + '年' + month_water + '月份');
         initWaterTable();
 
@@ -545,7 +560,12 @@ $isHolder = Session::get('IS_HOLDER');
         {
             year_water = $("#select-water-year option:selected").val();
             month_water = $("#select-water-month option:selected").val();
-            $('#search_water_info').html(year_water + '年' + month_water + '月份');
+            ship_name = $("#ship_name option:selected").val();
+            ship_text = $("#ship_name option:selected").text();
+            if (ship_text == '')
+                $('#search_water_info').html(year_water + '年' + month_water + '月份');
+            else
+                $('#search_water_info').html(year_water + '年' + month_water + '月份(' + ship_text + ')');
 
             sum_credit_R = 0;
             sum_debit_R = 0;
@@ -558,7 +578,8 @@ $isHolder = Session::get('IS_HOLDER');
             else
             {
                 listWaterTable.column(1).search(year_water, false, false);
-                listWaterTable.column(2).search(month_water, false, false).draw();
+                listWaterTable.column(2).search(month_water, false, false);
+                listWaterTable.column(3).search(ship_name, false, false).draw();
             }
         }
 
@@ -977,6 +998,11 @@ $isHolder = Session::get('IS_HOLDER');
             selectWaterInfo();
         }
 
+        function changeWaterShip() {
+            ship_name = $("#ship_name option:selected").val();
+            selectWaterInfo();
+        }
+
         function setEvents() {
             $('.style-blue-input,.style-red-input').on('change', function(evt) {
                 if (evt.target.value == '') return;
@@ -1219,6 +1245,10 @@ $isHolder = Session::get('IS_HOLDER');
 
         $('#select-water-month').on('change', function() {
             changeWaterMonth();
+        });
+
+        $('#ship_name').on('change', function() {
+            changeWaterShip();
         });
 
         var submitted = false;

@@ -10,6 +10,7 @@ use App\Models\Finance\ReportSave;
 use App\Models\Finance\WaterList;
 use App\Models\Finance\AccountPersonalInfo;
 use App\Models\Finance\AccountSetting;
+use App\Models\ShipManage\ShipRegister;
 
 use App\Models\User;
 use Illuminate\Contracts\Logging\Log;
@@ -133,6 +134,8 @@ class FinanceController extends Controller
 
 		$accounts = AccountSetting::all();
 
+		$shipList = ShipRegister::orderBy('id')->get();
+
         return view('finance.books', [
             'start_year' => $start_year,
 			'start_month' => $start_month,
@@ -140,6 +143,7 @@ class FinanceController extends Controller
 			'month' => $month,
 			'book_no' => $book_no,
 			'accounts' => $accounts,
+			'shipList' => $shipList
         ]);
     }
 

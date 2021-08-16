@@ -1111,18 +1111,25 @@ class DecisionReport extends Model {
 		if (!isset($params['columns'][1]['search']['value']) ||
             $params['columns'][1]['search']['value'] == '' ||
             !isset($params['columns'][2]['search']['value']) ||
-            $params['columns'][2]['search']['value'] == ''
+            $params['columns'][2]['search']['value'] == '' ||
+			!isset($params['columns'][3]['search']['value']) ||
+            $params['columns'][3]['search']['value'] == ''
         ) {
             $year = $params['year'];
         	$month = $params['month'];
+			$ship = $params['ship_name'];
         }
 		else
 		{
 			$year = $params['columns'][1]['search']['value'];
 			$month = $params['columns'][2]['search']['value'];
+			$ship = $params['columns'][3]['search']['value'];
 		}
 
-		$selector = WaterList::where('year', $year)->where('month', $month)->select('*');
+		if ($ship == '')
+			$selector = WaterList::where('year', $year)->where('month', $month)->select('*');
+		else
+			$selector = WaterList::where('year', $year)->where('month', $month)->where('ship_no', $ship)->select('*');
 		$recordsFiltered = $selector->count();
 		$records = $selector->orderBy('register_time', 'asc')->get();
 
