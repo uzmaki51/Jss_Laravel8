@@ -394,13 +394,18 @@ class DecisionController extends Controller
 	}	
 
 	public function ajaxCheckReport() {
-		$isAdmin = Auth::user()->isAdmin;
+		if(Auth::user()->isAdmin == STAFF_LEVEL_MANAGER || Auth::user()->pos == STAFF_LEVEL_MANAGER)
+			$isAdmin = 1;
+		else if(Auth::user()->pos == STAFF_LEVEL_FINANCIAL)
+			$isAdmin = 2;
+		else 
+			$isAdmin = 3;
 
 		$decision = new DecisionReport();
 
-		if($isAdmin == STAFF_LEVEL_MANAGER)
+		if($isAdmin == 1)
 			$retVal = $decision->checkReport();
-		else if($isAdmin == STAFF_LEVEL_FINANCIAL) {
+		else if($isAdmin == 2) {
 			$retVal = $decision->checkBookReport();
 		} else {
 			$retVal = false;
