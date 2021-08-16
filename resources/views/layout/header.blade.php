@@ -80,14 +80,14 @@
             </div>
             <div class="collapse navbar-collapse navbar-ex1-collapse" role="navigation">
                 <ul class="nav navbar-nav navbar-right" style="position: absolute; right: 2%;">
-                    @if(Auth::user()->isAdmin == STAFF_LEVEL_MANAGER)
+                    @if(Auth::user()->isAdmin == STAFF_LEVEL_MANAGER || Auth::user()->pos == STAFF_LEVEL_MANAGER)
                         <li>
                             <a href="/decision/receivedReport?menuId=11" style="padding: 8px; display: flex;">
                                 <i class="icon-bell bigger-110"></i>
                                 <span class="bell-badge" data-val="" style="display: none;" id="unread_receive">0</span>
                             </a>
                         </li>
-                    @elseif(Auth::user()->isAdmin == STAFF_LEVEL_FINANCIAL)
+                    @elseif(Auth::user()->pos == STAFF_LEVEL_FINANCIAL)
                         <li>
                             <a href="/finance/books?menuId=39" style="padding: 8px; display: flex;">
                                 <i class="icon-bell bigger-110"></i>

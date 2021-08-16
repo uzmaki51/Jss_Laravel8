@@ -354,7 +354,7 @@ class OrgmanageController extends Controller
 	    } else
 		    $user->status = STATUS_ACTIVE;
 
-	    $user->isAdmin = (isset($param['isAdmin']) && $param['isAdmin'] == 1) ? 1 : ($param['pos'] == STAFF_LEVEL_SHAREHOLDER ? STAFF_LEVEL_SHAREHOLDER : 0);
+	    // $user->isAdmin = (isset($param['isAdmin']) && $param['isAdmin'] == 1) ? 1 : ($param['pos'] == STAFF_LEVEL_SHAREHOLDER ? STAFF_LEVEL_SHAREHOLDER : 0);
 
         if($param['pos'] == STAFF_LEVEL_MANAGER) $user->isAdmin = STAFF_LEVEL_MANAGER;
         else $user->isAdmin = STATUS_BANNED;
@@ -400,7 +400,9 @@ class OrgmanageController extends Controller
 	    } else
 		    $user->status = STATUS_ACTIVE;
 
-        $user->isAdmin = (isset($param['isAdmin']) && $param['isAdmin'] == 1) ? 1 : ($param['pos'] == STAFF_LEVEL_SHAREHOLDER ? STAFF_LEVEL_SHAREHOLDER : 0);
+        if($param['pos'] == STAFF_LEVEL_MANAGER) $user->isAdmin = STAFF_LEVEL_MANAGER;
+        else $user->isAdmin = STATUS_BANNED;
+
         $user->save();
         $request->merge([
             'userid' => $user->id,
