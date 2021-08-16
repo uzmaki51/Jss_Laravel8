@@ -1251,7 +1251,7 @@ class DecisionReport extends Model {
 	}
 
 	public function checkBookReport() {
-			$isExist = self::where('state', REPORT_STATUS_ACCEPT)->whereNull('readed_at')->count();
+			$isExist = self::where('state', REPORT_STATUS_ACCEPT)->whereNotNull('readed_at')->count();
 			if($isExist == 0)
 				return false;
 			else
