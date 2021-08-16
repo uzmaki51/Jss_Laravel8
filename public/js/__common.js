@@ -212,7 +212,8 @@ function checkDecisionRecord() {
                 let beforeCnt = __parseFloat($('#unread_receive').attr('data-val'));
 
                 $('#unread_receive').attr('data-val', data);
-                // if(beforeCnt < data) __noticeAudio();
+                // if(beforeCnt < data)
+                 __noticeAudio();
                 if(data >= 100)
                     $('#unread_receive').text('+99');
                 else if(data != 0)
