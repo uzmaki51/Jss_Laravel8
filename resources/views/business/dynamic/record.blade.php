@@ -38,7 +38,7 @@
         <div class="page-content" id="search-div">
             <div class="row">
                 <div class="col-md-12 align-bottom" v-cloak>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                         <select class="custom-select d-inline-block" style="padding: 4px;max-width: 100px;" @change="changeShip" v-model="shipId">
                             @foreach($shipList as $ship)
@@ -64,7 +64,7 @@
                             </strong>
                         </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="" style="margin-right: 12px; padding-top: 2px;">
                             <table class="contract-table mt-2 table-layout-fixed" style="min-height: auto;">
                             <tr>
@@ -80,12 +80,13 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-3">
                         <div class="btn-group f-right">
                             <button class="btn btn-report-search btn-sm search-btn d-none" click="doSearch()"><i class="icon-search"></i>搜索</button>
                             <a class="btn btn-sm btn-danger refresh-btn-over d-none" type="button" click="refresh">
                                 <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">恢复
                             </a>
+                            <button class="btn btn-primary btn-sm search-btn" @click="addRow"><i class="icon-plus"></i>添加</button>
                             <button class="btn btn-success btn-sm save-btn" @click="submitForm"><i class="icon-save"></i> {{ trans('common.label.save') }}</button>
                         </div>
                     </div>
@@ -186,7 +187,7 @@
                                     <td style="border-right: 2px solid rgb(255, 146, 7);"><input type="number" class="form-control text-center" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO[]" v-model="currentItem.ROB_DO"></td>
                                     <td><input type="number" class="form-control text-center" name="BUNK_FO[]"  style="color: blue!important; padding: 0!important;" v-model="currentItem.BUNK_FO"></td>
                                     <td><input type="number" class="form-control text-center" name="BUNK_DO[]"  style="color: blue!important; padding: 0!important;" v-model="currentItem.BUNK_DO"></td>
-                                    <td class="position-width" colspan="4"><textarea class="form-control" name="Remark[]" rows="1" style="resize: none" @click="addRow(index)" maxlength="50" autocomplete="off" v-model="currentItem.Remark"></textarea></td>
+                                    <td class="position-width" colspan="4"><textarea class="form-control" name="Remark[]" rows="1" style="resize: none" maxlength="50" autocomplete="off" v-model="currentItem.Remark"></textarea></td>
                                     <td class="text-center">
                                         <div class="action-buttons">
                                             <a class="red" @click="deleteItem(currentItem.id, index)" :class="deleteClass">
@@ -687,10 +688,17 @@
 
                         return today;
                     },
-                    addRow: function(index) {
-                        let length = this.currentData.length;
-                        if(length != 0 && length - 1 != index)
-                            return;
+                    // addRow: function(index) {
+                    //     let length = this.currentData.length;
+                    //     if(length != 0 && length - 1 != index)
+                    //         return;
+                            
+                    //     this.setDefaultData();
+                    // },
+                    addRow: function() {
+                        // let length = this.currentData.length;
+                        // if(length != 0 && length - 1 != index)
+                        //     return;
                             
                         this.setDefaultData();
                     },
