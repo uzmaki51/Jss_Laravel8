@@ -361,7 +361,12 @@ div.input table tbody tr td
   margin: 0;
 }
 
-
+.for-sp {
+    display: none;
+}
+.for-pc {
+    display: '';
+}
 .sp-menu {
     display: none;
 }
@@ -527,5 +532,20 @@ div.input table tbody tr td
         left: 0;
         background: #131313a8;
         transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+    }
+
+    .for-sp {
+        display: '';
+    }
+    .for-pc {
+        display: none;
+    }
+}
+@media (max-width: 375px) {
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        font-size: 10px;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        font-size: 10px;
     }
 }

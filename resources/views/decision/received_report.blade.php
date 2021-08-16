@@ -80,25 +80,25 @@
                 </div>
                 <div class="row">
                     <div class="space-2"></div>
-					<div class="col-lg-12 common-list head-fix-div" style="padding: 0 1px;">
+					<div class="col-lg-12 common-list head-fix-div" style="padding: 0 1px; width: 100%;">
                     <div class="table-responsive">
                         <table id="report_info_table" class="table table-bordered">
                             <thead>
                             <tr class="br-hblue">
                                 <th class="text-center style-normal-header" style="width: 5%;">{!! trans('decideManage.table.no') !!}</th>
                                 <th style="width: 5%;">{!! trans('decideManage.table.type') !!}</th>
-                                <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
+                                <th style="width: 7%;" class="for-pc">{{ trans('decideManage.table.date') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.voy_no') }}</th>
-                                <th style="width: 7%;">{!! trans('decideManage.table.profit_type') !!}</th>
-                                <th style="width: 25%;">{{ trans('decideManage.table.content') }}</th>
-                                <th style="width: 5%;">{{ trans('decideManage.table.currency') }}</th>
-                                <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
+                                <th style="width: 7%;" class="for-pc">{!! trans('decideManage.table.profit_type') !!}</th>
+                                <th style="width: 25%;" class="for-pc">{{ trans('decideManage.table.content') }}</th>
+                                <th style="width: 5%;" class="for-pc">{{ trans('decideManage.table.currency') }}</th>
+                                <th style="width: 10%;" class="for-pc">{{ trans('decideManage.table.amount') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
-                                <th style="width: 5%;">涉及<br>部门</th>
-                                <th style="width: 5%;">{!! trans('decideManage.table.attachment') !!}</th>
+                                <th style="width: 5%;" class="for-pc">涉及<br>部门</th>
+                                <th style="width: 5%;" class="for-pc">{!! trans('decideManage.table.attachment') !!}</th>
                                 <th style="width: 5%;">{!! trans('decideManage.table.state') !!}</th>
-                                <th class="{{ Auth::user()->isAdmin == SUPER_ADMIN ? '' : 'd-none' }}"></th>
+                                <th class="{{ Auth::user()->isAdmin == SUPER_ADMIN ? 'for-pc' : 'd-none' }}"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -1220,18 +1220,18 @@
                 columns: [
                     {data: 'report_id', className: "text-center each"},
                     {data: 'flowid', className: "text-center each"},
-                    {data: 'report_date', className: "text-center each"},
+                    {data: 'report_date', className: "text-center each for-pc"},
                     {data: 'shipName', className: "text-center each"},
                     {data: 'voyNo', className: "text-center each"},
-                    {data: 'profit_type', className: "text-center each"},
-                    {data: 'content', className: "text-left each"},
-                    {data: 'currency', className: "text-center each"},
-                    {data: 'amount', className: "text-right each"},
+                    {data: 'profit_type', className: "text-center each for-pc"},
+                    {data: 'content', className: "text-left each for-pc"},
+                    {data: 'currency', className: "text-center each for-pc"},
+                    {data: 'amount', className: "text-right each for-pc"},
                     {data: 'realname', className: "text-center each"},
-                    {data: 'depart_name', className: "text-center each"},
-                    {data: 'attachment', className: "text-center each"},
+                    {data: 'depart_name', className: "text-center each for-pc"},
+                    {data: 'attachment', className: "text-center each for-pc"},
                     {data: 'state', className: "text-center not-striped-td"},
-                    {data: null, className: "text-center"},
+                    {data: null, className: "text-center for-pc"},
                 ],
                 createdRow: function (row, data, index) {
                     if ((index%2) == 0)
