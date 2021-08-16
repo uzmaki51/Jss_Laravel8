@@ -49,6 +49,13 @@
     <script src="{{ asset('/assets/js/jquery.slides.js')}}"></script>
     <script src="{{ asset('/assets/js/util.js')}}"></script>
 </head>
+
+<?php
+    $routeName = Request::route()->getName();
+    $menuList = Session::get('menusList');
+    $id = Request::get('menuId');
+?>
+
 <body class="skin-1">
 <header id="header">
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -60,7 +67,7 @@
             </div>
             
             <div id="menuToggle" class="sp-menu">
-                <input type="checkbox" />
+                <input type="checkbox" class="hamburger-input"/>
 
                 <span></span>
                 <span></span>
@@ -70,49 +77,43 @@
                 Too bad the menu has to be inside of the button
                 but hey, it's pure CSS magic.
                 -->
-                <ul id="menu">
-                <a href="#"><li>Home</li></a>
-                <a href="#"><li>About</li></a>
-                <a href="#"><li>Info</li></a>
-                <a href="#"><li>Contact</li></a>
-                <a href="https://erikterwan.com/" target="_blank"><li>Show me more</li></a>
-                </ul>
-            </div>
-            <div class="collapse navbar-collapse navbar-ex1-collapse" role="navigation">
-                <ul class="nav navbar-nav navbar-right" style="position: absolute; right: 2%;">
-                    @if(Auth::user()->isAdmin == STAFF_LEVEL_MANAGER || Auth::user()->pos == STAFF_LEVEL_MANAGER)
-                        <li>
-                            <a href="/decision/receivedReport?menuId=11" style="padding: 8px; display: flex;">
-                                <i class="icon-bell bigger-110"></i>
-                                <span class="bell-badge" data-val="" style="display: none;" id="unread_receive">0</span>
-                            </a>
-                        </li>
-                    @elseif(Auth::user()->pos == STAFF_LEVEL_FINANCIAL)
-                        <li>
-                            <a href="/finance/books?menuId=39" style="padding: 8px; display: flex;">
-                                <i class="icon-bell bigger-110"></i>
-                                <span class="bell-badge" data-val="" style="display: none;" id="unread_receive">0</span>
-                            </a>
-                        </li>
-                    @endif
-                    <li class="dropdown" style="height: auto;">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background: transparent;">
-                            <img src="{{ Auth::user()->avatar == '' ? cAsset('assets/avatars/user.png') : Auth::user()->avatar }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
-                            欢迎 | {{ Auth::user()->realname }}<b class="caret"></b></a>
-                        <ul class="dropdown-menu" style="background: #5b79a5;">
-                            <li><a href="{{ route('profile') }}"><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;{{ trans('common.label.profile') }}</a></li>
-                            <hr style="margin: 4px 0!important;">
-                            <li><a href="{{ route('logout') }}"><i class="icon-signout"></i>&nbsp;&nbsp;{{ trans('common.label.logout') }}</a></li>
-                        </ul>
+                <ul class="nav nav-list" id="menu">
+                    <li>
+                        <a href="{{ route('home') }}">
+                            首页
+                        </a>
                     </li>
+                    @foreach($menuList as $key => $item)
+                        @if($item['parent'] == 0)
+                            <li>
+                                <a href="{{ (count($item['children']) == 0 ? '/' . $item['controller'] . '?menuId=' . $item['id'] : '#') }}" class="dropdown-toggle">{{ $item['title'] }}</a>
+                                <ul class="submenu nav-hide">
+                                    <li class="">
+                                        @foreach($item['children'] as $key => $sub)
+                                            <a href="{{ (count($sub['children']) == 0 ? '/' . $sub['controller'] . '?menuId=' . $sub['id'] : '#') }}" class="{{ count($sub['children']) == 0 ? '' : 'dropdown-toggle' }}">
+                                                {{ $sub['title'] }}
+                                            </a>
+                                            @if(count($sub['children']) > 0)
+                                                <ul class="submenu nav-hide">
+                                                    @foreach($sub['children'] as $value)
+                                                        <li class="">
+                                                            <a href="/{{ $value['controller'] . '?menuId=' . $value['id'] }}">
+                                                                {{ $value['title'] }}
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        @endforeach
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                    @endforeach
                 </ul>
             </div>
+            <div class="sp-menu overlay-show" id="overlay-div" style="display: none;"></div>
 
-	        <?php
-                $routeName = Request::route()->getName();
-                $menuList = Session::get('menusList');
-                $id = Request::get('menuId');
-	        ?>
             <div id="container">
                 <nav>
                     <ul class="pc-menu">

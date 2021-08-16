@@ -228,3 +228,21 @@ function offAutoCmplt() {
     $('.remark').attr('autocomplete', 'off');
     $('input').attr('autocomplete', 'off');
 }
+$('.hamburger-input').on('change', function() {
+    if($(this).prop('checked')) {
+        $('#overlay-div').addClass('overlay-show');
+        $('#overlay-div').show();
+    } else {
+        $('#overlay-div').removeClass('overlay-show');
+        $('#overlay-div').hide();
+    }
+});
+
+$(document).mouseup(function(e) {
+    var container = $("#menu");
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+        $('.hamburger-input').prop('checked', false);
+        $('#overlay-div').removeClass('overlay-show');
+        $('#overlay-div').hide();
+    }
+});
