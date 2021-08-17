@@ -113,7 +113,7 @@
                                 <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.voy_no') }}</th>
                                 <th style="width: 7%;">{!! trans('decideManage.table.profit_type') !!}</th>
-                                <th style="width: 25%; max-width: 600px; overflow: hidden;text-overflow: ellipsis;">{{ trans('decideManage.table.content') }}</th>
+                                <th style="width: 25%;">{{ trans('decideManage.table.content') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.currency') }}</th>
                                 <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
@@ -1275,7 +1275,7 @@
                     }
 
                     $('td', row).eq(6).html('').append(
-                        '<span style="padding: 0 4px!important">'+data['content']+'</span>'
+                        '<span style="padding: 0 4px!important;  max-width: 600px; overflow: hidden;text-overflow: ellipsis;">'+data['content']+'</span>'
                     )
 
                     if(data['currency'] != '') {
