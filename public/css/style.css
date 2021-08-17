@@ -298,6 +298,12 @@ div.input table tbody tr td
     height: 20px;
 }
 
+.report-content {
+	max-width: 600px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .style-blue-header {
     font-weight: bold!important;
     color: #2767c1!important;

@@ -1224,7 +1224,7 @@
                     {data: 'shipName', className: "text-center each"},
                     {data: 'voyNo', className: "text-center each"},
                     {data: 'profit_type', className: "text-center each for-pc"},
-                    {data: 'content', className: "text-left each for-pc"},
+                    {data: 'content', className: "text-left each for-pc report-content"},
                     {data: 'currency', className: "text-center each for-pc"},
                     {data: 'amount', className: "text-right each for-pc"},
                     {data: 'realname', className: "text-center each"},
@@ -1275,7 +1275,7 @@
                     }
 
                     $('td', row).eq(6).html('').append(
-                        '<span style="padding: 0 4px!important;  max-width: 600px; overflow: hidden;text-overflow: ellipsis;">'+data['content']+'</span>'
+                        '<span style="padding: 0 4px!important">'+data['content']+'</span>'
                     )
 
                     if(data['currency'] != '') {
