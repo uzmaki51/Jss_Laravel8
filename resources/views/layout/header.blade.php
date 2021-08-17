@@ -113,7 +113,36 @@
                 </ul>
             </div>
             <div class="sp-menu overlay-show" id="overlay-div" style="display: none;"></div>
-
+            
+            <div class="collapse navbar-collapse navbar-ex1-collapse" role="navigation">
+                <ul class="nav navbar-nav navbar-right" style="position: absolute; right: 2%;">
+                    @if(Auth::user()->isAdmin == STAFF_LEVEL_MANAGER || Auth::user()->pos == STAFF_LEVEL_MANAGER)
+                        <li>
+                            <a href="/decision/receivedReport?menuId=11" style="padding: 8px; display: flex;">
+                                <i class="icon-bell bigger-110"></i>
+                                <span class="bell-badge" data-val="" style="display: none;" id="unread_receive">0</span>
+                            </a>
+                        </li>
+                    @elseif(Auth::user()->pos == STAFF_LEVEL_FINANCIAL)
+                        <li>
+                            <a href="/finance/books?menuId=39" style="padding: 8px; display: flex;">
+                                <i class="icon-bell bigger-110"></i>
+                                <span class="bell-badge" data-val="" style="display: none;" id="unread_receive">0</span>
+                            </a>
+                        </li>
+                    @endif
+                    <li class="dropdown" style="height: auto;">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background: transparent;">
+                            <img src="{{ Auth::user()->avatar == '' ? cAsset('assets/avatars/user.png') : Auth::user()->avatar }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
+                            欢迎 | {{ Auth::user()->realname }}<b class="caret"></b></a>
+                        <ul class="dropdown-menu" style="background: #5b79a5;">
+                            <li><a href="{{ route('profile') }}"><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;{{ trans('common.label.profile') }}</a></li>
+                            <hr style="margin: 4px 0!important;">
+                            <li><a href="{{ route('logout') }}"><i class="icon-signout"></i>&nbsp;&nbsp;{{ trans('common.label.logout') }}</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
             <div id="container">
                 <nav>
                     <ul class="pc-menu">
