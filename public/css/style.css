@@ -523,7 +523,7 @@ div.input table tbody tr td
         display: none;
     }
 
-    .overlay-show {
+    .overlay-show { 
         display: block;
         position: fixed;
         top: 0;
