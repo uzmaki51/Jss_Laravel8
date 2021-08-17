@@ -1121,9 +1121,7 @@ class DecisionReport extends Model {
 		if (!isset($params['columns'][1]['search']['value']) ||
             $params['columns'][1]['search']['value'] == '' ||
             !isset($params['columns'][2]['search']['value']) ||
-            $params['columns'][2]['search']['value'] == '' ||
-			!isset($params['columns'][3]['search']['value']) ||
-            $params['columns'][3]['search']['value'] == ''
+            $params['columns'][2]['search']['value'] == ''
         ) {
             $year = $params['year'];
         	$month = $params['month'];
