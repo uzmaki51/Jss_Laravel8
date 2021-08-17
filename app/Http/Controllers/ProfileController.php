@@ -57,10 +57,35 @@ class ProfileController extends Controller
         $password = '';
         if(isset($params['password']) && $params['password'] != '') {
             $request->validate([
+                'oldpassword'       => 'required',
                 'password'          => 'min:6|confirmed'
             ]);
+        }
+        if(isset($params['oldpassword']) && $params['oldpassword'] != '') {
+            $request->validate([
+                'password'          => 'required|min:6|confirmed'
+            ]);
+            if(isset($params['password']) && $params['password'] != '') {
+                $request->validate([
+                    'oldpassword'       => 'required',
+                    'password'          => 'min:6|confirmed'
+                ]);
 
-            $password = bcrypt($params['password']);
+                $hashedPassword = Auth::user()->password;
+ 
+                if (\Hash::check($request->oldpassword , $hashedPassword )) {
+                    if (!\Hash::check($request->password , $hashedPassword)) {
+                        $password = bcrypt($params['password']);
+                    } else {
+                        session()->flash('err_msg','新密码不能成为旧密码。');
+                        return redirect()->back();
+                    }
+            
+                } else {
+                    session()->flash('err_msg','旧密码不一致。');
+                    return redirect()->back();
+                }
+            }
         }
 
         $account = Auth::user()->account;

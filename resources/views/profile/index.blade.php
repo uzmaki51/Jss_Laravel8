@@ -27,7 +27,7 @@ $isHolder = Session::get('IS_HOLDER');
             @if ($errors->any())
                 <div class="row">
                     <div class="row col-md-12">
-                        <div class="alert alert-danger alert-light alert-dismissible" role="alert">
+                        <div class="alert alert-danger alert-light alert-dismissible" style="padding-left: 12px;" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><i class="text-danger icon-remove"></i></button>
                             @foreach ($errors->all() as $error)
                                 <strong> {{ $error }}</strong><br/>
@@ -37,10 +37,21 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
             @endif
 
+            @if (Session('err_msg'))
+                <div class="row">
+                    <div class="row col-md-12">
+                        <div class="alert alert-danger alert-light alert-dismissible" role="alert" style="padding-left: 12px;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><i class="text-danger icon-remove"></i></button>
+                            <strong> {{ Session('err_msg') }}</strong><br/>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             @if(Session('message'))
                 <div class="row">
                     <div class="row col-md-12">
-                        <div class="alert alert-info">
+                        <div class="alert alert-info" style="padding-left: 12px;">
                             <button class="close" data-dismiss="alert">
                                 <i class="text-info icon-remove"></i>
                             </button>
@@ -105,7 +116,12 @@ $isHolder = Session::get('IS_HOLDER');
                                     <input type="text" class="form-control add-td-input" name="account" id="account" value="{{ isset($userinfo) ? $userinfo['account'] : old('account') }}" disabled>
                                 </div>
                             </div>
-
+                            <div class="profile-info-row">
+                                <div class="profile-info-name">{{trans("common.label.old_password")}}</div>
+                                <div class="profile-info-value">
+                                    <input type="password" name="oldpassword" class="form-control add-td-input" value="">
+                                </div>
+                            </div>
                             <div class="profile-info-row">
                                 <div class="profile-info-name">{{trans("common.label.password")}}</div>
                                 <div class="profile-info-value">
