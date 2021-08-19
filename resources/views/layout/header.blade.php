@@ -113,7 +113,7 @@
                 </ul>
             </div>
             <div class="sp-menu overlay-show" id="overlay-div" style="display: none;"></div>
-            
+
             <div class="collapse navbar-collapse navbar-ex1-collapse" role="navigation">
                 <ul class="nav navbar-nav navbar-right" style="position: absolute; right: 2%;">
                     @if(Auth::user()->isAdmin == STAFF_LEVEL_MANAGER || Auth::user()->pos == STAFF_LEVEL_MANAGER)
@@ -199,6 +199,18 @@
 
 <div class="main-container {{ $routeName == 'home' || $routeName == 'home.index' ? '' : 'inner-wrap' }}" id="main-container">
     <div class="main-container-inner">
+        <div class="breadcrumbs ace-save-state d-none" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">Home</a>
+                </li>
+                <li>
+                    <a href="#">Forms</a>
+                </li>
+                <li class="active">Wizard &amp; Validation</li>
+            </ul>
+        </div>
         @yield('content')
     </div>
 

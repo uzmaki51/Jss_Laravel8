@@ -477,9 +477,9 @@
                     this.output['moor'] = __parseFloat(BigNumber(moorTmp).toFixed(DECIMAL_SIZE));
                     this.output['sail_time'] = __parseFloat(BigNumber(this.output['moor']).plus(this.output['sail_term']).toFixed(DECIMAL_SIZE));
 
-                    if(voy_id <= 0) {
-                        this.input['cost_else'] = BigNumber(this.output['sail_time']).multipliedBy(elseCost).toFixed(0);
-                    }
+                    // if(voy_id <= 0) {
+                    //     this.input['cost_else'] = BigNumber(this.output['sail_time']).multipliedBy(elseCost).toFixed(0);
+                    // }
                     
                     // FO_MT
                     fo_sailTmp1 = fo_sailTmp1.multipliedBy(this.input['fo_up_shipping']);

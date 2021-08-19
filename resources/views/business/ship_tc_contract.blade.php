@@ -521,9 +521,9 @@
                     this.output['moor'] = __parseFloat(BigNumber(moorTmp).toFixed(DECIMAL_SIZE));
                     this.output['sail_time'] = __parseFloat(BigNumber(this.output['moor']).plus(this.output['sail_term']).toFixed(DECIMAL_SIZE));
 
-                    if(voy_id <= 0) {
-                        this.input['cost_else'] = BigNumber(this.output['sail_time']).multipliedBy(elseCost).toFixed(0);
-                    }
+                    // if(voy_id <= 0) {
+                    //     this.input['cost_else'] = BigNumber(this.output['sail_time']).multipliedBy(elseCost).toFixed(0);
+                    // }
 
                     // FO_MT
                     fo_sailTmp1 = fo_sailTmp1.multipliedBy(this.input['fo_up_shipping']);
@@ -547,7 +547,7 @@
                         this.input['ilohc'] = 0;
                     }
                     let creditTmp = BigNumber(this.input['daily_rent']).multipliedBy(this.output['sail_time']);
-                    let percent = BigNumber(1).minus(BigNumber(this.input['fee']).div(100).toFixed(DECIMAL_SIZE));
+                    let percent = BigNumber(1).minus(BigNumber(this.input['fee']).div(100).toFixed(4));
                     let creditTmp2 = BigNumber(this.input['c_v_e']).multipliedBy(this.output['sail_time']).toFixed(DECIMAL_SIZE);
                     creditTmp = BigNumber(creditTmp).multipliedBy(percent);
                     creditTmp = BigNumber(creditTmp).plus(this.input['ilohc']).plus(creditTmp2).toFixed(DECIMAL_SIZE);

@@ -546,7 +546,7 @@
                     this.output['sail_time'] = parseFloat(BigNumber(this.output['moor']).plus(this.output['sail_term']).toFixed(DECIMAL_SIZE));
 
                     if(voy_id <= 0) {
-                        this.input['cost_else'] = BigNumber(this.output['sail_time']).multipliedBy(elseCost).toFixed(0);
+                        // this.input['cost_else'] = BigNumber(this.output['sail_time']).multipliedBy(elseCost).toFixed(0);
                     }
 
                     // FO_MT
