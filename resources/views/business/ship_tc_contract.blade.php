@@ -546,10 +546,10 @@
                     if(this.batchStatus) {
                         this.input['ilohc'] = 0;
                     }
-                    let creditTmp = BigNumber(this.input['daily_rent']).multipliedBy(this.output['sail_time']); console.log(creditTmp)
-                    let percent = BigNumber(1).minus(BigNumber(this.input['fee']).div(100).toFixed(4));console.log(percent)
-                    let creditTmp2 = BigNumber(this.input['c_v_e']).multipliedBy(this.output['sail_time']).toFixed(DECIMAL_SIZE); console.log(creditTmp2)
-                    creditTmp = BigNumber(creditTmp).multipliedBy(percent);console.log(creditTmp);
+                    let creditTmp = BigNumber(this.input['daily_rent']).multipliedBy(this.output['sail_time']); console.log('credit', creditTmp.toFixed(2))
+                    let percent = BigNumber(1).minus(BigNumber(this.input['fee']).div(100).toFixed(4));console.log('percent', percent)
+                    let creditTmp2 = BigNumber(this.input['c_v_e']).multipliedBy(this.output['sail_time']).toFixed(DECIMAL_SIZE); console.log('creditTmp2', creditTmp2)
+                    creditTmp = BigNumber(creditTmp).multipliedBy(percent);console.log('last', creditTmp);
                     creditTmp = BigNumber(creditTmp).plus(this.input['ilohc']).plus(creditTmp2).toFixed(DECIMAL_SIZE);
                     this.output['credit'] = creditTmp;
 
