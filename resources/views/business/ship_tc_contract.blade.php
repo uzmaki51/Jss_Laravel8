@@ -550,6 +550,7 @@
                     let percent = BigNumber(1).minus(BigNumber(this.input['fee']).div(100).toFixed(4));console.log('percent', percent.toFixed(4))
                     let creditTmp2 = BigNumber(this.input['c_v_e']).multipliedBy(this.output['sail_time']).toFixed(DECIMAL_SIZE); console.log('creditTmp2', creditTmp2)
                     creditTmp = BigNumber(creditTmp).multipliedBy(percent);console.log('last', creditTmp.toFixed(2));
+                    console.log('last2', this.input['ilohc']);
                     creditTmp = BigNumber(creditTmp).plus(this.input['ilohc']).plus(creditTmp2).toFixed(DECIMAL_SIZE);
                     this.output['credit'] = creditTmp;
 
