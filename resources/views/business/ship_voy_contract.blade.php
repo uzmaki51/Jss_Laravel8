@@ -110,7 +110,7 @@
                         <my-currency-input v-model="input['cost_per_day']" name="cost_per_day" v-bind:fixednumber="0"></my-currency-input>
                     </div>
                     <div class="vertical">
-                        <label>其他费用</label>
+                        <label @click="calcElseCost" style="cursor: pointer">其他费用</label>
                         <my-currency-input v-model="input['cost_else']" name="cost_else" v-bind:fixednumber="0"></my-currency-input>
                     </div>
                 </div>
@@ -524,6 +524,10 @@
                     today = yyyy + symbol + mm + symbol + dd;
 
                     return today;
+                },
+                calcElseCost: function() {
+                    this.input['cost_else'] = BigNumber(voyInputObj.output['sail_time']).multipliedBy(elseCost).toFixed(0);
+                    voyInputObj.calcContractPreview();
                 },
                 calcContractPreview: function() {
                     if(parseInt(this.input['speed']) != 0) {
