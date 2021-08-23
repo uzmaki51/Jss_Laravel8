@@ -120,6 +120,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('shipmanage/ctm/debits', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxCtmDebits']);
 	Route::post('business/voySettle/index', [App\Http\Controllers\Business\BusinessController::class, 'ajaxVoySettleIndex']);
 	Route::post('business/voySettle/elseInfo/delete', [App\Http\Controllers\Business\BusinessController::class, 'ajaxVoySettleDelete']);
+	Route::post('business/setttlement/clear', [App\Http\Controllers\Business\BusinessController::class, 'ajaxVoyClear']);
 	Route::post('system/backup/list', [App\Http\Controllers\OrgManage\BackupController::class, 'getList']);
 	Route::post('system/backup/add', [App\Http\Controllers\OrgManage\BackupController::class, 'add']);
 	Route::post('system/backup/backup', [App\Http\Controllers\OrgManage\BackupController::class, 'backup']);

@@ -1459,4 +1459,16 @@ class BusinessController extends Controller {
         VoySettleElse::where('id', $id)->delete();
 
     }
+
+    public function ajaxVoyClear(Request $request) {
+        $params = $request->all();
+
+        $shipId = $params['shipId'];
+        $voyId = $params['voyId'];
+
+        $tbl = new VoySettle();
+        $ret = $tbl->deleteVoySettle($shipId, $voyId);
+
+        return response()->json($ret);
+    }
 }

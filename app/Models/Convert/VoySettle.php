@@ -707,4 +707,13 @@ class VoySettle extends Model
 
         return round($diffDay, 4);
     }
+
+    public function deleteVoySettle($shipId, $voyId) {
+        $ret = VoySettleMain::where('shipId', $shipId)->where('voyId', $voyId)->delete();
+        $ret = VoySettleElse::where('shipId', $shipId)->where('voyId', $voyId)->delete();
+        $ret = VoySettleFuel::where('shipId', $shipId)->where('voyId', $voyId)->delete();
+        $ret = VoySettleProfit::where('shipId', $shipId)->where('voyId', $voyId)->delete();
+
+        return $ret;
+    }
 }

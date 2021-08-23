@@ -30,7 +30,7 @@
         <div class="page-content">
             <div class="row">
                 <div class="col-md-12 align-bottom" style="width: 88%;" v-cloak>
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                         <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                         <select class="custom-select d-inline-block" style="padding: 4px;max-width: 100px;" id="ship_list">
                             @foreach($shipList as $ship)
@@ -45,8 +45,9 @@
                                 <option value="{{ $item->Voy_No }}" {{ $item->Voy_No == $voyId ? 'selected' : '' }}>{{ $item->Voy_No }}</option>
                             @endforeach
                         </select>
+                        <a class="btn btn-sm btn-default" onclick="clearData()"><i class="icon-remove"></i> 初始化</a>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-7">
                         <div class="btn-group f-right">
                             <a class="btn btn-sm btn-danger" onclick="openNewPage('soa')"><i class="icon-asterisk"></i> SOA</a>
                             <a class="btn btn-sm btn-dynamic" onclick="openNewPage('dynamic')"><i class="icon-bar-chart"></i> 船舶动态</a>
@@ -59,7 +60,7 @@
             </div>
 
             <!-- Main Contents Begin -->
-            <div class="row" id="settle-info-div" style="margin-top: 4px;">
+            <div class="row" id="settle-info-div" style="margin-top: 4px;" v-cloak>
                 <div class="col-md-12">
                 <form action="saveVoySettle" method="post" id="voy-settle-form" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -878,6 +879,26 @@
             } else {
                 window.open(BASE_URL + 'shipManage/dynamicList?shipId=' + this.shipId + '&voyNo=' + $_this.voyId, '_blank');
             }
+        }
+
+        function clearData() {
+            let confirmationMessage = '确定要初始化吗？';
+            bootbox.confirm(confirmationMessage, function (result) {
+                if(result) {
+                    $.ajax({
+                        url: BASE_URL + 'ajax/business/setttlement/clear',
+                        type: 'post',
+                        data: {
+                            shipId: $_this.shipId,
+                            voyId: $_this.voyId
+                        },
+                        success: function(data) {
+                            location.reload();
+                        }
+                        
+                    });
+                }
+            });
         }
 
         $('#ship_list').on('change', function() {
