@@ -512,7 +512,6 @@
                         reportObj.report_date = result['report_date'];
                         reportObj.currentReportType = result['flowid'];
                         reportObj.currentShipNo = result['shipNo'];
-                        reportObj.currentCurrency = result['currency'];
                         // reportObj.currentVoyNo = result['shipNo'];
                         // reportObj.currentProfitType = '';
                     } else {
@@ -523,11 +522,10 @@
                         reportObj.currentShipNo = '';
                         reportObj.currentVoyNo = '';
                         reportObj.currentProfitType = '';
-                        reportObj.currentCurrency = '';
+
                     }
 
-                    
-                    
+                    reportObj.currentCurrency = '';
                     reportObj.amount = is_new == false ? result['amount'] : 0;
                     reportObj.currentDepartment = result['depart_id'];
                     
