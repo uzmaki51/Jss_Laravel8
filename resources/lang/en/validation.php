@@ -108,7 +108,7 @@ return [
     */
     'attributes' => [
         'username' => '用户名',
-        'account'  => '账号',
+        'account'  => '用户名',
         'captcha'  => '验证码',
         'mobile'   => '手机号',
         'password' => '密码',

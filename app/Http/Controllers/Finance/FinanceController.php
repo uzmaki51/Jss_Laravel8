@@ -210,6 +210,7 @@ class FinanceController extends Controller
 		{
 			for ($i=0;$i<count($keep_list);$i++)
 			{
+				$this->initBookByNo($keep_list[$i]->no);
 				$record = new WaterList();
 				$record['book_no'] = $keep_list[$i]->no;
 				$record['ship_no'] = $keep_list[$i]->ship_no;
@@ -336,68 +337,10 @@ class FinanceController extends Controller
 				$report_save_record->save();
 			}
 		}
-		/*
-		ReportSave::where('report_date', '>=', $now)->where('report_date', '<', $next)->delete();
-		foreach($report_ids as $index => $item) {
-			$report_save_record = new ReportSave();
-			$report_original_record = DecisionReport::where('id', $item)->first();
-			$report_save_record['orig_id'] = $item;
-			$report_save_record['flowid'] = $report_original_record->flowid;
-			$report_save_record['type'] = $report_original_record->type;
-			$report_save_record['profit_type'] = $report_original_record->profit_type;
-			$report_save_record['shipNo'] = $report_original_record->shipNo;
-			$report_save_record['voyNo'] = $report_original_record->voyNo;
-			$report_save_record['report_date'] = $report_original_record->report_date;
-			$report_save_record['report_id'] = $report_original_record->report_id;
-			$report_save_record['obj_no'] = $report_original_record->obj_no;
-			$report_save_record['obj_name'] = $report_original_record->obj_name;
-			$report_save_record['obj_type'] = $report_original_record->obj_type;
-			
-			if ($report_booknos[$index] != '')
-			{
-				if ($report_original_record->flowid == "Credit") {
-					$report_save_record['amount'] = ($report_credits[$index] == '') ? null : str_replace(",","",$report_credits[$index]);
-				} else {
-					$report_save_record['amount'] = ($report_debits[$index] == '') ? null : str_replace(",","",$report_debits[$index]);
-				}
-			}
-			else
-			{
-				$report_save_record['amount'] = $report_original_record->amount;
-			}
-
-			$report_save_record['currency'] = $report_original_record->currency;
-			$report_save_record['creator'] = $report_original_record->creator;
-			$report_save_record['recvUser'] = $report_original_record->recvUser;
-			$report_save_record['content'] = $report_contents[$index];
-			$report_save_record['rate'] = ($report_rates[$index] == '') ? null : $report_rates[$index];
-			$report_save_record['book_no'] = ($report_booknos[$index] == "") ? null :str_replace("J-", "", $report_booknos[$index]);
-			$report_save_record['attachment'] = $report_original_record->attachment;
-
-			//$report_save_record['year'] = $year;
-			//$report_save_record['month'] = $month;
-			if (in_array($item, $water_report_ids)) {
-				$report_save_record['year'] = substr($water_dates[$item],0,4);
-				$report_save_record['month'] = substr($water_dates[$item],5,2);
-			}
-			else {
-				$report_exist_record = ReportSave::where('orig_id', $item)->first();
-				if(!empty($report_exist_record)) {
-					$report_save_record['year'] = $report_exist_record['year'];
-					$report_save_record['month'] = $report_exist_record['month'];
-				}
-				return json_encode($report_exist_record);
-			}
-			
-			$report_save_record['create_time'] = $report_original_record->create_at;
-			$report_save_record->save();
-		}
-		*/
-
-		//return redirect('finance/books?'.'year='.$year.'&month='.$month);
 		return 1;
 	}
 
+	/*
 	public function initBookList(Request $request)
 	{
 		$params = $request->all();
@@ -433,6 +376,29 @@ class FinanceController extends Controller
 		WaterList::whereIn('report_id', $report_ids)->delete();
 
         return 1;
+	}
+	*/
+
+	public function initBookByNo($book_no)
+	{
+		$selector = ReportSave::where('book_no',$book_no);
+		$reports = $selector->get();
+		$report_ids = [];
+		foreach($reports as $report) {
+			$report_ids[] = $report->orig_id;
+		}
+		$selector->delete();
+
+		WaterList::whereIn('report_id', $report_ids)->delete();
+
+        return 1;
+	}
+	public function initBookList(Request $request)
+	{
+		$params = $request->all();
+        $book_no = $params['book_no'];
+
+		return $this->initBookByNo($book_no);
 	}
 
 	public function getBookList(Request $request)

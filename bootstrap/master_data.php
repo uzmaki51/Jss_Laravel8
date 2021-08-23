@@ -118,6 +118,7 @@ define('STAFF_LEVEL_ENGINEER',        	4);
 define('STAFF_LEVEL_SEAMAN',        	5);
 define('STAFF_LEVEL_FINANCIAL',        	6);
 define('STAFF_LEVEL_OTHER',	        	7);
+define('STAFF_LEVEL_CAPTAIN',	        8);
 define('STAFF_LEVEL_SHAREHOLDER',      	100);
 
 $StaffLevelData = array(
@@ -128,6 +129,7 @@ $StaffLevelData = array(
 	STAFF_LEVEL_SEAMAN        		=> ['海员经理',   'info'],
 	STAFF_LEVEL_FINANCIAL        	=> ['财务经理',   'success'],
 	STAFF_LEVEL_OTHER	        	=> ['其他',   'primary'],
+	STAFF_LEVEL_CAPTAIN	        	=> ['船长',   'danger'],
 	STAFF_LEVEL_SHAREHOLDER        	=> ['股东',   'secondary'],
 );
 

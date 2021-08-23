@@ -163,6 +163,9 @@ $ships = Session::get('shipList');
                                             <a onclick="javascript:fnExcelTableReport();" class="btn btn-warning btn-sm excel-btn">
                                                 <i class="icon-table"></i>{{ trans('common.label.excel') }}
                                             </a>
+                                            <a onclick="javascript:popupTable();" class="btn btn-success btn-sm">
+                                                <i class="icon-zoom-in"></i>全屏
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -171,7 +174,7 @@ $ships = Session::get('shipList');
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     <div class="row">
                                         <div class="table-head-fix-div" id="div-income-expense" style="height: 700px">
-                                            <table id="table-income-expense-list" style="max-width:unset!important;table-layout:fixed;width:1500px!important;">
+                                            <table id="table-income-expense-list" data-toggle="table" style="max-width:unset!important;table-layout:fixed;width:1500px!important;">
                                                 <thead class="">
                                                 <tr>
                                                     <th class="text-center style-normal-header" rowspan="2" style="width: 2.5%;"><span>航次</span></th>
@@ -310,6 +313,12 @@ $ships = Session::get('shipList');
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div id="modal-expense-table" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
+            <div id="" class="" style="background:white;">
+                <table id="modal-expense-table-body" data-toggle="table" style="max-width:unset!important;table-layout:fixed;">
+                </table>
             </div>
         </div>
         <audio controls="controls" class="d-none" id="warning-audio">
@@ -1403,6 +1412,12 @@ $ships = Session::get('shipList');
             exportExcel(total_text, filename, filename);
             
             return 0;
+        }
+
+        function popupTable()
+        {
+            $('#modal-expense-table-body').html(document.getElementById('table-income-expense-list').outerHTML);
+            $('#modal-expense-table').modal('show');
         }
 
         function selectCurrency()

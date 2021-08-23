@@ -1093,4 +1093,143 @@ class ShipMember extends Model
             'error' => 0,
         ];
     }
+
+    public function getExpiredList($date = 0, $ship_id = '') {
+        $selector = null;
+        $records = [];
+        $recordsFiltered = 0;
+        
+        $selector = DB::table($this->table)->select('*');
+        if ($ship_id != '') {
+            $selector->where('ShipId', $ship_id);
+        }
+
+        $selector->whereNotNull('DateOnboard')
+            ->where(function($query) {
+                $today = date("Y-m-d");
+                $query->whereNull('DateOffboard')->orWhere('DateOffboard', '>', $today);
+            });
+
+        $expire_days = $date;
+
+        $selector->orderBy('DutyID_Book','asc');
+        $records = $selector->get();
+        $recordsFiltered = $selector->count();
+        
+        $newArr = [];
+        $newindex = 0;
+        $capacityList = ShipMemberCapacity::all();
+        $today = time();
+        $count = 0;
+        $totalIndex = 0;
+        foreach($records as $index => $record) {
+            $count = 0;
+            $rank = ShipPosition::find($record->DutyID_Book);
+            $capacity = ShipCapacityRegister::where('memberId', $record->id)->first();
+            $training = ShipMemberTraining::where('memberId', $record->id)->groupBy("CertSequence")->get();
+            for ($i=0;$i<15;$i++)
+            {
+                $newArr[$newindex]['no'] = $totalIndex + 1;
+                $newArr[$newindex]['name'] = $record->realname;
+                $newArr[$newindex]['rank'] = '&nbsp;';    
+                if(!empty($rank) && $rank != null) $newArr[$newindex]['rank'] = $rank->Abb;
+                $newArr[$newindex]['_no'] = '';
+                $newArr[$newindex]['_issue'] = '';
+                $newArr[$newindex]['_expire'] = '';
+                $newArr[$newindex]['_by'] = '';
+                $newArr[$newindex]['_type'] = '';
+                if ($i == 0) {
+                    $newArr[$newindex]['_no'] = $record->crewNum;
+                    $newArr[$newindex]['_issue'] = $record->IssuedDate;
+                    $newArr[$newindex]['_expire'] = $record->ExpiryDate;
+                    $newArr[$newindex]['_by'] = '';
+                    
+                }
+                else if ($i == 1) {
+                    $newArr[$newindex]['_no'] = $record->PassportNo;
+                    $newArr[$newindex]['_issue'] = $record->PassportIssuedDate;
+                    $newArr[$newindex]['_expire'] = $record->PassportExpiryDate;
+                    $newArr[$newindex]['_by'] = '';
+                }
+                else if ($i == 2)
+                {
+                    if (!empty($capacity) && $capacity != null) {
+                        $newArr[$newindex]['_no'] = $capacity['ItemNo'];
+                        $newArr[$newindex]['_issue'] = $capacity['COC_IssuedDate'];
+                        $newArr[$newindex]['_expire'] = $capacity['COC_ExpiryDate'];
+                        $newArr[$newindex]['_by'] = $capacity['COC_Remarks'];
+                        foreach ($capacityList as $type)
+                        if ($type->id == $capacity['CapacityID'])
+                        {
+                            $newArr[$newindex]['_type'] = $type->Capacity_En;
+                            break;
+                        }
+                    }
+                }
+                else if ($i == 3)
+                {
+                    if (!empty($capacity) && $capacity != null) {
+                        $newArr[$newindex]['_no'] = $capacity['COENo'];
+                        $newArr[$newindex]['_issue'] = $capacity['COE_IssuedDate'];
+                        $newArr[$newindex]['_expire'] = $capacity['COE_ExpiryDate'];
+                        $newArr[$newindex]['_by'] = $capacity['COE_Remarks'];
+
+                        foreach ($capacityList as $type)
+                        if ($type->id == $capacity['COEId'])
+                        {
+                            $newArr[$newindex]['_type'] = $type->Capacity_En;
+                            break;
+                        }
+                    }
+                }
+                else if ($i == 4)
+                {
+                    if (!empty($capacity) && $capacity != null) {
+                        $newArr[$newindex]['_no'] = $capacity['GMDSS_NO'];
+                        $newArr[$newindex]['_issue'] = $capacity['GMD_IssuedDate'];
+                        $newArr[$newindex]['_expire'] = $capacity['GMD_ExpiryDate'];
+                        $newArr[$newindex]['_by'] = $capacity['GMD_Remarks'];
+                    }
+                }
+                else if ($i == 5)
+                {
+                    if (!empty($capacity) && $capacity != null) {
+                        $newArr[$newindex]['_no'] = $capacity['COE_GOCNo'];
+                        $newArr[$newindex]['_issue'] = $capacity['COE_GOC_IssuedDate'];
+                        $newArr[$newindex]['_expire'] = $capacity['COE_GOC_ExpiryDate'];
+                        $newArr[$newindex]['_by'] = $capacity['COE_GOC_Remarks'];
+                    }
+                }
+                else
+                {
+                    if(isset($training[$i-6])) {
+                        $newArr[$newindex]['_no'] = $training[$i-6]->CertNo;
+                        $newArr[$newindex]['_issue'] = $training[$i-6]->IssueDate;
+                        $newArr[$newindex]['_expire'] = $training[$i-6]->ExpireDate;
+                        $newArr[$newindex]['_by'] = $training[$i-6]->IssuedBy;
+                    }
+                }
+                $newArr[$newindex]['index'] = $i;
+                if ($newArr[$newindex]['_issue'] == '' || $newArr[$newindex]['_issue'] == null ) {
+                    unset($newArr[$newindex]);
+                    continue;
+                }
+
+                if ($expire_days != 0) {
+                    $datediff = strtotime2($newArr[$newindex]['_expire']) - $today;
+                    if (round($datediff / (60 * 60 * 24)) > $expire_days) {
+                        unset($newArr[$newindex]);
+                        continue;
+                    }
+                }
+                $count ++;
+                $newArr[$newindex]['count'] = $count;
+                $newindex ++;
+            }
+            if ($count > 0) $totalIndex++;
+        }
+        if ($count == 0) unset($newArr[$newindex]);
+        if ($newindex == 0) $newArr = [];
+        return $newArr;
+    }
 }

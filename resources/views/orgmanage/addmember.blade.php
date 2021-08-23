@@ -13,6 +13,7 @@ $isHolder = Session::get('IS_HOLDER');
 @section('scripts')
     <script>
         var HOLDER = '{!! STAFF_LEVEL_SHAREHOLDER !!}';
+        var CAPTAIN = '{!! STAFF_LEVEL_CAPTAIN !!}';
         var IS_HOLDER = '{!! $userinfo['pos'] !!}';
     </script>
 @endsection
@@ -348,6 +349,9 @@ $isHolder = Session::get('IS_HOLDER');
             if(IS_HOLDER == HOLDER) {
                 $('#menu-list').hide();
                 $('#ship-list').show();
+            } else if (IS_HOLDER == CAPTAIN) {
+                $('#menu-list').show();
+                $('#ship-list').show();
             } else {
                 $('#menu-list').show();
                 $('#ship-list').hide();
@@ -369,6 +373,9 @@ $isHolder = Session::get('IS_HOLDER');
         $('[name=pos]').on("change", function() {
             if($(this).val() == HOLDER) {
                 $('#menu-list').hide();
+                $('#ship-list').show();
+            } else if($(this).val() == CAPTAIN) {
+                $('#menu-list').show();
                 $('#ship-list').show();
             } else {
                 $('#menu-list').show();

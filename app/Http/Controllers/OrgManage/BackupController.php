@@ -59,4 +59,12 @@ class BackupController extends Controller
 
 		return response()->json($result);
 	}
+
+	public function delete(Request $request)
+	{
+		$backupTbl = new BackupDB();
+		$result = $backupTbl->deleteTransaction($request->all());
+
+		return response()->json($result);
+	}
 }

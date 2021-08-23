@@ -79,9 +79,9 @@ $isHolder = Session::get('IS_HOLDER');
                                                 @endfor
                                             @endif
                                         </select>
-                                        <a class="btn btn-sm btn-danger refresh-btn-over" id="btnInit" type="button" onclick="init()" style="width: 80px;height: 26px!important;margin-bottom: 1px;padding: 5px!important;">
+                                        <!--a class="btn btn-sm btn-danger refresh-btn-over" id="btnInit" type="button" onclick="init()" style="width: 80px;height: 26px!important;margin-bottom: 1px;padding: 5px!important;">
                                             <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初始化
-                                        </a>
+                                        </a-->
                                         <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_info"></span>记账簿</strong>
                                     </div>
                                     <div class="col-md-5" style="padding:unset!important">
@@ -187,6 +187,9 @@ $isHolder = Session::get('IS_HOLDER');
                                                 </div>
                                                 <div class="row" style="margin:8px;">
                                                     <div class="btn-group f-right mt-20">
+                                                        <a class="btn btn-sm btn-danger refresh-btn-over" id="btnInit" type="button" onclick="init()" style="width: 80px;height: 26px!important;margin-bottom: 1px;padding: 5px!important;" disabled>
+                                                            <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初始化
+                                                        </a>
                                                         <a class="btn btn-primary btn-sm" id="btnOK" disabled>OK</a>
                                                         <a class="btn btn-danger btn-sm" id="btnCancel" disabled>Cancel</a>
                                                     </div>
@@ -538,7 +541,24 @@ $isHolder = Session::get('IS_HOLDER');
                     report_row += '<td style="padding-right:5px!important;" colspan="2" class="style-normal-header sub-small-header text-right ' + ((sum_credit_D - sum_debit_D) >= 0 ? 'style-black-input':'style-red-input') + '">$ ' + prettyValue(sum_credit_D - sum_debit_D) + '</td>';
                     report_row += '<td class="sub-small-header" colspan="1"></td>';
                     report_row += '<td class="sub-small-header"></td>';
+                    report_row += '</tr>';
 
+                    var total_sum = response.json.totalSum;
+                    report_row += '<tr class="tr-report" style="height:20px;border:1px solid black;">';
+                    report_row += '<td class="sub-small-header"></td><td class="sub-small-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center">累计 (RMB)</td><td class="sub-small-header style-normal-header"></td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right style-blue-input">$ ' + prettyValue(total_sum[0].credit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right">$ ' + prettyValue(total_sum[0].debit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" colspan="2" class="style-normal-header sub-small-header text-right ' + ((total_sum[0].credit_sum - total_sum[0].debit_sum) >= 0 ? 'style-black-input':'style-red-input') + '">$ ' + prettyValue(total_sum[0].credit_sum - total_sum[0].debit_sum) + '</td>';
+                    report_row += '<td class="sub-small-header" colspan="1"></td>';
+                    report_row += '<td class="sub-small-header"></td>';
+                    report_row += '</tr>';
+                    report_row += '<tr class="tr-report" style="height:20px;border:1px solid black;">';
+                    report_row += '<td class="sub-small-header"></td><td class="sub-small-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center">累计 (USD)</td><td class="sub-small-header style-normal-header"></td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right style-blue-input">$ ' + prettyValue(total_sum[1].credit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right">$ ' + prettyValue(total_sum[1].debit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" colspan="2" class="style-normal-header sub-small-header text-right ' + ((total_sum[1].credit_sum - total_sum[1].debit_sum) >= 0 ? 'style-black-input':'style-red-input') + '">$ ' + prettyValue(total_sum[1].credit_sum - total_sum[1].debit_sum) + '</td>';
+                    report_row += '<td class="sub-small-header" colspan="1"></td>';
+                    report_row += '<td class="sub-small-header"></td>';
                     report_row += '</tr>';
                     $('#list-water-body').append(report_row);
                 }
@@ -612,6 +632,7 @@ $isHolder = Session::get('IS_HOLDER');
                 $('#btnKeep').prop('disabled', true);
                 $('#btnOK').attr('disabled', false);
                 $('#btnCancel').attr('disabled', false);
+                $('#btnInit').attr('disabled',true);
             } else {
                 $('#btnKeep').prop('disabled', false);
                 $('#btnOK').attr('disabled', true);
@@ -911,6 +932,7 @@ $isHolder = Session::get('IS_HOLDER');
                         }
                     }
                     setState(false);
+                    $('#btnInit').attr('disabled', true);
 
                     var input_sum_credit = $('[name="sum_credit"]').val().replaceAll(",","");
                     var input_sum_debit = $('[name="sum_debit"]').val().replaceAll(",","");
@@ -1084,11 +1106,12 @@ $isHolder = Session::get('IS_HOLDER');
                                     var credit = credit_text.replaceAll(",","");
                                     var debit_text = rows_to_remove[i].childNodes[10].childNodes[0].value;
                                     var debit = debit_text.replaceAll(",","");
-                                    
-                                    row_html = "<tr data-ref='" + i + "' ship-no='" + rows_to_remove[i].childNodes[0].childNodes[2].value + "'";
-                                    row_html += " report-id='" + rows_to_remove[i].childNodes[0].childNodes[1].value + "'><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[1].innerText + "</td><td class='text-center disable-td no-padding'>"+ listBook[i].obj + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[5].innerText + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[6].innerText + "</td><td>";
+                                    var index = $('#list-book-body tr').index($(rows_to_remove[i]).closest("tr"));
+
+                                    row_html = "<tr data-ref='" + index + "' ship-no='" + rows_to_remove[i].childNodes[0].childNodes[2].value + "'";
+                                    row_html += " report-id='" + rows_to_remove[i].childNodes[0].childNodes[1].value + "'><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[1].innerText + "</td><td class='text-center disable-td no-padding'>"+ rows_to_remove[i].childNodes[4].innerText + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[5].innerText + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[6].innerText + "</td><td>";
                                     row_html += '<input type="text" class="form-control" name="Keep_Remark[]" value="' + rows_to_remove[i].childNodes[7].childNodes[0].value + '" style="width: 100%;" autocomplete="off">';
-                                    row_html += "</td><td class='text-center disable-td no-padding'>" + listBook[i].currency + "</td><td>";
+                                    row_html += "</td><td class='text-center disable-td no-padding' style='color:" + (rows_to_remove[i].childNodes[8].innerText=="$"?"#026fcd":"red") + "'>" + rows_to_remove[i].childNodes[8].innerText + "</td><td>";
                                     if (credit >= 0)
                                         row_html += '<input type="text" class="form-control style-blue-input keep_credit" name="Keep_credit[]" value="' + credit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
                                     else
@@ -1134,7 +1157,6 @@ $isHolder = Session::get('IS_HOLDER');
                         data: {'book_no':selected_bookno},
                         success: function(books) {
                             if (books == 0) return;
-
                             var rows_to_remove = $('.style-blue-input[name="book_no[]"]').parent().parent();
                             var count = 0;
                             $('#table-keep-body').html('');
@@ -1151,11 +1173,12 @@ $isHolder = Session::get('IS_HOLDER');
                                     var credit = credit_text.replaceAll(",","");
                                     var debit_text = rows_to_remove[i].childNodes[10].childNodes[0].value;
                                     var debit = debit_text.replaceAll(",","");
-                                    
-                                    row_html = "<tr data-ref='" + i + "' ship-no='" + rows_to_remove[i].childNodes[0].childNodes[2].value + "'";
-                                    row_html += " report-id='" + rows_to_remove[i].childNodes[0].childNodes[1].value + "'><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[1].innerText + "</td><td class='text-center disable-td no-padding'>"+ listBook[i].obj + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[5].innerText + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[6].innerText + "</td><td>";
+                                    var index = $('#list-book-body tr').index($(rows_to_remove[i]).closest("tr"));
+
+                                    row_html = "<tr data-ref='" + index + "' ship-no='" + rows_to_remove[i].childNodes[0].childNodes[2].value + "'";
+                                    row_html += " report-id='" + rows_to_remove[i].childNodes[0].childNodes[1].value + "'><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[1].innerText + "</td><td class='text-center disable-td no-padding'>"+ rows_to_remove[i].childNodes[4].innerText + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[5].innerText + "</td><td class='text-center disable-td no-padding'>" + rows_to_remove[i].childNodes[6].innerText + "</td><td>";
                                     row_html += '<input type="text" class="form-control" name="Keep_Remark[]" value="' + rows_to_remove[i].childNodes[7].childNodes[0].value + '" style="width: 100%;" autocomplete="off">';
-                                    row_html += "</td><td class='text-center disable-td no-padding'>" + listBook[i].currency + "</td><td>";
+                                    row_html += "</td><td class='text-center disable-td no-padding' style='color:" + (rows_to_remove[i].childNodes[8].innerText=="$"?"#026fcd":"red") + "'>" + rows_to_remove[i].childNodes[8].innerText + "</td><td>";
                                     if (credit >= 0)
                                         row_html += '<input type="text" class="form-control style-blue-input keep_credit" name="Keep_credit[]" value="' + credit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
                                     else
@@ -1174,7 +1197,8 @@ $isHolder = Session::get('IS_HOLDER');
                             if (count != 0)
                             {
                                 calcKeepReport(true);
-                                setState(false);
+                                setState(true);
+                                $('#btnInit').attr('disabled', false);
                                 $('#keep-list-bookno').val(evt.target.value);
                                 $('#keep-list-datetime').val(books.register_time);
                                 $('#keep_rate').val(books.rate.toFixed(4));
@@ -1267,8 +1291,8 @@ $isHolder = Session::get('IS_HOLDER');
                 $('#btnKeep').attr('disabled', true);
                 $('#btnOK').attr('disabled', true);
                 $('#btnCancel').attr('disabled', true);
-                $('#btnInit').attr('disabled', true);
                 $('#btnSave').attr('disabled', true);
+                $('#btnInit').attr('disabled', true);
                 
                 setUpdateRows();
                 clearSelection();
@@ -1276,7 +1300,6 @@ $isHolder = Session::get('IS_HOLDER');
                     let result = data;
                     if (result == 1) {
                         $('#keep_list').val('');
-                        $('#btnInit').attr('disabled', false);
                         $('#btnSave').attr('disabled', false);
                         
                         clearList();
@@ -1296,10 +1319,10 @@ $isHolder = Session::get('IS_HOLDER');
 
         function setUpdateRows()
         {
-            $('.style-red-input').parent().parent().find('[type="checkbox"]').attr("disabled", "true");
-            $('.style-red-input').parent().parent().find('[type="checkbox"]').attr("class", "");
-            $('.style-red-input').parent().parent().find('[type="checkbox"]').prop("checked", true);
-            $('.style-red-input').attr("class","form-control style-blue-input");
+            $('#list-book-body .style-red-input').parent().parent().find('[type="checkbox"]').attr("disabled", "true");
+            $('#list-book-body .style-red-input').parent().parent().find('[type="checkbox"]').attr("class", "");
+            $('#list-book-body .style-red-input').parent().parent().find('[type="checkbox"]').prop("checked", true);
+            $('#list-book-body .style-red-input').attr("class","form-control style-blue-input");
             setEvents();
         }
 
@@ -1329,13 +1352,15 @@ $isHolder = Session::get('IS_HOLDER');
 
         function init()
         {
+            var init_book_no = parseInt($('#keep-list-bookno').val().replaceAll("J-",""))
+            var msg = "Are you sure you want to initialize all data(" + $('#keep-list-bookno').val() + ")?";
             alertAudio();
-            bootbox.confirm("Are you sure you want to initialize all data?", function (result) {
+            bootbox.confirm(msg, function (result) {
                 if (result) {
                     $.ajax({
                         url: BASE_URL + 'ajax/finance/books/init',
                         type: 'POST',
-                        data: {'year':year,'month':month},
+                        data: {'book_no':init_book_no},
                         success: function(result) {
                             $.gritter.add({
                                 title: '成功',

@@ -108,7 +108,13 @@ class ShipMemberController extends Controller
     }
 
     public function registerShipMember(Request $request) {
-        $shipList = ShipRegister::select('shipName_En', 'IMO_No')->get();
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+            $shipList = ShipRegister::getShipForHolder();
+        else {
+            $shipList = ShipRegister::orderBy('id')->get();
+        }
+        
         $posList = ShipPosition::all();
         $portList = ShipPort::orderBy('Port_En')->get();
         $ksList = Ship::all();
@@ -645,7 +651,8 @@ class ShipMemberController extends Controller
 
         $list = ShipMember::getTotalMemberList($regShip, $bookShip, $origShip, $regStatus);
 
-        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
             $shipList = ShipRegister::orderBy('id')->get();
@@ -673,62 +680,10 @@ class ShipMemberController extends Controller
     }
 
     public function memberCertList(Request $request) {
-        /*
-        Util::getMenuInfo($request);
-
-        $shipList = ShipRegister::getShipListByOrigin();
-		$posList = ShipPosition::orderBy('id')->get();
-		$capacityList = ShipMemberCapacity::orderBy('id')->get();
-
-        $shipId = $request->get('ship');
-        $capacityId = $request->get('capacity');
-        $posId = $request->get('pos');
-        $month = $request->get('month');
-		$page = $request->get('page');
-		if(empty($page))
-			$page = 1;
-
-		$list = ShipMember::getMemberCertList($shipId, $posId, $capacityId, $month, -1);
-		$pageCount = ShipMember::countMemberCertList($shipId, $posId, $capacityId, $month);
-        foreach($list as $member) {
-
-            $school = ShipMemberSchool::where('memberId', $member->crewId)->orderBy('id', 'desc')->first();
-            if(!empty($school)) {
-                $member->school = $school['SchoolName'];
-                $member->school_path = $school['GOC'];
-            } else {
-                $member->school = '';
-                $member->school_path = null;
-            }
-
-            $security = SecurityCert::find($member->TCP_certID);
-			if(!empty($security))
-				$member->securityItem = $security['title'];
-			else 
-				$member->securityItem = '';
-
-            $security = SecurityCert::find($member->SSO_certID);
-			if(!empty($security))
-				$member->securityTrain = $security['title'];
-			else
-				$member->securityTrain = '';
-
-            switch($member->ASD_typeID) {
-                case 1:
-                    $member->ASDType = '갑판'; break;
-                case 2:
-                    $member->ASDType = '조기'; break;
-                default:
-                    $member->ASDType = '';
-            }
-
-        }
-
-		$pageHtml = Util::makePaginateHtml($pageCount, $page);
-        */
-
+        
         $list = "";//ShipMember::getMemberCertList($shipId, $posId, $capacityId, $month, -1);
-        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
             $shipList = ShipRegister::orderBy('id')->get();
@@ -743,13 +698,6 @@ class ShipMemberController extends Controller
 				'posList'	=>		$posList,
 				'capacityList'=>	$capacityList,
                 'security'    =>    $securityType,
-                /*
-				'shipId'	=>		$shipId,
-				'posId'		=>		$posId,
-				'capacityId'=>		$capacityId,
-				'expire'	=>		$month,
-				'page'		=>		$page,
-				'pageHtml'	=>		$pageHtml,*/
 			]);
     }
 
@@ -829,22 +777,36 @@ class ShipMemberController extends Controller
     public function autocomplete(Request $request)
     {
         $names = [];
+        
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+        {
+            $ids = Auth::user()->shipList;
+            $ids = explode(',', $ids);   
+            $selector = ShipMember::whereIn('ShipId', $ids);
+        }
+        else {
+            $selector = ShipMember::select('*');
+        }
+
         if ($request->sign == 'true') {
-            $names = ShipMember::select("realname")
+            $selector = $selector->select("realname")
                 ->whereNotNull('DateOnboard')
                 ->where(function($query) {
                     $today = date("Y-m-d");
                     $query->whereNull('DateOffboard')->orWhere('DateOffboard', '>', $today);
                 })
-                ->where('realname', 'like', '%' . $request->terms . '%')->get();
+                ->where('realname', 'like', '%' . $request->terms . '%');
         }
         else
         {
             $today = date("Y-m-d");
-            $names = ShipMember::select("realname")
+            $selector = $selector->select("realname")
                 ->whereNull('DateOnboard')->orWhere('DateOffboard', '<=', $today)
-                ->where('realname', 'like', '%' . $request->terms . '%')->get();
+                ->where('realname', 'like', '%' . $request->terms . '%');
         }
+
+        $names = $selector->get();
 
         $data = array();
         foreach ($names as $name)
@@ -857,8 +819,19 @@ class ShipMemberController extends Controller
     public function autocompleteAll(Request $request)
     {
         $names = [];
-        $names = ShipMember::select("realname")
-                ->where('realname', 'like', '%' . $request->terms . '%')->get();
+
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+        {
+            $ids = Auth::user()->shipList;
+            $ids = explode(',', $ids);   
+            $names = ShipMember::select("realname")->whereIn('ShipId', $ids)
+                    ->where('realname', 'like', '%' . $request->terms . '%')->get();
+        }
+        else {
+            $names = ShipMember::select("realname")
+                    ->where('realname', 'like', '%' . $request->terms . '%')->get();
+        }
 
         $data = array();
         foreach ($names as $name)
@@ -868,4 +841,21 @@ class ShipMemberController extends Controller
         return response()->json($data);
     }
 
+    public function getCount(Request $request)
+    {
+        $params = $request->all();
+        $type = $params['signon'];
+        if ($type == 'true') {
+            $count = ShipMember::whereNotNull('DateOnboard')
+                ->where(function($query) {
+                    $today = date("Y-m-d");
+                    $query->whereNull('DateOffboard')->orWhere('DateOffboard', '>', $today);
+            })->count();
+        }
+        else {
+            $today = date("Y-m-d");
+            $count = ShipMember::whereNull('DateOnboard')->orWhere('DateOffboard', '<=', $today)->count();
+        }
+        return $count;
+    }
 }

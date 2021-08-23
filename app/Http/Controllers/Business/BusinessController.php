@@ -70,13 +70,26 @@ class BusinessController extends Controller {
     }
 
     public function dailyAverageCost(Request $request) {
-        
-        $shipList = ShipRegister::select('tb_ship_register.id', 'tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
-                        ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
-                        ->orderBy('tb_ship_register.id')
-                        ->get();
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+        {
+            $ids = Auth::user()->shipList;
+            $ids = explode(',', $ids);
+            $shipList = ShipRegister::whereIn('IMO_No', $ids)
+                            ->select('tb_ship_register.id', 'tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+                            ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+                            ->orderBy('tb_ship_register.id')
+                            ->get();
+            $costs = ExpectedCosts::where('shipNo', $ids[0])->first();
+        }
+        else {
+            $shipList = ShipRegister::select('tb_ship_register.id', 'tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+                            ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+                            ->orderBy('tb_ship_register.id')
+                            ->get();
+            $costs = ExpectedCosts::where('shipNo', $shipId)->first();
+        }
         $shipId = $request->get('shipId');
-        $costs = ExpectedCosts::where('shipNo', $shipId)->first();
 
         return view('business.daily_average_cost', array(
             'shipList'   => $shipList,
@@ -150,7 +163,15 @@ class BusinessController extends Controller {
         else
             $voy_id = null;
 
-		$shipList = ShipRegister::all()->sortBy('id');
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN) {
+            $shipList = ShipRegister::getShipForHolder();
+            $shipId = $shipList[0]->IMO_No;
+        }
+        else {
+            $shipList = ShipRegister::orderBy('id')->get();
+        }
+        
         $cp_list = CP::where('Ship_ID', $shipId)->whereNotNull('net_profit_day')->orderBy('Voy_No', 'desc')->get();
         $tmp = CP::where('Ship_ID', $shipId)->orderBy('net_profit_day', 'desc')->first();
         if($tmp == null || $tmp == false) {
@@ -230,7 +251,15 @@ class BusinessController extends Controller {
             $shipName = $shipInfo->shipName_En;
         }
 
-        $shipList = ShipRegister::all()->sortBy('id');
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN) {
+            $shipList = ShipRegister::getShipForHolder();
+            $shipId = $shipList[0]->IMO_No;
+            $shipName = $shipList[0]->shipName_En;
+        }
+        else {
+            $shipList = ShipRegister::orderBy('id')->get();
+        }
         return view('business.dynamic.record', [
             'shipList'          => $shipList,
             'shipInfo'          => $shipInfo,
@@ -704,7 +733,13 @@ class BusinessController extends Controller {
     public function settleMent(Request $request) {
         $params = $request->all();
 
-        $shipList = ShipRegister::orderBy('id')->get();
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+            $shipList = ShipRegister::getShipForHolder();
+        else {
+            $shipList = ShipRegister::orderBy('id')->get();
+        }
+
         if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
         } else {
@@ -742,7 +777,13 @@ class BusinessController extends Controller {
     }
 
     public function ctm(Request $request) {
-        $shipRegList = ShipRegister::all()->sortBy('id');
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+            $shipRegList = ShipRegister::getShipForHolder();
+        else {
+            $shipRegList = ShipRegister::orderBy('id')->get();
+        }
+
 
         $params = $request->all();
         $shipId = $request->get('shipId'); 

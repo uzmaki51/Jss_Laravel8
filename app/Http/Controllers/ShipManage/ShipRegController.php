@@ -103,7 +103,8 @@ class ShipRegController extends Controller
 
 
     public function loadShipGeneralInfos(Request $request) {
-        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $ship_infolist = ShipRegister::getShipForHolder();
         else {
             $ship_infolist = ShipRegister::orderBy('id')->get();
@@ -196,7 +197,15 @@ class ShipRegController extends Controller
         if(isset($params['type']) && $params['type'] == 'new') {
             $shipId = 0;
         } else if(is_null($shipId)) {
-            $first_ship = ShipRegister::orderBy('id')->first();
+            $user_pos = Auth::user()->pos;
+            if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN) {
+                $ids = Auth::user()->shipList;
+                $ids = explode(',', $ids);
+                $first_ship = ShipRegister::whereIn('IMO_No', $ids)->orderBy('id')->first();
+            } else {
+                $first_ship = ShipRegister::orderBy('id')->first();
+            }
+            
             if (empty($first_ship)) {
                 $shipId = '0';
             } else {
@@ -498,7 +507,8 @@ class ShipRegController extends Controller
         $params = $request->all();
         $shipName = '';
 
-        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
             $shipList = ShipRegister::orderBy('id')->get();
@@ -555,7 +565,8 @@ class ShipRegController extends Controller
 
 
     public function ctmAnalytics(Request $request) {
-        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
             $shipList = ShipRegister::orderBy('id')->get();
@@ -599,7 +610,8 @@ class ShipRegController extends Controller
 
     public function voyEvaluation(Request $request) {
         $params = $request->all();
-        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
             $shipList = ShipRegister::orderBy('id')->get();
@@ -679,21 +691,34 @@ class ShipRegController extends Controller
         }
     }
 
-
-
-
-
     public function shipCertList(Request $request) {
-        $shipRegList = ShipRegister::orderBy('id')->get();
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+            $shipRegList = ShipRegister::getShipForHolder();
+        else {
+            $shipRegList = ShipRegister::orderBy('id')->get();
+        }
+
 
         $shipId = $request->get('id'); 
 	    $shipNameInfo = null;
         if(isset($shipId)) {
-	        $shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
+	        //$shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
 	        $shipNameInfo = ShipRegister::find($shipId);
         } else {
 	        $shipNameInfo = ShipRegister::orderBy('id')->first();
 	        $shipId = $shipNameInfo['IMO_No'];
+        }
+
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+        {
+            $ids = Auth::user()->shipList;
+            $ids = explode(',', $ids);
+            if (!in_array($shipId, $ids)) {
+                $shipId = null;
+                $shipNameInfo = null;
+            }
         }
 
         $certType = ShipCertList::all();
@@ -981,7 +1006,8 @@ class ShipRegController extends Controller
 
 
     public function shipCertManage(Request $request) {
-        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
             $shipList = ShipRegister::orderBy('id')->get();
@@ -1112,7 +1138,20 @@ class ShipRegController extends Controller
             $year = $yearList[0];
         }
 
-        $shipList = ShipRegister::orderBy('id')->get();
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN) {
+            $ids = Auth::user()->shipList;
+            $ids = explode(',', $ids);
+            if (!in_array($shipId, $ids)) {
+                $shipId = null;
+                $shipName = null;
+            }
+            $shipList = ShipRegister::getShipForHolder();
+        }
+        else {
+            $shipList = ShipRegister::orderBy('id')->get();
+        }
+
         return view('shipManage.fuel_manage', [
             'shipList'          => $shipList,
             'shipInfo'          => $shipInfo,
@@ -1125,7 +1164,12 @@ class ShipRegController extends Controller
 
 
     public function shipEquipmentManage(Request $request) {
-        $shipList = ShipRegister::orderBy('id')->get();
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+            $shipList = ShipRegister::getShipForHolder();
+        else {
+            $shipList = ShipRegister::orderBy('id')->get();
+        }
 
         $params = $request->all();
 
@@ -1141,7 +1185,7 @@ class ShipRegController extends Controller
                 $shipId = 0;
             }
         }
-
+        
         if(isset($params['type'])) {
             $type = $params['type'];
         } else {
@@ -1149,7 +1193,7 @@ class ShipRegController extends Controller
         }
 
         $shipName = $shipRegTbl->getShipNameByIMO($shipId);
-
+        
         $tbl = new ShipEquipment();
         $yearList = $tbl->getYearList($shipId);
 
@@ -1993,11 +2037,25 @@ class ShipRegController extends Controller
     }
 
     public function getShipGeneralInfo() {
-        $ship_infolist = ShipRegister::select('tb_ship_register.*', 'tb_ship.name', 'tb_ship.shipNo', 'tb_ship.person_num', 'tb_ship_type.ShipType_Cn', 'tb_ship_type.ShipType', DB::raw('IFNULL(tb_ship.id, 100) as num'))
-                        ->leftJoin('tb_ship', 'tb_ship_register.Shipid', '=', 'tb_ship.id')
-                        ->leftJoin('tb_ship_type', 'tb_ship_register.ShipType', '=', 'tb_ship_type.id')
-                        ->orderBy('id')
-                        ->get();
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN) {
+            //$shipList = ShipRegister::getShipForHolder();
+            $ids = Auth::user()->shipList;
+            $ids = explode(',', $ids);
+            $ship_infolist = ShipRegister::whereIn('IMO_No', $ids)
+                ->select('tb_ship_register.*', 'tb_ship.name', 'tb_ship.shipNo', 'tb_ship.person_num', 'tb_ship_type.ShipType_Cn', 'tb_ship_type.ShipType', DB::raw('IFNULL(tb_ship.id, 100) as num'))
+                ->leftJoin('tb_ship', 'tb_ship_register.Shipid', '=', 'tb_ship.id')
+                ->leftJoin('tb_ship_type', 'tb_ship_register.ShipType', '=', 'tb_ship_type.id')
+                ->orderBy('id')
+                ->get();
+        }
+        else {
+            $ship_infolist = ShipRegister::select('tb_ship_register.*', 'tb_ship.name', 'tb_ship.shipNo', 'tb_ship.person_num', 'tb_ship_type.ShipType_Cn', 'tb_ship_type.ShipType', DB::raw('IFNULL(tb_ship.id, 100) as num'))
+                ->leftJoin('tb_ship', 'tb_ship_register.Shipid', '=', 'tb_ship.id')
+                ->leftJoin('tb_ship_type', 'tb_ship_register.ShipType', '=', 'tb_ship_type.id')
+                ->orderBy('id')
+                ->get();
+        }
 
         foreach($ship_infolist as $info) {
             $query = "SELECT COUNT(*) AS navi_count, member.personSum FROM tb_ship_member

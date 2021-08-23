@@ -42,6 +42,20 @@ class BackupDB extends Model
 		return 1;
 	}
 
+	public function deleteTransaction($params) {
+		DB::beginTransaction();
+
+		try {
+			DB::table($this->table)->where('id', $params['id'])->delete();
+			DB::commit();
+		}
+		catch (Exception $e) {
+			DB::rollBack();
+			return -1;
+		}
+		return 1;
+	}
+
     public function runBackup($params) {
 		$result = Artisan::call('backup');
 
@@ -65,7 +79,7 @@ class BackupDB extends Model
     public function getForDatatable($params) {
 		$selector = DB::table($this->table);
         
-		$selector->select($this->table . '.*' , 'tb_users.id', 'tb_users.account', 'tb_users.realname')
+		$selector->select($this->table . '.*' , 'tb_users.account', 'tb_users.realname')
 			->leftJoin('tb_users', 'tb_users.id', '=', $this->table.'.user_id')
 			->orderBy('datetime', 'desc');
 

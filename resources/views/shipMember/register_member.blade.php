@@ -50,6 +50,7 @@ $isHolder = Session::get('IS_HOLDER');
                     <div class="col-sm-6 f-left">
                         <label><b>Name: </b><input type="text" class="typeahead" id="search-name" autocomplete="off"/></label>
                         <label style="margin-left:5px;font-style:italic;"><b>Sign On (上船): </b></label><input id="search-signon" style="margin-top:5px; margin-left:5px; position:absolute;" type="checkbox" onclick="" checked/>
+                        <label style="margin-left:20px;" id="total-member-count"></label>                        
                     </div>
                     <div class="col-sm-6 f-right" style="padding:unset!important">
                         @if(!$isHolder)
@@ -672,10 +673,30 @@ $isHolder = Session::get('IS_HOLDER');
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
         }
 
+        function prettyValue2(value)
+        {
+            return parseFloat(value).toFixed(0).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+        }
+
+        function showMemberCount(type) {
+            $.ajax({
+                url: BASE_URL + 'ajax/shipMember/getCount',
+                type: 'get',
+                data: {
+                    signon: type
+                },
+                success: function(result) {
+                    $('#total-member-count').html(prettyValue2(result) + ' 名');
+                }
+            });
+        }
+        showMemberCount(true);
+
         function doSearch() {
             if (listTable == null) initTable();
             var name = $('#search-name').val();
             var sign = $('#search-signon').is(":checked");
+            showMemberCount(sign);
             listTable.column(1).search(name, false, false);
             listTable.column(3).search(sign, false, false).draw();
         }

@@ -13,12 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
 Route::get('/logout', function() {
     Auth::logout();
     return redirect('/login');
 })->name('logout');
+*/
+Route::get('/', function () {
+    return redirect('/login');
+});
 
 Auth::routes();
+Route::get('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -83,6 +89,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('shipMember/wage/initSend', [App\Http\Controllers\ShipManage\WageController::class, 'initWageSendInfo']);
 	Route::get('shipMember/autocomplete', [App\Http\Controllers\ShipManage\ShipMemberController::class, 'autocomplete']);
 	Route::get('shipMember/autocompleteAll', [App\Http\Controllers\ShipManage\ShipMemberController::class, 'autocompleteAll']);
+	Route::get('shipMember/getCount', [App\Http\Controllers\ShipManage\ShipMemberController::class, 'getCount']);
 
 	Route::post('shipManage/cert/list', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxShipCertList']);
 	Route::post('shipManage/cert/add', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxCertAdd']);
@@ -125,6 +132,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('system/backup/add', [App\Http\Controllers\OrgManage\BackupController::class, 'add']);
 	Route::post('system/backup/backup', [App\Http\Controllers\OrgManage\BackupController::class, 'backup']);
 	Route::post('system/backup/restore', [App\Http\Controllers\OrgManage\BackupController::class, 'restore']);
+	Route::post('system/backup/delete', [App\Http\Controllers\OrgManage\BackupController::class, 'delete']);
 	Route::post('finance/books/list', [App\Http\Controllers\Finance\FinanceController::class, 'getBookList']);
 	Route::post('finance/books/init', [App\Http\Controllers\Finance\FinanceController::class, 'initBookList']);
 	Route::post('finance/waters/list', [App\Http\Controllers\Finance\FinanceController::class, 'getWaterList']);

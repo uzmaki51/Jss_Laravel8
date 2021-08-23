@@ -48,12 +48,13 @@ $isHolder = Session::get('IS_HOLDER');
                     <div class="head-fix-div common-list" style="">
                         <table id="table-system-backup" style="table-layout:fixed;">
                             <thead class="">
-                                <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
-                                <th class="text-center style-header" style="width: 20%;"><span>文件名称</span></th>
-                                <th class="text-center style-header" style="width: 15%;"><span>备份日期</span></th>
-                                <th class="text-center style-header" style="width: 10%;"><span>用户名</span></th>
-                                <th class="text-center style-header" style="width: 5%;"><span>文件位置</span></th>
-                                <th class="text-center style-header" style="width: 5%;"><span>还原</span></th>
+                                <th class="text-center style-header" style="width: 5%;"><span>No</span></th>
+                                <th class="text-center style-header" style="width: 25%;"><span>文件名称</span></th>
+                                <th class="text-center style-header" style="width: 25%;"><span>备份日期</span></th>
+                                <th class="text-center style-header" style="width: 15%;"><span>用户名</span></th>
+                                <th class="text-center style-header" style="width: 10%;"><span>文件位置</span></th>
+                                <th class="text-center style-header" style="width: 10%;"><span>还原</span></th>
+                                <th class="text-center style-header" style="width: 10%;"><span>删除</span></th>
                             </thead>
                             <tbody class="" id="list-body">
                             </tbody>
@@ -98,17 +99,21 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: 'realname', className: "text-center"},
                     {data: null, className: "text-center"},
                     {data: null, className: "text-center"},
+                    {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
                     if ((index%2) == 0)
                         $(row).attr('class', 'backup-member-item cost-item-even');
                     else
                         $(row).attr('class', 'backup-member-item cost-item-odd');
+
+                    $(row).attr('data-ref', data['id']);
                         
                     var pageInfo = listTable.page.info();
                     $('td', row).eq(0).html(index+1);
                     $('td', row).eq(4).html('').append('<div class="action-buttons"><a class="blue" href="javascript:open_backup_folder(' + "'" + data['filepath'].replaceAll(/\\/g,"/") + "','" + data['filename'] + "'" + ')"' + ' title="File Path"><i class="icon-book"></i></a></div>');
                     $('td', row).eq(5).html('').append('<div class="action-buttons"><a class="red" href="javascript:restore(' + "'" + data['filepath'].replaceAll(/\\/g,"/") + "','" + data['filename'] + "'" + ')"' + ' title="Restore"><i class="icon-plus"></i></a></div>');
+                    $('td', row).eq(6).html('').append('<div class="action-buttons"><a class="red" onclick="javascript:deleteItem(this)"><i class="icon-trash"></i></a></div>');
                 },
             });
 
@@ -159,8 +164,6 @@ $isHolder = Session::get('IS_HOLDER');
 
         function open_backup_folder(path, name)
         {
-            
-
             alert(path+name);
         }
 
@@ -203,6 +206,26 @@ $isHolder = Session::get('IS_HOLDER');
                                 class_name: 'gritter-success'
                             });
                             $('.main-content').LoadingOverlay('hide');
+                        }
+                    });
+                }
+            });
+        }
+
+        function deleteItem(e) {
+            alertAudio();
+            bootbox.confirm("Are you sure you want to delete?", function (result) {
+                if (result) {
+                    var id = $(e).closest("tr").attr('data-ref');
+                    $.ajax({
+                        url: BASE_URL + 'ajax/system/backup/delete',
+                        type: 'POST',
+                        data: {'id':id},
+                        success: function(result) {
+                            //location.reload();
+                            $(e).closest("tr").remove();
+                        },
+                        error: function(error) {
                         }
                     });
                 }

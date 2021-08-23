@@ -8,12 +8,14 @@ use App\Models\Attend\AttendRest;
 use App\Models\Board\News;
 use App\Models\Member\Unit;
 use App\Models\Operations\VoyLog;
+use App\Models\Operations\Cp;
 use App\Models\Schedule;
 use App\Models\ShipManage\ShipCertList;
 use App\Models\ShipManage\ShipCertRegistry;
 use App\Models\ShipManage\ShipEquipmentRequire;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\ShipMember\ShipMember;
+use App\Models\ShipTechnique\ShipPort;
 use App\Models\Decision\DecisionReport;
 use App\Models\Home\Settings;
 use App\Models\Home\SettingsSites;
@@ -121,6 +123,28 @@ class HomeController extends Controller {
 		$tbl = new ShipCertRegistry();
 		$expireCert = $tbl->getExpiredList($settings->cert_expire_date);
 
+		$tbl = new ShipMember();
+		$expireMemberCert = $tbl->getExpiredList($settings->cert_expire_date);
+
+		$voyNo_from = substr($report_year, 2, 2) . '00';
+		$voyNo_to = substr($report_year, 2, 2) + 1;
+		$voyNo_to = $voyNo_to . '00';
+
+		$topPorts = CP::where('Voy_No','>=', $voyNo_from)->where('Voy_No','<',$voyNo_to)
+			->select(DB::raw("group_concat(LPort SEPARATOR ', ') as LPort, group_concat(DPort SEPARATOR ', ') as DPort"))
+			->get();
+		$topPorts = array_count_values(preg_split('@,@', str_replace(" ",'',$topPorts[0]["LPort"] . "," . $topPorts[0]["DPort"]), NULL, PREG_SPLIT_NO_EMPTY));
+		arsort($topPorts);
+		$topPorts = array_slice($topPorts,0,10,true);
+		$ports = [];
+		$index = 0;
+		foreach($topPorts as $key => $count) {
+			$port_name = ShipPort::where('id', $key)->select("Port_En")->first();
+			//$ports[$index]['name'] = ShipPort::where('id', $key)->select("Port_En")->first();
+			$ports[$index]['name'] = $port_name->Port_En;
+			$ports[$index]['count'] = $count;
+			$index++;
+		}
 		return view('home.front', [
 			'shipList'          => $shipList,
 			'reportList'        => $reportList,
@@ -134,6 +158,8 @@ class HomeController extends Controller {
 			'reportSummary'		=> $reportSummary,
 			'equipment'			=> $equipment,
 			'expireCert'		=> $expireCert,
+			'expireMemberCert'  => $expireMemberCert,
+			'topPorts'			=> $ports,
 		]);
 	}
 

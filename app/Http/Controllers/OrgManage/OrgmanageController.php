@@ -362,7 +362,7 @@ class OrgmanageController extends Controller
         if(isset($param['password_reset']) && $param['password_reset'] == true)
 	        $user->password = bcrypt(DEFAULT_PASS);
 
-        $this->storePrivilege($request);
+        $this->storePrivilege($request, false);
         $user->save();
 
         return redirect('org/memberadd?uid='.$user->id);
@@ -408,7 +408,7 @@ class OrgmanageController extends Controller
             'userid' => $user->id,
         ]);
 
-        $this->storePrivilege($request);
+        $this->storePrivilege($request, true);
 
         return redirect('org/memberadd?uid='.$user->id);
     }
@@ -504,7 +504,7 @@ class OrgmanageController extends Controller
 	}
 
 	// Store privilege status
-	public function storePrivilege(Request $request) {
+	public function storePrivilege(Request $request, $isAdd) {
 		$param = $request->all();
         $userid = $param['userid'];
         $pos = $param['pos'];
@@ -518,12 +518,45 @@ class OrgmanageController extends Controller
 		$menus = Menu::all();
         // Privilege Check List
         $allowmenus = '';
-        if($pos == STAFF_LEVEL_SHAREHOLDER) {
-            $allowmenus = 3;
+
+        if ($isAdd) {
+            if($pos == STAFF_LEVEL_SHAREHOLDER) {
+                $allowmenus = 3;
+            }
+            else if ($pos == STAFF_LEVEL_OPERATOR) {
+                $allowmenus = '2,3,5,26,28';
+            }
+            else if ($pos == STAFF_LEVEL_ENGINEER) {
+                $allowmenus = '2,3,4,5';
+            }
+            else if ($pos == STAFF_LEVEL_SEAMAN) {
+                $allowmenus = '2,3,6';
+            }
+            else if ($pos == STAFF_LEVEL_FINANCIAL) {
+                $allowmenus = '2,3,7,38';
+            }
+            else if ($pos == STAFF_LEVEL_OTHER) {
+                $allowmenus = '2,3,4,5,6,7,8,10';
+            }
+            else if ($pos == STAFF_LEVEL_CAPTAIN) {
+                $allowmenus = '3';
+            }
+            else {
+                foreach ($menus as $menu) {
+                    if (isset($param[$menu['id']])) {
+                        $allowmenus = empty($allowmenus) ? $menu['id'] : $allowmenus .','.$menu['id'];
+                    }
+                }
+            }
         } else {
-            foreach ($menus as $menu) {
-                if (isset($param[$menu['id']])) {
-                    $allowmenus = empty($allowmenus) ? $menu['id'] : $allowmenus .','.$menu['id'];
+            if($pos == STAFF_LEVEL_SHAREHOLDER) {
+                $allowmenus = 3;
+            }
+            else {
+                foreach ($menus as $menu) {
+                    if (isset($param[$menu['id']])) {
+                        $allowmenus = empty($allowmenus) ? $menu['id'] : $allowmenus .','.$menu['id'];
+                    }
                 }
             }
         }

@@ -153,7 +153,7 @@ $ships = Session::get('shipList');
                             </div>
                             <div class="row" style="margin:4px;">
                                 <div class="row" style="text-align:center;">
-                                    <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="table_first_title"></span>利润累计</strong>
+                                    <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="table_first_title"></span>利润</strong>
                                     <div class="space-4"></div>
                                     <table id="table-total-profit" style="table-layout:fixed;">
                                         <thead class="">
@@ -1056,7 +1056,7 @@ $ships = Session::get('shipList');
 
                     var prev_month = 0;
                     for(var i=0;i<12;i++) {
-                        value = result[ship_no]['sum_months'][i];
+                        value = result[ship_no]['months'][i];
                         
                         
                         month_sum[i] += value;
@@ -1064,7 +1064,7 @@ $ships = Session::get('shipList');
                             row_html += '<td style="padding-right:5px!important;height:20px!important;" class="text-right ' + (value >= 0 ? '':'style-red-input') + '">' + '' + '</td>';
                         else
                             row_html += '<td style="padding-right:5px!important;height:20px!important;" class="text-right ' + (value >= 0 ? '':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
-                        prev_month = result[ship_no]['sum_months'][i];
+                        prev_month = result[ship_no]['months'][i];
                     }
                     row_html += "</tr>"
                     $('#table-total-profit-body').append(row_html);
@@ -1080,7 +1080,6 @@ $ships = Session::get('shipList');
                         row_html += '<td style="padding-right:5px!important;height:20px!important;" class="sub-small-header style-normal-header text-right ' + '">' + '' + '</td>';
                     else
                         row_html += '<td style="padding-right:5px!important;height:20px!important;" class="sub-small-header style-normal-header text-right ' + (value >= 0 ? '':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
-                    prev_month = month_sum[i];
                 }
                 row_html += "</tr>";
                 $('#table-total-profit-body').append(row_html);
@@ -1440,7 +1439,7 @@ $ships = Session::get('shipList');
 
             var tab = real_tab.cloneNode(true);
             if (index == 0) {
-                tab_text=tab_text+"<tr><td colspan='14' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_first_title').html() + " " + year_table + "年"+ "利润累计</td></tr>";
+                tab_text=tab_text+"<tr><td colspan='14' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_first_title').html() + " " + year_table + "年"+ "利润</td></tr>";
             } else if(index == 1) {
                 tab_text=tab_text+"<tr><td colspan='16' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_first_title').html() + " " + year_table + "年"+ "收支</td></tr>";
             } else if(index == 2) {

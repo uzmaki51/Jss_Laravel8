@@ -61,7 +61,8 @@ class OperationController extends Controller
         } else {
             $start_year = substr($start_year['min_date'],0,4);
         }
-        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
             $shipList = ShipRegister::orderBy('id')->get();
@@ -79,7 +80,8 @@ class OperationController extends Controller
         } else {
             $start_year = substr($start_year['min_date'],0,4);
         }
-        if(Auth::user()->pos == STAFF_LEVEL_SHAREHOLDER)
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
             $shipList = ShipRegister::orderBy('id')->get();

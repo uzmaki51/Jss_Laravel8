@@ -108,7 +108,7 @@ class DecisionReport extends Model {
 
 		$selector = ReportSave::where('report_date', '>=', $now)->where('report_date', '<', $next);
 		//$records = $selector->orderByRaw('ISNULL(book_no), book_no ASC')->orderBy('report_id', 'asc')->get();
-		$records = $selector->orderByRaw('-book_no ASC')->get();
+		$records = $selector->orderByRaw('-book_no ASC,report_id ASC')->get();
 		foreach($records as $index => $record) {
 			$newArr[$newindex]['id'] = $record->orig_id;
 			$newArr[$newindex]['flowid'] = $record->flowid;
@@ -1140,6 +1140,7 @@ class DecisionReport extends Model {
 			$selector = WaterList::where('year', $year)->where('month', $month)->where('ship_no', $ship)->select('*');
 		$recordsFiltered = $selector->count();
 		$records = $selector->orderBy('register_time', 'asc')->get();
+		//$records = $selector->orderBy('book_no', 'asc')->get();
 
 		$newArr = [];
         $newindex = 0;
@@ -1166,12 +1167,26 @@ class DecisionReport extends Model {
 			$newindex ++;
 		}
 
+		$selector = WaterList::where('year', '<', $year)
+			->orWhere(function($query) use ($year,$month) {
+				$query->where('year', $year)->where('month', '<=', $month);
+		});
+		if ($ship != '') {
+			$selector = $selector->where('ship_no', $ship);
+		}
+		$selector = $selector->groupBy('currency');
+		$total_sum = $selector->selectRaw('sum(credit) as credit_sum, sum(debit) as debit_sum')->groupBy('currency')->get();
+
+		if (count($total_sum) == 1) {
+			$total_sum[1] = ['credit_sum' => 0, 'debit_sum' => 0];
+		}
 		return [
             'draw' => $params['draw']+0,
             'recordsTotal' => DB::table($this->table)->count(),
             'recordsFiltered' => $newindex,
             'original' => true,
             'data' => $newArr,
+			'totalSum' => $total_sum,
             'error' => 0,
         ];
 	}
