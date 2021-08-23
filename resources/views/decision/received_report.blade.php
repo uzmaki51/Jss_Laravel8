@@ -943,7 +943,7 @@
                     currentProfitType: '',
                     currentVoyNo: '',
                     currentObjectNo: '',
-                    currentCurrency: DEFAULT_CURRENCY,
+                    currentCurrency: '',
                     currentDepartment: '',
                     currentAmount: '',
                     currentContent: '',
@@ -973,7 +973,7 @@
                             this.currentProfitType = this.profitType[0];
 
                         this.currentVoyNo = '';
-                        this.currentCurrency = DEFAULT_CURRENCY;
+                        this.currentCurrency = '';
 
                         this.reportStatus = 1;
 
