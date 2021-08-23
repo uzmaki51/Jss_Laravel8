@@ -241,6 +241,7 @@
 <script src="{{ asset('/assets/js/jquery.inputlimiter.min.js') }}"></script>
 <script src="{{ asset('/assets/js/jquery.maskedinput.min.js') }}"></script>
 <script src="{{ asset('/assets/js/ship_process.js') }}"></script>
+<script src="{{ cAsset('assets/js/moment.js') }}"></script>
 @yield('scripts')
 </body>
 </html>

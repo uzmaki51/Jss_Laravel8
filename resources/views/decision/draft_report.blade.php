@@ -174,6 +174,12 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td class="custom-modal-td-label">备注</td>
+                                                    <td class="custom-modal-td-text1" colspan="2">
+                                                        <textarea name="remark" class="form-control" rows="2">@{{ remark }}</textarea>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td class="custom-modal-td-label" >凭证文件</td>
                                                     <td class="custom-td-dec-text" colspan="2">
                                                         <div class="attachment-div d-flex">
@@ -397,6 +403,7 @@
                     reportObj.amount = result['amount'];
                     reportObj.currentCurrency = result['currency'];
                     reportObj.content = result['content'];
+                    reportObj.remark = result['remark'];
                     
                     disableProfit(result['flowid'], result['profit_type']);
 
@@ -566,6 +573,7 @@
                     reporter: reportName,
                     department: '',
                     content: '',
+                    remark: '',
                     fileName: '添加附件',
 
                     currentReportType: REPORT_TYPE_EVIDENCE_IN,
@@ -592,6 +600,7 @@
                         this.currency = CurrencyLabel;
                         this.reporter = reportName;
                         this.content = '';
+                        this.remark = '';
                         reportObj.attachments = [];
 
                         this.currentReportType = REPORT_TYPE_EVIDENCE_IN;

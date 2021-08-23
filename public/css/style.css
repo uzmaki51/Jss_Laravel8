@@ -541,7 +541,7 @@ div.input table tbody tr td
     }
 
     .for-sp {
-        display: '';
+        display: revert!important;
     }
     .for-pc {
         display: none;

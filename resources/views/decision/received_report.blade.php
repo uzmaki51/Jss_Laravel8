@@ -71,7 +71,7 @@
                                     <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">起草
                                 </a>
                             @endif
-                            <a class="btn btn-sm btn-warning refresh-btn-over" type="button" onclick="fnExport()">
+                            <a class="btn btn-sm btn-warning refresh-btn-over for-pc" type="button" onclick="fnExport()">
                                 <i class="icon icon-table"></i>{{ trans('common.label.excel') }}
                             </a>
                             <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
@@ -85,15 +85,15 @@
                         <table id="report_info_table" class="table table-bordered">
                             <thead>
                             <tr class="br-hblue">
-                                <th class="text-center style-normal-header" style="width: 5%;">{!! trans('decideManage.table.no') !!}</th>
+                                <th class="text-center style-normal-header for-pc" style="width: 5%;">{!! trans('decideManage.table.no') !!}</th>
                                 <th style="width: 5%;">{!! trans('decideManage.table.type') !!}</th>
-                                <th style="width: 7%;" class="for-pc">{{ trans('decideManage.table.date') }}</th>
+                                <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.voy_no') }}</th>
                                 <th style="width: 7%;" class="for-pc">{!! trans('decideManage.table.profit_type') !!}</th>
                                 <th style="width: 25%;" class="for-pc">{{ trans('decideManage.table.content') }}</th>
                                 <th style="width: 5%;" class="for-pc">{{ trans('decideManage.table.currency') }}</th>
-                                <th style="width: 10%;" class="for-pc">{{ trans('decideManage.table.amount') }}</th>
+                                <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
                                 <th style="width: 5%;" class="for-pc">涉及<br>部门</th>
                                 <th style="width: 5%;" class="for-pc">{!! trans('decideManage.table.attachment') !!}</th>
@@ -248,6 +248,12 @@
                                                     <td class="custom-modal-td-label">摘要</td>
                                                     <td class="custom-modal-td-text1" colspan="2">
                                                         <textarea name="content" class="form-control" rows="2">@{{ content }}</textarea>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="custom-modal-td-label">备注</td>
+                                                    <td class="custom-modal-td-text1" colspan="2">
+                                                        <textarea name="remark" class="form-control" rows="4">@{{ remark }}</textarea>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -512,6 +518,8 @@
                         reportObj.report_date = result['report_date'];
                         reportObj.currentReportType = result['flowid'];
                         reportObj.currentShipNo = result['shipNo'];
+                        reportObj.remark = result['remark'];
+                        reportObj.currentCurrency = result['currency'];
                         // reportObj.currentVoyNo = result['shipNo'];
                         // reportObj.currentProfitType = '';
                     } else {
@@ -522,10 +530,10 @@
                         reportObj.currentShipNo = '';
                         reportObj.currentVoyNo = '';
                         reportObj.currentProfitType = '';
-
+                        reportObj.currentCurrency = '';
+                        reportObj.remark = '';
                     }
 
-                    reportObj.currentCurrency = '';
                     reportObj.amount = is_new == false ? result['amount'] : 0;
                     reportObj.currentDepartment = result['depart_id'];
                     
@@ -936,6 +944,7 @@
                     reporter: reportName,
                     department: '',
                     content: '',
+                    remark: '',
                     fileName: '添加附件',
 
                     currentReportType: '',
@@ -1216,15 +1225,15 @@
                     searchable: false
                 }],
                 columns: [
-                    {data: 'report_id', className: "text-center each"},
+                    {data: 'report_id', className: "text-center each for-pc"},
                     {data: 'flowid', className: "text-center each"},
-                    {data: 'report_date', className: "text-center each for-pc"},
+                    {data: 'report_date', className: "text-center each"},
                     {data: 'shipName', className: "text-center each"},
                     {data: 'voyNo', className: "text-center each"},
                     {data: 'profit_type', className: "text-center each for-pc"},
                     {data: 'content', className: "text-left each for-pc report-content"},
                     {data: 'currency', className: "text-center each for-pc"},
-                    {data: 'amount', className: "text-right each for-pc"},
+                    {data: 'amount', className: "text-right each"},
                     {data: 'realname', className: "text-center each"},
                     {data: 'depart_name', className: "text-center each for-pc"},
                     {data: 'attachment', className: "text-center each for-pc"},
@@ -1249,7 +1258,7 @@
                     );
 
                     $('td', row).eq(2).html('').append(
-                        '<span>' + data['report_date'] + '</span>'
+                        '<span class="for-pc">' + data['report_date'] + '</span>' + '<span class="for-sp">' + moment(data['report_date']).format('MM-DD') + '</span>'
                     );
 
                     if(data['obj_type'] == OBJECT_TYPE_SHIP) {
@@ -1294,7 +1303,8 @@
 
                     if(data['amount'] != 0 && data['amount'] != null)
                         $('td', row).eq(8).html('').append(
-                            '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + number_format(data['amount'], 2) + '</span>'
+                            '<span class="for-sp ' + (data['currency'] == 'CNY' ? "text-danger" : (data['currency'] == 'USD' ? "text-profit" : "")) + '">' + __parseStr(CurrencyLabel[data['currency']]) + '</span>' +
+                            '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '"> ' + number_format(data['amount'], 2) + '</span>'
                         );
                     else 
                         $('td', row).eq(8).html('').append('');

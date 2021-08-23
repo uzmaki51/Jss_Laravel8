@@ -130,9 +130,11 @@ class DecisionController extends Controller
 					} else {
 						$reportTbl['report_id'] = $commonTbl->generateReportID($params['report_date']);
 					}
-
 				}
-
+			} else {
+				$reportNo = $commonTbl->generateReportID($params['report_date']);
+				if($reportNo == false) return redirect()->back();
+				$reportTbl['report_id'] = $reportNo;
 			}
 		} else {
 			$reportTbl['report_id'] = 0;
@@ -174,6 +176,7 @@ class DecisionController extends Controller
 		$reportTbl['depart_id'] = $params['depart_id'];
 		$reportTbl['creator'] = $user->id;
 		$reportTbl['content'] = isset($params['content']) ? $params['content'] : '';
+		$reportTbl['remark'] = isset($params['remark']) ? $params['remark'] : '';
 		$reportTbl['state'] = $params['reportType'];
 		$reportTbl['ishide'] = 0;
 		$reportTbl->save();

@@ -167,7 +167,7 @@ $isHolder = Session::get('IS_HOLDER');
                             </div>
                         </div>
                     </div>
-                    <div style="margin-top:8px;">
+                    <div style="margin-top:8px;" class="d-none">
                         <div class="col-md-12">
                             <div class="row" style="margin-top:20px;" id="menu-list">
                                 <h4>权限</h4>
