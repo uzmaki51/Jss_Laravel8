@@ -44,47 +44,4 @@ class LoginController extends Controller
     {
         return 'account';
     }
-
-    public function login(Request $request)
-    {
-        $this->validate($request, [
-            'account' => 'required',
-            'password' => 'required',
-        ]);
-
-        $user = User::where('account', $request->input('account'))->first();
-
-        if (auth()->guard('web')->attempt(['account' => $request->input('account'), 'password' => $request->input('password')])) {
-
-            $new_session_id = \Session::getId(); //get new session_id after user sign in
-
-            if ($user->session_id != '') {
-                $last_session = \Session::getHandler()->read($user->session_id);
-
-                if ($last_session) {
-                    if (\Session::getHandler()->destroy($user->session_id)) {
-
-                    }
-                }
-            }
-
-            User::where('id', $user->id)->update(['session_id' => $new_session_id]);
-
-            $user = auth()->guard('web')->user();
-
-            return redirect($this->redirectTo);
-        }
-        \Session::put('login_error', 'Your account and password wrong!!');
-        //return back();
-        return $this->sendFailedLoginResponse($request);
-    }
-
-    public function logout(Request $request)
-    {
-        $this->guard()->logout();
-
-        $request->session()->invalidate();
-
-        return $this->loggedOut($request) ?: redirect('/');
-    }
 }
