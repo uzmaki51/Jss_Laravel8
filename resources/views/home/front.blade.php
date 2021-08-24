@@ -218,18 +218,18 @@
                             <div class="card-body expired-cert-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
                                 <table id="" style="border:0px solid black;">
                                     <thead style="position:sticky;top:0;box-shadow: inset 0 -1px #000, 1px -1px #000;">
-                                        <td class="center decide-sub-title" style="width: 35px;">船名</td>
-                                        <td class="center decide-sub-title" style="width: 95px;">证书</td>
-                                        <td class="center decide-sub-title" style="">有效期</td>
-                                        <td class="center decide-sub-title" style="">周检日期</td>
+                                        <td class="center decide-sub-title" style="width: 15%;"><input class="form-control" style="text-align:center;background:transparent;" value="船名" readonly></td>
+                                        <td class="center decide-sub-title" style="width: 35%"><input class="form-control" style="text-align:center;background:transparent;" value="证书" readonly></td>
+                                        <td class="center decide-sub-title" style="width: 25%;"><input class="form-control" style="text-align:center;background:transparent;" value="有效期" readonly></td>
+                                        <td class="center decide-sub-title" style="width: 25%;"><input class="form-control" style="text-align:center;background:transparent;" value="周检日期" readonly></td>
                                     </thead>
                                     <tbody class="" id="cert-body" style="">
                                         @foreach($expireCert as $key => $item)
                                             <tr>
-                                                <td>{{ $item->shipName }}</td>
-                                                <td class="center"><span>{{ $item->certName }}</span></td>
-                                                <td class="center">{{ date('y-m-d', strtotime($item->expire_date)) }}</td>
-                                                <td class="center">{{ isset($item->due_endorse) ? date('y-m-d', strtotime($item->due_endorse)):"" }}</td>
+                                                <td><input class="form-control" value="{{ $item->shipName }}" readonly></td>
+                                                <td class="center"><input class="form-control" value="{{ $item->certName }}" readonly></td>
+                                                <td class="center"><input class="form-control" value="{{ date('y-m-d', strtotime($item->expire_date)) }}" readonly></td>
+                                                <td class="center"><input class="form-control" value="{{ isset($item->due_endorse) ? date('y-m-d', strtotime($item->due_endorse)):"" }}" readonly></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -249,18 +249,18 @@
                             <div class="card-body expired-member-cert-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
                                 <table id="" style="border:0px solid black;table-layout:fixed;">
                                     <thead style="position:sticky;top:0;box-shadow: inset 0 -1px #000, 1px -1px #000;">
-                                        <td class="center decide-sub-title" style="width:35px;">船名</td>
-                                        <td class="center decide-sub-title" style="width:45px;">职务</td>
-                                        <td class="center decide-sub-title" style="width:150px;">证书</td>
-                                        <td class="center decide-sub-title" style="">有效期</td>
+                                        <td class="center decide-sub-title" style="width:15%;"><input class="form-control" style="text-align:center;background:transparent;" value="船名" readonly></td>
+                                        <td class="center decide-sub-title" style="width:20%;"><input class="form-control" style="text-align:center;background:transparent;" value="职务" readonly></td>
+                                        <td class="center decide-sub-title" style="width:45%;"><input class="form-control" style="text-align:center;background:transparent;" value="证书" readonly></td>
+                                        <td class="center decide-sub-title" style="width:25%;"><input class="form-control" style="text-align:center;background:transparent;" value="有效期" readonly></td>
                                     </thead>
                                     <tbody class="" id="cert-body" style="">
                                         @foreach($expireMemberCert as $key => $item)
                                             <tr title="{{ $item['title'] }}">
-                                                <td class="center">{{ $item['shipName'] }}</td>
-                                                <td class="center">{{ $item['rank'] }}</td>
+                                                <td class="center"><input class="form-control" value="{{ $item['shipName'] }}" readonly></td>
+                                                <td class="center"><input class="form-control" value="{{ $item['rank'] }}" readonly></td>
                                                 <td class="center"><input class="form-control" value="{{ $item['title'] }}" readonly></td>
-                                                <td class="center">{{ date('y-m-d', strtotime($item['_expire'])) }}</td>
+                                                <td class="center"><input class="form-control" value="{{ date('y-m-d', strtotime($item['_expire'])) }}" readonly></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
