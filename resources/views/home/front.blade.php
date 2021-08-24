@@ -166,7 +166,7 @@
                     </div>
                     <div class="row">
                         <div class="card mb-4">
-                            <a href="/decision/receivedReport" style="color: white; outline: unset;" target="_blank">
+                            <a href="" style="color: white; outline: unset;" target="">
                             <div class="card-header no-attachment-decide-title">
                                 <div class="card-title front-span">
                                     <span class="bigger-120">等待凭证</span>
@@ -208,7 +208,7 @@
                     </div>
                     <div class="row">
                         <div class="card mb-4">
-                            <a href="/shipManage/shipCertManage" style="color: white; outline: unset;" target="_blank">
+                            <a href="" style="color: white; outline: unset;" target="">
                             <div class="card-header expired-cert-title">
                                 <div class="card-title front-span">
                                     <span class="bigger-120">船舶证书到期{{ '(' . $settings->cert_expire_date . ')天'}}</span>
@@ -239,14 +239,14 @@
                     </div>
                     <div class="row">
                         <div class="card mb-4">
-                            <a href="/shipManage/shipCertManage" style="color: white; outline: unset;" target="_blank">
-                            <div class="card-header expired-member-cert-title">
+                            <a href="" style="color: white; outline: unset;" target="">
+                            <div class="card-header no-attachment-decide-title">
                                 <div class="card-title front-span">
                                     <span class="bigger-120">海员证书到期{{ '(' . $settings->cert_expire_date . ')天'}}</span>
                                 </div>
                             </div>
                             </a>
-                            <div class="card-body expired-member-cert-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
+                            <div class="card-body no-attachment-decide-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
                                 <table id="" style="border:0px solid black;table-layout:fixed;">
                                     <thead style="position:sticky;top:0;box-shadow: inset 0 -1px #000, 1px -1px #000;">
                                         <td class="center decide-sub-title" style="width:15%;"><input class="form-control" style="text-align:center;background:transparent;" value="船名" readonly></td>
