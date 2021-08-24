@@ -922,6 +922,7 @@ class DecisionReport extends Model {
 		$years = $this->getYearList();
 		$selector = DB::table($this->table)
 			->where('state', REPORT_STATUS_DRAFT)
+			->where('creator', $user->id)
 			->orderBy('report_id', 'desc')
 			->select('*');
 
