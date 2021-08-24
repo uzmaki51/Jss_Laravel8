@@ -14,6 +14,7 @@ use App\Models\ShipManage\ShipCertList;
 use App\Models\ShipManage\ShipCertRegistry;
 use App\Models\ShipManage\ShipEquipmentRequire;
 use App\Models\ShipManage\ShipRegister;
+use App\Models\ShipMember\SecurityCert;
 use App\Models\ShipMember\ShipMember;
 use App\Models\ShipTechnique\ShipPort;
 use App\Models\Decision\DecisionReport;
@@ -122,10 +123,9 @@ class HomeController extends Controller {
 
 		$tbl = new ShipCertRegistry();
 		$expireCert = $tbl->getExpiredList($settings->cert_expire_date);
-
+		
 		$tbl = new ShipMember();
 		$expireMemberCert = $tbl->getExpiredList($settings->cert_expire_date);
-
 		$voyNo_from = substr($report_year, 2, 2) . '00';
 		$voyNo_to = substr($report_year, 2, 2) + 1;
 		$voyNo_to = $voyNo_to . '00';
@@ -139,12 +139,12 @@ class HomeController extends Controller {
 		$ports = [];
 		$index = 0;
 		foreach($topPorts as $key => $count) {
-			$port_name = ShipPort::where('id', $key)->select("Port_En")->first();
-			//$ports[$index]['name'] = ShipPort::where('id', $key)->select("Port_En")->first();
-			$ports[$index]['name'] = $port_name->Port_En;
+			$port_name = ShipPort::where('id', $key)->select("Port_En","Port_Cn")->first();
+			$ports[$index]['name'] = $port_name->Port_En . ' (' . $port_name->Port_Cn . ')';
 			$ports[$index]['count'] = $count;
 			$index++;
 		}
+		$securityType = SecurityCert::all();
 		return view('home.front', [
 			'shipList'          => $shipList,
 			'reportList'        => $reportList,
@@ -160,6 +160,7 @@ class HomeController extends Controller {
 			'expireCert'		=> $expireCert,
 			'expireMemberCert'  => $expireMemberCert,
 			'topPorts'			=> $ports,
+			'security'    =>    $securityType,
 		]);
 	}
 

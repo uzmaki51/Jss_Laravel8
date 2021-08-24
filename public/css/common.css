@@ -249,6 +249,17 @@
     border-right: 1px solid #c01b03;
 }
 
+.expired-member-cert-title {
+    background: linear-gradient(to right, #9c9e2f, rgba(228, 232, 34, 0.73));
+    color: white;
+    padding: 0 4px;
+}
+.expired-member-cert-border {
+    border-bottom: 1px solid #e4e822;
+    border-left: 1px solid #e4e822;
+    border-right: 1px solid #e4e822;
+}
+
 .caption-title {
     background: linear-gradient(to right, #000fc0, rgba(0, 15, 192, 0.73));
     color: white;

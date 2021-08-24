@@ -211,7 +211,7 @@
                             <a href="/shipManage/shipCertManage" style="color: white; outline: unset;" target="_blank">
                             <div class="card-header expired-cert-title">
                                 <div class="card-title front-span">
-                                    <span class="bigger-120">船舶证书到期</span>
+                                    <span class="bigger-120">船舶证书到期{{ '(' . $settings->cert_expire_date . ')天'}}</span>
                                 </div>
                             </div>
                             </a>
@@ -219,17 +219,17 @@
                                 <table id="" style="border:0px solid black;">
                                     <thead style="position:sticky;top:0;box-shadow: inset 0 -1px #000, 1px -1px #000;">
                                         <td class="center decide-sub-title" style="width: 35px;">船名</td>
-                                        <td class="center decide-sub-title">证书</td>
-                                        <td class="center decide-sub-title" style="width: 60px;">有效期</td>
-                                        <td class="center decide-sub-title" style="width: 60px;">周检日期</td>
+                                        <td class="center decide-sub-title" style="width: 95px;">证书</td>
+                                        <td class="center decide-sub-title" style="">有效期</td>
+                                        <td class="center decide-sub-title" style="">周检日期</td>
                                     </thead>
                                     <tbody class="" id="cert-body" style="">
                                         @foreach($expireCert as $key => $item)
                                             <tr>
                                                 <td>{{ $item->shipName }}</td>
                                                 <td class="center"><span>{{ $item->certName }}</span></td>
-                                                <td class="center">{{ date('m-d', strtotime($item->expire_date)) }}</td>
-                                                <td class="center">{{ date('m-d', strtotime($item->due_endorse)) }}</td>
+                                                <td class="center">{{ date('y-m-d', strtotime($item->expire_date)) }}</td>
+                                                <td class="center">{{ isset($item->due_endorse) ? date('y-m-d', strtotime($item->due_endorse)):"" }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -240,25 +240,27 @@
                     <div class="row">
                         <div class="card mb-4">
                             <a href="/shipManage/shipCertManage" style="color: white; outline: unset;" target="_blank">
-                            <div class="card-header common-decide-title">
+                            <div class="card-header expired-member-cert-title">
                                 <div class="card-title front-span">
-                                    <span class="bigger-120">海员证书到期</span>
+                                    <span class="bigger-120">海员证书到期{{ '(' . $settings->cert_expire_date . ')天'}}</span>
                                 </div>
                             </div>
                             </a>
-                            <div class="card-body expired-cert-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
-                                <table id="" style="border:0px solid black;">
+                            <div class="card-body expired-member-cert-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
+                                <table id="" style="border:0px solid black;table-layout:fixed;">
                                     <thead style="position:sticky;top:0;box-shadow: inset 0 -1px #000, 1px -1px #000;">
-                                        <td class="center decide-sub-title" style="width: 130px;">姓名</td>
-                                        <td class="center decide-sub-title" >证书号</td>
-                                        <td class="center decide-sub-title" style="width: 50px;">有效期</td>
+                                        <td class="center decide-sub-title" style="width:35px;">船名</td>
+                                        <td class="center decide-sub-title" style="width:45px;">职务</td>
+                                        <td class="center decide-sub-title" style="width:150px;">证书</td>
+                                        <td class="center decide-sub-title" style="">有效期</td>
                                     </thead>
                                     <tbody class="" id="cert-body" style="">
                                         @foreach($expireMemberCert as $key => $item)
-                                            <tr>
-                                                <td>{{ $item['name'] }}</td>
-                                                <td class="center"><span>{{ $item['_no'] }}</span></td>
-                                                <td class="center">{{ date('m-d', strtotime($item['_expire'])) }}</td>
+                                            <tr title="{{ $item['title'] }}">
+                                                <td class="center">{{ $item['shipName'] }}</td>
+                                                <td class="center">{{ $item['rank'] }}</td>
+                                                <td class="center"><input class="form-control" value="{{ $item['title'] }}" readonly></td>
+                                                <td class="center">{{ date('y-m-d', strtotime($item['_expire'])) }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -465,7 +467,7 @@
                                         @foreach($topPorts as $key => $item)
                                             <tr>
                                                 <td>{{ $index }}</td>
-                                                <td class="center"><span>{{ $item['name'] }}</span></td>
+                                                <td><span>{{ $item['name'] }}</span></td>
                                                 <td class="center"><span>{{ $item['count'] }}</span></td>
                                             </tr>
                                             <?php $index++;?>
@@ -518,6 +520,15 @@
 	echo '</script>';
 	?>
     <script>
+        var certList = new Array();
+        var cIndex = 0;
+        @foreach($security as $type)
+            var cert = new Object();
+            cert.value = '{{$type["title"]}}';
+            certList[cIndex] = cert;
+            cIndex++;
+        @endforeach
+
         var index = 0;
         var shipnames_graph = "";
         var color_table = ['#73b7ff','#ff655c','#50bc16','#ffc800','#9d00ff','#ff0000','#795548','#3f51b5','#00bcd4','#e91e63','#0000ff','#00ff00','#0d273a','#cddc39','#0f184e'];

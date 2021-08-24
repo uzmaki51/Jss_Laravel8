@@ -1122,6 +1122,7 @@ class ShipMember extends Model
         $today = time();
         $count = 0;
         $totalIndex = 0;
+        $shipReg = new ShipRegister();
         foreach($records as $index => $record) {
             $count = 0;
             $rank = ShipPosition::find($record->DutyID_Book);
@@ -1138,6 +1139,8 @@ class ShipMember extends Model
                 $newArr[$newindex]['_expire'] = '';
                 $newArr[$newindex]['_by'] = '';
                 $newArr[$newindex]['_type'] = '';
+                $newArr[$newindex]['shipName'] = $shipReg->getShipNameByIMO($record->ShipId);
+
                 if ($i == 0) {
                     $newArr[$newindex]['_no'] = $record->crewNum;
                     $newArr[$newindex]['_issue'] = $record->IssuedDate;
@@ -1210,6 +1213,7 @@ class ShipMember extends Model
                     }
                 }
                 $newArr[$newindex]['index'] = $i;
+                $newArr[$newindex]['title'] = $this->getCertNameByIndex($i);
                 if ($newArr[$newindex]['_issue'] == '' || $newArr[$newindex]['_issue'] == null ) {
                     unset($newArr[$newindex]);
                     continue;
@@ -1231,5 +1235,24 @@ class ShipMember extends Model
         if ($count == 0) unset($newArr[$newindex]);
         if ($newindex == 0) $newArr = [];
         return $newArr;
+    }
+
+    public function getCertNameByIndex($index) {
+        $securityType = SecurityCert::all();
+        if ($index == 0) {
+            return "Seamanbook";
+        } else if ($index == 1) {
+            return "Passport";
+        } else if ($index == 2) {
+            return "COC: Certificate of Competency";
+        } else if ($index == 3) {
+            return "COE: Certificate of Endorsement";
+        } else if ($index == 4) {
+            return "GOC: GMDSS general operator";
+        } else if ($index == 5) {
+            return "GOC Endorsement";
+        } else if ($index < 15) {
+            return $securityType[$index-6]->title;
+        }
     }
 }
