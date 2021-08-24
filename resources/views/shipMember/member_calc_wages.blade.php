@@ -157,6 +157,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <td class="custom-modal-td-label">币类:</td>
                                     <td>
                                         <select id="add-currency" onchange="javascript:selectCurrency()" class="form-control" style="padding-left:unset!important;color:red!important;">
+                                            <option value="2"></option>
                                             <option value="0" style="color:red!important;">¥</option>
                                             <option value="1" style="color:#1565C0!important;">$</option>
                                         </select>
@@ -707,7 +708,7 @@ $isHolder = Session::get('IS_HOLDER');
             $("#modal-add-wage").modal("show");
             $('#add-name').val("缺员");
             $('#add-rank').val("");
-            $('#add-currency').val(0);
+            $('#add-currency').val(2);
             $('#add-currency').attr('style','padding-left:unset!important;color:red!important');
             $('#add-wage').val('');
             $('#add-signon-date').val('');
@@ -733,6 +734,7 @@ $isHolder = Session::get('IS_HOLDER');
             if (add_name == '') { $('#add-name').focus(); return; }
             var add_rank = $('#add-rank').val();
             var add_currency = $('#add-currency').val();
+            if (add_currency == 2) { $('#add-currency').focus(); return; }
             var add_wage = parseValue($('#add-wage').val());
             if ($('#add-wage').val() == '') { $('#add-wage').focus(); return; }
             var add_signon_date = $('#add-signon-date').val();

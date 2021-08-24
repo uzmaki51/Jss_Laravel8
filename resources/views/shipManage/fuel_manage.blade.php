@@ -90,7 +90,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="btn-group f-right">
-                            <a class="btn btn-sm btn-danger" @click="openNewPage('soa')"><i class="icon-asterisk"></i> SOA</a>
+                            <a class="btn btn-sm btn-purple" @click="openNewPage('soa')"><i class="icon-asterisk"></i> SOA</a>
                             <a class="btn btn-sm btn-dynamic" @click="openNewPage('dynamic')"><i class="icon-bar-chart"></i> 动态分析</a>
                             <button class="btn btn-sm btn-success" id="submit" @click="submitForm"><i class="icon-save"></i>保存</button>
                             <button class="btn btn-warning btn-sm save-btn" @click="fnExcelTableReport"><i class="icon-table"></i> {{ trans('common.label.excel') }}</button>

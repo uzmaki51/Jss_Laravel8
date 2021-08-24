@@ -45,11 +45,13 @@
                                 <option value="{{ $item->Voy_No }}" {{ $item->Voy_No == $voyId ? 'selected' : '' }}>{{ $item->Voy_No }}</option>
                             @endforeach
                         </select>
-                        <a class="btn btn-sm btn-default" onclick="clearData()"><i class="icon-remove"></i> 初始化</a>
+                        <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="clearData()" style="width: 80px;height: 26px!important;margin-bottom: 1px;padding: 5px!important;">
+                            <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初始化
+                        </a>
                     </div>
                     <div class="col-md-7">
                         <div class="btn-group f-right">
-                            <a class="btn btn-sm btn-danger" onclick="openNewPage('soa')"><i class="icon-asterisk"></i> SOA</a>
+                            <a class="btn btn-sm btn-purple" onclick="openNewPage('soa')"><i class="icon-asterisk"></i> SOA</a>
                             <a class="btn btn-sm btn-dynamic" onclick="openNewPage('dynamic')"><i class="icon-bar-chart"></i> 船舶动态</a>
                             <button class="btn btn-report-search btn-sm search-btn d-none" click="doSearch()"><i class="icon-search"></i>搜索</button>
                             <button class="btn btn-success btn-sm save-btn" onclick="submitForm()"><i class="icon-save"></i> {{ trans('common.label.save') }}</button>

@@ -22,7 +22,7 @@
         </div>
         <div class="col-lg-5">
             <div class="btn-group f-right">
-                <a class="btn btn-sm btn-danger" @click="openNewPage('soa')"><i class="icon-asterisk"></i> SOA</a>
+                <a class="btn btn-sm btn-purple" @click="openNewPage('soa')"><i class="icon-asterisk"></i> SOA</a>
                 <a class="btn btn-sm btn-dynamic" @click="openNewPage('dynamic')"><i class="icon-bar-chart"></i> 船舶动态</a>
                 <button class="btn btn-warning btn-sm excel-btn" @click="fnExcelMain()"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
             </div>

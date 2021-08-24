@@ -2062,6 +2062,81 @@ textarea.input-lg {
     margin-top: 5px
 }
 
+.btn-pink {
+    color: #ffffff;
+    background-color: #f09ff2;
+    border-color: #ec89ef;
+  }
+  .btn-pink:hover,
+  .btn-pink:focus,
+  .btn-pink:active,
+  .btn-pink.active,
+  .open .dropdown-toggle.btn-pink {
+    color: #ffffff;
+    background-color: #ea7bed;
+    border-color: #e453e8;
+  }
+  .btn-pink:active,
+  .btn-pink.active,
+  .open .dropdown-toggle.btn-pink {
+    background-image: none;
+  }
+  .btn-pink.disabled,
+  .btn-pink[disabled],
+  fieldset[disabled] .btn-pink,
+  .btn-pink.disabled:hover,
+  .btn-pink[disabled]:hover,
+  fieldset[disabled] .btn-pink:hover,
+  .btn-pink.disabled:focus,
+  .btn-pink[disabled]:focus,
+  fieldset[disabled] .btn-pink:focus,
+  .btn-pink.disabled:active,
+  .btn-pink[disabled]:active,
+  fieldset[disabled] .btn-pink:active,
+  .btn-pink.disabled.active,
+  .btn-pink[disabled].active,
+  fieldset[disabled] .btn-pink.active {
+    background-color: #f09ff2;
+    border-color: #ec89ef;
+  }
+  .btn-purple {
+    color: #ffffff;
+    background-color: #9e61d8;
+    border-color: #914dd3;
+  }
+  .btn-purple:hover,
+  .btn-purple:focus,
+  .btn-purple:active,
+  .btn-purple.active,
+  .open .dropdown-toggle.btn-purple {
+    color: #ffffff;
+    background-color: #8a40d0;
+    border-color: #732db5;
+  }
+  .btn-purple:active,
+  .btn-purple.active,
+  .open .dropdown-toggle.btn-purple {
+    background-image: none;
+  }
+  .btn-purple.disabled,
+  .btn-purple[disabled],
+  fieldset[disabled] .btn-purple,
+  .btn-purple.disabled:hover,
+  .btn-purple[disabled]:hover,
+  fieldset[disabled] .btn-purple:hover,
+  .btn-purple.disabled:focus,
+  .btn-purple[disabled]:focus,
+  fieldset[disabled] .btn-purple:focus,
+  .btn-purple.disabled:active,
+  .btn-purple[disabled]:active,
+  fieldset[disabled] .btn-purple:active,
+  .btn-purple.disabled.active,
+  .btn-purple[disabled].active,
+  fieldset[disabled] .btn-purple.active {
+    background-color: #9e61d8;
+    border-color: #914dd3;
+  }
+  
 input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="button"].btn-block {
     width: 100%
 }
