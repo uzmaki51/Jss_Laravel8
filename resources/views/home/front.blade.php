@@ -166,7 +166,7 @@
                     </div>
                     <div class="row">
                         <div class="card mb-4">
-                            <a href="" style="color: white; outline: unset;" target="">
+                            <!--a href="" style="color: white; outline: unset;" target=""-->
                             <div class="card-header no-attachment-decide-title">
                                 <div class="card-title front-span">
                                     <span class="bigger-120">等待凭证</span>
@@ -208,7 +208,7 @@
                     </div>
                     <div class="row">
                         <div class="card mb-4">
-                            <a href="" style="color: white; outline: unset;" target="">
+                            <!--a href="" style="color: white; outline: unset;" target=""-->
                             <div class="card-header expired-cert-title">
                                 <div class="card-title front-span">
                                     <span class="bigger-120">船舶证书到期{{ '(' . $settings->cert_expire_date . ')天'}}</span>
@@ -239,7 +239,7 @@
                     </div>
                     <div class="row">
                         <div class="card mb-4">
-                            <a href="" style="color: white; outline: unset;" target="">
+                            <!--a href="" style="color: white; outline: unset;" target=""-->
                             <div class="card-header no-attachment-decide-title">
                                 <div class="card-title front-span">
                                     <span class="bigger-120">海员证书到期{{ '(' . $settings->cert_expire_date . ')天'}}</span>
@@ -448,7 +448,6 @@
                     </div>
                     <div class="row">
                         <div class="card mb-4">
-                            <a href="/shipManage/shipCertManage" style="color: white; outline: unset;" target="_blank">
                             <div class="card-header common-decide-title">
                                 <div class="card-title front-span">
                                     <span class="bigger-120">TOP 10 PORTS</span>

@@ -266,7 +266,7 @@ $ships = Session::get('shipList');
                                                     <th class="text-center style-normal-header" style="width: 19%;"><span>装港</span></th>
                                                     <th class="text-center style-normal-header" style="width: 19%;"><span>卸港</span></th>
                                                     <th class="text-center style-normal-header" style="width: 19%;"><span>运费率(日租金)</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;"><span>合同原本</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 4%;"><span>合同<br/>原本</span></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="" id="table-soa-general-body">
@@ -295,12 +295,12 @@ $ships = Session::get('shipList');
                                                 <tr>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>No</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>日期</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 32%;"><span>摘要</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 48%;"><span>摘要</span></th>
                                                     <th class="text-center style-normal-header" style="width: 10%;"><span>收支种类</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 18%;"><span>收入</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 18%;"><span>支出</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 10%;"><span>收入</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 10%;"><span>支出</span></th>
                                                     <th class="text-center style-normal-header" style="width: 5%;"><span>汇率</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;"><span>原始凭证</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 4%;"><span>原始<br/>凭证</span></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="" id="table-soa-list-body">
@@ -1104,7 +1104,7 @@ $ships = Session::get('shipList');
                         $(row).attr('class', 'cost-item-even');
                     else
                         $(row).attr('class', 'cost-item-odd');
-
+                        
                     $('td', row).eq(2).attr('style', 'padding-left:2px!important;');
                     $('td', row).eq(4).attr('class', 'style-blue-input text-right');
                     $('td', row).eq(4).attr('style', 'padding-right:5px!important;');
@@ -1122,6 +1122,7 @@ $ships = Session::get('shipList');
 
                     var link_html = '<label><a href="' + data['attachment'] + '" target="_blank" class="' + (data['attachment']==null ? 'visible-hidden':'') + '"><img src="' + "{{ cAsset('assets/images/document.png') }}" + '"' + ' width="15" height="15" style="cursor: pointer;"></a></label>';
                     $('td', row).eq(7).html('').append(link_html);
+                    $('td', row).eq(2).html('').append('<input class="form-control" value="' + data['content'] + '" readonly/>');
                 },
                 drawCallback: function (response) {
                     var currency = (currency_soa=='USD'?'$':'¥');
@@ -1397,6 +1398,11 @@ $ships = Session::get('shipList');
                         tab.rows[j].childNodes[4].style.width = '300px';
                         tab.rows[j].childNodes[5].style.width = '300px';
                     }
+                    else if (j != (tab.rows.length -1)){
+                        var info = real_tab.rows[j].childNodes[2].childNodes[0].value;
+                        tab.rows[j].childNodes[2].innerHTML = info;
+                    }
+
                     if (j < (tab.rows.length-1)) tab.rows[j].childNodes[7].remove();
                     tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                 }
