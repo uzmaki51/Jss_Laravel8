@@ -1223,7 +1223,10 @@ class DecisionReport extends Model {
 	}
 
 	public function noAttachments($params) {
-		$selector = DB::table($this->table)->where('attachment',0)->orWhere('attachment',null);
+		$selector = DB::table($this->table)->where('attachment',0)->orWhere('attachment',null)
+			->where(function($query) {
+				$query->where('state', 0)->orWhere('state', 1);
+			})->orderBy('id', 'desc');
 
 		// number of filtered records
 		
