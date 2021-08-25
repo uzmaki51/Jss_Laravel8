@@ -1180,8 +1180,11 @@ class DecisionReport extends Model {
 		}
 		$selector = $selector->groupBy('currency');
 		$total_sum = $selector->selectRaw('sum(credit) as credit_sum, sum(debit) as debit_sum')->groupBy('currency')->get();
-
-		if (count($total_sum) == 1) {
+		if (count($total_sum) == 0) {
+			$total_sum[0] = ['credit_sum' => 0, 'debit_sum' => 0];
+			$total_sum[1] = ['credit_sum' => 0, 'debit_sum' => 0];
+		}
+		else if (count($total_sum) == 1) {
 			$total_sum[1] = ['credit_sum' => 0, 'debit_sum' => 0];
 		}
 		return [

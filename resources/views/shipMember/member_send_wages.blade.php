@@ -179,7 +179,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(2).attr('class', 'text-center disable-td');
                     $('td', row).eq(3).attr('class', 'text-center disable-td');
                     $('td', row).eq(8).attr('class', 'text-center disable-td');
-                    $('td', row).eq(8).attr('style', 'word-wrap:break-word');
+                    $('td', row).eq(8).attr('style', 'text-align:left;word-wrap:break-word');
 
                     $('td', row).eq(0).html('').append('<label>' + (pageInfo.page * pageInfo.length + index + 1)+ '</label><input type="hidden" name="MemberId[]" value="' + data['no'] + '">');
                     $('td', row).eq(1).html('<label>' + data['name'] + '</label><input type="hidden" name="Names[]" value="' + data['name'] + '">');
@@ -198,8 +198,8 @@ $isHolder = Session::get('IS_HOLDER');
 
                     var bank_name = data['bankinfo'];
                     if (bank_name == 'null' || bank_name == null) bank_name = '';
-                    $('td', row).eq(8).html('<label>' + __parseStr(bank_name) + '</label><input type="hidden" name="BankInfo[]" value="' + __parseStr(bank_name) + '">');
-                    $('td', row).eq(9).html('<input type="text" autocomplete="off" class="form-control style-noncolor-input" name="Remark[]" value="' + __parseStr(data['remark']) + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(8).html('<label style="padding-left:2px;">' + __parseStr(bank_name) + '</label><input type="hidden" name="BankInfo[]" value="' + __parseStr(bank_name) + '">');
+                    $('td', row).eq(9).html('<input type="text" autocomplete="off" class="form-control style-noncolor-input" name="Remark[]" value="' + __parseStr(data['remark']) + '" style="width: 100%;text-align: left" autocomplete="off">');
                 },
                 drawCallback: function (response) {
                     original = response.json.original;
