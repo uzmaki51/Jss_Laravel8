@@ -323,8 +323,50 @@ class OrgmanageController extends Controller
                 ]);
     }
 
-
+    /*
+    public function checkShipPrivilege($param) {
+        return redirect()->back()->with(['state'=>'BBBBB', 'userId'=>'']);
+        
+        if(isset($param['shipList'])) {
+			$shipList = $param['shipList'];
+            $ship_count = count($shipList);
+            if($param['pos'] == STAFF_LEVEL_SHAREHOLDER || $param['pos'] == STAFF_LEVEL_CAPTAIN)
+            {
+                if ($ship_count == 0) {
+                    return redirect()->back()->with(['state'=>'请选择船舶。', 'userId'=>'']);
+                } else if($ship_count > 1) {
+                    return redirect()->back()->with(['state'=>'只能选择一条船。', 'userId'=>'']);
+                }
+            }
+		} else {
+            if($param['pos'] == STAFF_LEVEL_SHAREHOLDER || $param['pos'] == STAFF_LEVEL_CAPTAIN)
+            {
+                return redirect()->back()->with(['state'=>'请选择船舶。', 'userId'=>'']);
+            }
+        }
+    }
+    */
+    
     public function updateMember(Request $request) {
+        
+        $param = $request->all();
+        if(isset($param['shipList'])) {
+			$shipList = $param['shipList'];
+            $ship_count = count($shipList);
+            if($param['pos'] == STAFF_LEVEL_SHAREHOLDER || $param['pos'] == STAFF_LEVEL_CAPTAIN)
+            {
+                if ($ship_count == 0) {
+                    return redirect()->back()->with(['state'=>'请选择船舶。', 'userId'=>'']);
+                } else if($ship_count > 1) {
+                    return redirect()->back()->with(['state'=>'只能选择一条船。', 'userId'=>'']);
+                }
+            }
+		} else {
+            if($param['pos'] == STAFF_LEVEL_SHAREHOLDER || $param['pos'] == STAFF_LEVEL_CAPTAIN)
+            {
+                return redirect()->back()->with(['state'=>'请选择船舶。', 'userId'=>'']);
+            }
+        }
         $file = $request->file('photopath');
         if(isset($file)) {
             $ext = $file->getClientOriginalExtension();
@@ -369,6 +411,24 @@ class OrgmanageController extends Controller
     }
 
     public function addMember(Request $request) {
+        $param = $request->all();
+        if(isset($param['shipList'])) {
+			$shipList = $param['shipList'];
+            $ship_count = count($shipList);
+            if($param['pos'] == STAFF_LEVEL_SHAREHOLDER || $param['pos'] == STAFF_LEVEL_CAPTAIN)
+            {
+                if ($ship_count == 0) {
+                    return redirect()->back()->with(['state'=>'请选择船舶。', 'userId'=>'']);
+                } else if($ship_count > 1) {
+                    return redirect()->back()->with(['state'=>'只能选择一条船。', 'userId'=>'']);
+                }
+            }
+		} else {
+            if($param['pos'] == STAFF_LEVEL_SHAREHOLDER || $param['pos'] == STAFF_LEVEL_CAPTAIN)
+            {
+                return redirect()->back()->with(['state'=>'请选择船舶。', 'userId'=>'']);
+            }
+        }
         $file = $request->file('photopath');
 
         if(isset($file)) {
@@ -378,7 +438,7 @@ class OrgmanageController extends Controller
         } else
             $filename = null;
 
-        $param = $request->all();
+        
 
         $request->validate([
             'account'       => 'required|unique:tb_users'

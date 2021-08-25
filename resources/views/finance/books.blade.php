@@ -1425,7 +1425,7 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = year + '_' + month + '_记账簿';
+            var filename = year + '_' + month.padStart(2,'0') + '_记账簿';
             exportExcel(tab_text, filename, year + '_' + month + '_记账簿');
             
             return 0;
@@ -1457,12 +1457,12 @@ $isHolder = Session::get('IS_HOLDER');
                     tab.rows[j].childNodes[6].style.width = '150px';
                     tab.rows[j].childNodes[10].remove();
                 }
-                else if(j >= (tab.rows.length - 2))
+                else if(j >= (tab.rows.length - 4))
                 {
                     for (var i=0; i<tab.rows[j].childElementCount;i++) {
                         tab.rows[j].childNodes[i].style.height = "30px";
                         tab.rows[j].childNodes[i].style.fontWeight = "bold";
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#ebf1de';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                     tab.rows[j].childNodes[9].remove();
                     //tab.rows[j].childNodes[9].colSpan="1";
@@ -1483,7 +1483,7 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = year + '_' + month + '_流水账';
+            var filename = year + '_' + month.padStart(2,'0') + '_流水账';
             exportExcel(tab_text, filename, year + '_' + month + '_流水账');
             
             return 0;
