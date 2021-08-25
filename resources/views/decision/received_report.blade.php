@@ -247,7 +247,7 @@
                                                 <tr>
                                                     <td class="custom-modal-td-label">摘要</td>
                                                     <td class="custom-modal-td-text1" colspan="2">
-                                                        <textarea name="content" class="form-control" rows="2">@{{ content }}</textarea>
+                                                        <textarea name="content" class="form-control" rows="2" maxlength="35">@{{ content }}</textarea>
                                                     </td>
                                                 </tr>
                                                 <tr>
