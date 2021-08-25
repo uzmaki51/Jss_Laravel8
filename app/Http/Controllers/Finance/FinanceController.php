@@ -323,6 +323,7 @@ class FinanceController extends Controller
 				$report_save_record['rate'] = ($report_rates[$index] == '') ? null : $report_rates[$index];
 				$report_save_record['book_no'] = ($report_booknos[$index] == "") ? null :str_replace("J-", "", $report_booknos[$index]);
 				$report_save_record['attachment'] = $report_original_record->attachment;
+				$report_save_record['remark'] = $report_original_record->remark;
 
 				if (in_array($item, $water_report_ids)) {
 					$report_save_record['year'] = substr($water_dates[$item],0,4);

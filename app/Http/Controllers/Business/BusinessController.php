@@ -70,6 +70,8 @@ class BusinessController extends Controller {
     }
 
     public function dailyAverageCost(Request $request) {
+        
+
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
         {
@@ -80,6 +82,7 @@ class BusinessController extends Controller {
                             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
                             ->orderBy('tb_ship_register.id')
                             ->get();
+            $shipId = $ids[0];
             $costs = ExpectedCosts::where('shipNo', $ids[0])->first();
         }
         else {
@@ -87,9 +90,11 @@ class BusinessController extends Controller {
                             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
                             ->orderBy('tb_ship_register.id')
                             ->get();
+
+            $shipId = $request->get('shipId');                            
             $costs = ExpectedCosts::where('shipNo', $shipId)->first();
         }
-        $shipId = $request->get('shipId');
+        
 
         return view('business.daily_average_cost', array(
             'shipList'   => $shipList,

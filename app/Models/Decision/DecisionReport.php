@@ -93,6 +93,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['profit_type'] = $record->profit_type;
 			$newArr[$newindex]['content'] = $record->content;
 			$newArr[$newindex]['amount'] = $record->amount;
+			$newArr[$newindex]['remark'] = $record->remark;
 			$newArr[$newindex]['rate'] = '';
 			$attachment = DecisionReportAttachment::where('reportId', $record->id)->first();
 			$newArr[$newindex]['attachment'] = null;
@@ -141,6 +142,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['profit_type'] = $record->profit_type;
 			$newArr[$newindex]['content'] = $record->content;
 			$newArr[$newindex]['amount'] = $record->amount;
+			$newArr[$newindex]['remark'] = $record->remark;
 			$newArr[$newindex]['rate'] = $record->rate == null ? '' : $record->rate;
 			$attachment = DecisionReportAttachment::where('reportId', $record->orig_id)->first();
 			$newArr[$newindex]['attachment'] = null;
@@ -768,6 +770,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['profit_type'] = $record->profit_type;
 			$newArr[$newindex]['content'] = $record->content;
 			$newArr[$newindex]['amount'] = $record->amount;
+			$newArr[$newindex]['remark'] = $record->remark;
 			$newArr[$newindex]['rate'] = '';
 			$newArr[$newindex]['attachment'] = null;
 			$attachment = DecisionReportAttachment::where('reportId', $record->id)->first();
@@ -1220,7 +1223,10 @@ class DecisionReport extends Model {
 	}
 
 	public function noAttachments($params) {
-		$selector = DB::table($this->table)->where('attachment',0)->orWhere('attachment',null);
+		$selector = DB::table($this->table)->where('attachment',0)->orWhere('attachment',null)
+			->where(function($query) {
+				$query->where('state', 0)->orWhere('state', 1);
+			})->orderBy('id', 'desc');
 
 		// number of filtered records
 		

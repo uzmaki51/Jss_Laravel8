@@ -9,7 +9,7 @@
 
     <!-- STYLES -->
     <link rel="stylesheet" href="{{ asset('/assets/css/theme.css') }}"/>
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/css/bootstrap.min.css?v=20210824200001') }}" rel="stylesheet"/>
     <link href="{{ asset('assets/css/bootstrap-overrides.css') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ asset('/assets/css/font-awesome.min.css') }}"/>
     <link rel="icon" type="image/png" href="{{ cAsset('/assets/css/img/logo.png') }}" sizes="192x192">

@@ -127,6 +127,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                 <i class="icon-plus"></i>记账凭证
                                             </a-->
                                             <button type="button" class="btn btn-primary" id="btnKeep" style="margin-top:10px;width:100px;height:30px;">记账凭证</button>
+                                            <span id="remark-box" style="margin-top:10px;color:red" class="f-right"></span>
                                         </div>
                                         <div class="tab-content">
                                             <div id="general" class="tab-pane active">
@@ -405,7 +406,7 @@ $isHolder = Session::get('IS_HOLDER');
                     var link_html = '<label><a href="' + data['attachment'] + '" target="_blank" class="' + (data['attachment']==null ? 'visible-hidden':'') + '"><img src="' + "{{ cAsset('assets/images/document.png') }}" + '"' + ' width="15" height="15" style="cursor: pointer;"></a></label>';
                     $('td', row).eq(11).html('<input type="text" class="form-control" readonly name="rate[]" value="' + formatRate(data['rate']) + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(12).html('').append(link_html);
-                    $('td', row).eq(7).html('<input type="text" class="form-control" readonly name="report_remark[]" value="' + data['content'] + '" style="width: 100%;" autocomplete="off">');
+                    $('td', row).eq(7).html('<input type="text" class="form-control content" readonly name="report_remark[]" value="' + data['content'] + '" style="cursor:pointer;width: 100%;" autocomplete="off" onclick="showRemark(' + "'" + data['remark'] + "'" + ')">');
                 },
                 drawCallback: function (response) {
                     listBook = response.json.data;
@@ -1233,6 +1234,12 @@ $isHolder = Session::get('IS_HOLDER');
                 }
             });
 
+            $('body').on('click', function(e) {
+                if ($(e.target).attr('class') != 'form-control content') {
+                    $('#remark-box').html('');
+                }
+            });
+
             if (isAdmin != 1) {
                 $('.keep_credit').attr('readonly', 'true');
                 $('.keep_debit').attr('readonly', 'true');
@@ -1422,6 +1429,12 @@ $isHolder = Session::get('IS_HOLDER');
             exportExcel(tab_text, filename, year + '_' + month + '_记账簿');
             
             return 0;
+        }
+
+        function showRemark(remark) {
+            if (remark != 'null') {
+                $('#remark-box').html(remark);
+            }
         }
 
         function fnExcelWaterReport()
