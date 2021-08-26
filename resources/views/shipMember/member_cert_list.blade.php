@@ -44,9 +44,9 @@ $isHolder = Session::get('IS_HOLDER');
                         <!--input type="number" min="0" step="1" class="text-center" style="width: 60px;" name="expire_date" id="expire-date" value="0"-->
                         <select id="expire-date" style="width: 60px;">
                             <option value="0" selected>All</option>
+                            <option value="60">60</option>
                             <option value="90">90</option>
                             <option value="120">120</option>
-                            <option value="180">180</option>
                         </select>
                         <label>天</label>
                         <!--button class="btn btn-report-search btn-sm search-btn" onclick="" id="btn-search"><i class="icon-search"></i>搜索</button-->
