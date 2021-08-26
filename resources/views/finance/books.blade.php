@@ -1436,7 +1436,7 @@ $isHolder = Session::get('IS_HOLDER');
         }
 
         function showRemark(remark) {
-            if (remark != 'null') {
+            if ((remark != 'null') && (remark != '') && (remark != null)) {
                 $('#remark-box').val(remark);
                 $('#remark-box').show();
             } else {
