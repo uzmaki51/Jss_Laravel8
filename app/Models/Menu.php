@@ -11,6 +11,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
+
 use Auth;
 
 class Menu extends Model
@@ -130,5 +132,10 @@ class Menu extends Model
 		}
 
 		return 1;
+	}
+
+	public function getRoute() {
+
+		return $request->url();
 	}
 }

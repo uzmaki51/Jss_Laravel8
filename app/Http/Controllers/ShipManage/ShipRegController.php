@@ -10,6 +10,7 @@ namespace App\Http\Controllers\shipManage;
 
 use App\Http\Controllers\Controller;
 use App\Models\Member\Unit;
+use App\Models\BreadCrumb;
 use App\Models\ShipManage\ShipEquipmentUnits;
 use App\Models\ShipManage\ShipOthers;
 use App\Models\ShipMember\ShipMember;
@@ -103,6 +104,9 @@ class ShipRegController extends Controller
 
 
     public function loadShipGeneralInfos(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $ship_infolist = ShipRegister::getShipForHolder();
@@ -129,7 +133,8 @@ class ShipRegController extends Controller
                     'shipName'	=> '',
                     'elseInfo'  => array('cert' => []),
                     'id'        => 0,
-                    'memberCertXls'       =>    $memberCertXls
+                    'memberCertXls'       =>    $memberCertXls,
+                    'breadCrumb'    => $breadCrumb
                 ]);
         }
 
@@ -152,7 +157,8 @@ class ShipRegController extends Controller
 			'shipName'	=> $shipName,
 	        'elseInfo'  => $elseInfo,
 	        'id'        => $ship_id,
-	        'memberCertXls'       =>    $memberCertXls
+            'memberCertXls'       =>    $memberCertXls,
+            'breadCrumb'    => $breadCrumb
         ]);
     }
 
@@ -186,8 +192,8 @@ class ShipRegController extends Controller
 
 
     public function registerShipData(Request $request) {
-        $GLOBALS['selMenu'] = 52;
-        $GLOBALS['submenu'] = 0;
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
 
         $shipList = Ship::all();
         $shipType = ShipType::orderByRaw('CAST(OrderNo AS SIGNED) ASC')->get();
@@ -229,7 +235,9 @@ class ShipRegController extends Controller
                         'shipInfo'      =>  $shipInfo, 
                         'freeBoard'     =>  $freeBoard, 
                         'status'        =>  $status,
-                        'list'          =>  $ship_infolist
+                        'list'          =>  $ship_infolist,
+                        
+                        'breadCrumb'    => $breadCrumb
                     ]);
     }
 
@@ -504,6 +512,9 @@ class ShipRegController extends Controller
     }
 
     public function dynamicList(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $params = $request->all();
         $shipName = '';
 
@@ -559,12 +570,16 @@ class ShipRegController extends Controller
             'years'             => $yearList,
             'activeYear'        => $year,
             'voyId'             => $voyId,
-            'record_type'       => $record_type
+            'record_type'       => $record_type,
+            'breadCrumb'        => $breadCrumb
         ]);
     }
 
 
     public function ctmAnalytics(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
@@ -605,10 +620,14 @@ class ShipRegController extends Controller
 
                 'activeYear'    =>  $activeYear,
                 'type'          =>  $type,
+                'breadCrumb'    => $breadCrumb
             ]);
     }
 
     public function voyEvaluation(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $params = $request->all();
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
@@ -664,7 +683,7 @@ class ShipRegController extends Controller
 
             'yearList'          => $yearList,
             'year'              => $year,
-
+            'breadCrumb'        => $breadCrumb,
             'type'              => $type
         ]);
     }
@@ -692,6 +711,9 @@ class ShipRegController extends Controller
     }
 
     public function shipCertList(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipRegList = ShipRegister::getShipForHolder();
@@ -728,6 +750,7 @@ class ShipRegController extends Controller
         	    'shipList'  =>  $shipRegList,
                 'shipName'  =>  $shipNameInfo,
                 'shipId'    =>  $shipId,
+                'breadCrumb'    => $breadCrumb
             ]);
     }
 
@@ -1006,6 +1029,9 @@ class ShipRegController extends Controller
 
 
     public function shipCertManage(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
@@ -1026,7 +1052,8 @@ class ShipRegController extends Controller
 	    return view('shipManage.ship_cert_list', [
 		    'shipList'  =>  $shipList,
 		    'shipName'  =>  $shipNameInfo,
-		    'shipId'    =>  $shipId,
+            'shipId'    =>  $shipId,
+            'breadCrumb'    => $breadCrumb
 	    ]);
     }
 
@@ -1110,6 +1137,9 @@ class ShipRegController extends Controller
     }
 
     public function fuelManage(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $params = $request->all();
         $shipName = '';
 		if(isset($params['shipId'])) {
@@ -1158,12 +1188,16 @@ class ShipRegController extends Controller
             'shipId'            => $shipId,
             'shipName'          => $shipName,
             'years'             => $yearList,
-            'activeYear'        => $year
+            'activeYear'        => $year,
+            'breadCrumb'    => $breadCrumb
         ]);
     }
 
 
     public function shipEquipmentManage(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
@@ -1211,7 +1245,8 @@ class ShipRegController extends Controller
             'years'         => $yearList,
             'activeYear'    => $activeYear,
 
-            'type'          => $type
+            'type'          => $type,
+            'breadCrumb'    => $breadCrumb
         ]);
     }
 

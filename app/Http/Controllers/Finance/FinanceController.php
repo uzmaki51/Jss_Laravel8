@@ -13,6 +13,7 @@ use App\Models\Finance\AccountSetting;
 use App\Models\ShipManage\ShipRegister;
 
 use App\Models\User;
+use App\Models\BreadCrumb;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -114,6 +115,9 @@ class FinanceController extends Controller
 
     public function books(Request $request)
     {
+		$url = $request->path();
+		$breadCrumb = BreadCrumb::getBreadCrumb($url);
+		
 		$year = $request->get('year');
         $month = $request->get('month');
 		if ($year == '') $year = date("Y");
@@ -143,12 +147,16 @@ class FinanceController extends Controller
 			'month' => $month,
 			'book_no' => $book_no,
 			'accounts' => $accounts,
-			'shipList' => $shipList
+			'shipList' => $shipList,
+			'breadCrumb'    => $breadCrumb
         ]);
     }
 
 	public function accounts(Request $request)
     {
+		$url = $request->path();
+		$breadCrumb = BreadCrumb::getBreadCrumb($url);
+		
 		$year = $request->get('year');
         $month = $request->get('month');
 		if ($year == '') $year = date("Y");
@@ -175,6 +183,7 @@ class FinanceController extends Controller
 			'month' => $month,
 			'accounts' => $accounts,
 			'book_no' => $book_no,
+			'breadCrumb'    => $breadCrumb
         ]);
     }
 

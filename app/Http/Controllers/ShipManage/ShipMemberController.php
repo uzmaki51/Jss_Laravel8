@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 use App\Models\Menu;
+use App\Models\BreadCrumb;
 use App\Models\ShipManage\Ship;
 use App\Models\ShipMember\ShipMember;
 use App\Models\ShipMember\ShipPosition;
@@ -108,6 +109,8 @@ class ShipMemberController extends Controller
     }
 
     public function registerShipMember(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
@@ -180,6 +183,7 @@ class ShipMemberController extends Controller
                     'list'      =>      $list,
                     'state'     =>      $state,
                     'nationList' =>    $nationList,
+                    'breadCrumb'    => $breadCrumb
                 ]);
         }
         //return view('shipMember.register_member', ['shipList'=>$shipList, 'posList'=>$posList, 'ksList'=>$ksList, 'typeList'=>$typeList, 'state'=>$state]);
@@ -213,6 +217,7 @@ class ShipMemberController extends Controller
                     'list'      =>      $list,
                     'nationList' =>     $nationList,
                     'state'     =>      $state,
+                    'breadCrumb'    => $breadCrumb
                 ]);
     }
 
@@ -642,7 +647,8 @@ class ShipMemberController extends Controller
 
 
     public function totalShipMember(Request $request) {
-        Util::getMenuInfo($request);
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
 
         $regShip = $request->get('regShip');
         $bookShip = $request->get('bookShip');
@@ -676,11 +682,22 @@ class ShipMemberController extends Controller
                 $member['orgin_duty'] = $duty['Duty'];
         }
 
-        return view('shipMember.total_member_list', ['list'=>$list, 'shipList'=>$shipList, 'ko_ship_list'=>$ko_ship_list, 'regShip'=>$regShip, 'bookShip'=>$bookShip, 'origShip'=>$origShip, 'regStatus'=>$regStatus]);
+        return view('shipMember.total_member_list', [
+                'list'          =>$list, 
+                'shipList'      =>$shipList, 
+                'ko_ship_list'  =>$ko_ship_list, 
+                'regShip'       =>$regShip, 
+                'bookShip'      =>$bookShip, 
+                'origShip'      =>$origShip, 
+                'regStatus'     =>$regStatus,
+                'breadCrumb'    => $breadCrumb
+            ]);
     }
 
     public function memberCertList(Request $request) {
-        
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $list = "";//ShipMember::getMemberCertList($shipId, $posId, $capacityId, $month, -1);
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
@@ -698,6 +715,7 @@ class ShipMemberController extends Controller
 				'posList'	=>		$posList,
 				'capacityList'=>	$capacityList,
                 'security'    =>    $securityType,
+                'breadCrumb'    => $breadCrumb
 			]);
     }
 

@@ -58,7 +58,7 @@ use App\Models\Convert\VoySettleProfit;
 use App\Models\ShipManage\Ctm;
 use Illuminate\Support\Facades\DB;
 
-use App\Models\Schedule;
+use App\Models\BreadCrumb;
 use App\Models\Decision\DecEnvironment;
 use Illuminate\Support\Str;
 use Auth;
@@ -71,6 +71,8 @@ class BusinessController extends Controller {
 
     public function dailyAverageCost(Request $request) {
         
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
 
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
@@ -100,6 +102,7 @@ class BusinessController extends Controller {
             'shipList'   => $shipList,
             'shipId'     => $shipId,
             'costs'      => $costs,
+            'breadCrumb'    => $breadCrumb
         ));
     }
 
@@ -149,6 +152,9 @@ class BusinessController extends Controller {
 
 
 	public function contract(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $params = $request->all();
 		if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
@@ -225,6 +231,7 @@ class BusinessController extends Controller {
             'maxFreight'    => $maxFreight,
             'minVoyNo'      => $minVoyNo,
             'minFreight'    => $minFreight,
+            'breadCrumb'    => $breadCrumb,
 
             'costDay'       => round($costDay, 0),
             'elseCost'      => round($elseCost, 0)
@@ -232,6 +239,9 @@ class BusinessController extends Controller {
     }
 
     public function dynRecord(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $params = $request->all();
         $shipName = '';
 		if(isset($params['shipId'])) {
@@ -271,6 +281,7 @@ class BusinessController extends Controller {
             'shipId'            => $shipId,
             'shipName'          => $shipName,
             'voyId'             => $voyId,
+            'breadCrumb'    => $breadCrumb
         ]);
     }
 
@@ -736,6 +747,9 @@ class BusinessController extends Controller {
     }
 
     public function settleMent(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $params = $request->all();
 
         $user_pos = Auth::user()->pos;
@@ -777,11 +791,15 @@ class BusinessController extends Controller {
             'shipName'          => $shipName,
 
             'cpList'            => $cpList,
-            'voyId'             => $voyId
+            'voyId'             => $voyId,
+            'breadCrumb'    => $breadCrumb
         ]);
     }
 
     public function ctm(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipRegList = ShipRegister::getShipForHolder();
@@ -823,6 +841,7 @@ class BusinessController extends Controller {
 
                 'activeYear'    =>  $activeYear,
                 'type'          =>  $type,
+                'breadCrumb'    => $breadCrumb
             ]);
     }
 

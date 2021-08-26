@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 use App\Models\Menu;
+use App\Models\BreadCrumb;
 use App\Models\ShipManage\Ship;
 use App\Models\ShipManage\ShipType;
 use App\Models\ShipManage\ShipRegister;
@@ -219,6 +220,9 @@ class WageController extends Controller
     }
 
     public function index(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $shipId = $request->get('shipId');
         $year = $request->get('year');
         $month = $request->get('month');
@@ -254,10 +258,14 @@ class WageController extends Controller
             'month'         => $month,
             'start_year'    => $start_year,
             'start_month'    => $start_month,
+            'breadCrumb'    => $breadCrumb
         ]);
     }
 
     public function send(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $shipId = $request->get('shipId');
         $year = $request->get('year');
         $month = $request->get('month');
@@ -294,10 +302,14 @@ class WageController extends Controller
             'month'         => $month,
             'start_year'    => $start_year,
             'start_month'    => $start_month,
+            'breadCrumb'    => $breadCrumb
         ]);
     }
 
     public function wagelist(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $shipId = $request->get('shipId');
         $year = $request->get('year');
         $month = $request->get('month');
@@ -324,6 +336,7 @@ class WageController extends Controller
             'month'         => $month,
             'start_year'    => $start_year,
             'start_month'    => $start_month,
+            'breadCrumb'    => $breadCrumb
         ]);
     }
 }

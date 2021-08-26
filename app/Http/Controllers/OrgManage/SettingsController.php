@@ -11,6 +11,7 @@ use App\Models\Home\SettingsSites;
 use App\Models\Finance\ReportSave;
 use App\Models\Decision\DecisionReport;
 use App\Models\Operations\VoyLog;
+use App\Models\BreadCrumb;
 
 use App\Models\User;
 use Illuminate\Contracts\Logging\Log;
@@ -28,6 +29,9 @@ class SettingsController extends Controller
 
     public function index(Request $request)
     {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
                         ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
                         ->get();
@@ -62,6 +66,8 @@ class SettingsController extends Controller
             'voyList' => $voyList,
             'sites' => $sites,
             'start_year' => $start_year,
+
+            'breadCrumb'    => $breadCrumb
         ]);
     }
 }

@@ -44,7 +44,7 @@ Route::group(['prefix' => 'org'], function() {
 	Route::get('privilege',		[App\Http\Controllers\OrgManage\OrgmanageController::class, 'addPrivilege']);
 	Route::post('storePrivilege',		[App\Http\Controllers\OrgManage\OrgmanageController::class, 'storePrivilege']);
 	Route::get('system/backup', [App\Http\Controllers\OrgManage\BackupController::class, 'index']);
-	Route::get('system/settings', [App\Http\Controllers\OrgManage\SettingsController::class, 'index']);
+	Route::get('system/settings', [App\Http\Controllers\OrgManage\SettingsController::class, 'index'])->name('system.settings');
 	Route::post('system/updateSettings',	[App\Http\Controllers\OrgManage\OrgmanageController::class, 'updateSettings']);
 });
 

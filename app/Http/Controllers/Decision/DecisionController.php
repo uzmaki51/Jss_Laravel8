@@ -13,6 +13,7 @@ use App\Http\Controllers\Util;
 
 use App\Models\Convert\VoyLog;
 use App\Models\Operations\CP;
+use App\Models\BreadCrumb;
 use App\Models\Decision\DecEnvironment;
 use App\Models\Decision\DecisionFlow;
 use App\Models\Decision\DecisionReport;
@@ -59,12 +60,17 @@ class DecisionController extends Controller
 		$yearList = $tbl->getYearList($id);
 		$lastId = $tbl->getLastId();
 
+		$url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
 		return view('decision.received_report', [
 				'draftId'  	=> $id, 
 				'shipList'  => $shipList,
 				'years'		=> $yearList,
 
-				'lastId'		=> $lastId
+				'lastId'		=> $lastId,
+
+				'breadCrumb'    => $breadCrumb
 			]);
 	}
 
@@ -80,10 +86,15 @@ class DecisionController extends Controller
 		$tbl = new DecisionReport();
 		$yearList = $tbl->getYearList($id);
 
+		$url = $request->path();
+		$breadCrumb = BreadCrumb::getBreadCrumb($url);
+		
 		return view('decision.draft_report', [
 			'draftId'  	=> $id, 
 			'shipList'  => $shipList,
 			'years'		=> $yearList,
+
+			'breadCrumb'    => $breadCrumb
 		]);
 	}
 

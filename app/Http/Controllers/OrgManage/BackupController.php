@@ -8,6 +8,7 @@ use App\Models\Member\Career;
 use App\Models\Operations\BackupDB;
 
 use App\Models\User;
+use App\Models\BreadCrumb;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -23,8 +24,12 @@ class BackupController extends Controller
 
     public function index(Request $request)
     {
+		$url = $request->path();
+		$breadCrumb = BreadCrumb::getBreadCrumb($url);
+		
         return view('orgmanage.backup', [
-            'title' => ''
+			'title' => '',
+			'breadCrumb'    => $breadCrumb
         ]);
     }
 

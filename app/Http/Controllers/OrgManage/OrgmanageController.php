@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Util;
 use App\Models\Member\Career;
 use App\Models\Menu;
+use App\Models\BreadCrumb;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\UserInfo;
 use App\Models\Member\Unit;
@@ -28,6 +29,7 @@ class OrgmanageController extends Controller
 {
     public function __construct() {
         $this->middleware('auth');
+
     }
 
 
@@ -115,7 +117,6 @@ class OrgmanageController extends Controller
         return number_format($str);
     }
 
-    ///////////////////////////   직위관리  ////////////////////////////
     public function savepost(Request $request) {
         $orderNum = $request->get('orderNum');
         $postname = $request->get('postname');
@@ -250,7 +251,8 @@ class OrgmanageController extends Controller
     }
 
     public function userInfoListView(Request $request) {
-        Util::getMenuInfo($request);
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
 
         $unitId = $request->get('unit');
         $pos = $request->get('pos');
@@ -271,7 +273,9 @@ class OrgmanageController extends Controller
                 'posId'         =>$pos,
                 'status'        =>$status,
                 'type'          => 'edit',
-                'realname'      =>$realname
+                'realname'      =>$realname,
+
+                'breadCrumb'    => $breadCrumb
             ]);
     }
 

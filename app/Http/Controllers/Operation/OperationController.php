@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Util;
 
 use App\Models\Menu;
+use App\Models\BreadCrumb;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\Decision\DecisionReport;
 
@@ -55,6 +56,9 @@ class OperationController extends Controller
 
 
     public function incomeExpense(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
         $start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
         if(empty($start_year)) {
             $start_year = '2020-01-01';
@@ -70,10 +74,14 @@ class OperationController extends Controller
         return view('operation.incomeExpense', array(
             'start_year' => $start_year,
             'shipList'   => $shipList,
+            'breadCrumb'    => $breadCrumb
         ));
     }
 
     public function incomeAllExpense(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+        
         $start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
         if(empty($start_year)) {
             $start_year = '2020-01-01';
@@ -89,6 +97,7 @@ class OperationController extends Controller
         return view('operation.incomeAllExpense', array(
             'start_year' => $start_year,
             'shipList'   => $shipList,
+            'breadCrumb'    => $breadCrumb
         ));
     }
 

@@ -199,18 +199,26 @@
 
 <div class="main-container {{ $routeName == 'home' || $routeName == 'home.index' ? '' : 'inner-wrap' }}" id="main-container">
     <div class="main-container-inner">
-        <div class="breadcrumbs ace-save-state d-none" id="breadcrumbs">
-            <ul class="breadcrumb">
-                <li>
-                    <i class="ace-icon fa fa-home home-icon"></i>
-                    <a href="#">Home</a>
-                </li>
-                <li>
-                    <a href="#">Forms</a>
-                </li>
-                <li class="active">Wizard &amp; Validation</li>
-            </ul>
-        </div>
+        @if(isset($breadCrumb) && count($breadCrumb) > 0)
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="{{ route('home') }}">首页</a>
+                    </li>
+                    @foreach($breadCrumb as $key => $item)
+                        @if($key + 1 == count($breadCrumb))
+                            <li class="active">
+                                <span>{{ $item->title }}</span>
+                            </li>
+                        @else
+                            <li>
+                                <a href="/{{ $item->controller }}">{{ $item->title }}</a>
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         @yield('content')
     </div>
 
