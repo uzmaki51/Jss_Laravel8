@@ -1175,14 +1175,14 @@ class DecisionReport extends Model {
 			$newindex ++;
 		}
 
-		$selector = WaterList::where('year', '<', $year)->where('ship_no', $ship)
-			->orWhere(function($query) use ($year,$month) {
-				$query->where('yeard', $year)->where('month', '<=', $month);
+		$selector = WaterList::where(function($query) use ($year, $month){
+			$query->where('year', '<', $year)->orWhere(function ($query2) use ($year, $month) {
+				$query2->where('year', $year)->where('month', '<=', $month);
+			});
 		});
-		//if ($ship != '') {
-			//$selector = $selector->where('ship_no', $ship);	
-		//}
-		return $selector->get();
+		if ($ship != '') {
+			$selector = $selector->where('ship_no', $ship);	
+		}
 		
 		$selector = $selector->groupBy('currency');
 		$total_sum = $selector->selectRaw('sum(credit) as credit_sum, sum(debit) as debit_sum')->groupBy('currency')->get();
