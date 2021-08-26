@@ -241,7 +241,11 @@ class DecisionReport extends Model {
 		$selector = $selector->whereNotIn('profit_type',[13,14])
 		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, month, shipNo')
 		->groupBy('month', 'flowid','profit_type','shipNo');
+		
 		$records = $selector->get();
+
+		//$records = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('year',$year)->where('month',8)->whereNotNull('book_no')->get();
+		//return $records;
 
 		$result = [];
 		foreach($shipids as $shipid)
@@ -1145,7 +1149,7 @@ class DecisionReport extends Model {
 		$recordsFiltered = $selector->count();
 		$records = $selector->orderBy('register_time', 'asc')->get();
 		//$records = $selector->orderBy('book_no', 'asc')->get();
-
+		
 		$newArr = [];
         $newindex = 0;
 		foreach($records as $index => $record) {
@@ -1171,13 +1175,15 @@ class DecisionReport extends Model {
 			$newindex ++;
 		}
 
-		$selector = WaterList::where('year', '<', $year)
+		$selector = WaterList::where('year', '<', $year)->where('ship_no', $ship)
 			->orWhere(function($query) use ($year,$month) {
-				$query->where('year', $year)->where('month', '<=', $month);
+				$query->where('yeard', $year)->where('month', '<=', $month);
 		});
-		if ($ship != '') {
-			$selector = $selector->where('ship_no', $ship);
-		}
+		//if ($ship != '') {
+			//$selector = $selector->where('ship_no', $ship);	
+		//}
+		return $selector->get();
+		
 		$selector = $selector->groupBy('currency');
 		$total_sum = $selector->selectRaw('sum(credit) as credit_sum, sum(debit) as debit_sum')->groupBy('currency')->get();
 		if (count($total_sum) == 0) {

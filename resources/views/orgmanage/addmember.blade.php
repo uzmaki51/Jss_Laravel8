@@ -57,10 +57,6 @@ $isHolder = Session::get('IS_HOLDER');
             <div class="page-header">
                 <div class="col-md-3">
                     <h4><b>{{trans("orgManage.title.MemberInfo")}}</b>
-                        <small>
-                            <i class="icon-double-angle-right"></i>
-                            @if(!isset($userid)){{trans("orgManage.captions.add")}}@else {{trans("orgManage.captions.change")}} @endif
-                        </small>
                     </h4>
                 </div>
             </div>

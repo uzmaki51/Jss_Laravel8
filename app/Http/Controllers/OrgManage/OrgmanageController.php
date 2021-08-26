@@ -325,9 +325,10 @@ class OrgmanageController extends Controller
                     'state'     =>  $state,
                     'shipList'  =>  $shipList,
 
-                    'breadList'    => array([
-                        '/org/userInfoListView', '职员信息'],[
-                        '', (empty($userid) ? '添加' : '修改'),]
+                    'breadList'    => array(
+                        ['/org/system/settings', '行政管理'],
+                        ['/org/userInfoListView', '职员信息'],
+                        ['', (empty($userid) ? '添加' : '修改'),]
                     )
                 ]);
     }
