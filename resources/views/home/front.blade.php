@@ -122,7 +122,7 @@
         <div class="page-content">
             <div class="row" style="padding-top: 12px;">
                 <div class="col-lg-2">
-                    <div class="row">
+                    <div class="row for-pc">
                         <div class="card mb-4">
                             <a href="/decision/receivedReport" style="color: white; outline: unset;" target="_blank">
                             <div class="card-header decide-title" style="cursor:pointer">
@@ -164,7 +164,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row for-pc">
                         <div class="card mb-4">
                             <!--a href="" style="color: white; outline: unset;" target=""-->
                             <div class="card-header no-attachment-decide-title">
@@ -206,7 +206,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row for-pc">
                         <div class="card mb-4">
                             <!--a href="" style="color: white; outline: unset;" target=""-->
                             <div class="card-header expired-cert-title">
@@ -237,7 +237,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row for-pc">
                         <div class="card mb-4">
                             <!--a href="" style="color: white; outline: unset;" target=""-->
                             <div class="card-header no-attachment-decide-title">
@@ -268,7 +268,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row for-pc">
                         <div class="card mb-4">
                             <!--a href="/shipManage/equipment" style="color: white; outline: unset;" target="_blank"-->
                             <div class="card-header decide-title">
@@ -299,7 +299,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <div class="row">
+                    <div class="for-pc row">
                         <div class="card mb-4">
                             <div class="card-body p-0" style="box-shadow: 0px 0px 8px 4px #d2d2d2;">
                                 <div class="advertise" style="height:30px;">
@@ -344,6 +344,90 @@
                                         @endif
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="for-sp row">
+                        <div class="card mb-4">
+                            <div class="card-body p-0" style="box-shadow: 0px 0px 8px 4px #d2d2d2;">
+                                <!-- For SP -->
+                                <div class="advertise" style="height:30px;">
+                                    <div style="padding-left: 16px;">
+                                        <h5 style="font-weight: bold;">动态 </h5>
+                                    </div>
+                                    <div class="sign_list slider text-center" style="width:100%;padding-left:10px;padding-right: 16px; margin-left: auto;">
+                                        @if(isset($voyList) && count($voyList) > 0)
+                                            @foreach ($voyList as $info)
+                                                @if ($info['ishide'] != 1)
+                                                <?php $nickName=""?>
+                                                @foreach($shipList as $ship)
+                                                    @if ($ship->IMO_No == $info['Ship_ID'])
+                                                    <?php $nickName = $ship['NickName'];?>
+                                                    @endif
+                                                @endforeach
+                                                <div style="height: auto; outline: unset;">
+                                                    <h5>
+                                                        <a href="/shipManage/dynamicList" style="color: white; outline: unset;" target="_blank" >
+                                                        <table style="width:100%;border:unset!important;table-layout:fixed;" class="not-striped">
+                                                            <tbody><tr>
+                                                                <td class="td-notice-yellow" style="width:4%">{{$nickName}}</td>
+                                                                <td class="td-notice-white" style="width:9%">{{ date('m-d', strtotime($info['Voy_Date']))}}</td>
+                                                                <td class="td-notice-yellow" style="width:15%">{{g_enum('DynamicStatus')[$info['Voy_Status']][0]}} / </td>
+                                                                <td class="td-notice-white" style="width:15%">{{$info['Ship_Position']}}</td>
+                                                            </tr></tbody>
+                                                        </table>
+                                                        </a>
+                                                    </h5>
+                                                </div>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <span>{{ trans('home.message.no_data') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row for-sp">
+                        <div class="card mb-4">
+                            <a href="/decision/receivedReport" style="color: white; outline: unset;" target="_blank">
+                            <div class="card-header decide-title" style="cursor:pointer">
+                                <div class="card-title front-span">
+                                    <span class="bigger-120">等待批准</span>
+                                </div>
+                            </div>
+                            </a>
+                            <div class="card-body decide-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
+                                <table id="" style="table-layout:fixed;border:0px solid black;">
+                                    <tbody class="" id="list-body" style="">
+                                    @if (isset($reportList) && count($reportList) > 0)
+                                    <?php $index = 1;?>
+                                    @foreach ($reportList as $report)
+                                        @if ($report['ishide'] != 1)
+                                        <?php $nickName=""?>
+                                        @foreach($shipList as $ship)
+                                            @if ($ship->IMO_No == $report['shipNo'])
+                                            <?php $nickName = $ship['NickName'];?>
+                                            @endif
+                                        @endforeach
+                                        <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif title="{{$report['report_id']}}">
+                                            <td class="center" style="height:20px!important;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{g_enum('ReportTypeData')[$report['flowid']]}}</span></td>
+                                            <td class="center">{{$report['obj_type'] == OBJECT_TYPE_SHIP?$nickName:$report['obj_name']}}</td>
+                                            <td class="center">{{$report['voyNo']}}</td>
+                                            <td class="center" style="width:25%"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{isset(g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']])?g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']]:""}}</span></td>
+                                            <td class="center" style="background-color:#fdb971!important"><span class="blink">等待</span></td>
+                                            <?php $index++;?>
+                                        </tr>
+                                        @endif
+                                    @endforeach
+                                    @else
+                                    <tr>
+                                        <td colspan="8">{{ trans('common.message.no_data') }}</td>
+                                    </tr>
+                                    @endif
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -393,7 +477,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-2 for-pc">
                     <div class="row">
                         <div class="card mb-4">
                             <div class="card-header common-decide-title">

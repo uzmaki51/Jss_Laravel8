@@ -375,7 +375,7 @@ div.input table tbody tr td
     display: none;
 }
 .for-pc {
-    display: '';
+    display: revert;
 }
 .sp-menu {
     display: none;
@@ -544,7 +544,7 @@ div.input table tbody tr td
     }
 
     .for-sp {
-        display: revert!important;
+        display: revert;
     }
     .for-pc {
         display: none;
