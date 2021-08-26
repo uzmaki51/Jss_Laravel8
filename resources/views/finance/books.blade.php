@@ -34,6 +34,36 @@ $isHolder = Session::get('IS_HOLDER');
             .disable-td {
                 background-color:unset!important;
             }
+
+            .dynamic-first-footer td {
+                position: sticky!important;
+                bottom: 0px;
+                box-shadow: inset 0 1px #000, 1px -1px #000;
+                border-top: unset!important;
+            }
+
+            .dynamic-second-footer td {
+                position: sticky!important;
+                bottom: 24px;
+                box-shadow: inset 0 1px #000, 1px -1px #000;
+                border-top: unset!important;
+            }
+
+            .dynamic-third-footer td {
+                position: sticky!important;
+                bottom: 48px;
+                box-shadow: inset 0 1px #000, 1px -1px #000;
+                border-top: unset!important;
+            }
+
+            .dynamic-fourth-footer td {
+                position: sticky!important;
+                bottom: 72px;
+                box-shadow: inset 0 1px #000, 1px -1px #000;
+                border-top: unset!important;
+            }
+
+
         </style>
         <div class="page-content">
             <div class="space-4"></div>
@@ -529,7 +559,7 @@ $isHolder = Session::get('IS_HOLDER');
                         sum_credit_D = 0;
                         sum_debit_D = 0;
                     }
-                    var report_row = '<tr class="tr-report" style="height:20px;border:1px solid black;">';
+                    var report_row = '<tr class="tr-report dynamic-footer dynamic-fourth-footer" style="height:20px;border:1px solid black;">';
                     report_row += '<td class="sub-small-header"></td><td class="sub-small-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center"><span style="color:red">合计 (RMB)</span></td><td class="sub-small-header style-normal-header"></td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right style-blue-input">¥ ' + prettyValue(sum_credit_R) + '</td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right">¥ ' + prettyValue(sum_debit_R) + '</td>';
@@ -537,7 +567,7 @@ $isHolder = Session::get('IS_HOLDER');
                     report_row += '<td class="sub-small-header" colspan="1"></td>';
                     report_row += '<td class="sub-small-header"></td>';
                     report_row += '</tr>';
-                    report_row += '<tr class="tr-report" style="height:20px;border:1px solid black;">';
+                    report_row += '<tr class="tr-report dynamic-footer dynamic-third-footer" style="height:20px;border:1px solid black;">';
                     report_row += '<td class="sub-small-header"></td><td class="sub-small-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center"><span style="color:#026fcd">合计 (USD)</span></td><td class="sub-small-header style-normal-header"></td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right style-blue-input">$ ' + prettyValue(sum_credit_D) + '</td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right">$ ' + prettyValue(sum_debit_D) + '</td>';
@@ -547,7 +577,7 @@ $isHolder = Session::get('IS_HOLDER');
                     report_row += '</tr>';
 
                     var total_sum = response.json.totalSum;
-                    report_row += '<tr class="tr-report" style="height:20px;border:1px solid black;">';
+                    report_row += '<tr class="tr-report dynamic-footer dynamic-second-footer" style="height:20px;border:1px solid black;">';
                     report_row += '<td class="sub-small-header2"></td><td class="sub-small-header2"></td><td class="sub-small-header2 style-normal-header"></td><td class="sub-small-header2 style-normal-header text-center"><span style="color:red">累计 (RMB)</span></td><td class="sub-small-header2 style-normal-header"></td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right style-blue-input">¥ ' + prettyValue(total_sum[0].credit_sum) + '</td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right">¥ ' + prettyValue(total_sum[0].debit_sum) + '</td>';
@@ -555,7 +585,7 @@ $isHolder = Session::get('IS_HOLDER');
                     report_row += '<td class="sub-small-header2" colspan="1"></td>';
                     report_row += '<td class="sub-small-header2"></td>';
                     report_row += '</tr>';
-                    report_row += '<tr class="tr-report" style="height:20px;border:1px solid black;">';
+                    report_row += '<tr class="tr-report dynamic-footer dynamic-first-footer" style="height:20px;border:1px solid black;">';
                     report_row += '<td class="sub-small-header2"></td><td class="sub-small-header2"></td><td class="sub-small-header2 style-normal-header"></td><td class="sub-small-header2 style-normal-header text-center"><span style="color:#026fcd">累计 (USD)</span></td><td class="sub-small-header2 style-normal-header"></td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right style-blue-input">$ ' + prettyValue(total_sum[1].credit_sum) + '</td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right">$ ' + prettyValue(total_sum[1].debit_sum) + '</td>';
