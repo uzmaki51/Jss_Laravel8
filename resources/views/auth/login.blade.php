@@ -33,30 +33,25 @@
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                        <div class="col-md-12">
+                        <div class="row">
+                        <div class="col-md-12" style="width: 100%;">
                             <div class="form-group">
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control" name="account" value="{{ old('account') }}" placeholder="用户名" style="font-size: 18px;padding: 8px!important;" autocomplete="off">
-                                </div>
+                                <input type="text" class="form-control" name="account" value="{{ old('account') }}" placeholder="用户名" style="font-size: 18px;padding: 8px!important;" autocomplete="off">
                             </div>
 
                             <div class="form-group">
-                                <div class="col-md-12">
-                                    <input type="password" class="form-control" name="password" placeholder="密码" style="font-size: 18px;padding: 8px!important;" autocomplete="off">
-                                </div>
+                                <input type="password" class="form-control" name="password" placeholder="密码" style="font-size: 18px;padding: 8px!important;" autocomplete="off">
                             </div>
 
                             <div class="space"></div>
 
                             <div class="form-group" style="text-align: center">
-                                <div class="col-md-12">
-                                    <button type="submit" class="width-100 btn btn-sm btn-primary"  style="font-size: 18px;padding: 8px!important;">
-                                        <i class="icon-key"></i>登录
-                                    </button>
-                                </div>
+                                <button type="submit" class="width-100 btn btn-sm btn-primary"  style="font-size: 18px;padding: 8px!important;">
+                                    <i class="icon-key"></i>登录
+                                </button>
                             </div>
                         </div>
-
+                        </div>
                     </form>
                 </div>
             </div>
