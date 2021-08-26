@@ -36,7 +36,7 @@ Route::group(['prefix' => 'org'], function() {
 	Route::get('userPrivilege', 	[App\Http\Controllers\OrgManage\OrgmanageController::class, 'userPrivilege']);
 	Route::get('userInfoListView', 	[App\Http\Controllers\OrgManage\OrgmanageController::class, 'userInfoListView']);
 	Route::post('memberList', 	[App\Http\Controllers\OrgManage\OrgmanageController::class, 'getUserInfoList']);
-	Route::get('memberadd',		[App\Http\Controllers\OrgManage\OrgmanageController::class, 'addMemberinfo']);
+	Route::get('memberadd',		[App\Http\Controllers\OrgManage\OrgmanageController::class, 'addMemberinfo'])->name('org.add');
 	Route::post('memberadder',	[App\Http\Controllers\OrgManage\OrgmanageController::class, 'addMember']);
 	Route::post('upload',		[App\Http\Controllers\OrgManage\OrgmanageController::class, 'upload']);
 	Route::post('memberupdate',	[App\Http\Controllers\OrgManage\OrgmanageController::class, 'updateMember']);

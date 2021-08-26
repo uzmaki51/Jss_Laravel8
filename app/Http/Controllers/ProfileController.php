@@ -45,6 +45,10 @@ class ProfileController extends Controller
                     'cmenus'    =>  $cmenus,
                     'state'     =>  $state,
                     'shipList'  =>  $shipList,
+
+                    'breadList'    => array([
+                        '', '编辑信息']
+                    )
                 ]);
     }
 

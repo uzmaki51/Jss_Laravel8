@@ -324,6 +324,11 @@ class OrgmanageController extends Controller
                     'cmenus'    =>  $cmenus,
                     'state'     =>  $state,
                     'shipList'  =>  $shipList,
+
+                    'breadList'    => array([
+                        '/org/memberadd', '职员信息'],[
+                        '', (empty($userid) ? '添加' : '修改'),]
+                    )
                 ]);
     }
 

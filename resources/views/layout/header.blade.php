@@ -218,6 +218,25 @@
                     @endforeach
                 </ul>
             </div>
+        @elseif($routeName == 'org.add' || $routeName == 'profile')
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="{{ route('home') }}">首页</a>
+                    </li>
+                    @foreach($breadList as $key => $item)
+                        @if($key + 1 == count($breadList))
+                            <li class="active">
+                                <span>{{ $item[1] }}</span>
+                            </li>
+                        @else
+                            <li>
+                                <a href="{{ $item[0] }}">{{ $item[1] }}</a>
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
         @endif
         @yield('content')
     </div>
