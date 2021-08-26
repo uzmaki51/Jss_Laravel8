@@ -68,48 +68,36 @@
             
             <div id="menuToggle" class="sp-menu">
                 <input type="checkbox" class="hamburger-input"/>
+                <span></span>
+                <span></span>
+                <span></span>
 
-                <span></span>
-                <span></span>
-                <span></span>
-                
-                <!--
-                Too bad the menu has to be inside of the button
-                but hey, it's pure CSS magic.
-                -->
-                <ul class="nav nav-list" id="menu">
+                <ul class="nav nav-pills" id="menu">
                     <li>
                         <a href="{{ route('home') }}">
                             首页
                         </a>
                     </li>
-                    @foreach($menuList as $key => $item)
-                        @if($item['parent'] == 0)
-                            <li>
-                                <a href="{{ (count($item['children']) == 0 ? '/' . $item['controller'] . '?menuId=' . $item['id'] : '#') }}" class="dropdown-toggle">{{ $item['title'] }}</a>
-                                <ul class="submenu nav-hide">
-                                    <li class="">
-                                        @foreach($item['children'] as $key => $sub)
-                                            <a href="{{ (count($sub['children']) == 0 ? '/' . $sub['controller'] . '?menuId=' . $sub['id'] : '#') }}" class="{{ count($sub['children']) == 0 ? '' : 'dropdown-toggle' }}">
-                                                {{ $sub['title'] }}
-                                            </a>
-                                            @if(count($sub['children']) > 0)
-                                                <ul class="submenu nav-hide">
-                                                    @foreach($sub['children'] as $value)
-                                                        <li class="">
-                                                            <a href="/{{ $value['controller'] . '?menuId=' . $value['id'] }}">
-                                                                {{ $value['title'] }}
-                                                            </a>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                            @endif
-                                        @endforeach
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-                    @endforeach
+                    <li>
+                        <a href="/decision/receivedReport">
+                            审批
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/shipManage/ctm/analytics">
+                            分析
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/business/dynRecord">
+                            动态
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('home') }}">
+                            财务
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="sp-menu overlay-show" id="overlay-div" style="display: none;"></div>

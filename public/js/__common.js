@@ -249,6 +249,14 @@ $('.hamburger-input').on('change', function() {
     }
 });
 
+// $('.hamburger-input').on('click', function() {
+//     if($(this).prop('checked')) {
+//         $('.hamburger-input').prop('checked', false);
+//     } else {
+//         $('.hamburger-input').prop('checked', true);
+//     }
+// })
+
 $(document).mouseup(function(e) {
     var container = $("#menu");
     if (!container.is(e.target) && container.has(e.target).length === 0) {

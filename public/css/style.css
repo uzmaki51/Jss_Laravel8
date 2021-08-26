@@ -423,12 +423,9 @@ div.input table tbody tr td
       position: absolute;
       top: -7px;
       left: -5px;
-      
       cursor: pointer;
-      
       opacity: 0; /* hide this */
-      z-index: 2; /* and place it over the hamburger */
-      
+      z-index: 100; /* and place it over the hamburger */
       -webkit-touch-callout: none;
     }
     
@@ -442,14 +439,10 @@ div.input table tbody tr td
       height: 4px;
       margin-bottom: 5px;
       position: relative;
-      
       background: #ffffff;
       border-radius: 3px;
-      
-      z-index: 1;
-      
+      z-index: 200;
       transform-origin: 4px 0px;
-      
       transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
                   background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
                   opacity 0.55s ease;
@@ -500,19 +493,22 @@ div.input table tbody tr td
     #menu
     {
         position: fixed;
-        width: 65%;
+        width: 100%;
         margin: 0;
-        padding: 60px 10px 0 20px;
+        padding: 60px 10px 10px 10px;
         overflow-y: auto;
-        background: #7e90ab;
+        background-image: linear-gradient(to right, rgb(0, 49, 118) , rgb(40, 104, 194));
         list-style-type: none;
         -webkit-font-smoothing: antialiased;
         transform-origin: 0% 0%;
-        transform: translate(-100%, 0);
+        transform: translate(0,-100%);
         transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
-        height: 100%;
-        top: 0;
+        height: auto;
+        top: 60px;
         left: 0;
+        display: none;
+        border-bottom: 2px solid #ffbc00;
+        border-top: 1px solid #1750a1;
     }
     
     // #menu li
@@ -527,6 +523,9 @@ div.input table tbody tr td
     #menuToggle input:checked ~ ul
     {
       transform: none;
+      justify-content: space-between;
+      display: flex;
+      top: 62px;
     }
 
     .pc-menu {
@@ -540,7 +539,7 @@ div.input table tbody tr td
         height: 100%;
         width: 100%;
         left: 0;
-        background: #131313a8;
+        background: #ffffff00;
         transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
     }
 
