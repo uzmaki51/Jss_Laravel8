@@ -60,9 +60,6 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="col-sm-3">
                                     <h4><b>记账簿管理</b></h4>
                                 </div>
-                                <div class="col-sm-6">
-                                    <input type="text" id="remark-box" name="remark-box" style="color:red;width:100%;display:none;" readonly="">
-                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -127,10 +124,12 @@ $isHolder = Session::get('IS_HOLDER');
                                     </div>
                                     <div class="row">
                                         <div class="tabbable">
-                                            <!--a id="btnKeep" class="btn btn-sm btn-primary" style="width: 50px;margin-top:10px;">
-                                                <i class="icon-plus"></i>记账凭证
-                                            </a-->
-                                            <button type="button" class="btn btn-primary" id="btnKeep" style="margin-top:10px;width:100px;height:30px;">记账凭证</button>
+                                            <div class="col-sm-4">
+                                                <button type="button" class="btn btn-primary" id="btnKeep" style="margin-top:10px;width:100px;height:30px;">记账凭证</button>
+                                            </div>
+                                            <div class="col-sm-6" style="margin-left:60px;margin-top:8px;">
+                                                <input type="text" id="remark-box" name="remark-box" style="color:red;width:100%;display:none;" readonly="">
+                                            </div>
                                         </div>
                                         <div class="tab-content">
                                             <div id="general" class="tab-pane active">
