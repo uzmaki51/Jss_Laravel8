@@ -89,8 +89,8 @@
                                 <th style="width: 5%;">{!! trans('decideManage.table.type') !!}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
-                                <th style="width: 7%;">{{ trans('decideManage.table.voy_no') }}</th>
-                                <th style="width: 7%;" class="for-pc">{!! trans('decideManage.table.profit_type') !!}</th>
+                                <th style="width: 7%;" class="for-pc">{{ trans('decideManage.table.voy_no') }}</th>
+                                <th style="width: 7%;">{!! trans('decideManage.table.profit_type') !!}</th>
                                 <th style="width: 25%;" class="for-pc">{{ trans('decideManage.table.content') }}</th>
                                 <th style="width: 5%;" class="for-pc">{{ trans('decideManage.table.currency') }}</th>
                                 <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
@@ -1229,8 +1229,8 @@
                     {data: 'flowid', className: "text-center each"},
                     {data: 'report_date', className: "text-center each"},
                     {data: 'shipName', className: "text-center each"},
-                    {data: 'voyNo', className: "text-center each"},
-                    {data: 'profit_type', className: "text-center each for-pc"},
+                    {data: 'voyNo', className: "text-center each for-pc"},
+                    {data: 'profit_type', className: "text-center each"},
                     {data: 'content', className: "text-left each for-pc report-content"},
                     {data: 'currency', className: "text-center each for-pc"},
                     {data: 'amount', className: "text-right each"},
