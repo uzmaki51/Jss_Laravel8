@@ -58,9 +58,9 @@ $ships = Session::get('shipList');
                         <label class="font-bold">提前:</label>
                         <select class="text-center" style="width: 60px;" name="expire_date" v-model="expire_date" @change="onExpireChange">
                             <option value="0">All</option>
+                            <option value="60">60</option>
                             <option value="90">90</option>
                             <option value="120">120</option>
-                            <option value="180">180</option>
                         </select>
                         <input type="hidden" class="text-center" style="width: 60px;" name="ship_id" v-model="ship_id">
                         <label>天</label>
