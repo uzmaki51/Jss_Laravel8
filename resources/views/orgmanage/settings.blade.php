@@ -117,9 +117,9 @@ $isHolder = Session::get('IS_HOLDER');
                                             <td class="add-td-text" colspan="2">
                                                 <select class="form-control" name="cert-expire_date" id="cert-expire_date">
                                                     <option value="0" @if($settings['cert_expire_date']=='0') selected @endif>All</option>
-                                                    <option value="60" @if($settings['cert_expire_date']=='90') selected @endif>60天</option>
-                                                    <option value="90" @if($settings['cert_expire_date']=='120') selected @endif>90天</option>
-                                                    <option value="120" @if($settings['cert_expire_date']=='180') selected @endif>120天</option>
+                                                    <option value="60" @if($settings['cert_expire_date']=='60') selected @endif>60天</option>
+                                                    <option value="90" @if($settings['cert_expire_date']=='90') selected @endif>90天</option>
+                                                    <option value="120" @if($settings['cert_expire_date']=='120') selected @endif>120天</option>
                                                 </select>
                                             </td>
                                         </tr>
