@@ -495,7 +495,7 @@ div.input table tbody tr td
         position: fixed;
         width: 100%;
         margin: 0;
-        padding: 60px 10px 10px 10px;
+        padding: 10px 10px 10px 10px;
         overflow-y: auto;
         background-image: linear-gradient(to right, rgb(0, 49, 118) , rgb(40, 104, 194));
         list-style-type: none;
