@@ -679,50 +679,55 @@
                             },
                             success: function(result) {
                                 let currentData = result['currentData'];
-                                let is_exist = result['is_exist'];
-                                if(is_exist == false) {
-                                    let voyData = result['voyData'];
-                                    let cpData = result['cpData'];
+                                let voyData = result['voyData'];
+                                let cpData = result['cpData'];
 
-                                    searchObj.analyze.list = [];
-                                    let realData = [];
-                                    let footerData = [];
-                                    footerData['voy_count'] = 0;
-                                    footerData['sail_time'] = 0;
-                                    footerData['average_speed'] = 0;
-                                    footerData['total_distance'] = 0;
-                                    footerData['total_sail_time'] = 0;
-                                    footerData['total_loading_time'] = 0;
-                                    footerData['loading_time'] = 0;
-                                    footerData['disch_time'] = 0;
-                                    footerData['total_waiting_time'] = 0;
-                                    footerData['total_weather_time'] = 0;
-                                    footerData['total_repair_time'] = 0;
-                                    footerData['total_supply_time'] = 0;
-                                    footerData['total_else_time'] = 0;
+                                searchObj.analyze.list = [];
+                                let realData = [];
+                                let footerData = [];
+                                footerData['voy_count'] = 0;
+                                footerData['sail_time'] = 0;
+                                footerData['average_speed'] = 0;
+                                footerData['total_distance'] = 0;
+                                footerData['total_sail_time'] = 0;
+                                footerData['total_loading_time'] = 0;
+                                footerData['loading_time'] = 0;
+                                footerData['disch_time'] = 0;
+                                footerData['total_waiting_time'] = 0;
+                                footerData['total_weather_time'] = 0;
+                                footerData['total_repair_time'] = 0;
+                                footerData['total_supply_time'] = 0;
+                                footerData['total_else_time'] = 0;
 
-                                    footerData['total_up_rob_fo'] = 0;
-                                    footerData['total_up_rob_do'] = 0;
-                                    footerData['total_down_rob_fo'] = 0;
-                                    footerData['total_down_rob_do'] = 0;
+                                footerData['total_up_rob_fo'] = 0;
+                                footerData['total_up_rob_do'] = 0;
+                                footerData['total_down_rob_fo'] = 0;
+                                footerData['total_down_rob_do'] = 0;
 
-                                    footerData['total_rob_fo'] = 0;
-                                    footerData['total_rob_do'] = 0;
-                                    footerData['total_saved_fo'] = 0;
-                                    footerData['total_saved_do'] = 0;
+                                footerData['total_rob_fo'] = 0;
+                                footerData['total_rob_do'] = 0;
+                                footerData['total_saved_fo'] = 0;
+                                footerData['total_saved_do'] = 0;
 
-                                    footerData['total_bunk_fo'] = 0;
-                                    footerData['total_bunk_do'] = 0;
+                                footerData['total_bunk_fo'] = 0;
+                                footerData['total_bunk_do'] = 0;
 
-                                    footerData['total_fuelSum'] = 0;
+                                footerData['total_fuelSum'] = 0;
 
-                                    footerData['total_oil_price_fo'] = 0;
-                                    footerData['total_oil_price_do'] = 0;
-                                    footerData['total_oil_price_else'] = 0;
-                                    footerData['voy_count'] = voyData.length;
+                                footerData['total_oil_price_fo'] = 0;
+                                footerData['total_oil_price_do'] = 0;
+                                footerData['total_oil_price_else'] = 0;
+                                footerData['voy_count'] = voyData.length;
 
-                                    voyData.forEach(function(value, key) {
-                                        let tmpData = currentData[value];
+                                voyData.forEach(function(value, key) {
+                                    let voyInfo = currentData[value[0]];
+                                    let voyId = value[0];
+                                    console.log(voyInfo['main']);
+                                    if(!value[1] && voyInfo['main'].length > 0) {
+                                        let beforeData = voyInfo['before'];
+                                        let tmpData = voyInfo['main'];
+                                        let fuleSum = voyInfo['fuelSum'];
+                                        
                                         let total_sail_time = 0;
                                         let total_loading_time = 0;
                                         let loading_time = 0;
@@ -750,26 +755,19 @@
 
 
                                         realData = [];
-                                        realData['voy_no'] = value;
+                                        realData['voy_no'] = value[0];
                                         realData['voy_count'] = tmpData.length;
-                                        realData['voy_start'] = tmpData[0]['Voy_Date'];
+                                        realData['voy_start'] = beforeData['Voy_Date'];
                                         realData['voy_end'] = tmpData[tmpData.length - 1]['Voy_Date'];
-                                        realData['lport'] = cpData[value]['LPort'] == false ? '-' : cpData[value]['LPort'];
-                                        realData['dport'] = cpData[value]['DPort'] == false ? '-' : cpData[value]['DPort'];
-                                        realData['sail_time'] = __getTermDay(realData['voy_start'], realData['voy_end'], tmpData[0]['GMT'], tmpData[tmpData.length - 1]['GMT']);
-                                        realData.fuelSum = __parseFloat(cpData[value]['fuelSum']) == 0 ? '-' : __parseFloat(cpData[value]['fuelSum']);
+
+                                        realData.fuelSum = __parseFloat(fuleSum) == 0 ? '-' : __parseFloat(fuleSum);
                                         realData.up_rob_fo = 0;
                                         realData.up_rob_do = 0;
                                         realData.down_rob_fo = 0;
                                         realData.down_rob_do = 0;
 
-                                        // searchObj.setTotalInfo(data);
                                         tmpData.forEach(function(data_value, data_key) {
-                                            // total_distance += __parseFloat(data_value["Sail_Distance"]);
-                                            total_distance += data_key > 0 ? __parseFloat(data_value["Sail_Distance"]) : 0;
-                                            bunk_fo += __parseFloat(data_value['BUNK_FO']);
-                                            bunk_do += __parseFloat(data_value['BUNK_DO']);
-
+                                            total_distance += __parseFloat(data_value["Sail_Distance"]);
                                             if(data_key > 0) {
                                                 if(data_value['Voy_Type'] == DYNAMIC_SUB_SALING) {
                                                     let preKey = data_key - 1;
@@ -809,31 +807,31 @@
                                                 if(data_value['Voy_Type'] == DYNAMIC_SUB_REPAIR) {
                                                     let preKey = data_key - 1;
                                                     let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
-                                                    let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'] + ':00';
+                                                    let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
                                                     total_repair_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                                 }
 
                                                 if(data_value['Voy_Type'] == DYNAMIC_SUB_SUPPLY) {
                                                     let preKey = data_key - 1;
                                                     let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
-                                                    let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'] + ':00';
+                                                    let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
                                                     total_supply_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
                                                 }
 
                                                 if(data_value['Voy_Type'] == DYNAMIC_SUB_ELSE) {
                                                     let preKey = data_key - 1;
                                                     let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
-                                                    let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'] + ':00';
+                                                    let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
                                                     total_else_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
+                                                    //if(value == '2017') console.log(total_else_time)
                                                 }
-
                                             }
                                         });
 
                                         if(tmpData.length > 0) {
                                             let length = tmpData.length;
-                                            up_rob_fo = __parseFloat(tmpData[0]['ROB_FO']);
-                                            up_rob_do = __parseFloat(tmpData[0]['ROB_DO']);
+                                            up_rob_fo = __parseFloat(beforeData['ROB_FO']);
+                                            up_rob_do = __parseFloat(beforeData['ROB_DO']);
 
                                             down_rob_fo = __parseFloat(tmpData[length-1]['ROB_FO']);
                                             down_rob_do = __parseFloat(tmpData[length-1]['ROB_DO']);
@@ -847,6 +845,7 @@
                                         realData.bunk_do = bunk_do;
 
                                         let non_economic_date = BigNumber(__parseFloat(total_waiting_time.toFixed(2))).plus(__parseFloat(total_weather_time.toFixed(2))).plus(__parseFloat(total_repair_time.toFixed(2))).plus(__parseFloat(total_supply_time.toFixed(2))).plus(__parseFloat(total_else_time.toFixed(2))).toFixed(2)
+                                        realData.sail_time = __parseFloat(realData.non_economic_date) + __parseFloat(realData.total_loading_time);
                                         let usedFoTmp1 = BigNumber(total_sail_time.toFixed(2)).multipliedBy(shipInfo['FOSailCons_S']);
                                         let usedFoTmp2 = BigNumber(loading_time).plus(disch_time).multipliedBy(shipInfo['FOL/DCons_S']);
                                         let usedFoTmp3 = BigNumber(non_economic_date).multipliedBy(shipInfo['FOIdleCons_S']);
@@ -892,55 +891,54 @@
                                         realData.up_file_name = '';
                                         realData.down_file_name = '';
 
-                                        // Calc Footer data
-                                        footerData['sail_time'] += parseInt(realData['sail_time']);
-                                        footerData['total_distance'] += parseInt(realData['total_distance']);
-                                        footerData['total_sail_time'] += parseFloat(realData['total_sail_time']);
-                                        footerData['total_loading_time'] += parseFloat(realData['total_loading_time']);
-                                        footerData['loading_time'] += parseFloat(realData['loading_time']);
-                                        footerData['disch_time'] += parseFloat(realData['disch_time']);
-                                        footerData['total_waiting_time'] += parseFloat(realData['total_waiting_time']);
-                                        footerData['total_weather_time'] += parseFloat(realData['total_weather_time']);
-                                        footerData['total_repair_time'] += parseFloat(realData['total_repair_time']);
-                                        footerData['total_supply_time'] += parseFloat(realData['total_supply_time']);
-                                        footerData['total_else_time'] += parseFloat(realData['total_else_time']);
-                                        footerData['average_speed'] += __parseFloat(BigNumber(realData.avg_speed).div(voyData.length).toFixed(1));
-
-                                        footerData['total_up_rob_fo'] += __parseFloat(BigNumber(realData.up_rob_fo).toFixed(2));
-                                        footerData['total_up_rob_do'] += __parseFloat(BigNumber(realData.up_rob_do).toFixed(2));
-                                        footerData['total_down_rob_fo'] += __parseFloat(BigNumber(realData.down_rob_fo).toFixed(2));
-                                        footerData['total_down_rob_do'] += __parseFloat(BigNumber(realData.down_rob_do).toFixed(2));
-
-                                        footerData['total_rob_fo'] += __parseFloat(BigNumber(realData.rob_fo).toFixed(2));
-                                        footerData['total_rob_do'] += __parseFloat(BigNumber(realData.rob_do).toFixed(2));
-                                        footerData['total_saved_fo'] += __parseFloat(BigNumber(realData.saved_fo).toFixed(2));
-                                        footerData['total_saved_do'] += __parseFloat(BigNumber(realData.saved_do).toFixed(2));
-
-                                        footerData['total_bunk_fo'] += __parseFloat(BigNumber(realData.bunk_fo).toFixed(2));
-                                        footerData['total_bunk_do'] += __parseFloat(BigNumber(realData.bunk_do).toFixed(2));
-
-                                        footerData['total_fuelSum'] += __parseFloat(BigNumber(realData.fuelSum).toFixed(2));
-
-                                        footerData['total_oil_price_fo'] += __parseFloat(BigNumber(realData.oil_price_fo).div(voyData.length).toFixed(2));
-                                        footerData['total_oil_price_do'] += __parseFloat(BigNumber(realData.oil_price_do).div(voyData.length).toFixed(2));
-                                        footerData['total_oil_price_else'] += __parseFloat(BigNumber(realData.oil_price_else).div(voyData.length).toFixed(2));
-
                                         searchObj.analyze.list.push(realData);
-                                        searchObjTmp += JSON.stringify({realData});
-                                    });
-                                    footerData['voy_count'] = voyData.length;
-                                    searchObj.analyze.total = footerData;
-                                    searchObj.calcValue();
-                                } else {
-                                    searchObj.analyze.list = currentData;
-                                    searchObj.calculate();
-                                    searchObjTmp = Object.assign([], [], searchObj.analyze.list);
-                                }
+                                    } else  {
+                                        searchObj.analyze.list.push(voyInfo);
+                                    }
+
+                                    // Calc Footer data
+                                    footerData['sail_time'] += parseInt(realData['sail_time']);
+                                    footerData['total_distance'] += parseInt(realData['total_distance']);
+                                    footerData['total_sail_time'] += parseFloat(realData['total_sail_time']);
+                                    footerData['total_loading_time'] += parseFloat(realData['total_loading_time']);
+                                    footerData['loading_time'] += parseFloat(realData['loading_time']);
+                                    footerData['disch_time'] += parseFloat(realData['disch_time']);
+                                    footerData['total_waiting_time'] += parseFloat(realData['total_waiting_time']);
+                                    footerData['total_weather_time'] += parseFloat(realData['total_weather_time']);
+                                    footerData['total_repair_time'] += parseFloat(realData['total_repair_time']);
+                                    footerData['total_supply_time'] += parseFloat(realData['total_supply_time']);
+                                    footerData['total_else_time'] += parseFloat(realData['total_else_time']);
+                                    footerData['average_speed'] += __parseFloat(BigNumber(realData.avg_speed).div(voyData.length).toFixed(1));
+
+                                    footerData['total_up_rob_fo'] += __parseFloat(BigNumber(realData.up_rob_fo).toFixed(2));
+                                    footerData['total_up_rob_do'] += __parseFloat(BigNumber(realData.up_rob_do).toFixed(2));
+                                    footerData['total_down_rob_fo'] += __parseFloat(BigNumber(realData.down_rob_fo).toFixed(2));
+                                    footerData['total_down_rob_do'] += __parseFloat(BigNumber(realData.down_rob_do).toFixed(2));
+
+                                    footerData['total_rob_fo'] += __parseFloat(BigNumber(realData.rob_fo).toFixed(2));
+                                    footerData['total_rob_do'] += __parseFloat(BigNumber(realData.rob_do).toFixed(2));
+                                    footerData['total_saved_fo'] += __parseFloat(BigNumber(realData.saved_fo).toFixed(2));
+                                    footerData['total_saved_do'] += __parseFloat(BigNumber(realData.saved_do).toFixed(2));
+
+                                    footerData['total_bunk_fo'] += __parseFloat(BigNumber(realData.bunk_fo).toFixed(2));
+                                    footerData['total_bunk_do'] += __parseFloat(BigNumber(realData.bunk_do).toFixed(2));
+
+                                    footerData['total_fuelSum'] += __parseFloat(BigNumber(realData.fuelSum).toFixed(2));
+
+                                    footerData['total_oil_price_fo'] += __parseFloat(BigNumber(realData.oil_price_fo).div(voyData.length).toFixed(2));
+                                    footerData['total_oil_price_do'] += __parseFloat(BigNumber(realData.oil_price_do).div(voyData.length).toFixed(2));
+                                    footerData['total_oil_price_else'] += __parseFloat(BigNumber(realData.oil_price_else).div(voyData.length).toFixed(2));
+                                });
+
+                                searchObj.calculate();
+                                footerData['voy_count'] = voyData.length;
+                                searchObj.analyze.total = footerData;
+                                searchObj.calcValue();
 
                                 isChangeStatus = false;
 
                                 tmp = $('[name=year_list]').val();
-                                
+                            
                             }
                         });
                     },

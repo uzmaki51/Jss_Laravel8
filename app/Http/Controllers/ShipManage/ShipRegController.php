@@ -2229,119 +2229,49 @@ class ShipRegController extends Controller
         }
 
         $year = $params['year'];
+        if(isset($params['year']))
+            $params['year'] = substr($params['year'], 2, 2);
+        
+        $cpList = Cp::where('ship_ID', $shipId)->whereRaw(DB::raw('mid(Voy_No, 1, 2) like ' . $params['year']))->get();
+        
+        foreach($cpList as $key => $item) {
+            $voyId = $item->Voy_No;
+            $fuelList = Fuel::where('shipId', $shipId)->where('voy_no', $voyId)->first();
 
-        $fuelList = Fuel::where('shipId', $shipId)->where('year', $year)->get();
-        if(!isset($fuelList) || count($fuelList) == 0) {
-            $voyTbl = VoyLog::where('Ship_ID', $shipId);
-            $voyTbl2 = VoyLog::where('Ship_ID', $shipId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH);
-            $voyTbl3 = VoyLog::where('Ship_ID', $shipId);
-            $prevData = null;
-            if(isset($params['type']) && isset($params['type']) != '') {
-                $params['year'] = substr($params['year'], 2, 2);
-                if($params['type'] == 'all') {
-                    if(isset($params['year']) && $params['year'] != 0 && isset($params['voyId']) && $params['voyId'] == 0) {
-                        $voyTbl->whereRaw(DB::raw('mid(CP_ID, 1, 2) like ' . $params['year']));
-                        $voyTbl3->whereRaw(DB::raw('mid(CP_ID, 1, 2) like ' . $params['year']));
-                        $voyTbl2->whereRaw(DB::raw('mid(CP_ID, 1, 2) < ' . $params['year']))->orderBy('CP_ID', 'asc');
-                    }
-            
-                    if(isset($params['voyId']) && $params['voyId'] != 0) {
-                        $voyTbl->where('CP_ID', $params['voyId']);
-                        $voyTbl3->where('CP_ID', $params['voyId']);
-                        $voyTbl2->where('CP_ID', '<', $params['voyId'])->orderBy('CP_ID', 'desc');
-                    }
-    
-                } else if($params['type'] == 'analyze') {
-                    if(isset($params['year']) && $params['year'] != 0) {
-                        $voyTbl->whereRaw(DB::raw('mid(CP_ID, 1, 2) like ' . $params['year']));
-                        $voyTbl2->whereRaw(DB::raw('mid(CP_ID, 1, 2) < ' . $params['year']))->orderBy('Voy_Date', 'desc');
-                    }
-            
-                    $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
-                    $voyTbl2->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
+            $cpInfo = Cp::where('ship_ID', $shipId)->where('Voy_No', $voyId)->first();
+            if($cpInfo == null)
+                $retVal['cpData'][$voyId] = [];
+            else
+                $retVal['cpData'][$voyId] = $cpInfo;
+
+            if($fuelList == null) {
+                $beforeVoy = VoyLog::where('Voy_Status', DYNAMIC_CMPLT_DISCH)->where('CP_ID', '<', $voyId)->where('Ship_ID', $shipId)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->orderBy('id', 'desc')->first();
+                $firstVoy = VoyLog::where('CP_ID', $voyId)->where('Ship_ID', $shipId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->orderBy('id', 'asc')->first();
+
+                $mainInfo = VoyLog::where('Ship_ID', $shipId)
+                    ->where('CP_ID', $voyId)
+                    ->orderBy('Voy_Date', 'asc')
+                    ->orderBy('Voy_Hour', 'asc')
+                    ->orderBy('Voy_Minute', 'asc')
+                    ->orderBy('GMT', 'asc')
+                    ->orderBy('id', 'asc')
+                    ->get();
+                if(isset($mainInfo) && count($mainInfo) > 0) {
+                    $retVal['currentData'][$voyId]['main'] = $mainInfo;
+                    $retVal['currentData'][$voyId]['before'] = ($beforeVoy == null ? $firstVoy : $beforeVoy);
+                    $retVal['currentData'][$voyId]['is_exist'] = false;
+
+                    $decideTbl = new DecisionReport();
+                    $debit_credit = $decideTbl->getIncome($shipId, $voyId);
+                    $oil_fee = isset($debit_credit[2][OUTCOME_FEE2]) ? $debit_credit[2][OUTCOME_FEE2] : 0;
+                    $retVal['currentData'][$voyId]['fuelSum'] = round($oil_fee, 2);
+                    $retVal['voyData'][] = [$voyId, false];
                 }
+            } else {
+                $retVal['currentData'][$voyId] = $fuelList;
+                $retVal['voyData'][] = [$voyId, true];
             }
-    
-    
-            $retVal['currentData'] = $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->orderBy('id', 'asc')->get();
-            $prevData = $voyTbl2->first();
-            if($prevData == null)
-                $prevData = $voyTbl->first();
-    
-            $retVal['prevData'] = $prevData;
-            $retVal['max_date'] = $voyTbl3->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->orderBy('id', 'desc')->first();
-            if($retVal['max_date'] == null)
-                $retVal['max_date'] = false;
-    
-            $retVal['min_date'] = $prevData;
-            if($retVal['min_date'] == null)
-                $retVal['min_date'] = false;
-                
-            if($params['type'] == 'analyze') {
-                $retTmp = [];
-                $voyArray = [];
-                $tmpVoyId = 0;
-                $cp_list = [];
-                
-                foreach($retVal['currentData'] as $key => $item) {
-                    if(!in_array($item->CP_ID, $voyArray)) {
-                        $voyArray[] = $item->CP_ID;
-                        $beforeVoy = VoyLog::where('Voy_Status', DYNAMIC_CMPLT_DISCH)->where('CP_ID', '<', $item->CP_ID)->where('Ship_ID', $item->Ship_ID)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->orderBy('id', 'desc')->first();
-                        $firstVoy = VoyLog::where('CP_ID', $item->CP_ID)->where('Ship_ID', $item->Ship_ID)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->orderBy('id', 'asc')->first();
-                        if($beforeVoy != null)
-                            $retTmp[$item->CP_ID][] = $beforeVoy;
-                        else if($firstVoy != null)
-                            $retTmp[$item->CP_ID][] = $firstVoy;
-
-    
-                        $cp_list = CP::where('Ship_ID', $shipId)->where('Voy_No', $item->CP_ID)->orderBy('Voy_No', 'desc')->get();
-                        foreach($cp_list as $cp_key => $cp_item) {
-                            $LPort = $cp_item->LPort;
-                            $LPort = explode(',', $LPort);
-                            $LPort = ShipPort::whereIn('id', $LPort)->get();
-                            $tmp = '';
-                            foreach($LPort as $port)
-                                $tmp .= $port->Port_En . ', ';
-                            $cp_list[$cp_key]->LPort = substr($tmp, 0, strlen($tmp) - 3);
-                
-                            $DPort = $cp_item->DPort;
-                
-                            $DPort = $cp_item->DPort;
-                            $DPort = explode(',', $DPort);
-                            $DPort = ShipPort::whereIn('id', $DPort)->get();
-                            $tmp = '';
-                            foreach($DPort as $port)
-                                $tmp .= $port->Port_En . ', ';
-                            $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
-                        }
-
-                        if(count($cp_list) > 0) {
-                            $retVal['cpData'][$item->CP_ID] = $cp_list[0];
-                            $decideTbl = new DecisionReport();
-                            $debit_credit = $decideTbl->getIncome($shipId, $item->CP_ID);
-                            $oil_fee = isset($debit_credit[2][OUTCOME_FEE2]) ? $debit_credit[2][OUTCOME_FEE2] : 0;
-                            $retVal['cpData'][$item->CP_ID]->fuelSum = round($oil_fee, 2);
-                        }
-                    }
-    
-                    $item->fuelSum = 0;
-    
-                    $retTmp[$item->CP_ID][] = $item;
-                    $tmpVoyId = $item->CP_ID;
-                }
-
-
-    
-                $retVal['currentData'] = $retTmp;
-                $retVal['voyData'] = $voyArray;
-            }
-
-            $retVal['is_exist'] = false;
-        } else {
-            $retVal['currentData'] = $fuelList;
-            $retVal['is_exist'] = true;
         }
-
 
         return response()->json($retVal);
     }
