@@ -326,7 +326,7 @@ class OrgmanageController extends Controller
                     'shipList'  =>  $shipList,
 
                     'breadList'    => array([
-                        '/org/memberadd', '职员信息'],[
+                        '/org/userInfoListView', '职员信息'],[
                         '', (empty($userid) ? '添加' : '修改'),]
                     )
                 ]);
