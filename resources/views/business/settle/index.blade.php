@@ -895,7 +895,7 @@
                             voyId: $_this.voyId
                         },
                         success: function(data) {
-                            location.reload();
+                            location.href = '/business/settleMent?shipId=' + $_this.shipId + '&voyId=' + $_this.voyId;
                         }
                         
                     });
