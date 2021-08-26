@@ -60,6 +60,9 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="col-sm-3">
                                     <h4><b>记账簿管理</b></h4>
                                 </div>
+                                <div class="col-sm-6">
+                                    <input type="text" id="remark-box" name="remark-box" style="color:red;width:100%;display:none;" readonly="">
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -128,7 +131,6 @@ $isHolder = Session::get('IS_HOLDER');
                                                 <i class="icon-plus"></i>记账凭证
                                             </a-->
                                             <button type="button" class="btn btn-primary" id="btnKeep" style="margin-top:10px;width:100px;height:30px;">记账凭证</button>
-                                            <span id="remark-box" style="margin-top:10px;color:red" class="f-right"></span>
                                         </div>
                                         <div class="tab-content">
                                             <div id="general" class="tab-pane active">
@@ -1236,8 +1238,9 @@ $isHolder = Session::get('IS_HOLDER');
             });
 
             $('body').on('click', function(e) {
-                if ($(e.target).attr('class') != 'form-control content') {
-                    $('#remark-box').html('');
+                if (($(e.target).attr('class') != 'form-control content') && (e.target.id != "remark-box")) {
+                    $('#remark-box').val('');
+                    $('#remark-box').hide();
                 }
             });
 
@@ -1433,8 +1436,12 @@ $isHolder = Session::get('IS_HOLDER');
         }
 
         function showRemark(remark) {
-            if (remark != 'null') {
-                $('#remark-box').html(remark);
+            if ((remark != 'null') && (remark != '') && (remark != null)) {
+                $('#remark-box').val(remark);
+                $('#remark-box').show();
+            } else {
+                $('#remark-box').val('');
+                $('#remark-box').hide();
             }
         }
 
