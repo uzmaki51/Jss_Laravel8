@@ -94,7 +94,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('home') }}">
+                        <a href="/finance/books">
                             财务
                         </a>
                     </li>
