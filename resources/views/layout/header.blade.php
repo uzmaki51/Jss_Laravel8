@@ -134,7 +134,7 @@
             <div id="container">
                 <nav>
                     <ul class="pc-menu">
-                        @if(Auth::user()->pos != STAFF_LEVEL_SHAREHOLDER)
+                        @if(Auth::user()->pos != STAFF_LEVEL_SHAREHOLDER && Auth::user()->pos != STAFF_LEVEL_CAPTAIN)
                             <li class="{{ $routeName == 'home' ? 'menu-active' : '' }} parent">
                                 <a href="/">{{ trans('home.title.dashboard') }}</a>
                             </li>

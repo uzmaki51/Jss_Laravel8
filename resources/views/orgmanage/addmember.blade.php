@@ -244,7 +244,7 @@ $isHolder = Session::get('IS_HOLDER');
                                         <tr>
                                             <td  colspan="3" style="text-align: left!important;">
                                                 <?php $registerList = explode(',', $userinfo['shipList']);?>
-                                                <select multiple="multiple" class="chosen-select form-control width-100" name="shipList[]" data-placeholder="选择船舶...">
+                                                <select multiple="multiple" class="chosen-select form-control width-100" id="select-ship-list" name="shipList[]" data-placeholder="选择船舶...">
                                                     @foreach($shipList as $key => $item)
                                                         <option value="{{ $item['IMO_No'] }}" {{ in_array($item['IMO_No'], $registerList) ? 'selected' : '' }}>{{ $item['NickName'] }}</option>
                                                     @endforeach
@@ -281,7 +281,21 @@ $isHolder = Session::get('IS_HOLDER');
                 alert("Please select position!");
                 return;
             }
+
+            var ship_list = $('#select-ship-list').val();
+            if (ship_list == null) {
+                alert("Please select a ship!");
+                $('#select-ship-list').focus();
+                return;
+            } else {
+                if (ship_list.length != 1) {
+                    alert("It's allowed to select only one ship!");
+                    $('#select-ship-list').focus();
+                    return;
+                }
+            }
             
+            submitted = true;
             $('#validation-form').submit();
         }
 
@@ -320,7 +334,6 @@ $isHolder = Session::get('IS_HOLDER');
         var token = '{!! csrf_token() !!}';
         var submitted = false;
         $("#btnSave").on('click', function() {
-            submitted = true;
             submit();
         });
 
