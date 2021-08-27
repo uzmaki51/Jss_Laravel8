@@ -425,7 +425,7 @@ div.input table tbody tr td
       left: -5px;
       cursor: pointer;
       opacity: 0; /* hide this */
-      z-index: 100; /* and place it over the hamburger */
+      z-index: 5000; /* and place it over the hamburger */
       -webkit-touch-callout: none;
     }
     

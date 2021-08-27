@@ -258,7 +258,7 @@ $('.hamburger-input').on('change', function() {
 // })
 
 $(document).mouseup(function(e) {
-    var container = $("#menu");
+    var container = $("#menuToggle");
     if (!container.is(e.target) && container.has(e.target).length === 0) {
         $('.hamburger-input').prop('checked', false);
         $('#overlay-div').removeClass('overlay-show');
