@@ -435,42 +435,48 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-12" style="margin-top:4px;">
+                                    <div class="col-md-12" style="margin-top:4px;width:100%!important;">
                                         <div class="row" style="text-align:center;">
-                                            <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_first_title"></span>利润累计比较</strong>
-                                        <div class="card" id="graph_first" width="500px;" style="border:3px double #bbb7b7">
+                                            <strong class="text-center graph-title-for-pc" style="padding-top: 6px;"><span id="graph_first_title"></span>利润累计比较</strong>
+                                            <div class="card" id="graph_first" width="500px;" style="border:3px double #bbb7b7">
                                             </div>
                                         </div>
                                         <div class="space-4"></div>
                                         <div class="space-10"></div>
                                         <div class="row" style="text-align:center;">
-                                            <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_second_title"></span>收支累计比较</strong>
-                                        <div class="card" id="graph_second" style="border:3px double #bbb7b7">
+                                            <strong class="text-center graph-title-for-pc" style="padding-top: 6px;"><span id="graph_second_title"></span>收支累计比较</strong>
+                                            <div class="card" id="graph_second" style="border:3px double #bbb7b7">
                                             </div>
                                         </div>
-                                        <div class="space-4"></div>
-                                        <div class="space-10"></div>
-                                        <div class="row" style="text-align:center;">
-                                            <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_third_title"></span>经济天数占率比较</strong>
-                                        <div class="card" id="graph_third" style="border:3px double #bbb7b7">
+                                        <div class="for-pc">
+                                            <div class="space-4"></div>
+                                            <div class="space-10"></div>
+                                            <div class="row" style="text-align:center;">
+                                                <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_third_title"></span>经济天数占率比较</strong>
+                                                <div class="card" id="graph_third" style="border:3px double #bbb7b7">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="space-4"></div>
-                                        <div class="space-10"></div>
-                                        <div class="row" style="text-align:center;">
-                                            <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_fourth_title"></span>支出比较</strong>
-                                        <div class="card" id="graph_fourth" style="border:3px double #bbb7b7">
+                                        <div class="for-pc">
+                                            <div class="space-4"></div>
+                                            <div class="space-10"></div>
+                                            <div class="row" style="text-align:center;">
+                                                <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_fourth_title"></span>支出比较</strong>
+                                                <div class="card" id="graph_fourth" style="border:3px double #bbb7b7">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="space-4"></div>
-                                        <div class="space-10"></div>
-                                        <div class="row" style="text-align:center;">
-                                            <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_fifth_title"></span>CTM支出比较</strong>
-                                        <div class="card" id="graph_fifth" style="border:3px double #bbb7b7">
+                                        <div class="for-pc">
+                                            <div class="space-4"></div>
+                                            <div class="space-10"></div>
+                                            <div class="row" style="text-align:center;">
+                                                <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_fifth_title"></span>CTM支出比较</strong>
+                                                <div class="card" id="graph_fifth" style="border:3px double #bbb7b7">
+                                                </div>
                                             </div>
+                                            <div class="space-4"></div>
+                                            <div class="space-10"></div>
                                         </div>
-                                        <div class="space-4"></div>
-                                        <div class="space-10"></div>
                                     </div>
                                 </div>
                             </div>
@@ -1015,7 +1021,7 @@
                 }
             });
 
-            Highcharts.chart('graph_first', {
+            const options = {
                 title: {
                     text: null
                 },
@@ -1061,8 +1067,23 @@
                 },
                 plotOptions: {
                 },
-                series: datasets
-            });
+                series: datasets,
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 768,
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            },
+                        }
+                    }]
+                }
+            };
+            Highcharts.chart('graph_first', options);
         }
         function drawSecondGraph(datasets) {
             $('#graph_second').html('');
@@ -1135,7 +1156,52 @@
                 credits: {
                     enabled: false
                 },
-                series: datasets
+                series: datasets,
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 768,
+                        },
+                        chartOptions: {
+                            xAxis: {
+                                categories: ['收入', '支出'],
+                                title: {
+                                    text: null
+                                },
+                                labels: {
+                                    style: {
+                                        fontSize: 16,
+                                        color: 'black',
+                                        fontWeight: 'bold'
+                                    }
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: null,
+                                    },
+                                    labels: {
+                                        formatter: function() {
+                                            if (this.value < 0) {
+                                                return '<label style="color:red">' + '$ ' + prettyValue2(this.value) + '</label>';
+                                            }
+                                            else return '$ ' + prettyValue2(this.value);
+                                        }
+                                    },
+                                    plotLines: [{
+                                        color: 'black',
+                                        width: 2,
+                                        value: 0,
+                                        label: {
+                                            text: null,
+                                            align: 'right',
+                                            x: -10
+                                        }
+                                    }]
+                                },
+                            },
+                        }
+                    }]
+                }
             });
         }
 

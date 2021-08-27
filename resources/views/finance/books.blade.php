@@ -1479,7 +1479,7 @@ $isHolder = Session::get('IS_HOLDER');
             var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
             var real_tab = document.getElementById('table-water-list');
             var tab = real_tab.cloneNode(true);
-            tab_text=tab_text+"<tr><td colspan='10' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + "流水账</td></tr>";
+            tab_text=tab_text+"<tr><td colspan='10' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_water_info').html() + "流水账</td></tr>";
             for(var j = 0 ; j < tab.rows.length ; j++) 
             {
                 if (j == 0) {
@@ -1520,8 +1520,8 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = year + '_' + month.padStart(2,'0') + '_流水账';
-            exportExcel(tab_text, filename, year + '_' + month + '_流水账');
+            var filename = year_water + '_' + month_water.padStart(2,'0') + '_流水账';
+            exportExcel(tab_text, filename, year_water + '_' + month_water + '_流水账');
             
             return 0;
         }

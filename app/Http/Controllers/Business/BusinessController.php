@@ -815,7 +815,8 @@ class BusinessController extends Controller {
 	        $shipNameInfo = ShipRegister::where('IMO_No', $shipId)->first();
         } else {
 	        $shipNameInfo = ShipRegister::orderBy('id')->first();
-	        $shipId = $shipNameInfo['IMO_No'];
+            $shipId = $shipRegList[0]->IMO_No;
+	        //$shipId = $shipNameInfo['IMO_No'];
         }
 
         $ctmTbl = new Ctm();

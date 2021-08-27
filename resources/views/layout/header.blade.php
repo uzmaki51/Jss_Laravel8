@@ -26,8 +26,8 @@
     <link href="{{ asset('/assets/css/colorpicker.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/jquery-ui-1.10.3.full.min.css')}}" rel="stylesheet">
     <link href="{{ asset('/assets/css/jquery.treeview.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/common.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/style.css?v=20210827103300') }}" rel="stylesheet">
+    <link href="{{ asset('/css/common.css?v=20210827103300') }}" rel="stylesheet">
     @yield('styles')
 
     <!-- SCRIPTS -->
@@ -134,7 +134,7 @@
             <div id="container">
                 <nav>
                     <ul class="pc-menu">
-                        @if(Auth::user()->pos != STAFF_LEVEL_SHAREHOLDER)
+                        @if(Auth::user()->pos != STAFF_LEVEL_SHAREHOLDER && Auth::user()->pos != STAFF_LEVEL_CAPTAIN)
                             <li class="{{ $routeName == 'home' ? 'menu-active' : '' }} parent">
                                 <a href="/">{{ trans('home.title.dashboard') }}</a>
                             </li>
