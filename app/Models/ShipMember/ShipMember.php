@@ -1219,7 +1219,7 @@ class ShipMember extends Model
                     continue;
                 }
 
-                if ($expire_days != 0) {
+                if ($expire_days != 0 && $newArr[$newindex]['_expire'] != NULL) {
                     $datediff = strtotime2($newArr[$newindex]['_expire']) - $today;
                     if (round($datediff / (60 * 60 * 24)) > $expire_days) {
                         unset($newArr[$newindex]);

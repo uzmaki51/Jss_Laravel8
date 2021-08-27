@@ -797,7 +797,6 @@ function _convertDateFormat($date, $format) {
 }
 
 function strtotime2($str) {
- 
     list($year, $month, $day) = explode('-', $str);
     if($year > 2030) $year = 2030;
     $timestamp = mktime(0, 0, 0, $month, $day, $year);

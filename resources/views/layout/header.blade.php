@@ -26,8 +26,8 @@
     <link href="{{ asset('/assets/css/colorpicker.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/jquery-ui-1.10.3.full.min.css')}}" rel="stylesheet">
     <link href="{{ asset('/assets/css/jquery.treeview.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/common.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/style.css?v=20210827103300') }}" rel="stylesheet">
+    <link href="{{ asset('/css/common.css?v=20210827103300') }}" rel="stylesheet">
     @yield('styles')
 
     <!-- SCRIPTS -->
