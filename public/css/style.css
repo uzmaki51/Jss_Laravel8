@@ -388,6 +388,10 @@ div.input table tbody tr td
     font-size: 20px;
 }
 
+.graph-height {
+
+}
+
 @media (max-width: 768px) {
     .sp-menu {
         display: block;
@@ -556,6 +560,10 @@ div.input table tbody tr td
     }
     .graph-title-for-pc {
         font-size: 16px;
+    }
+
+    .graph-height {
+        height: 200px;
     }
 }
 @media (max-width: 375px) {

@@ -133,17 +133,25 @@ $isHolder = Session::get('IS_HOLDER');
                                     <tbody class="" id="list-body">
                                         <tr>
                                             <td class="add-td-label" style="width:15%!important;">批准次数:</td>
-                                            <td class="add-td-text" colspan="2">
+                                            <td class="add-td-text">
                                                 <select name="select-report-year" id="select-report-year" class="form-control" style="font-size:13px">
                                                     @for($i=date("Y");$i>=$start_year;$i--)
                                                     <option value="{{$i}}" @if($i==$settings['report_year']) selected @endif>{{$i}}年</option>
                                                     @endfor
                                                 </select>
                                             </td>
+                                            <td class="add-td-label" style="width:15%!important;">TOP PORTS:</td>
+                                            <td class="add-td-text">
+                                                <select name="select-port-year" id="select-port-year" class="form-control" style="font-size:13px">
+                                                    @for($i=date("Y");$i>=$start_year;$i--)
+                                                    <option value="{{$i}}" @if($i==$settings['port_year']) selected @endif>{{$i}}年</option>
+                                                    @endfor
+                                                </select>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td class="add-td-label">船舶日报:</td>
-                                            <td class="add-td-text" colspan="2">
+                                            <td class="add-td-text">
                                                 <select name="select-dyn-year" id="select-dyn-year" class="form-control" style="font-size:13px">
                                                     @for($i=date("Y");$i>=$start_year;$i--)
                                                     <option value="{{$i}}" @if($i==$settings['dyn_year']) selected @endif>{{$i}}年</option>
