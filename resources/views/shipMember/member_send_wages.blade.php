@@ -83,9 +83,9 @@ $isHolder = Session::get('IS_HOLDER');
                                             <th class="text-center style-normal-header" style="width: 3%;"><span>No</span></th>
                                             <th class="text-center style-normal-header" style="width: 6%;"><span>姓名</span></th>
                                             <th class="text-center style-normal-header" style="width: 6%;"><span>职务</span></th>
-                                            <th class="text-center style-normal-header" style="width: 10%;"><span>家汇款<br>(¥)</span></th>
-                                            <th class="text-center style-normal-header" style="width: 10%;"><span>实发款<br>(¥)</span></th>
-                                            <th class="text-center style-normal-header" style="width: 10%;"><span>实发款<br>($)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 10%;">家汇款<br><span style="color:red">(¥)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 10%;">实发款<br><span style="color:red">(¥)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 10%;">实发款<br><span style="color:#1565C0">($)</span></th>
                                             <th class="text-center style-normal-header" style="width: 9%;"><span>支付日期</span></th>
                                             <th class="text-center style-normal-header" style="width: 6%;"><span>出款银行</span></th>
                                             <th class="text-center style-normal-header" style="width: 28%;"><span>银行账户</span></th>

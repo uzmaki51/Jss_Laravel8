@@ -103,8 +103,8 @@ $isHolder = Session::get('IS_HOLDER');
                                             <th class="text-center style-normal-header" style="width: 8%;"><span>下船/截止日期</span></th>
                                             <th class="text-center style-normal-header" style="width: 4%;"><span>在船天数</span></th>
                                             <th class="text-center style-normal-header" style="width: 5%;"><span>扣款</span></th>
-                                            <th class="text-center style-normal-header" style="width: 8%;">家汇款<br><span>(¥)</span></th>
-                                            <th class="text-center style-normal-header" style="width: 8%;">家汇款<br><span>($)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 8%;">家汇款<br><span style="color:red">(¥)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 8%;">家汇款<br><span style="color:#1565C0">($)</span></th>
                                             <th class="text-center style-normal-header" style="width: 8%;"><span>支付日期</span></th>
                                             <th class="text-center style-normal-header" style="width: 8%;"><span>备注</span></th>
                                             <th class="text-center style-normal-header" style="width: 17%;"><span>银行账户</span></th>

@@ -40,6 +40,7 @@ $isHolder = Session::get('IS_HOLDER');
                 bottom: 0px;
                 box-shadow: inset 0 1px #000, 1px -1px #000;
                 border-top: unset!important;
+                background-color: #beffcd!important;
             }
 
             .dynamic-second-footer td {
@@ -47,6 +48,7 @@ $isHolder = Session::get('IS_HOLDER');
                 bottom: 24px;
                 box-shadow: inset 0 1px #000, 1px -1px #000;
                 border-top: unset!important;
+                background-color: #beffcd!important;
             }
 
             .dynamic-third-footer td {
