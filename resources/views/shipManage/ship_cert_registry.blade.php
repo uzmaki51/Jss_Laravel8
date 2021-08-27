@@ -124,6 +124,7 @@ $ships = Session::get('shipList');
                                         <label v-bind:for="array_index"><img v-bind:src="getImage(item.file_name)" width="15" height="15" style="cursor: pointer;" v-bind:title="item.file_name"></label>
                                         <input type="file" name="attachment[]" v-bind:id="array_index" class="d-none" @change="onFileChange" v-bind:data-index="array_index" accept=".pdf">
                                         <input type="hidden" name="is_update[]" v-bind:id="array_index" class="d-none" v-bind:value="item.is_update">
+                                        <img v-bind:src="getClose()" width="10" height="10" style="cursor: pointer;" v-show="item.file_name != '' && item.file_name != undefined" @click="removeFile(array_index)">
                                     </td>
                                     <td><input class="form-control text-left" type="text" v-model="item.remark" name="remark[]"></td>
                                     <td class="text-center">
@@ -335,6 +336,14 @@ $ships = Session::get('shipList');
                         else
                             return '/assets/images/paper-clip.png';
                     },
+                    getClose: function() {
+                        return '/assets/images/cancel.png';
+                    },
+                    removeFile(index) {
+                        certListObj.cert_array[index]['is_update'] = IS_FILE_DELETE;
+                        certListObj.cert_array[index]['file_name'] = '';
+                        this.$forceUpdate();
+                    },
                     deleteCertItem(cert_id, is_tmp, array_index) {
                         document.getElementById('warning-audio').play();
                         if (is_tmp == 0) {
@@ -364,6 +373,8 @@ $ships = Session::get('shipList');
                         }).next().on(ace.click_event, function () {
                             $(this).prev().focus();
                         });
+
+                        offAutoCmplt();
                     }
             });
 

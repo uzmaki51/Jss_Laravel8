@@ -253,10 +253,6 @@
             </div>            
             <!-- Main Contents End -->
         </div>
-        <audio controls="controls" class="d-none" id="warning-audio">
-            <source src="{{ cAsset('assets/sound/delete.wav') }}">
-            <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
-        </audio>
     </div>
 
     <script src="{{ cAsset('assets/js/moment.js') }}"></script>

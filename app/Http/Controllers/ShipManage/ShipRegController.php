@@ -804,7 +804,11 @@ class ShipRegController extends Controller
 				    $shipCertTbl['attachment_link'] = '/shipCertList/' . $name;
 				    $shipCertTbl['file_name'] = $fileName;
 			    }
-		    }
+		    } else if($params['is_update'][$key] == IS_FILE_DELETE) {
+                $shipCertTbl['attachment'] = null;
+                $shipCertTbl['attachment_link'] = null;
+                $shipCertTbl['file_name'] = null;
+            }
 
 		    $shipCertTbl->save();
 	    }
