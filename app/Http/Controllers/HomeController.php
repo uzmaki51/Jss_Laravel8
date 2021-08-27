@@ -64,7 +64,8 @@ class HomeController extends Controller {
 	 */
 	public function index(Request $request) {
 		$pos = Auth::user()->pos;
-		if($pos == STAFF_LEVEL_SHAREHOLDER || $pos == STAFF_LEVEL_CAPTAIN) return redirect('/operation/incomeExpense');
+		if($pos == STAFF_LEVEL_SHAREHOLDER) return redirect('/operation/incomeExpense');
+		else if($pos == STAFF_LEVEL_CAPTAIN) return redirect('/business/dynRecord');
 		$reportList = DecisionReport::where('state', '=', REPORT_STATUS_REQUEST)->get();
 		foreach($reportList as $key => $item) {
 			$reportList[$key]->realname = UserInfo::find($item->creator)['realname'];
