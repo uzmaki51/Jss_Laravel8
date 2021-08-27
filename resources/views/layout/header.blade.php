@@ -190,8 +190,8 @@
         @if(isset($breadCrumb) && count($breadCrumb) > 0)
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
                 <ul class="breadcrumb">
-                    <li>
-                        <a href="{{ route('home') }}">首页</a>
+                    <li class="active">
+                        <span>首页</span>
                     </li>
                     @foreach($breadCrumb as $key => $item)
                         @if($key + 1 == count($breadCrumb))
@@ -199,8 +199,8 @@
                                 <span>{{ $item->title }}</span>
                             </li>
                         @else
-                            <li>
-                                <a href="/{{ $item->controller }}">{{ $item->title }}</a>
+                            <li class="active">
+                                <span>{{ $item->title }}</span>
                             </li>
                         @endif
                     @endforeach
@@ -209,8 +209,8 @@
         @elseif($routeName == 'org.add' || $routeName == 'profile')
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
                 <ul class="breadcrumb">
-                    <li>
-                        <a href="{{ route('home') }}">首页</a>
+                    <li class="active">
+                        <span>首页</span>
                     </li>
                     @foreach($breadList as $key => $item)
                         @if($key + 1 == count($breadList))
@@ -218,8 +218,8 @@
                                 <span>{{ $item[1] }}</span>
                             </li>
                         @else
-                            <li>
-                                <a href="{{ $item[0] }}">{{ $item[1] }}</a>
+                            <li class="active">
+                                <span>{{ $item[1] }}</span>
                             </li>
                         @endif
                     @endforeach
