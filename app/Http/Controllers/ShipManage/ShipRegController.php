@@ -2242,7 +2242,7 @@ class ShipRegController extends Controller
         if(isset($params['year']))
             $params['year'] = substr($params['year'], 2, 2);
         
-        $cpList = Cp::where('ship_ID', $shipId)->whereRaw(DB::raw('mid(Voy_No, 1, 2) like ' . $params['year']))->get();
+        $cpList = Cp::where('ship_ID', $shipId)->whereRaw(DB::raw('mid(Voy_No, 1, 2) like ' . $params['year']))->orderBy('Voy_No', 'asc')->get();
         
         foreach($cpList as $key => $item) {
             $voyId = $item->Voy_No;
