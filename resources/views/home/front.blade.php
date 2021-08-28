@@ -148,8 +148,8 @@
                                             <td class="center" style="height:20px!important;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{g_enum('ReportTypeData')[$report['flowid']]}}</span></td>
                                             <td class="center">{{$report['obj_type'] == OBJECT_TYPE_SHIP?$nickName:$report['obj_name']}}</td>
                                             <td class="center">{{$report['voyNo']}}</td>
-                                            <td class="center" style="width:25%"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{isset(g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']])?g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']]:""}}</span></td>
-                                            <td class="center" style="background-color:#fdb971!important"><span class="blink">等待</span></td>
+                                            <td class="center" style="width:25%;overflow: hidden;white-space: nowrap;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{isset(g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']])?g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']]:""}}</span></td>
+                                            <td class="center" style="background-color:#fdb971!important;overflow: hidden;white-space: nowrap;"><span class="blink">等待</span></td>
                                             <?php $index++;?>
                                         </tr>
                                         @endif
@@ -190,7 +190,7 @@
                                             <td class="center" style="height:20px!important;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{g_enum('ReportTypeData')[$report['flowid']]}}</span></td>
                                             <td class="center">{{$report['obj_type'] == OBJECT_TYPE_SHIP?$nickName:$report['obj_name']}}</td>
                                             <td class="center">{{$report['voyNo']}}</td>
-                                            <td class="center" style="width:25%"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{isset(g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']])?g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']]:""}}</span></td>
+                                            <td class="center" style="width:25%;overflow: hidden;white-space: nowrap;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{isset(g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']])?g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']]:""}}</span></td>
                                             <td class="center"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="margin: 0px 0px"></td>
                                             <?php $index++;?>
                                         </tr>
@@ -218,18 +218,18 @@
                             <div class="card-body expired-cert-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
                                 <table id="" style="border:0px solid black;">
                                     <thead style="position:sticky;top:0;box-shadow: inset 0 -1px #000, 1px -1px #000;">
-                                        <td class="center decide-sub-title" style="width: 15%;"><input class="form-control" style="text-align:center;background:transparent;" value="船名" readonly></td>
-                                        <td class="center decide-sub-title" style="width: 35%"><input class="form-control" style="text-align:center;background:transparent;" value="证书" readonly></td>
-                                        <td class="center decide-sub-title" style="width: 25%;"><input class="form-control" style="text-align:center;background:transparent;" value="有效期" readonly></td>
-                                        <td class="center decide-sub-title" style="width: 25%;"><input class="form-control" style="text-align:center;background:transparent;" value="周检日期" readonly></td>
+                                        <td class="center decide-sub-title" style="width: 36px;">船名</td>
+                                        <td class="center decide-sub-title" style="overflow: hidden;white-space: nowrap;">证书</td>
+                                        <td class="center decide-sub-title" style="width: 61px;">有效期</td>
+                                        <td class="center decide-sub-title" style="width: 61px;">周检日期</td>
                                     </thead>
                                     <tbody class="" id="cert-body" style="">
                                         @foreach($expireCert as $key => $item)
                                             <tr>
-                                                <td><input class="form-control" value="{{ $item->shipName }}" readonly></td>
-                                                <td class="center"><input class="form-control" value="{{ $item->certName }}" readonly></td>
-                                                <td class="center"><input class="form-control" value="{{ date('y-m-d', strtotime($item->expire_date)) }}" readonly></td>
-                                                <td class="center"><input class="form-control" value="{{ isset($item->due_endorse) ? date('y-m-d', strtotime($item->due_endorse)):"" }}" readonly></td>
+                                                <td>{{ $item->shipName }}</td>
+                                                <td class="center">{{ $item->certName }}</td>
+                                                <td class="center">{{ date('y-m-d', strtotime($item->expire_date)) }}</td>
+                                                <td class="center">{{ isset($item->due_endorse) ? date('y-m-d', strtotime($item->due_endorse)):"" }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -249,18 +249,18 @@
                             <div class="card-body no-attachment-decide-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
                                 <table id="" style="border:0px solid black;table-layout:fixed;">
                                     <thead style="position:sticky;top:0;box-shadow: inset 0 -1px #000, 1px -1px #000;">
-                                        <td class="center decide-sub-title" style="width:15%;"><input class="form-control" style="text-align:center;background:transparent;" value="船名" readonly></td>
-                                        <td class="center decide-sub-title" style="width:20%;"><input class="form-control" style="text-align:center;background:transparent;" value="职务" readonly></td>
-                                        <td class="center decide-sub-title" style="width:45%;"><input class="form-control" style="text-align:center;background:transparent;" value="证书" readonly></td>
-                                        <td class="center decide-sub-title" style="width:25%;"><input class="form-control" style="text-align:center;background:transparent;" value="有效期" readonly></td>
+                                        <td class="center decide-sub-title" style="width:36px;">船名</td>
+                                        <td class="center decide-sub-title" style="width:45px;">职务</td>
+                                        <td class="center decide-sub-title" style="">证书</td>
+                                        <td class="center decide-sub-title" style="width:61px;">有效期</td>
                                     </thead>
                                     <tbody class="" id="cert-body" style="">
                                         @foreach($expireMemberCert as $key => $item)
                                             <tr title="{{ $item['title'] }}">
-                                                <td class="center"><input class="form-control" value="{{ $item['shipName'] }}" readonly></td>
-                                                <td class="center"><input class="form-control" value="{{ $item['rank'] }}" readonly></td>
-                                                <td class="center"><input class="form-control" value="{{ $item['title'] }}" readonly></td>
-                                                <td class="center"><input class="form-control" value="{{ date('y-m-d', strtotime($item['_expire'])) }}" readonly></td>
+                                                <td class="center">{{ $item['shipName'] }}</td>
+                                                <td class="center" style="overflow: hidden;white-space: nowrap;">{{ $item['rank'] }}</td>
+                                                <td class="center" style="overflow: hidden;white-space: nowrap;">{{ $item['title'] }}</td>
+                                                <td class="center">{{ date('y-m-d', strtotime($item['_expire'])) }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -438,14 +438,14 @@
                                     <div class="col-md-12" style="margin-top:4px;width:100%!important;">
                                         <div class="row" style="text-align:center;">
                                             <strong class="text-center graph-title-for-pc" style="padding-top: 6px;"><span id="graph_first_title"></span>利润累计比较</strong>
-                                            <div class="card" id="graph_first" width="500px;" style="border:3px double #bbb7b7">
+                                            <div class="card graph-height" id="graph_first" style="border:3px double #bbb7b7;">
                                             </div>
                                         </div>
                                         <div class="space-4"></div>
                                         <div class="space-10"></div>
                                         <div class="row" style="text-align:center;">
                                             <strong class="text-center graph-title-for-pc" style="padding-top: 6px;"><span id="graph_second_title"></span>收支累计比较</strong>
-                                            <div class="card" id="graph_second" style="border:3px double #bbb7b7">
+                                            <div class="card graph-height" id="graph_second" style="border:3px double #bbb7b7;">
                                             </div>
                                         </div>
                                         <div class="for-pc">
@@ -540,7 +540,7 @@
                         <div class="card mb-4">
                             <div class="card-header common-decide-title">
                                 <div class="card-title front-span">
-                                    <span class="bigger-120">TOP 10 PORTS</span>
+                                    <span class="bigger-120">TOP 10 PORTS ({{$settings['port_year']}})</span>
                                 </div>
                             </div>
                             </a>
@@ -665,6 +665,7 @@
                     for(var i=0;i<12;i++) month_sum[i] = 0;
                     var index = 0;
                     var datasets = [];
+                    var ismobile = $($('.graph-height')[0]).css('height') == '200px';
                     for (index=0;index<shipids_graph.length;index++) {
                         var ship_name = ships[shipids_graph[index]];
                         var ship_no = shipids_graph[index];
@@ -672,6 +673,12 @@
                         datasets[index].data = washData(result[ship_no]['sum_months']);
                         datasets[index].name = ship_name;
                         datasets[index].color = color_table[index];
+                        
+                        if (ismobile) {
+                            datasets[index].lineWidth = 1;
+                            datasets[index].marker = {radius: 2};
+                        }
+
                         for(var i=0;i<12;i++) {
                             value = result[ship_no]['sum_months'][i];
                             month_sum[i] += value;
@@ -684,9 +691,14 @@
                     datasets[index].color = '#4a7ebb';  //4a7ebb
                     datasets[index].dashStyle = 'Dash';//LongDash
                     datasets[index].lineWidth = 4;
+                    if (ismobile) {
+                        datasets[index].lineWidth = 2;
+                        datasets[index].marker = {radius: 3};
+                     }
+
                     datasets[index].smoothed = true;
                     datasets[index].type = 'spline';
-
+                    
                     drawFirstGraph(datasets);
 
                     // Table 2
@@ -734,10 +746,11 @@
                         var value = profit_sum[i];
                     }
                     drawSecondGraph(datasets);
-                    drawFourthGraph(datasets4);
+                    //drawFourthGraph(datasets4);
                 }
             });
 
+            /*
             $.ajax({
                 url: BASE_URL + 'ajax/business/dynamic/multiSearch',
                 type: 'post', 
@@ -974,6 +987,7 @@
                     drawFifthGraph(datasets);
                 }
             })
+            */
 
             $.ajax({
                 url: BASE_URL + 'ajax/voy/totals',
@@ -1045,11 +1059,11 @@
                         value: 0,
                         width: 2,
                         color: '#000'
-                    }],
+                    }]
                 },
                 xAxis: {
                     categories: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-                    lineWidth: 2
+                    lineWidth: 2,
                 },
                 legend: {
                     layout: 'vertical',
@@ -1074,6 +1088,12 @@
                             maxWidth: 768,
                         },
                         chartOptions: {
+                            title: {
+                                text: '.',
+                                style: {
+                                    color: 'transparent'
+                                }
+                            },
                             legend: {
                                 layout: 'horizontal',
                                 align: 'center',
@@ -1163,6 +1183,25 @@
                             maxWidth: 768,
                         },
                         chartOptions: {
+                            chart: {
+                                type: 'bar',
+                                events: {
+                                    load: function() {
+                                        var yAxis = this.yAxis[0];
+                                        this.xAxis[0].update({
+                                            offset: -yAxis.toPixels(0, true)
+                                        });
+                                    }
+                                },
+                                marginLeft: 0,
+                                marginRight: 0
+                            },
+                            title: {
+                                text: null
+                            },
+                            subtitle: {
+                                text: null
+                            },
                             xAxis: {
                                 categories: ['收入', '支出'],
                                 title: {
@@ -1170,34 +1209,34 @@
                                 },
                                 labels: {
                                     style: {
-                                        fontSize: 16,
+                                        fontSize: 15,
                                         color: 'black',
                                         fontWeight: 'bold'
                                     }
                                 },
-                                yAxis: {
-                                    title: {
-                                        text: null,
-                                    },
-                                    labels: {
-                                        formatter: function() {
-                                            if (this.value < 0) {
-                                                return '<label style="color:red">' + '$ ' + prettyValue2(this.value) + '</label>';
-                                            }
-                                            else return '$ ' + prettyValue2(this.value);
-                                        }
-                                    },
-                                    plotLines: [{
-                                        color: 'black',
-                                        width: 2,
-                                        value: 0,
-                                        label: {
-                                            text: null,
-                                            align: 'right',
-                                            x: -10
-                                        }
-                                    }]
+                            },
+                            yAxis: {
+                                title: {
+                                    text: null,
                                 },
+                                labels: {
+                                    formatter: function() {
+                                        if (this.value < 0) {
+                                            return '<label style="color:red">' + '$ ' + prettyValue2(this.value/1000) + 'K</label>';
+                                        }
+                                        else return '$ ' + prettyValue2(this.value/1000) + 'K';
+                                    }
+                                },
+                                plotLines: [{
+                                    color: 'black',
+                                    width: 2,
+                                    value: 0,
+                                    label: {
+                                        text: null,
+                                        align: 'right',
+                                        x: -10
+                                    }
+                                }]
                             },
                         }
                     }]

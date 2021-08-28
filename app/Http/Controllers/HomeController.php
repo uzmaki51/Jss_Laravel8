@@ -127,8 +127,8 @@ class HomeController extends Controller {
 		
 		$tbl = new ShipMember();
 		$expireMemberCert = $tbl->getExpiredList($settings->cert_expire_date);
-		$voyNo_from = substr($report_year, 2, 2) . '00';
-		$voyNo_to = substr($report_year, 2, 2) + 1;
+		$voyNo_from = substr($settings['port_year'], 2, 2) . '00';
+		$voyNo_to = substr($settings['report_year'], 2, 2) + 1;
 		$voyNo_to = $voyNo_to . '00';
 
 		$topPorts = CP::where('Voy_No','>=', $voyNo_from)->where('Voy_No','<',$voyNo_to)

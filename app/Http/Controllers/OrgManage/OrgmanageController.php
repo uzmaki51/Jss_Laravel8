@@ -177,9 +177,10 @@ class OrgmanageController extends Controller
         $cert_expire_date = $request->get('cert-expire_date');
         $report_year = $request->get('select-report-year');
         $dyn_year = $request->get('select-dyn-year');
+        $port_year = $request->get('select-port-year');
         $settings = new Settings();
         //$settings::first()->update(['graph_year'=> $graph_year,'graph_ship'=>$graph_ship,'cert_expire_date'=>$cert_expire_date,'report_year'=>$report_year,'dyn_year'=>$dyn_year]);
-        Settings::where('id', 1)->update(['graph_year'=> $graph_year,'graph_ship'=>$graph_ship,'cert_expire_date'=>$cert_expire_date,'report_year'=>$report_year,'dyn_year'=>$dyn_year]);
+        Settings::where('id', 1)->update(['graph_year'=> $graph_year,'graph_ship'=>$graph_ship,'cert_expire_date'=>$cert_expire_date,'report_year'=>$report_year,'dyn_year'=>$dyn_year,'port_year'=>$port_year]);
 
         $report_ids = $request->get('visible_id');
         $report_values = $request->get('visible_value');
