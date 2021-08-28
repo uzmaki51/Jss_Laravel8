@@ -282,16 +282,19 @@ $isHolder = Session::get('IS_HOLDER');
                 return;
             }
 
-            var ship_list = $('#select-ship-list').val();
-            if (ship_list == null) {
-                alert("Please select a ship!");
-                $('#select-ship-list').focus();
-                return;
-            } else {
-                if (ship_list.length != 1) {
-                    alert("It's allowed to select only one ship!");
+            if(IS_HOLDER == HOLDER || IS_HOLDER == CAPTAIN)
+            {
+                var ship_list = $('#select-ship-list').val();
+                if (ship_list == null) {
+                    alert("Please select a ship!");
                     $('#select-ship-list').focus();
                     return;
+                } else {
+                    if (ship_list.length != 1) {
+                        alert("It's allowed to select only one ship!");
+                        $('#select-ship-list').focus();
+                        return;
+                    }
                 }
             }
             
