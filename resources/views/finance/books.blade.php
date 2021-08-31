@@ -450,7 +450,7 @@ $isHolder = Session::get('IS_HOLDER');
                         $('td', row).eq(7).html('<input type="text" class="form-control content" readonly name="report_remark[]" value="' + data['content'] + '" style="padding-left:0px!important;cursor:pointer;width: 100%;background-color:transparent!important;" autocomplete="off" onclick="showRemark(this)">');
                     }
                     else {
-                        $('td', row).eq(7).html('<input type="text" class="form-control content" readonly name="report_remark[]" value="' + data['content'] + '" style="padding-left:0px!important;cursor:pointer;width: 100%;background-color:transparent!important;" autocomplete="off" onclick="">');
+                        $('td', row).eq(7).html('<input type="text" class="form-control content" readonly name="report_remark[]" value="' + data['content'] + '" style="padding-left:0px!important;cursor:pointer;width: 100%;background-color:transparent!important;" autocomplete="off" onclick="showRemark(this)">');
                     }
                     
                 },
