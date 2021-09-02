@@ -142,7 +142,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>对象</span></th>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>航次</span></th>
                                                     <th class="text-center style-normal-header" style="width: 8%;"><span>收支种类</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 29%;"><span>摘要</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 30%;"><span>摘要</span></th>
                                                     <th class="text-center style-normal-header" style="width: 3%;"><span>币类</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>收入</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>支出</span></th>
@@ -156,10 +156,10 @@ $isHolder = Session::get('IS_HOLDER');
                                     </div>
                                     <div class="row">
                                         <div class="tabbable">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-2">
                                                 <button type="button" class="btn btn-primary" id="btnKeep" style="margin-top:10px;width:100px;height:30px;">记账凭证</button>
                                             </div>
-                                            <div class="col-sm-7 f-right" style="margin-top:8px;">
+                                            <div class="col-sm-10 f-right" style="margin-top:12px;padding-right: 0px!important;">
                                                 <input type="text" id="remark-box" name="remark-box" style="color:red;width:100%;display:none;" readonly="">
                                             </div>
                                         </div>

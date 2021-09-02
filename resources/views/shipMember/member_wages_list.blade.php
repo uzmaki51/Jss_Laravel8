@@ -396,17 +396,21 @@ $isHolder = Session::get('IS_HOLDER');
         }
 
         function showCalcWage(evt) {
+            /*
             var _tr = evt.closest('tr');
             var _year = $('#select-year').val();
             var _month = _tr.firstElementChild.innerHTML;
             window.open(BASE_URL + 'shipMember/wagesCalc?year=' + _year + '&month=' + _month, '_blank');
+            */
         }
 
         function showSendWage(evt) {
+            /*
             var _tr = evt.closest('tr');
             var _year = $('#select-member-year').val();
             var _month = _tr.firstElementChild.innerHTML;
             window.open(BASE_URL + 'shipMember/wagesSend?year=' + _year + '&month=' + _month, '_blank');
+            */
         }
     </script>
 
