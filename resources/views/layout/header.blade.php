@@ -185,7 +185,7 @@
 
 </script>
 
-<div class="main-container {{ $routeName == 'home' || $routeName == 'home.index' ? '' : 'inner-wrap' }}" id="main-container">
+<div class="main-container {{ $routeName == 'home' || $routeName == 'home.index' ? '' : 'inner-wrap' }}" id="main-container" style="{{ $routeName == 'home.index' || $routeName == 'home' ? 'height: 100%!important' : '' }}">
     <div class="main-container-inner">
         @if(isset($breadCrumb) && count($breadCrumb) > 0)
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
