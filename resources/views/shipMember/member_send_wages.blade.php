@@ -81,15 +81,15 @@ $isHolder = Session::get('IS_HOLDER');
                                     <table id="table-shipmember-list" style="table-layout:fixed;">
                                         <thead class="">
                                             <th class="text-center style-normal-header" style="width: 3%;"><span>No</span></th>
-                                            <th class="text-center style-normal-header" style="width: 6%;"><span>姓名</span></th>
-                                            <th class="text-center style-normal-header" style="width: 6%;"><span>职务</span></th>
-                                            <th class="text-center style-normal-header" style="width: 10%;">家汇款<br><span style="color:red">(¥)</span></th>
-                                            <th class="text-center style-normal-header" style="width: 10%;">实发款<br><span style="color:red">(¥)</span></th>
-                                            <th class="text-center style-normal-header" style="width: 10%;">实发款<br><span style="color:#1565C0">($)</span></th>
-                                            <th class="text-center style-normal-header" style="width: 9%;"><span>支付日期</span></th>
-                                            <th class="text-center style-normal-header" style="width: 6%;"><span>出款银行</span></th>
-                                            <th class="text-center style-normal-header" style="width: 28%;"><span>银行账户</span></th>
-                                            <th class="text-center style-normal-header" style="width: 12%;"><span>备注</span></th>
+                                            <th class="text-center style-normal-header" style="width: 10%;"><span>姓名</span></th>
+                                            <th class="text-center style-normal-header" style="width: 4%;"><span>职务</span></th>
+                                            <th class="text-center style-normal-header" style="width: 6%;">家汇款<br><span style="color:red">(¥)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 6%;">实发款<br><span style="color:red">(¥)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 6%;">实发款<br><span style="color:#1565C0">($)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 7%;"><span>支付日期</span></th>
+                                            <th class="text-center style-normal-header" style="width: 8%;"><span>出款银行</span></th>
+                                            <th class="text-center style-normal-header" style="width: 32%;"><span>银行账户</span></th>
+                                            <th class="text-center style-normal-header" style="width: 21%;"><span>备注</span></th>
                                         </thead>
                                         <tbody class="" id="list-body">
                                         </tbody>
@@ -189,7 +189,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(3).html('<label>' + __parseStr(data['cashR']) + '</label><input type="hidden" name="CashR[]" value="' + data['cashR'] + '">');
                     $('td', row).eq(4).html('<input type="text" autocomplete="off" class="form-control style-noncolor-input add-sendR" name="SendR[]" value="' + data['sendR'] + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(5).html('<input type="text" autocomplete="off" class="form-control style-noncolor-input add-sendD" name="SendD[]" value="' + data['sendD'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(6).html('<div class="input-group"><input autocomplete="off" class="form-control style-noncolor-input add-trans-date date-picker" name="PurchDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + (data['purchdate'] == null ? "": data['purchdate'].substring(0,10)) + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
+                    $('td', row).eq(6).html('<div class="input-group"><input autocomplete="off" class="form-control style-noncolor-input add-trans-date date-picker text-center" name="PurchDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + (data['purchdate'] == null ? "": data['purchdate'].substring(0,10)) + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
                     var bank_info = '<select class="form-control" name="SendBank[]">';
                     for (var i=0;i<BankInfo.length;i++)
                         bank_info += '<option value="'+i+'"' + ((i==data['sendbank'])?'selected':'') + '>'+BankInfo[i]+'</option>';
@@ -266,7 +266,7 @@ $isHolder = Session::get('IS_HOLDER');
             if ($('#list-body tr:last').attr('class') == 'tr-report') {
                 $('#list-body tr:last').remove();
             }
-            $('#list-body').append('<tr class="tr-report" style="height:30px;border:2px solid black;"><td class="sub-small-header style-normal-header text-center">' + ($('.wage-item').length) + '</td><td class="sub-small-header style-normal-header" colspan="2"></td><td class="style-normal-header disable-td text-center">¥ ' + prettyValue(sum_R) + '</td><td class="style-normal-header text-center disable-td">¥ ' + prettyValue(sum_D) + '</td><td class="style-normal-header text-center disable-td">$ ' + prettyValue(sum_P)+ '</td><td class="sub-small-header style-normal-header" colspan="4"></td></tr>');
+            $('#list-body').append('<tr class="tr-report" style="height:30px;border:2px solid black;"><td class="sub-small-header style-normal-header text-center">' + ($('.wage-item').length) + '</td><td class="sub-small-header style-normal-header" colspan="2"></td><td class="style-normal-header disable-td text-right">¥ ' + prettyValue(sum_R) + '</td><td class="style-normal-header text-right disable-td">¥ ' + prettyValue(sum_D) + '</td><td class="style-normal-header text-right disable-td">$ ' + prettyValue(sum_P)+ '</td><td class="sub-small-header style-normal-header" colspan="4"></td></tr>');
             setDatePicker();
             if (origForm == "")
                 origForm = $form.serialize();

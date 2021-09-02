@@ -95,19 +95,19 @@ $isHolder = Session::get('IS_HOLDER');
                                     <table id="table-shipmember-list" style="table-layout:fixed;">
                                         <thead class="">
                                             <th class="text-center style-normal-header" style="width: 3%;"><span>No</span></th>
-                                            <th class="text-center style-normal-header" style="width: 6%;"><span>姓名</span></th>
-                                            <th class="text-center style-normal-header" style="width: 5%;"><span>职务</span></th>
+                                            <th class="text-center style-normal-header" style="width: 5%;"><span>姓名</span></th>
+                                            <th class="text-center style-normal-header" style="width: 4%;"><span>职务</span></th>
                                             <th class="text-center style-normal-header" style="width: 4%;"><span>币类</span></th>
                                             <th class="text-center style-normal-header" style="width: 6%;"><span>合约薪资</span></th>
-                                            <th class="text-center style-normal-header" style="width: 8%;"><span>上船日期</span></th>
-                                            <th class="text-center style-normal-header" style="width: 8%;"><span>下船/截止日期</span></th>
+                                            <th class="text-center style-normal-header" style="width: 7%;"><span>上船日期</span></th>
+                                            <th class="text-center style-normal-header" style="width: 7%;"><span>下船/截止日期</span></th>
                                             <th class="text-center style-normal-header" style="width: 4%;"><span>在船天数</span></th>
                                             <th class="text-center style-normal-header" style="width: 5%;"><span>扣款</span></th>
-                                            <th class="text-center style-normal-header" style="width: 8%;">家汇款<br><span style="color:red">(¥)</span></th>
-                                            <th class="text-center style-normal-header" style="width: 8%;">家汇款<br><span style="color:#1565C0">($)</span></th>
-                                            <th class="text-center style-normal-header" style="width: 8%;"><span>支付日期</span></th>
-                                            <th class="text-center style-normal-header" style="width: 8%;"><span>备注</span></th>
-                                            <th class="text-center style-normal-header" style="width: 17%;"><span>银行账户</span></th>
+                                            <th class="text-center style-normal-header" style="width: 7%;">家汇款<br><span style="color:red">(¥)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 7%;">家汇款<br><span style="color:#1565C0">($)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 7%;"><span>支付日期</span></th>
+                                            <th class="text-center style-normal-header" style="width: 10%;"><span>备注</span></th>
+                                            <th class="text-center style-normal-header" style="width: 21%;"><span>银行账户</span></th>
                                             <th class="text-center" style=""></th>
                                         </thead>
                                         <tbody class="" id="list-body">
@@ -329,14 +329,14 @@ $isHolder = Session::get('IS_HOLDER');
                     
                     //$('td', row).eq(5).html('<label>' + data['DateOnboard'] + '</label><input type="hidden" name="DateOnboard[]" value="' + data['DateOnboard'] + '">');
                     //$('td', row).eq(6).html('<label>' + data['DateOffboard'] + '</label><input type="hidden" name="DateOffboard[]" value="' + data['DateOffboard'] + '">');
-                    $('td', row).eq(5).html('<div class="input-group"><input class="form-control add-trans-date date-picker" name="DateOnboard[]" type="text" data-date-format="yyyy-mm-dd" value="' + data['DateOnboard'] + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
-                    $('td', row).eq(6).html('<div class="input-group"><input class="form-control add-trans-date date-picker" name="DateOffboard[]" type="text" data-date-format="yyyy-mm-dd" value="' + data['DateOffboard'] + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
+                    $('td', row).eq(5).html('<div class="input-group"><input class="form-control add-trans-date date-picker text-center" name="DateOnboard[]" type="text" data-date-format="yyyy-mm-dd" value="' + data['DateOnboard'] + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
+                    $('td', row).eq(6).html('<div class="input-group"><input class="form-control add-trans-date date-picker text-center" name="DateOffboard[]" type="text" data-date-format="yyyy-mm-dd" value="' + data['DateOffboard'] + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
 
                     $('td', row).eq(7).html('<label>' + data['SignDays'] + '</label><input type="hidden" name="SignDays[]" value="' + data['SignDays'] + '">');
                     $('td', row).eq(8).html('<input type="text" class="form-control add-minus" name="MinusCash[]" value="' + data['MinusCash'] + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(9).html('<label>' + data['TransInR'] + '</label><input type="hidden" name="TransInR[]" value="' + __parseStr(data['TransInR']) + '">');
                     $('td', row).eq(10).html('<label>' + data['TransInD'] + '</label><input type="hidden" name="TransInD[]" value="' + __parseStr(data['TransInD']) + '">');
-                    $('td', row).eq(11).html('<div class="input-group"><input class="form-control add-trans-date date-picker" name="TransDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + data['TransDate'] + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
+                    $('td', row).eq(11).html('<div class="input-group"><input class="form-control add-trans-date date-picker text-center" name="TransDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + data['TransDate'] + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
                     $('td', row).eq(12).html('<input type="text" class="form-control" name="Remark[]" value="' + __parseStr(data['Remark']) + '" style="width: 100%;text-align: left" autocomplete="off">');
                     var bank_info = data['BankInformation'];
                     if (bank_info == 'null' || bank_info == null) bank_info = '';
@@ -846,14 +846,14 @@ $isHolder = Session::get('IS_HOLDER');
             '</td><td class="text-center add-salary"><input type="text" class="form-control" name="Salary[]" value="' + add_wage.toFixed(2) + '" style="width: 100%;text-align: center" autocomplete="off">'+ 
             //'</td><td class="text-center disable-td"><label>' + add_signon_date + '</label><input type="hidden" name="DateOnboard[]" value="' + add_signon_date + '">'+
             //'</td><td class="text-center disable-td"><label>' + add_signoff_date + '</label><input type="hidden" name="DateOffboard[]" value="' + add_signoff_date + '">'+
-            '</td><td class="text-center disable-td"><div class="input-group"><input class="form-control add-trans-date date-picker" name="DateOnboard[]" type="text" data-date-format="yyyy-mm-dd" value="' + add_signon_date + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>' +
-            '</td><td class="text-center disable-td"><div class="input-group"><input class="form-control add-trans-date date-picker" name="DateOffboard[]" type="text" data-date-format="yyyy-mm-dd" value="' + add_signoff_date + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>' +
+            '</td><td class="text-center disable-td"><div class="input-group"><input class="form-control add-trans-date date-picker text-center" name="DateOnboard[]" type="text" data-date-format="yyyy-mm-dd" value="' + add_signon_date + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>' +
+            '</td><td class="text-center disable-td"><div class="input-group"><input class="form-control add-trans-date date-picker text-center" name="DateOffboard[]" type="text" data-date-format="yyyy-mm-dd" value="' + add_signoff_date + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>' +
 
             '</td><td class="text-center disable-td add-signondays"><label>' + signon_days + '</label><input type="hidden" name="SignDays[]" value="' + signon_days + '">' +
             '</td><td class="text-center add-minus"><input type="text" class="form-control" name="MinusCash[]" value="'+ add_minus_money +
             '" style="width: 100%;text-align: center" autocomplete="off"></td><td class="text-center disable-td add-transR"><label>' + add_money_R.toFixed(2) + '</label><input type="hidden" name="TransInR[]" value="' + add_money_R.toFixed(2) + '">' +
             '</td><td class="text-center disable-td add-transD"><label>' + add_money_D.toFixed(2) + '</label><input type="hidden" name="TransInD[]" value="' + add_money_D.toFixed(2) + '">' +
-            '</td><td class=" text-center""><div class="input-group"><input class="form-control add-trans-date date-picker" name="TransDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + add_purchase_date + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div></td><td class=" text-center"><input type="text" class="form-control" name="Remark[]" value="'+ add_remark + '" style="width: 100%;text-align: left;" autocomplete="off"></td><td class="text-center disable-td add-bankinfo" style="word-wrap:break-word;text-align: left"><label>'+ add_bank_info + '</label><input type="hidden" name="BankInfo[]" value="' + add_bank_info + '">' +
+            '</td><td class=" text-center""><div class="input-group"><input class="form-control add-trans-date date-picker text-center" name="TransDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + add_purchase_date + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div></td><td class=" text-center"><input type="text" class="form-control" name="Remark[]" value="'+ add_remark + '" style="width: 100%;text-align: left;" autocomplete="off"></td><td class="text-center disable-td add-bankinfo" style="word-wrap:break-word;text-align: left"><label>'+ add_bank_info + '</label><input type="hidden" name="BankInfo[]" value="' + add_bank_info + '">' +
             '</td><td class=" text-center"><div class="action-buttons"><a class="red" onclick="javascript:deleteItem(this)"><i class="icon-trash"></i></a></div></td></tr>';
             
             

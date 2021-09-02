@@ -212,7 +212,7 @@ $ships = Session::get('shipList');
                             </div>
                             <input type="hidden" id="keep_list" name="keep_list"></input>
                         </div>
-                        <div id="tab_soa" class="tab-pane">
+                        <div id="tab_soa" class="tab-pane col-md-9">
                             <div class="page-header">
                                 <div class="col-sm-3">
                                     <h4><b>SOA</b></h4>
@@ -256,7 +256,7 @@ $ships = Session::get('shipList');
                                     </div>
                                     <div class="space-4"></div>
                                     <div class="row">
-                                        <table id="table-soa-general-info" style="table-layout:fixed;">
+                                        <table id="table-soa-general-info" style="width:100%;table-layout:fixed;">
                                             <thead class="">
                                                 <tr>
                                                     <th class="text-center style-normal-header" style="width: 8%;"><span>种类</span></th>
@@ -265,8 +265,8 @@ $ships = Session::get('shipList');
                                                     <th class="text-center style-normal-header" style="width: 7%;"><span>货量(租期)</span></th>
                                                     <th class="text-center style-normal-header" style="width: 19%;"><span>装港</span></th>
                                                     <th class="text-center style-normal-header" style="width: 19%;"><span>卸港</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 19%;"><span>运费率(日租金)</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;"><span>合同<br/>原本</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 15%;"><span>运费率(日租金)</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 8%;"><span>合同原本</span></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="" id="table-soa-general-body">
@@ -295,10 +295,10 @@ $ships = Session::get('shipList');
                                                 <tr>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>No</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>日期</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 48%;"><span>摘要</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 10%;"><span>收支种类</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 10%;"><span>收入</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 10%;"><span>支出</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 35%;"><span>摘要</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 12%;"><span>收支种类</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 12%;"><span>收入</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 12%;"><span>支出</span></th>
                                                     <th class="text-center style-normal-header" style="width: 5%;"><span>汇率</span></th>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>原始<br/>凭证</span></th>
                                                 </tr>

@@ -218,7 +218,7 @@ $ships = Session::get('shipList');
                                         <tr>
                                             <th class="text-center style-normal-header" rowspan="2" width="4%"><span>船名</span></th>
                                             <th class="text-center style-normal-header" rowspan="2" width="5%"><span>航次数</span></th>
-                                            <th class="text-center style-normal-header" rowspan="2" width="7%"><span>期间</span></th>
+                                            <th class="text-center style-normal-header" rowspan="2" width="10%"><span>期间</span></th>
                                             <th class="text-center style-normal-header"><span>航次</span></th>
                                             <th class="text-center style-normal-header"><span>距离</span></th>
                                             <th class="text-center style-normal-header right-border"><span>平均</span></th>
@@ -1315,7 +1315,8 @@ $ships = Session::get('shipList');
                     var row_html = "<tr class='" + ((index%2==0)?'cost-item-even':'cost-item-odd') + "'>";
                     row_html += "<td>" + ship_name + "</td>";
                     row_html += "<td>" + footerData['voy_count'] + "</td>";
-                    row_html += "<td>" + footerData['voy_start'] + "~" + "<br>" + footerData['voy_end'] + "</td>";
+                    //row_html += "<td>" + footerData['voy_start'] + "~" + "<br>" + footerData['voy_end'] + "</td>";
+                    row_html += "<td>" + footerData['voy_start'] + "~" + footerData['voy_end'] + "</td>";
                     row_html += "<td>" + _format(footerData['sail_time']) + "</td>";
                     row_html += "<td>" + _format(footerData['total_distance']) + "</td>";
                     row_html += "<td class='right-border'>" + _format(footerData['average_speed'].toFixed(1)) + "</td>";
