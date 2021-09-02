@@ -85,7 +85,7 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
             </div>
             <form id="validation-form" action="updateSettings" role="form" method="POST" enctype="multipart/form-data">
-            <div class="row">
+            <div class="row" style="border-top: 1px solid gray">
                 <div class="col-md-12 common-list" style="margin-top:4px; overflow-y: scroll;">
                 <div id="item-manage-dialog" class="hide"></div>
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
@@ -263,7 +263,7 @@ $isHolder = Session::get('IS_HOLDER');
                             </tbody>
                         </table>
                         <div class="head-fix-div" style="max-height: 200px; margin-top:20px;padding: 0 1px;table table-bordered">
-                            <table id="table-report-list">
+                            <table id="table-report-list" style="margin-bottom: 20px;">
                             </table>
                         </div>
                         <div class="space-12"></div>
