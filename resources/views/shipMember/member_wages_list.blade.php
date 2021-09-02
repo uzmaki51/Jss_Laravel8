@@ -79,8 +79,8 @@ $isHolder = Session::get('IS_HOLDER');
                                         <table id="table-shipwage-list" style="table-layout:fixed;">
                                             <thead class="">
                                                 <th class="text-center style-normal-header" style="width: 10%;height:35px;"><span>月份</span></th>
-                                                <th class="text-center style-normal-header" style="width: 40%;"><span>家汇款(¥)</span></th>
-                                                <th class="text-center style-normal-header" style="width: 40%;"><span>家汇款($)</span></th>
+                                                <th class="text-center style-normal-header" style="width: 40%;">家汇款<br><span style="color:red">(¥)</span></th>
+                                                <th class="text-center style-normal-header" style="width: 40%;">家汇款<br><span style="color:#1565C0">($)</span></th>
                                                 <th class="text-center style-normal-header" style="width: 10%;"><span>详细</span></th>
                                             </thead>
                                             <tbody class="" id="list-ship-wage">
@@ -133,15 +133,15 @@ $isHolder = Session::get('IS_HOLDER');
                                         </table>
                                     </div>
                                 </div>
-                                <div class="col-md-8" style="margin-left:10px;">
+                                <div class="col-md-10" style="margin-left:10px;">
                                     <div class="head-fix-div common-list" id="crew-table" style="">
                                         <table id="table-memberwage-list" style="table-layout:fixed;">
                                             <thead class="">
-                                                <th class="text-center style-normal-header" style="width: 7%;height:35px;"><span>月份</span></th>
-                                                <th class="text-center style-normal-header" style="width: 15%;"><span>支付日期</span></th>
-                                                <th class="text-center style-normal-header" style="width: 20%;"><span>家汇款(¥)</span></th>
-                                                <th class="text-center style-normal-header" style="width: 20%;"><span>家汇款($)</span></th>
-                                                <th class="text-center style-normal-header" style="width: 38%;"><span>银行账号</span></th>
+                                                <th class="text-center style-normal-header" style="width: 5%;height:35px;"><span>月份</span></th>
+                                                <th class="text-center style-normal-header" style="width: 10%;"><span>支付日期</span></th>
+                                                <th class="text-center style-normal-header" style="width: 16%;">家汇款<span style="color:red">(¥)</span></th>
+                                                <th class="text-center style-normal-header" style="width: 16%;">家汇款<span style="color:#1565C0">($)</span></th>
+                                                <th class="text-center style-normal-header" style=""><span>银行账号</span></th>
                                                 <th class="text-center style-normal-header" style="width: 7%;"><span>详细</span></th>
                                             </thead>
                                             <tbody class="" id="list-ship-wage">
@@ -356,7 +356,7 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: 'purchdate', className: "text-center"},
                     {data: 'sendR', className: "text-center"},
                     {data: 'sendD', className: "text-center"},
-                    {data: 'bankinfo', className: "text-center"},
+                    {data: 'bankinfo', className: ""},
                     {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
@@ -370,7 +370,7 @@ $isHolder = Session::get('IS_HOLDER');
                         $('td', row).eq(2).html(data['sendD']==0?'-':'$ ' + prettyValue(data['sendD']));
                         $('td', row).eq(3).attr('class', 'sub-small-header style-normal-header text-center');
                         $('td', row).eq(3).html('');
-                        $('td', row).eq(4).attr('class', 'sub-small-header style-normal-header text-center');
+                        $('td', row).eq(4).attr('class', 'sub-small-header style-normal-header');
                         $('td', row).eq(4).html('');
                         $('td', row).eq(5).remove();
                     }

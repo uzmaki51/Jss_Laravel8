@@ -159,7 +159,7 @@ $isHolder = Session::get('IS_HOLDER');
                                             <div class="col-sm-4">
                                                 <button type="button" class="btn btn-primary" id="btnKeep" style="margin-top:10px;width:100px;height:30px;">记账凭证</button>
                                             </div>
-                                            <div class="col-sm-6" style="margin-left:60px;margin-top:8px;">
+                                            <div class="col-sm-7 f-right" style="margin-top:8px;">
                                                 <input type="text" id="remark-box" name="remark-box" style="color:red;width:100%;display:none;" readonly="">
                                             </div>
                                         </div>
