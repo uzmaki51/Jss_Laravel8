@@ -28,10 +28,10 @@ $shipList = Session::get('shipList');
                     </tr>
                     <tr>
                         <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            <span class="style-header">{{ trans('shipManage.General.NickName') }}</span>
+                            <span class="text-danger style-header">{{ trans('shipManage.General.NickName') }}*</span>
                         </td>
                         <td class="custom-td-report-text" style="width: 80%" colspan="2">
-                            <input type="text" name="NickName" class="form-control" placeholder="{{ trans('shipManage.placeholder.ENGLISH') }}" style="width:100%" value="@if(isset($shipInfo['NickName'])){{$shipInfo['NickName']}}@endif">
+                            <input type="text" name="NickName" class="form-control" placeholder="{{ trans('shipManage.placeholder.ENGLISH') }}" style="width:100%" value="@if(isset($shipInfo['NickName'])){{$shipInfo['NickName']}}@endif" required>
                         </td>
                     </tr>
                     <tr>
