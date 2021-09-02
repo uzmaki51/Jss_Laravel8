@@ -183,7 +183,7 @@
         }
     });
 </script>
-<div class="main-container {{ $routeName == 'home' || $routeName == 'home.index' ? '' : 'inner-wrap' }}" style="{{ $routeName == 'shipmember.list' || $routeName == 'income.ship' || $routeName == 'income.all' || $routeName == 'wages.calc' || $routeName == 'wages.send' ? 'width:100%; height: 100%!impotant;' : '' }}" id="main-container">
+<div class="main-container {{ $routeName == 'home' || $routeName == 'home.index' ? '' : 'inner-wrap' }}" style="{{ $routeName == 'home' || $routeName == 'home.index' || $routeName == 'shipmember.list' || $routeName == 'income.ship' || $routeName == 'income.all' || $routeName == 'wages.calc' || $routeName == 'wages.send' ? 'width:100%; height: 100%!impotant;' : '' }}" id="main-container">
     <div class="main-container-inner">
         @if(isset($breadCrumb) && count($breadCrumb) > 0)
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
