@@ -171,13 +171,13 @@ $ships = Session::get('shipList');
                                                             <input type="hidden" name="id[]" v-model="typeItem.id">
                                                         </td>
                                                         <td class="no-padding center">
-                                                            <input type="text" @focus="addNewRow(this)" class="form-control" name="order_no[]" v-model="typeItem.order_no" style="width: 100%;text-align: center">
+                                                            <input type="text" @focus="addNewRow(this)" class="form-control" name="order_no[]" v-model="typeItem.order_no" style="width: 100%;text-align: center" autocomplete="off">
                                                         </td>
                                                         <td class="no-padding">
-                                                            <input type="text" @focus="addNewRow(this)" class="form-control" name="code[]" v-model="typeItem.code" style="width: 100%;text-align: center">
+                                                            <input type="text" class="form-control" name="code[]" v-model="typeItem.code" style="width: 100%;text-align: center" autocomplete="off">
                                                         </td>
                                                         <td class="no-padding center">
-                                                            <input type="text" @focus="addNewRow(this)" class="form-control" name="name[]" v-model="typeItem.name" style="width: 100%;text-align: center">
+                                                            <input type="text" class="form-control" name="name[]" v-model="typeItem.name" style="width: 100%;text-align: center" autocomplete="off">
                                                         </td>
                                                         <td class="no-padding center">
                                                             <div class="action-buttons">
