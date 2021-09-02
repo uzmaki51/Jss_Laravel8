@@ -71,7 +71,7 @@ $isHolder = Session::get('IS_HOLDER');
             </div>
         </div>
         <div class="page-content">
-            <div class="row">
+            <div class="row" style="margin-bottom: 4px;">
                 <div class="col-md-12">
                     <div class="col-md-6" style="padding:unset!important">
                     </div>
