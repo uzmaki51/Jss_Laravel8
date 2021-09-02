@@ -14366,7 +14366,7 @@ body.breadcrumbs-fixed {
 
 .main-container > .main-container-inner {
     position: relative;
-    height: calc(100% - 60px);
+    height: auto;
 	overflow-x: hidden;
     overflow-y: auto;
 }
