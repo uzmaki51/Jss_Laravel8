@@ -1476,7 +1476,7 @@ class BusinessController extends Controller {
 
         $list = $tbl->get();
         $prevList = $prevTbl->first();
-        $voyList = CP::where('Ship_ID', $shipId)->get();
+        $voyList = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'asc')->get();
 
         $retVal['list'] = $list;
         $retVal['prevList'] = $prevList;

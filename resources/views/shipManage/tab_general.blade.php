@@ -28,10 +28,10 @@ $shipList = Session::get('shipList');
                     </tr>
                     <tr>
                         <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            <span class="style-header">{{ trans('shipManage.General.NickName') }}</span>
+                            <span class="text-danger style-header">{{ trans('shipManage.General.NickName') }}*</span>
                         </td>
                         <td class="custom-td-report-text" style="width: 80%" colspan="2">
-                            <input type="text" name="NickName" class="form-control" placeholder="{{ trans('shipManage.placeholder.ENGLISH') }}" style="width:100%" value="@if(isset($shipInfo['NickName'])){{$shipInfo['NickName']}}@endif">
+                            <input type="text" name="NickName" class="form-control" placeholder="{{ trans('shipManage.placeholder.ENGLISH') }}" style="width:100%" value="@if(isset($shipInfo['NickName'])){{$shipInfo['NickName']}}@endif" required>
                         </td>
                     </tr>
                     <tr>
@@ -340,7 +340,7 @@ $shipList = Session::get('shipList');
                                         <input class="form-control date-picker"
                                                name="RenewDate"
                                                type="text" data-date-format="yyyy-mm-dd"
-                                               value="@if(isset($shipInfo['RenewDate'])){{$shipInfo['RenewDate']}}@endif">
+                                               value="@if(isset($shipInfo['RenewDate'])){{$shipInfo['RenewDate']}}@endif" disabled>
                                         <span class="input-group-addon">
                                                     <i class="icon-calendar "></i>
                                                 </span>
@@ -356,7 +356,7 @@ $shipList = Session::get('shipList');
                                         <input class="form-control date-picker"
                                                name="KCExpiryDate"
                                                type="text" data-date-format="yyyy-mm-dd"
-                                               value="@if(isset($shipInfo['KCExpiryDate'])){{$shipInfo['KCExpiryDate']}}@endif">
+                                               value="@if(isset($shipInfo['KCExpiryDate'])){{$shipInfo['KCExpiryDate']}}@endif" disabled>
                                         <span class="input-group-addon">
                                                     <i class="icon-calendar "></i>
                                                 </span>
@@ -372,7 +372,7 @@ $shipList = Session::get('shipList');
                                         <input class="form-control date-picker"
                                                name="ConditionalDate"
                                                type="text" data-date-format="yyyy-mm-dd"
-                                               value="@if(isset($shipInfo['ConditionalDate'])){{$shipInfo['ConditionalDate']}}@endif">
+                                               value="@if(isset($shipInfo['ConditionalDate'])){{$shipInfo['ConditionalDate']}}@endif" disabled>
                                         <span class="input-group-addon">
                                                     <i class="icon-calendar "></i>
                                                 </span>

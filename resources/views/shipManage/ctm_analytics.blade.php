@@ -192,7 +192,7 @@ $ships = Session::get('shipList');
                                                 </tr>
                                                 <tr>
                                                     <th class="style-header center" style="width: 4%;">月份</th>
-                                                    <th class="style-header center" style="border-right: 2px solid #000!important;">支出合计($)</th>
+                                                    <th class="style-header center" style="border-right: 2px solid #000!important;">支出合计<span style="color:#1565C0">($)</span></th>
                                                     <th  class="style-header center" v-for="(item, index) in profitType">@{{ item }}</th>
                                                 </tr>
                                             </thead>

@@ -76,7 +76,7 @@ $isHolder = Session::get('IS_HOLDER');
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         <div class="row" style="margin-bottom:40px">
                                             <div class="head-fix-div common-list" id="total-table" style="">
-                                                <table id="table-shipmember-list-total" style="max-width:unset!important;table-layout:fixed;width:1500px!important;">
+                                                <table id="table-shipmember-list-total" style="table-layout:fixed;">
                                                     <thead class="">
                                                         <th class="text-center style-header" style="width: 2%;"><span>No</span></th>
                                                         <th class="text-center style-header" style="width: 6%;"><span>姓名</span></th>
