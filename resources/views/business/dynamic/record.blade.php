@@ -587,8 +587,6 @@
                                     searchObj.save_fo = BigNumber(searchObj.rob_fo).minus(searchObj.used_fo).toFixed(2);
                                     searchObj.save_do = BigNumber(searchObj.rob_do).minus(searchObj.used_do).toFixed(2);
 
-                                } else {
-                                    searchObj.setDefaultData();
                                 }
 
                                 searchObj.total_count = searchObj.currentData.length;
