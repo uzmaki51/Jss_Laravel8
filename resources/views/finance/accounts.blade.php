@@ -170,11 +170,11 @@ $isHolder = Session::get('IS_HOLDER');
                                                     <th class="text-center style-normal-header" style="width: 4%;height:35px;"><span>对象</span></th>
                                                     <th class="text-center style-normal-header" style="width: 6%;"><span>记账编号</span></th>
                                                     <th class="text-center style-normal-header" style="width: 7%;"><span>日期</span></th>
-                                                    <th class="text-left style-normal-header" style="width: 25%;"><span>摘要</span></th>
+                                                    <th class="text-left style-normal-header" style="width: 50%;"><span>摘要</span></th>
                                                     <th class="text-center style-normal-header" style="width: 3%;"><span>币类</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 20%;"><span>借方</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 20%;"><span>贷方</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 15%;"><span>收支方式</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 10%;"><span>借方</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 10%;"><span>贷方</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 10%;"><span>收支方式</span></th>
                                                 </thead>
                                                 <tbody class="" id="accounts-analysis-body">
                                                 </tbody>

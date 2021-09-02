@@ -159,7 +159,7 @@ $isHolder = Session::get('IS_HOLDER');
                                             <div class="col-sm-4">
                                                 <button type="button" class="btn btn-primary" id="btnKeep" style="margin-top:10px;width:100px;height:30px;">记账凭证</button>
                                             </div>
-                                            <div class="col-sm-6" style="margin-left:60px;margin-top:8px;">
+                                            <div class="col-sm-7 f-right" style="margin-top:8px;">
                                                 <input type="text" id="remark-box" name="remark-box" style="color:red;width:100%;display:none;" readonly="">
                                             </div>
                                         </div>
@@ -440,7 +440,19 @@ $isHolder = Session::get('IS_HOLDER');
                     var link_html = '<label><a href="' + data['attachment'] + '" target="_blank" class="' + (data['attachment']==null ? 'visible-hidden':'') + '"><img src="' + "{{ cAsset('assets/images/document.png') }}" + '"' + ' width="15" height="15" style="cursor: pointer;"></a></label>';
                     $('td', row).eq(11).html('<input type="text" class="form-control" readonly name="rate[]" value="' + formatRate(data['rate']) + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(12).html('').append(link_html);
-                    $('td', row).eq(7).html('<input type="text" class="form-control content" readonly name="report_remark[]" value="' + data['content'] + '" style="cursor:pointer;width: 100%;" autocomplete="off" onclick="showRemark(' + "'" + data['remark'] + "'" + ')">');
+
+                    var remark = data['remark'];
+                    if ((remark != 'null') && (remark != '') && (remark != null)) {
+                        remark = remark.replaceAll("\n","");
+                        $('td', row).eq(7).attr('style', 'padding: 1em 3em;border: 1px solid grey;background-image: linear-gradient(225deg, red, red 6px, transparent 6px, transparent);');
+                        $('td', row).eq(7).attr('remark', remark);
+                        //$('td', row).eq(7).html('<input type="text" class="form-control content" readonly name="report_remark[]" value="' + data['content'] + '" style="cursor:pointer;width: 100%;background-color:transparent!important;" autocomplete="off" onclick="showRemark(' + "'" + remark + "'" + ')">');
+                        $('td', row).eq(7).html('<input type="text" class="form-control content" readonly name="report_remark[]" value="' + data['content'] + '" style="padding-left:0px!important;cursor:pointer;width: 100%;background-color:transparent!important;" autocomplete="off" onclick="showRemark(this)">');
+                    }
+                    else {
+                        $('td', row).eq(7).html('<input type="text" class="form-control content" readonly name="report_remark[]" value="' + data['content'] + '" style="padding-left:0px!important;cursor:pointer;width: 100%;background-color:transparent!important;" autocomplete="off" onclick="showRemark(this)">');
+                    }
+                    
                 },
                 drawCallback: function (response) {
                     listBook = response.json.data;
@@ -1466,7 +1478,21 @@ $isHolder = Session::get('IS_HOLDER');
             return 0;
         }
 
+        /*
         function showRemark(remark) {
+            alert(remark);
+            if ((remark != 'null') && (remark != '') && (remark != null)) {
+                $('#remark-box').val(remark);
+                $('#remark-box').show();
+            } else {
+                $('#remark-box').val('');
+                $('#remark-box').hide();
+            }
+        }
+        */
+        function showRemark(evt) {
+            var tr_ = $(evt).closest("td");
+            var remark = $(tr_).attr('remark');
             if ((remark != 'null') && (remark != '') && (remark != null)) {
                 $('#remark-box').val(remark);
                 $('#remark-box').show();

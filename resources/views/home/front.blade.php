@@ -746,11 +746,10 @@
                         var value = profit_sum[i];
                     }
                     drawSecondGraph(datasets);
-                    //drawFourthGraph(datasets4);
+                    drawFourthGraph(datasets4);
                 }
             });
 
-            /*
             $.ajax({
                 url: BASE_URL + 'ajax/business/dynamic/multiSearch',
                 type: 'post', 
@@ -987,7 +986,6 @@
                     drawFifthGraph(datasets);
                 }
             })
-            */
 
             $.ajax({
                 url: BASE_URL + 'ajax/voy/totals',
