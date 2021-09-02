@@ -51,7 +51,7 @@ Route::group(['prefix' => 'org'], function() {
 Route::group(['prefix' => 'decision'], function()
 {
 	Route::get('/', [App\Http\Controllers\Decision\DecisionController::class, 'index']);
-	Route::get('receivedReport', [App\Http\Controllers\Decision\DecisionController::class, 'receivedReport']);
+	Route::get('receivedReport', [App\Http\Controllers\Decision\DecisionController::class, 'receivedReport'])->name('decision.report');
 	Route::get('draftReport', [App\Http\Controllers\Decision\DecisionController::class, 'draftReport']);
 	Route::get('redirect', [App\Http\Controllers\Decision\DecisionController::class, 'redirect']);
 	Route::post('report/submit', [App\Http\Controllers\Decision\DecisionController::class, 'reportSubmit']);
