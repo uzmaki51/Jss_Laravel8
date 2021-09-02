@@ -182,8 +182,8 @@ Route::group(['prefix' => 'finance'], function() {
 });
 
 Route::group(['prefix' => 'operation'], function() {
-	Route::get('incomeExpense', [App\Http\Controllers\Operation\OperationController::class, 'incomeExpense']);
-	Route::get('incomeAllExpense', [App\Http\Controllers\Operation\OperationController::class, 'incomeAllExpense']);
+	Route::get('incomeExpense', [App\Http\Controllers\Operation\OperationController::class, 'incomeExpense'])->name('income.ship');
+	Route::get('incomeAllExpense', [App\Http\Controllers\Operation\OperationController::class, 'incomeAllExpense'])->name('income.all');
 });
 Route::group(['prefix' => 'shipManage'], function() {
 	Route::get('/', [App\Http\Controllers\ShipManage\ShipRegController::class, 'index']);
@@ -240,11 +240,11 @@ Route::group(['prefix' => 'shipMember'], function() {
 	Route::post('updateMemberTrainingData', [App\Http\Controllers\ShipManage\ShipMemberController::class, 'updateMemberTrainingData']);
 	Route::post('registerMemberExamingData', [App\Http\Controllers\ShipManage\ShipMemberController::class, 'registerMemberExamingData']);
 	Route::post('deleteShipMember', [App\Http\Controllers\ShipManage\ShipMemberController::class, 'deleteShipMember']);
-	Route::get('totalShipMember', [App\Http\Controllers\ShipManage\ShipMemberController::class, 'totalShipMember']);
+	Route::get('totalShipMember', [App\Http\Controllers\ShipManage\ShipMemberController::class, 'totalShipMember'])->name('shipmember.list');
 	Route::get('memberCertList', [App\Http\Controllers\ShipManage\ShipMemberController::class, 'memberCertList']);
 	Route::get('integretedMemberExaming', [App\Http\Controllers\ShipManage\ShipMemberController::class, 'integretedMemberExaming']);
-	Route::get('wagesCalc', [App\Http\Controllers\ShipManage\WageController::class, 'index']);
-	Route::get('wagesSend', [App\Http\Controllers\ShipManage\WageController::class, 'send']);
+	Route::get('wagesCalc', [App\Http\Controllers\ShipManage\WageController::class, 'index'])->name('wages.calc');
+	Route::get('wagesSend', [App\Http\Controllers\ShipManage\WageController::class, 'send'])->name('wages.send');
 	Route::get('wagesList', [App\Http\Controllers\ShipManage\WageController::class, 'wagelist']);
 	Route::post('updateWageCalcInfo', [App\Http\Controllers\ShipManage\WageController::class, 'updateWageCalcInfo']);
 	Route::post('updateWageSendInfo', [App\Http\Controllers\ShipManage\WageController::class, 'updateWageSendInfo']);

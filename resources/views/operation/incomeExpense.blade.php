@@ -174,7 +174,7 @@ $ships = Session::get('shipList');
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     <div class="row">
                                         <div class="table-head-fix-div" id="div-income-expense" style="height: 700px">
-                                            <table id="table-income-expense-list" data-toggle="table" style="max-width:unset!important;table-layout:fixed;width:1500px!important;">
+                                            <table id="table-income-expense-list" data-toggle="table" style="table-layout:fixed;">
                                                 <thead class="">
                                                 <tr>
                                                     <th class="text-center style-normal-header" rowspan="2" style="width: 2.5%;"><span>航次</span></th>

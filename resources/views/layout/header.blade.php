@@ -182,10 +182,8 @@
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         }
     });
-
 </script>
-
-<div class="main-container {{ $routeName == 'home' || $routeName == 'home.index' ? '' : 'inner-wrap' }}" id="main-container">
+<div class="main-container {{ $routeName == 'home' || $routeName == 'home.index' ? '' : 'inner-wrap' }}" style="{{ $routeName == 'shipmember.list' || $routeName == 'income.ship' || $routeName == 'income.all' || $routeName == 'wages.calc' || $routeName == 'wages.send' ? 'width:100%;' : '' }}" id="main-container">
     <div class="main-container-inner">
         @if(isset($breadCrumb) && count($breadCrumb) > 0)
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">

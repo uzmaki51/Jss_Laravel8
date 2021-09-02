@@ -923,14 +923,22 @@ $isHolder = Session::get('IS_HOLDER');
                 }
                 else
                 {
-                    var info = real_tab.rows[j].childNodes[4].childNodes[0].value;
+                    var info = real_tab.rows[j].childNodes[3].childNodes[0].value;
+                    tab.rows[j].childNodes[3].innerHTML = info == 0 ? '¥' : '$';
+                    info = real_tab.rows[j].childNodes[4].childNodes[0].value;
                     tab.rows[j].childNodes[4].innerHTML = info;
+                    info = real_tab.rows[j].childNodes[5].childNodes[0].childNodes[0].value;
+                    tab.rows[j].childNodes[5].innerHTML = info;
+                    info = real_tab.rows[j].childNodes[6].childNodes[0].childNodes[0].value;
+                    tab.rows[j].childNodes[6].innerHTML = info;
                     info = real_tab.rows[j].childNodes[8].childNodes[0].value;
                     tab.rows[j].childNodes[8].innerHTML = info;
                     info = real_tab.rows[j].childNodes[11].childNodes[0].childNodes[0].value;
                     tab.rows[j].childNodes[11].innerHTML = info;
                     info = real_tab.rows[j].childNodes[12].childNodes[0].value;
                     tab.rows[j].childNodes[12].innerHTML = info;
+                    info = real_tab.rows[j].childNodes[13].childNodes[0].value;
+                    tab.rows[j].childNodes[13].innerHTML = info;
                 }
                 
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
