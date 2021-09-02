@@ -340,7 +340,7 @@ $shipList = Session::get('shipList');
                                         <input class="form-control date-picker"
                                                name="RenewDate"
                                                type="text" data-date-format="yyyy-mm-dd"
-                                               value="@if(isset($shipInfo['RenewDate'])){{$shipInfo['RenewDate']}}@endif">
+                                               value="@if(isset($shipInfo['RenewDate'])){{$shipInfo['RenewDate']}}@endif" disabled>
                                         <span class="input-group-addon">
                                                     <i class="icon-calendar "></i>
                                                 </span>
@@ -356,7 +356,7 @@ $shipList = Session::get('shipList');
                                         <input class="form-control date-picker"
                                                name="KCExpiryDate"
                                                type="text" data-date-format="yyyy-mm-dd"
-                                               value="@if(isset($shipInfo['KCExpiryDate'])){{$shipInfo['KCExpiryDate']}}@endif">
+                                               value="@if(isset($shipInfo['KCExpiryDate'])){{$shipInfo['KCExpiryDate']}}@endif" disabled>
                                         <span class="input-group-addon">
                                                     <i class="icon-calendar "></i>
                                                 </span>
@@ -372,7 +372,7 @@ $shipList = Session::get('shipList');
                                         <input class="form-control date-picker"
                                                name="ConditionalDate"
                                                type="text" data-date-format="yyyy-mm-dd"
-                                               value="@if(isset($shipInfo['ConditionalDate'])){{$shipInfo['ConditionalDate']}}@endif">
+                                               value="@if(isset($shipInfo['ConditionalDate'])){{$shipInfo['ConditionalDate']}}@endif" disabled>
                                         <span class="input-group-addon">
                                                     <i class="icon-calendar "></i>
                                                 </span>

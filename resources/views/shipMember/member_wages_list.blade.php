@@ -209,7 +209,7 @@ $isHolder = Session::get('IS_HOLDER');
                         $('td', row).eq(3).html('');
                     }
                     else
-                        $('td', row).eq(3).html('').append('<div class="action-buttons"><a class="blue" onclick="javascript:showReport(this)"><i class="icon-file"></i></a></div>');
+                        $('td', row).eq(3).html('').append('<div class="action-buttons"><a class="blue" onclick="javascript:showCalcWage(this)"><i class="icon-file"></i></a></div>');
                 },
                 drawCallback: function (response) {
                 }
@@ -384,7 +384,7 @@ $isHolder = Session::get('IS_HOLDER');
                         $('td', row).eq(2).attr('class', 'style-blue-header text-center');
                         $('td', row).eq(2).html(data['sendR']==0?'':prettyValue(data['sendR']));
                         $('td', row).eq(3).html(data['sendD']==0?'':prettyValue(data['sendD']));
-                        $('td', row).eq(5).html('').append('<div class="action-buttons"><a class="blue" onclick="javascript:showReport(this)"><i class="icon-file"></i></a></div>');
+                        $('td', row).eq(5).html('').append('<div class="action-buttons"><a class="blue" onclick="javascript:showSendWage(this)"><i class="icon-file"></i></a></div>');
                     }
                 },
             });
@@ -393,6 +393,20 @@ $isHolder = Session::get('IS_HOLDER');
             $('.paging_simple_numbers').hide();
             $('.dataTables_info').hide();
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
+        }
+
+        function showCalcWage(evt) {
+            var _tr = evt.closest('tr');
+            var _year = $('#select-year').val();
+            var _month = _tr.firstElementChild.innerHTML;
+            window.open(BASE_URL + 'shipMember/wagesCalc?year=' + _year + '&month=' + _month, '_blank');
+        }
+
+        function showSendWage(evt) {
+            var _tr = evt.closest('tr');
+            var _year = $('#select-member-year').val();
+            var _month = _tr.firstElementChild.innerHTML;
+            window.open(BASE_URL + 'shipMember/wagesSend?year=' + _year + '&month=' + _month, '_blank');
         }
     </script>
 
