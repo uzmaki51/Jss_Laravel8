@@ -81,7 +81,7 @@
                             <td class="center">@{{ _number_format(item[1].manage_percent, 1) }}</td>
                         </tr>
 
-                        <tr class="dynamic-footer">
+                        <tr class="dynamic-footer bottom-0">
                             <td class="text-center not-striped-td" style="height: 22ppx!important">@{{ _number_format(footer.count, 0) }}</td>
                             <td class="text-center not-striped-td"></td>
                             <td class="text-center not-striped-td"></td>

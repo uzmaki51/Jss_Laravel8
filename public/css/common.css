@@ -587,7 +587,9 @@ ul.timeline > li {
     background-color: rgb(243, 243, 243);
     padding: 0.4em 0.6em!important;
 }
-
+.bottom-0 td {
+	bottom: 0;
+}
 @media (min-width: 1367px) {
     .inner-wrap {
         width: 1300px;

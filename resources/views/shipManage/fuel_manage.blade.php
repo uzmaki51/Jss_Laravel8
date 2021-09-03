@@ -579,6 +579,8 @@
                             
                             if(__parseFloat(realData.fuelSum) != 0)
                                 searchObj.analyze.list[key].oil_price_else = BigNumber(__parseFloat(realData.fuelSum)).minus(__parseFloat(else_price1)).minus(__parseFloat(else_price2)).toFixed(2);
+							else
+								searchObj.analyze.list[key].oil_price_else = 0;
                         });
 
                         this.calculate();
