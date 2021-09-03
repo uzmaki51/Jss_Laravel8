@@ -11,9 +11,9 @@ $ships = Session::get('shipList');
 @extends('layout.'.$header)
 
 @section('styles')
-    <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
-    <link href="{{ cAsset('css/vue.css') }}" rel="stylesheet"/>
-    <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/pretty.css?v=20210903104500') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/vue.css?v=20210903104500') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/dycombo.css?v=20210903104500') }}" rel="stylesheet"/>
 @endsection
 
 
