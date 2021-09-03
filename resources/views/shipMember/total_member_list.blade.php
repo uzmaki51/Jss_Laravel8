@@ -103,7 +103,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     </div>
                                 </div>
                             </div>
-                            <div id="tab_crew_list" class="tab-pane">
+                            <div id="tab_crew_list" class="tab-pane col-sm-10">
                                 <div class="page-header">
                                     <div class="col-sm-3">
                                         <h4><b>CREW LIST</b></h4>
@@ -131,17 +131,17 @@ $isHolder = Session::get('IS_HOLDER');
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         <div class="row">
                                             <div class="head-fix-div common-list" id="crew-table" style="">
-                                                <table id="table-shipmember-list" class="not-striped" style="table-layout:fixed;">
+                                                <table id="table-shipmember-list" class="not-striped" style="width:100%;table-layout:fixed;">
                                                     <thead class="">
                                                         <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
                                                         <th class="text-center style-header" style="width: 12%;"><span>Family Name, Given Name</span></th>
                                                         <th class="text-center style-header" style="width: 4%;"><span>Rank</span></th>
                                                         <th class="text-center style-header" style="width: 9%;"><span>Nationality</span></th>
                                                         <th class="text-center style-header" style="width: 12%;"><span>Chinese ID No.</span></th>
-                                                        <th class="text-center style-header" style="width: 19%;"><span>Date and place of birth</span></th>
-                                                        <th class="text-center style-header" style="width: 20%;"><span>Date and place of embarkation</span></th>
-                                                        <th class="text-center style-header" style="width: 11%;"><span>Seaman's Book No and Expire Date</span></th>
-                                                        <th class="text-center style-header" style=""><span>Passport's No and Expire Date</span></th>
+                                                        <th class="text-center style-header" style="width: 15%;"><span>Date and place of birth</span></th>
+                                                        <th class="text-center style-header" style="width: 15%;"><span>Date and place of embarkation</span></th>
+                                                        <th class="text-center style-header" style="width: 15%;"><span>Seaman's Book No and Expire Date</span></th>
+                                                        <th class="text-center style-header" style="width: 15%"><span>Passport's No and Expire Date</span></th>
                                                     </thead>
                                                     <tbody class="" id="list-body">
                                                     </tbody>

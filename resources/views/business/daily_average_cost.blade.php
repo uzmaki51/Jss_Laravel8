@@ -97,6 +97,11 @@ $ships = Session::get('shipList');
                             </table>
                             <div class="space-12"></div>
                             <div class="col-md-6">
+                                <select name="select-year" id="select-year" style="font-size:13px">
+                                    @for($i=$start_year;$i<=date("Y");$i++)
+                                    <option value="{{$i}}" @if(($year==$i)||(($year=='')&&($i==date("Y")))) selected @endif>{{$i}}年</option>
+                                    @endfor
+                                </select>
                                 <strong class="f-right" style="font-size: 20px; padding-top: 6px; padding-bottom:8px;"><span id="costs_info"></span>成本预计</strong>
                             </div>
                             <form id="form-costs-list" action="updateCostInfo" role="form" method="POST" enctype="multipart/form-data">

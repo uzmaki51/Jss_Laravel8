@@ -97,11 +97,21 @@ class BusinessController extends Controller {
             $costs = ExpectedCosts::where('shipNo', $shipId)->first();
         }
         
-
+        $year = $request->get('year');
+        $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2020-01-01';
+        } else {
+            $start_year = $start_year['min_date'];
+        }
+        $start_year = date("Y", strtotime($start_year));
+        
         return view('business.daily_average_cost', array(
             'shipList'   => $shipList,
             'shipId'     => $shipId,
             'costs'      => $costs,
+            'start_year'    => $start_year,
+            'year'          => $year,
             'breadCrumb'    => $breadCrumb
         ));
     }
