@@ -75,6 +75,7 @@ class BusinessController extends Controller {
         $breadCrumb = BreadCrumb::getBreadCrumb($url);
 
         $user_pos = Auth::user()->pos;
+        $year = $request->get('year');
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
         {
             $ids = Auth::user()->shipList;
@@ -85,7 +86,7 @@ class BusinessController extends Controller {
                             ->orderBy('tb_ship_register.id')
                             ->get();
             $shipId = $ids[0];
-            $costs = ExpectedCosts::where('shipNo', $ids[0])->first();
+            $costs = ExpectedCosts::where('shipNo', $ids[0])->where('year',$year)->first();
         }
         else {
             $shipList = ShipRegister::select('tb_ship_register.id', 'tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
@@ -93,11 +94,11 @@ class BusinessController extends Controller {
                             ->orderBy('tb_ship_register.id')
                             ->get();
 
-            $shipId = $request->get('shipId');                            
-            $costs = ExpectedCosts::where('shipNo', $shipId)->first();
+            $shipId = $request->get('shipId');
+            $costs = ExpectedCosts::where('shipNo', $shipId)->where('year',$year)->first();
         }
         
-        $year = $request->get('year');
+        
         $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
         if(empty($start_year)) {
             $start_year = '2020-01-01';
@@ -121,28 +122,18 @@ class BusinessController extends Controller {
         $result = str_replace(',','',$result);
         return $result;
     }
+
     public function updateCostInfo(Request $request) {
         $shipId = $request->get('select-ship');
+        $year = $request->get('select-year');
         $inputs = $request->get('input');
 
-        $cost_record = ExpectedCosts::where('shipNo', $shipId)->first();
+        $cost_record = ExpectedCosts::where('shipNo', $shipId)->where('year',$year)->first();
         if (empty($cost_record)) {
             $cost_record = new ExpectedCosts();
         }
         $cost_record->shipNo = $shipId;
-        /*
-        $cost_record->input1 = $inputs[0];
-        $cost_record->input2 = $inputs[1];
-        $cost_record->input3 = $inputs[2];
-        $cost_record->input4 = $inputs[3];
-        $cost_record->input5 = $inputs[4];
-        $cost_record->input6 = $inputs[5];
-        $cost_record->input7 = $inputs[6];
-        $cost_record->input8 = $inputs[7];
-        $cost_record->input9 = $inputs[8];
-        $cost_record->input10 = $inputs[9];
-        $cost_record->input11 = $inputs[1];
-        */
+        $cost_record->year = $year;
 
         $cost_record->input1 = $this->getNumber($inputs[0]);
         $cost_record->input2 = $this->getNumber($inputs[1]);
@@ -157,9 +148,8 @@ class BusinessController extends Controller {
         $cost_record->input11 = $this->getNumber($inputs[10]);
 
         $cost_record->save();
-        return redirect('business/dailyAverageCost?shipId='.$shipId);
+        return redirect('business/dailyAverageCost?shipId='.$shipId.'&year='.$year);
     }
-
 
 	public function contract(Request $request) {
         $url = $request->path();
@@ -183,6 +173,7 @@ class BusinessController extends Controller {
             $voy_id = $params['voy_id'];
         else
             $voy_id = null;
+            
 
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN) {
@@ -212,8 +203,15 @@ class BusinessController extends Controller {
             $minFreight = $tmp['net_profit_day'] == null ? 0 : $tmp['net_profit_day'];
         }
 
+        $voy_info = CP::where('id', $voy_id)->first();
+        if ($voy_info == null || $voy_info == false) {
+            $year = date("Y");
+        } else {
+            $year = "20" . substr($voy_info['Voy_No'],0,2);
+        }
+
         $status = Session::get('status');
-        $costs = ExpectedCosts::where('shipNo', $shipId)->first();
+        $costs = ExpectedCosts::where('shipNo', $shipId)->where('year',$year)->first();
         
         if($costs == null) {
             $costDay = 0;

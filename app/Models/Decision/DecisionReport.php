@@ -333,6 +333,16 @@ class DecisionReport extends Model {
 			$shipid = $params['columns'][1]['search']['value'];
 		}
 
+		if (!isset($params['columns'][2]['search']['value']) ||
+            $params['columns'][2]['search']['value'] == ''
+        ) {
+        	$select_year = $params['year'];
+        }
+		else
+		{
+			$select_year = $params['columns'][2]['search']['value'];
+		}
+
 		$start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
         if(empty($start_year)) {
             $start_year = date("Y");
@@ -451,7 +461,7 @@ class DecisionReport extends Model {
 			$index ++;
 		}
 
-		$costs = ExpectedCosts::where('shipNo', $shipid)->first();
+		$costs = ExpectedCosts::where('shipNo', $shipid)->where('year',$select_year)->first();
 		if (isset($params['draw'])) {
 			return [
 				'draw' => $params['draw']+0,
