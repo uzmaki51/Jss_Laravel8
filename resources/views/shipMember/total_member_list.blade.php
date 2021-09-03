@@ -141,7 +141,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                         <th class="text-center style-header" style="width: 15%;"><span>Date and place of birth</span></th>
                                                         <th class="text-center style-header" style="width: 15%;"><span>Date and place of embarkation</span></th>
                                                         <th class="text-center style-header" style="width: 15%;"><span>Seaman's Book No and Expire Date</span></th>
-                                                        <th class="text-center style-header" style=""><span>Passport's No and Expire Date</span></th>
+                                                        <th class="text-center style-header" style="width: 15%"><span>Passport's No and Expire Date</span></th>
                                                     </thead>
                                                     <tbody class="" id="list-body">
                                                     </tbody>
