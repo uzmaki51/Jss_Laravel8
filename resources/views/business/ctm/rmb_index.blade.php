@@ -13,7 +13,7 @@
                     @endforeach
                 </select>
                 @if(isset($shipName['shipName_En']))
-                    <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="ship_name">{{ $shipName['shipName_En'] }}</span>&nbsp;&nbsp;<span class="active-year"></span>年CTM记录(¥)</strong>
+                    <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="ship_name">{{ $shipName['shipName_En'] }}</span>&nbsp;&nbsp;<span class="active-year"></span>年CTM记录(<span class="text-danger">¥</span>)</strong>
                 @endif
             </div>
             <div class="col-lg-6">
@@ -34,19 +34,19 @@
                     <input type="hidden" v-model="activeYear" name="activeYear">
                     <table class="table-layout-fixed" id="table-rmb-list">
                         <thead class="">
-                        <th class="d-none"></th>
-                        <th class="text-center style-header center" style="width: 4%;">NO</th>
-                        <th class="text-center style-header center" style="width: 7%;">日期</th>
-                        <th class="text-center style-header" style="width: 6%;">航次</th>
-                        <th class="text-center style-header" style="width: 6%;">收支<br>种类</th>
-                        <th class="text-center style-header" style="width: 25%;">摘要</th>
-                        <th class="text-center style-header" style="width: 7%;">收入</th>
-                        <th class="text-center style-header" style="width: 7%;">支出</th>
-                        <th class="text-center style-header" style="width: 8%;">余额</th>
-                        <th class="text-center style-header" style="width: 7%;">汇率</th>
-                        <th class="text-center style-header" style="width: 16%;">备注</th>
-                        <th class="text-center style-header" style="width: 3%;">凭证</th>
-                        <th style="width: 2%;"></th>
+							<th class="d-none"></th>
+							<th class="text-center style-header center" style="width: 4%;">NO</th>
+							<th class="text-center style-header center" style="width: 7%;">日期</th>
+							<th class="text-center style-header" style="width: 6%;">航次</th>
+							<th class="text-center style-header" style="width: 6%;">收支<br>种类</th>
+							<th class="text-center style-header" style="width: 25%;">摘要</th>
+							<th class="text-center style-header" style="width: 7%;">收入</th>
+							<th class="text-center style-header" style="width: 7%;">支出</th>
+							<th class="text-center style-header" style="width: 8%;">余额</th>
+							<th class="text-center style-header" style="width: 7%;">汇率</th>
+							<th class="text-center style-header" style="width: 16%;">备注</th>
+							<th class="text-center style-header" style="width: 3%;">凭证</th>
+							<th style="width: 2%;"></th>
                         </thead>
                         <tbody>
                         <tr class="prev-voy">
