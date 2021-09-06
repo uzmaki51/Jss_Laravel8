@@ -291,7 +291,7 @@ $ships = Session::get('shipList');
                                     <div class="row">
                                         <div class="head-fix-div" id="div-income-expense" style="max-height: 500px; padding-right: 1px;">
                                             <table id="table-soa-list" style="table-layout:fixed;">
-                                                <thead class="">
+                                                <thead class=""> 
                                                 <tr>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>No</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>日期</span></th>

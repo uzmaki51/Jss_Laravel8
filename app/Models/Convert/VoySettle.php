@@ -658,8 +658,8 @@ class VoySettle extends Model
                 $fuelInfo['rob_fo_price_2'] = 0;
                 $fuelInfo['rob_do_price_2'] = 0;
 
-                $costs = ExpectedCosts::where('shipNo', $shipId)->first();
-        
+                $year = "20" . substr($contractInfo->Voy_No,0,2);
+                $costs = ExpectedCosts::where('shipNo', $shipId)->where('year',$year)->first();
                 if($costs == null) {
                     $elseCost = 0;
                 }
@@ -679,6 +679,7 @@ class VoySettle extends Model
             } else {
                 $mainInfo['cargo_name'] = '';
                 $mainInfo['voy_type'] = '';
+                $year = date("Y");
             }
 
         $rep = new DecisionReport();
@@ -690,7 +691,6 @@ class VoySettle extends Model
         $mainInfo['freight_price'] = isset($mainInfo['freight_price']) ? $mainInfo['freight_price'] : 0;
         
         $mainInfo['com_fee'] = isset($mainInfo['com_fee']) ? $mainInfo['com_fee'] : 0;
-        $costs = ExpectedCosts::where('shipNo', $shipId)->first();
 
         return $mainInfo;
     }

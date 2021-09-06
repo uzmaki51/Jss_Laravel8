@@ -194,6 +194,8 @@ $ships = Session::get('shipList');
         $("#btnSave").on('click', function() {
             var input = $("<input>").attr("type", "hidden").attr("name", "select-ship").val(shipid_table);
             $('#form-costs-list').append(input);
+            input2 = $("<input>").attr("type", "hidden").attr("name", "select-year").val(year);
+            $('#form-costs-list').append(input2);
 
             submitted = true;
             $('#form-costs-list').submit();
@@ -310,36 +312,11 @@ $ships = Session::get('shipList');
         var listTable = null;
         var table_sums = [];
         var dest_obj;
+        var year;
 
         shipid_table = $("#select-table-ship").val();
+        year = $("#select-year option:selected").val();
         initTable();
-
-
-        function getDayAverage() {
-            $.ajax({
-                url: BASE_URL + 'ajax/operation/listByShipForPast',
-                type: 'POST',
-                data: {'shipId':shipid_table},
-                success: function(response) {
-                    if (response.length <= 0) return 0;
-                    var sum = 0;
-                    for (var i=0;i<response.length;i++) {
-                        if (response[i].debit_list[6] != 'undefined' && response[i].debit_list[6] != null)
-                            sum += response[i].debit_list[6];
-                        if (response[i].debit_list[4] != 'undefined' && response[i].debit_list[4] != null)
-                            sum += response[i].debit_list[4];
-                        if (response[i].debit_list[15] != 'undefined' && response[i].debit_list[15] != null)
-                            sum += response[i].debit_list[15];
-                    }
-                    sum = sum / 363;
-                    return sum.toFixed(2);
-                },
-                error: function(error) {
-                }
-            });
-        }
-        //getDayAverage();
-        
 
         function initTable() {
             listTable = $('#table-income-expense-list').DataTable({
@@ -350,7 +327,7 @@ $ships = Session::get('shipList');
                 ajax: {
                     url: BASE_URL + 'ajax/operation/listByShipForPast',
                     type: 'POST',
-                    data: {'shipId':shipid_table},
+                    data: {'shipId':shipid_table, 'year':year},
                 },
                 "ordering": false,
                 "pageLength": 500,
@@ -383,19 +360,7 @@ $ships = Session::get('shipList');
                         $(row).attr('class', 'cost-item-even');
                     else
                         $(row).attr('class', 'cost-item-odd');
-
-                        /*
-                    if (data['max_date'] != false && data['min_date'] != false) {
-                        var start_date = data['min_date'].Voy_Date + ' ' + data['min_date'].Voy_Hour + ':' + data['min_date'].Voy_Minute;
-                        var end_date = data['max_date'].Voy_Date + ' ' + data['max_date'].Voy_Hour + ':' + data['max_date'].Voy_Minute;
-                        var sail_time = __getTermDay(start_date, end_date, data['min_date'].GMT, data['max_date'].GMT);
-                        $('td', row).eq(1).html(sail_time.toFixed(2));
-                    }
-                    else
-                    {
-                        $('td', row).eq(1).html('-');
-                    }
-                    */
+                        
                     $('td', row).eq(1).html(data['voy_time']);
 
                     if (data['VOY_count'] != null) {
@@ -551,13 +516,7 @@ $ships = Session::get('shipList');
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
         }
 
-        function changeTableShip() {
-            shipid_table = $('#select-table-ship').val();
-            selectTableInfo();
-        }
-        
         $('#select-table-ship').on('change', function() {
-            //selectTableInfo();
             var prevShip = $('#select-table-ship').val();
             $('#select-table-ship').val(shipid_table);
             var newForm = $form.serialize();
@@ -581,10 +540,38 @@ $ships = Session::get('shipList');
             }
         });
 
+        $('#select-year').on('change', function() {
+            var prevYear = $('#select-year').val();
+            $('#select-year').val(year);
+            var newForm = $form.serialize();
+            //newForm = newForm.replaceAll(/select-year\=|[0-9]/gi,'');
+            if ((newForm !== origForm) && !submitted) {
+                console.log(newForm);
+                console.log(origForm);
+                var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+                alertAudio();
+                bootbox.confirm(confirmationMessage, function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    else {
+                        $('#select-year').val(prevYear);
+                        selectTableInfo();
+                    }
+                });
+            }
+            else {
+                $('#select-year').val(prevYear);
+                selectTableInfo();
+            }
+        });
+
         function selectTableInfo()
         {
             origForm = "";
             shipid_table = $("#select-table-ship").val();
+            year = $("#select-year").val();
             $('#table_info').html('"' + $("#select-table-ship option:selected").attr('data-name') + '"');
             $('#costs_info').html('"' + $("#select-table-ship option:selected").attr('data-name') + '"');
 
@@ -593,7 +580,8 @@ $ships = Session::get('shipList');
             }
             else
             {
-                listTable.column(1).search(shipid_table, false, false).draw();
+                listTable.column(1).search(shipid_table, false, false);
+                listTable.column(2).search(year, false, false).draw();
             }
         }
 
