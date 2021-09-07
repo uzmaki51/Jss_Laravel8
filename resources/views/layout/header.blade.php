@@ -54,6 +54,7 @@
     $routeName = Request::route()->getName();
     $menuList = Session::get('menusList');
     $id = Request::get('menuId');
+    $isAdmin = Auth::user()->isAdmin;
 ?>
 
 <body class="skin-1">
@@ -151,7 +152,7 @@
                                     <ul class="children">
                                         @foreach($item['children'] as $key => $sub)
                                             <li>
-                                                <a href="/{{ $sub['controller'] == '' || $sub['controller'] == ' ' ? (count($sub['children']) > 0 ? $sub['children'][0]['controller'] : '') : $sub['controller']  }}{{ '?menuId=' . $sub['id'] }}">{{ $sub['title'] }}
+                                                <a href="/{{ $sub['controller'] == '' ? (count($sub['children']) > 0 ? $sub['children'][0]['controller'] : '') : ($isAdmin && $sub['id'] == 12 ? 'decision/analyzeReport' : $sub['controller']) }}{{ '?menuId=' . $sub['id'] }}">{{ $isAdmin && $sub['id'] == 12 ? '审批分析' : $sub['title'] }}
                                                     @if(count($sub['children']) > 0)
                                                         <img class="has-child" src="{{ cAsset('assets/img/icons/right-arrow.png') }}">
                                                     @endif
