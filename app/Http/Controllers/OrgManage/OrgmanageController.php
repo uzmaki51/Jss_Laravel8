@@ -594,6 +594,7 @@ class OrgmanageController extends Controller
             if($pos == STAFF_LEVEL_SHAREHOLDER) {
                 $allowmenus = 3;
             }
+            /*
             else if ($pos == STAFF_LEVEL_OPERATOR) {
                 $allowmenus = '2,3,5,26,28';
             }
@@ -612,6 +613,7 @@ class OrgmanageController extends Controller
             else if ($pos == STAFF_LEVEL_CAPTAIN) {
                 $allowmenus = '3';
             }
+            */
             else {
                 foreach ($menus as $menu) {
                     if (isset($param[$menu['id']])) {

@@ -140,6 +140,14 @@ class FinanceController extends Controller
 
 		$shipList = ShipRegister::orderBy('id')->get();
 
+		/*
+		$selector = DB::table($this->table)->select('*');
+        $recordsFiltered = $selector->count();
+        $records = $selector->get();
+		*/
+		$infoTbl = new AccountPersonalInfo();
+		$personal_infos = $infoTbl->select('*')->get();
+
         return view('finance.books', [
             'start_year' => $start_year,
 			'start_month' => $start_month,
@@ -147,6 +155,7 @@ class FinanceController extends Controller
 			'month' => $month,
 			'book_no' => $book_no,
 			'accounts' => $accounts,
+			'infos' => $personal_infos,
 			'shipList' => $shipList,
 			'breadCrumb'    => $breadCrumb
         ]);

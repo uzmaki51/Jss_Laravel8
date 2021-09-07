@@ -105,19 +105,20 @@ $isHolder = Session::get('IS_HOLDER');
                                             <tr>
                                                 <td class="add-td-label" width="20%;">{{trans("orgManage.captions.name")}}<span class="require">*</span>:</td>
                                                 <td class="add-td-text">
-                                                    <input type="text" class="form-control add-td-input" name="name" id="name" value="{{ isset($userinfo) ? $userinfo['realname'] : old('name') }}" required>
+                                                    <input type="text" class="form-control add-td-input" name="name" id="name" value="{{ isset($userinfo) ? $userinfo['realname'] : old('name') }}" required autocomplete="off">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="add-td-label" >{{trans("orgManage.captions.loginID")}}<span class="require">*</span>:</td>
                                                 <td class="add-td-text">
-                                                    <input type="text" class="form-control add-td-input" name="account" id="account" {{ isset($userinfo) ? 'readonly' : '' }} value="{{ isset($userinfo) ? $userinfo['account'] : old('account') }}" required>
+                                                    <input type="text" class="form-control add-td-input" name="account" id="account" {{ isset($userinfo) ? 'readonly' : '' }} value="{{ isset($userinfo) ? $userinfo['account'] : old('account') }}" required autocomplete="off">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="add-td-label" colspan="1">{{trans("orgManage.captions.officePosition")}}<span class="require">*</span>:</td>
                                                 <td class="add-td-text">
                                                     <select class="form-control add-td-select" id="pos" style="width: 98%; margin-left: 6px!important;" name="pos">
+                                                        <option value="0"></option>
                                                         @foreach(g_enum('StaffLevelData') as $key => $item)
                                                             <option value="{{ $key }}" {{ (isset($userinfo) && ($userinfo['pos']==$key)) || old('pos') == $key ? 'selected' : '' }} >{{ $item[0] }}</option>
                                                         @endforeach
@@ -128,7 +129,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                 <td class="add-td-label" colspan="1">{{trans("orgManage.captions.phoneNumber")}}:</td>
                                                 <td class="add-td-text">
                                                     <div class="input-group">
-                                                        <input type="tel" id="rantel" name="phone" class="form-control add-td-input" value="{{ isset($userinfo) ? trim($userinfo['phone']) : old('phone') }}">
+                                                        <input type="tel" id="rantel" name="phone" class="form-control add-td-input" value="{{ isset($userinfo) ? trim($userinfo['phone']) : old('phone') }}" autocomplete="off">
                                                     </div>
                                                 </td>
                                             </tr>
@@ -143,21 +144,21 @@ $isHolder = Session::get('IS_HOLDER');
                                             <tr>
                                                 <td class="add-td-label" width="20%;" colspan="1">{{trans("orgManage.captions.enterDate")}}:</td>
                                                 <td class="add-td-text">
-                                                    <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="{{ isset($userinfo) ? $userinfo['entryDate'] : old('enterdate') }}">
+                                                    <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="{{ isset($userinfo) ? $userinfo['entryDate'] : old('enterdate') }}" autocomplete="off">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="add-td-label" colspan="1">{{trans("orgManage.captions.missDate")}}:</td>
                                                 <td class="add-td-text">
                                                     <div class="input-group">
-                                                        <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="{{ isset($userinfo) ? $userinfo['releaseDate'] : old('releaseDate') }}">
+                                                        <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="{{ isset($userinfo) ? $userinfo['releaseDate'] : old('releaseDate') }}" autocomplete="off">
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="add-td-label" colspan="1">{{trans("orgManage.captions.remark")}}:</td>
                                                 <td class="add-td-text">
-                                                    <input type="text" class="form-control add-td-input" name="remark" id="remark" value="{{ isset($userinfo) ? $userinfo['remark'] : old('remark') }}" required>
+                                                    <input type="text" class="form-control add-td-input" name="remark" id="remark" value="{{ isset($userinfo) ? $userinfo['remark'] : old('remark') }}" required autocomplete="off">
                                                 </td>
                                             </tr>
                                             @if(isset($userinfo))
@@ -181,7 +182,7 @@ $isHolder = Session::get('IS_HOLDER');
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover">
                                     <tbody>
-                                    <?php $index = 0; $cflag = true; ?>
+                                    <?php $index = 0; $cflag = false; ?>
                                     @foreach($pmenus as $pmenu)
                                         @if(isset($userid))
                                             @if(in_array($pmenu['id'], explode(',', $userinfo['menu'])))
@@ -207,9 +208,9 @@ $isHolder = Session::get('IS_HOLDER');
                                                         {{$pmenu['title']}}
                                                     </td>
                                                 @endif
-                                                <td class="custom-td-text" style="width: 3%; t ext-align: center">
-                                                    <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" checked="checked" name="{{'group'.$index}}">
-                                                    <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none" checked>
+                                                <td class="custom-td-text" style="width: 3%; text-align: center">
+                                                    <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" name="{{'group'.$index}}">
+                                                    <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none">
                                                 </td>
                                         @endif
                                                 <td class="custom-td-text" style="width: 77%">

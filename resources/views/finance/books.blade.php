@@ -265,10 +265,14 @@ $isHolder = Session::get('IS_HOLDER');
                                         <label style="margin-left: 8px;">对象</label>
                                         <select type="text" class="custom-select d-inline-block" id="ship_name" style="width:80px">
                                             <option value=""></option>
-                                            <option value="OBJ">其他</option>
                                             @if(isset($shipList))
                                                 @foreach($shipList as $key => $item)
                                                     <option value="{{ $item->IMO_No }}" {{ isset($shipId) && $shipId == $item->IMO_No ?  "selected" : "" }}>{{$item->NickName == '' ? $item->shipName_En : $item->NickName }}</option>
+                                                @endforeach
+                                            @endif
+                                            @if(isset($infos))
+                                                @foreach($infos as $key => $item)
+                                                    <option value="{{ $item->id }}">{{$item->person }}</option>
                                                 @endforeach
                                             @endif
                                         </select>

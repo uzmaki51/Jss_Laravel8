@@ -1021,7 +1021,7 @@ $ships = Session::get('shipList');
                         else if (i == 9) offset = 5;
                         else if (i == 10) offset = 9;
                         else if (i == 11) offset = 10;
-                        datasets[index].data[i] = data[ship_no]['total'][offset];
+                        datasets[index].data[i-1] = data[ship_no]['total'][offset];
                     }
                     index++;
                 });

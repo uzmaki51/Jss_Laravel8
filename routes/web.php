@@ -56,6 +56,7 @@ Route::group(['prefix' => 'decision'], function()
 	Route::get('redirect', [App\Http\Controllers\Decision\DecisionController::class, 'redirect']);
 	Route::post('report/submit', [App\Http\Controllers\Decision\DecisionController::class, 'reportSubmit']);
 	Route::post('getACList', [App\Http\Controllers\Decision\DecisionController::class, 'getACList']);
+	Route::get('analyzeReport', [App\Http\Controllers\Decision\DecisionController::class, 'analyzeReport'])->name('decision.analyze');
 });
 
 Route::group(['prefix' => 'ajax'], function() {

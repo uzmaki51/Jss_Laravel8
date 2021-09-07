@@ -93,6 +93,31 @@ class DecisionController extends Controller
 			'draftId'  	=> $id, 
 			'shipList'  => $shipList,
 			'years'		=> $yearList,
+			'breadCrumb'    => $breadCrumb
+		]);
+	}
+
+	public function analyzeReport(Request $request) {
+		$shipList = ShipRegister::orderBy('id')->get();
+		$params = $request->all();
+
+		$id = -1;
+		if(isset($params['id']))
+			$id = $params['id'];
+
+		$tbl = new DecisionReport();
+		$yearList = $tbl->getYearList($id);
+		$lastId = $tbl->getLastId();
+
+		$url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
+		return view('decision.analyze_report', [
+			'draftId'  	=> $id, 
+			'shipList'  => $shipList,
+			'years'		=> $yearList,
+
+			'lastId'		=> $lastId,
 
 			'breadCrumb'    => $breadCrumb
 		]);
