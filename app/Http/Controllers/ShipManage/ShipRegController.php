@@ -327,11 +327,11 @@ class ShipRegController extends Controller
 		    $shipData['DeckErection_H'] = $params['DeckErection_H'] == "" ? null : $params['DeckErection_H'];
 		    $shipData['RegDate'] = $params['RegDate'] == "" ? null : $params['RegDate'];
 		    $shipData['RenewDate'] = !isset($params['RenewDate']) || $params['RenewDate'] == "" ? null : $params['RenewDate'];
-		    $shipData['KCExpiryDate'] = $params['KCExpiryDate'] == "" ? null : $params['KCExpiryDate'];
-		    $shipData['ConditionalDate'] = $params['ConditionalDate'] == "" ? null : $params['ConditionalDate'];
-		    $shipData['DelDate'] = $params['DelDate'] == "" ? null : $params['DelDate'];
-		    $shipData['Draught'] = $params['Draught'] == "" ? null : $params['Draught'];
-		    $shipData['BuildPlace_Cn'] = $params['BuildPlace_Cn'];
+		    $shipData['KCExpiryDate'] = !isset($params['KCExpiryDate']) || $params['KCExpiryDate'] == "" ? null : $params['KCExpiryDate'];
+		    $shipData['ConditionalDate'] = !isset($params['ConditionalDate']) || $params['ConditionalDate'] == "" ? null : $params['ConditionalDate'];
+		    $shipData['DelDate'] = !isset($params['DelDate']) || $params['DelDate'] == "" ? null : $params['DelDate'];
+		    $shipData['Draught'] = !isset($params['Draught']) || $params['Draught'] == "" ? null : $params['Draught'];
+		    $shipData['BuildPlace_Cn'] = isset($params['BuildPlace_Cn']) ? $params['BuildPlace_Cn'] : '';
 		    $shipData->save();
 
 		    return $shipData['id'];
