@@ -326,7 +326,7 @@ class ShipRegController extends Controller
 		    $shipData['ConversionDate'] = $params['ConversionDate'];
 		    $shipData['DeckErection_H'] = $params['DeckErection_H'] == "" ? null : $params['DeckErection_H'];
 		    $shipData['RegDate'] = $params['RegDate'] == "" ? null : $params['RegDate'];
-		    $shipData['RenewDate'] = $params['RenewDate'] == "" ? null : $params['RenewDate'];
+		    $shipData['RenewDate'] = !isset($params['RenewDate']) || $params['RenewDate'] == "" ? null : $params['RenewDate'];
 		    $shipData['KCExpiryDate'] = $params['KCExpiryDate'] == "" ? null : $params['KCExpiryDate'];
 		    $shipData['ConditionalDate'] = $params['ConditionalDate'] == "" ? null : $params['ConditionalDate'];
 		    $shipData['DelDate'] = $params['DelDate'] == "" ? null : $params['DelDate'];
