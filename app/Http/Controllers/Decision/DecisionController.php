@@ -452,4 +452,13 @@ class DecisionController extends Controller
 
 		return response()->json($retVal);
 	}
+
+	public function ajaxAnalyzeReport(Request $request) {
+		$params = $request->all();
+
+		$decideTbl = new DecisionReport();
+		$ret = $decideTbl->analyzeReport($params['year']);
+
+		return response()->json($ret);
+	}
 }
