@@ -446,7 +446,7 @@ class DecisionReport extends Model {
 
 			$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','<',$voyNo_from)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
 			$max_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','<',$voyNo_to)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
-			if ($min_date == null)																			 {
+			if ($min_date == null) {
 				$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID', '<', $voyNo_to)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
 			}
 
@@ -1316,5 +1316,75 @@ class DecisionReport extends Model {
 				return false;
 			else
 				return $isExist;
+	}
+
+	public function analyzeReport($year) {
+		$selector = DB::table($this->table)
+			->whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $year))
+			//->select(DB::raw('count(id) as `count`'), DB::raw("DATE_FORMAT(report_date, '%m-%Y') new_date"), DB::raw('YEAR(report_date) year, MONTH(report_date) month'))
+			->select(DB::raw('count(report_date) as `count`'), DB::raw('YEAR(report_date) year, MONTH(report_date) month'), 'tb_decision_report.creator', 'tb_users.realname', 'tb_users.pos')
+			->leftJoin("tb_users", function($join) {
+				$join->on('tb_users.id', '=', 'tb_decision_report.creator');
+			})
+			->groupby('creator','year','month')
+			->orderBy('tb_users.pos');
+
+		$records = $selector->get();
+		$newArr = [];
+		foreach($records as $index => $record) {
+			$newArr[$record->realname]['name'] = $record->realname;
+			$newArr[$record->realname]['report'][$record->month] = $record->count;
+			if (isset($newArr[$record->realname]['total'])) {
+				$newArr[$record->realname]['total'] += $record->count;
+			} else {
+				$newArr[$record->realname]['total'] = $record->count;
+			}
+		}
+		$result = [];
+		$result['report_by_author'] = array_sort($newArr, 'total', SORT_DESC);
+
+		// Attachment
+		$selector = DB::table($this->table)
+			->whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $year))
+			->where('attachment', 1)
+			->select(DB::raw('count(report_date) as `count`'), DB::raw('YEAR(report_date) year, MONTH(report_date) month'), 'tb_decision_report.creator', 'tb_users.realname', 'tb_users.pos')
+			->leftJoin("tb_users", function($join) {
+				$join->on('tb_users.id', '=', 'tb_decision_report.creator');
+			})
+			->groupby('creator','year','month')
+			->orderBy('tb_users.pos');
+
+		$records = $selector->get();
+		$newArr = [];
+		foreach($records as $index => $record) {
+			$newArr[$record->realname]['name'] = $record->realname;
+			$newArr[$record->realname]['report'][$record->month] = $record->count;
+			if (isset($newArr[$record->realname]['total'])) {
+				$newArr[$record->realname]['total'] += $record->count;
+			} else {
+				$newArr[$record->realname]['total'] = $record->count;
+			}
+		}
+		$result['report_by_attach'] = array_sort($newArr, 'total', SORT_DESC);
+
+		
+		foreach($result['report_by_author'] as $index => $record)
+		{
+			for ($i=1;$i<=12;$i++) {
+				if (!isset($record['report'][$i])) {
+					$result['report_by_author'][$index]['report'][$i] = 0;
+				}
+			}
+		}
+
+		foreach($result['report_by_attach'] as $index => $record)
+		{
+			for ($i=1;$i<=12;$i++) {
+				if (!isset($record['report'][$i])) {
+					$result['report_by_attach'][$index]['report'][$i] = 0;
+				}
+			}
+		}
+		return $result;
 	}
 }

@@ -72,6 +72,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('report/delete', [App\Http\Controllers\Decision\DecisionController::class, 'ajaxDelete']);
 	Route::post('decide/draft',   [App\Http\Controllers\Decision\DecisionController::class, 'ajaxGetDraft']);
 	Route::get('check/report',   [App\Http\Controllers\Decision\DecisionController::class, 'ajaxCheckReport']);
+	Route::post('report/analyze',   [App\Http\Controllers\Decision\DecisionController::class, 'ajaxAnalyzeReport']);
 
 	Route::post('ship/voyList',    [App\Http\Controllers\Decision\DecisionController::class, 'ajaxGetVoyList']);
 	Route::post('profit/list',    [App\Http\Controllers\Decision\DecisionController::class, 'ajaxProfitList']);
