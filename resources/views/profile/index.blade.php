@@ -119,13 +119,13 @@ $isHolder = Session::get('IS_HOLDER');
                             <div class="profile-info-row">
                                 <div class="profile-info-name">{{trans("common.label.old_password")}}</div>
                                 <div class="profile-info-value">
-                                    <input type="password" name="oldpassword" class="form-control add-td-input" value="" autocomplete="off">
+                                    <input type="password" name="oldpassword" class="form-control add-td-input" value="{{ old('oldpassword') }}" autocomplete="off">
                                 </div>
                             </div>
                             <div class="profile-info-row">
                                 <div class="profile-info-name">{{trans("common.label.password")}}</div>
                                 <div class="profile-info-value">
-                                    <input type="password" name="password" class="form-control add-td-input" value="" autocomplete="off">
+                                    <input type="password" name="password" class="form-control add-td-input" value="{{ old('password') }}" autocomplete="off">
                                 </div>
                             </div>
                             <div class="profile-info-row">
