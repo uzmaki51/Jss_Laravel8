@@ -287,7 +287,7 @@
                         <tbody>
                             <template v-for="(item, index) in analyze.list" v-cloak>
                                 <tr class="dynamic-item">
-                                    <td class="voy-no text-center" style="background:linear-gradient(#fff, #d9f8fb)" @click="onVoyDetail(item.voy_no)">@{{ item.voy_no }}</td>
+                                    <td class="voy-no text-center" style="background:linear-gradient(#fff, #d9f8fb)!important;" @click="onVoyDetail(item.voy_no)">@{{ item.voy_no }}</td>
                                     <td class="center">@{{ item.voy_count }}</td>
                                     <td class="center">@{{ dateFormat(item.voy_start) }} ~ @{{ dateFormat(item.voy_end) }}</td>
                                     <td class="center">@{{ number_format(item.sail_time, 2) }}</td>
