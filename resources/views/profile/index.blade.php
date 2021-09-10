@@ -119,26 +119,26 @@ $isHolder = Session::get('IS_HOLDER');
                             <div class="profile-info-row">
                                 <div class="profile-info-name">{{trans("common.label.old_password")}}</div>
                                 <div class="profile-info-value">
-                                    <input type="password" name="oldpassword" class="form-control add-td-input" value="">
+                                    <input type="password" name="oldpassword" class="form-control add-td-input" value="" autocomplete="off">
                                 </div>
                             </div>
                             <div class="profile-info-row">
                                 <div class="profile-info-name">{{trans("common.label.password")}}</div>
                                 <div class="profile-info-value">
-                                    <input type="password" name="password" class="form-control add-td-input" value="">
+                                    <input type="password" name="password" class="form-control add-td-input" value="" autocomplete="off">
                                 </div>
                             </div>
                             <div class="profile-info-row">
                                 <div class="profile-info-name">{{trans("common.label.confirm_password")}}</div>
                                 <div class="profile-info-value">
-                                    <input type="password" name="password_confirmation" class="form-control add-td-input" value="">
+                                    <input type="password" name="password_confirmation" class="form-control add-td-input" value="" autocomplete="off">
                                 </div>
                             </div>
 
                             <div class="profile-info-row">
                                 <div class="profile-info-name">{{trans("orgManage.captions.phoneNumber")}}</div>
                                 <div class="profile-info-value">
-                                    <input type="tel" id="rantel" name="phone" class="form-control add-td-input" value="{{ isset($userinfo) ? trim($userinfo['phone']) : old('phone') }}">
+                                    <input type="tel" id="rantel" name="phone" class="form-control add-td-input" value="{{ isset($userinfo) ? trim($userinfo['phone']) : old('phone') }}" autocomplete="off">
                                 </div>
                             </div>
 
@@ -146,7 +146,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="profile-info-name">{{trans("orgManage.captions.enterDate")}}</div>
 
                                 <div class="profile-info-value">
-                                    <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="{{ isset($userinfo) ? $userinfo['entryDate'] : old('enterdate') }}" disabled>
+                                    <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="{{ isset($userinfo) ? $userinfo['entryDate'] : old('enterdate') }}" disabled autocomplete="off">
                                 </div>
                             </div>
 
@@ -154,7 +154,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="profile-info-name">{{trans("orgManage.captions.missDate")}}</div>
 
                                 <div class="profile-info-value">
-                                    <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="{{ isset($userinfo) ? $userinfo['releaseDate'] : old('releaseDate') }}" disabled>
+                                    <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="{{ isset($userinfo) ? $userinfo['releaseDate'] : old('releaseDate') }}" disabled autocomplete="off">
                                 </div>
                             </div>
                             
@@ -162,7 +162,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="profile-info-name">{{trans("orgManage.captions.remark")}}</div>
 
                                 <div class="profile-info-value">
-                                    <input type="text" class="form-control add-td-input" name="remark" id="remark" value="{{ isset($userinfo) ? $userinfo['remark'] : old('remark') }}">
+                                    <input type="text" class="form-control add-td-input" name="remark" id="remark" value="{{ isset($userinfo) ? $userinfo['remark'] : old('remark') }}" autocomplete="off">
                                 </div>
                             </div>
                         </div>
