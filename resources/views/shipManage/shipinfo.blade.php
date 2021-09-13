@@ -257,7 +257,7 @@ $shipList = explode(',', Auth::user()->shipList);
                                         <td style="text-align: left">@if(isset($shipInfo['LiftingDevice'])){{$shipInfo['LiftingDevice']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">HEIGHT FM KEEL TO MAST</td>
+                                        <td style="background-color: #f8f8f8;">HEIGHT FM KEEL TO MAST (m)</td>
                                         <td style="text-align: left">@if(isset($shipInfo['DeckErection_H'])){{$shipInfo['DeckErection_H']}}@endif</td>
                                     </tr>
                                     <tr>
