@@ -166,7 +166,7 @@ $isHolder = Session::get('IS_HOLDER');
                         <table style="table-layout:fixed;">
                         </table>
                         <div class="table-head-fix-div" style="max-height: 157px;margin-top:20px;">
-                        <table id="table-shipmember-list" style="table-layout:fixed;">
+                        <table id="table-dynamic-list" style="table-layout:fixed;">
                             <thead class="">
                                 <th class="text-center style-normal-header" style="width: 5%;height:35px;"><span>船名</span></th>
                                 <th class="text-center style-normal-header" style="width: 6%;"><span>DATE</span></th>
@@ -218,19 +218,20 @@ $isHolder = Session::get('IS_HOLDER');
                             </tbody>
                         </table>
                         </div>
-                        <table id="table-shipmember-list" style="table-layout:fixed;margin-top:20px;">
+                        <table id="table-sites-list" style="table-layout:fixed;margin-top:20px;">
                             <thead class="">
                                 <th class="text-center style-normal-header" style="width: 5%;height:35px;"><span>Order No</span></th>
                                 <th class="text-center style-normal-header" style="width: 60%;"><span>网站地址</span></th>
                                 <th class="text-center style-normal-header" style="width: 30%;"><span>有关网站</span></th>
+                                <th class="text-center style-normal-header" style="width: 5%;"></th>
                             </thead>
-                            <tbody class="" id="list-body">
+                            <tbody class="" id="table-sites-list-body">
                             @for($index=0;$index<10;$index++)
                                 <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif>
                                 @if (isset($sites[$index]))
                                     <td class="center" style="height:20px;"><input name="site_orders[]" @if($index%2==0) class="text-center form-control member-item-odd" @else class="text-center form-control member-item-even" @endif value="{{$sites[$index]['orderNo']}}"></input></td>
-                                    <td class="center"><input name="site_links[]" @if($index%2==0) class="form-control member-item-odd" @else class="form-control member-item-even" @endif value="{{$sites[$index]['link']}}"></input></td>
-                                    @if ($sites[$index]['image'] != null)
+                                    <td class="center"><input name="site_links[]" @if($index%2==0) class="form-control member-item-odd" @else class="form-control member-item-even" @endif value="{{$sites[$index]['link']}}" autocomplete="off"></input></td>
+                                    @if (($sites[$index]['image'] != null) && ($sites[$index]['image'] != ''))
                                     <td class="center">
                                         <div class="report-attachment">
                                             <a href="{{$sites[$index]['image']}}" target="_blank">
@@ -240,6 +241,8 @@ $isHolder = Session::get('IS_HOLDER');
                                             <label for={{$index}} ><img src="{{ cAsset('assets/images/paper-clip.png') }}"  width="15" height="15" style="margin: 2px 4px" class="d-none"></label>
                                             <input type="file" name="attachment[]" id="{{$index}}" data-index="{{$index}}" accept="image/png, image/gif, image/jpeg" class="d-none" enctype="multipart/form-data">
                                             <input type="hidden" name="is_update[]" class="d-none" value="0">
+                                            <input type="hidden" name="image[]" class="d-none" value="{{$sites[$index]['image']}}">
+                                            <input type="hidden" name="image_path[]" class="d-none" value="{{$sites[$index]['image_path']}}">
                                         </div>
                                     </td>
                                     @else
@@ -247,17 +250,28 @@ $isHolder = Session::get('IS_HOLDER');
                                         <label for={{$index}} ><img src="{{ cAsset('assets/images/paper-clip.png') }}"  width="15" height="15" style="margin: 2px 4px"></label>
                                         <input type="file" name="attachment[]" id="{{$index}}" data-index="{{$index}}" accept="image/png, image/gif, image/jpeg" class="d-none" enctype="multipart/form-data">
                                         <input type="hidden" name="is_update[]" class="d-none" value="0">
+                                        <input type="hidden" name="image[]" class="d-none" value="">
+                                        <input type="hidden" name="image_path[]" class="d-none" value="">
                                     </td>
                                     @endif
                                 @else
                                     <td class="center" style="height:20px;"><input name="site_orders[]" @if($index%2==0) class="text-center form-control member-item-odd" @else class="text-center form-control member-item-even" @endif value=""></input></td>
-                                    <td class="center"><input name="site_links[]" @if($index%2==0) class="form-control member-item-odd" @else class="form-control member-item-even" @endif value=""></input></td>
+                                    <td class="center"><input name="site_links[]" @if($index%2==0) class="form-control member-item-odd" @else class="form-control member-item-even" @endif value="" autocomplete="off"></input></td>
                                     <td class="center">
                                         <label for={{$index}} ><img src="{{ cAsset('assets/images/paper-clip.png') }}"  width="15" height="15" style="margin: 2px 4px"></label>
                                         <input type="file" name="attachment[]" id="{{$index}}" data-index="{{$index}}" accept="image/png, image/gif, image/jpeg" class="d-none" enctype="multipart/form-data">
                                         <input type="hidden" name="is_update[]" class="d-none" value="0">
+                                        <input type="hidden" name="image[]" class="d-none" value="">
+                                        <input type="hidden" name="image_path[]" class="d-none" value="">
                                     </td>
                                 @endif
+                                    <td class="text-center">
+                                        <div class="action-buttons">
+                                            <a class="red" onclick="deleteItem(this)">
+                                                <i class="icon-trash" style="color: red!important;"></i>
+                                            </a>
+                                        </div>
+                                    </td>
                                 </tr>
                             @endfor
                             </tbody>
@@ -369,6 +383,23 @@ $isHolder = Session::get('IS_HOLDER');
             ($($(parentElement).children(":first"))).children(":first").attr('class','d-block');
             var isUpdate = $(parentElement).children().eq(2);
             $(isUpdate).val('1');
+        }
+
+        function deleteItem(e) {
+            alertAudio();
+            bootbox.confirm("Are you sure you want to delete?", function (result) {
+                if (result) {
+                    //var id = $(e).closest("tr").attr('data-ref');
+                    $(e).closest("tr").remove();
+                    resortSites();
+                }
+            });
+        }
+
+        function resortSites() {
+            for (var i=0;i<$('#table-sites-list-body').children().length;i++) {
+                $($($('#table-sites-list-body').children()[i]).children()[0].firstChild).val(i+1);
+            }
         }
 
         function onFileChange(e) {

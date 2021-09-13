@@ -143,6 +143,11 @@ $isHolder = Session::get('IS_HOLDER');
                                     </a>
                                 </li>
                                 <li>
+                                    <a data-toggle="tab" href="#other_cert">
+                                        其他证书
+                                    </a>
+                                </li>
+                                <li>
                                     <div class="alert alert-block alert-success center visuallyhidden">
                                         <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
                                         <strong id="msg-content"> Please register a new member.</strong>
@@ -159,6 +164,9 @@ $isHolder = Session::get('IS_HOLDER');
                             </div>
                             <div id="training_data" class="tab-pane">
                                 @include('shipMember.member_training_tab', with(['memberId'=>$memberId, 'security'=>$security, 'training'=>$training]))
+                            </div>
+                            <div id="other_cert" class="tab-pane">
+                                @include('shipMember.member_othercert_tab', with(['memberId'=>$memberId, 'othercert'=>$othercert]))
                             </div>
                             <p id="err_message_out" class="error-message"></p>
                         </div>

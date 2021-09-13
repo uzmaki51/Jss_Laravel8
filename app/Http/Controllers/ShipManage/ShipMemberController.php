@@ -30,6 +30,7 @@ use App\Models\ShipMember\ShipMemberCapacityCareer;
 use App\Models\ShipMember\ShipCapacityRegister;
 use App\Models\ShipMember\ShipMemberSchool;
 use App\Models\ShipMember\ShipMemberTraining;
+use App\Models\ShipMember\ShipMemberOtherCert;
 use App\Models\ShipMember\ShipMemberExaming;
 use App\Models\ShipMember\ShipMemberSubExaming;
 use App\Models\ShipMember\SecurityCert;
@@ -143,6 +144,7 @@ class ShipMemberController extends Controller
             
 
             $training = ShipMemberTraining::where('memberId', $memberId)->groupBy("CertSequence")->get();
+            $othercert = ShipMemberOtherCert::where('memberId', $memberId)->get();
             
 
             // 실력평가자료
@@ -175,6 +177,7 @@ class ShipMemberController extends Controller
 
                     'security'  =>      $securityType,
                     'training'  =>      $training,
+                    'othercert' =>      $othercert,
 
                     'examingList'=>     $examingList,
                     'examId'    =>      $examId,
@@ -209,6 +212,7 @@ class ShipMemberController extends Controller
 
                     'security'  =>      $securityType,
                     'training'  =>      null,
+                    'othercert' =>      null,
 
                     'examingList'=>     null,
                     'examId'    =>      null,
@@ -283,6 +287,7 @@ class ShipMemberController extends Controller
             $this->updateMemberMainData($request, $memberId);
             $this->updateMemberCapacityData($request, $memberId);
             $this->updateMemberTrainingData($request, $memberId);
+            $this->updateMemberOtherCert($request, $memberId);
             return redirect('shipMember/registerShipMember?memberId='.$memberId);
         }
         else
@@ -644,7 +649,17 @@ class ShipMemberController extends Controller
         return $result;
     }
 
+    public function updateMemberOtherCert(Request $request, $memberId) {
+        $CertName = $request->get('Other_Name');
+        $CertNo = $request->get('Other_CertNo');
+        $CertIssue = $request->get('Other_CertIssue');
+        $CertExpire = $request->get('Other_CertExpire');
+        $IssuedBy = $request->get('Other_IssuedBy');
 
+        $result = ShipMemberOtherCert::insertMemberOtherCert($memberId, $CertName, $CertNo, $CertIssue, $CertExpire, $IssuedBy);
+
+        return $result;
+    }
 
     public function totalShipMember(Request $request) {
         $url = $request->path();

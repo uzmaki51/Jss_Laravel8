@@ -48,7 +48,7 @@ class SettingsController extends Controller
                 $voyList[] = $record;
             }
         }
-        $sites = SettingsSites::select('*')->orderByRaw("CAST(orderNo AS SIGNED INTEGER) ASC")->get();
+        $sites = SettingsSites::select('*')->whereNotNull('orderNo')->orderByRaw("CAST(orderNo AS SIGNED INTEGER) ASC")->get();
 
         $start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
         if(empty($start_year)) {

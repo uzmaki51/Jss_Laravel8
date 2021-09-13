@@ -202,10 +202,34 @@ class OrgmanageController extends Controller
         $site_links = $request->get('site_links');
         $site_updates = $request->get('is_update');
         $site_attachments = $request->file('attachment');
+        $site_image = $request->get('image');
+        $site_image_path = $request->get('image_path');
 
         $file_index = 0;
-        for ($index=0;$index<10;$index++) {
+        SettingsSites::truncate();
+        for ($index=0;$index<count($site_links);$index++) {
+            $siteTbl = new SettingsSites();
+            $siteTbl['link'] = $site_links[$index];
+            $siteTbl['orderNo'] = $site_orders[$index];
+            $siteTbl['image'] = $site_image[$index];
+            $siteTbl['image_path'] = $site_image_path[$index];
+            if($site_updates[$index] == '1') {
+                if ($site_attachments[$index] != null) {
+                    $file = $site_attachments[$index];
+                    $file_index++;
+                    $fileName = $file->getClientOriginalName();
+                    $name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path() . '/shipCertList/', $name);
+                    $siteTbl['image'] = '/shipCertList/' . $name;
+                    $siteTbl['image_path'] = public_path('/shipCertList/') . $name;
+                }
+            }
+            $siteTbl->save();
+        }
+        /*
+        for ($index=0;$index<count($site_links);$index++) {
             $siteTbl = SettingsSites::find($index+1);
+            //$siteTbl = new SettingsSites();
             $siteTbl['link'] = $site_links[$index];
             $siteTbl['orderNo'] = $site_orders[$index];
 
@@ -229,6 +253,7 @@ class OrgmanageController extends Controller
             }
             $siteTbl->save();
         }
+        */
 
         /*
         foreach($site_orders as $index => $orders) {

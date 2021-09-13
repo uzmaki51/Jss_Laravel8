@@ -184,9 +184,12 @@ $isHolder = Session::get('IS_HOLDER');
                     else if (cert_index == 5) {
                         $('td', row).eq(4).html('').append('GOC Endorsement');
                     }
-                    else
+                    else if (cert_index < 15)
                     {
                         $('td', row).eq(4).html('').append(certList[cert_index-6].value);
+                    }
+                    else {
+                        $('td', row).eq(4).html('').append(data['_name']);
                     }
                 },
             });
