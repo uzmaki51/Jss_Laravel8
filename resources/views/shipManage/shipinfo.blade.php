@@ -145,35 +145,35 @@ $shipList = explode(',', Auth::user()->shipList);
                                         <td style="text-align: left">@if(isset($shipInfo['NetTon'])){{$shipInfo['NetTon']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">DWT</td>
+                                        <td style="background-color: #f8f8f8;">DWT (MT)</td>
                                         <td style="text-align: left">@if(isset($shipInfo['Deadweight'])){{$shipInfo['Deadweight']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">LDT</td>
+                                        <td style="background-color: #f8f8f8;">LDT (MT)</td>
                                         <td style="text-align: left">@if(isset($shipInfo['Displacement'])){{$shipInfo['Displacement']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">LOA</td>
+                                        <td style="background-color: #f8f8f8;">LOA (m)</td>
                                         <td style="text-align: left">@if(isset($shipInfo['LOA'])){{$shipInfo['LOA']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">BM</td>
+                                        <td style="background-color: #f8f8f8;">BM (m)</td>
                                         <td style="text-align: left">@if(isset($shipInfo['BM'])){{$shipInfo['BM']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">DM</td>
+                                        <td style="background-color: #f8f8f8;">DM (m)</td>
                                         <td style="text-align: left">@if(isset($shipInfo['DM'])){{$shipInfo['DM']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">SUMMER DRAFT</td>
+                                        <td style="background-color: #f8f8f8;">SUMMER DRAFT (m)</td>
                                         <td style="text-align: left">@if(isset($shipInfo['Draught'])){{$shipInfo['Draught']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">TPC</td>
+                                        <td style="background-color: #f8f8f8;">TPC (MT/cm)</td>
                                         <td style="text-align: left">@if(isset($shipInfo['DeckErection_F'])){{$shipInfo['DeckErection_F']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">FW_Allowance</td>
+                                        <td style="background-color: #f8f8f8;">FW_Allowance (m)</td>
                                         <td style="text-align: left">{{ isset($freeBoard['new_free_fw']) ? $freeBoard['new_free_fw'] : '' }}</td>
                                     </tr>
                                     <tr>
@@ -181,11 +181,11 @@ $shipList = explode(',', Auth::user()->shipList);
                                         <td style="text-align: left">{{ isset($shipInfo['No_TypeOfEngine']) ? $shipInfo['No_TypeOfEngine'] : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">POWER</td>
+                                        <td style="background-color: #f8f8f8;">POWER (Kw)</td>
                                         <td style="text-align: left">@if(isset($shipInfo['Power'])){{$shipInfo['Power']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">RPM</td>
+                                        <td style="background-color: #f8f8f8;">RPM (r/min)</td>
                                         <td style="text-align: left">@if(isset($shipInfo['rpm'])){{$shipInfo['rpm']}}@endif</td>
                                     </tr>
                                     <tr>
