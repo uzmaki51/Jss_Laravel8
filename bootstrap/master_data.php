@@ -32,13 +32,10 @@ $StatusData = array(
 define('REPORT_TYPE_EVIDENCE_IN',   'Credit');
 define('REPORT_TYPE_EVIDENCE_OUT',  'Debit');
 define('REPORT_TYPE_CONTRACT',      'Contract');
-define('REPORT_TYPE_OTHER',         'Other');
 $ReportTypeData = array(
 	REPORT_TYPE_EVIDENCE_OUT        => '支出',
 	REPORT_TYPE_CONTRACT            => '合同',
 	REPORT_TYPE_EVIDENCE_IN        	=> '收入',
-	REPORT_TYPE_OTHER 		        => '其他',
-	
 );
 
 # Issuer
@@ -108,7 +105,6 @@ $FeeTypeData = array(
 	REPORT_TYPE_CONTRACT           => [],
 	REPORT_TYPE_EVIDENCE_OUT       => $OutComeData,
 	REPORT_TYPE_EVIDENCE_IN        => $InComeData,
-	REPORT_TYPE_OTHER			   => []
 );
 # StaffLevelData
 define('STAFF_LEVEL_MANAGER',       	1);
