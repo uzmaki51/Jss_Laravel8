@@ -38,7 +38,7 @@ class ShipMember extends Model
         if(!empty($duty))
             $dutyName = $duty->Duty;
 
-        return $shipName.'호 '.$dutyName;
+        return $shipName.'号 '.$dutyName;
     }
 
     public static function getMemberListOrderByShip($status = 1, $isParty = -1, $shipId = 0) {
@@ -364,7 +364,8 @@ class ShipMember extends Model
             $rank = ShipPosition::find($record->DutyID_Book);
             $capacity = ShipCapacityRegister::where('memberId', $record->id)->first();
             $training = ShipMemberTraining::where('memberId', $record->id)->groupBy("CertSequence")->get();
-            for ($i=0;$i<15;$i++)
+            $othercert = ShipMemberOtherCert::where('memberId', $record->id)->get();
+            for ($i=0;$i<20;$i++)
             {
                 $newArr[$newindex]['no'] = $totalIndex + 1;
                 $newArr[$newindex]['name'] = $record->realname;
@@ -437,7 +438,7 @@ class ShipMember extends Model
                         $newArr[$newindex]['_by'] = $capacity['COE_GOC_Remarks'];
                     }
                 }
-                else
+                else if ($i < 15)
                 {
                     if(isset($training[$i-6])) {
                         $newArr[$newindex]['_no'] = $training[$i-6]->CertNo;
@@ -446,6 +447,17 @@ class ShipMember extends Model
                         $newArr[$newindex]['_by'] = $training[$i-6]->IssuedBy;
                     }
                 }
+                else
+                {
+                    if(isset($othercert[$i-15])) {
+                        $newArr[$newindex]['_no'] = $othercert[$i-15]->CertNo;
+                        $newArr[$newindex]['_name'] = $othercert[$i-15]->CertName;
+                        $newArr[$newindex]['_issue'] = $othercert[$i-15]->IssueDate;
+                        $newArr[$newindex]['_expire'] = $othercert[$i-15]->ExpireDate;
+                        $newArr[$newindex]['_by'] = $othercert[$i-15]->IssuedBy;
+                    }
+                }
+
                 $newArr[$newindex]['index'] = $i;
                 if ($newArr[$newindex]['_issue'] == '' || $newArr[$newindex]['_issue'] == null ) {
                     unset($newArr[$newindex]);
@@ -1128,7 +1140,8 @@ class ShipMember extends Model
             $rank = ShipPosition::find($record->DutyID_Book);
             $capacity = ShipCapacityRegister::where('memberId', $record->id)->first();
             $training = ShipMemberTraining::where('memberId', $record->id)->groupBy("CertSequence")->get();
-            for ($i=0;$i<15;$i++)
+            $othercert = ShipMemberOtherCert::where('memberId', $record->id)->get();
+            for ($i=0;$i<20;$i++)
             {
                 $newArr[$newindex]['no'] = $totalIndex + 1;
                 $newArr[$newindex]['name'] = $record->realname;
@@ -1203,7 +1216,7 @@ class ShipMember extends Model
                         $newArr[$newindex]['_by'] = $capacity['COE_GOC_Remarks'];
                     }
                 }
-                else
+                else if ($i < 15)
                 {
                     if(isset($training[$i-6])) {
                         $newArr[$newindex]['_no'] = $training[$i-6]->CertNo;
@@ -1212,8 +1225,22 @@ class ShipMember extends Model
                         $newArr[$newindex]['_by'] = $training[$i-6]->IssuedBy;
                     }
                 }
+                else
+                {
+                    if(isset($othercert[$i-15])) {
+                        $newArr[$newindex]['_no'] = $othercert[$i-15]->CertNo;
+                        $newArr[$newindex]['_name'] = $othercert[$i-15]->CertName;
+                        $newArr[$newindex]['_issue'] = $othercert[$i-15]->IssueDate;
+                        $newArr[$newindex]['_expire'] = $othercert[$i-15]->ExpireDate;
+                        $newArr[$newindex]['_by'] = $othercert[$i-15]->IssuedBy;
+                        $newArr[$newindex]['title'] = $othercert[$i-15]->CertName;
+                    }
+                }
+
                 $newArr[$newindex]['index'] = $i;
-                $newArr[$newindex]['title'] = $this->getCertNameByIndex($i);
+                if ($i < 15)
+                    $newArr[$newindex]['title'] = $this->getCertNameByIndex($i);
+
                 if ($newArr[$newindex]['_issue'] == '' || $newArr[$newindex]['_issue'] == null ) {
                     unset($newArr[$newindex]);
                     continue;

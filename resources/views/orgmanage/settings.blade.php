@@ -230,7 +230,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif>
                                 @if (isset($sites[$index]))
                                     <td class="center" style="height:20px;"><input name="site_orders[]" @if($index%2==0) class="text-center form-control member-item-odd" @else class="text-center form-control member-item-even" @endif value="{{$sites[$index]['orderNo']}}"></input></td>
-                                    <td class="center"><input name="site_links[]" @if($index%2==0) class="form-control member-item-odd" @else class="form-control member-item-even" @endif value="{{$sites[$index]['link']}}"></input></td>
+                                    <td class="center"><input name="site_links[]" @if($index%2==0) class="form-control member-item-odd" @else class="form-control member-item-even" @endif value="{{$sites[$index]['link']}}" autocomplete="off"></input></td>
                                     @if (($sites[$index]['image'] != null) && ($sites[$index]['image'] != ''))
                                     <td class="center">
                                         <div class="report-attachment">
@@ -256,7 +256,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     @endif
                                 @else
                                     <td class="center" style="height:20px;"><input name="site_orders[]" @if($index%2==0) class="text-center form-control member-item-odd" @else class="text-center form-control member-item-even" @endif value=""></input></td>
-                                    <td class="center"><input name="site_links[]" @if($index%2==0) class="form-control member-item-odd" @else class="form-control member-item-even" @endif value=""></input></td>
+                                    <td class="center"><input name="site_links[]" @if($index%2==0) class="form-control member-item-odd" @else class="form-control member-item-even" @endif value="" autocomplete="off"></input></td>
                                     <td class="center">
                                         <label for={{$index}} ><img src="{{ cAsset('assets/images/paper-clip.png') }}"  width="15" height="15" style="margin: 2px 4px"></label>
                                         <input type="file" name="attachment[]" id="{{$index}}" data-index="{{$index}}" accept="image/png, image/gif, image/jpeg" class="d-none" enctype="multipart/form-data">
