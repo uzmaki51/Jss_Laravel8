@@ -250,6 +250,7 @@ class WageController extends Controller
         }
         $start_month = date("m", strtotime($start_year));
         $start_year = date("Y", strtotime($start_year));
+        $user_pos = Auth::user()->pos;
         return view('shipMember.member_calc_wages', [
         	'shipList'      => $shipList,
             'posList'       => $posList,
@@ -257,7 +258,8 @@ class WageController extends Controller
             'year'          => $year,
             'month'         => $month,
             'start_year'    => $start_year,
-            'start_month'    => $start_month,
+            'start_month'   => $start_month,
+            'user_pos'      => $user_pos,
             'breadCrumb'    => $breadCrumb
         ]);
     }
@@ -293,6 +295,7 @@ class WageController extends Controller
         $start_month = date("m", strtotime($start_year));
         $start_year = date("Y", strtotime($start_year));
         $accounts = AccountSetting::select('*')->get();
+        $user_pos = Auth::user()->pos;
         return view('shipMember.member_send_wages', [
         	'shipList'      => $shipList,
             'posList'       => $posList,
@@ -302,6 +305,7 @@ class WageController extends Controller
             'month'         => $month,
             'start_year'    => $start_year,
             'start_month'    => $start_month,
+            'user_pos'      => $user_pos,
             'breadCrumb'    => $breadCrumb
         ]);
     }

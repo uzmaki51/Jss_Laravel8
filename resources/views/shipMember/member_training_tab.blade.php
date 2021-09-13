@@ -27,17 +27,17 @@
                                 {{$cert->title}}
                             </td>
                             <td class="center no-padding">
-                                <input type="text" class="form-control" name="Train_STCW[]" style="width: 100%;text-align: center" value="@if(isset($training[$index])){{$training[$index]->STCW}}@endif">
+                                <input type="text" class="form-control" name="Train_STCW[]" style="width: 100%;text-align: center" value="@if(isset($training[$index])){{$training[$index]->STCW}}@endif" autocomplete="off">
                             </td>
                             <td class="center no-padding">
-                                <input type="text" class="form-control" name="Train_CertNo[]" style="width: 100%;text-align: center" value="@if(isset($training[$index])){{$training[$index]->CertNo}}@endif">
+                                <input type="text" class="form-control" name="Train_CertNo[]" style="width: 100%;text-align: center" value="@if(isset($training[$index])){{$training[$index]->CertNo}}@endif" autocomplete="off">
                             </td>
                             <td class="center no-padding">
                                 <div class="input-group">
                                     <input class="form-control date-picker" style="width: 100%;text-align: center"
                                         type="text" data-date-format="yyyy-mm-dd"
                                         name="Train_CertIssue[]"
-                                        value="@if(isset($training[$index])){{$training[$index]->IssueDate}}@endif">
+                                        value="@if(isset($training[$index])){{$training[$index]->IssueDate}}@endif" autocomplete="off">
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>
                                     </span>
@@ -48,14 +48,14 @@
                                     <input class="form-control date-picker" style="width: 100%;text-align: center"
                                         type="text" data-date-format="yyyy-mm-dd"
                                         name="Train_CertExpire[]"
-                                        value="@if(isset($training[$index])){{$training[$index]->ExpireDate}}@endif">
+                                        value="@if(isset($training[$index])){{$training[$index]->ExpireDate}}@endif" autocomplete="off">
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>
                                     </span>
                                 </div>
                             </td>
                             <td class="center no-padding">
-                                <input type="text" class="form-control" name="Train_IssuedBy[]" style="width: 100%;text-align: center" value="@if(isset($training[$index])){{$training[$index]->IssuedBy}}@endif">
+                                <input type="text" class="form-control" name="Train_IssuedBy[]" style="width: 100%;text-align: center" value="@if(isset($training[$index])){{$training[$index]->IssuedBy}}@endif" autocomplete="off">
                             </td>
                         </tr>
                         <?php $index++?>
