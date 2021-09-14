@@ -259,7 +259,7 @@
                                                 <tr>
                                                     <td class="custom-modal-td-label" >凭证文件</td>
                                                     <td class="custom-td-dec-text" colspan="2">
-                                                        <div class="attachment-div d-flex">
+                                                        <div class="attachment-div d-flex" id="dropContainer">
                                                             <label for="attach" class="ml-1 blue contract-attach d-flex">
                                                                 <span style="width: 186px;" class="text-ellipsis">@{{ fileName }}</span>
                                                                 <button type="button" class="btn btn-danger p-0" style="min-width: 30px;" @click="removeFile"><i class="icon-remove mr-0"></i></button>
@@ -911,6 +911,28 @@
         }
         */
 
+        function setEvents() {
+            dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
+                $('#dropContainer').css('background','yellow');
+                evt.preventDefault();
+            };
+
+            dropContainer.ondragleave = function(evt) {
+                $('#dropContainer').css('background','transparent');
+                evt.preventDefault();
+            };
+
+            dropContainer.ondrop = function(e) {
+                $('#dropContainer').css('background','transparent');
+                var files = e.target.files || e.dataTransfer.files;
+                if (files.length > 0) {
+                    reportObj.fileName = files[0].name;
+                    attach.files = files;
+                    $('#file_remove').val(0);
+                }
+                e.preventDefault();
+            };
+        }
 
         function initialize() {
             $.ajax({
@@ -1010,9 +1032,11 @@
                     },
                     onFileChange(e) {
                         var files = e.target.files || e.dataTransfer.files;
-                        let fileName = files[0].name;
-                        this.fileName = fileName;
-                        $('#file_remove').val(0);
+                        if (files.length > 0) {
+                            let fileName = files[0].name;
+                            this.fileName = fileName;
+                            $('#file_remove').val(0);
+                        }
                     },
                     removeFile() {
                         this.fileName = '添加附件';
@@ -1466,6 +1490,10 @@
         $("#modal-wizard").on("hidden.bs.modal", function () {
             if(draftId != -1)
                 location.href = "/decision/receivedReport";
+        });
+
+        $("#modal-wizard").on("shown.bs.modal", function () {
+            setEvents();
         });
 
         function fileUpload(input, id, flowid) {

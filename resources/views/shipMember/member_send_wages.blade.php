@@ -60,7 +60,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_info"></span>份工资汇款单</strong>
                             </div>
                             <div class="col-md-5" style="padding:unset!important">
-                                <div class="btn-group f-right">
+                                <div class="btn-group f-right" style="{{$user_pos == STAFF_LEVEL_CAPTAIN || $user_pos == STAFF_LEVEL_SHAREHOLDER ? 'display:none' : ''}}">
                                     <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="init()">
                                         <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初始化
                                     </a>
@@ -127,6 +127,9 @@ $isHolder = Session::get('IS_HOLDER');
 	echo '</script>';
 	?>
     <script>
+        var HOLDER = '{!! STAFF_LEVEL_SHAREHOLDER !!}';
+        var CAPTAIN = '{!! STAFF_LEVEL_CAPTAIN !!}';
+        var POS = '{!! $user_pos !!}';
         var token = '{!! csrf_token() !!}';
         var shipName = '';
         var year = '';
@@ -268,6 +271,8 @@ $isHolder = Session::get('IS_HOLDER');
             }
             $('#list-body').append('<tr class="tr-report" style="height:30px;border:2px solid black;"><td class="sub-small-header style-normal-header text-center">' + ($('.wage-item').length) + '</td><td class="sub-small-header style-normal-header" colspan="2"></td><td class="style-normal-header disable-td text-right">¥ ' + prettyValue(sum_R) + '</td><td class="style-normal-header text-right disable-td">¥ ' + prettyValue(sum_D) + '</td><td class="style-normal-header text-right disable-td">$ ' + prettyValue(sum_P)+ '</td><td class="sub-small-header style-normal-header" colspan="4"></td></tr>');
             setDatePicker();
+            checkPos();
+
             if (origForm == "")
                 origForm = $form.serialize();
         }
@@ -307,6 +312,7 @@ $isHolder = Session::get('IS_HOLDER');
         }
 
         function setDatePicker() {
+            if (POS == HOLDER || POS == CAPTAIN) return;
             $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
                 $(this).prev().focus();
             });
@@ -520,6 +526,24 @@ $isHolder = Session::get('IS_HOLDER');
             return confirmationMessage;
         });
 
+        function checkPos()
+        {
+            if (POS == HOLDER || POS == CAPTAIN) {
+                $('input[type="text"], textarea').each(function(){
+                    $(this).attr('readonly','readonly');
+                });
+
+                $('i[class="icon-calendar"], select[name="SendBank[]"]').each(function(){
+                    $(this).attr('disabled',true);
+                });
+
+                $('div[class="action-buttons"]').each(function(){
+                    $(this).hide();
+                });
+                origForm = $form.serialize();
+            }
+        }
+        checkPos();
     </script>
 
 @endsection

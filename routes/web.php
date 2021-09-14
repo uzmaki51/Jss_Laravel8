@@ -247,6 +247,8 @@ Route::group(['prefix' => 'shipMember'], function() {
 	Route::get('integretedMemberExaming', [App\Http\Controllers\ShipManage\ShipMemberController::class, 'integretedMemberExaming']);
 	Route::get('wagesCalc', [App\Http\Controllers\ShipManage\WageController::class, 'index'])->name('wages.calc');
 	Route::get('wagesSend', [App\Http\Controllers\ShipManage\WageController::class, 'send'])->name('wages.send');
+	Route::get('wagesCalcReport', [App\Http\Controllers\ShipManage\WageController::class, 'index_report'])->name('wages.calc.report');
+	Route::get('wagesSendReport', [App\Http\Controllers\ShipManage\WageController::class, 'send_report'])->name('wages.send.report');
 	Route::get('wagesList', [App\Http\Controllers\ShipManage\WageController::class, 'wagelist']);
 	Route::post('updateWageCalcInfo', [App\Http\Controllers\ShipManage\WageController::class, 'updateWageCalcInfo']);
 	Route::post('updateWageSendInfo', [App\Http\Controllers\ShipManage\WageController::class, 'updateWageSendInfo']);

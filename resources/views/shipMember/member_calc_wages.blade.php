@@ -7,6 +7,7 @@ $isHolder = Session::get('IS_HOLDER');
     <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
     <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
 @endsection
+
 @section('content')
     <div class="main-content">
         <style>
@@ -34,7 +35,7 @@ $isHolder = Session::get('IS_HOLDER');
                     <div class="space-4"></div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                                 <select class="custom-select d-inline-block" name="select-ship" id="select-ship" style="width:80px">
                                     <!--option value="" selected></option-->
@@ -44,14 +45,6 @@ $isHolder = Session::get('IS_HOLDER');
                                         <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
                                     @endforeach
                                 </select>
-                                <label class="custom-label d-inline-block font-bold" style="padding: 6px;">减少天数:</label>
-                                <input type="number" name="minus-days" id="minus-days" value="0.5" step="0.5" min="0" autocomplete="off" style="width:60px;margin-right:0px;"/>
-                                <label class="custom-label d-inline-block font-bold" style="padding: 6px;">汇率:</label>
-                                <input type="number" name="rate" id="rate" value="6.5" min="0" step="0.1" autocomplete="off" style="width:80px;margin-right:0px;"/>
-                            </div>
-                        </div>
-                        <div class="col-md-12" style="margin-top:10px;">
-                            <div class="col-md-7">
                                 <select name="select-year" id="select-year" style="font-size:13px">
                                     @for($i=$start_year;$i<=date("Y");$i++)
                                     <option value="{{$i}}" @if(($year==$i)||(($year=='')&&($i==date("Y")))) selected @endif>{{$i}}年</option>
@@ -68,16 +61,29 @@ $isHolder = Session::get('IS_HOLDER');
                                         @endfor
                                     @endif
                                 </select>
-                                <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="init()" style="width: 80px;height: 26px!important;margin-bottom: 1px;padding: 5px!important;">
-                                    <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初始化
-                                </a>
+                                @if ($user_pos == STAFF_LEVEL_CAPTAIN || $user_pos == STAFF_LEVEL_SHAREHOLDER)
                                 <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_info"></span>份工资单</strong>
+                                @endif
                             </div>
-                            <div class="col-md-5" style="padding:unset!important">
+                        </div>
+                        <div class="col-md-12" style="margin-top:10px;{{$user_pos == STAFF_LEVEL_CAPTAIN || $user_pos == STAFF_LEVEL_SHAREHOLDER ? 'display:none' : ''}}">
+                            <div class="col-md-7">
+                                <label class="custom-label d-inline-block font-bold" style="padding: 6px;">减少天数:</label>
+                                <input type="number" name="minus-days" id="minus-days" value="0.5" step="0.5" min="0" autocomplete="off" style="width:60px;margin-right:0px;"/>
+                                <label class="custom-label d-inline-block font-bold" style="padding: 6px;">汇率:</label>
+                                <input type="number" name="rate" id="rate" value="6.5" min="0" step="0.1" autocomplete="off" style="width:80px;margin-right:0px;"/>
+                                @if ($user_pos != STAFF_LEVEL_CAPTAIN && $user_pos != STAFF_LEVEL_SHAREHOLDER)
+                                <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_info"></span>份工资单</strong>
+                                @endif
+                            </div>
+                            <div class="col-md-5" style="padding:unset!important;{{$user_pos == STAFF_LEVEL_CAPTAIN || $user_pos == STAFF_LEVEL_SHAREHOLDER ? 'display:none' : ''}}">
                                 <div class="btn-group f-right">
                                     <!--a onclick="javascript:openAddPage();" class="btn btn-sm btn-primary btn-add" style="width: 80px" data-toggle="modal">
                                         <i class="icon-plus"></i>{{ trans('common.label.add') }}
                                     </a-->
+                                    <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="init()">
+                                        <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初始化
+                                    </a>
                                     <a id="btnSave" class="btn btn-sm btn-success" style="width: 80px">
                                         <i class="icon-save"></i>{{ trans('common.label.save') }}
                                     </a>
@@ -228,7 +234,11 @@ $isHolder = Session::get('IS_HOLDER');
     echo 'var now_month = ' . date("m") . ';';
 	echo '</script>';
 	?>
+
     <script>
+        var HOLDER = '{!! STAFF_LEVEL_SHAREHOLDER !!}';
+        var CAPTAIN = '{!! STAFF_LEVEL_CAPTAIN !!}';
+        var POS = '{!! $user_pos !!}';
         var token = '{!! csrf_token() !!}';
         var shipName = '';
         var year = '';
@@ -474,6 +484,7 @@ $isHolder = Session::get('IS_HOLDER');
             }
             $('#list-body').append('<tr class="tr-report" style="height:30px;border:2px solid black;"><td class="sub-small-header style-normal-header text-center">' + ($('.wage-item').length) + '</td><td class="sub-small-header style-normal-header" colspan="3"></td><td colspan="2" class="sub-small-header style-normal-header text-center">计算日期</td><td class="disable-td text-center">' + calc_date + '<input type="hidden" name="report_date" value="' + calc_date + '"></td><td colspan="2" class="sub-small-header style-normal-header text-center">合计</td><td class="style-normal-header disable-td text-right">¥ ' + prettyValue(sum_R) + '</td><td class="style-normal-header text-right disable-td">$ ' + prettyValue(sum_D) + '</td><td class="sub-small-header style-normal-header text-center">实发工资</td><td class="style-normal-header text-right disable-td">¥ ' + prettyValue(sum_Real) + '</td><td class="sub-small-header style-normal-header" colspan="2"></td></tr>');
             setDatePicker();
+            checkPos();
             if (origForm == "")
                 origForm = $form.serialize();
         }
@@ -485,6 +496,7 @@ $isHolder = Session::get('IS_HOLDER');
         }
 
         function setDatePicker() {
+            if (POS == HOLDER || POS == CAPTAIN) return;
             $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
                 $(this).prev().focus();
             });
@@ -741,6 +753,8 @@ $isHolder = Session::get('IS_HOLDER');
 
         function openAddPage(row_index)
         {
+            if (POS == HOLDER || POS == CAPTAIN) return;
+
             $("#modal-add-wage").modal("show");
             $('#add-name').val("缺员");
             $('#add-rank').val("");
@@ -952,6 +966,25 @@ $isHolder = Session::get('IS_HOLDER');
             exportExcel(tab_text, filename, year + '_' + month + '_工资单');
             return 0;
         }
+
+        function checkPos()
+        {
+            if (POS == HOLDER || POS == CAPTAIN) {
+                $('input[type="text"], textarea').each(function(){
+                    $(this).attr('readonly','readonly');
+                });
+
+                $('i[class="icon-calendar"], select[name="Currency[]"]').each(function(){
+                    $(this).attr('disabled',true);
+                });
+
+                $('div[class="action-buttons"]').each(function(){
+                    $(this).hide();
+                });
+                origForm = $form.serialize();
+            }
+        }
+        checkPos();
     </script>
 
 @endsection
