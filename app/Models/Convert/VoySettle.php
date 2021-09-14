@@ -357,11 +357,11 @@ class VoySettle extends Model
         if($_fuelInfo == null)
             return false;
         
-        $_creditInfo = VoySettleProfit::where('shipId', $shipId)->where('voyId', $voyId)->where('type', REPORT_TYPE_EVIDENCE_IN)->get();
+        $_creditInfo = VoySettleProfit::where('shipId', $shipId)->where('voyId', $voyId)->where('type', REPORT_TYPE_EVIDENCE_IN)->orderBy('asc', 'id')->get();
         if($_creditInfo == null)
             $_creditInfo = [];
 
-        $_debitInfo = VoySettleProfit::where('shipId', $shipId)->where('voyId', $voyId)->where('type', REPORT_TYPE_EVIDENCE_OUT)->get();
+        $_debitInfo = VoySettleProfit::where('shipId', $shipId)->where('voyId', $voyId)->where('type', REPORT_TYPE_EVIDENCE_OUT)->orderBy('asc', 'id')->get();
         if($_debitInfo == null)
             $_debitInfo = [];
 

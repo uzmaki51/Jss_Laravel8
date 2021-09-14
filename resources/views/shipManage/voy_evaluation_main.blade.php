@@ -229,7 +229,7 @@
                         <td class="text-left">其他(运营)</td>
                         <td class="text-right" :style="dangerStyle(cpInfo.cost_else)">@{{ number_format(cpInfo.cost_else, 0, '$ ') }}</td>
                         <td class="text-right text-warning" :style="dangerStyle(realInfo.cost_else)">@{{ number_format(realInfo.cost_else, 0, '$ ') }}</td>
-                        <td class="text-right"></td>
+                        <td class="text-right">@{{ number_format(realInfo.cost_else - cpInfo.cost_else, 0, '$ ') }}</td>
                     </tr>
                     <tr class="even">
                         <td class="text-left">管理成本</td>
