@@ -219,7 +219,15 @@ class WageController extends Controller
         return redirect('shipMember/wagesCalc?shipId='.$shipId.'&year='.$year.'&month='.$month);
     }
 
-    public function index(Request $request) {
+    public function index_report(Request $request) {
+        return $this->index($request, 1);
+    }
+
+    public function send_report(Request $request) {
+        return $this->send($request, 1);
+    }
+
+    public function index(Request $request, $type = 0) {
         $url = $request->path();
         $breadCrumb = BreadCrumb::getBreadCrumb($url);
 
@@ -241,7 +249,6 @@ class WageController extends Controller
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
             ->get();
         }
-        
         $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
         if(empty($start_year)) {
             $start_year = '2020-01-01';
@@ -250,7 +257,7 @@ class WageController extends Controller
         }
         $start_month = date("m", strtotime($start_year));
         $start_year = date("Y", strtotime($start_year));
-        $user_pos = Auth::user()->pos;
+        if ($type == 1) $user_pos = STAFF_LEVEL_SHAREHOLDER;
         return view('shipMember.member_calc_wages', [
         	'shipList'      => $shipList,
             'posList'       => $posList,
@@ -264,7 +271,7 @@ class WageController extends Controller
         ]);
     }
 
-    public function send(Request $request) {
+    public function send(Request $request, $type = 0) {
         $url = $request->path();
         $breadCrumb = BreadCrumb::getBreadCrumb($url);
 
@@ -295,7 +302,7 @@ class WageController extends Controller
         $start_month = date("m", strtotime($start_year));
         $start_year = date("Y", strtotime($start_year));
         $accounts = AccountSetting::select('*')->get();
-        $user_pos = Auth::user()->pos;
+        if ($type == 1) $user_pos = STAFF_LEVEL_SHAREHOLDER;
         return view('shipMember.member_send_wages', [
         	'shipList'      => $shipList,
             'posList'       => $posList,
