@@ -400,12 +400,12 @@ $ships = Session::get('shipList');
                                         id: index
                                     },
                                     success: function(data) {
-                                        certTypeObj.list = Object.assign([], [], data);
-                                        // certListObj.
-                                        // certTypeObj.list.push([]);
-                                        // certTypeObj.$forceUpdate();
-                                        // getShipInfo(ship_id);
-
+                                        if (data == 0) {
+                                            alert("It cannot be deleted because the related data remains!");
+                                        }
+                                        else {
+                                            certTypeObj.list = Object.assign([], [], data);
+                                        }
                                     }
                                 })
                             }});

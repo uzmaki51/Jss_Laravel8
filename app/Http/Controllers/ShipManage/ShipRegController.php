@@ -35,6 +35,9 @@ use App\Models\ShipMember\ShipPosReg;
 use App\Models\ShipManage\ShipPhoto;
 use App\Models\ShipManage\ShipCertList;
 use App\Models\ShipManage\ShipCertRegistry;
+use App\Models\ShipManage\ShipMaterialCategory;
+use App\Models\ShipManage\ShipMaterialSubKind;
+use App\Models\ShipManage\ShipMaterialRegistry;
 use App\Models\ShipManage\ShipEquipmentMainKind;
 use App\Models\ShipManage\ShipEquipmentSubKind;
 use App\Models\ShipManage\ShipEquipmentRegKind;
@@ -710,7 +713,56 @@ class ShipRegController extends Controller
         }
     }
 
-    public function shipCertList(Request $request) {
+    public function saveShipMaterialList(Request $request) {
+    	$params = $request->all();
+
+    	if(!isset($params['id']))
+    		return redirect()->back();
+
+    	$ids = $params['id'];
+    	foreach($ids as $key => $item) {
+    		if(!isset($params['category_id'][$key]) || $params['category_id'][$key] == '') continue;
+            if(!isset($params['type_id'][$key]) || $params['type_id'][$key] == '') continue;
+    		$shipCertTbl = new ShipMaterialRegistry();
+    		if($item != '' && $item > 0) {
+			    $shipCertTbl = ShipMaterialRegistry::find($item);
+		    }
+
+		    $shipCertTbl['ship_id']     = $params['ship_id'];
+		    $shipCertTbl['category_id']     = isset($params['category_id'][$key]) ? $params['category_id'][$key] : 1;
+            $shipCertTbl['type_id']     = isset($params['type_id'][$key]) ? $params['type_id'][$key] : 1;
+            $shipCertTbl['name'] = isset($params['name'][$key]) ? $params['name'][$key] : '';
+            $shipCertTbl['qty'] = isset($params['qty'][$key]) ? $params['qty'][$key] : null;
+            $shipCertTbl['model_mark'] = isset($params['model_mark'][$key]) ? $params['model_mark'][$key] : '';
+            $shipCertTbl['sn'] = isset($params['sn'][$key]) ? $params['sn'][$key] : '';
+            $shipCertTbl['particular'] = isset($params['particular'][$key]) ? $params['particular'][$key] : '';
+            $shipCertTbl['manufacturer'] = isset($params['manufacturer'][$key]) ? $params['manufacturer'][$key] : '';
+            
+			if(isset($params['blt_year'][$key]) && $params['blt_year'][$key] != '' && $params['blt_year'][$key] != EMPTY_DATE)
+                $shipCertTbl['blt_year'] = $params['blt_year'][$key];
+            else
+                $shipCertTbl['blt_year'] = null;
+            
+		    $shipCertTbl['remark'] = isset($params['remark'][$key]) ? $params['remark'][$key] : '';
+
+		    $shipCertTbl->save();
+	    }
+
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+            $shipRegList = ShipRegister::getShipForHolder();
+        else {
+            $shipRegList = ShipRegister::orderBy('id')->get();
+        }
+	    $shipId = $params['ship_id'];
+	    if(!isset($shipId)) {
+            $shipId = $shipRegList[0]->IMO_No;
+	    }
+
+	    return redirect('shipManage/shipMaterialList?id=' . $shipId);
+    }
+
+    public function shipMaterialList(Request $request) {
         $url = $request->path();
         $breadCrumb = BreadCrumb::getBreadCrumb($url);
 
@@ -721,6 +773,45 @@ class ShipRegController extends Controller
             $shipRegList = ShipRegister::orderBy('id')->get();
         }
 
+        $shipId = $request->get('id'); 
+	    $shipNameInfo = null;
+        if(isset($shipId)) {
+	        //$shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
+	        $shipNameInfo = ShipRegister::find($shipId);
+        } else {
+	        $shipNameInfo = ShipRegister::orderBy('id')->first();
+	        $shipId = $shipNameInfo['IMO_No'];
+        }
+
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+        {
+            $ids = Auth::user()->shipList;
+            $ids = explode(',', $ids);
+            if (!in_array($shipId, $ids)) {
+                $shipId = null;
+                $shipNameInfo = null;
+            }
+        }
+
+        return view('shipManage.ship_material_registry', [
+        	    'shipList'      =>  $shipRegList,
+                'shipName'      =>  $shipNameInfo,
+                'shipId'        =>  $shipId,
+                'breadCrumb'    => $breadCrumb
+        ]);
+    }
+
+    public function shipCertList(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+            $shipRegList = ShipRegister::getShipForHolder();
+        else {
+            $shipRegList = ShipRegister::orderBy('id')->get();
+        }
 
         $shipId = $request->get('id'); 
 	    $shipNameInfo = null;
@@ -813,20 +904,16 @@ class ShipRegController extends Controller
 		    $shipCertTbl->save();
 	    }
 
-
-	    $shipRegList = ShipRegister::orderBy('id')->get();
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+            $shipRegList = ShipRegister::getShipForHolder();
+        else {
+            $shipRegList = ShipRegister::orderBy('id')->get();
+        }
 	    $shipId = $params['ship_id'];
-
-	    $shipNameInfo = null;
-	    if(isset($shipId))
-		    $shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
-	    else {
-		    $shipNameInfo = ShipRegister::orderBy('id')->first();
-		    $shipId = $shipNameInfo['id'];
+	    if(!isset($shipId)) {
+            $shipId = $shipRegList[0]->IMO_No;
 	    }
-
-	    $certType = ShipCertList::all();
-	    $certList = ShipCertRegistry::where('ship_id', $shipId)->get();
 
 	    return redirect('shipManage/shipCertList?id=' . $shipId);
     }
@@ -959,6 +1046,51 @@ class ShipRegController extends Controller
 		return response()->json($retVal);
 	}
 
+    public function saveShipMaterialType(Request $request) {
+		$params = $request->all();
+
+		$cert_ids = $params['id'];
+		foreach($cert_ids as $key => $item) {
+			$certTbl = new ShipMaterialSubKind();
+			if($item != '' && $item != null) {
+				$certTbl = ShipMaterialSubKind::find($item);
+			}
+
+			if($params['order_no'][$key] != '' && $params['name'][$key] != "") {
+				$certTbl['order_no'] = $params['order_no'][$key];
+				$certTbl['name'] = $params['name'][$key];
+
+				$certTbl->save();
+			}
+		}
+
+		$retVal = ShipMaterialSubKind::all();
+
+		return response()->json($retVal);
+	}
+
+    public function saveShipMaterialCategory(Request $request) {
+		$params = $request->all();
+
+		$cert_ids = $params['id'];
+		foreach($cert_ids as $key => $item) {
+			$certTbl = new ShipMaterialCategory();
+			if($item != '' && $item != null) {
+				$certTbl = ShipMaterialCategory::find($item);
+			}
+
+			if($params['order_no'][$key] != '' && $params['name'][$key] != "") {
+				$certTbl['order_no'] = $params['order_no'][$key];
+				$certTbl['name'] = $params['name'][$key];
+
+				$certTbl->save();
+			}
+		}
+
+		$retVal = ShipMaterialCategory::all();
+
+		return response()->json($retVal);
+	}
 
     public function getShipCertInfo(Request $request) {
         $shipId = $request->get('shipId');
@@ -2117,6 +2249,25 @@ class ShipRegController extends Controller
         return $ship_infolist;
     }
 
+    public function ajaxShipMaterialList(Request $request) {
+    	$params = $request->all();
+    	$id = $params['ship_id'];
+
+    	if($id == 0)
+		    $retVal['ship'] = ShipMaterialRegistry::all();
+    	else {
+		    $retVal['ship'] = ShipMaterialRegistry::where('ship_id', $id)->orderBy('id', 'asc')->get();
+	    }
+
+	    $retVal['material_category'] = ShipMaterialCategory::all();
+        $retVal['material_type'] = ShipMaterialSubKind::all();
+
+	    $retVal['ship_id'] = $params['ship_id'];
+	    $retVal['ship_name'] = ShipRegister::where('IMO_No', $id)->first()->shipName_En;
+
+    	return response()->json($retVal);
+    }
+
     public function ajaxShipCertList(Request $request) {
     	$params = $request->all();
     	$id = $params['ship_id'];
@@ -2162,14 +2313,55 @@ class ShipRegController extends Controller
 
 	public function ajaxCertItemDelete(Request $request) {
 		$params = $request->all();
-
+        $selector = ShipCertRegistry::where('cert_id', $params['id']);
+		$records = $selector->first();
+		if (!empty($records)) {
+			$ret = 0;
+			return response()->json($ret);	
+		}
 		ShipCertList::where('id', $params['id'])->delete();
-		ShipCertRegistry::where('cert_id', $params['id'])->delete();
-
 		$retVal = ShipCertList::all();
+        
+		return response()->json($retVal);
+	}
+
+    public function ajaxMaterialCategoryItemDelete(Request $request) {
+		$params = $request->all();
+        $selector = ShipMaterialRegistry::where('category_id', $params['id']);
+		$records = $selector->first();
+		if (!empty($records)) {
+			$ret = 0;
+			return response()->json($ret);	
+		}
+
+		ShipMaterialCategory::where('id', $params['id'])->delete();
+		$retVal = ShipMaterialCategory::all();
 
 		return response()->json($retVal);
 	}
+
+    public function ajaxMaterialTypeItemDelete(Request $request) {
+		$params = $request->all();
+        $selector = ShipMaterialRegistry::where('type_id', $params['id']);
+		$records = $selector->first();
+		if (!empty($records)) {
+			$ret = 0;
+			return response()->json($ret);	
+		}
+
+		ShipMaterialSubKind::where('id', $params['id'])->delete();
+		$retVal = ShipMaterialSubKind::all();
+
+		return response()->json($retVal);
+	}
+
+    public function ajaxShipMaterialDelete(Request $request) {
+		$params = $request->all();
+
+		ShipMaterialRegistry::where('id', $params['id'])->delete();
+
+		return response()->json(1);
+    }
 
 	public function ajaxShipCertDelete(Request $request) {
 		$params = $request->all();

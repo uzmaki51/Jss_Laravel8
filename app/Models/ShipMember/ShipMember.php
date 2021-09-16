@@ -578,6 +578,9 @@ class ShipMember extends Model
         $newArr[12]['sendD'] = $sumD;
         $newArr[12]['purchdate'] = '';
         $newArr[12]['bankinfo'] = '';
+
+        $member_info = ShipMember::where('id', $member_id)->first();
+        $member_shipid = $member_info['ShipId'];
         
         $recordsFiltered = $selector->count();
         return [
@@ -585,6 +588,7 @@ class ShipMember extends Model
             'recordsTotal' => 12,
             'recordsFiltered' => 12,
             'original' => false,
+            'member_shipid' => $member_shipid,
             'data' => $newArr,
             'error' => 0,
         ];

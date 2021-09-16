@@ -94,6 +94,11 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::get('shipMember/autocompleteAll', [App\Http\Controllers\ShipManage\ShipMemberController::class, 'autocompleteAll']);
 	Route::get('shipMember/getCount', [App\Http\Controllers\ShipManage\ShipMemberController::class, 'getCount']);
 
+	Route::post('shipManage/material/list', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxShipMaterialList']);
+	Route::post('shipManage/material/category/delete', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxMaterialCategoryItemDelete']);
+	Route::post('shipManage/material/type/delete', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxMaterialTypeItemDelete']);
+	Route::post('shipManage/shipMaterial/delete', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxShipMaterialDelete']);
+
 	Route::post('shipManage/cert/list', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxShipCertList']);
 	Route::post('shipManage/cert/add', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxCertAdd']);
 	Route::post('shipManage/cert/delete', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ajaxCertItemDelete']);
@@ -207,6 +212,11 @@ Route::group(['prefix' => 'shipManage'], function() {
 	Route::get('ctm/analytics', [App\Http\Controllers\ShipManage\ShipRegController::class, 'ctmAnalytics']);
 
 	Route::get('voy/evaluation', [App\Http\Controllers\ShipManage\ShipRegController::class, 'voyEvaluation']);
+
+	Route::get('shipMaterialList', [App\Http\Controllers\ShipManage\ShipRegController::class, 'shipMaterialList']);
+	Route::post('shipMaterialType', [App\Http\Controllers\ShipManage\ShipRegController::class, 'saveShipMaterialType']);
+	Route::post('shipMaterialCategory', [App\Http\Controllers\ShipManage\ShipRegController::class, 'saveShipMaterialCategory']);
+	Route::post('shipMaterialList', [App\Http\Controllers\ShipManage\ShipRegController::class, 'saveShipMaterialList']);
 
 	Route::get('shipCertList', [App\Http\Controllers\ShipManage\ShipRegController::class, 'shipCertList']);
 	Route::get('shipCertExcel', [App\Http\Controllers\ShipManage\ShipRegController::class, 'shipCertExcel']);

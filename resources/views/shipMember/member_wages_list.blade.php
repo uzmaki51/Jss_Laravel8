@@ -337,6 +337,8 @@ $isHolder = Session::get('IS_HOLDER');
             ship_year = $("#select-member-year option:selected").val();
             doSearchWage();
         });
+
+        var member_shipId;
         function initTable3() {
             listTable3 = $('#table-memberwage-list').DataTable({
                 processing: true,
@@ -387,6 +389,9 @@ $isHolder = Session::get('IS_HOLDER');
                         $('td', row).eq(5).html('').append('<div class="action-buttons"><a class="blue" onclick="javascript:showSendWage(this)"><i class="icon-file"></i></a></div>');
                     }
                 },
+                drawCallback: function (response) {
+                    member_shipId = response.json.member_shipid;
+                }
             });
             $('.paginate_button').hide();
             $('.dataTables_length').hide();
@@ -397,16 +402,18 @@ $isHolder = Session::get('IS_HOLDER');
 
         function showCalcWage(evt) {
             var _tr = evt.closest('tr');
+            var _shipid = $("#select-ship").val();
             var _year = $('#select-year').val();
             var _month = _tr.firstElementChild.innerHTML;
-            window.open(BASE_URL + 'shipMember/wagesCalcReport?year=' + _year + '&month=' + _month, '_blank');
+            window.open(BASE_URL + 'shipMember/wagesCalcReport?shipId=' + _shipid + '&year=' + _year + '&month=' + _month, '_blank');
         }
 
         function showSendWage(evt) {
             var _tr = evt.closest('tr');
+            var _shipid = member_shipId;
             var _year = $('#select-member-year').val();
             var _month = _tr.firstElementChild.innerHTML;
-            window.open(BASE_URL + 'shipMember/wagesSendReport?year=' + _year + '&month=' + _month, '_blank');
+            window.open(BASE_URL + 'shipMember/wagesSendReport?shipId=' + member_shipId + '&year=' + _year + '&month=' + _month, '_blank');
         }
     </script>
 
