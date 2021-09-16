@@ -97,19 +97,19 @@
                         <label>支出</label>
                     </div>
                     <div class="vertical">
-                        <label>装港费</label>
+                        <label class="debit-label">装港费</label>
                         <input v-model="input['up_port_price']" name="up_port_price" type="text" disabled>
                     </div>
                     <div class="vertical">
-                        <label>卸港费</label>
+                        <label class="debit-label">卸港费</label>
                         <input v-model="input['down_port_price']" name="down_port_price" type="text" disabled>
                     </div>
                     <div class="vertical">
-                        <label>日成本</label>
+                        <label class="debit-label">日成本</label>
                         <my-currency-input v-model="input['cost_per_day']" name="cost_per_day" v-bind:fixednumber="0" v-bind:type="'non'"></my-currency-input>
                     </div>
                     <div class="vertical">
-                        <label @click="calcElseCost" style="cursor: pointer; border: 1px solid; background: #cacaca;">其他费用</label>
+                        <label @click="calcElseCost" class="else-cost">其他费用</label>
                         <my-currency-input v-model="input['cost_else']" name="cost_else" v-bind:fixednumber="0" v-bind:type="'non'"></my-currency-input>
                     </div>
                 </div>

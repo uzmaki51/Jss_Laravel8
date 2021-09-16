@@ -782,6 +782,15 @@ footer {
     text-align: center;
     margin-bottom: 2px;
 }
+.voy-child .else-cost {
+    cursor: pointer; 
+    border: 1px solid #4c4c4c!important;
+    background: linear-gradient(#fff, #d9f8fb);
+    padding: 2px 0;
+}
+.voy-child .debit-label {
+    padding-bottom: 6px;
+}
 .voy-child input[type=text] {
     padding: 2px;
     display: block;
