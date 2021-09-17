@@ -76,7 +76,7 @@ $ships = Session::get('shipList');
                     </div>
                     <div class="row" style="margin-top: 4px;">
                     <div class="col-lg-12">
-                        <div class="head-fix-div d-line-height" id="voy_div" style="height: 129px;">
+                        <div class="head-fix-div d-line-height" id="voy_div" style="height: 168px;">
                             <table id="voy_list" class="table-striped" v-cloak>
                                 <thead id="list-header" class="">
                                 <tr>

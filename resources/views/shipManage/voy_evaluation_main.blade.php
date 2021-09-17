@@ -629,7 +629,7 @@
                     let debitTmp1 = BigNumber($_this.cpInfo['up_port_price']).plus($_this.cpInfo['down_port_price']);
                     let debitTmp2 = BigNumber($_this.cpInfo['fuel_consumpt']).plus($_this.cpInfo['cost_else']);
                     $_this.cpInfo['manage_cost_day'] = BigNumber($_this.realInfo['cost_day']).multipliedBy($_this.cpInfo['sail_time']).toFixed(0);
-                    $_this.cpInfo['debit'] = debitTmp1.plus(debitTmp2).plus($_this.cpInfo['manage_cost_day']).toFixed(0);
+                    $_this.cpInfo['debit'] = BigNumber($_this.cpInfo['cost_else']).plus($_this.cpInfo['manage_cost_day']).toFixed(0);
 
                     debitTmp1 = $_this.realInfo['sail_credit'];
                     debitTmp2 = BigNumber($_this.realInfo['fuel_consumpt']).plus($_this.cpInfo['cost_else']);
