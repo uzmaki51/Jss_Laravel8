@@ -217,6 +217,7 @@ Route::group(['prefix' => 'shipManage'], function() {
 	Route::post('shipMaterialType', [App\Http\Controllers\ShipManage\ShipRegController::class, 'saveShipMaterialType']);
 	Route::post('shipMaterialCategory', [App\Http\Controllers\ShipManage\ShipRegController::class, 'saveShipMaterialCategory']);
 	Route::post('shipMaterialList', [App\Http\Controllers\ShipManage\ShipRegController::class, 'saveShipMaterialList']);
+	Route::get('shipMaterialManage', [App\Http\Controllers\ShipManage\ShipRegController::class, 'shipMaterialManage']);
 
 	Route::get('shipCertList', [App\Http\Controllers\ShipManage\ShipRegController::class, 'shipCertList']);
 	Route::get('shipCertExcel', [App\Http\Controllers\ShipManage\ShipRegController::class, 'shipCertExcel']);

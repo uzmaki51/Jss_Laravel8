@@ -776,10 +776,9 @@ class ShipRegController extends Controller
         $shipId = $request->get('id'); 
 	    $shipNameInfo = null;
         if(isset($shipId)) {
-	        //$shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
-	        $shipNameInfo = ShipRegister::find($shipId);
+	        $shipNameInfo = ShipRegister::where('IMO_No',$shipId)->first();
         } else {
-	        $shipNameInfo = ShipRegister::orderBy('id')->first();
+	        $shipNameInfo = $shipRegList[0];
 	        $shipId = $shipNameInfo['IMO_No'];
         }
 
@@ -802,6 +801,60 @@ class ShipRegController extends Controller
         ]);
     }
 
+    public function shipMaterialManage(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+            $shipRegList = ShipRegister::getShipForHolder();
+        else {
+            $shipRegList = ShipRegister::orderBy('id')->get();
+        }
+
+        $shipId = $request->get('id'); 
+	    $shipNameInfo = null;
+        if(isset($shipId)) {
+	        $shipNameInfo = ShipRegister::where('IMO_No',$shipId)->first();
+        } else {
+	        $shipNameInfo = $shipRegList[0];
+	        $shipId = $shipNameInfo['IMO_No'];
+        }
+
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+        {
+            $ids = Auth::user()->shipList;
+            $ids = explode(',', $ids);
+            if (!in_array($shipId, $ids)) {
+                $shipId = null;
+                $shipNameInfo = null;
+            }
+        }
+        $selector = ShipMaterialRegistry::whereRaw(DB::raw('LENGTH(blt_year) > 3'));
+        $selector = $selector->whereRaw(DB::raw('SUBSTRING(blt_year, 1, 4) > 1900'));
+        $selector = $selector->selectRaw('SUBSTRING(blt_year,1,4) as start_year');
+        $record = $selector->orderBy('start_year')->first();
+        if (empty($record)) {
+            $start_year = date('Y');
+        } else {
+            $start_year = $record->start_year;
+        }
+
+        $materialCategory = ShipMaterialCategory::all();
+        $materialType = ShipMaterialSubKind::all();
+        
+        return view('shipManage.ship_material_list', [
+        	    'shipList'      => $shipRegList,
+                'shipName'      => $shipNameInfo,
+                'shipId'        => $shipId,
+                'start_year'    => $start_year,
+                'category'      => $materialCategory,
+                'type'          => $materialType,
+                'breadCrumb'    => $breadCrumb
+        ]);
+    }
+
     public function shipCertList(Request $request) {
         $url = $request->path();
         $breadCrumb = BreadCrumb::getBreadCrumb($url);
@@ -816,10 +869,10 @@ class ShipRegController extends Controller
         $shipId = $request->get('id'); 
 	    $shipNameInfo = null;
         if(isset($shipId)) {
-	        //$shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
-	        $shipNameInfo = ShipRegister::find($shipId);
+	        $shipNameInfo = ShipRegister::where('IMO_No',$shipId)->first();
         } else {
-	        $shipNameInfo = ShipRegister::orderBy('id')->first();
+	        //$shipNameInfo = ShipRegister::orderBy('id')->first();
+            $shipNameInfo = $shipRegList[0];
 	        $shipId = $shipNameInfo['IMO_No'];
         }
 
@@ -1184,8 +1237,9 @@ class ShipRegController extends Controller
 	    $shipId = $request->get('id');
 	    $shipNameInfo = null;
 	    if(isset($shipId)) {
-		    $shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
-		    $shipNameInfo = ShipRegister::find($shipId);
+		    //$shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
+		    //$shipNameInfo = ShipRegister::find($shipId);
+            $shipNameInfo = ShipRegister::where('IMO_No',$shipId)->first();
 	    } else {
 		    $shipNameInfo = $shipList[0];
 		    $shipId = $shipNameInfo['IMO_No'];
@@ -2252,17 +2306,40 @@ class ShipRegController extends Controller
     public function ajaxShipMaterialList(Request $request) {
     	$params = $request->all();
     	$id = $params['ship_id'];
+        $year = isset($params['year']) ? $params['year'] : 0;
+        $category = isset($params['category']) ? $params['category'] : 0;
+        $type = isset($params['type']) ? $params['type'] : 0;
 
+        $selector = ShipMaterialRegistry::orderBy('id', 'asc')->select('*');
+        if ($id != 0) {
+            $selector = $selector->where('ship_id', $id);
+        }
+
+        if ($year != 0) {
+            $selector = $selector->whereRaw(DB::raw('SUBSTRING(blt_year, 1, 4) = ' . $year));
+        }
+
+        if ($category != 0) {
+            $selector = $selector->where('category_id', $category);
+        }
+
+        if ($type != 0) {
+            $selector = $selector->where('type_id', $type);
+        }
+
+        $retVal['ship'] = $selector->get();
+        /*
     	if($id == 0)
 		    $retVal['ship'] = ShipMaterialRegistry::all();
     	else {
 		    $retVal['ship'] = ShipMaterialRegistry::where('ship_id', $id)->orderBy('id', 'asc')->get();
 	    }
+        */
 
 	    $retVal['material_category'] = ShipMaterialCategory::all();
         $retVal['material_type'] = ShipMaterialSubKind::all();
 
-	    $retVal['ship_id'] = $params['ship_id'];
+	    $retVal['ship_id'] = $id;
 	    $retVal['ship_name'] = ShipRegister::where('IMO_No', $id)->first()->shipName_En;
 
     	return response()->json($retVal);
