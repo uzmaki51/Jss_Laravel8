@@ -179,7 +179,7 @@
                                         </select>
                                     </td>
                                     <td class="position-width"><input type="text" maxlength="25" class="form-control" name="Ship_Position[]" v-model="currentItem.Ship_Position" autocomplete="off"></td>
-                                    <td><input type="number" max="100000" class="form-control text-center" name="Sail_Distance[]" v-model="currentItem.Sail_Distance"></td>
+                                    <td><input type="number" max="100000" class="form-control text-center"  :readonly="currentItem.Voy_Status != DYNAMIC_DEPARTURE"  name="Sail_Distance[]" v-model="currentItem.Sail_Distance"></td>
                                     <td><input type="number" class="form-control text-center" name="Speed[]" v-model="currentItem.Speed"></td>
                                     <td><input type="number" class="form-control text-center" name="RPM[]" v-model="currentItem.RPM"></td>
                                     <td style="border-right: 2px solid rgb(255, 146, 7);"><input type="number" class="form-control text-right font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty[]" v-model="currentItem.Cargo_Qtty"></td>
@@ -277,6 +277,7 @@
         shipInfo = shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
         shipInfo = JSON.parse(shipInfo);
         var DYNAMIC_SUB_SALING = '{!! DYNAMIC_SUB_SALING !!}';
+        var DYNAMIC_DEPARTURE = '{!! DYNAMIC_DEPARTURE !!}';
         var DYNAMIC_SUB_LOADING = '{!! DYNAMIC_SUB_LOADING !!}';
         var DYNAMIC_SUB_DISCH = '{!! DYNAMIC_SUB_DISCH !!}';
         var DYNAMIC_SUB_WAITING = '{!! DYNAMIC_SUB_WAITING !!}';

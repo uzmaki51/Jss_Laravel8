@@ -110,7 +110,7 @@
                         <my-currency-input v-model="input['cost_per_day']" name="cost_per_day" v-bind:fixednumber="0"></my-currency-input>
                     </div>
                     <div class="vertical">
-                        <label @click="calcElseCost" class="else-cost">其他费用</label>
+                        <label @click="calcElseCost" class="else-cost">其他（经营）</label>
                         <my-currency-input v-model="input['cost_else']" name="cost_else" v-bind:fixednumber="0"></my-currency-input>
                     </div>
                 </div>
