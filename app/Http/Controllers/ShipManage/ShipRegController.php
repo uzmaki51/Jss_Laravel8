@@ -720,6 +720,12 @@ class ShipRegController extends Controller
     		return redirect()->back();
 
     	$ids = $params['id'];
+        if (isset($params['select_year']) || $params['select_year'] != '') {
+            $year = $params['select_year'];
+        } else {
+            $year = null;
+        }
+
     	foreach($ids as $key => $item) {
     		if(!isset($params['category_id'][$key]) || $params['category_id'][$key] == '') continue;
             if(!isset($params['type_id'][$key]) || $params['type_id'][$key] == '') continue;
@@ -743,6 +749,7 @@ class ShipRegController extends Controller
             else
                 $shipCertTbl['blt_year'] = null;
             
+            $shipCertTbl['year'] = $year;
 		    $shipCertTbl['remark'] = isset($params['remark'][$key]) ? $params['remark'][$key] : '';
 
 		    $shipCertTbl->save();
@@ -759,7 +766,7 @@ class ShipRegController extends Controller
             $shipId = $shipRegList[0]->IMO_No;
 	    }
 
-	    return redirect('shipManage/shipMaterialList?id=' . $shipId);
+	    return redirect('shipManage/shipMaterialList?id=' . $shipId . '&year=' . $year);
     }
 
     public function shipMaterialList(Request $request) {
@@ -774,6 +781,7 @@ class ShipRegController extends Controller
         }
 
         $shipId = $request->get('id'); 
+        $year = $request->get('year');
 	    $shipNameInfo = null;
         if(isset($shipId)) {
 	        $shipNameInfo = ShipRegister::where('IMO_No',$shipId)->first();
@@ -793,10 +801,23 @@ class ShipRegController extends Controller
             }
         }
 
+        $start_year = ShipMaterialRegistry::select(DB::raw('MIN(year) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2020';
+        } else {
+            $start_year = substr($start_year['min_date'],0,4);
+        }
+
+        if (!isset($year)) {
+            $year = date("Y");
+        }
+
         return view('shipManage.ship_material_registry', [
-        	    'shipList'      =>  $shipRegList,
-                'shipName'      =>  $shipNameInfo,
-                'shipId'        =>  $shipId,
+        	    'shipList'      => $shipRegList,
+                'shipName'      => $shipNameInfo,
+                'shipId'        => $shipId,
+                'start_year'    => $start_year,
+                'year'          => $year,
                 'breadCrumb'    => $breadCrumb
         ]);
     }
@@ -831,6 +852,7 @@ class ShipRegController extends Controller
                 $shipNameInfo = null;
             }
         }
+        /*
         $selector = ShipMaterialRegistry::whereRaw(DB::raw('LENGTH(blt_year) > 3'));
         $selector = $selector->whereRaw(DB::raw('SUBSTRING(blt_year, 1, 4) > 1900'));
         $selector = $selector->selectRaw('SUBSTRING(blt_year,1,4) as start_year');
@@ -839,6 +861,13 @@ class ShipRegController extends Controller
             $start_year = date('Y');
         } else {
             $start_year = $record->start_year;
+        }
+        */
+        $start_year = ShipMaterialRegistry::select(DB::raw('MIN(year) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2020';
+        } else {
+            $start_year = substr($start_year['min_date'],0,4);
         }
 
         $materialCategory = ShipMaterialCategory::all();
@@ -2316,7 +2345,7 @@ class ShipRegController extends Controller
         }
 
         if ($year != 0) {
-            $selector = $selector->whereRaw(DB::raw('SUBSTRING(blt_year, 1, 4) = ' . $year));
+            $selector = $selector->where('year', $year);
         }
 
         if ($category != 0) {
