@@ -12,7 +12,8 @@ class Repaire extends Model
     protected $table = 'tb_ship_repaire';
     
     public function getList($params) {
-        $selector = self::where('ship_id', $params['ship_id']);
+        $selector = self::where('ship_id', $params['ship_id'])
+            ->orderBy('serial_no', 'asc');
 
         if(isset($params['status']) && $params['status'] != REPAIRE_STATUS_ALL) {
             if($params['status'] == REPAIRE_STATUS_UNCOMPLETE) 
@@ -31,7 +32,7 @@ class Repaire extends Model
             $month = sprintf('%02d', $params['month']);
 
         $date = $year . '-' . $month;
-        $selector->whereRaw(DB::raw('mid(created_at, 1, 7) like "' . $date . '"'));
+        $selector->whereRaw(DB::raw('mid(request_date, 1, 7) like "' . $date . '"'));
 
         $records = $selector->get();
 

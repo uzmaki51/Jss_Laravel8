@@ -62,9 +62,9 @@ $ships = Session::get('shipList');
                                 <button class="btn btn-warning btn-sm excel-btn d-none" @click="fnExcelRecord"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                             </div>
                             <select class="custom-select f-right" style="margin-right: 10px;" @change="onChangeYear" v-model="activeStatus">
-                                <option value="0">全部</option>
-                                <option value="1">未供应</option>
-                                <option value="2">已供应</option>
+                                <option value="0"></option>
+                                <option value="1">未完成</option>
+                                <option value="2">已完成</option>
                             </select>
                         </div>
                     </div>
@@ -79,11 +79,11 @@ $ships = Session::get('shipList');
                                         <th class="text-center" style="width: 4%;">编号</th>
                                         <th class="text-center" style="width: 6%;">申请日期</th>
                                         <th class="text-center style-header" style="width: 6%">部门</th>
-                                        <th class="text-center style-header" style="width: 6%;">担任</th>
+                                        <th class="text-center style-header" style="width: 16%;">担任</th>
                                         <th class="text-center style-header" style="width: 8%;">种类</th>
-                                        <th class="text-left style-header" style="width: 36%;">工作内容</th>
-                                        <th class="text-center style-header" style="width: 6%;">完成日期</th>
-                                        <th class="text-left style-header" style="width: 24%;">备注</th>
+                                        <th class="text-left style-header" style="width: 31%;">工作内容</th>
+                                        <th class="text-center style-header text-profit" style="width: 6%;">完成日期</th>
+                                        <th class="text-left style-header" style="width: 19%;">备注</th>
                                         <th class="text-center style-header" style="width: 4%;"></th>
                                     </thead>
                                     <tbody>
@@ -101,8 +101,8 @@ $ships = Session::get('shipList');
                                                 </select>
                                             </td>
                                             <td class="center no-wrap">
-                                                <select class="form-control text-center" name="charge[]" v-model="item.charge">
-                                                    <option v-for="(variety, variety_index) in chargeList" v-bind:value="variety_index">@{{ variety }}</option>
+                                                <select class="form-control" name="charge[]" v-model="item.charge">
+                                                    <option v-for="(charge, charge_index) in chargeList" v-bind:value="charge.id">@{{ charge.Duty_En }}</option>
                                                 </select>
                                             </td>
                                             <td class="center no-wrap">
@@ -116,7 +116,7 @@ $ships = Session::get('shipList');
                                             </td>
 
                                             <td class="text-center">
-                                                <input class="form-control date-picker text-center" @click="dateModify($event, index, 'completed_at')" type="text" data-date-format="yyyy-mm-dd" name="completed_at[]" v-model="item.completed_at">
+                                                <input class="form-control date-picker text-center text-profit" @click="dateModify($event, index, 'completed_at')" type="text" data-date-format="yyyy-mm-dd" name="completed_at[]" v-model="item.completed_at">
                                             </td>
 
                                             <td>
@@ -174,6 +174,18 @@ $ships = Session::get('shipList');
 
         $(function () {
             initialize();
+        });
+
+
+        window.addEventListener("beforeunload", function (e) {
+            var confirmationMessage = 'It looks like you have been editing something. '
+                + 'If you leave before saving, your changes will be lost.';
+
+            if (isChangeStatus) {
+                (e || window.event).returnValue = confirmationMessage;
+            }
+
+            return confirmationMessage;
         });
 
         Vue.component('my-currency-input', {
@@ -258,49 +270,15 @@ $ships = Session::get('shipList');
                     tableTitle          : '',
                 },
                 methods: {
-                    certTypeChange: function(event) {
-                        let hasClass = $(event.target).hasClass('open');
-                        if($(event.target).hasClass('open')) {
-                            $(event.target).removeClass('open');
-                            $(event.target).siblings(".dynamic-options").removeClass('open');
-                        } else {
-                            $(event.target).addClass('open');
-                            $(event.target).siblings(".dynamic-options").addClass('open');
-                        }
-                    },
-                    setCertInfo: function(index, cert) {
-                        var values = $("input[name='cert_id[]']")
-                            .map(function(){return parseInt($(this).val());}).get();
-
-                        if(values.includes(cert)) {alert('Can\'t register duplicate certificate.'); return false;}
-
-                        isChangeStatus = true;
-                        setCertInfo(cert, index);
-                        $(".dynamic-select__trigger").removeClass('open');
-                        $(".dynamic-options").removeClass('open');
-                    },
                     customFormatter(date) {
-                        return moment(date).format('YYYY-MM-DD');
+                        return moment(date).format('YY-MM-DD');
                     },
                     dateModify(e, index, type) {
                         $(e.target).on("change", function() {
                             isChangeStatus = true;
+                            // equipObj.list[index][type] = moment($(this).val()).format("YY-MM-DD");
                             equipObj.list[index][type] = $(this).val();
                         });
-                    },
-                    customInput() {
-                        return 'form-control';
-                    },
-                    onFileChange(e) {
-                        let index = e.target.getAttribute('data-index');
-                        equipObj.cert_array[index]['is_update'] = IS_FILE_UPDATE;
-                        equipObj.cert_array[index]['file_name'] = 'updated';
-                        isChangeStatus = true;
-                        this.$forceUpdate();
-                    },
-                    openShipCertList(index) {
-                        activeId = index;
-                        $('.only-modal-show').click();
                     },
                     onChangeShip: function(e) {
                         location.href = '/repaire/register?id=' + e.target.value;
@@ -331,9 +309,6 @@ $ships = Session::get('shipList');
                         else
                             return '/assets/images/paper-clip.png';
                     },
-                    conditionSearch() {
-                        getInitInfo();
-                    },
                     getToday: function(symbol = '-') {
                         var today = new Date();
                         var dd = String(today.getDate()).padStart(2, '0');
@@ -341,17 +316,17 @@ $ships = Session::get('shipList');
                         var yyyy = today.getFullYear();
                         today = yyyy + symbol + mm + symbol + dd;
 
-                        return today;
+                        return this.customFormatter(today);
                     },
                     submitForm: function() {
-                        submitted = true;
+                        isChangeStatus = false;
                         $('#repaire-form').submit();
                     },
                     addRow: function() {
                         let length = $_this.list.length;
+                        isChangeStatus = true;
                         if(length == 0) {
                             this.list.push([]);
-                            this.list[length].serial_no = sprintf('%02d', this.activeMonth) + sprintf('%03d', 1);
                             this.list[length].request_date = this.getToday('-');
                             this.list[length].department = 1;
                             this.list[length].charge = 1;
@@ -361,16 +336,16 @@ $ships = Session::get('shipList');
                             this.list[length].remark = '';
                         } else {
                             this.list.push([]);
-                            this.list[length].serial_no = sprintf('%02d', this.activeMonth) + sprintf('%03d', length + 1);
                             this.list[length].request_date = this.list[length - 1].request_date;
                             this.list[length].department = this.list[length - 1].department;
                             this.list[length].charge = this.list[length - 1].charge;
                             this.list[length].type = this.list[length - 1].type;
                             this.list[length].job_description = '';
-                            this.list[length].completed_at = '';
+                            this.list[length].completed_at = this.list[length - 1].completed_at;
                             this.list[length].remark = '';
-
                         }
+
+                        this.processSN();
                     },
                     deleteCertItem(id, index) {
                         __alertAudio();
@@ -385,13 +360,19 @@ $ships = Session::get('shipList');
                                         },
                                         success: function (data, status, xhr) {
                                             $_this.list.splice(index, 1);
-                                            equipObjTmp = JSON.parse(JSON.stringify($_this.list))
+                                            $_this.processSN();
                                         }
                                     })
                                 } else {
                                     $_this.list.splice(index, 1);
+                                    $_this.processSN();
                                 }
                             }
+                        });
+                    },
+                    processSN() {
+                        $_this.list.forEach(function(value, key) {
+                            $_this.list[key]['serial_no'] = sprintf('%02d', $_this.activeMonth) + sprintf('%03d', key + 1)
                         });
                     },
                     fnExcelRecord() {
@@ -451,12 +432,12 @@ $ships = Session::get('shipList');
                     }
                 },
                 updated() {
-                        $('.date-picker').datepicker({
-                            autoclose: true,
-                        }).next().on(ace.click_event, function () {
-                            $(this).prev().focus();
-                        });
-                    }
+                    $('.date-picker').datepicker({
+                        autoclose: true,
+                    }).next().on(ace.click_event, function () {
+                        $(this).prev().focus();
+                    });
+                }
             });
 
             $_this = equipObj;
@@ -476,77 +457,13 @@ $ships = Session::get('shipList');
                 },
                 success: function(data, status, xhr) {
                     $_this.list = data;
+                    $_this.list.forEach(function(value, key) {
+                        // $_this.list[key]['request_date'] = $_this.customFormatter(value['request_date']);
+                        // $_this.list[key]['completed_at'] = $_this.customFormatter(value['completed_at']);
+                    })
                     $_this.tableTitle = $_this.shipName + ' ' + $_this.activeYear + '年' + $_this.activeMonth + '月维修保养';
                 }
             })
-        }
-
-        function addCertItem() {
-            let reportLen = equipObj.cert_array.length;
-            let newCertId = 0;
-            if(reportLen == 0) {
-                reportLen = 0;
-                newCertId = 0;
-            } else {
-                newCertId = equipObj.cert_array[reportLen - 1]['cert_id'];
-            }
-
-            newCertId = getNearCertId(newCertId);
-
-            if(shipCertTypeList.length <= reportLen && reportLen > 0)
-                return false;
-
-            if(newCertId == '') {
-                newCertId = getNearCertId(0);
-            }
-
-            equipObj.cert_array.push([]);
-            equipObj.cert_array[reportLen]['cert_id']  = newCertId;
-            equipObj.cert_array[reportLen]['is_tmp']  = 1;
-            setCertInfo(newCertId, reportLen);
-            equipObj.cert_array[reportLen]['issue_date']  = $($('[name^=issue_date]')[reportLen - 1]).val();
-            equipObj.cert_array[reportLen]['expire_date']  = $($('[name^=expire_date]')[reportLen - 1]).val();
-            equipObj.cert_array[reportLen]['due_endorse']  = $($('[name^=due_endorse]')[reportLen - 1]).val();
-            equipObj.cert_array[reportLen]['issuer']  = 1;
-            $($('[name=cert_id]')[reportLen - 1]).focus();
-            certIdList.push(equipObj.cert_array[reportLen]['cert_id']);
-
-            $('[date-issue=' + reportLen + ']').datepicker({
-                autoclose: true,
-            }).next().on(ace.click_event, function () {
-                $(this).prev().focus();
-            });
-
-            isChangeStatus = true;
-        }
-
-        function getNearCertId(cert_id) {
-            var values = $("input[name='cert_id[]']")
-                .map(function(){return parseInt($(this).val());}).get();
-            let tmp = 0;
-            tmp = cert_id;
-            shipCertTypeList.forEach(function(value, key) {
-                if(value['id'] - tmp > 0 && !values.includes(value['id'])) {
-                    if(value['id'] - cert_id <= value['id'] - tmp)
-                        tmp = value['id'];
-                }
-            });
-
-            return tmp == cert_id ? 0 : tmp;
-        }
-
-        function setCertInfo(certId, index = 0) {
-            let status = 0;
-            shipCertTypeList.forEach(function(value, key) {
-                if(value['id'] == certId) {
-                    equipObj.cert_array[index]['order_no'] = value['order_no'];
-                    equipObj.cert_array[index]['cert_id'] = certId;
-                    equipObj.cert_array[index]['code'] = value['code'];
-                    equipObj.cert_array[index]['cert_name'] = value['name'];
-                    equipObj.$forceUpdate();
-                    status ++;
-                }
-            });
         }
 
     </script>

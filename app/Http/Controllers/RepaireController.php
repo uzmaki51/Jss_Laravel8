@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\ShipManage\ShipMaterialSubKind;
 use App\Models\ShipManage\ShipMaterialCategory;
+use App\Models\ShipMember\ShipPosition;
 use App\Models\BreadCrumb;
 use App\Models\Repaire;
 use Auth;
@@ -51,6 +52,9 @@ class RepaireController extends Controller
         // Department List from 设备清单
         $departList = ShipMaterialCategory::all();
 
+        // Charget List
+        $posList = ShipPosition::all();
+
         // Type List from 设备清单
         $typeList = ShipMaterialSubKind::all();
 
@@ -64,7 +68,7 @@ class RepaireController extends Controller
             'activeMonth'   => intval(date('m')),
             'departList'    => $departList,
             'typeList'      => $typeList,
-            'chargeList'    => [],
+            'chargeList'    => $posList,
 
             'breadCrumb'    => $breadCrumb,
         ]);
