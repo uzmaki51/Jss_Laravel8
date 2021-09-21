@@ -265,12 +265,12 @@ Route::group(['prefix' => 'shipMember'], function() {
 	Route::post('updateWageSendInfo', [App\Http\Controllers\ShipManage\WageController::class, 'updateWageSendInfo']);
 });
 
-// Route::get('/home/translate/{local}', 'HomeController::class, 'translatePage');
-// Route::any('/home/resetPassword', 'HomeController::class, 'resetPassword');
-// Route::get('fileDownload', 'HomeController::class, 'file_download');
-// Route::get('FileUpload', 'HomeController::class, 'file_upload');
-// Route::get('FitleUpload', 'HomeController::class, 'file_upload');
-// Route::get('GotoWelcome', 'HomeController::class, 'gotoWelcome');
-Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
-Route::post('/profile/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+	Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+	Route::post('/profile/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+
+	## RepaireController
+	Route::get('/repaire/register', [App\Http\Controllers\RepaireController::class, 'register'])->name('repiare.register');
+	Route::post('/repaire/update', [App\Http\Controllers\RepaireController::class, 'update'])->name('repaire.update');
+	Route::post('ajax/repaire/list',   [App\Http\Controllers\RepaireController::class, 'ajax_list']);
+	Route::post('ajax/repaire/delete',   [App\Http\Controllers\RepaireController::class, 'ajax_delete']);
 });

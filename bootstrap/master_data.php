@@ -486,6 +486,10 @@ define('VOY_SETTLE_FUEL', 	'FUEL');
 
 define('USER_POS_ACCOUNTER', 8);
 
+define('REPAIRE_STATUS_ALL', 			0);
+define('REPAIRE_STATUS_UNCOMPLETE', 	1);
+define('REPAIRE_STATUS_COMPLETE', 		2);
+
  $g_masterData = array(
  	    'ReportTypeData'	            => $ReportTypeData,
 	    'ReportTypeLabelData'	        => $ReportTypeLabelData,

@@ -1,0 +1,553 @@
+<?php
+if(isset($excel)) $header = 'excel-header';
+else $header = 'header';
+?>
+
+<?php
+$isHolder = Session::get('IS_HOLDER');
+$ships = Session::get('shipList');
+?>
+
+@extends('layout.'.$header)
+
+@section('styles')
+    <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/vue.css') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
+@endsection
+
+
+@section('content')
+    <div class="main-content">
+        <div class="page-content">
+            <div class="page-header">
+                <div class="col-md-3">
+                    <h4>
+                        <b>维修保养</b>
+                    </h4>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div id="data-list" v-cloak>
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
+                            <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;" @change="onChangeShip" v-model="shipId">
+                                @foreach($shipList as $ship)
+                                    <option value="{{ $ship['IMO_No'] }}"
+                                        {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <select name="year_list" @change="onChangeYear" v-model="activeYear">
+                                @foreach($years as $year)
+                                    <option value="{{ $year }}">{{ $year }}年</option>
+                                @endforeach
+                            </select>
+                            <select class="custom-select" @change="onChangeYear" v-model="activeMonth">
+                                @for($i = 1; $i <= 12; $i ++)
+                                    <option value="{{$i}}">{{ $i }}月</option>
+                                @endfor
+                            </select>
+                            <strong style="font-size: 16px; padding-top: 6px; margin-left: 30px;" class="f-right">
+                                <span class="font-bold">@{{ tableTitle }}</span>
+                            </strong>
+                            
+                        </div>
+                        <div class="col-lg-5">
+
+                            <div class="btn-group f-right">
+                                <button class="btn btn-primary btn-sm search-btn" @click="addRow"><i class="icon-plus"></i>添加</button>
+                                <button class="btn btn-sm btn-success" @click="submitForm"><i class="icon-save"></i>保存</button>
+                                <button class="btn btn-warning btn-sm excel-btn d-none" @click="fnExcelRecord"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
+                            </div>
+                            <select class="custom-select f-right" style="margin-right: 10px;" @change="onChangeYear" v-model="activeStatus">
+                                <option value="0">全部</option>
+                                <option value="1">未供应</option>
+                                <option value="2">已供应</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 4px;">
+                        <div class="head-fix-div common-list">
+                            <form action="{{ route('repaire.update') }}" method="post" enctype="multipart/form-data" id="repaire-form">
+                                @csrf
+                                <input type="hidden" value="{{ $shipId }}" name="ship_id">
+                                <table class="table-striped" id="table-record">
+                                    <thead class="">
+                                        <th class="d-none"></th>
+                                        <th class="text-center" style="width: 4%;">编号</th>
+                                        <th class="text-center" style="width: 6%;">申请日期</th>
+                                        <th class="text-center style-header" style="width: 6%">部门</th>
+                                        <th class="text-center style-header" style="width: 6%;">担任</th>
+                                        <th class="text-center style-header" style="width: 8%;">种类</th>
+                                        <th class="text-left style-header" style="width: 36%;">工作内容</th>
+                                        <th class="text-center style-header" style="width: 6%;">完成日期</th>
+                                        <th class="text-left style-header" style="width: 24%;">备注</th>
+                                        <th class="text-center style-header" style="width: 4%;"></th>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(item, index) in list">
+                                            <input type="hidden" name="id[]" v-model="item.id">
+                                            <td class="center no-wrap">
+                                                <input type="text" v-model="item.serial_no" class="form-control" readonly name="serial_no[]">
+                                            </td>
+                                            <td class="center no-wrap">
+                                                <input class="form-control date-picker text-center" @click="dateModify($event, index, 'request_date')" type="text" data-date-format="yyyy-mm-dd" name="request_date[]" v-model="item.request_date">
+                                            </td>
+                                            <td class="center no-wrap">
+                                                <select class="form-control" name="department[]" v-model="item.department">
+                                                    <option v-for="(depart, depart_index) in departList" v-bind:value="depart.id">@{{ depart.name }}</option>
+                                                </select>
+                                            </td>
+                                            <td class="center no-wrap">
+                                                <select class="form-control text-center" name="charge[]" v-model="item.charge">
+                                                    <option v-for="(variety, variety_index) in chargeList" v-bind:value="variety_index">@{{ variety }}</option>
+                                                </select>
+                                            </td>
+                                            <td class="center no-wrap">
+                                                <select class="form-control" name="type[]" v-model="item.type">
+                                                    <option v-for="(type, type_index) in typeList" v-bind:value="type.id">@{{ type.name }}</option>
+                                                </select>
+                                            </td>
+
+                                            <td>
+                                                <input class="form-control text-left" type="text" v-model="item.job_description" name="job_description[]" @change="onChangeInput">
+                                            </td>
+
+                                            <td class="text-center">
+                                                <input class="form-control date-picker text-center" @click="dateModify($event, index, 'completed_at')" type="text" data-date-format="yyyy-mm-dd" name="completed_at[]" v-model="item.completed_at">
+                                            </td>
+
+                                            <td>
+                                                <input class="form-control text-left" type="text" v-model="item.remark" name="remark[]" @change="onChangeInput">
+                                            </td>
+
+                                            <td class="text-center">
+                                                <div class="action-buttons">
+                                                    <a class="red" @click="deleteCertItem(item.id, index)">
+                                                        <i class="icon-trash" style="color: red!important;"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ cAsset('assets/js/moment.js') }}"></script>
+    <script src="{{ cAsset('assets/js/vue.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sprintf/1.1.2/sprintf.min.js"></script>
+
+	<?php
+	echo '<script>';
+    echo 'var PlaceType = ' . json_encode(g_enum('PlaceType')) . ';';
+    echo 'var VarietyType = ' . json_encode(g_enum('VarietyType')) . ';';
+    echo 'var UnitData = ' . json_encode(g_enum('UnitData')) . ';';
+    echo 'var DepartList = ' . json_encode($departList) . ';';
+    echo 'var TypeList = ' . json_encode($typeList) . ';';
+    echo 'var ChargeList = ' . json_encode($chargeList) . ';';
+	echo '</script>';
+	?>
+    <script>
+        var equipObj = null;
+        var certTypeObj = null;
+        var $_this = null;
+        var shipCertTypeList = [];
+        var equipObjTmp = [];
+        var certIdList = [];
+        var certIdListTmp = [];
+        var IS_FILE_KEEP = '{!! IS_FILE_KEEP !!}';
+        var IS_FILE_DELETE = '{!! IS_FILE_DELETE !!}';
+        var IS_FILE_UPDATE = '{!! IS_FILE_UPDATE !!}';
+        var shipId = '{!! $shipId !!}';
+        var activeYear = '{!! $activeYear !!}';
+        var activeYear = '{!! $activeYear !!}';
+        var initLoad = true;
+        var isChangeStatus = false;
+
+        $(function () {
+            initialize();
+        });
+
+        Vue.component('my-currency-input', {
+            props: ["value", "fixednumber", 'prefix', 'type', 'index'],
+            template: `
+                    <input type="text" v-model="displayValue" @blur="isInputActive = false" @change="setValue" @focus="isInputActive = true; $event.target.select()" v-on:keyup="keymonitor" />
+                `,
+            data: function() {
+                return {
+                    isInputActive: false
+                }
+            },
+
+            computed: {
+                displayValue: {
+                    get: function() {
+                        if (this.isInputActive) {
+                            if(isNaN(this.value))
+                                return '';
+
+                            return this.value == 0 ? '' : this.value;
+                        } else {
+                            let fixedLength = 2;
+                            let prefix = '$ ';
+                            if(this.fixednumber != undefined)
+                                fixedLength = this.fixednumber;
+
+                            if(this.prefix != undefined)
+                                prefix = this.prefix + ' ';
+                            
+                            if(this.value == 0 || this.value == undefined || isNaN(this.value))
+                                return '';
+                            
+                            return prefix + number_format(this.value, fixedLength);
+                        }
+                    },
+                    set: function(modifiedValue) {
+                        if (modifiedValue == 0 || modifiedValue == undefined || isNaN(modifiedValue)) {
+                            modifiedValue = 0
+                        }
+                        
+                        this.$emit('input', parseFloat(modifiedValue));
+                    },
+                },
+            },
+            methods: {
+                setValue: function() {
+                    isChangeStatus = true;
+                    $_this.$forceUpdate();
+                },
+                keymonitor: function(e) {
+                    if(e.keyCode == 9 || e.keyCode == 13)
+                        $(e.target).select()
+                },
+            },
+            watch: {
+                setFocus: function(e) {
+                    $(e.target).select();
+                }
+            }
+        });
+
+        function initialize() {
+            initRecord();
+        }
+
+        function initRecord() {
+            // Create Vue Obj
+            equipObj = new Vue({
+                el: '#data-list',
+                data: {
+                    list                : [],
+                    typeList            : TypeList,
+                    departList          : DepartList,
+                    chargeList          : ChargeList,
+
+                    shipId              : shipId,
+                    shipName            : '{{ $shipName }}',
+                    activeYear          : activeYear,
+                    activeMonth         : '{{ $activeMonth }}',
+                    activeStatus        : '{{ REPAIRE_STATUS_ALL }}',
+                    tableTitle          : '',
+                },
+                methods: {
+                    certTypeChange: function(event) {
+                        let hasClass = $(event.target).hasClass('open');
+                        if($(event.target).hasClass('open')) {
+                            $(event.target).removeClass('open');
+                            $(event.target).siblings(".dynamic-options").removeClass('open');
+                        } else {
+                            $(event.target).addClass('open');
+                            $(event.target).siblings(".dynamic-options").addClass('open');
+                        }
+                    },
+                    setCertInfo: function(index, cert) {
+                        var values = $("input[name='cert_id[]']")
+                            .map(function(){return parseInt($(this).val());}).get();
+
+                        if(values.includes(cert)) {alert('Can\'t register duplicate certificate.'); return false;}
+
+                        isChangeStatus = true;
+                        setCertInfo(cert, index);
+                        $(".dynamic-select__trigger").removeClass('open');
+                        $(".dynamic-options").removeClass('open');
+                    },
+                    customFormatter(date) {
+                        return moment(date).format('YYYY-MM-DD');
+                    },
+                    dateModify(e, index, type) {
+                        $(e.target).on("change", function() {
+                            isChangeStatus = true;
+                            equipObj.list[index][type] = $(this).val();
+                        });
+                    },
+                    customInput() {
+                        return 'form-control';
+                    },
+                    onFileChange(e) {
+                        let index = e.target.getAttribute('data-index');
+                        equipObj.cert_array[index]['is_update'] = IS_FILE_UPDATE;
+                        equipObj.cert_array[index]['file_name'] = 'updated';
+                        isChangeStatus = true;
+                        this.$forceUpdate();
+                    },
+                    openShipCertList(index) {
+                        activeId = index;
+                        $('.only-modal-show').click();
+                    },
+                    onChangeShip: function(e) {
+                        location.href = '/repaire/register?id=' + e.target.value;
+                    },
+                    onChangeYear: function(e) {
+                        var confirmationMessage = 'It looks like you have been editing something. '
+                                + 'If you leave before saving, your changes will be lost.';
+
+                        if (isChangeStatus) {
+                            bootbox.confirm(confirmationMessage, function (result) {
+                                if (!result) {
+                                    return;
+                                }
+                                else {
+                                    getInitInfo();
+                                }
+                            });
+                        } else {
+                            getInitInfo();
+                        }
+                    },
+                    onChangeInput: function() {
+                        isChangeStatus = true;
+                    },
+                    getImage: function(file_name) {
+                        if(file_name != '' && file_name != undefined)
+                            return '/assets/images/document.png';
+                        else
+                            return '/assets/images/paper-clip.png';
+                    },
+                    conditionSearch() {
+                        getInitInfo();
+                    },
+                    getToday: function(symbol = '-') {
+                        var today = new Date();
+                        var dd = String(today.getDate()).padStart(2, '0');
+                        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                        var yyyy = today.getFullYear();
+                        today = yyyy + symbol + mm + symbol + dd;
+
+                        return today;
+                    },
+                    submitForm: function() {
+                        submitted = true;
+                        $('#repaire-form').submit();
+                    },
+                    addRow: function() {
+                        let length = $_this.list.length;
+                        if(length == 0) {
+                            this.list.push([]);
+                            this.list[length].serial_no = sprintf('%02d', this.activeMonth) + sprintf('%03d', 1);
+                            this.list[length].request_date = this.getToday('-');
+                            this.list[length].department = 1;
+                            this.list[length].charge = 1;
+                            this.list[length].type = 1;
+                            this.list[length].job_description = '';
+                            this.list[length].completed_at = '';
+                            this.list[length].remark = '';
+                        } else {
+                            this.list.push([]);
+                            this.list[length].serial_no = sprintf('%02d', this.activeMonth) + sprintf('%03d', length + 1);
+                            this.list[length].request_date = this.list[length - 1].request_date;
+                            this.list[length].department = this.list[length - 1].department;
+                            this.list[length].charge = this.list[length - 1].charge;
+                            this.list[length].type = this.list[length - 1].type;
+                            this.list[length].job_description = '';
+                            this.list[length].completed_at = '';
+                            this.list[length].remark = '';
+
+                        }
+                    },
+                    deleteCertItem(id, index) {
+                        __alertAudio();
+                        bootbox.confirm("Are you sure you want to delete?", function (result) {
+                            if (result) {
+                                if (id != undefined) {
+                                    $.ajax({
+                                        url: BASE_URL + 'ajax/repaire/delete',
+                                        type: 'post',
+                                        data: {
+                                            id: id,
+                                        },
+                                        success: function (data, status, xhr) {
+                                            $_this.list.splice(index, 1);
+                                            equipObjTmp = JSON.parse(JSON.stringify($_this.list))
+                                        }
+                                    })
+                                } else {
+                                    $_this.list.splice(index, 1);
+                                }
+                            }
+                        });
+                    },
+                    fnExcelRecord() {
+                        var tab_text = "";
+                        tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+                        real_tab = document.getElementById('table-record');
+                        var tab = real_tab.cloneNode(true);
+                        tab_text=tab_text+"<tr><td colspan='12' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + " " + equipObj._data.activeYear + "年备件物料" + "</td></tr>";
+                        
+                        for(var j = 0; j < tab.rows.length ; j++)
+                        {
+                            if (j == 0) {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                                }
+                                tab.rows[j].childNodes[24].remove();
+                                tab.rows[j].childNodes[0].remove();
+                            }
+                            else
+                            {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    if (i == 4) {
+                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                                        tab.rows[j].childNodes[i].innerHTML = PlaceType[info];
+                                    }
+                                    else if (i == 6) {
+                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                                        tab.rows[j].childNodes[i].innerHTML = VarietyType[info]
+                                    }
+                                    else if (i == 16) {
+                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                                        tab.rows[j].childNodes[i].innerHTML = UnitData[info];
+                                    }
+                                    else if (i == 0 || i == 22) {
+
+                                    }
+                                    else {
+                                        var info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                                        tab.rows[j].childNodes[i].innerHTML = info;
+                                    }
+                                }
+                                tab.rows[j].childNodes[24].remove();
+                            }
+                            
+                            
+                            tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                        }
+                        tab_text=tab_text+"</table>";
+                        tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+                        tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+                        tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
+
+                        var filename = $('#search_info').html() + '_' + equipObj._data.activeYear + "年备件物料";
+                        exportExcel(tab_text, filename, filename);
+                        
+                        return 0;
+                    }
+                },
+                updated() {
+                        $('.date-picker').datepicker({
+                            autoclose: true,
+                        }).next().on(ace.click_event, function () {
+                            $(this).prev().focus();
+                        });
+                    }
+            });
+
+            $_this = equipObj;
+            getInitInfo();
+
+        }
+
+        function getInitInfo() {
+            $.ajax({
+                url: BASE_URL + 'ajax/repaire/list',
+                type: 'post',
+                data: {
+                    ship_id: $_this.shipId,
+                    year: $_this.activeYear,
+                    month: $_this.activeMonth,
+                    status: $_this.activeStatus,
+                },
+                success: function(data, status, xhr) {
+                    $_this.list = data;
+                    $_this.tableTitle = $_this.shipName + ' ' + $_this.activeYear + '年' + $_this.activeMonth + '月维修保养';
+                }
+            })
+        }
+
+        function addCertItem() {
+            let reportLen = equipObj.cert_array.length;
+            let newCertId = 0;
+            if(reportLen == 0) {
+                reportLen = 0;
+                newCertId = 0;
+            } else {
+                newCertId = equipObj.cert_array[reportLen - 1]['cert_id'];
+            }
+
+            newCertId = getNearCertId(newCertId);
+
+            if(shipCertTypeList.length <= reportLen && reportLen > 0)
+                return false;
+
+            if(newCertId == '') {
+                newCertId = getNearCertId(0);
+            }
+
+            equipObj.cert_array.push([]);
+            equipObj.cert_array[reportLen]['cert_id']  = newCertId;
+            equipObj.cert_array[reportLen]['is_tmp']  = 1;
+            setCertInfo(newCertId, reportLen);
+            equipObj.cert_array[reportLen]['issue_date']  = $($('[name^=issue_date]')[reportLen - 1]).val();
+            equipObj.cert_array[reportLen]['expire_date']  = $($('[name^=expire_date]')[reportLen - 1]).val();
+            equipObj.cert_array[reportLen]['due_endorse']  = $($('[name^=due_endorse]')[reportLen - 1]).val();
+            equipObj.cert_array[reportLen]['issuer']  = 1;
+            $($('[name=cert_id]')[reportLen - 1]).focus();
+            certIdList.push(equipObj.cert_array[reportLen]['cert_id']);
+
+            $('[date-issue=' + reportLen + ']').datepicker({
+                autoclose: true,
+            }).next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
+
+            isChangeStatus = true;
+        }
+
+        function getNearCertId(cert_id) {
+            var values = $("input[name='cert_id[]']")
+                .map(function(){return parseInt($(this).val());}).get();
+            let tmp = 0;
+            tmp = cert_id;
+            shipCertTypeList.forEach(function(value, key) {
+                if(value['id'] - tmp > 0 && !values.includes(value['id'])) {
+                    if(value['id'] - cert_id <= value['id'] - tmp)
+                        tmp = value['id'];
+                }
+            });
+
+            return tmp == cert_id ? 0 : tmp;
+        }
+
+        function setCertInfo(certId, index = 0) {
+            let status = 0;
+            shipCertTypeList.forEach(function(value, key) {
+                if(value['id'] == certId) {
+                    equipObj.cert_array[index]['order_no'] = value['order_no'];
+                    equipObj.cert_array[index]['cert_id'] = certId;
+                    equipObj.cert_array[index]['code'] = value['code'];
+                    equipObj.cert_array[index]['cert_name'] = value['name'];
+                    equipObj.$forceUpdate();
+                    status ++;
+                }
+            });
+        }
+
+    </script>
+@endsection

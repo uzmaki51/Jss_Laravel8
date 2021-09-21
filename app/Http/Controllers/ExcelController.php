@@ -2545,6 +2545,4 @@ class ExcelController extends Controller {
                 'excel_name' => $shipName.(empty($shipName) ? '' : '-').'海员登记簿-'.$excel_title,
             ]);
     }
-
-
 }
