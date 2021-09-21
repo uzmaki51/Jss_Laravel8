@@ -138,7 +138,7 @@ class FinanceController extends Controller
 
 		$accounts = AccountSetting::all();
 
-		$shipList = ShipRegister::orderBy('id')->get();
+		$shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
 
 		/*
 		$selector = DB::table($this->table)->select('*');

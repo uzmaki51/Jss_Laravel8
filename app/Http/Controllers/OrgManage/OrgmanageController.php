@@ -339,7 +339,7 @@ class OrgmanageController extends Controller
         }
 
         $userinfo = User::find($userid);
-        $shipList = ShipRegister::orderBy('id')->get();
+        $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
 
         return view('orgmanage.addmember',
                 [   'userid'    =>  $userid,

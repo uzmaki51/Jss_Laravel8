@@ -239,13 +239,13 @@ class WageController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN) {
             $ids = Auth::user()->shipList;
             $ids = explode(',', $ids);
-            $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
             ->whereIn('IMO_No', $ids)
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
             ->get();
         }
         else {
-            $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
             ->get();
         }
@@ -283,13 +283,13 @@ class WageController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN) {
             $ids = Auth::user()->shipList;
             $ids = explode(',', $ids);
-            $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
             ->whereIn('IMO_No', $ids)
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
             ->get();
         }
         else {
-            $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
             ->get();
         }
@@ -329,7 +329,7 @@ class WageController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
         $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
         if(empty($start_year)) {

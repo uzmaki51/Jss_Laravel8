@@ -610,7 +610,7 @@ $ships = Session::get('shipList');
 
         function importPastYearData() {
             __alertAudio();
-            bootbox.confirm("Are you sure to import data of past year?", function (result) {
+            bootbox.confirm("Are you sure to import the past year's data?", function (result) {
                 if (result) {
                     var prev_year = select_year - 1;
                     $.ajax({

@@ -114,7 +114,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $ship_infolist = ShipRegister::getShipForHolder();
         else {
-            $ship_infolist = ShipRegister::orderBy('id')->get();
+            $ship_infolist = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
         // var_dump($ship_infolist);die;
@@ -144,7 +144,7 @@ class ShipRegController extends Controller
 	    $shipRegTbl = new ShipRegister();
 	    $elseInfo = $shipRegTbl->getShipForExcel($ship_id, $this->__CERT_EXCEL);
 
-	    $shipInfo = ShipRegister::where('id', $ship_id)->first();
+	    $shipInfo = ShipRegister::where('RegStatus', '!=', 3)->where('id', $ship_id)->first();
 	    $shipCertList = ShipCertRegistry::where('ship_id', $ship_id)->get();
 
 	    $imo_no = $shipInfo->IMO_No;
@@ -171,7 +171,7 @@ class ShipRegController extends Controller
 	    if(isset($params['id']))
 		    $ship_id = $params['id'];
 	    else {
-		    $ship_id = ShipRegister::orderBy('id')->first()->id;
+		    $ship_id = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->first()->id;
 	    }
 
 	    $ship_id = isset($ship_id) ? $ship_id : 0;
@@ -231,7 +231,7 @@ class ShipRegController extends Controller
 
         $status = Session::get('status');
 
-        $ship_infolist = $this->getShipGeneralInfo();
+        $ship_infolist = $this->getShipGeneralInfo(true);
         return view('shipManage.shipregister', [
                         'shipList'      =>  $shipList, 
                         'shipType'      =>  $shipType, 
@@ -525,7 +525,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
 		if(isset($params['shipId'])) {
@@ -555,7 +555,7 @@ class ShipRegController extends Controller
         else
             $record_type = 'all';
 
-        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        $shipInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $shipId)->first();
         if($shipInfo == null || $shipInfo == false)
             return redirect()->back();
         else {
@@ -587,7 +587,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
         $params = $request->all();
@@ -596,7 +596,7 @@ class ShipRegController extends Controller
         if(isset($shipId)) {
 	        $shipNameInfo = ShipRegister::where('IMO_No', $shipId)->first();
         } else {
-	        $shipNameInfo = ShipRegister::orderBy('id')->first();
+	        $shipNameInfo = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->first();
 	        $shipId = $shipNameInfo['IMO_No'];
         }
 
@@ -636,7 +636,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
         if(isset($params['shipId'])) {
@@ -648,7 +648,7 @@ class ShipRegController extends Controller
                 return redirect()->back();
         }
 
-        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        $shipInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $shipId)->first();
         if($shipInfo == null)
             $shipName = '';
         else
@@ -759,7 +759,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipRegList = ShipRegister::getShipForHolder();
         else {
-            $shipRegList = ShipRegister::orderBy('id')->get();
+            $shipRegList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 	    $shipId = $params['ship_id'];
 	    if(!isset($shipId)) {
@@ -777,14 +777,14 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipRegList = ShipRegister::getShipForHolder();
         else {
-            $shipRegList = ShipRegister::orderBy('id')->get();
+            $shipRegList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
         $shipId = $request->get('id'); 
         $year = $request->get('year');
 	    $shipNameInfo = null;
         if(isset($shipId)) {
-	        $shipNameInfo = ShipRegister::where('IMO_No',$shipId)->first();
+	        $shipNameInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No',$shipId)->first();
         } else {
 	        $shipNameInfo = $shipRegList[0];
 	        $shipId = $shipNameInfo['IMO_No'];
@@ -830,13 +830,13 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipRegList = ShipRegister::getShipForHolder();
         else {
-            $shipRegList = ShipRegister::orderBy('id')->get();
+            $shipRegList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
         $shipId = $request->get('id'); 
 	    $shipNameInfo = null;
         if(isset($shipId)) {
-	        $shipNameInfo = ShipRegister::where('IMO_No',$shipId)->first();
+	        $shipNameInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No',$shipId)->first();
         } else {
 	        $shipNameInfo = $shipRegList[0];
 	        $shipId = $shipNameInfo['IMO_No'];
@@ -892,13 +892,13 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipRegList = ShipRegister::getShipForHolder();
         else {
-            $shipRegList = ShipRegister::orderBy('id')->get();
+            $shipRegList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
         $shipId = $request->get('id'); 
 	    $shipNameInfo = null;
         if(isset($shipId)) {
-	        $shipNameInfo = ShipRegister::where('IMO_No',$shipId)->first();
+	        $shipNameInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No',$shipId)->first();
         } else {
 	        //$shipNameInfo = ShipRegister::orderBy('id')->first();
             $shipNameInfo = $shipRegList[0];
@@ -990,7 +990,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipRegList = ShipRegister::getShipForHolder();
         else {
-            $shipRegList = ShipRegister::orderBy('id')->get();
+            $shipRegList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 	    $shipId = $params['ship_id'];
 	    if(!isset($shipId)) {
@@ -1214,7 +1214,7 @@ class ShipRegController extends Controller
 
         if(empty($certId)) {
             $certInfo = new ShipCertRegistry();
-            $shipInfo = ShipRegister::where('RegNo', $shipName)->first();
+            $shipInfo = ShipRegister::where('RegStatus', '!=', 3)->where('RegNo', $shipName)->first();
             $certInfo['ShipName'] = $shipInfo['RegNo'];
         } else {
             $certInfo = ShipCertRegistry::find($certId);
@@ -1260,7 +1260,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
 	    $shipId = $request->get('id');
@@ -1268,7 +1268,7 @@ class ShipRegController extends Controller
 	    if(isset($shipId)) {
 		    //$shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
 		    //$shipNameInfo = ShipRegister::find($shipId);
-            $shipNameInfo = ShipRegister::where('IMO_No',$shipId)->first();
+            $shipNameInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No',$shipId)->first();
 	    } else {
 		    $shipNameInfo = $shipList[0];
 		    $shipId = $shipNameInfo['IMO_No'];
@@ -1287,7 +1287,7 @@ class ShipRegController extends Controller
 		$shipName = '';
 		if(isset($shipId)) {
 			$retVal = ShipCertRegistry::where('ship_id', $shipId)->get();
-			$shipName = ShipRegister::where('IMO_No', $shipId)->first()->shipName_En;
+			$shipName = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $shipId)->first()->shipName_En;
 		} else {
 			return redirect()->back();
 		}
@@ -1370,14 +1370,14 @@ class ShipRegController extends Controller
 		if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
         } else {
-            $firstShipInfo = ShipRegister::orderBy('id')->first();
+            $firstShipInfo = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->first();
             if($firstShipInfo == null && $firstShipInfo == false)
                 return redirect()->back();
 
             $shipId = $firstShipInfo->IMO_No;
         }
 
-        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        $shipInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $shipId)->first();
         if($shipInfo == null || $shipInfo == false)
             return redirect()->back();
         else {
@@ -1404,7 +1404,7 @@ class ShipRegController extends Controller
             $shipList = ShipRegister::getShipForHolder();
         }
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
         return view('shipManage.fuel_manage', [
@@ -1427,7 +1427,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
         $params = $request->all();
@@ -2296,25 +2296,41 @@ class ShipRegController extends Controller
     	return response()->json(1);
     }
 
-    public function getShipGeneralInfo() {
+    public function getShipGeneralInfo($del = false) {
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN) {
             //$shipList = ShipRegister::getShipForHolder();
             $ids = Auth::user()->shipList;
             $ids = explode(',', $ids);
-            $ship_infolist = ShipRegister::whereIn('IMO_No', $ids)
+            if ($del) {
+                $ship_infolist = ShipRegister::where('RegStatus', '!=', 3)->whereIn('IMO_No', $ids);
+            } else {
+                $ship_infolist = ShipRegister::whereIn('IMO_No', $ids);
+            }
+            $ship_infolist = $ship_infolist
                 ->select('tb_ship_register.*', 'tb_ship.name', 'tb_ship.shipNo', 'tb_ship.person_num', 'tb_ship_type.ShipType_Cn', 'tb_ship_type.ShipType', DB::raw('IFNULL(tb_ship.id, 100) as num'))
                 ->leftJoin('tb_ship', 'tb_ship_register.Shipid', '=', 'tb_ship.id')
                 ->leftJoin('tb_ship_type', 'tb_ship_register.ShipType', '=', 'tb_ship_type.id')
+                ->orderByRaw("FIELD(RegStatus , '2', '1', '3') ASC")
                 ->orderBy('id')
                 ->get();
         }
         else {
-            $ship_infolist = ShipRegister::select('tb_ship_register.*', 'tb_ship.name', 'tb_ship.shipNo', 'tb_ship.person_num', 'tb_ship_type.ShipType_Cn', 'tb_ship_type.ShipType', DB::raw('IFNULL(tb_ship.id, 100) as num'))
+            if ($del) {
+                $ship_infolist = ShipRegister::select('tb_ship_register.*', 'tb_ship.name', 'tb_ship.shipNo', 'tb_ship.person_num', 'tb_ship_type.ShipType_Cn', 'tb_ship_type.ShipType', DB::raw('IFNULL(tb_ship.id, 100) as num'))
                 ->leftJoin('tb_ship', 'tb_ship_register.Shipid', '=', 'tb_ship.id')
                 ->leftJoin('tb_ship_type', 'tb_ship_register.ShipType', '=', 'tb_ship_type.id')
+                ->orderByRaw("FIELD(RegStatus , '2', '1', '3') ASC")
                 ->orderBy('id')
                 ->get();
+            } else {
+                $ship_infolist = ShipRegister::where('RegStatus', '!=', 3)->select('tb_ship_register.*', 'tb_ship.name', 'tb_ship.shipNo', 'tb_ship.person_num', 'tb_ship_type.ShipType_Cn', 'tb_ship_type.ShipType', DB::raw('IFNULL(tb_ship.id, 100) as num'))
+                ->leftJoin('tb_ship', 'tb_ship_register.Shipid', '=', 'tb_ship.id')
+                ->leftJoin('tb_ship_type', 'tb_ship_register.ShipType', '=', 'tb_ship_type.id')
+                ->orderByRaw("FIELD(RegStatus , '2', '1', '3') ASC")
+                ->orderBy('id')
+                ->get();
+            }
         }
 
         foreach($ship_infolist as $info) {
@@ -2369,7 +2385,7 @@ class ShipRegController extends Controller
         $retVal['material_type'] = ShipMaterialSubKind::all();
 
 	    $retVal['ship_id'] = $id;
-	    $retVal['ship_name'] = ShipRegister::where('IMO_No', $id)->first()->shipName_En;
+	    $retVal['ship_name'] = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $id)->first()->shipName_En;
 
     	return response()->json($retVal);
     }
@@ -2392,7 +2408,7 @@ class ShipRegController extends Controller
 	    $retVal['cert_type'] = ShipCertList::all();
 
 	    $retVal['ship_id'] = $params['ship_id'];
-	    $retVal['ship_name'] = ShipRegister::where('IMO_No', $id)->first()->shipName_En;
+	    $retVal['ship_name'] = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $id)->first()->shipName_En;
 
     	return response()->json($retVal);
     }

@@ -34,7 +34,7 @@ class ProfileController extends Controller
 
         $userid = $userInfo->id;
         $userinfo = User::find($userid);
-        $shipList = ShipRegister::orderBy('id')->get();
+        $shipList = ShipRegister::orderByRaw("FIELD(RegStatus , '2', '1', '3') ASC")->orderBy('id')->get();
 
         return view('profile.index', [   
                     'userid'    =>  $userid,

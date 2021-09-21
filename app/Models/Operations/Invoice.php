@@ -64,7 +64,6 @@ class Invoice extends Model
 
     }
 
-    // 연유 및 부속자재
     public function shipSupply() {
         return $this->hasMany('App\Models\Operations\ShipSupply', 'INVOICE_ID', 'Ref_No');
     }

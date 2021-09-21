@@ -30,8 +30,6 @@ class VoyLog extends Model
     }
 
     public static function getShipVoyLogData($shipID = '', $voy_No){
-
-        // 배동태 자료 얻기
         $result = DB::table('tbl_voy_log')
             ->select('tbl_voy_log.*','tbl_voy_status.Voy_Status as Voy_St', 'tbl_voy_status.Status_Name','tbl_cp.Voy_No','tb_ship_register.shipName_Cn')
             ->join('tbl_cp', 'tbl_voy_log.CP_ID', '=', 'tbl_cp.id')
@@ -44,8 +42,6 @@ class VoyLog extends Model
     }
 
     public static function getHomeShipVoyLogData(){
-
-        // 배동태 자료 얻기
         $query = 'SELECT voy_log.*, tbl_voy_status.Voy_Status AS Voy_St, tbl_voy_status.Status_Name, tbl_cp.Voy_No, tb_ship_register.shipName_Cn, tb_ship_register.RegNo, tb_ship_register.id
                     FROM (SELECT * FROM (SELECT * FROM tbl_voy_log ORDER BY Voy_Date DESC) AS tmp GROUP BY Ship_id) AS voy_log
                     INNER JOIN tbl_cp ON voy_log.CP_ID = tbl_cp.id
@@ -58,8 +54,6 @@ class VoyLog extends Model
     }
 
     public static function getShipVoyLogDataExcel($shipID = '', $voy_No){
-
-        // 배동태 자료 얻기
         $result = DB::table('tbl_voy_log')
             ->select('tbl_voy_log.*','tbl_voy_status.Voy_Status as Voy_St', 'tbl_voy_status.Status_Name','tbl_cp.Voy_No','tb_ship_register.shipName_Cn')
             ->join('tbl_cp', 'tbl_voy_log.CP_ID', '=', 'tbl_cp.id')

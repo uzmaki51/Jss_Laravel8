@@ -48,35 +48,6 @@ function checkNewDecideReport() {
     })
 }
 
-function checkNewRecvDecideReport() {
-
-    $.get('/decision/checkRecvDecideDoc', {}, function (data) {
-        var returnCode = parseInt(data);
-        if(returnCode > 0) {
-            $.gritter.add({
-                title: '通报',
-                text: returnCode + '개의 결재문서가 수신됐습니다.',
-                class_name: 'gritter-error'
-            });
-            myAlarm.play();
-        }
-    })
-}
-
-function checkPersonSchedule() {
-    $.get('/business/checkPersonSchedule', {}, function (data) {
-        for(var i=0; i<data.length;i++){
-            var schedule = data[i];
-            $.toast.add({
-                title: '通报',
-                text: schedule.startTime.substr(0,5) + '에 ' + schedule.title + ' 이 있습니다.',
-                class_name: 'gritter-success'
-            });
-            myAlarm.play();
-        }
-    })
-}
-
 function formatNumber(value) {
     var parts = value.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -91,7 +62,7 @@ function formatNumber(value) {
 //$("input[type=number]").attr("step","0.01");
 $("input[name=orderNum]").attr("step","1");
 
-//해당배렬자료를 해당url에로 submit하는 함수
+
 function submitData(url, data, method, target) {
     if( url && data ){
         //data can be string of parameters or array/object

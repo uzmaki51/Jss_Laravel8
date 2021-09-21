@@ -136,7 +136,7 @@ class ShipRegister extends Model
     public static function getShipForHolder() {
         $ids = Auth::user()->shipList;
         $ids = explode(',', $ids);
-        $records = self::whereIn('IMO_No', $ids)->get();
+        $records = self::whereIn('IMO_No', $ids)->where('RegStatus', '!=', 3)->get();
 
         return $records;
     }

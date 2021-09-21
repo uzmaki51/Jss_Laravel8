@@ -230,8 +230,8 @@ return [
         'ShipName(Structure)' =>  'ShipName(Structure)',
         'Duty'  =>  'Duty',
         'ShipName'  =>  'ShipName',
-        'Dismissal Date'    =>  '해임날자',
-        'Registration Status'   => '登记상태',
+        'Dismissal Date'    =>  '',
+        'Registration Status'   => '',
     ],
 
     "memberCertList"  => [
