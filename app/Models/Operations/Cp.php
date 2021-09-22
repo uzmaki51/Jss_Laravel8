@@ -62,7 +62,6 @@ class Cp extends Model
     }
 
     public static function getShipCalcData($shipID, $voyId){
-        // 운임계산서 자료얻기
         $result = static::query()
             ->select('tbl_cp.*', 'tbl_cargo.CARGO_Cn')
             ->join('tbl_cargo', 'tbl_cp.Cargo', '=', 'tbl_cargo.id')
@@ -74,8 +73,6 @@ class Cp extends Model
     }
 
     public static function getInviceOfCalcData($voyId){
-
-        // 운임계산서에서 수입자료얻기
         $query = 'SELECT tbl_invoice.*, tbl_ac_item.C_D FROM tbl_invoice
                     INNER JOIN tbl_ac_detail_item ON tbl_ac_detail_item.id = tbl_invoice.AC_Items
                     INNER JOIN tbl_ac_item ON tbl_ac_item.id = tbl_ac_detail_item.AC_Item

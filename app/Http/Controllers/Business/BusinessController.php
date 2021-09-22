@@ -80,7 +80,7 @@ class BusinessController extends Controller {
         {
             $ids = Auth::user()->shipList;
             $ids = explode(',', $ids);
-            $shipList = ShipRegister::whereIn('IMO_No', $ids)
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->whereIn('IMO_No', $ids)
                             ->select('tb_ship_register.id', 'tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
                             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
                             ->orderBy('tb_ship_register.id')
@@ -89,7 +89,7 @@ class BusinessController extends Controller {
             $costs = ExpectedCosts::where('shipNo', $ids[0])->where('year',$year)->first();
         }
         else {
-            $shipList = ShipRegister::select('tb_ship_register.id', 'tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->select('tb_ship_register.id', 'tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
                             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
                             ->orderBy('tb_ship_register.id')
                             ->get();
@@ -158,10 +158,10 @@ class BusinessController extends Controller {
         $params = $request->all();
 		if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
-            $firstShipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+            $firstShipInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $shipId)->first();
             $shipName = isset($firstShipInfo->NickName) &&  $firstShipInfo->NickName != '' ? $firstShipInfo->NickName : $firstShipInfo->shipName_En;
         } else {
-            $firstShipInfo = ShipRegister::orderBy('id')->first();
+            $firstShipInfo = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->first();
             if($firstShipInfo == null && $firstShipInfo == false)
                 return redirect()->back();
 
@@ -181,7 +181,7 @@ class BusinessController extends Controller {
             $shipId = $shipList[0]->IMO_No;
         }
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
         
         $cp_list = CP::where('Ship_ID', $shipId)->whereNotNull('net_profit_day')->orderBy('Voy_No', 'desc')->get();
@@ -255,7 +255,7 @@ class BusinessController extends Controller {
 		if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
         } else {
-            $firstShipInfo = ShipRegister::orderBy('id')->first();
+            $firstShipInfo = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->first();
             if($firstShipInfo == null && $firstShipInfo == false)
                 return redirect()->back();
 
@@ -267,7 +267,7 @@ class BusinessController extends Controller {
             $voyId = $params['voyNo'];
         }
 
-        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        $shipInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $shipId)->first();
         if($shipInfo == null || $shipInfo == false)
             return redirect()->back();
         else {
@@ -281,7 +281,7 @@ class BusinessController extends Controller {
             $shipName = $shipList[0]->shipName_En;
         }
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
         return view('business.dynamic.record', [
             'shipList'          => $shipList,
@@ -764,7 +764,7 @@ class BusinessController extends Controller {
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
         if(isset($params['shipId'])) {
@@ -776,7 +776,7 @@ class BusinessController extends Controller {
                 return redirect()->back();
         }
 
-        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        $shipInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $shipId)->first();
         if($shipInfo == null)
             $shipName = '';
         else
@@ -812,7 +812,7 @@ class BusinessController extends Controller {
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipRegList = ShipRegister::getShipForHolder();
         else {
-            $shipRegList = ShipRegister::orderBy('id')->get();
+            $shipRegList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
 
@@ -820,9 +820,9 @@ class BusinessController extends Controller {
         $shipId = $request->get('shipId'); 
 	    $shipNameInfo = null;
         if(isset($shipId)) {
-	        $shipNameInfo = ShipRegister::where('IMO_No', $shipId)->first();
+	        $shipNameInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $shipId)->first();
         } else {
-	        $shipNameInfo = ShipRegister::orderBy('id')->first();
+	        $shipNameInfo = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->first();
             $shipId = $shipRegList[0]->IMO_No;
 	        //$shipId = $shipNameInfo['IMO_No'];
         }
@@ -1077,7 +1077,7 @@ class BusinessController extends Controller {
         $params = $request->all();
         $shipId = $params['shipId'];
 
-        $retVal['shipInfo'] = ShipRegister::where('IMO_No', $shipId)->first();
+        $retVal['shipInfo'] = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $shipId)->first();
         $retVal['portList'] = ShipPort::orderBy('Port_En', 'asc')->get();
         $retVal['cargoList'] = Cargo::orderBy('name', 'asc')->get();
 
@@ -1169,7 +1169,7 @@ class BusinessController extends Controller {
 
     public function ajaxDynamic(Request $request) {
         $params = $request->all();
-        $shipList = ShipRegister::all()->sortBy('id');
+        $shipList = ShipRegister::where('RegStatus', '!=', 3)->get()->sortBy('id');
 
         $retVal['shipList'] = $shipList;
 

@@ -114,9 +114,9 @@ class ShipMemberController extends Controller
         $breadCrumb = BreadCrumb::getBreadCrumb($url);
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
-            $shipList = ShipRegister::getShipForHolder();
+            $shipList = ShipRegister::getShipForHolder(true);
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::orderByRaw("FIELD(RegStatus , '2', '1', '3') ASC")->orderBy('id')->get();
         }
         
         $posList = ShipPosition::all();
@@ -146,8 +146,6 @@ class ShipMemberController extends Controller
             $training = ShipMemberTraining::where('memberId', $memberId)->groupBy("CertSequence")->get();
             $othercert = ShipMemberOtherCert::where('memberId', $memberId)->get();
             
-
-            // 실력평가자료
             $examingList = ShipMemberExaming::where('memberId', $memberId)->orderBy('ExamDate')->get();
             $subList = array(); $examId = '';
             if(count($examingList) > 0) {
@@ -230,7 +228,7 @@ class ShipMemberController extends Controller
         if(!empty($memberId)) {
             $info = ShipMember::find($memberId);
 
-            $shipList = ShipRegister::select('shipName_En', 'RegNo')->get();
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->select('shipName_En', 'RegNo')->get();
             $posList = ShipPosition::all();
             $ksList = Ship::all();
             $typeList = ShipType::all();
@@ -606,7 +604,6 @@ class ShipMemberController extends Controller
 
         $member->save();
 
-        // 선원자격경력보관
         ShipMemberCapacityCareer::where('memberId', $memberId)->delete();
         for($i=0;$i<20;$i++) {
             $varname = 'capacity_'.$i;
@@ -676,13 +673,13 @@ class ShipMemberController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
         $ko_ship_list = Ship::select('id', 'name')->get();
         foreach($list as $member) {
             //$ship = ShipRegister::find($member['ShipID_Book']);
-            $ship = ShipRegister::where('IMO_No', $member['ShipId'])->first();
+            $ship = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $member['ShipId'])->first();
             if($ship)
                 $member['book_ship'] = $ship['shipName_En'];
             $ship = Ship::find($member['ShipID_organization']);
@@ -718,7 +715,7 @@ class ShipMemberController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolder();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 		$posList = ShipPosition::all();
         $capacityList = ShipMemberCapacity::orderByRaw('CAST(OrderNo AS SIGNED) ASC')->get();

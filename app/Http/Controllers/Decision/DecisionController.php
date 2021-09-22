@@ -49,7 +49,7 @@ class DecisionController extends Controller
 
 	// Report List
 	public function receivedReport(Request $request) {
-		$shipList = ShipRegister::orderBy('id')->get();
+		$shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
 		$params = $request->all();
 
 		$id = -1;
@@ -76,7 +76,7 @@ class DecisionController extends Controller
 
 	// Draft List
 	public function draftReport(Request $request) {
-		$shipList = ShipRegister::orderBy('id')->get();
+		$shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
 		$params = $request->all();
 
 		$id = -1;
@@ -98,7 +98,7 @@ class DecisionController extends Controller
 	}
 
 	public function analyzeReport(Request $request) {
-		$shipList = ShipRegister::orderBy('id')->get();
+		$shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
 		$params = $request->all();
 
 		$id = -1;
