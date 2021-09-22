@@ -268,13 +268,13 @@ Route::group(['prefix' => 'shipMember'], function() {
 	Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
 	Route::post('/profile/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
-	## RepaireController
-	Route::get('/repaire/register', [App\Http\Controllers\RepaireController::class, 'register'])->name('repiare.register');
-	Route::post('/repaire/update', [App\Http\Controllers\RepaireController::class, 'update'])->name('repaire.update');
-	Route::post('ajax/repaire/list',   [App\Http\Controllers\RepaireController::class, 'ajax_list']);
-	Route::post('ajax/repaire/delete',   [App\Http\Controllers\RepaireController::class, 'ajax_delete']);
+	## repairController
+	Route::get('/repair/register', [App\Http\Controllers\repairController::class, 'register'])->name('repiare.register');
+	Route::post('/repair/update', [App\Http\Controllers\repairController::class, 'update'])->name('repair.update');
+	Route::post('ajax/repair/list',   [App\Http\Controllers\repairController::class, 'ajax_list']);
+	Route::post('ajax/repair/delete',   [App\Http\Controllers\repairController::class, 'ajax_delete']);
 
-	Route::get('/repaire/list', [App\Http\Controllers\RepaireController::class, 'list'])->name('repiare.list');
-	Route::post('ajax/repaire/report',   [App\Http\Controllers\RepaireController::class, 'ajax_getReport']);
-	Route::post('ajax/repaire/search',   [App\Http\Controllers\RepaireController::class, 'ajax_search']);
+	Route::get('/repair/list', [App\Http\Controllers\repairController::class, 'list'])->name('repiare.list');
+	Route::post('ajax/repair/report',   [App\Http\Controllers\repairController::class, 'ajax_getReport']);
+	Route::post('ajax/repair/search',   [App\Http\Controllers\repairController::class, 'ajax_search']);
 });

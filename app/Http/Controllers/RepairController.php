@@ -8,10 +8,10 @@ use App\Models\ShipManage\ShipMaterialSubKind;
 use App\Models\ShipManage\ShipMaterialCategory;
 use App\Models\ShipMember\ShipPosition;
 use App\Models\BreadCrumb;
-use App\Models\Repaire;
+use App\Models\Repair;
 use Auth;
 
-class RepaireController extends Controller
+class repairController extends Controller
 {
     public function register(Request $request) {
         $url = $request->path();
@@ -59,7 +59,7 @@ class RepaireController extends Controller
         $typeList = ShipMaterialSubKind::all();
 
 
-        return view('repaire.register', [
+        return view('repair.register', [
             'shipList'      => $shipList,
             'shipId'        => $shipId,
             'shipName'      => $shipName,
@@ -77,7 +77,7 @@ class RepaireController extends Controller
     public function update(Request $request) {
         $params = $request->all();
         
-        $tbl = new Repaire();
+        $tbl = new Repair();
         $ret = $tbl->udpateData($params);
 
         return redirect()->back()->with(['message'      => 'Success']);
@@ -126,7 +126,7 @@ class RepaireController extends Controller
         // Type List from 设备清单
         $typeList = ShipMaterialSubKind::all();
 
-        return view('repaire.list', [
+        return view('repair.list', [
             'shipList'      => $shipList,
             'shipId'        => $shipId,
             'shipName'      => $shipName,
@@ -148,7 +148,7 @@ class RepaireController extends Controller
         // $ship_id = $params['ship_id'];
         // $year = $params['year'];
         // $month = $params['month'];
-        $tbl = new Repaire();
+        $tbl = new Repair();
         $list = $tbl->getList($params);
 
         return response()->json($list);
@@ -159,7 +159,7 @@ class RepaireController extends Controller
 
         if(!isset($params['ship_id'])) return false;
 
-        $tbl = new Repaire();
+        $tbl = new Repair();
         $list = $tbl->getSearch($params);
 
         return response()->json($list);
@@ -170,7 +170,7 @@ class RepaireController extends Controller
 
         if(!isset($params['ship_id'])) return false;
 
-        $tbl = new Repaire();
+        $tbl = new Repair();
         $list = $tbl->getReportList($params);
 
         return response()->json($list);
@@ -179,7 +179,7 @@ class RepaireController extends Controller
     public function ajax_delete(Request $request) {
         $id = $request->get('id');
 
-        $ret = Repaire::where('id', $id)->delete();
+        $ret = repair::where('id', $id)->delete();
 
         return response()->json($ret);
     }

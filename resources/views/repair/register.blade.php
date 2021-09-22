@@ -70,7 +70,7 @@ $ships = Session::get('shipList');
                     </div>
                     <div class="row" style="margin-top: 4px;">
                         <div class="head-fix-div common-list">
-                            <form action="{{ route('repaire.update') }}" method="post" enctype="multipart/form-data" id="repaire-form">
+                            <form action="{{ route('repair.update') }}" method="post" enctype="multipart/form-data" id="repair-form">
                                 @csrf
                                 <input type="hidden" value="{{ $shipId }}" name="ship_id">
                                 <table class="table-striped" id="table-record">
@@ -79,12 +79,12 @@ $ships = Session::get('shipList');
                                         <th class="text-center" style="width: 4%;">编号</th>
                                         <th class="text-center" style="width: 6%;">申请日期</th>
                                         <th class="text-center style-header" style="width: 6%">部门</th>
-                                        <th class="text-center style-header" style="width: 16%;">担任</th>
+                                        <th class="text-center style-header" style="width: 6%;">担任</th>
                                         <th class="text-center style-header" style="width: 8%;">种类</th>
-                                        <th class="text-left style-header" style="width: 31%;">工作内容</th>
+                                        <th class="text-left style-header" style="width: 38%;">工作内容</th>
                                         <th class="text-center style-header text-profit" style="width: 6%;">完成日期</th>
-                                        <th class="text-left style-header" style="width: 19%;">备注</th>
-                                        <th class="text-center style-header" style="width: 4%;"></th>
+                                        <th class="text-left style-header" style="width: 24%;">备注</th>
+                                        <th class="text-center style-header" style="width: 2%;"></th>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(item, index) in list">
@@ -102,7 +102,7 @@ $ships = Session::get('shipList');
                                             </td>
                                             <td class="center no-wrap">
                                                 <select class="form-control" name="charge[]" v-model="item.charge">
-                                                    <option v-for="(charge, charge_index) in chargeList" v-bind:value="charge.id">@{{ charge.Duty_En }}</option>
+                                                    <option v-for="(charge, charge_index) in chargeList" v-bind:value="charge.id">@{{ charge.Abb }}</option>
                                                 </select>
                                             </td>
                                             <td class="center no-wrap">
@@ -266,7 +266,7 @@ $ships = Session::get('shipList');
                     shipName            : '{{ $shipName }}',
                     activeYear          : activeYear,
                     activeMonth         : '{{ $activeMonth }}',
-                    activeStatus        : '{{ REPAIRE_STATUS_ALL }}',
+                    activeStatus        : '{{ repair_STATUS_ALL }}',
                     tableTitle          : '',
                 },
                 methods: {
@@ -281,7 +281,7 @@ $ships = Session::get('shipList');
                         });
                     },
                     onChangeShip: function(e) {
-                        location.href = '/repaire/register?id=' + e.target.value;
+                        location.href = '/repair/register?id=' + e.target.value;
                     },
                     onChangeYear: function(e) {
                         var confirmationMessage = 'It looks like you have been editing something. '
@@ -320,7 +320,7 @@ $ships = Session::get('shipList');
                     },
                     submitForm: function() {
                         isChangeStatus = false;
-                        $('#repaire-form').submit();
+                        $('#repair-form').submit();
                     },
                     addRow: function() {
                         let length = $_this.list.length;
@@ -353,7 +353,7 @@ $ships = Session::get('shipList');
                             if (result) {
                                 if (id != undefined) {
                                     $.ajax({
-                                        url: BASE_URL + 'ajax/repaire/delete',
+                                        url: BASE_URL + 'ajax/repair/delete',
                                         type: 'post',
                                         data: {
                                             id: id,
@@ -449,7 +449,7 @@ $ships = Session::get('shipList');
 
         function getInitInfo() {
             $.ajax({
-                url: BASE_URL + 'ajax/repaire/list',
+                url: BASE_URL + 'ajax/repair/list',
                 type: 'post',
                 data: {
                     ship_id: $_this.shipId,

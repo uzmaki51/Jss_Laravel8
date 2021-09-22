@@ -64,15 +64,15 @@ $ships = Session::get('shipList');
                                     <div class="col-lg-3">
                                         <div class="d-flex" style="margin-top: 8px;">
                                             <div class="d-flex">
-                                                <input type="radio" name="search-type" value="{{ REPAIRE_REPORT_TYPE_DEPART }}" id="search-depart" class="width-auto mt-0" :checked="search_type == 1" @click="onChangeSearchType">
+                                                <input type="radio" name="search-type" value="{{ repair_REPORT_TYPE_DEPART }}" id="search-depart" class="width-auto mt-0" :checked="search_type == 1" @click="onChangeSearchType">
                                                 <label for="search-depart" style="margin-left: 6px;">部门</label>
                                             </div>
                                             <div class="d-flex ml-1">
-                                                <input type="radio" name="search-type" value="{{ REPAIRE_REPORT_TYPE_CHARGE }}" id="search-charge" class="width-auto mt-0" :checked="search_type == 2" @click="onChangeSearchType">
+                                                <input type="radio" name="search-type" value="{{ repair_REPORT_TYPE_CHARGE }}" id="search-charge" class="width-auto mt-0" :checked="search_type == 2" @click="onChangeSearchType">
                                                 <label for="search-charge" style="margin-left: 6px;">担任</label>
                                             </div>
                                             <div class="d-flex ml-1">
-                                                <input type="radio" name="search-type" value="{{ REPAIRE_REPORT_TYPE_TYPE }}" id="search-type" class="width-auto mt-0" :checked="search_type == 3" @click="onChangeSearchType">
+                                                <input type="radio" name="search-type" value="{{ repair_REPORT_TYPE_TYPE }}" id="search-type" class="width-auto mt-0" :checked="search_type == 3" @click="onChangeSearchType">
                                                 <label for="search-type" style="margin-left: 6px;">种类</label>
                                             </div>
                                         </div>
@@ -207,7 +207,7 @@ $ships = Session::get('shipList');
                                 </div>
                                 <div class="row" style="margin-top: 4px;">
                                     <div class="head-fix-div common-list">
-                                        <form action="{{ route('repaire.update') }}" method="post" enctype="multipart/form-data" id="repaire-form">
+                                        <form action="{{ route('repair.update') }}" method="post" enctype="multipart/form-data" id="repair-form">
                                             @csrf
                                             <input type="hidden" value="{{ $shipId }}" name="ship_id">
                                             <table class="table-striped" id="table-record">
@@ -216,56 +216,40 @@ $ships = Session::get('shipList');
                                                     <th class="text-center" style="width: 4%;">编号</th>
                                                     <th class="text-center" style="width: 6%;">申请日期</th>
                                                     <th class="text-center style-header" style="width: 6%">部门</th>
-                                                    <th class="text-center style-header" style="width: 16%;">担任</th>
+                                                    <th class="text-center style-header" style="width: 6%;">担任</th>
                                                     <th class="text-center style-header" style="width: 8%;">种类</th>
-                                                    <th class="text-left style-header" style="width: 31%;">工作内容</th>
+                                                    <th class="text-left style-header" style="width: 36%;">工作内容</th>
                                                     <th class="text-center style-header text-profit" style="width: 6%;">完成日期</th>
-                                                    <th class="text-left style-header" style="width: 19%;">备注</th>
-                                                    <th class="text-center style-header" style="width: 4%;"></th>
+                                                    <th class="text-left style-header" style="width: 28%;">备注</th>
                                                 </thead>
                                                 <tbody>
                                                     <tr v-for="(item, index) in list">
-                                                        <input type="hidden" name="id[]" v-model="item.id">
                                                         <td class="center no-wrap">
-                                                            <input type="text" v-model="item.serial_no" class="form-control" readonly name="serial_no[]">
+                                                            <span>@{{ item.serial_no }}</span>
                                                         </td>
                                                         <td class="center no-wrap">
-                                                            <input class="form-control date-picker text-center" @click="dateModify($event, index, 'request_date')" type="text" data-date-format="yyyy-mm-dd" name="request_date[]" v-model="item.request_date">
+                                                            <span>@{{ item.request_date }}</span>
                                                         </td>
                                                         <td class="center no-wrap">
-                                                            <select class="form-control" name="department[]" v-model="item.department">
-                                                                <option v-for="(depart, depart_index) in departList" v-bind:value="depart.id">@{{ depart.name }}</option>
-                                                            </select>
+                                                            <span>@{{ item.department }}</span>
                                                         </td>
                                                         <td class="center no-wrap">
-                                                            <select class="form-control" name="charge[]" v-model="item.charge">
-                                                                <option v-for="(charge, charge_index) in chargeList" v-bind:value="charge.id">@{{ charge.Duty_En }}</option>
-                                                            </select>
+                                                            <span>@{{ item.charge }}</span>
                                                         </td>
                                                         <td class="center no-wrap">
-                                                            <select class="form-control" name="type[]" v-model="item.type">
-                                                                <option v-for="(type, type_index) in typeList" v-bind:value="type.id">@{{ type.name }}</option>
-                                                            </select>
+                                                            <span>@{{ item.type }}</span>
                                                         </td>
 
                                                         <td>
-                                                            <input class="form-control text-left" type="text" v-model="item.job_description" name="job_description[]" @change="onChangeInput">
+                                                            <span>@{{ item.job_description }}</span>
                                                         </td>
 
                                                         <td class="text-center">
-                                                            <input class="form-control date-picker text-center text-profit" @click="dateModify($event, index, 'completed_at')" type="text" data-date-format="yyyy-mm-dd" name="completed_at[]" v-model="item.completed_at">
+                                                            <span>@{{ item.completed_at }}</span>
                                                         </td>
 
                                                         <td>
-                                                            <input class="form-control text-left" type="text" v-model="item.remark" name="remark[]" @change="onChangeInput">
-                                                        </td>
-
-                                                        <td class="text-center">
-                                                            <div class="action-buttons">
-                                                                <a class="red" @click="deleteCertItem(item.id, index)">
-                                                                    <i class="icon-trash" style="color: red!important;"></i>
-                                                                </a>
-                                                            </div>
+                                                            <span>@{{ item.remark }}</span>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -322,7 +306,7 @@ $ships = Session::get('shipList');
                     total               : [],
 
                     complete            : 0,
-                    search_type         : '{{ REPAIRE_REPORT_TYPE_DEPART }}',
+                    search_type         : '{{ repair_REPORT_TYPE_DEPART }}',
                     typeList            : TypeList,
                     departList          : DepartList,
                     chargeList          : ChargeList,
@@ -331,7 +315,7 @@ $ships = Session::get('shipList');
                     shipName            : '{{ $shipName }}',
                     activeYear          : activeYear,
                     activeMonth         : '{{ $activeMonth }}',
-                    activeStatus        : '{{ REPAIRE_STATUS_ALL }}',
+                    activeStatus        : '{{ repair_STATUS_ALL }}',
                     tableTitle          : '',
                 },
                 methods: {
@@ -350,7 +334,7 @@ $ships = Session::get('shipList');
                         });
                     },
                     onChangeShip: function(e) {
-                        location.href = '/repaire/register?id=' + e.target.value;
+                        location.href = '/repair/list?id=' + e.target.value;
                     },
                     onChangeSearchType: function(e) {
                         let val = e.target.value;
@@ -398,7 +382,7 @@ $ships = Session::get('shipList');
                     },
                     submitForm: function() {
                         isChangeStatus = false;
-                        $('#repaire-form').submit();
+                        $('#repair-form').submit();
                     },
                     _vue_number: function(val) {
                         return __parseFloat(val) == 0 ? '' : _number_format(val, 0);
@@ -434,7 +418,7 @@ $ships = Session::get('shipList');
                             if (result) {
                                 if (id != undefined) {
                                     $.ajax({
-                                        url: BASE_URL + 'ajax/repaire/delete',
+                                        url: BASE_URL + 'ajax/repair/delete',
                                         type: 'post',
                                         data: {
                                             id: id,
@@ -532,7 +516,7 @@ $ships = Session::get('shipList');
                     shipName            : '{{ $shipName }}',
                     activeYear          : activeYear,
                     activeMonth         : '{{ $activeMonth }}',
-                    activeStatus        : '{{ REPAIRE_STATUS_ALL }}',
+                    activeStatus        : '{{ repair_STATUS_ALL }}',
                     activeDepart        : 0,
                     activeCharge        : 0,
                     activeType          : 0,
@@ -551,24 +535,34 @@ $ships = Session::get('shipList');
                         });
                     },
                     onChangeShip: function(e) {
-                        location.href = '/repaire/register?id=' + e.target.value;
+                        location.href = '/repair/list?id=' + e.target.value;
                     },
                     onChangeYear: function(e) {
-                        var confirmationMessage = 'It looks like you have been editing something. '
-                                + 'If you leave before saving, your changes will be lost.';
+                        let ship_id = this.shipId;
+                        let year = this.activeYear;
+                        let month = this.activeMonth;
+                        let depart = this.activeDepart;
+                        let charge = this.activeCharge;
+                        let type = this.activeType;
 
-                        if (isChangeStatus) {
-                            bootbox.confirm(confirmationMessage, function (result) {
-                                if (!result) {
-                                    return;
-                                }
-                                else {
-                                    getInitInfo();
-                                }
-                            });
-                        } else {
-                            getInitInfo();
-                        }
+                        $.ajax({
+                            url: BASE_URL + 'ajax/repair/search',
+                            type: 'post',
+                            data: {
+                                ship_id: ship_id,
+                                year: year,
+                                month: month,
+                                depart: depart,
+                                charge: charge,
+                                type: type,
+                            },
+                            success: function(data, status, xhr) {
+                                let result = data;
+                                recordVue.list = result;
+                                
+                                recordVue.tableTitle = recordVue.shipName + ' ' + recordVue.activeYear + '年' + recordVue.activeMonth + '月维修保养';
+                            }
+                        });
                     },
                     onChangeInput: function() {
                         isChangeStatus = true;
@@ -590,7 +584,7 @@ $ships = Session::get('shipList');
                     },
                     submitForm: function() {
                         isChangeStatus = false;
-                        $('#repaire-form').submit();
+                        $('#repair-form').submit();
                     },
                     addRow: function() {
                         let length = $_this.list.length;
@@ -623,7 +617,7 @@ $ships = Session::get('shipList');
                             if (result) {
                                 if (id != undefined) {
                                     $.ajax({
-                                        url: BASE_URL + 'ajax/repaire/delete',
+                                        url: BASE_URL + 'ajax/repair/delete',
                                         type: 'post',
                                         data: {
                                             id: id,
@@ -713,7 +707,7 @@ $ships = Session::get('shipList');
             });
 
             $.ajax({
-                url: BASE_URL + 'ajax/repaire/search',
+                url: BASE_URL + 'ajax/repair/search',
                 type: 'post',
                 data: {
                     ship_id: recordVue.shipId,
@@ -732,7 +726,7 @@ $ships = Session::get('shipList');
 
         function getInitInfo() {
             $.ajax({
-                url: BASE_URL + 'ajax/repaire/report',
+                url: BASE_URL + 'ajax/repair/report',
                 type: 'post',
                 data: {
                     ship_id: $_this.shipId,
@@ -752,7 +746,7 @@ $ships = Session::get('shipList');
 
         function getRecord(year, type, value) {
             $.ajax({
-                url: BASE_URL + 'ajax/repaire/search',
+                url: BASE_URL + 'ajax/repair/search',
                 type: 'post',
                 data: {
                     ship_id: $_this.shipId,
@@ -761,14 +755,13 @@ $ships = Session::get('shipList');
                     value: value // Value of type
                 },
                 success: function(data, status, xhr) {
-                    console.log(data);
                     let result = data;
                     recordVue.list = result;
-                    if(type == '{{ REPAIRE_REPORT_TYPE_DEPART }}') {
+                    if(type == '{{ repair_REPORT_TYPE_DEPART }}') {
                         recordVue.activeDepart = value;
                         recordVue.activeCharge = 0;
                         recordVue.activeType = 0;
-                    } else if(type == '{{ REPAIRE_REPORT_TYPE_CHARGE }}') {
+                    } else if(type == '{{ repair_REPORT_TYPE_CHARGE }}') {
                         recordVue.activeDepart = 0;
                         recordVue.activeCharge = value;
                         recordVue.activeType = 0;

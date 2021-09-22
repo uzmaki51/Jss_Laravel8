@@ -9,17 +9,17 @@ use App\Models\ShipMember\ShipPosition;
 use App\Models\ShipManage\ShipMaterialSubKind;
 use DB;
 
-class Repaire extends Model
+class Repair extends Model
 {
     use HasFactory;
-    protected $table = 'tb_ship_repaire';
+    protected $table = 'tb_ship_repair';
     
     public function getList($params) {
         $selector = self::where('ship_id', $params['ship_id'])
             ->orderBy('serial_no', 'asc');
 
-        if(isset($params['status']) && $params['status'] != REPAIRE_STATUS_ALL) {
-            if($params['status'] == REPAIRE_STATUS_UNCOMPLETE) 
+        if(isset($params['status']) && $params['status'] != repair_STATUS_ALL) {
+            if($params['status'] == repair_STATUS_UNCOMPLETE) 
                 $selector->whereNull('completed_at');
             else {
                 $selector->whereNotNull('completed_at');
@@ -46,8 +46,8 @@ class Repaire extends Model
         $selector = self::where('ship_id', $params['ship_id'])
             ->orderBy('serial_no', 'asc');
 
-        if(isset($params['status']) && $params['status'] != REPAIRE_STATUS_ALL) {
-            if($params['status'] == REPAIRE_STATUS_UNCOMPLETE) 
+        if(isset($params['status']) && $params['status'] != repair_STATUS_ALL) {
+            if($params['status'] == repair_STATUS_UNCOMPLETE) 
                 $selector->whereNull('completed_at');
             else {
                 $selector->whereNotNull('completed_at');
@@ -64,9 +64,9 @@ class Repaire extends Model
 
         if(isset($params['type']) && $params['type'] != 0) {
             $type = $params['type'];
-            if($type == REPAIRE_REPORT_TYPE_DEPART) {
+            if($type == repair_REPORT_TYPE_DEPART) {
                 $field = 'department';
-            } else if($type == REPAIRE_REPORT_TYPE_CHARGE) {
+            } else if($type == repair_REPORT_TYPE_CHARGE) {
                 $field = 'charge';
             } else {
                 $field = 'type';
@@ -84,11 +84,33 @@ class Repaire extends Model
         if($field != '' && $value != 0)
             $selector->where($field, $value);
         
-            
+        if(isset($params['depart']) && $params['depart'] != 0) 
+            $selector->where('department', $params['depart']);
+
+        if(isset($params['charge']) && $params['charge'] != 0) 
+            $selector->where('charge', $params['charge']);
+
+        if(isset($params['type']) && $params['type'] != 0) 
+            $selector->where('type', $params['type']);
+
         $date = $year . '-' . $month;
         $selector->whereRaw(DB::raw('mid(request_date, 1, 7) like "' . $date . '"'));
 
         $records = $selector->get();
+
+        foreach($records as $key => $item) {
+            $depart = ShipMaterialCategory::find($item->department);
+            if($depart == null) $records[$key]->depart = '';
+            else $records[$key]->department = $depart->name;
+
+            $charge = ShipPosition::find($item->charge);
+            if($charge == null) $records[$key]->charge = '';
+            else $records[$key]->charge = $charge->Abb;
+
+            $type = ShipMaterialSubKind::find($item->type);
+            if($type == null) $records[$key]->type = '';
+            else $records[$key]->type = $type->name;
+        }
 
         return $records;
     }
@@ -108,12 +130,12 @@ class Repaire extends Model
         if(isset($params['type'])) 
             $type = $params['type'];
         else
-            $type = REPAIRE_REPORT_TYPE_DEPART;
+            $type = repair_REPORT_TYPE_DEPART;
         
-        if($type == REPAIRE_REPORT_TYPE_DEPART) {
+        if($type == repair_REPORT_TYPE_DEPART) {
             $field = 'department';
             $list = $departList;
-        } else if($type == REPAIRE_REPORT_TYPE_CHARGE) {
+        } else if($type == repair_REPORT_TYPE_CHARGE) {
             $field = 'charge';
             $list = $posList;
         } else {
@@ -130,9 +152,9 @@ class Repaire extends Model
             for($i = 1; $i <= 12; $i ++) {
                 $date = $year . '-' . sprintf('%02d', $i);
 
-                if($type == REPAIRE_REPORT_TYPE_DEPART) {
+                if($type == repair_REPORT_TYPE_DEPART) {
                     $field = 'department';
-                } else if($type == REPAIRE_REPORT_TYPE_CHARGE) {
+                } else if($type == repair_REPORT_TYPE_CHARGE) {
                     $field = 'charge';
                 } else {
                     $field = 'type';
@@ -157,9 +179,9 @@ class Repaire extends Model
             $retVal[$item->id]['total'] = $_total_count;
             $retVal[$item->id]['complete'] = $_complete_count;
 
-            if($type == REPAIRE_REPORT_TYPE_DEPART) {
+            if($type == repair_REPORT_TYPE_DEPART) {
                 $retVal[$item->id]['label'] = $item->name;
-            } else if($type == REPAIRE_REPORT_TYPE_CHARGE) {
+            } else if($type == repair_REPORT_TYPE_CHARGE) {
                 $retVal[$item->id]['label'] = $item->Abb;
             } else {
                 $retVal[$item->id]['label'] = $item->name;
