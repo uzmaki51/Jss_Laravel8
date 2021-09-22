@@ -490,6 +490,10 @@ define('REPAIRE_STATUS_ALL', 			0);
 define('REPAIRE_STATUS_UNCOMPLETE', 	1);
 define('REPAIRE_STATUS_COMPLETE', 		2);
 
+define('REPAIRE_REPORT_TYPE_DEPART', 	1);
+define('REPAIRE_REPORT_TYPE_CHARGE', 	2);
+define('REPAIRE_REPORT_TYPE_TYPE', 		3);
+
  $g_masterData = array(
  	    'ReportTypeData'	            => $ReportTypeData,
 	    'ReportTypeLabelData'	        => $ReportTypeLabelData,

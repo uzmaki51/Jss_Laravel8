@@ -273,4 +273,8 @@ Route::group(['prefix' => 'shipMember'], function() {
 	Route::post('/repaire/update', [App\Http\Controllers\RepaireController::class, 'update'])->name('repaire.update');
 	Route::post('ajax/repaire/list',   [App\Http\Controllers\RepaireController::class, 'ajax_list']);
 	Route::post('ajax/repaire/delete',   [App\Http\Controllers\RepaireController::class, 'ajax_delete']);
+
+	Route::get('/repaire/list', [App\Http\Controllers\RepaireController::class, 'list'])->name('repiare.list');
+	Route::post('ajax/repaire/report',   [App\Http\Controllers\RepaireController::class, 'ajax_getReport']);
+	Route::post('ajax/repaire/search',   [App\Http\Controllers\RepaireController::class, 'ajax_search']);
 });

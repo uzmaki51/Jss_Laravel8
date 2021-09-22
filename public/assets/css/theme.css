@@ -976,7 +976,7 @@ footer {
     table-layout: fixed;
 }
 .voy-no {
-    background: #d9f8fb!important;
+    background: linear-gradient(rgb(255, 255, 255), rgb(217, 248, 251)) !important;
     cursor: pointer;
 }
 .voy-no:hover {

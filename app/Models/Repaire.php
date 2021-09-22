@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\ShipManage\ShipMaterialCategory;
+use App\Models\ShipMember\ShipPosition;
+use App\Models\ShipManage\ShipMaterialSubKind;
 use DB;
 
 class Repaire extends Model
@@ -37,6 +40,155 @@ class Repaire extends Model
         $records = $selector->get();
 
         return $records;
+    }
+
+    public function getSearch($params) {
+        $selector = self::where('ship_id', $params['ship_id'])
+            ->orderBy('serial_no', 'asc');
+
+        if(isset($params['status']) && $params['status'] != REPAIRE_STATUS_ALL) {
+            if($params['status'] == REPAIRE_STATUS_UNCOMPLETE) 
+                $selector->whereNull('completed_at');
+            else {
+                $selector->whereNotNull('completed_at');
+            }
+        }
+
+        $year = date('Y');
+        $month = date('m');
+        if(isset($params['year']))
+            $year = $params['year'];
+
+        if(isset($params['month']))
+            $month = sprintf('%02d', $params['month']);
+
+        if(isset($params['type']) && $params['type'] != 0) {
+            $type = $params['type'];
+            if($type == REPAIRE_REPORT_TYPE_DEPART) {
+                $field = 'department';
+            } else if($type == REPAIRE_REPORT_TYPE_CHARGE) {
+                $field = 'charge';
+            } else {
+                $field = 'type';
+            }
+        } else {
+            $field = '';
+        }
+
+        if(isset($params['value']) && $params['value'] != 0) {
+            $value = $params['value'];
+        } else {
+            $value = 0;
+        }
+
+        if($field != '' && $value != 0)
+            $selector->where($field, $value);
+        
+            
+        $date = $year . '-' . $month;
+        $selector->whereRaw(DB::raw('mid(request_date, 1, 7) like "' . $date . '"'));
+
+        $records = $selector->get();
+
+        return $records;
+    }
+
+
+    public function getReportList($params) {
+        $shipId = $params['ship_id'];
+        $departList = ShipMaterialCategory::all();
+        $posList = ShipPosition::all();
+        $typeList = ShipMaterialSubKind::all();
+
+        if(isset($params['year']))
+            $year = $params['year'];
+        else 
+            $year = date("Y");
+
+        if(isset($params['type'])) 
+            $type = $params['type'];
+        else
+            $type = REPAIRE_REPORT_TYPE_DEPART;
+        
+        if($type == REPAIRE_REPORT_TYPE_DEPART) {
+            $field = 'department';
+            $list = $departList;
+        } else if($type == REPAIRE_REPORT_TYPE_CHARGE) {
+            $field = 'charge';
+            $list = $posList;
+        } else {
+            $field = 'type';
+            $list = $typeList;
+        }
+
+        $retVal = [];
+
+        foreach($list as $key => $item) {
+            $_total_count = 0;
+            $_complete_count = 0;
+
+            for($i = 1; $i <= 12; $i ++) {
+                $date = $year . '-' . sprintf('%02d', $i);
+
+                if($type == REPAIRE_REPORT_TYPE_DEPART) {
+                    $field = 'department';
+                } else if($type == REPAIRE_REPORT_TYPE_CHARGE) {
+                    $field = 'charge';
+                } else {
+                    $field = 'type';
+                }
+
+                $total_count = self::where('ship_id', $shipId)
+                    ->whereRaw(DB::raw('mid(request_date, 1, 7) like "' . $date . '"'))
+                    ->where($field, $item->id)
+                    ->count('*');
+
+                $_total_count += $total_count;
+                $complete_count = self::where('ship_id', $shipId)
+                    ->whereRaw(DB::raw('mid(request_date, 1, 7) like "' . $date . '"'))
+                    ->where($field, $item->id)
+                    ->whereNotNull('completed_at')
+                    ->count('*');
+
+                $_complete_count += $complete_count;
+                $retVal[$item->id]['list'][$i] = [$total_count, $complete_count];
+            }
+
+            $retVal[$item->id]['total'] = $_total_count;
+            $retVal[$item->id]['complete'] = $_complete_count;
+
+            if($type == REPAIRE_REPORT_TYPE_DEPART) {
+                $retVal[$item->id]['label'] = $item->name;
+            } else if($type == REPAIRE_REPORT_TYPE_CHARGE) {
+                $retVal[$item->id]['label'] = $item->Abb;
+            } else {
+                $retVal[$item->id]['label'] = $item->name;
+            }
+        }
+
+        $_monthTotal = [];
+        $_monthComplete = [];
+        
+        $_monthTotal[0][0] = 0;
+        $_monthTotal[0][1] = 0;
+        foreach($retVal as $key => $item) {
+            $_monthTotal[0][0] += $item['total'];
+            $_monthTotal[0][1] += $item['complete'];
+        }
+        
+        for($i = 1; $i <= 12; $i ++) {
+            $_monthTotal[$i][0] = 0;
+            $_monthTotal[$i][1] = 0;
+            foreach($retVal as $key => $item) {
+                $_monthTotal[$i][0] += $item['list'][$i][0];
+                $_monthTotal[$i][1] += $item['list'][$i][1];
+            }
+        }
+
+        return array(
+            'list'  => $retVal,
+            'total' => $_monthTotal
+        );
     }
 
     public function udpateData($params) {

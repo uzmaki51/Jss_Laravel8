@@ -83,6 +83,64 @@ class RepaireController extends Controller
         return redirect()->back()->with(['message'      => 'Success']);
     }
 
+    public function list(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+            $shipList = ShipRegister::getShipForHolder();
+        else {
+            $shipList = ShipRegister::orderBy('id')->get();
+        }
+
+        $params = $request->all();
+
+        $shipRegTbl = new ShipRegister();
+
+        $shipName  = '';
+        if(isset($params['id'])) {
+            $shipId = $params['id'];
+        } else {
+            if(count($shipList) > 0) {
+                $shipId = $shipList[0]['IMO_No'];
+            } else {
+                $shipId = 0;
+            }
+        }
+        
+        $shipName = $shipRegTbl->getShipNameByIMO($shipId);
+        
+        $yearList = [2021];
+
+        if(isset($params['year'])) {
+            $activeYear = $params['year'];
+         } else {
+            $activeYear = $yearList[0];
+         }
+
+        // Department List from 设备清单
+        $departList = ShipMaterialCategory::all();
+        // Charget List
+        $posList = ShipPosition::all();
+        // Type List from 设备清单
+        $typeList = ShipMaterialSubKind::all();
+
+        return view('repaire.list', [
+            'shipList'      => $shipList,
+            'shipId'        => $shipId,
+            'shipName'      => $shipName,
+            'years'         => $yearList,
+            'activeYear'    => $activeYear,
+            'activeMonth'   => intval(date('m')),
+            'departList'    => $departList,
+            'typeList'      => $typeList,
+            'chargeList'    => $posList,
+
+            'breadCrumb'    => $breadCrumb,
+        ]);
+    }
+
     public function ajax_list(Request $request) {
         $params = $request->all();
 
@@ -92,6 +150,28 @@ class RepaireController extends Controller
         // $month = $params['month'];
         $tbl = new Repaire();
         $list = $tbl->getList($params);
+
+        return response()->json($list);
+    }
+
+    public function ajax_search(Request $request) {
+        $params = $request->all();
+
+        if(!isset($params['ship_id'])) return false;
+
+        $tbl = new Repaire();
+        $list = $tbl->getSearch($params);
+
+        return response()->json($list);
+    }
+
+    public function ajax_getReport(Request $request) {
+        $params = $request->all();
+
+        if(!isset($params['ship_id'])) return false;
+
+        $tbl = new Repaire();
+        $list = $tbl->getReportList($params);
 
         return response()->json($list);
     }
