@@ -264,7 +264,6 @@ $ships = Session::get('shipList');
 
     <script src="{{ cAsset('assets/js/moment.js') }}"></script>
     <script src="{{ cAsset('assets/js/vue.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sprintf/1.1.2/sprintf.min.js"></script>
 
 	<?php
 	echo '<script>';
@@ -384,59 +383,7 @@ $ships = Session::get('shipList');
                     _vue_number: function(val) {
                         return __parseFloat(val) == 0 ? '' : _number_format(val, 0);
                     },
-                    addRow: function() {
-                        let length = $_this.list.length;
-                        isChangeStatus = true;
-                        if(length == 0) {
-                            this.list.push([]);
-                            this.list[length].request_date = this.getToday('-');
-                            this.list[length].department = 1;
-                            this.list[length].charge = 1;
-                            this.list[length].type = 1;
-                            this.list[length].job_description = '';
-                            this.list[length].completed_at = '';
-                            this.list[length].remark = '';
-                        } else {
-                            this.list.push([]);
-                            this.list[length].request_date = this.list[length - 1].request_date;
-                            this.list[length].department = this.list[length - 1].department;
-                            this.list[length].charge = this.list[length - 1].charge;
-                            this.list[length].type = this.list[length - 1].type;
-                            this.list[length].job_description = '';
-                            this.list[length].completed_at = this.list[length - 1].completed_at;
-                            this.list[length].remark = '';
-                        }
 
-                        this.processSN();
-                    },
-                    deleteCertItem(id, index) {
-                        __alertAudio();
-                        bootbox.confirm("Are you sure you want to delete?", function (result) {
-                            if (result) {
-                                if (id != undefined) {
-                                    $.ajax({
-                                        url: BASE_URL + 'ajax/repair/delete',
-                                        type: 'post',
-                                        data: {
-                                            id: id,
-                                        },
-                                        success: function (data, status, xhr) {
-                                            $_this.list.splice(index, 1);
-                                            $_this.processSN();
-                                        }
-                                    })
-                                } else {
-                                    $_this.list.splice(index, 1);
-                                    $_this.processSN();
-                                }
-                            }
-                        });
-                    },
-                    processSN() {
-                        $_this.list.forEach(function(value, key) {
-                            $_this.list[key]['serial_no'] = sprintf('%02d', $_this.activeMonth) + sprintf('%03d', key + 1)
-                        });
-                    },
                     fnExcelRecord() {
                         var tab_text = "";
                         tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
@@ -583,59 +530,7 @@ $ships = Session::get('shipList');
                         isChangeStatus = false;
                         $('#repair-form').submit();
                     },
-                    addRow: function() {
-                        let length = $_this.list.length;
-                        isChangeStatus = true;
-                        if(length == 0) {
-                            this.list.push([]);
-                            this.list[length].request_date = this.getToday('-');
-                            this.list[length].department = 1;
-                            this.list[length].charge = 1;
-                            this.list[length].type = 1;
-                            this.list[length].job_description = '';
-                            this.list[length].completed_at = '';
-                            this.list[length].remark = '';
-                        } else {
-                            this.list.push([]);
-                            this.list[length].request_date = this.list[length - 1].request_date;
-                            this.list[length].department = this.list[length - 1].department;
-                            this.list[length].charge = this.list[length - 1].charge;
-                            this.list[length].type = this.list[length - 1].type;
-                            this.list[length].job_description = '';
-                            this.list[length].completed_at = this.list[length - 1].completed_at;
-                            this.list[length].remark = '';
-                        }
 
-                        this.processSN();
-                    },
-                    deleteCertItem(id, index) {
-                        __alertAudio();
-                        bootbox.confirm("Are you sure you want to delete?", function (result) {
-                            if (result) {
-                                if (id != undefined) {
-                                    $.ajax({
-                                        url: BASE_URL + 'ajax/repair/delete',
-                                        type: 'post',
-                                        data: {
-                                            id: id,
-                                        },
-                                        success: function (data, status, xhr) {
-                                            $_this.list.splice(index, 1);
-                                            $_this.processSN();
-                                        }
-                                    })
-                                } else {
-                                    $_this.list.splice(index, 1);
-                                    $_this.processSN();
-                                }
-                            }
-                        });
-                    },
-                    processSN() {
-                        $_this.list.forEach(function(value, key) {
-                            $_this.list[key]['serial_no'] = sprintf('%02d', $_this.activeMonth) + sprintf('%03d', key + 1)
-                        });
-                    },
                     fnExcelRecord() {
                         var tab_text = "";
                         tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";

@@ -143,7 +143,7 @@ $ships = Session::get('shipList');
 
     <script src="{{ cAsset('assets/js/moment.js') }}"></script>
     <script src="{{ cAsset('assets/js/vue.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sprintf/1.1.2/sprintf.min.js"></script>
+    <script src="{{ cAsset('assets/js/sprintf.min.js') }}"></script>
 
 	<?php
 	echo '<script>';
