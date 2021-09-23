@@ -192,11 +192,8 @@ $ships = Session::get('shipList');
                                         
                                     </div>
                                     <div class="col-lg-5">
-
                                         <div class="btn-group f-right">
-                                            <button class="btn btn-primary btn-sm search-btn" @click="addRow"><i class="icon-plus"></i>添加</button>
-                                            <button class="btn btn-sm btn-success" @click="submitForm"><i class="icon-save"></i>保存</button>
-                                            <button class="btn btn-warning btn-sm excel-btn d-none" @click="fnExcelRecord"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
+                                            <button class="btn btn-warning btn-sm excel-btn" @click="fnExcelRecord"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                                         </div>
                                         <select class="custom-select f-right" style="margin-right: 10px;" @change="onChangeYear" v-model="activeStatus">
                                             <option value="0"></option>
@@ -218,9 +215,9 @@ $ships = Session::get('shipList');
                                                     <th class="text-center style-header" style="width: 6%">部门</th>
                                                     <th class="text-center style-header" style="width: 6%;">担任</th>
                                                     <th class="text-center style-header" style="width: 8%;">种类</th>
-                                                    <th class="text-left style-header" style="width: 36%;">工作内容</th>
+                                                    <th class="text-center style-header" style="width: 36%;">工作内容</th>
                                                     <th class="text-center style-header text-profit" style="width: 6%;">完成日期</th>
-                                                    <th class="text-left style-header" style="width: 28%;">备注</th>
+                                                    <th class="text-center style-header" style="width: 28%;">备注</th>
                                                 </thead>
                                                 <tbody>
                                                     <tr v-for="(item, index) in list">

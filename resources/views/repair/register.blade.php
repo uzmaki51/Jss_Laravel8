@@ -81,9 +81,9 @@ $ships = Session::get('shipList');
                                         <th class="text-center style-header" style="width: 6%">部门</th>
                                         <th class="text-center style-header" style="width: 6%;">担任</th>
                                         <th class="text-center style-header" style="width: 8%;">种类</th>
-                                        <th class="text-left style-header" style="width: 38%;">工作内容</th>
+                                        <th class="text-center style-header" style="width: 38%;">工作内容</th>
                                         <th class="text-center style-header text-profit" style="width: 6%;">完成日期</th>
-                                        <th class="text-left style-header" style="width: 24%;">备注</th>
+                                        <th class="text-center style-header" style="width: 24%;">备注</th>
                                         <th class="text-center style-header" style="width: 2%;"></th>
                                     </thead>
                                     <tbody>
@@ -320,7 +320,26 @@ $ships = Session::get('shipList');
                     },
                     submitForm: function() {
                         isChangeStatus = false;
+                        let validate = this.validateForm();
+                        if(validate == false) {
+                            alert('请您必须填数据.');
+                            return false;
+                        }
+
                         $('#repair-form').submit();
+                    },
+                    validateForm: function() {
+                        let retVal = true;
+                        this.list.forEach(function(value, key) {
+                            if(value['request_date'] == '' ||
+                                value['department'] == 0 ||
+                                value['charge'] == 0 ||
+                                value['type'] == 0||
+                                value['job_description'] == '')
+                                retVal = false;
+                        });
+
+                        return retVal;
                     },
                     addRow: function() {
                         let length = $_this.list.length;
