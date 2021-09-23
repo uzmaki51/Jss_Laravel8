@@ -597,7 +597,7 @@ $ships = Session::get('shipList');
                     $_this.list = data.list;
                     $_this.total = data.total;
 
-                    $_this.tableTitle = $_this.shipName + ' ' + $_this.activeYear + '年' + $_this.activeMonth + '月维修保养';
+                    $_this.tableTitle = $_this.shipName + ' ' + $_this.activeYear + '年' + '维修保养';
                 }
             });
         }
@@ -629,7 +629,7 @@ $ships = Session::get('shipList');
                         recordVue.activeType = value;
                     }
                     
-                    recordVue.tableTitle = $_this.shipName + ' ' + $_this.activeYear + '年' + $_this.activeMonth + '月维修保养';
+                    recordVue.tableTitle = $_this.shipName + ' ' + $_this.activeYear + '年' + '维修保养';
                     $('#report-link').removeClass('active');
                     $('#data-link').addClass('active');
                     $('#report-list-div').removeClass('active');
