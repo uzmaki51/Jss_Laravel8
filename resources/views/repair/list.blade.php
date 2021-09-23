@@ -207,7 +207,7 @@ $ships = Session::get('shipList');
                                         <form action="{{ route('repair.update') }}" method="post" enctype="multipart/form-data" id="repair-form">
                                             @csrf
                                             <input type="hidden" value="{{ $shipId }}" name="ship_id">
-                                            <table class="table-striped" id="table-record">
+                                            <table class="table-striped" id="table-record-list">
                                                 <thead class="">
                                                     <th class="d-none"></th>
                                                     <th class="text-center" style="width: 4%;">编号</th>
@@ -389,44 +389,25 @@ $ships = Session::get('shipList');
                         tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
                         real_tab = document.getElementById('table-record');
                         var tab = real_tab.cloneNode(true);
-                        tab_text=tab_text+"<tr><td colspan='12' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + " " + recordVue._data.activeYear + "年备件物料" + "</td></tr>";
+                        tab_text=tab_text+"<tr><td colspan='27' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + reportVue.tableTitle + "</td></tr>";
                         
+                        tab.rows[0].childNodes[0].style.width = "120px";
                         for(var j = 0; j < tab.rows.length ; j++)
                         {
-                            if (j == 0) {
+                            if (j == 0 || j == 1) {
                                 for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
                                     tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                                 }
-                                tab.rows[j].childNodes[24].remove();
-                                tab.rows[j].childNodes[0].remove();
                             }
-                            else
-                            {
-                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
-                                    if (i == 4) {
-                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
-                                        tab.rows[j].childNodes[i].innerHTML = PlaceType[info];
-                                    }
-                                    else if (i == 6) {
-                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
-                                        tab.rows[j].childNodes[i].innerHTML = VarietyType[info]
-                                    }
-                                    else if (i == 16) {
-                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
-                                        tab.rows[j].childNodes[i].innerHTML = UnitData[info];
-                                    }
-                                    else if (i == 0 || i == 22) {
-
-                                    }
-                                    else {
-                                        var info = real_tab.rows[j].childNodes[i].childNodes[0].value;
-                                        tab.rows[j].childNodes[i].innerHTML = info;
+                            else if (j == tab.rows.length - 1) {
+                                for (var i=0; i<=40;i++) {
+                                    if (tab.rows[j].childNodes[i].nodeName != "#text")
+                                    {
+                                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                                     }
                                 }
-                                tab.rows[j].childNodes[24].remove();
                             }
-                            
-                            
+
                             tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                         }
                         tab_text=tab_text+"</table>";
@@ -434,7 +415,7 @@ $ships = Session::get('shipList');
                         tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
                         tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-                        var filename = $('#search_info').html() + '_' + recordVue._data.activeYear + "年备件物料";
+                        var filename = reportVue.tableTitle;
                         exportExcel(tab_text, filename, filename);
                         
                         return 0;
@@ -534,45 +515,30 @@ $ships = Session::get('shipList');
                     fnExcelRecord() {
                         var tab_text = "";
                         tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
-                        real_tab = document.getElementById('table-record');
+                        real_tab = document.getElementById('table-record-list');
                         var tab = real_tab.cloneNode(true);
-                        tab_text=tab_text+"<tr><td colspan='12' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + " " + recordVue._data.activeYear + "年备件物料" + "</td></tr>";
+                        tab_text=tab_text+"<tr><td colspan='8' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + recordVue.tableTitle + "</td></tr>";
+                        
                         
                         for(var j = 0; j < tab.rows.length ; j++)
                         {
                             if (j == 0) {
-                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
-                                    tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
-                                }
-                                tab.rows[j].childNodes[24].remove();
                                 tab.rows[j].childNodes[0].remove();
-                            }
-                            else
-                            {
-                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
-                                    if (i == 4) {
-                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
-                                        tab.rows[j].childNodes[i].innerHTML = PlaceType[info];
-                                    }
-                                    else if (i == 6) {
-                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
-                                        tab.rows[j].childNodes[i].innerHTML = VarietyType[info]
-                                    }
-                                    else if (i == 16) {
-                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
-                                        tab.rows[j].childNodes[i].innerHTML = UnitData[info];
-                                    }
-                                    else if (i == 0 || i == 22) {
-
-                                    }
-                                    else {
-                                        var info = real_tab.rows[j].childNodes[i].childNodes[0].value;
-                                        tab.rows[j].childNodes[i].innerHTML = info;
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i++) {
+                                    if (tab.rows[j].childNodes[i].nodeName != "#text")
+                                    {
+                                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                                     }
                                 }
-                                tab.rows[j].childNodes[24].remove();
+                                tab.rows[0].childNodes[1].style.width = "80px";
+                                tab.rows[0].childNodes[3].style.width = "100px";
+                                tab.rows[0].childNodes[5].style.width = "60px";
+                                tab.rows[0].childNodes[7].style.width = "90px";
+                                tab.rows[0].childNodes[9].style.width = "100px";
+                                tab.rows[0].childNodes[11].style.width = "300px";
+                                tab.rows[0].childNodes[13].style.width = "100px";
+                                tab.rows[0].childNodes[15].style.width = "400px";
                             }
-                            
                             
                             tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                         }
@@ -580,8 +546,8 @@ $ships = Session::get('shipList');
                         tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
                         tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
                         tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
-
-                        var filename = $('#search_info').html() + '_' + recordVue._data.activeYear + "年备件物料";
+                        
+                        var filename = recordVue.tableTitle;
                         exportExcel(tab_text, filename, filename);
                         
                         return 0;

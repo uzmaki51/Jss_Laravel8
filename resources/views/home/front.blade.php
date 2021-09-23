@@ -433,7 +433,7 @@
                     </div>
                     <div class="row default-style main-panel">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body margin-for-mobile">
                                 <div class="row">
                                     <div class="col-md-12" style="margin-top:4px;width:100%!important;">
                                         <div class="row" style="text-align:center;">
@@ -1097,6 +1097,40 @@
                                 align: 'center',
                                 verticalAlign: 'bottom'
                             },
+                            xAxis: {
+                                categories: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+                                lineWidth: 1,
+                                labels: {
+                                    style: {
+                                        fontSize: '6px'
+                                    }
+                                }
+                            },
+                            yAxis: {
+                                allowDecimals: false,
+                                title: {
+                                    text: null
+                                },
+                                labels: {
+                                    formatter: function() {
+                                        if (this.value < 0) {
+                                            return '<label style="color:red">' + '$ ' + prettyValue2(this.value/1000) + 'K</label>';
+                                        }
+                                        else return '$ ' + prettyValue2(this.value/1000) + 'K';
+                                    },
+                                    x: 5,
+                                    y: -3,
+                                    style: {
+                                        fontSize: '6px',
+                                        padding: '0px'
+                                    }
+                                },
+                                plotLines: [{
+                                    value: 0,
+                                    width: 2,
+                                    color: '#000'
+                                }]
+                            },
                         }
                     }]
                 }
@@ -1207,9 +1241,8 @@
                                 },
                                 labels: {
                                     style: {
-                                        fontSize: 15,
-                                        color: 'black',
-                                        fontWeight: 'bold'
+                                        fontSize: 12,
+                                        color: 'black'
                                     }
                                 },
                             },
@@ -1223,6 +1256,9 @@
                                             return '<label style="color:red">' + '$ ' + prettyValue2(this.value/1000) + 'K</label>';
                                         }
                                         else return '$ ' + prettyValue2(this.value/1000) + 'K';
+                                    },
+                                    style: {
+                                        fontSize: 6
                                     }
                                 },
                                 plotLines: [{

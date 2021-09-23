@@ -392,6 +392,10 @@ div.input table tbody tr td
 
 }
 
+.margin-for-mobile {
+
+}
+
 @media (max-width: 768px) {
     .sp-menu {
         display: block;
@@ -564,6 +568,10 @@ div.input table tbody tr td
 
     .graph-height {
         height: 200px;
+    }
+
+    .margin-for-mobile {
+        margin: 0px -20px!important;
     }
 }
 @media (max-width: 375px) {
