@@ -801,11 +801,13 @@ class ShipRegController extends Controller
             }
         }
 
-        $start_year = ShipMaterialRegistry::select(DB::raw('MIN(year) as min_date'))->first();
-        if(empty($start_year)) {
+        //$start_year = ShipMaterialRegistry::select(DB::raw('MIN(year) as min_date'))->first();
+        //$start_year = ShipRegister::where('RegStatus', '!=', 3)->select(DB::raw('MIN(RegDate) as min_date'))->first();
+        if($shipNameInfo == null) {
             $start_year = '2020';
         } else {
-            $start_year = substr($start_year['min_date'],0,4);
+            $start_year = $shipNameInfo['RegDate'];
+            $start_year = substr($start_year,0,4);
         }
 
         if (!isset($year)) {
@@ -834,6 +836,7 @@ class ShipRegController extends Controller
         }
 
         $shipId = $request->get('id'); 
+        $year = $request->get('year');
 	    $shipNameInfo = null;
         if(isset($shipId)) {
 	        $shipNameInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No',$shipId)->first();
@@ -863,21 +866,35 @@ class ShipRegController extends Controller
             $start_year = $record->start_year;
         }
         */
+
+        /*
         $start_year = ShipMaterialRegistry::select(DB::raw('MIN(year) as min_date'))->first();
         if(empty($start_year)) {
             $start_year = '2020';
         } else {
             $start_year = substr($start_year['min_date'],0,4);
         }
+        */
+        if($shipNameInfo == null) {
+            $start_year = '2020';
+        } else {
+            $start_year = $shipNameInfo['RegDate'];
+            $start_year = substr($start_year,0,4);
+        }
 
         $materialCategory = ShipMaterialCategory::all();
         $materialType = ShipMaterialSubKind::all();
+
+        if (!isset($year)) {
+            $year = date("Y");
+        }
         
         return view('shipManage.ship_material_list', [
         	    'shipList'      => $shipRegList,
                 'shipName'      => $shipNameInfo,
                 'shipId'        => $shipId,
                 'start_year'    => $start_year,
+                'year'          => $year,
                 'category'      => $materialCategory,
                 'type'          => $materialType,
                 'breadCrumb'    => $breadCrumb
