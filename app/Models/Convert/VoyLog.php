@@ -171,9 +171,7 @@ class VoyLog extends Model
             $retVal['max_date'] = $max_date;
             $retVal['prevData'] = $before;
             $retVal['currentData'] = $current;
-        } else {
-            // Get analyzed data group by Year
-
+        } else {    // Get analyzed data group by Year
             // Get suffix of year (Ex. 2021 => 21)
             $year = substr($date, 2, 2);
             $records = self::where('Ship_ID', $shipId)

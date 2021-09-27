@@ -19,9 +19,9 @@ return [
 
 	'table'		=> [
 		'no'				=> '审批<br>编号',
-		'type'				=> '文件<br>种类',
+		'type'				=> '<span class="for-pc">文件<br></span>种类',
 		'date'				=> '日期',
-		'state'				=> '审批<br>状态',
+		'state'				=> '<span class="for-pc">审批<br></span>状态',
 		'shipName'			=> '对象',
 		'voy_no'			=> '航次',
 		'profit_type'		=> '收支<br>种类',

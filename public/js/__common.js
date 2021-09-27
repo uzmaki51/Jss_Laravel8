@@ -13,7 +13,7 @@ $(function() {
     } else 
         alpha = 50;
 
-    let setHeight = parseInt($('.inner-wrap').innerHeight()) - 180 - alpha;
+    let setHeight = parseInt($('.inner-wrap').innerHeight()) - 120 - alpha;
     $('.common-list').css({'height': setHeight + 'px'});
 
     checkDecisionRecord();

@@ -24,7 +24,7 @@
 @section('content')
     <div class="main-content">
         <div class="page-content">
-            <div class="page-header">
+            <div class="page-header for-pc">
                 <div class="col-md-6">
                     <h4><b>审批文件</b></h4>
                 </div>
