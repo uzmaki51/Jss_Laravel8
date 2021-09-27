@@ -703,7 +703,9 @@ class ShipMember extends Model
         $selector = null;
         $records = [];
         $recordsFiltered = 0;
-        if (!isset($params['columns'][3]['search']['value']) ||
+        if (!isset($params['columns'][2]['search']['value']) ||
+            $params['columns'][2]['search']['value'] == '' ||
+            !isset($params['columns'][3]['search']['value']) ||
             $params['columns'][3]['search']['value'] == '' ||
             !isset($params['columns'][4]['search']['value']) ||
             $params['columns'][4]['search']['value'] == '' ||
@@ -726,7 +728,7 @@ class ShipMember extends Model
             $minus_days = $params['columns'][5]['search']['value'];
             $rate = $params['columns'][6]['search']['value'];
         }
-        $wage_list_record = ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->first();
+        $wage_list_record = ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('type', 0)->first();
         if (!is_null($wage_list_record)) {
             return $this->getCalcList($params, $wage_list_record, $shipId, $year, $month);
         }

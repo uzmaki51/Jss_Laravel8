@@ -406,11 +406,12 @@ $isHolder = Session::get('IS_HOLDER');
             var calc_date;
             if (original)
                 calc_date = today;
-            else {
+            else {/*
                 calc_date = info.report_date.substr(0, 10);
                 if (origForm != "" && origForm != $form.serialize()) {
                     calc_date = today;
-                }
+                }*/
+                calc_date = today;
             }
             
             var TransInR = $('input[name="TransInR[]"]');
@@ -528,11 +529,11 @@ $isHolder = Session::get('IS_HOLDER');
             }
             else
             {
+                listTable.column(2).search(shipId, false, false);
                 listTable.column(3).search(year, false, false);
                 listTable.column(4).search(month, false, false);
                 listTable.column(5).search(minus_days, false, false);
-                listTable.column(6).search(rate, false, false);
-                listTable.column(2).search($("#select-ship").val(), false, false).draw();
+                listTable.column(6).search(rate, false, false).draw();
             }
         }
 
