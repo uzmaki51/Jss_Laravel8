@@ -300,11 +300,16 @@ $ships = Session::get('shipList');
             select_type = $("#select-type").val();
             if (select_year == 0) $('#title_year').html('')
             else $('#title_year').html(select_year + '年');
-            //getShipInfo(ship_id, select_year, select_category, select_type);
-            location.href = "/shipManage/shipMaterialManage?id=" + ship_id + "&year=" + select_year;
+            getShipInfo(ship_id, select_year, select_category, select_type);
         }
 
-        $('#select-ship, #select-year, #select-category, #select-type').on('change', function() {
+        $('#select-ship').on('change', function() {
+            ship_id = $("#select-ship").val();
+            select_year = $("#select-year").val();
+            location.href = "/shipManage/shipMaterialManage?id=" + ship_id + "&year=" + select_year;
+        });
+        
+        $('#select-year, #select-category, #select-type').on('change', function() {
             changeInfo();
         });
 

@@ -440,6 +440,7 @@ $isHolder = Session::get('IS_HOLDER');
         initReportTable();
         function prettyValue(value)
         {
+            if(value == undefined || value == null) return '';
             return parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
         $('#select-report-year').on('change', function() {

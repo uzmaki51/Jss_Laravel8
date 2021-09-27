@@ -587,11 +587,13 @@ $ships = Session::get('shipList');
 
         function prettyValue(value)
         {
+            if(value == undefined || value == null) return '';
             return parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
         function prettyValue2(value)
         {
+            if(value == undefined || value == null) return '';
             return parseFloat(value).toFixed(0).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 

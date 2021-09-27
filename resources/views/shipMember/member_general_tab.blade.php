@@ -355,7 +355,7 @@
                             <input onfocus="addHistory(this)" class="form-control date-picker" style="width: 100%;text-align: center"
                                 type="text" data-date-format="yyyy-mm-dd"
                                 name="FromDate[]"
-                                value="{{$history['FromDate']}}">
+                                value="{{$history['FromDate']}}" autocomplete="off">
                             <span class="input-group-addon">
                                 <i class="icon-calendar bigger-110"></i>
                             </span>
@@ -366,7 +366,7 @@
                             <input onfocus="addHistory(this)" class="form-control date-picker" style="width: 100%;text-align: center"
                                 type="text" data-date-format="yyyy-mm-dd"
                                 name="ToDate[]"
-                                value="{{$history['ToDate']}}">
+                                value="{{$history['ToDate']}}" autocomplete="off">
                             <span class="input-group-addon">
                                 <i class="icon-calendar bigger-110"></i>
                             </span>
@@ -374,7 +374,7 @@
                     </td>
                     <td class="no-padding">
                         <input onfocus="addHistory(this)" type="text" class="form-control" name="ShipName[]" 
-                            value="{{$history['Ship']}}" style="width: 100%;text-align: center">
+                            value="{{$history['Ship']}}" style="width: 100%;text-align: center" autocomplete="off">
                     </td>
                     <td class="no-padding">
                         <select onfocus="addHistory(this)" name="DutyID[]" class="form-control" style="padding:0px!important;color:#12539b!important">
@@ -386,7 +386,7 @@
                     </td>
                     <td class="no-padding">
                         <input onfocus="addHistory(this)" type="text" class="form-control" name="GT[]"
-                            value="{{$history['GrossTonage']}}" style="width: 100%;text-align: center">
+                            value="{{$history['GrossTonage']}}" style="width: 100%;text-align: center" autocomplete="off">
                     </td>
                     <td class="no-padding">
                         <select onfocus="addHistory(this)" class="form-control" style="padding:0px!important;color:#12539b!important" name="ShipType[]">
@@ -398,11 +398,11 @@
                     </td>
                     <td class="no-padding">
                         <input onfocus="addHistory(this)" type="text" class="form-control" name="Power[]"
-                            value="{{$history['Power']}}" style="width: 100%;text-align: center">
+                            value="{{$history['Power']}}" style="width: 100%;text-align: center" autocomplete="off">
                     </td>
                     <td class="no-padding">
                         <input onfocus="addHistory(this)" type="text" class="form-control" name="TradingArea[]"
-                            value="{{$history['SailArea']}}" style="width: 100%;text-align: center">
+                            value="{{$history['SailArea']}}" style="width: 100%;text-align: center" autocomplete="off">
                     </td>
                     <td class="center no-padding">
                         <div class="action-buttons">

@@ -739,7 +739,15 @@ $ships = Session::get('shipList');
             });
         }
 
-        $('#select-ship, #select-year').on('change', function() {
+        $('#select-ship').on('change', function() {
+            ship_id = $("#select-ship").val();
+            select_year = $("#select-year").val();
+            if (select_year == 0) $('#title_year').html('')
+            else $('#title_year').html(select_year + '年');
+            location.href = "/shipManage/shipMaterialList?id=" + ship_id + "&year=" + select_year;
+        });
+
+        $('#select-year').on('change', function() {
             changeInfo();
         });
 
@@ -749,8 +757,8 @@ $ships = Session::get('shipList');
             if (select_year == 0) $('#title_year').html('')
             else $('#title_year').html(select_year + '年');
 
-            //getShipInfo(ship_id, select_year);
-            location.href = "/shipManage/shipMaterialList?id=" + ship_id + "&year=" + select_year;
+            getShipInfo(ship_id, select_year);
+            //location.href = "/shipManage/shipMaterialList?id=" + ship_id + "&year=" + select_year;
         }
 
         $('#submit').on('click', function() {

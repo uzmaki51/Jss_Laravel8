@@ -226,6 +226,7 @@ $isHolder = Session::get('IS_HOLDER');
 
         function prettyValue(value)
         {
+            if(value == undefined || value == null) return '';
             return parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 

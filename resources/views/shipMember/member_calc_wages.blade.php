@@ -21,6 +21,10 @@ $isHolder = Session::get('IS_HOLDER');
             .cost-item-odd:hover {
                 background-color: #ffe3e082;
             }
+
+            label {
+                word-break: break-all;
+            }
         </style>
         <div class="page-content">
         <form id="wage-form" action="updateWageCalcInfo" role="form" method="POST" enctype="multipart/form-data">
@@ -108,7 +112,7 @@ $isHolder = Session::get('IS_HOLDER');
                                             <th class="text-center style-normal-header" style="width: 7%;"><span>上船日期</span></th>
                                             <th class="text-center style-normal-header" style="width: 7%;"><span>下船/截止日期</span></th>
                                             <th class="text-center style-normal-header" style="width: 4%;"><span>在船天数</span></th>
-                                            <th class="text-center style-normal-header" style="width: 5%;"><span>扣款</span></th>
+                                            <th class="text-center style-normal-header" style="width: 5%;">扣款<br><span style="color:red">(¥)</span></th>
                                             <th class="text-center style-normal-header" style="width: 7%;">家汇款<br><span style="color:red">(¥)</span></th>
                                             <th class="text-center style-normal-header" style="width: 7%;">家汇款<br><span style="color:#1565C0">($)</span></th>
                                             <th class="text-center style-normal-header" style="width: 7%;"><span>支付日期</span></th>
@@ -343,7 +347,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(6).html('<div class="input-group"><input class="form-control add-trans-date date-picker text-center" name="DateOffboard[]" type="text" data-date-format="yyyy-mm-dd" value="' + data['DateOffboard'] + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
 
                     $('td', row).eq(7).html('<label>' + data['SignDays'] + '</label><input type="hidden" name="SignDays[]" value="' + data['SignDays'] + '">');
-                    $('td', row).eq(8).html('<input type="text" class="form-control add-minus" name="MinusCash[]" value="' + data['MinusCash'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(8).html('<input type="text" class="form-control add-minus" name="MinusCash[]" value="' + prettyValue(data['MinusCash']) + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(9).html('<label>' + data['TransInR'] + '</label><input type="hidden" name="TransInR[]" value="' + __parseStr(data['TransInR']) + '">');
                     $('td', row).eq(10).html('<label>' + data['TransInD'] + '</label><input type="hidden" name="TransInD[]" value="' + __parseStr(data['TransInD']) + '">');
                     $('td', row).eq(11).html('<div class="input-group"><input class="form-control add-trans-date date-picker text-center" name="TransDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + data['TransDate'] + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
@@ -426,6 +430,8 @@ $isHolder = Session::get('IS_HOLDER');
             var sum_pre = 0;
             var year = $("#select-year option:selected").val();
             var month = $("#select-month option:selected").val();
+            minus_days = $("#minus-days").val();
+            rate = $("#rate").val();
 
             var next = "", now = "";
             var next_year=year;
@@ -448,13 +454,15 @@ $isHolder = Session::get('IS_HOLDER');
                 setValue(No[i], i + 1, false);
                 $(No[i]).contents()[0].nodeValue=i + 1;
                 var m = parseFloat(minus[i].value.replaceAll(',',''));
+                //if(m == undefined || m == null) m = 0;
                 var s = parseFloat(salary[i].value.replaceAll(',',''));
+                //if(s == undefined || s == null) s = 0;
                 var don = dateon[i].value;
                 var doff = dateoff[i].value;
                 if (don < now) don = now;
                 var diff = new Date(new Date(doff) - new Date(don));
                 var signon_days = diff/1000/60/60/24+1;
-                if (signon_days != td) signon_days = signon_days - minus_days;
+                if (signon_days != td) signon_days = signon_days.toFixed(0) - minus_days;
                 setValue(days[i], signon_days, false);
                 var dd = parseFloat(signon_days);
                 var _R = 0;
@@ -491,13 +499,15 @@ $isHolder = Session::get('IS_HOLDER');
 
         function prettyValue(value)
         {
-            //console.log(value, ",", parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,"));
-            return parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+            if(value == undefined || value == null) return '';
+            var val = parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+            if (isNaN(val)) val = 0;
+            return parseFloat(val).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
         function setDatePicker() {
             if (POS == HOLDER || POS == CAPTAIN) return;
-            $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
+            $('.date-picker').datepicker({autoclose: true, format: 'yyyy-mm-dd',}).next().on(ace.click_event, function () {
                 $(this).prev().focus();
             });
         }
@@ -679,6 +689,10 @@ $isHolder = Session::get('IS_HOLDER');
             $('input[name="Salary[]"]').on('change', function(evt) {
                 if (evt.target.value == '') return;
                 var val = evt.target.value.replaceAll(',','');
+                val = parseFloat(val);
+                if (isNaN(val)) {
+                    val = 0;
+                }
                 $(evt.target).val(prettyValue(val));
 
                 calcReport();
@@ -690,19 +704,33 @@ $isHolder = Session::get('IS_HOLDER');
             });
             */
             $('input[name="MinusCash[]"]').on('change', function(evt) {
+                /*
                 if (evt.target.value == '') return;
                 var val = evt.target.value.replaceAll(',','');
+                val = parseFloat(val);
+                if (isNaN(val)) {
+                    val = 0;
+                }
                 $(evt.target).val(prettyValue(val));
-
+                */
                 calcReport();
             });
-
+            
             $('input[name="TransDate[]"]').on('keyup', function(e) {
                 calcReport();
             });
 
-            $('.add-trans-date').on('change', function(e) {
-                calcReport();
+            $('.add-trans-date').on('change', function(evt) {
+                
+                if (evt.target.value == '')  return;
+                var val = evt.target.value;
+                val1 = Date.parse(val);
+                console.log(val1);
+                if (isNaN(val1)==true && val!==''){
+                    alert("error");
+                } else {
+                    calcReport();
+                }
             });
 
             $('.add-no').unbind().on('click', function(e) {
