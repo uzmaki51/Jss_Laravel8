@@ -28,13 +28,18 @@ $ships = Session::get('shipList');
             }
             .auto-area {
                 resize: none;
+                height: 20px!important;
+            }
+
+            table tbody tr td {
+                padding:0px!important;
             }
         </style>
         <div class="page-content">
             <div class="page-header">
                 <div class="col-md-3">
                     <h4>
-                        <b>船舶设备清单</b>
+                        <b>设备清单</b>
                     </h4>
                 </div>
             </div>
@@ -55,7 +60,7 @@ $ships = Session::get('shipList');
                             @endfor
                         </select>
                         @if(isset($shipName['shipName_En']))
-                            <strong class="f-right" style="font-size: 16px; padding-top: 6px;">"<span id="ship_name">{{ $shipName['shipName_En'] }}</span>" 设备清单</strong>
+                            <strong class="f-right" style="font-size: 16px; padding-top: 6px;">"<span id="ship_name">{{ $shipName['shipName_En'] }}</span>" <span id="title_year"></span>设备清单</strong>
                         @endif
                     </div>
                     <div class="col-lg-6">
@@ -164,7 +169,7 @@ $ships = Session::get('shipList');
                                         <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
                                             <span class="white">&times;</span>
                                         </button>
-                                        船舶设备部门登记
+                                        设备部门登记
                                     </div>
                                 </div>
                                 <div id="modal-material-category" class="dynamic-modal-body step-content">
@@ -224,7 +229,7 @@ $ships = Session::get('shipList');
                                         <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
                                             <span class="white">&times;</span>
                                         </button>
-                                        船舶设备种类登记
+                                        设备种类登记
                                     </div>
                                 </div>
                                 <div id="modal-material-type" class="dynamic-modal-body step-content">
@@ -387,7 +392,7 @@ $ships = Session::get('shipList');
                     },
                     textareaChange: function(event) {
                         let item = event.target;
-                        item.style.height = item.scrollHeight + 'px';
+                        item.style.setProperty("height", item.scrollHeight + 'px', "important");
                     },
                     particularChange: function(event) {
                         var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -396,7 +401,7 @@ $ships = Session::get('shipList');
                             event.target.value += '◦ ';
                         }
                         let item = event.target;
-                        item.style.height = item.scrollHeight + 'px';
+                        item.style.setProperty("height", item.scrollHeight + 'px', "important");
                     },
                     setMaterialInfo: function(array_index, category_id, type_id) {
                         setMaterialInfo(category_id, type_id, array_index);
@@ -443,7 +448,11 @@ $ships = Session::get('shipList');
                                 }
                             });
                         } else {
-                            materialListObj.material_array.splice(array_index, 1);
+                            bootbox.confirm("Are you sure you want to delete?", function (result) {
+                                if (result) {
+                                    materialListObj.material_array.splice(array_index, 1);
+                                }
+                            });
                         }
                     }
 
@@ -604,6 +613,8 @@ $ships = Session::get('shipList');
                 }
             });
 
+            if (select_year == 0) $('#title_year').html('')
+            else $('#title_year').html(select_year + '年');
             getShipInfo(ship_id, select_year);
 
         }
@@ -728,16 +739,26 @@ $ships = Session::get('shipList');
             });
         }
 
-        $('#select-ship, #select-year').on('change', function() {
+        $('#select-ship').on('change', function() {
+            ship_id = $("#select-ship").val();
+            select_year = $("#select-year").val();
+            if (select_year == 0) $('#title_year').html('')
+            else $('#title_year').html(select_year + '年');
+            location.href = "/shipManage/shipMaterialList?id=" + ship_id + "&year=" + select_year;
+        });
+
+        $('#select-year').on('change', function() {
             changeInfo();
         });
 
         function changeInfo() {
             ship_id = $("#select-ship").val();
             select_year = $("#select-year").val();
+            if (select_year == 0) $('#title_year').html('')
+            else $('#title_year').html(select_year + '年');
 
-            //getShipInfo(ship_id, select_year);
-            location.href = "/shipManage/shipMaterialList?id=" + ship_id + "&year=" + select_year;
+            getShipInfo(ship_id, select_year);
+            //location.href = "/shipManage/shipMaterialList?id=" + ship_id + "&year=" + select_year;
         }
 
         $('#submit').on('click', function() {

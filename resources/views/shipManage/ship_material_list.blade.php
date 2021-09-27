@@ -28,13 +28,17 @@ $ships = Session::get('shipList');
             }
             .auto-area {
                 resize: none;
+                height: 20px!important;
+            }
+            table tbody tr td {
+                padding:0px!important;
             }
         </style>
         <div class="page-content">
             <div class="page-header">
                 <div class="col-md-3">
                     <h4>
-                        <b>船舶设备清单</b>
+                        <b>设备清单</b>
                     </h4>
                 </div>
             </div>
@@ -51,7 +55,7 @@ $ships = Session::get('shipList');
                         </select>
                         <select name="select-year" id="select-year" style="font-size:13px">
                             @for($i=date("Y");$i>=$start_year;$i--)
-                            <option value="{{$i}}" @if($i==date("Y")) selected @endif>{{$i}}年</option>
+                            <option value="{{$i}}" @if($year==$i) selected @endif>{{$i}}年</option>
                             @endfor
                         </select>
                         <select name="select-category" id="select-category" style="font-size:13px">
@@ -173,11 +177,11 @@ $ships = Session::get('shipList');
                 methods: {
                     textareaChange: function(event) {
                         let item = event.target;
-                        item.style.height = item.scrollHeight + 'px';
+                        item.style.setProperty("height", item.scrollHeight + 'px', "important");
                     },
                     particularChange: function(event) {
                         let item = event.target;
-                        item.style.height = item.scrollHeight + 'px';
+                        item.style.setProperty("height", item.scrollHeight + 'px', "important");
                     },
                     setMaterialInfo: function(array_index, category_id, type_id) {
                         setMaterialInfo(category_id, type_id, array_index);
@@ -299,7 +303,13 @@ $ships = Session::get('shipList');
             getShipInfo(ship_id, select_year, select_category, select_type);
         }
 
-        $('#select-ship, #select-year, #select-category, #select-type').on('change', function() {
+        $('#select-ship').on('change', function() {
+            ship_id = $("#select-ship").val();
+            select_year = $("#select-year").val();
+            location.href = "/shipManage/shipMaterialManage?id=" + ship_id + "&year=" + select_year;
+        });
+        
+        $('#select-year, #select-category, #select-type').on('change', function() {
             changeInfo();
         });
 

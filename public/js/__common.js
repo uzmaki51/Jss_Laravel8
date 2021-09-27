@@ -209,6 +209,7 @@ function formatRate(rate) {
 
 function prettyValue2(value)
 {
+    if(value == undefined || value == null) return '';
     return parseFloat(value).toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
 }
 

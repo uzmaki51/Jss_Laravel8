@@ -200,16 +200,16 @@ $isHolder = Session::get('IS_HOLDER');
                                         <tbody id="rank-table">
                                         <tr class="rank-tr">
                                             <td class="no-padding center">
-                                                <input type="text" onchange="addRank(this)" class="form-control" name="Rank_OrderNo[]"value="" style="width: 100%;text-align: center">
+                                                <input type="text" onchange="addRank(this)" class="form-control" name="Rank_OrderNo[]"value="" style="width: 100%;text-align: center" autocomplete="off">
                                             </td>
                                             <td class="no-padding">
-                                                <input type="text" onchange="addRank(this)" class="form-control" name="Rank_Name[]"value="" style="width: 100%;text-align: center">
+                                                <input type="text" onchange="addRank(this)" class="form-control" name="Rank_Name[]"value="" style="width: 100%;text-align: center" autocomplete="off">
                                             </td>
                                             <td class="no-padding center">
-                                                <input type="text" onchange="addRank(this)" class="form-control" name="Rank_Abb[]"value="" style="width: 100%;text-align: center">
+                                                <input type="text" onchange="addRank(this)" class="form-control" name="Rank_Abb[]"value="" style="width: 100%;text-align: center" autocomplete="off">
                                             </td>
                                             <td class="no-padding">
-                                                <input type="text" onchange="addRank(this)" class="form-control" name="Rank_Description[]"value="" style="width: 100%;text-align: center">
+                                                <input type="text" onchange="addRank(this)" class="form-control" name="Rank_Description[]"value="" style="width: 100%;text-align: center" autocomplete="off">
                                             </td>
                                             <td class="no-padding center">
                                                 <div class="action-buttons">
@@ -301,10 +301,10 @@ $isHolder = Session::get('IS_HOLDER');
                                         <tbody id="port-table">
                                         <tr class="rank-tr">
                                             <td class="no-padding center">
-                                                <input type="text" onchange="addPort(this)" class="form-control" name="Port_En[]"value="" style="width: 100%;text-align: center">
+                                                <input type="text" onchange="addPort(this)" class="form-control" name="Port_En[]"value="" style="width: 100%;text-align: center" autocomplete="off">
                                             </td>
                                             <td class="no-padding">
-                                                <input type="text" onchange="addPort(this)" class="form-control" name="Port_Cn[]"value="" style="width: 100%;text-align: center">
+                                                <input type="text" onchange="addPort(this)" class="form-control" name="Port_Cn[]"value="" style="width: 100%;text-align: center" autocomplete="off">
                                             </td>
                                             <td class="no-padding center">
                                                 <div class="action-buttons">
@@ -683,6 +683,7 @@ $isHolder = Session::get('IS_HOLDER');
 
         function prettyValue2(value)
         {
+            if(value == undefined || value == null) return '';
             return parseFloat(value).toFixed(0).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
@@ -761,7 +762,7 @@ $isHolder = Session::get('IS_HOLDER');
             if ($('#history_table tr').length <= 3)
             {
                 if (e == null || $(e).closest("tr").is(":last-child")) {
-                    var newrow = '<tr><td class="no-padding"><div class="input-group"><input onfocus="addHistory(this)" class="form-control date-picker" style="width: 100%;text-align: center" type="text" data-date-format="yyyy-mm-dd"name="FromDate[]"value=""><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span></div></td><td class="no-padding"><div class="input-group"><input onfocus="addHistory(this)" class="form-control date-picker" style="width: 100%;text-align: center"type="text" data-date-format="yyyy-mm-dd"name="ToDate[]"value=""><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span></div></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" class="form-control" name="ShipName[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><select name="DutyID[]" class="form-control" onfocus="addHistory(this)" style="padding:0px!important;color:#12539b!important"><option value="0">&nbsp;</option>';
+                    var newrow = '<tr><td class="no-padding"><div class="input-group"><input onfocus="addHistory(this)" autocomplete="off" class="form-control date-picker" style="width: 100%;text-align: center" type="text" data-date-format="yyyy-mm-dd"name="FromDate[]"value=""><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span></div></td><td class="no-padding"><div class="input-group"><input onfocus="addHistory(this)" autocomplete="off" class="form-control date-picker" style="width: 100%;text-align: center"type="text" data-date-format="yyyy-mm-dd"name="ToDate[]"value=""><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span></div></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" autocomplete="off" class="form-control" name="ShipName[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><select name="DutyID[]" class="form-control" onfocus="addHistory(this)" style="padding:0px!important;color:#12539b!important"><option value="0">&nbsp;</option>';
                     @foreach($posList as $pos)
                     newrow = newrow + '<option value="' + '{{$pos['id']}}';
                     @if($info['DutyID_Book'] == $pos['id']) newrow = newrow + '" selected';
@@ -769,7 +770,7 @@ $isHolder = Session::get('IS_HOLDER');
                     newrow = newrow + '">';
                     newrow = newrow + '{{$pos['Duty_En']}}' + '</option>';
                     @endforeach
-                    newrow = newrow + '</select></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" class="form-control" name="GT[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><select onfocus="addHistory(this)" class="form-control" name="ShipType[]"style="padding:0px!important;color:#12539b!important"><option value="0">&nbsp;</option>';
+                    newrow = newrow + '</select></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" autocomplete="off" class="form-control" name="GT[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><select onfocus="addHistory(this)" class="form-control" name="ShipType[]"style="padding:0px!important;color:#12539b!important"><option value="0">&nbsp;</option>';
                     //'<input type="text" onfocus="addHistory(this)" class="form-control" name="ShipType[]"value="" style="width: 100%;text-align: center"></td>';
                     @foreach($typeList as $type)
                     newrow = newrow + '<option value="' + '{{$type['id']}}';
@@ -778,7 +779,7 @@ $isHolder = Session::get('IS_HOLDER');
                     newrow = newrow + '">';
                     newrow = newrow + '{{$type['ShipType']}}' + '</option>';
                     @endforeach
-                    newrow = newrow += '</select></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" class="form-control" name="Power[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" class="form-control" name="TradingArea[]"value="" style="width: 100%;text-align: center"></td><td class="center no-padding"><div class="action-buttons"><a class="red" onclick="javascript:deleteHistory(this)"><i class="icon-trash"></i></a></div></td></tr>';
+                    newrow = newrow += '</select></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" autocomplete="off" class="form-control" name="Power[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" autocomplete="off" class="form-control" name="TradingArea[]"value="" style="width: 100%;text-align: center"></td><td class="center no-padding"><div class="action-buttons"><a class="red" onclick="javascript:deleteHistory(this)"><i class="icon-trash"></i></a></div></td></tr>';
                     $("#history_table").append(newrow);
                     setDatePicker();
                 }

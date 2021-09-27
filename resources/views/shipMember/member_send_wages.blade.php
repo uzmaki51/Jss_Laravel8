@@ -308,6 +308,7 @@ $isHolder = Session::get('IS_HOLDER');
 
         function prettyValue(value)
         {
+            if(value == undefined || value == null) return '';
             return parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
@@ -439,11 +440,23 @@ $isHolder = Session::get('IS_HOLDER');
 
         function setEvents()
         {
-            $('.add-sendR').on('change', function() {
+            $('.add-sendR').on('change', function(evt) {
+                var val = evt.target.value.replaceAll(',','');
+                val = parseFloat(val);
+                if (isNaN(val)) {
+                    val = 0;
+                }
+                $(evt.target).val(prettyValue(val));
                 calcReport();
             });
 
-            $('.add-sendD').on('change', function() {
+            $('.add-sendD').on('change', function(evt) {
+                var val = evt.target.value.replaceAll(',','');
+                val = parseFloat(val);
+                if (isNaN(val)) {
+                    val = 0;
+                }
+                $(evt.target).val(prettyValue(val));
                 calcReport();
             });
         }

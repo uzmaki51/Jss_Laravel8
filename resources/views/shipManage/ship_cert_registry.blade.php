@@ -362,7 +362,11 @@ $ships = Session::get('shipList');
                                 }
                             });
                         } else {
-                            certListObj.cert_array.splice(array_index, 1);
+                            bootbox.confirm("Are you sure you want to delete?", function (result) {
+                                if (result) {
+                                    certListObj.cert_array.splice(array_index, 1);
+                                }
+                            });
                         }
                     }
 

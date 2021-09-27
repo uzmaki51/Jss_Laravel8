@@ -1517,6 +1517,7 @@
 
         function prettyValue2(value)
         {
+            if(value == undefined || value == null) return '';
             return parseFloat(value).toFixed(0).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
