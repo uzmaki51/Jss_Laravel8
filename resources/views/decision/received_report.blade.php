@@ -332,7 +332,7 @@
             let isAttach = $(this).attr('is-attach');
             if(reportId == undefined) return false;
             if(cell.index() == 12) {
-                if(reportStatus != 0) return false;
+                if(reportStatus == 1 || reportStatus == 3) return false;
                 if(isAdmin != 1) return false;
                 decideReport(reportId, reportStatus);
             } else if(cell.index() != 11 && cell.index() != 13 && isAdmin != 1) {
