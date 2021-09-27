@@ -223,7 +223,6 @@ $isHolder = Session::get('IS_HOLDER');
         $('#search_info').html('"' + $("#select-ship option:selected").attr('data-name') + '" ' + year + '年' + month + '月');
         initTable();
         function setValue(e, v, isNumber) {
-            console.log(v);
             if (v == null || isNaN(v) || v == '') {
                 e.closest("td").firstElementChild.innerHTML = '';
                 e.value = '';

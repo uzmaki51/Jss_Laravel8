@@ -340,6 +340,7 @@ $isHolder = Session::get('IS_HOLDER');
                     
                     //$('td', row).eq(4).html('<label>' + data['Salary'] + '</label><input type="hidden" name="Salary[]" value="' + data['Salary'] + '">');
                     $('td', row).eq(4).html('<input type="text" class="form-control" name="Salary[]" value="' + (data['Salary']==''?'':prettyValue(data['Salary'])) + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    //$('td', row).eq(4).html('<input type="text" class="form-control" name="Salary[]" value="' + data['Salary'] + '" style="width: 100%;text-align: center" autocomplete="off">');
                     
                     //$('td', row).eq(5).html('<label>' + data['DateOnboard'] + '</label><input type="hidden" name="DateOnboard[]" value="' + data['DateOnboard'] + '">');
                     //$('td', row).eq(6).html('<label>' + data['DateOffboard'] + '</label><input type="hidden" name="DateOffboard[]" value="' + data['DateOffboard'] + '">');
@@ -405,11 +406,12 @@ $isHolder = Session::get('IS_HOLDER');
             var calc_date;
             if (original)
                 calc_date = today;
-            else {
+            else {/*
                 calc_date = info.report_date.substr(0, 10);
                 if (origForm != "" && origForm != $form.serialize()) {
                     calc_date = today;
-                }
+                }*/
+                calc_date = today;
             }
             
             var TransInR = $('input[name="TransInR[]"]');
@@ -500,7 +502,7 @@ $isHolder = Session::get('IS_HOLDER');
         function prettyValue(value)
         {
             if(value == undefined || value == null) return '';
-            var val = parseFloat(value).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+            var val = parseFloat(value);
             if (isNaN(val)) val = 0;
             return parseFloat(val).toFixed(2).replaceAll(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
@@ -527,11 +529,11 @@ $isHolder = Session::get('IS_HOLDER');
             }
             else
             {
+                listTable.column(2).search(shipId, false, false);
                 listTable.column(3).search(year, false, false);
                 listTable.column(4).search(month, false, false);
                 listTable.column(5).search(minus_days, false, false);
-                listTable.column(6).search(rate, false, false);
-                listTable.column(2).search($("#select-ship").val(), false, false).draw();
+                listTable.column(6).search(rate, false, false).draw();
             }
         }
 
@@ -704,7 +706,6 @@ $isHolder = Session::get('IS_HOLDER');
             });
             */
             $('input[name="MinusCash[]"]').on('change', function(evt) {
-                /*
                 if (evt.target.value == '') return;
                 var val = evt.target.value.replaceAll(',','');
                 val = parseFloat(val);
@@ -712,7 +713,6 @@ $isHolder = Session::get('IS_HOLDER');
                     val = 0;
                 }
                 $(evt.target).val(prettyValue(val));
-                */
                 calcReport();
             });
             
@@ -721,16 +721,7 @@ $isHolder = Session::get('IS_HOLDER');
             });
 
             $('.add-trans-date').on('change', function(evt) {
-                
-                if (evt.target.value == '')  return;
-                var val = evt.target.value;
-                val1 = Date.parse(val);
-                console.log(val1);
-                if (isNaN(val1)==true && val!==''){
-                    alert("error");
-                } else {
-                    calcReport();
-                }
+                calcReport();
             });
 
             $('.add-no').unbind().on('click', function(e) {
