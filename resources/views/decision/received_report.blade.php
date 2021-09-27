@@ -345,7 +345,6 @@
 
             }
 
-
             return true;
         });
         Vue.component('my-currency-input', {

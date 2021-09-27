@@ -64,15 +64,15 @@ $ships = Session::get('shipList');
                                     <div class="col-lg-3">
                                         <div class="d-flex" style="margin-top: 8px;">
                                             <div class="d-flex">
-                                                <input type="radio" name="search-type" value="{{ repair_REPORT_TYPE_DEPART }}" id="search-depart" class="width-auto mt-0" :checked="search_type == 1" @click="onChangeSearchType">
+                                                <input type="radio" name="search-type" value="{{ REPAIR_REPORT_TYPE_DEPART }}" id="search-depart" class="width-auto mt-0" :checked="search_type == 1" @click="onChangeSearchType">
                                                 <label for="search-depart" style="margin-left: 6px;">部门</label>
                                             </div>
                                             <div class="d-flex ml-1">
-                                                <input type="radio" name="search-type" value="{{ repair_REPORT_TYPE_CHARGE }}" id="search-charge" class="width-auto mt-0" :checked="search_type == 2" @click="onChangeSearchType">
+                                                <input type="radio" name="search-type" value="{{ REPAIR_REPORT_TYPE_CHARGE }}" id="search-charge" class="width-auto mt-0" :checked="search_type == 2" @click="onChangeSearchType">
                                                 <label for="search-charge" style="margin-left: 6px;">担任</label>
                                             </div>
                                             <div class="d-flex ml-1">
-                                                <input type="radio" name="search-type" value="{{ repair_REPORT_TYPE_TYPE }}" id="search-type" class="width-auto mt-0" :checked="search_type == 3" @click="onChangeSearchType">
+                                                <input type="radio" name="search-type" value="{{ REPAIR_REPORT_TYPE_TYPE }}" id="search-type" class="width-auto mt-0" :checked="search_type == 3" @click="onChangeSearchType">
                                                 <label for="search-type" style="margin-left: 6px;">种类</label>
                                             </div>
                                         </div>
@@ -302,7 +302,7 @@ $ships = Session::get('shipList');
                     total               : [],
 
                     complete            : 0,
-                    search_type         : '{{ repair_REPORT_TYPE_DEPART }}',
+                    search_type         : '{{ REPAIR_REPORT_TYPE_DEPART }}',
                     typeList            : TypeList,
                     departList          : DepartList,
                     chargeList          : ChargeList,
@@ -311,7 +311,7 @@ $ships = Session::get('shipList');
                     shipName            : '{{ $shipName }}',
                     activeYear          : activeYear,
                     activeMonth         : '{{ $activeMonth }}',
-                    activeStatus        : '{{ repair_STATUS_ALL }}',
+                    activeStatus        : '{{ REPAIR_STATUS_ALL }}',
                     tableTitle          : '',
                 },
                 methods: {
@@ -441,7 +441,7 @@ $ships = Session::get('shipList');
                     shipName            : '{{ $shipName }}',
                     activeYear          : activeYear,
                     activeMonth         : '{{ $activeMonth }}',
-                    activeStatus        : '{{ repair_STATUS_ALL }}',
+                    activeStatus        : '{{ REPAIR_STATUS_ALL }}',
                     activeDepart        : 0,
                     activeCharge        : 0,
                     activeType          : 0,
@@ -615,11 +615,11 @@ $ships = Session::get('shipList');
                 success: function(data, status, xhr) {
                     let result = data;
                     recordVue.list = result;
-                    if(type == '{{ repair_REPORT_TYPE_DEPART }}') {
+                    if(type == '{{ REPAIR_REPORT_TYPE_DEPART }}') {
                         recordVue.activeDepart = value;
                         recordVue.activeCharge = 0;
                         recordVue.activeType = 0;
-                    } else if(type == '{{ repair_REPORT_TYPE_CHARGE }}') {
+                    } else if(type == '{{ REPAIR_REPORT_TYPE_CHARGE }}') {
                         recordVue.activeDepart = 0;
                         recordVue.activeCharge = value;
                         recordVue.activeType = 0;

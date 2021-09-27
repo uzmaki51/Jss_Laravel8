@@ -25,7 +25,7 @@ use App\Models\Operations\VoyStatus;
 use App\Models\Operations\VoyStatusEvent;
 use App\Models\Operations\VoyStatusType;
 use App\Models\Operations\YearlyQuarterMonthPlan;
-use App\Models\Operations\Cp;
+use App\Models\Operations\CP;
 use App\Models\Operations\StandardCp;
 use App\Models\Operations\VoyLog;
 use App\Models\Operations\Invoice;

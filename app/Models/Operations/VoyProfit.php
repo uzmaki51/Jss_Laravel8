@@ -19,7 +19,7 @@ class VoyProfit extends Model
     public static function makeVoyId() {
         $list = VoyProfit::all();
         foreach ($list as $profit){
-            $cp = Cp::where('CP_No', $profit['VOY'])->first();
+            $cp = CP::where('CP_No', $profit['VOY'])->first();
 
             $profit['VoyId'] = $cp['id'];
             $profit->save();

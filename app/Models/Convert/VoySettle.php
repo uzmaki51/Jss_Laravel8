@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Member\Post;
 use App\Models\Operations\Cargo;
-use App\Models\Operations\Cp;
+use App\Models\Operations\CP;
 use App\Models\ShipManage\Fuel;
 use App\Models\ShipMember\ShipPosition;
 use App\Models\ShipTechnique\ShipPort;
@@ -70,7 +70,7 @@ class VoySettle extends Model
         $creditInfo = [];
         $debitInfo = [];
 
-        $voyInfo = $voyLog->getVoyRecord($shipId, $voyId);
+        $voyInfo = $voyLog->getCurrentData($shipId, $voyId);
         if($voyInfo != []) {
             $firstVoyDate = $beforeVoyInfo;
             $lastVoyDate = $voyInfo[count($voyInfo) - 1];
@@ -447,7 +447,7 @@ class VoySettle extends Model
         $creditInfo = [];
         $debitInfo = [];
 
-        $voyInfo = $voyLog->getVoyRecord($shipId, $voyId);
+        $voyInfo = $voyLog->getCurrentData($shipId, $voyId);
         // $voyInfo = array_push($beforeVoyInfo, $voyInfo);
         if($voyInfo != []) {
             $firstVoyDate = $beforeVoyInfo;

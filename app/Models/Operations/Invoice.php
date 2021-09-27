@@ -20,10 +20,10 @@ class Invoice extends Model
         return $this->hasOne('App\Models\Operations\AcItemDetail', 'id', 'AC_Items');
     }
     public function voyNo(){
-        return $this->hasOne('App\Models\Operations\Cp', 'id', 'Voy');
+        return $this->hasOne('App\Models\Operations\CP', 'id', 'Voy');
     }
     public function paidVoyNo(){
-        return $this->hasOne('App\Models\Operations\Cp', 'id', 'Paid_Voy');
+        return $this->hasOne('App\Models\Operations\CP', 'id', 'Paid_Voy');
     }
 
     public function accountName(){

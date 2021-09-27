@@ -8,7 +8,7 @@ use App\Models\Attend\AttendType;
 use App\Models\Attend\AttendUser;
 use App\Models\Member\Unit;
 use App\Models\Operations\Cargo;
-use App\Models\Operations\Cp;
+use App\Models\Operations\CP;
 use App\Models\Operations\Invoice;
 use App\Models\Operations\ShipOilSupply;
 use App\Models\Operations\VoyLog;
@@ -1419,7 +1419,7 @@ class ExcelController extends Controller {
         $portList = ShipPort::get();
         $cargoList = Cargo::get();
 
-        $query = Cp::query();
+        $query = CP::query();
 
         if(!empty($shipId))
             $query->where('Ship_ID', $shipId);
@@ -1431,8 +1431,8 @@ class ExcelController extends Controller {
             $query->where('Cargo', 'like', '%,'.$cargoId.',%');
 
         $list = $query->orderBy('CP_Date', 'desc')->get();
-        $lrateList = Cp::select('L_Rate')->groupBy('L_Rate')->get();
-        $drateList = Cp::select('D_Rate')->groupBy('D_Rate')->get();
+        $lrateList = CP::select('L_Rate')->groupBy('L_Rate')->get();
+        $drateList = CP::select('D_Rate')->groupBy('D_Rate')->get();
 
         /*
         if(!empty($shipId))
@@ -1494,7 +1494,7 @@ class ExcelController extends Controller {
         $shipPositionList = VoyLog::getShipPositionList();
         $shipStatusList = VoyStatus::all();
 
-        $voyNoList = Cp::getVoyNosOfShip($shipId);
+        $voyNoList = CP::getVoyNosOfShip($shipId);
         $voyNo = is_null($request->get('voyNo')) ? $voyNoList[0]->id : $request->get('voyNo');
 
         $content = VoyLog::getShipVoyLogDataExcel($shipId, $voyNo);
@@ -1542,12 +1542,12 @@ class ExcelController extends Controller {
         if(count($shipList) > 0) {
             if(is_null($shipId))
                 $shipId = $shipList[0]['RegNo'];
-            $voyList = Cp::where('Ship_ID', $shipId)->orderBy('id', 'Desc')->get(['id','Voy_No', 'CP_No']);
+            $voyList = CP::where('Ship_ID', $shipId)->orderBy('id', 'Desc')->get(['id','Voy_No', 'CP_No']);
             if(is_null($voyId) && (count($voyList) > 0))
                 $voyId = $voyList[0]['id'];
         }
 
-        $voyInfo = Cp::find($voyId);
+        $voyInfo = CP::find($voyId);
         $proInfo = VoyProgramPractice::where('voyId', $voyId)->first();
         if(is_null($proInfo))
             $proInfo = new VoyProgramPractice();
@@ -1602,7 +1602,7 @@ class ExcelController extends Controller {
             $shipId = $shipList[0]['RegNo'];
         }
         $shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
-        $voyNoList = Cp::getVoyNosOfShip($shipId);
+        $voyNoList = CP::getVoyNosOfShip($shipId);
 
         $page = $request->get('page');
         if(is_null($page))
@@ -2062,7 +2062,7 @@ class ExcelController extends Controller {
         if(isset($voy_number))
             $recovery->appends(['voy'=>$voy_number]);
 
-        $cps = Cp::getVoyNosOfShip($shipId);
+        $cps = CP::getVoyNosOfShip($shipId);
 
         return view('shipTechnique.RepairAllBrowse_print',
             array('RepairInfos'=>$recovery,'cps'=>$cps,'shipList'=>$shipList,'shipId'=>$shipId,'voy'=>$voy_number,'outMthd' => 2,
@@ -2151,12 +2151,12 @@ class ExcelController extends Controller {
         if(empty($voy)) {
             if(count($voyinfo) > 0) $voy = $voyinfo[0]['id'];
         }
-        $cpInfo = Cp::where('id', $voy)->first();
+        $cpInfo = CP::where('id', $voy)->first();
         $supplyInfos = ShipSupply::getApplInfo($shipId, $voy, 1);
 
         //application add params
         $deptInfos = ShipDept::all(['id','Dept_Cn']);
-        $cpInfos = Cp::select('Voy_No', 'CP_No')
+        $cpInfos = CP::select('Voy_No', 'CP_No')
             ->where('Ship_ID', $shipId)->groupBy('Voy_No')->orderBy('Voy_No', 'dsc')->get();
         $kinds = ShipEquipmentMainKind::all(['id', 'Kind_Cn']);
         $equipInfos = ShipSupply::getEquipmentInfo($shipId, $kinds[0]['id']);

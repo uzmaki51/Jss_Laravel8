@@ -13,7 +13,7 @@ use App\Helpers\calDate;
 use App\Http\Controllers\Controller;
 use App\Models\Member\Post;
 use App\Models\Operations\Cargo;
-use App\Models\Operations\Cp;
+use App\Models\Operations\CP;
 use App\Models\ShipMember\ShipPosition;
 use App\Models\ShipTechnique\ShipPort;
 use App\Models\Finance\ExpectedCosts;
@@ -289,7 +289,7 @@ class BusinessController extends Controller {
             'shipId'            => $shipId,
             'shipName'          => $shipName,
             'voyId'             => $voyId,
-            'breadCrumb'    => $breadCrumb
+            'breadCrumb'        => $breadCrumb
         ]);
     }
 
@@ -1187,26 +1187,30 @@ class BusinessController extends Controller {
             return redirect()->back();
         }
 
-        $prevData = [];
-        $retVal['prevData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
-        $retVal['min_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
-        $retVal['currentData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->get();
-        $retVal['max_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+        $tbl = new VoyLog();
+        // 1. Get last record before this voy.
+        $before = $tbl->getBeforeInfo($shipId, $voyId);
 
-        if($retVal['min_date'] == false || $retVal['min_date'] == null) {
-            $retVal['min_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
-            if($retVal['min_date'] == null)
-                $retVal['min_date'] = false;
-        } else 
-            $retVal['min_date'] = $retVal['min_date'];
+        // 2. Get last record of this voy. 
+        $last = $tbl->getLastInfo($shipId, $voyId);
 
-        if($retVal['prevData'] == null)
-            $retVal['prevData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
+        // 3. Get current voy data.
+        $current = $tbl->getCurrentData($shipId, $voyId);
 
-        if($retVal['max_date'] == false || $retVal['max_date'] == null)
-            $retVal['max_date'] = false;
+        if($before != [])
+            $min_date = $before;
         else
-            $retVal['max_date'] = $retVal['max_date'];
+            $min_date = EMPTY_DATE;
+
+        if($last != [])
+            $max_date = $last;
+        else
+            $max_date = EMPTY_DATE;
+
+        $retVal['min_date'] = $min_date;
+        $retVal['max_date'] = $max_date;
+        $retVal['prevData'] = $before;
+        $retVal['currentData'] = $current;
 
         return response()->json($retVal);
     }
@@ -1314,103 +1318,8 @@ class BusinessController extends Controller {
             return redirect()->back();
         }
 
-        $voyTbl = VoyLog::where('Ship_ID', $shipId);
-        $voyTbl2 = VoyLog::where('Ship_ID', $shipId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc');
-        $voyTbl3 = VoyLog::where('Ship_ID', $shipId)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc');
-        $prevData = null;
-        if(isset($params['type']) && isset($params['type']) != '') {
-            $params['year'] = substr($params['year'], 2, 2);
-            if($params['type'] == 'all') {
-                if(isset($params['year']) && $params['year'] != 0 && isset($params['voyId']) && $params['voyId'] == 0) {
-                    $voyTbl->whereRaw(DB::raw('mid(CP_ID, 1, 2) like ' . $params['year']));
-                    $voyTbl3->whereRaw(DB::raw('mid(CP_ID, 1, 2) like ' . $params['year']));
-                    $voyTbl2->whereRaw(DB::raw('mid(CP_ID, 1, 2) < ' . $params['year']))->orderBy('CP_ID', 'asc');
-                }
-        
-                if(isset($params['voyId']) && $params['voyId'] != 0) {
-                    $voyTbl->where('CP_ID', $params['voyId']);
-                    $voyTbl3->where('CP_ID', $params['voyId']);
-                    $voyTbl2->where('CP_ID', '<', $params['voyId'])->orderBy('CP_ID', 'desc');
-                } else {
-                    $voyTbl->where('CP_ID', 0);
-                    $voyTbl3->where('CP_ID', 0);
-                    $voyTbl2->where('CP_ID', '<', 0)->orderBy('CP_ID', 'desc');
-                }
-            } else if($params['type'] == 'analyze') {
-                if(isset($params['year']) && $params['year'] != 0) {
-                    $voyTbl->whereRaw(DB::raw('mid(CP_ID, 1, 2) like ' . $params['year']));
-                    $voyTbl2->whereRaw(DB::raw('mid(CP_ID, 1, 2) < ' . $params['year']))->orderBy('Voy_Date', 'desc');
-                }
-        
-                $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
-                $voyTbl2->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
-            }
-        }
-
-
-        $retVal['currentData'] = $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->get();
-        $prevData = $voyTbl2->first();
-        if($prevData == null)
-            $prevData = $voyTbl->first();
-
-        $retVal['prevData'] = $prevData;
-        $retVal['max_date'] = $voyTbl3->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('id', 'desc')->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
-        if($retVal['max_date'] == null)
-            $retVal['max_date'] = false;
-
-        $retVal['min_date'] = $prevData;
-        if($retVal['min_date'] == null)
-            $retVal['min_date'] = false;
-            
-        if($params['type'] == 'analyze') {
-            $retTmp = [];
-            $voyArray = [];
-            $tmpVoyId = 0;
-            $cp_list = [];
-            foreach($retVal['currentData'] as $key => $item) {
-                    if(!in_array($item->CP_ID, $voyArray)) {
-                        $voyArray[] = $item->CP_ID;
-                        $beforeVoy = VoyLog::where('CP_ID', '<', $item->CP_ID)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->where('Ship_ID', $item->Ship_ID)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
-                        $firstVoy = VoyLog::where('CP_ID', $item->CP_ID)->where('Ship_ID', $item->Ship_ID)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
-                        if($beforeVoy != null)
-                            $retTmp[$item->CP_ID][] = $beforeVoy;
-                        else if($beforeVoy == null && $firstVoy != null)
-                            $retTmp[$item->CP_ID][] = $firstVoy;
-                        else
-                            $retTmp[$item->CP_ID][] = [];
-
-                        $cp_list = CP::where('Ship_ID', $shipId)->where('Voy_No', $item->CP_ID)->orderBy('Voy_No', 'desc')->get();
-                        foreach($cp_list as $cp_key => $cp_item) {
-                            $LPort = $cp_item->LPort;
-                            $LPort = explode(',', $LPort);
-                            $LPort = ShipPort::whereIn('id', $LPort)->get();
-                            $tmp = '';
-                            foreach($LPort as $port)
-                                $tmp .= $port->Port_En . ', ';
-                            $cp_list[$cp_key]->LPort = substr($tmp, 0, strlen($tmp) - 2);
-                
-                            $DPort = $cp_item->DPort;
-                
-                            $DPort = $cp_item->DPort;
-                            $DPort = explode(',', $DPort);
-                            $DPort = ShipPort::whereIn('id', $DPort)->get();
-                            $tmp = '';
-                            foreach($DPort as $port)
-                                $tmp .= $port->Port_En . ', ';
-                            $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 2);
-                        }
-                        $retVal['cpData'][$item->CP_ID] = count($cp_list) <= 0 ? '' : $cp_list[0];
-                    }
-                
-
-                $retTmp[$item->CP_ID][] = $item;
-                $tmpVoyId = $item->CP_ID;
-                
-            }
-
-            $retVal['currentData'] = $retTmp;
-            $retVal['voyData'] = $voyArray;
-        }
+        $tbl = new VoyLog();
+        $retVal = $tbl->getVoyList($params);
 
         return response()->json($retVal);
     }

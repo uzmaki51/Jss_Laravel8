@@ -13,7 +13,7 @@ class VoyLog extends Model
         return $this->hasOne('App\Models\Operations\VoyStatus', 'ID', 'Voy_Status');
     }
     public function voyCP(){
-        return $this->hasOne('App\Models\Operations\Cp', 'id', 'CP_ID');
+        return $this->hasOne('App\Models\Operations\CP', 'id', 'CP_ID');
     }
     public function voyClass(){
         return $this->hasOne('App\Models\ShipManage\ShipRegister', 'RegNo', 'Ship_ID');

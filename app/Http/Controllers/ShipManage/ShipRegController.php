@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use App\Models\ShipTechnique\ShipPort;
-use App\Models\Operations\Cp;
+use App\Models\Operations\CP;
 
 use App\Models\Menu;
 use App\Models\ShipManage\Ship;
@@ -2573,13 +2573,13 @@ class ShipRegController extends Controller
         if(isset($params['year']))
             $params['year'] = substr($params['year'], 2, 2);
         
-        $cpList = Cp::where('ship_ID', $shipId)->whereRaw(DB::raw('mid(Voy_No, 1, 2) like ' . $params['year']))->orderBy('Voy_No', 'asc')->get();
+        $cpList = CP::where('ship_ID', $shipId)->whereRaw(DB::raw('mid(Voy_No, 1, 2) like ' . $params['year']))->orderBy('Voy_No', 'asc')->get();
         
         foreach($cpList as $key => $item) {
             $voyId = $item->Voy_No;
             $fuelList = Fuel::where('shipId', $shipId)->where('voy_no', $voyId)->first();
 
-            $cpInfo = Cp::where('ship_ID', $shipId)->where('Voy_No', $voyId)->first();
+            $cpInfo = CP::where('ship_ID', $shipId)->where('Voy_No', $voyId)->first();
             if($cpInfo == null)
                 $retVal['cpData'][$voyId] = [];
             else
@@ -2774,7 +2774,7 @@ class ShipRegController extends Controller
         $shipId = $params['shipId'];
         $year = $params['year'];
 
-        $voyList = Cp::getCpList($shipId, $year);
+        $voyList = CP::getCpList($shipId, $year);
 
         $evalTbl = new Evaluation();
         $retVal = [];

@@ -8,7 +8,7 @@ use App\Models\Attend\AttendRest;
 use App\Models\Board\News;
 use App\Models\Member\Unit;
 use App\Models\Operations\VoyLog;
-use App\Models\Operations\Cp;
+use App\Models\Operations\CP;
 use App\Models\Schedule;
 use App\Models\ShipManage\ShipCertList;
 use App\Models\ShipManage\ShipCertRegistry;

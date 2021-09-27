@@ -15,13 +15,13 @@ class ShipPort extends Model
     protected $table = "tbl_port";
     public $timestamps = false;
 
-    public function getPortNames($ids) {
+    public function getPortNames($ids, $bracket = true) {
         $retVal = '';
         $ids = explode(',', $ids);
         foreach($ids as $key => $id) {
             $info = self::where('id', $id)->first();
             if($info != null)
-                $retVal .= $info->Port_En . '(' . $info->Port_Cn . ')' . ', ';
+                $retVal .= $info->Port_En . ($bracket ? '(' . $info->Port_Cn . ')' : '' ) . ', ';
 
         }
 

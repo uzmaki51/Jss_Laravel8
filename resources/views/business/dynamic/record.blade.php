@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="" style="margin-right: 12px; padding-top: 2px;">
-                            <table class="contract-table mt-2 table-layout-fixed" style="min-height: auto;">
+                            <table class="contract-table mt-2 table-layout-fixed" style="min-height: auto;" v-cloak>
                             <tr>
                                 <td class="width-10">装港</td>
                                 <td class="font-style-italic width-30">LOADING PORT</td>
@@ -596,13 +596,6 @@
                             }
                         })
                     },
-                    setTotalInfo: function(data) {
-                        searchObj.sail_term['min_date'] = data['min_date'] == false ? '' : data['min_date']['Voy_Date'];
-                        searchObj.sail_term['max_date'] = data['max_date'] == false ? '' : data['max_date']['Voy_Date'];
-                        // let start_date = data['min_date']['Voy_Date'] + ' ' + data['min_date']['Voy_Hour'] + ':' + data['min_date']['Voy_Minute'] + ':' + '00';
-                        // let end_date = data['max_date']['Voy_Date'] + ' ' + data['max_date']['Voy_Hour'] + ':' + data['max_date']['Voy_Minute'] + ':' + '00';
-                        // this.sail_time = __getTermDay(start_date, end_date, data['min_date']['GMT'], data['max_date']['GMT']);
-                    },
                     setTotalDefault: function() {
                         this.sail_time = 0;
                         this.total_distance = 0;
@@ -645,21 +638,32 @@
                     submitForm: function() {
                         submitted = true;
                         if(this.validateForm() == -2) {
-                            alert('Please input ROB/FO, ROB/DO value.');
-                            return;
+                            bootbox.alert('Please input ROB/FO, ROB/DO value.');
                         } else if(this.validateForm() == -1) {
-                            alert('"CGO QTY" is require input field.');
-                            return;
-                        } else 
+                            bootbox.alert('"CGO QTY" is require input field.');
+                        } else if(this.validateForm() == -3) {
+                            bootbox.alert('If voy status is "CMPLT VOYAGE", "POSITION" and "ROB" are required item.');
+                        } else {
                             $('#dynamic-form').submit();
+                        }
+                        
+                        return false;
                     },
                     validateForm() {
                         let $this = this.currentData;
                         var retVal = true;
+                        let voyageValidate = 0;
                         $this.forEach(function(value, key) {
                             if(value['Cargo_Qtty'] == '')
                                 $this[key]['Cargo_Qtty'] = null;
+                            if(value['Voy_Status'] == '{{ DYNAMIC_VOYAGE }}') {
+                                if(__parseFloat(value['ROB_FO']) == 0 || __parseFloat(value['ROB_DO']) == 0 || __parseStr(value['Ship_Position']) == '')
+                                    voyageValidate = -3;
+                            }
                         });
+
+                        if(voyageValidate != 0) return voyageValidate;
+                        
                         $this.forEach(function(value, key) {
                             if($this[key]['Voy_Status'] == DYNAMIC_CMPLT_DISCH) {
                                 if(value['Cargo_Qtty'] == undefined || value['Cargo_Qtty'] == null) {
@@ -676,7 +680,6 @@
                         });
                         
                         return retVal;
-
                     },
                     getToday: function(symbol) {
                         var today = new Date();

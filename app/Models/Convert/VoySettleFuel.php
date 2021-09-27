@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Member\Post;
 use App\Models\Operations\Cargo;
-use App\Models\Operations\Cp;
+use App\Models\Operations\CP;
 use App\Models\ShipMember\ShipPosition;
 use App\Models\ShipTechnique\ShipPort;
 use App\Models\Finance\ExpectedCosts;

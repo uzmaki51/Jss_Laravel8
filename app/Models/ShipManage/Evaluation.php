@@ -13,7 +13,7 @@ use App\Models\ShipTechnique\ShipPort;
 use App\Models\Convert\VoySettle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Operations\Cp;
+use App\Models\Operations\CP;
 use App\Models\Operations\Cargo;
 use DB;
 
@@ -24,7 +24,7 @@ class Evaluation extends Model
 
     public function getEvaluationData($shipId, $voyId) {
         $retVal['cpInfo'] = [];
-        $cpData = Cp::where('Ship_ID', $shipId)->where('Voy_No', $voyId)->first();
+        $cpData = CP::where('Ship_ID', $shipId)->where('Voy_No', $voyId)->first();
         if($cpData == null) 
             $retVal['cpInfo'] = [];
         else

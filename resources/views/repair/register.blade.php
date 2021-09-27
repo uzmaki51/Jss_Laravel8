@@ -266,7 +266,7 @@ $ships = Session::get('shipList');
                     shipName            : '{{ $shipName }}',
                     activeYear          : activeYear,
                     activeMonth         : '{{ $activeMonth }}',
-                    activeStatus        : '{{ repair_STATUS_ALL }}',
+                    activeStatus        : '{{ REPAIR_STATUS_ALL }}',
                     tableTitle          : '',
                 },
                 methods: {

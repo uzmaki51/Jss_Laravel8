@@ -4,7 +4,7 @@ namespace App\Models\Operations;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Cp extends Model
+class CP extends Model
 {
     protected $table="tbl_cp";
     protected $table_register ="tb_ship_register";

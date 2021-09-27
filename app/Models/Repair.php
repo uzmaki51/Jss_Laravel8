@@ -18,8 +18,8 @@ class Repair extends Model
         $selector = self::where('ship_id', $params['ship_id'])
             ->orderBy('serial_no', 'asc');
 
-        if(isset($params['status']) && $params['status'] != repair_STATUS_ALL) {
-            if($params['status'] == repair_STATUS_UNCOMPLETE) 
+        if(isset($params['status']) && $params['status'] != REPAIR_STATUS_ALL) {
+            if($params['status'] == REPAIR_STATUS_UNCOMPLETE) 
                 $selector->whereNull('completed_at');
             else {
                 $selector->whereNotNull('completed_at');
@@ -46,8 +46,8 @@ class Repair extends Model
         $selector = self::where('ship_id', $params['ship_id'])
             ->orderBy('serial_no', 'asc');
 
-        if(isset($params['status']) && $params['status'] != repair_STATUS_ALL) {
-            if($params['status'] == repair_STATUS_UNCOMPLETE) 
+        if(isset($params['status']) && $params['status'] != REPAIR_STATUS_ALL) {
+            if($params['status'] == REPAIR_STATUS_UNCOMPLETE) 
                 $selector->whereNull('completed_at');
             else {
                 $selector->whereNotNull('completed_at');
@@ -64,9 +64,9 @@ class Repair extends Model
 
         if(isset($params['type']) && $params['type'] != 0) {
             $type = $params['type'];
-            if($type == repair_REPORT_TYPE_DEPART) {
+            if($type == REPAIR_REPORT_TYPE_DEPART) {
                 $field = 'department';
-            } else if($type == repair_REPORT_TYPE_CHARGE) {
+            } else if($type == REPAIR_REPORT_TYPE_CHARGE) {
                 $field = 'charge';
             } else {
                 $field = 'type';
@@ -130,12 +130,12 @@ class Repair extends Model
         if(isset($params['type'])) 
             $type = $params['type'];
         else
-            $type = repair_REPORT_TYPE_DEPART;
+            $type = REPAIR_REPORT_TYPE_DEPART;
         
-        if($type == repair_REPORT_TYPE_DEPART) {
+        if($type == REPAIR_REPORT_TYPE_DEPART) {
             $field = 'department';
             $list = $departList;
-        } else if($type == repair_REPORT_TYPE_CHARGE) {
+        } else if($type == REPAIR_REPORT_TYPE_CHARGE) {
             $field = 'charge';
             $list = $posList;
         } else {
@@ -152,9 +152,9 @@ class Repair extends Model
             for($i = 1; $i <= 12; $i ++) {
                 $date = $year . '-' . sprintf('%02d', $i);
 
-                if($type == repair_REPORT_TYPE_DEPART) {
+                if($type == REPAIR_REPORT_TYPE_DEPART) {
                     $field = 'department';
-                } else if($type == repair_REPORT_TYPE_CHARGE) {
+                } else if($type == REPAIR_REPORT_TYPE_CHARGE) {
                     $field = 'charge';
                 } else {
                     $field = 'type';
@@ -179,9 +179,9 @@ class Repair extends Model
             $retVal[$item->id]['total'] = $_total_count;
             $retVal[$item->id]['complete'] = $_complete_count;
 
-            if($type == repair_REPORT_TYPE_DEPART) {
+            if($type == REPAIR_REPORT_TYPE_DEPART) {
                 $retVal[$item->id]['label'] = $item->name;
-            } else if($type == repair_REPORT_TYPE_CHARGE) {
+            } else if($type == REPAIR_REPORT_TYPE_CHARGE) {
                 $retVal[$item->id]['label'] = $item->Abb;
             } else {
                 $retVal[$item->id]['label'] = $item->name;

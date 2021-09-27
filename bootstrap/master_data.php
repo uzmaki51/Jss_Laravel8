@@ -302,7 +302,7 @@ define('DYNAMIC_DEPARTURE', 		1);
 define('DYNAMIC_SAILING', 			2);
 define('DYNAMIC_ANCHORING', 		3);
 define('DYNAMIC_ARRIVAL', 			4);
-define('DYNAMIC_POB', 				18);
+define('DYNAMIC_WAITING', 			5);
 define('DYNAMIC_BERTH', 			6);
 define('DYNAMIC_UNBERTH', 			7);
 define('DYNAMIC_CMNC', 				8);
@@ -315,7 +315,8 @@ define('DYNAMIC_STOP', 				14);
 define('DYNAMIC_RESUME', 			15);
 define('DYNAMIC_DOCKING', 			16);
 define('DYNAMIC_UNDOCKING', 		17);
-define('DYNAMIC_WAITING', 			5);
+define('DYNAMIC_POB', 				18);
+define('DYNAMIC_VOYAGE', 			19);
 
 $DynamicStatus = array(
 	DYNAMIC_DEPARTURE 			=> ['DEPARTURE', [
@@ -394,6 +395,9 @@ $DynamicStatus = array(
 	]],
 	DYNAMIC_UNDOCKING 			=> ['UNDOCKING', [
 		DYNAMIC_SUB_REPAIR
+	]],
+	DYNAMIC_VOYAGE 			=> ['CMPLT VOYAGE', [
+		DYNAMIC_SUB_ELSE
 	]],
 );
 
@@ -486,13 +490,13 @@ define('VOY_SETTLE_FUEL', 	'FUEL');
 
 define('USER_POS_ACCOUNTER', 8);
 
-define('repair_STATUS_ALL', 			0);
-define('repair_STATUS_UNCOMPLETE', 	1);
-define('repair_STATUS_COMPLETE', 		2);
+define('REPAIR_STATUS_ALL', 			0);
+define('REPAIR_STATUS_UNCOMPLETE', 	1);
+define('REPAIR_STATUS_COMPLETE', 		2);
 
-define('repair_REPORT_TYPE_DEPART', 	1);
-define('repair_REPORT_TYPE_CHARGE', 	2);
-define('repair_REPORT_TYPE_TYPE', 		3);
+define('REPAIR_REPORT_TYPE_DEPART', 	1);
+define('REPAIR_REPORT_TYPE_CHARGE', 	2);
+define('REPAIR_REPORT_TYPE_TYPE', 		3);
 
  $g_masterData = array(
  	    'ReportTypeData'	            => $ReportTypeData,

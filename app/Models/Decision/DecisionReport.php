@@ -16,7 +16,7 @@ use App\Models\Finance\BooksList;
 use App\Models\Finance\ReportSave;
 use App\Models\Finance\WaterList;
 use App\Models\Finance\ExpectedCosts;
-use App\Models\Operations\Cp;
+use App\Models\Operations\CP;
 use App\Models\ShipTechnique\ShipPort;
 use App\Models\Operations\Cargo;
 use App\Models\Finance\AccountPersonalInfo;
