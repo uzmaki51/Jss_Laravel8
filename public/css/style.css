@@ -303,9 +303,9 @@ div.input table tbody tr td
 }
 
 .report-content {
-	max-width: 600px;
-	overflow: hidden;
-	text-overflow: ellipsis;
+    max-width: 600px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .style-blue-header {
@@ -321,7 +321,7 @@ div.input table tbody tr td
 }
 
 .right-border {
-    border-right:3px double rgb(211, 120, 0); 
+    border-right:3px double rgb(211, 120, 0);
 }
 
 .style-search-header {
@@ -367,8 +367,8 @@ div.input table tbody tr td
 .style-blue-input::-webkit-inner-spin-button,
 .style-red-input::-webkit-outer-spin-button,
 .style-red-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .for-sp {
@@ -402,102 +402,102 @@ div.input table tbody tr td
     }
     #menuToggle
     {
-      display: block;
-      position: relative;
-      top: 20px;
-      left: 0;
-      
-      z-index: 1;
-      
-      -webkit-user-select: none;
-      user-select: none;
+        display: block;
+        position: relative;
+        top: 20px!important;
+        left: 0;
+        z-index: 1;
+        -webkit-user-select: none;
+        user-select: none;
+        background: transparent;
+        margin-top: 0;
     }
-    
+
     #menuToggle a
     {
-      text-decoration: none;
-      color: #ffffff;
-      
-      transition: color 0.3s ease;
+        text-decoration: none;
+        color: #ffffff;
+
+        transition: color 0.3s ease;
     }
-    
+
     #menuToggle a:hover
     {
-      color: tomato;
+        color: tomato;
     }
-    
-    
+
+
     #menuToggle input
     {
-      display: block;
-      width: 40px;
-      height: 32px;
-      position: absolute;
-      top: -7px;
-      left: -5px;
-      cursor: pointer;
-      opacity: 0; /* hide this */
-      z-index: 5000; /* and place it over the hamburger */
-      -webkit-touch-callout: none;
+        display: block;
+        width: 40px;
+        height: 32px;
+        position: absolute;
+        top: -7px;
+        left: -5px;
+        cursor: pointer;
+        opacity: 0; /* hide this */
+        z-index: 5000; /* and place it over the hamburger */
+        -webkit-touch-callout: none;
     }
-    
+
     /*
      * Just a quick hamburger
      */
     #menuToggle span
     {
-      display: block;
-      width: 33px;
-      height: 4px;
-      margin-bottom: 5px;
-      position: relative;
-      background: #ffffff;
-      border-radius: 3px;
-      z-index: 200;
-      transform-origin: 4px 0px;
-      transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-                  background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-                  opacity 0.55s ease;
+        display: block;
+        width: 33px;
+        height: 4px;
+        margin-bottom: 5px;
+        position: relative;
+        background: #ffffff;
+        border-radius: 3px;
+        z-index: 200;
+        transform-origin: 4px 0px;
+        transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+        background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+        opacity 0.55s ease;
     }
-    
+
     #menuToggle span:first-child
     {
-      transform-origin: 0% 0%;
+        transform-origin: 0% 0%;
     }
-    
+
     #menuToggle span:nth-last-child(2)
     {
-      transform-origin: 0% 100%;
+        transform-origin: 0% 100%;
     }
-    
+
     /* 
      * Transform all the slices of hamburger
      * into a crossmark.
      */
     #menuToggle input:checked ~ span
     {
-      opacity: 1;
-      transform: rotate(45deg) translate(-2px, -1px);
-      background: #ffffff;
+        opacity: 1;
+        transform: rotate(45deg) translate(-2px, -1px);
+        background: #ffffff;
     }
-    
+
     /*
      * But let's hide the middle one.
      */
     #menuToggle input:checked ~ span:nth-last-child(3)
     {
-      opacity: 0;
-      transform: rotate(0deg) scale(0.2, 0.2);
+        opacity: 0;
+        transform: rotate(0deg) scale(0.2, 0.2);
     }
-    
+
     /*
      * Ohyeah and the last one should go the other direction
      */
     #menuToggle input:checked ~ span:nth-last-child(2)
     {
-      transform: rotate(-45deg) translate(0, -1px);
+        transform: rotate(-45deg) translate(0, -1px);
     }
-    
+
     /*
      * Make this absolute positioned
      * at the top left of the screen
@@ -522,30 +522,30 @@ div.input table tbody tr td
         border-bottom: 2px solid #ffbc00;
         border-top: 1px solid #1750a1;
     }
-    
+
     /* #menu li
      {
        padding: 0;
        font-size: 22px;
      }
     */
-    
+
     /*
      * And let's slide it in from the left
      */
     #menuToggle input:checked ~ ul
     {
-      transform: none;
-      justify-content: space-between;
-      display: flex;
-      top: 62px;
+        transform: none;
+        justify-content: space-between;
+        display: flex;
+        top: 62px;
     }
 
     .pc-menu {
         display: none;
     }
 
-    .overlay-show { 
+    .overlay-show {
         display: block;
         position: fixed;
         top: 0;
@@ -573,6 +573,19 @@ div.input table tbody tr td
     .margin-for-mobile {
         margin: 0px -20px!important;
     }
+    /*.parent-menu {*/
+        /*position: fixed;*/
+        /*left: 0;*/
+        /*width: 100%;*/
+        /*border-bottom: 1px solid #1865c1;*/
+    /*}*/
+    /*.child-submenu {*/
+        /*position: fixed;*/
+        /*left: 0;*/
+        /*width: 100%;*/
+        /*text-align: justify;*/
+        /*margin-top: 8px;*/
+    /*}*/
 }
 @media (max-width: 375px) {
     .dataTables_wrapper .dataTables_paginate .paginate_button {

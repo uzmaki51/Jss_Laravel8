@@ -16355,7 +16355,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
     padding: 0;
     margin: 0;
     border: 0;
-    border-top: 1px solid #fcfcfc;
+    border-top: unset;
     border-bottom: unset;
     position: relative;
 }
@@ -16410,7 +16410,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
     width: 3px;
     max-width: 3px;
     overflow: hidden;
-    background-color: #3382af
+    background-color: transparent;
 }
 
 .nav-list > li a > .arrow {
@@ -16728,7 +16728,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
 
 .nav-list > li > .submenu li > .submenu {
     border-top: 0;
-    background-color: transparent;
+    background-image: linear-gradient(to left, rgb(25 83 165) , rgb(40, 104, 194));
     display: none
 }
 
@@ -16745,7 +16745,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
 
 .nav-list > li > .submenu .open > a, .nav-list > li > .submenu .open > a:hover, .nav-list > li > .submenu .open > a:focus {
     background-color: transparent;
-    border-color: #e4e4e4
+    border-color: transparent;
 }
 
 .nav-list > li > .submenu li > .submenu > li > a > .arrow {
@@ -16762,8 +16762,8 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
 }
 
 .nav-list > li > .submenu li > .submenu > li > a {
-    margin-left: 20px;
-    padding-left: 22px
+    margin-left: 0;
+    padding-left: 0;
 }
 
 .nav-list > li > .submenu li > .submenu > li > .submenu > li > a {
@@ -20379,8 +20379,8 @@ input[type=checkbox].ace.ace-switch.ace-switch-7:checked + .lbl::after {
 }
 
 .nav-pills .open .dropdown-toggle, .nav > li.dropdown.open.active > a:hover, .nav > li.dropdown.open.active > a:focus {
-    background-color: #4f99c6;
-    border-color: #4f99c6;
+    background-color: transparent;
+    border: unset;
     color: #fff
 }
 

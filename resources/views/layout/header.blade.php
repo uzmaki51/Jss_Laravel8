@@ -50,6 +50,10 @@
     <script src="{{ asset('/assets/js/util.js')}}"></script>
 </head>
 
+<script type="text/javascript">
+    try{ace.settings.loadState('sidebar')}catch(e){}
+</script>
+
 <?php
     $routeName = Request::route()->getName();
     $menuList = Session::get('menusList');
@@ -62,18 +66,21 @@
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">
         <div class="container">
             <div class="navbar-header" style="width:10%;">
-                <a href="/home" class="navbar-brand">
+                <a href="/home" class="navbar-brand for-pc">
+                    <img class="navbar-img" src="{{ asset('/assets/avatars/logo.png') }}" alt=""/>
+                </a>
+                <a class="navbar-brand for-sp">
                     <img class="navbar-img" src="{{ asset('/assets/avatars/logo.png') }}" alt=""/>
                 </a>
             </div>
             
-            <div id="menuToggle" class="sp-menu">
+            <div id="menuToggle" class="sp-menu sidebar">
                 <input type="checkbox" class="hamburger-input"/>
                 <span></span>
                 <span></span>
                 <span></span>
 
-                <ul class="nav nav-pills" id="menu">
+                <ul class="nav nav-pills nav-list" id="menu">
                     <li>
                         <a href="{{ route('home') }}">
                             首页
@@ -85,18 +92,79 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/shipManage/ctm/analytics">
+                        <a href="#" class="dropdown-toggle text-center">
                             分析
                         </a>
+                        <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; border-bottom: 1px solid #1865c1;">
+                            <li class="d-in-block text-center" style="width: 32%;">
+                                <a href="#" class="dropdown-toggle">
+                                    船舶
+                                </a>
+
+                                <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; text-align: justify; margin-top: 7px;">
+                                    <li class="d-in-block">
+                                        <a href="/shipManage/shipinfo">
+                                            规范
+                                        </a>
+                                    </li>
+
+                                    <li class="d-in-block">
+                                        <a href="/shipManage/dynamicList">
+                                            动态分析
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="d-in-block text-center" style="width: 32%;">
+                                <a href="#" class="dropdown-toggle">
+                                    海员
+                                </a>
+
+                                <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; text-align: justify; margin-top: 7px;">
+                                    <li class="d-in-block">
+                                        <a href="/shipMember/totalShipMember">
+                                            CREW LIST
+                                        </a>
+                                    </li>
+
+                                    <li class="d-in-block">
+                                        <a href="/shipMember/wagesList">
+                                            工资(船舶)
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="d-in-block text-center" style="width: 32%;">
+                                <a href="#" class="dropdown-toggle">
+                                    收支
+                                </a>
+
+                                <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; text-align: justify; margin-top: 7px;">
+                                    <li class="d-in-block">
+                                        <a href="/operation/incomeExpense">
+                                            收支(船只)
+                                        </a>
+                                    </li>
+
+                                    <li class="d-in-block">
+                                        <a href="/shipManage/ctm/analytics">
+                                            CTM 分析
+                                        </a>
+                                    </li>
+
+                                    <li class="d-in-block">
+                                        <a href="/shipManage/voy/evaluation">
+                                            航次评估
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </li>
                     <li>
-                        <a href="/business/dynRecord">
-                            动态
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/finance/books">
-                            财务
+                        <a href="#">
+                            记录
                         </a>
                     </li>
                 </ul>
