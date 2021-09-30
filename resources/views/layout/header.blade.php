@@ -163,9 +163,16 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="#" class="dropdown-toggle text-center">
                             记录
                         </a>
+                        <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; border-bottom: 1px solid #1865c1;">
+                            <li class="d-in-block text-center">
+                                <a href="/business/dynRecord" class="dropdown-toggle">
+                                    动态记录
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
