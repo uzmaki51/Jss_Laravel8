@@ -882,8 +882,8 @@ class ShipRegController extends Controller
             $start_year = substr($start_year,0,4);
         }
 
-        $materialCategory = ShipMaterialCategory::all();
-        $materialType = ShipMaterialSubKind::all();
+        $materialCategory = ShipMaterialCategory::orderByRaw('CAST(order_no AS SIGNED) ASC')->get();
+        $materialType = ShipMaterialSubKind::orderByRaw('CAST(order_no AS SIGNED) ASC')->get();
 
         if (!isset($year)) {
             $year = date("Y");
@@ -1186,7 +1186,7 @@ class ShipRegController extends Controller
 			}
 		}
 
-		$retVal = ShipMaterialCategory::all();
+        $retVal = ShipMaterialCategory::orderByRaw('CAST(order_no AS SIGNED) ASC')->get();
 
 		return response()->json($retVal);
 	}
@@ -2398,8 +2398,8 @@ class ShipRegController extends Controller
 	    }
         */
 
-	    $retVal['material_category'] = ShipMaterialCategory::all();
-        $retVal['material_type'] = ShipMaterialSubKind::all();
+	    $retVal['material_category'] = ShipMaterialCategory::orderByRaw('CAST(order_no AS SIGNED) ASC')->get();
+        $retVal['material_type'] = ShipMaterialSubKind::orderByRaw('CAST(order_no AS SIGNED) ASC')->get();
 
 	    $retVal['ship_id'] = $id;
 	    $retVal['ship_name'] = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $id)->first()->shipName_En;
@@ -2474,7 +2474,7 @@ class ShipRegController extends Controller
 		}
 
 		ShipMaterialCategory::where('id', $params['id'])->delete();
-		$retVal = ShipMaterialCategory::all();
+        $retVal = ShipMaterialCategory::orderByRaw('CAST(order_no AS SIGNED) ASC')->get();
 
 		return response()->json($retVal);
 	}

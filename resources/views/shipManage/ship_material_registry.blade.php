@@ -515,6 +515,18 @@ $ships = Session::get('shipList');
                             }});
                     },
                     ajaxFormSubmit() {
+                        var arr = new Array();
+                        $("#modal-material-category  input[name='order_no[]']").each(function(){
+                            if ($(this).val() != "") arr.push($(this).val());
+                        });
+                        for(var i=0; i<arr.length;i++){
+                            for(var j=i+1;j<arr.length;j++){
+                                if(arr[i]==arr[j]){
+                                    alert("OrderNo is duplicated. Please check again!");
+                                    return;
+                                }
+                            }
+                        }         
                         let form = $('#shipMaterialCategoryForm').serialize();
                         $.post('shipMaterialCategory', form).done(function (data) {
                             let result = data;
@@ -580,6 +592,19 @@ $ships = Session::get('shipList');
                             }});
                     },
                     ajaxFormSubmit() {
+                        var arr = new Array();
+                        $("#modal-material-type  input[name='order_no[]']").each(function(){
+                            if ($(this).val() != "") arr.push($(this).val());
+                        });
+                        for(var i=0; i<arr.length;i++){
+                            for(var j=i+1;j<arr.length;j++){
+                                if(arr[i]==arr[j]){
+                                    alert("OrderNo is duplicated. Please check again!");
+                                    return;
+                                }
+                            }
+                        }
+                        
                         let form = $('#shipMaterialForm').serialize();
                         $.post('shipMaterialType', form).done(function (data) {
                             let result = data;

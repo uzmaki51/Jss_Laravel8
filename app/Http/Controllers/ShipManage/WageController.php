@@ -187,7 +187,7 @@ class WageController extends Controller
             $wage_record['shipId'] = $shipId;
             $wage_record['member_id'] = $array_memberId[$index];
             $wage_record['name'] = $array_name[$index];
-            $wage_record['minuscash'] = $array_minus_cash[$index];
+            $wage_record['minuscash'] = str_replace(',','',$array_minus_cash[$index]);
             $wage_record['cashR'] = str_replace(',','',$array_R[$index]);
             $wage_record['cashD'] = str_replace(',','',$array_D[$index]);
             $wage_record['rank'] = $array_rank[$index];
