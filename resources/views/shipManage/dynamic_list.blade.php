@@ -163,25 +163,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="prev-voy d-none">
-                                <td class="text-center">@{{ prevData['CP_ID'] }}</td>
-                                <td class="text-center">@{{ prevData['Voy_Date'] }}</td>
-                                <td class="text-center">@{{ prevData['Voy_Hour'] }}</td>
-                                <td class="text-center">@{{ prevData['Voy_Minute'] }}</td>
-                                <td class="text-center">@{{ prevData['GMT'] }}</td>
-                                <td style="padding-left: 8px!important">@{{ prevData['Voy_Status'] }}</td>
-                                <td style="padding-left: 8px!important">@{{ prevData['Voy_Type'] }}</td>
-                                <td style="padding-left: 4px!important">@{{ prevData['Ship_Position'] }}</td>
-                                <td class="text-center">@{{ prevData['Sail_Distance'] }}</td>
-                                <td class="text-center">@{{ prevData['Speed'] }}</td>
-                                <td class="text-center">@{{ prevData['RPM'] }}</td>
-                                <td class="text-right font-weight-bold text-danger">@{{ prevData['Cargo_Qtty'] }}</td>
-                                <td class="text-center font-weight-bold text-danger" style="border-left: 2px solid #ff9207;">@{{ prevData['ROB_FO'] }}</td>
-                                <td class="text-center font-weight-bold text-danger" style="border-right: 2px solid #ff9207; width: 50px;">@{{ prevData['ROB_DO'] }}</td>
-                                <td class="text-center">@{{ prevData['BUNK_FO'] }}</td>
-                                <td class="text-center">@{{ prevData['BUNK_DO'] }}</td>
-                                <td class="text-center" colspan="4">@{{ prevData['Remark'] }}</td>
-                            </tr>
                             <template v-for="(currentItem, index) in currentData" v-cloak>
                                 <tr class="dynamic-item">
                                     <td class="d-none"><input type="hidden" :value="currentItem.id" name="id[]"></td>
@@ -513,13 +494,10 @@
                         });
                     },
                     number_format: function(value, decimal = 1) {
-                        return isNaN(value) || value == 0 || value == null || value == undefined ? '' : number_format(value, decimal);
+                        return __parseFloat(value) == 0 ? '' : number_format(value, decimal);
                     },
                     __number_format: function(value, voy_status, decimal = 0) {
-                        if(voy_status == DYNAMIC_CMPLT_DISCH)
-                            return  number_format(__parseFloat(value), decimal);
-                        else
-                            return isNaN(value) || value == 0 || value == null || value == undefined ? '' : number_format(value, decimal);
+                        return __parseFloat(value) == 0 ? 0 : number_format(value, decimal);
                     },
                     dangerClass: function(value) {
                         return isNaN(value) || value < 0 ? 'text-danger' : '';
