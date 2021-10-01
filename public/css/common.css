@@ -492,6 +492,13 @@ ul.timeline > li {
 .dynamic-result-table tr:nth-child(2) td {
     background: #d9f8fb;
 }
+.dynamic-table tr td, .dynamic-table tr th {
+    white-space: nowrap;
+}
+
+.dynamic-result-table tr td, .dynamic-result-table tr th {
+    white-space: nowrap;
+}
 
 .dynamic-table input::-webkit-outer-spin-button,
 .dynamic-table input::-webkit-inner-spin-button {
