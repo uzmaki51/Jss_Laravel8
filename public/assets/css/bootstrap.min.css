@@ -4702,8 +4702,8 @@ a.thumbnail:hover, a.thumbnail:focus {
 }
 
 .alert-danger {
-    color: #b94a48;
-    background-color: #f2dede;
+    color: #ff0000;
+    background-color: #f3b7b7;
     border-color: #eed3d7
 }
 

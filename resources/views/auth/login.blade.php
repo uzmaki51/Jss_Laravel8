@@ -21,10 +21,9 @@
                 <div class="panel-body">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
-                            <strong>登录错误!</strong><br><br>
                             <ul>
                                 @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
+                                    <li><strong>{{ $error }}</strong></li>
                                 @endforeach
                             </ul>
                         </div>
