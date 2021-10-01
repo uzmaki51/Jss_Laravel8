@@ -406,6 +406,9 @@ div.input table tbody tr td
 .sp-tr-none {
     display: revert;
 }
+.sp-ml-1 {
+    margin: 0;
+}
 
 @media (max-width: 768px) {
     .sp-menu {
@@ -595,6 +598,9 @@ div.input table tbody tr td
     }
     .sp-tr-none {
         display: none;
+    }
+    .sp-ml-1 {
+        margin: 10px;
     }
 }
 @media (max-width: 375px) {

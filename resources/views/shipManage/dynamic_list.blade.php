@@ -76,7 +76,7 @@
                         </div>
                     </div>
                     <label style="margin-left: 20px;" class="custom-label for-pc">年份</label>
-                    <select class="text-center" name="year_list" @change="onChangeYear" v-model="activeYear">
+                    <select class="text-center sp-ml-1" name="year_list" @change="onChangeYear" v-model="activeYear">
                         @foreach($years as $year)
                             <option value="{{ $year }}">{{ $year }}年</option>
                         @endforeach
