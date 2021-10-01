@@ -58,73 +58,54 @@
         </div>
         <div class="page-content" id="search-div" v-cloak>
             <div class="row">
-                <div class="col-md-12 align-bottom">
-                    <div class="col-md-6">
-                        <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
-                        <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px;max-width: 100px;" @change="changeShip" v-model="shipId">
-                            @foreach($shipList as $ship)
-                                <option value="{{ $ship['IMO_No'] }}"{{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}</option>
-                            @endforeach
-                        </select>
-                        <div class="btn-group ml-1">
-                            <div class="d-flex">
-                                <input type="radio" class="width-auto mt-0" id="all" name="record_type" @change="onTypeChange('all')" :checked="record_type == 'all' ? 'true' : ''">
-                                <label for="all" class="ml-1">全部记录</label>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <input type="radio" class="width-auto mt-0" id="analyze" name="record_type" @change="onTypeChange('analyze')" :checked="record_type == 'analyze' ? 'true' : ''">
-                                <label for="analyze" class="ml-1">动态分析</label>
-                            </div>
+                <div class="col-md-6">
+                    <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
+                    <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px;max-width: 100px;" @change="changeShip" v-model="shipId">
+                        @foreach($shipList as $ship)
+                            <option value="{{ $ship['IMO_No'] }}"{{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}</option>
+                        @endforeach
+                    </select>
+                    <div class="btn-group ml-1">
+                        <div class="d-flex">
+                            <input type="radio" class="width-auto mt-0" id="all" name="record_type" @change="onTypeChange('all')" :checked="record_type == 'all' ? 'true' : ''">
+                            <label for="all" class="ml-1">全部记录</label>
                         </div>
-                        <label style="margin-left: 20px;" class="custom-label">年份</label>
-                        <select class="text-center" name="year_list" @change="onChangeYear" v-model="activeYear">
-                            @foreach($years as $year)
-                                <option value="{{ $year }}">{{ $year }}年</option>
-                            @endforeach
-                        </select>
+                        <div class="d-flex mt-2">
+                            <input type="radio" class="width-auto mt-0" id="analyze" name="record_type" @change="onTypeChange('analyze')" :checked="record_type == 'analyze' ? 'true' : ''">
+                            <label for="analyze" class="ml-1">动态分析</label>
+                        </div>
+                    </div>
+                    <label style="margin-left: 20px;" class="custom-label for-pc">年份</label>
+                    <select class="text-center" name="year_list" @change="onChangeYear" v-model="activeYear">
+                        @foreach($years as $year)
+                            <option value="{{ $year }}">{{ $year }}年</option>
+                        @endforeach
+                    </select>
 
-                        <label class="font-bold ml-1 text-danger" v-show="record_type == 'all'">航次:</label>
-                        <select class="text-center" style="width: 60px;" name="voy_list" @change="onChangeVoy" v-model="activeVoy" v-show="record_type == 'all'">
-                            <template v-for="voyItem in voy_list">
-                                <option :value="voyItem.Voy_No">@{{ voyItem.Voy_No }}</option>
-                            </template>
-                        </select>
+                    <label class="font-bold ml-1 text-danger for-pc" v-show="record_type == 'all'">航次:</label>
+                    <select class="text-center" style="width: 60px;" name="voy_list" @change="onChangeVoy" v-model="activeVoy" v-show="record_type == 'all'">
+                        <template v-for="voyItem in voy_list">
+                            <option :value="voyItem.Voy_No">@{{ voyItem.Voy_No }}</option>
+                        </template>
+                    </select>
+                </div>
+                <div class="col-md-6 for-pc">
+                    <div class="d-flex f-left">
+                        <strong class="f-right" style="font-size: 16px; padding-top: 6px;" id="page_title">
+                            <span id="search_info">"{{ $shipName }}"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ page_title }}</span>
+                        </strong>
                     </div>
-                    <div class="col-md-3">
-                        <div class="d-flex f-left">
-                            <strong class="f-right" style="font-size: 16px; padding-top: 6px;" id="page_title">
-                                <span id="search_info">"{{ $shipName }}"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ page_title }}</span>
-                            </strong>
-                        </div>
-                    </div>
-                    <div class="col-md-4 d-none">
-                        <div class="" style="margin-right: 12px; padding-top: 2px;">
-                            <table class="contract-table mt-2 table-layout-fixed" style="min-height: auto;">
-                            <tr>
-                                <td class="width-10">装港</td>
-                                <td class="font-style-italic width-40">LOADING PORT</td>
-                                <td class="font-style-italic width-50 text-ellipsis white-bg" style="border-right: 1px solid #4c4c4c;">@{{ port['loading'] }}</td>
-                            </tr>
-                            <tr>
-                                <td style="width-10">卸港</td>
-                                <td class="font-style-italic width-40">DISCHARGING PORT</td>
-                                <td class="font-style-italic width-50 text-ellipsis white-bg" style="border-right: 1px solid #4c4c4c;">@{{ port['discharge'] }}</td>
-                            </tr>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="btn-group f-right">
-                            <button class="btn btn-warning btn-sm save-btn" @click="fnExcelReport"><i class="icon-table"></i> {{ trans('common.label.excel') }}</button>
-                        </div>
+                
+                    <div class="btn-group f-right">
+                        <button class="btn btn-warning btn-sm save-btn" @click="fnExcelReport"><i class="icon-table"></i> {{ trans('common.label.excel') }}</button>
                     </div>
                 </div>
             </div>
 
             <!-- Main Contents Begin -->
             <div class="row" style="margin-top: 4px;">
-                <div class="col-md-12">
-                <div class="">
+                <div class="col-md-12 full-width">
+                <div class="table-responsive">
                     <table class="table-bordered dynamic-table table-striped" v-show="record_type == 'all'" id="table-list-all">
                         <thead>
                             <tr>
@@ -231,7 +212,9 @@
                             </tr>
                         </tbody>
                     </table>
-
+                </div>
+                
+                <div class="table-responsive">
                     <table class="dynamic-result-table analyze-table table-striped" v-show="record_type == 'analyze'"  id="table-list-analysis">
                         <thead>
                             <tr class="dynamic-footer">

@@ -396,6 +396,17 @@ div.input table tbody tr td
 
 }
 
+.page-header {
+    display: revert;
+}
+
+.custom-height {
+    height: calc(100% - 60px)!important;
+}
+.sp-tr-none {
+    display: revert;
+}
+
 @media (max-width: 768px) {
     .sp-menu {
         display: block;
@@ -573,19 +584,18 @@ div.input table tbody tr td
     .margin-for-mobile {
         margin: 0px -20px!important;
     }
-    /*.parent-menu {*/
-        /*position: fixed;*/
-        /*left: 0;*/
-        /*width: 100%;*/
-        /*border-bottom: 1px solid #1865c1;*/
-    /*}*/
-    /*.child-submenu {*/
-        /*position: fixed;*/
-        /*left: 0;*/
-        /*width: 100%;*/
-        /*text-align: justify;*/
-        /*margin-top: 8px;*/
-    /*}*/
+    .custom-height {
+        height: auto!important;
+    }
+    .page-header {
+        display: none;
+    }
+    .sp-left-align tr td:first-child {
+        text-align: left!important;
+    }
+    .sp-tr-none {
+        display: none;
+    }
 }
 @media (max-width: 375px) {
     .dataTables_wrapper .dataTables_paginate .paginate_button {

@@ -260,7 +260,7 @@
     });
 </script>
 <div class="main-container {{ $routeName == 'home' || $routeName == 'home.index' ? '' : 'inner-wrap' }}" style="{{ $routeName == 'shipmember.list' || $routeName == 'income.ship' || $routeName == 'income.all' || $routeName == 'wages.calc' || $routeName == 'wages.send' || $routeName == 'wages.calc.report' || $routeName == 'wages.send.report' ? 'width:100%; height: 100%!impotant;' : '' }}" id="main-container">
-    <div class="main-container-inner" style="{{ $routeName == 'decision.report' || $routeName == 'system.settings' ? 'height: calc(100% - 60px)!important' : '' }}">
+    <div class="main-container-inner {{ $routeName == 'decision.report' || $routeName == 'system.settings' ? 'custom-height' : '' }}">
         @if(isset($breadCrumb) && count($breadCrumb) > 0)
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
                 <ul class="breadcrumb">

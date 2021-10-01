@@ -24,13 +24,11 @@
 @section('content')
     <div class="main-content">
         <div class="page-content">
-            <div class="page-header for-pc">
+            <div class="page-header">
                 <div class="col-md-6">
                     <h4><b>审批文件</b></h4>
                 </div>
             </div>
-            <div class="space-6"></div>
-            <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6">
                         <select class="custom-select d-inline-block" id="year" style="width: auto;">
@@ -78,6 +76,7 @@
                         </div>
                     </div>
                 </div>
+            <div class="col-md-12">
                 <div class="row">
                     <div class="space-2"></div>
 					<div class="col-lg-12 common-list head-fix-div" style="padding: 0 1px; width: 100%;">
