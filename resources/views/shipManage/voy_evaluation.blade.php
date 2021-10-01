@@ -33,28 +33,26 @@ $ships = Session::get('shipList');
                 </div>
             </div>
 
-            <div class="col-lg-12">
-                <div class="col-lg-12">
-                    <ul class="nav nav-tabs ship-register">
-                        <li class="{{ !isset($type) || $type == 'main' ? 'active' : '' }}">
-                            <a data-toggle="tab" href="#equipment_record">
-                                航次评估
-                            </a>
-                        </li>
-                        <li class="{{ isset($type) && $type == 'else' ? 'active' : '' }}">
-                            <a data-toggle="tab" href="#equipment_require_div">
-                            航次比较
-                            </a>
-                        </li>
-                    </ul>
-                    
-                    <div class="tab-content pt-1">
-                        <div id="equipment_record" class="tab-pane {{ !isset($type) || $type == 'main' ? 'active' : '' }}">
-                            @include('shipManage.voy_evaluation_main')
-                        </div>
-                        <div id="equipment_require_div" class="tab-pane {{ isset($type) && $type == 'else' ? 'active' : '' }}">
-                            @include('shipManage.voy_evaluation_else')
-                        </div>
+            <div class="col-lg-12 full-width">
+                <ul class="nav nav-tabs ship-register for-pc">
+                    <li class="{{ !isset($type) || $type == 'main' ? 'active' : '' }}">
+                        <a data-toggle="tab" href="#equipment_record">
+                            航次评估
+                        </a>
+                    </li>
+                    <li class="{{ isset($type) && $type == 'else' ? 'active' : '' }}">
+                        <a data-toggle="tab" href="#equipment_require_div">
+                        航次比较
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="tab-content pt-1">
+                    <div id="equipment_record" class="tab-pane {{ !isset($type) || $type == 'main' ? 'active' : '' }} custom-for-pc">
+                        @include('shipManage.voy_evaluation_main')
+                    </div>
+                    <div id="equipment_require_div" class="tab-pane {{ isset($type) && $type == 'else' ? 'active' : '' }} custom-for-sp">
+                        @include('shipManage.voy_evaluation_else')
                     </div>
                 </div>
             </div>

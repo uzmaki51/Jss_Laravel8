@@ -16,12 +16,12 @@
                 @endforeach
             </select>
 
-            <strong style="font-size: 20px; padding-top: 6px; margin-left: 30px;" class="f-right">
+            <strong style="font-size: 20px; padding-top: 6px; margin-left: 30px;" class="f-right for-pc">
                 <span id="search_info">{{ $shipName }}</span>&nbsp;<span class="font-bold">@{{ year }}年航次效率比较</span>
             </strong>
             
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-5 for-pc">
             <div class="btn-group f-right">
                 <a class="btn btn-sm btn-dynamic" @click="openNewPage('dynamic')"><i class="icon-bar-chart"></i> 动态分析</a>
                 <button class="btn btn-warning btn-sm excel-btn" @click="fnExcelElse()"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
@@ -30,9 +30,9 @@
     </div>
     
     <div class="row" style="margin-top: 4px;">
-        <div class="col-lg-12">
-            <div class="">
-                <table id="table-else">
+        <div class="col-lg-12 full-width">
+            <div class="table-responsive">
+                <table id="table-else" class="nowrap-table">
                     <tr class="dynamic-footer">
                         <th class="center not-striped-td" rowspan="2" style="width: 3%;">航次</th>
                         <th class="center not-striped-td" rowspan="2" style="width: 3%;">租船<br><br>种类</th>

@@ -528,6 +528,16 @@ table th {
     .modal-content {
         width: 100%!important;
     }
+    .ctm-analytics th {
+        font-size: 12px!important;
+        padding: 4px!important;
+    }
+    .head-fix-div thead tr:nth-child(2) th{
+        top: 20px;
+    }
+    .ctm-analytics-table td, .ctm-analytics-table th {
+        white-space: nowrap;
+    }
 }
 /* Footer
 -------------------------------------------------- */

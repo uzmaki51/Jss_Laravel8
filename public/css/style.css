@@ -414,6 +414,13 @@ div.input table tbody tr td
     .sp-menu {
         display: block;
     }
+    .custom-for-pc {
+        display: none!important;
+    }
+    .custom-for-sp {
+        display: revert!important;
+    }
+
     #menuToggle
     {
         display: block;
@@ -601,6 +608,15 @@ div.input table tbody tr td
     }
     .sp-ml-1 {
         margin: 10px;
+    }
+    .style-header {
+        font-weight: bold!important;
+        font-style: normal!important;
+        height: 20px;
+    }
+
+    .nowrap-table td, .nowrap-table th {
+        white-space: nowrap;
     }
 }
 @media (max-width: 375px) {

@@ -597,9 +597,7 @@ ul.timeline > li {
 .bottom-0 td {
 	bottom: 0;
 }
-.full-width {
-    width: 100%;
-}
+
 @media (min-width: 1367px) {
     .inner-wrap {
         width: 1300px;
