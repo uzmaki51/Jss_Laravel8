@@ -303,21 +303,30 @@ table tbody tr:hover .gmt-input {
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     border: 1px solid #666666!important;
 }
-/* // .cost-item-odd, .cost-item-odd * {
-//     background-color: #f5f5f5!important;
-// }
 
-// .cost-item-even, .cost-item-even * {
-//     background-color: #ffffff!important;
-// }
-// .cost-item-even:hover {
-//     background-color: #ffe3e082;
-// }
-
-// .cost-item-odd:hover {
-//     background-color: #ffe3e082;
-// }
-
-// .contract-item:hover, .contract-item:hover * {
-//     background-color: #ffe3e082;
-// } */
+@media (max-width: 768px) {
+    .table tbody > tr > td {
+        font-size: 10px!important;
+        padding: 0px;
+        white-space: nowrap;
+    }
+    table tbody tr:hover .hour-input,
+    table tbody tr:hover .minute-input {
+        transition: unset!important;
+        border: unset!important;
+    }
+    table tbody tr .hour-input,
+    table tbody tr .minute-input,
+    table tbody tr .gmt-input {
+        transition: unset!important;
+        border: unset!important;
+    }
+    table tbody tr:hover .date-label input {
+        transition: unset!important;
+        border: unset!important;
+    }
+    table tbody tr:hover .gmt-input {
+        transition: unset!important;
+        border: unset!important;
+    }
+}

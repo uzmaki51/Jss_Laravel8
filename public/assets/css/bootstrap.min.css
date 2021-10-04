@@ -406,15 +406,15 @@ cite {
 }
 
 .text-left {
-    text-align: left
+    text-align: left!important;
 }
 
 .text-right {
-    text-align: right
+    text-align: right!important;
 }
 
 .text-center {
-    text-align: center
+    text-align: center!important;
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -1610,7 +1610,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
     cursor: default;
-    background-color: #fff
+    background-color: #eeeeee
 }
 
 textarea.form-control {

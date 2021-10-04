@@ -2895,7 +2895,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
 }
 
 .btn-sm {
-    font-size: 14px;
+    font-size: 10px;
     padding: 2px 9px;
     line-height: 1.39;
 }
@@ -16071,12 +16071,6 @@ blockquote, blockquote.pull-right {
 @media only screen and (max-width: 480px) {
     .breadcrumb > li > a {
         padding: 0 1px
-    }
-}
-
-@media only screen and (max-width: 320px) {
-    .breadcrumb {
-        margin-left: 36px
     }
 }
 

@@ -1027,3 +1027,12 @@ footer {
 #table-main-2 tr:first-child td {
     border-top: 1px solid #484f5b!important;
 }
+@media (max-width: 765px) {
+    table {
+        font-size: 10px !important;
+    }
+    .btn {
+        min-width: 80px;
+        font-size: 10px!important;
+    }
+}

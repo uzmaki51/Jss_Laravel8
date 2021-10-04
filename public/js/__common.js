@@ -197,7 +197,7 @@ function __parseFloat(value) {
 }
 
 function __parseStr(value) {
-    if(value == undefined || value == null) return '';
+    if(value == undefined || value == null || value == 0) return '';
 
     return value;
 }

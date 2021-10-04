@@ -11,7 +11,7 @@ use App\Models\BreadCrumb;
 use App\Models\Repair;
 use Auth;
 
-class repairController extends Controller
+class RepairController extends Controller
 {
     public function register(Request $request) {
         $url = $request->path();

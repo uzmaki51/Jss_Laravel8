@@ -33,7 +33,7 @@ $ships = Session::get('shipList');
                             <option :value="voyItem.Voy_No">@{{ voyItem.Voy_No }}</option>
                         </template>
                     </select>
-                    <strong style="font-size: 16px; padding: 6px 0 0 16px;">
+                    <strong style="font-size: 10px; padding: 6px 0 0 16px;">
                         <span class="font-bold">动态记录</span>
                     </strong>
                     <div class="btn-group f-right">
@@ -44,13 +44,12 @@ $ships = Session::get('shipList');
 
             <!-- Main Contents Begin -->
             <div class="row col-lg-12" style="margin-top: 4px;">
-                <div class="head-fix-div common-list">
-
+                <div class="head-fix-div" style="padding-bottom: 12px;">
                     <input type="hidden" name="_CP_ID" v-model="activeVoy">
                     <table class="table-bordered dynamic-table table-striped" v-cloak>
                         <thead>
                         <tr>
-                            <th class="text-center font-style-italic" style="width: 40px; height: 25px;">VOY No</th>
+                            <th class="text-center font-style-italic" style="width: 40px; height: 25px;">VOY</th>
                             <th class="text-center font-style-italic">DATE</th>
                             <th class="text-center font-style-italic">LT</th>
                             <th class="text-center font-style-italic" style="width: 150px;">STATUS</th>
@@ -67,15 +66,10 @@ $ships = Session::get('shipList');
                         </tr>
                         <template v-for="(currentItem, index) in currentData">
                             <tr class="dynamic-item">
-                                <td class="d-none"><input type="hidden" :value="currentItem.id" name="id[]"></td>
-                                <td class="text-center voy-no" style="background:linear-gradient(#fff, #d9f8fb)!important;">@{{ activeVoy }}</td>
-                                <td class="text-center date-width"><input type="text" class="date-picker form-control text-center" name="Voy_Date[]" v-model="currentItem.Voy_Date" @click="dateModify($event, index)" data-date-format="yyyy-mm-dd"></td>
-                                <td class="time-width"><input type="number" class="form-control text-center gmt-input" name="GMT[]" v-model="currentItem.GMT" @blur="limitGMT($event, index)" @keyup="limitGMT($event, index)"></td>
-                                <td>
-                                    <select type="number" class="form-control" name="Voy_Status[]" v-model="currentItem.Voy_Status" @change="onChangeStatus($event, index)">
-                                        <option v-for="(item, index) in dynamicStatus" v-bind:value="index">@{{ item[0] }}</option>
-                                    </select>
-                                </td>
+                                <td class="text-center voy-no" style="background:linear-gradient(#fff, #d9f8fb)!important;" @click="addItem($event, currentItem.id)">@{{ activeVoy }}</td>
+                                <td class="text-center date-width">@{{ currentItem.Voy_Date }}</td>
+                                <td class="time-width text-center">@{{ currentItem.GMT }}</td>
+                                <td> @{{ getVoyStatusLabel(currentItem.Voy_Status) }}</td>
                                 <td class="position-width"><input type="text" maxlength="25" class="form-control" name="Ship_Position[]" v-model="currentItem.Ship_Position" autocomplete="off"></td>
                             </tr>
                         </template>
@@ -91,7 +85,7 @@ $ships = Session::get('shipList');
                     <div class="dynamic-modal-content" style="border: 0;width:100%!important;">
                         <div class="dynamic-modal-header" data-target="#modal-step-contents">
                             <div class="table-header">
-                                <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
+                                <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" @click="closeModal" aria-hidden="true">
                                     <span class="white">&times;</span>
                                 </button>
                                 <h4 style="padding-top:10px;">动态记录 (VOY @{{ activeVoy }})</h4>
@@ -107,113 +101,123 @@ $ships = Session::get('shipList');
                                     <table class="register-voy">
                                         <tbody>
                                         <tr>
-                                            <td>DATE</td>
+                                            <td class="text-left">DATE</td>
                                             <td colspan="3">
                                                 <input type="text" class="date-picker form-control text-center" name="Voy_Date" v-model="currentItem.Voy_Date" @click="dateModify($event)" data-date-format="yyyy-mm-dd">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>TIME(LT)<span class="text-danger">*</span></td>
+                                            <td class="text-left">TIME(LT)<span class="text-danger">*</span></td>
                                             <td class="time-width">
-                                                <input type="number" class="form-control text-center hour-input" required name="Voy_Hour" v-model="currentItem.Voy_Hour" @blur="limitHour($event)" @keyup="limitHour($event)">
+                                                <input type="number" class="form-control text-center hour-input" required name="Voy_Hour" v-model="currentItem.Voy_Hour" @blur="limitHour($event)" @keyup="limitHour($event)" @change="changeVal">
                                             </td>
                                             <td class="time-width">
-                                                <input type="number" class="form-control text-center minute-input" required name="Voy_Minute" v-model="currentItem.Voy_Minute" @blur="limitMinute($event)" @keyup="limitMinute($event)">
+                                                <input type="number" class="form-control text-center minute-input" required name="Voy_Minute" v-model="currentItem.Voy_Minute" @blur="limitMinute($event)" @keyup="limitMinute($event)" @change="changeVal">
                                             </td>
                                             <td class="time-width">(hh:mm)</td>
                                         </tr>
                                         <tr>
-                                            <td>GMT<span class="text-danger">*</span></td>
-                                            <td class="time-width"><input type="number" required class="form-control text-center gmt-input" name="GMT" v-model="currentItem.GMT" @blur="limitGMT($event)" @keyup="limitGMT($event)"></td>
+                                            <td class="text-left">GMT<span class="text-danger">*</span></td>
+                                            <td class="time-width">
+                                                <input type="number" required class="form-control text-center gmt-input" name="GMT" v-model="currentItem.GMT" @blur="limitGMT($event)" @keyup="limitGMT($event)" @change="changeVal">
+                                            </td>
                                             <td colspan="2"></td>
                                         </tr>
                                         <tr>
-                                            <td>STATUS<span class="text-danger">*</span></td>
+                                            <td class="text-left">STATUS<span class="text-danger">*</span></td>
                                             <td colspan="3">
                                                 <select type="number" class="form-control" name="Voy_Status" v-model="currentItem.Voy_Status" @change="onChangeStatus($event)" required>
-                                                    <option v-for="(item, index) in dynamicStatus" v-bind:value="index">@{{ item[0] }}</option>
+                                                    <option v-for="(item, index) in currentItem.dynamicStatus" v-bind:value="index">@{{ item[0] }}</option>
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="font-style-normal">种类</td>
+                                            <td class="font-style-normal text-left">种类</td>
                                             <td colspan="3">
-                                                <select type="number" class="form-control" name="Voy_Type" v-model="currentItem.Voy_Type">
+                                                <select type="number" class="form-control" name="Voy_Type" v-model="currentItem.Voy_Type" @change="changeVal">
                                                     <option v-for="(item, index) in currentItem.dynamicSub" v-bind:value="item[0]">@{{ item[1] }}</option>
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>POSITION</td>
+                                            <td class="text-left">POSITION</td>
                                             <td colspan="3">
-                                                <input type="text" maxlength="25" class="form-control" name="Ship_Position" v-model="currentItem.Ship_Position" autocomplete="off">
+                                                <input type="text" maxlength="25" class="form-control" name="Ship_Position" v-model="currentItem.Ship_Position" autocomplete="off" @change="changeVal">
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <td>DTG</td>
-                                            <td colspan="2"><input type="number" max="100000" class="form-control text-center"  :readonly="currentItem.Voy_Status != DYNAMIC_DEPARTURE"  name="Sail_Distance" v-model="currentItem.Sail_Distance"></td>
+                                            <td class="text-left">DTG</td>
+                                            <td colspan="2">
+                                                <input type="number" max="100000" class="form-control"  :readonly="currentItem.Voy_Status != DYNAMIC_DEPARTURE"  name="Sail_Distance" v-model="currentItem.Sail_Distance" @change="changeVal">
+                                            </td>
                                             <td>N.Mile</td>
                                         </tr>
                                         <tr>
-                                            <td>SPEED</td>
-                                            <td colspan="2"><input type="number" class="form-control text-center" name="Speed" v-model="currentItem.Speed"></td>
+                                            <td class="text-left">SPEED</td>
+                                            <td colspan="2">
+                                                <input type="number" class="form-control" name="Speed" v-model="currentItem.Speed" @change="changeVal">
+                                            </td>
                                             <td>Kn</td>
                                         </tr>
 
                                         <tr>
-                                            <td>RPM</td>
-                                            <td colspan="2"><input type="number" class="form-control text-center" name="RPM" v-model="currentItem.RPM"></td>
+                                            <td class="text-left">RPM</td>
+                                            <td colspan="2">
+                                                <input type="number" class="form-control" name="RPM" v-model="currentItem.RPM" @change="changeVal">
+                                            </td>
                                             <td>rpm</td>
                                         </tr>
 
                                         <tr>
-                                            <td>CGO QTY(MT)<span class="text-danger">*</span></td>
+                                            <td class="text-left">CGO QTY(MT)<span class="text-danger">*</span></td>
                                             <td colspan="3">
-                                                <input type="number" class="form-control text-right font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty" v-model="currentItem.Cargo_Qtty" required>
+                                                <input type="number" class="form-control font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty" v-model="currentItem.Cargo_Qtty" required @change="changeVal">
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <td>ROB(FO)<span class="text-danger">*</span></td>
+                                            <td class="text-left">ROB(FO)<span class="text-danger">*</span></td>
                                             <td colspan="2">
-                                                <input type="number" class="form-control text-center" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_FO" v-model="currentItem.ROB_FO" required>
+                                                <input type="number" class="form-control" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_FO" v-model="currentItem.ROB_FO" required @change="changeVal">
                                             </td>
                                             <td>MT</td>
                                         </tr>
                                         <tr>
-                                            <td>ROB(DO)<span class="text-danger">*</span></td>
+                                            <td class="text-left">ROB(DO)<span class="text-danger">*</span></td>
                                             <td colspan="2">
-                                                <input type="number" class="form-control text-center" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO" v-model="currentItem.ROB_DO" required>
+                                                <input type="number" class="form-control" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO" v-model="currentItem.ROB_DO" required @change="changeVal">
                                             </td>
                                             <td>MT</td>
                                         </tr>
                                         <tr>
-                                            <td>BUNKERING(FO)</td>
+                                            <td class="text-left">BUNKERING(FO)</td>
                                             <td colspan="2">
-                                                <input type="number" class="form-control text-center" name="BUNK_FO"  style="color: blue!important; padding: 0!important;" v-model="currentItem.BUNK_FO">
+                                                <input type="number" class="form-control" name="BUNK_FO"  style="color: blue!important; padding: 0!important;" v-model="currentItem.BUNK_FO" @change="changeVal">
                                             </td>
                                             <td>MT</td>
                                         </tr>
                                         <tr>
-                                            <td>BUNKERING(DO)</td>
+                                            <td class="text-left">BUNKERING(DO)</td>
                                             <td colspan="2">
-                                                <input type="number" class="form-control text-center" name="BUNK_DO"  style="color: blue!important; padding: 0!important;" v-model="currentItem.BUNK_DO">
+                                                <input type="number" class="form-control" name="BUNK_DO"  style="color: blue!important; padding: 0!important;" v-model="currentItem.BUNK_DO" @change="changeVal">
                                             </td>
                                             <td>MT</td>
                                         </tr>
                                         <tr>
-                                            <td>REMARK</td>
-                                            <td class="position-width" colspan="3"><textarea class="form-control" name="Remark" rows="1" style="resize: none" maxlength="50" autocomplete="off" v-model="currentItem.Remark"></textarea></td>
+                                            <td class="text-left">REMARK</td>
+                                            <td class="position-width" colspan="3">
+                                                <textarea class="form-control" name="Remark" rows="2" style="resize: none" maxlength="50" autocomplete="off" v-model="currentItem.Remark" @change="changeVal">></textarea>
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>
 
                                     <div class="btn-group f-right mt-20 d-flex">
-                                        <button type="submit" class="btn btn-success small-btn ml-0">
+                                        <button type="button" class="btn btn-success small-btn ml-0" @click="submitForm">
                                             <i class="icon-save"></i>保存
                                         </button>
-                                        <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>删除</a>
+                                        <a class="btn btn-danger small-btn close-modal" @click="deleteItem($event, currentItem.id)"><i class="icon-remove"></i>删除</a>
                                     </div>
                                 </form>
                             </div>
@@ -272,13 +276,7 @@ $ships = Session::get('shipList');
             var confirmationMessage = 'It looks like you have been editing something. '
                 + 'If you leave before saving, your changes will be lost.';
 
-            let currentObj = JSON.parse(JSON.stringify(searchObj.currentData));
-            if(JSON.stringify(searchObjTmp) != JSON.stringify(currentObj))
-                isChangeStatus = true;
-            else
-                isChangeStatus = false;
-
-            if (!submitted && isChangeStatus) {
+            if (isChangeStatus) {
                 (e || window.event).returnValue = confirmationMessage;
             }
 
@@ -335,7 +333,10 @@ $ships = Session::get('shipList');
 
                     empty:                  true,
 
-                    currentItem: [],
+                    currentItem: {
+                        dynamicStatus: DynamicStatus,
+                        dynamicSub: [],
+                    },
                 },
                 init: function() {
                     this.changeShip();
@@ -425,16 +426,7 @@ $ships = Session::get('shipList');
                                     searchObj.sail_term['min_date']= searchObj.currentData[0]['Voy_Date'];
                                     let tmpData = searchObj.currentData;
                                     searchObj.sail_term['max_date'] = tmpData[tmpData.length - 1]['Voy_Date'];
-                                    let total_sail_time = 0;
-                                    let total_loading_time = 0;
-                                    let loading_time = 0;
-                                    let disch_time = 0;
-                                    let total_waiting_time = 0;
-                                    let total_weather_time = 0;
-                                    let total_repair_time = 0;
-                                    let total_supply_time = 0;
-                                    let total_else_time = 0;
-                                    let total_distance = 0;
+
 
                                     searchObj.rob_fo = 0;
                                     searchObj.rob_do = 0;
@@ -453,117 +445,9 @@ $ships = Session::get('shipList');
                                         searchObj.currentData[key]['dynamicSub'] = getSubList(value['Voy_Status']);
                                         searchObj.currentData[key]['Voy_Status_Name'] = DynamicStatus[value['Voy_Status']][0];
                                         searchObj.currentData[key]['Voy_Type_Name'] = DynamicSub[value['Voy_Type']];
-                                        searchObj.total_distance += __parseFloat(value["Sail_Distance"]);
-                                        searchObj.bunker_fo += __parseFloat(value['BUNK_FO']);
-                                        searchObj.bunker_do += __parseFloat(value['BUNK_DO']);
-                                        searchObj.rob_fo += __parseFloat(value['ROB_FO']);
-                                        searchObj.rob_do += __parseFloat(value['ROB_DO']);
-
-                                        // if(key > 0) {
-                                        // Calc Sail Count
-                                        if(value['Voy_Type'] == DYNAMIC_SUB_SALING) {
-                                            let preKey = key - 1;
-                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                            total_sail_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                        }
-                                        // Calc Sail Count
-                                        if(value['Voy_Type'] == DYNAMIC_SUB_LOADING ) {
-                                            let preKey = key - 1;
-                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                            loading_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                        }
-
-                                        if(value['Voy_Type'] == DYNAMIC_SUB_DISCH) {
-                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                            disch_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                        }
-
-                                        if(value['Voy_Type'] == DYNAMIC_SUB_WAITING) {
-                                            let preKey = key - 1;
-                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                            total_waiting_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                        }
-
-                                        if(value['Voy_Type'] == DYNAMIC_SUB_WEATHER) {
-                                            let preKey = key - 1;
-                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                            total_weather_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                        }
-
-                                        if(value['Voy_Type'] == DYNAMIC_SUB_REPAIR) {
-                                            let preKey = key - 1;
-                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                            total_repair_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                        }
-
-                                        if(value['Voy_Type'] == DYNAMIC_SUB_SUPPLY) {
-                                            let preKey = key - 1;
-                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                            total_supply_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                        }
-
-                                        if(value['Voy_Type'] == DYNAMIC_SUB_ELSE) {
-                                            let preKey = key - 1;
-                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                            total_else_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                        }
-                                        // }
-
-                                        start_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                        start_gmt = value['GMT'];
-                                        if(searchObj.currentData[key]['Voy_Hour'] < 10)
-                                            searchObj.currentData[key]['Voy_Hour'] = "0" + searchObj.currentData[key]['Voy_Hour'];
-
-                                        if(searchObj.currentData[key]['Voy_Minute'] < 10)
-                                            searchObj.currentData[key]['Voy_Minute'] = "0" + searchObj.currentData[key]['Voy_Minute'];
                                     });
 
-                                    searchObj.total_sail_time = total_sail_time.toFixed(2);
-                                    searchObj.total_loading_time = BigNumber(loading_time.toFixed(2)).plus(disch_time.toFixed(2)).toFixed(2);
-
-                                    searchObj.average_speed = BigNumber(searchObj.total_distance).div(searchObj.total_sail_time).div(24).toFixed(1);
-
-                                    // searchObj.economic_rate = BigNumber(total_loading_time).plus(searchObj.total_sail_time).div(searchObj.sail_time).multipliedBy(100).toFixed(1);
-                                    searchObj.prevData['ROB_FO'] = __parseFloat(searchObj.prevData['ROB_FO']);
-                                    searchObj.prevData['ROB_DO'] = __parseFloat(searchObj.prevData['ROB_DO']);
-                                    data['max_date']['ROB_FO'] = __parseFloat(data['max_date']['ROB_FO']);
-                                    data['max_date']['ROB_DO'] = __parseFloat(data['max_date']['ROB_DO']);
-                                    searchObj.rob_fo = BigNumber(searchObj.prevData['ROB_FO']).plus(searchObj.bunker_fo).minus(data['max_date']['ROB_FO']).toFixed(2);
-                                    searchObj.rob_do = BigNumber(searchObj.prevData['ROB_DO']).plus(searchObj.bunker_do).minus(data['max_date']['ROB_DO']).toFixed(2);
-
-                                    let loadTmp = BigNumber(__parseFloat(loading_time.toFixed(2))).plus(__parseFloat(disch_time.toFixed(2))).plus(__parseFloat(total_sail_time.toFixed(2)));
-                                    let non_economic_date = BigNumber(__parseFloat(total_waiting_time.toFixed(2))).plus(__parseFloat(total_weather_time.toFixed(2))).plus(__parseFloat(total_repair_time.toFixed(2))).plus(__parseFloat(total_supply_time.toFixed(2))).plus(__parseFloat(total_else_time.toFixed(2))).toFixed(2)
-
-                                    searchObj.sail_time = __parseFloat(non_economic_date) + __parseFloat(loadTmp);
-                                    searchObj.economic_rate = BigNumber(loadTmp).div(__parseFloat(searchObj.sail_time.toFixed(2))).multipliedBy(100).toFixed(1);
-
-
-                                    let usedFoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['FOSailCons_S']);
-                                    let usedFoTmp2 = BigNumber(loading_time).plus(disch_time).multipliedBy(shipInfo['FOL/DCons_S']);
-                                    let usedFoTmp3 = BigNumber(non_economic_date).multipliedBy(shipInfo['FOIdleCons_S']);
-
-                                    let usedDoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['DOSailCons_S']);
-                                    let usedDoTmp2 = BigNumber(loading_time).plus(disch_time).multipliedBy(shipInfo['DOL/DCons_S']);
-                                    let usedDoTmp3 = BigNumber(non_economic_date).multipliedBy(shipInfo['DOIdleCons_S']);
-
-                                    searchObj.used_fo = BigNumber(usedFoTmp1).plus(usedFoTmp2).plus(usedFoTmp3).toFixed(2);
-                                    searchObj.used_do = BigNumber(usedDoTmp1).plus(usedDoTmp2).plus(usedDoTmp3).toFixed(2);
-
-                                    searchObj.save_fo = BigNumber(searchObj.rob_fo).minus(searchObj.used_fo).toFixed(2);
-                                    searchObj.save_do = BigNumber(searchObj.rob_do).minus(searchObj.used_do).toFixed(2);
-
                                 }
-
-                                searchObj.total_count = searchObj.currentData.length;
-                                searchObjTmp = JSON.parse(JSON.stringify(searchObj.currentData));
-                                tmp = $('[name=voy_list]').val();
                             }
                         })
                     },
@@ -599,35 +483,124 @@ $ships = Session::get('shipList');
                         this.currentItem.id = id;
                         if(id == 0) {
                             this.currentItem.Voy_Date = this.getToday('-');
+                            this.currentItem.Voy_Hour = '';
+                            this.currentItem.Voy_Minute = '';
+                            this.currentItem.GMT = '';
+                            this.currentItem.Voy_Status = '';
+                            this.currentItem.Voy_Type = '';
+                            this.currentItem.Ship_Position = '';
+                            this.currentItem.Sail_Distance = '';
+                            this.currentItem.Speed = '';
+                            this.currentItem.RPM = '';
+                            this.currentItem.Cargo_Qtty = '';
+                            this.currentItem.ROB_FO = '';
+                            this.currentItem.ROB_DO = '';
+                            this.currentItem.BUNK_FO = '';
+                            this.currentItem.BUNK_DO = '';
+                            this.currentItem.Remark = '';
+
+                            this.$forceUpdate();
+                            $('#modal-wizard').modal('show');
                         } else {
-
+                            $.ajax({
+                                url: BASE_URL + 'ajax/voy/detail',
+                                type: 'post',
+                                data: {
+                                    id: id,
+                                },
+                                success: function(data) {
+                                    let result = data;
+                                    if(result != false) {
+                                        searchObj.currentItem.Voy_Date = result.Voy_Date;
+                                        searchObj.currentItem.Voy_Hour = __parseStr(result.Voy_Hour);
+                                        searchObj.currentItem.Voy_Minute = __parseStr(result.Voy_Minute);
+                                        searchObj.currentItem.GMT = __parseStr(result.GMT);
+                                        searchObj.currentItem.Voy_Status = __parseStr(result.Voy_Status);
+                                        searchObj.currentItem.dynamicSub = getSubList(result.Voy_Status);
+                                        searchObj.currentItem.Voy_Type = __parseStr(result.Voy_Type);
+                                        searchObj.currentItem.Ship_Position = result.Ship_Position;
+                                        searchObj.currentItem.Sail_Distance = __parseStr(result.Sail_Distance);
+                                        searchObj.currentItem.Speed = __parseStr(result.Speed);
+                                        searchObj.currentItem.RPM = __parseStr(result.RPM);
+                                        searchObj.currentItem.Cargo_Qtty = __parseStr(result.Cargo_Qtty);
+                                        searchObj.currentItem.ROB_FO = __parseStr(result.ROB_FO);
+                                        searchObj.currentItem.ROB_DO = __parseStr(result.ROB_DO);
+                                        searchObj.currentItem.BUNK_FO = __parseStr(result.BUNK_FO);
+                                        searchObj.currentItem.BUNK_DO = __parseStr(result.BUNK_DO);
+                                        searchObj.currentItem.Remark = result.Remark;
+                                    }
+                                    searchObj.$forceUpdate();
+                                    $('#modal-wizard').modal('show');
+                                }
+                            });
                         }
-
-                        this.$forceUpdate();
-                        $('#modal-wizard').modal('show');
                     },
                     dateModify(e, index) {
                         $(e.target).on("change", function() {
                             searchObj.currentItem['Voy_Date'] = $(this).val();
+                            isChangeStatus = true;
                         });
+                    },
+                    changeVal: function() {
+                        isChangeStatus = true;
                     },
                     onChangeStatus: function(e, index) {
                         let voyStatus = $(e.target).val();
                         searchObj.currentItem['dynamicSub'] = getSubList(voyStatus);
                         searchObj.currentItem['Voy_Type'] = getSubList(voyStatus)[0][0];
+                        isChangeStatus = true;
                         searchObj.$forceUpdate();
                     },
                     submitForm: function() {
-                        submitted = true;
-                        if(this.validateForm() == -2) {
-                            bootbox.alert('Please input ROB/FO, ROB/DO value.');
-                        } else if(this.validateForm() == -1) {
-                            bootbox.alert('"CGO QTY" is require input field.');
-                        } else if(this.validateForm() == -3) {
-                            bootbox.alert('If voy status is "CMPLT VOYAGE", "POSITION" and "ROB" are required item.');
+                        isChangeStatus = false;
+                        let label = '***';
+                        if($('#dynamic-form').validate({
+                            rules: {
+                                Voy_Hour: {
+                                    required: true
+                                },
+                                Voy_Minute : {
+                                    required: true
+                                },
+                                Voy_Status: {
+                                    required: true
+                                },
+                                GMT: {
+                                    required: true
+                                },
+                                Cargo_Qtty: {
+                                    required: true
+                                },
+                                ROB_FO: {
+                                    required: true
+                                },
+                                ROB_DO: {
+                                    required: true
+                                },
+                            },
+                            messages: {
+                                Voy_Hour: label,
+                                Voy_Minute : label,
+                                Voy_Status: label,
+                                GMT: label,
+                                Cargo_Qtty: label,
+                                ROB_FO: label,
+                                ROB_DO: label,
+                            }
+                        })) {
+                            if(this.validateForm() == -2) {
+                                bootbox.alert('Please input ROB/FO, ROB/DO value.');
+                            } else if(this.validateForm() == -1) {
+                                bootbox.alert('"CGO QTY" is require input field.');
+                            } else if(this.validateForm() == -3) {
+                                bootbox.alert('If voy status is "CMPLT VOYAGE", "POSITION" and "ROB" are required item.');
+                            } else {
+                                $('#dynamic-form').submit();
+                            }
                         } else {
-                            $('#dynamic-form').submit();
+                            return false;
                         }
+
 
                         return false;
                     },
@@ -746,16 +719,30 @@ $ships = Session::get('shipList');
                         if(val < 0)
                             this.currentItem['GMT'] = 0;
                     },
-                    deleteItem: function(id) {
-                        let length = this.currentData.length;
-                        let _this = this;
-                        if(length == 0 && this.empty) {
-                            return;
+                    getVoyStatusLabel: function(index) {
+                        return DynamicStatus[index][0];
+                    },
+                    closeModal: function() {
+                        if(isChangeStatus) {
+                            var confirmationMessage = 'It looks like you have been editing something. '
+                                + 'If you leave before saving, your changes will be lost.';
+                            bootbox.confirm(confirmationMessage, function (result) {
+                                if(result) {
+                                    isChangeStatus = false;
+                                    $("#modal-wizard").modal('hide');
+                                }
+                            });
+                        } else {
+                            isChangeStatus = false;
+                            $('#modal-wizard').modal('hide');
                         }
+                    },
+                    deleteItem: function(e, id) {
                         __alertAudio();
+
                         bootbox.confirm("Are you sure you want to delete?", function (result) {
                             if (result) {
-                                if (id != undefined) {
+                                if (id > 0) {
                                     $.ajax({
                                         url: BASE_URL + 'ajax/business/dynrecord/delete',
                                         type: 'post',
@@ -763,22 +750,18 @@ $ships = Session::get('shipList');
                                             id: id,
                                         },
                                         success: function (data, status, xhr) {
-                                            searchObj.currentData.splice(index, 1);
-                                            if(_this.currentData.length == 0) {
-                                                _this.empty = true;
-                                                _this.setDefaultData();
-                                            }
-                                            searchObjTmp = JSON.parse(JSON.stringify(_this.currentData));
+                                            searchObj.getData();
+                                            isChangeStatus = false;
+                                            $('#modal-wizard').modal('hide');
                                         }
                                     });
                                 } else {
-                                    searchObj.currentData.splice(index, 1);
-                                    if(_this.currentData.length == 0) {
-                                        _this.empty = true;
-                                        _this.setDefaultData();
-                                    }
-                                    searchObjTmp = JSON.parse(JSON.stringify(_this.currentData));
+                                    isChangeStatus = false;
+                                    $('#modal-wizard').modal('hide');
                                 }
+                            } else {
+                                isChangeStatus = false;
+                                $('#modal-wizard').modal('hide');
                             }
                         });
                     }
@@ -826,7 +809,7 @@ $ships = Session::get('shipList');
                             $(this).val(0);
                     });
 
-
+                    offAutoCmplt();
                 }
             });
 

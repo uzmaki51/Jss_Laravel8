@@ -1513,4 +1513,12 @@ class BusinessController extends Controller {
 
 	    return redirect()->route('voy.register');
     }
+
+    public function ajax_voyDetail(Request $request) {
+    	$id = $request->get('id');
+
+    	if(!isset($id)) return false;
+
+    	return response()->json(VoyLog::find($id));
+    }
 }
