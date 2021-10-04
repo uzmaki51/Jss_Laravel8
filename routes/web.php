@@ -263,6 +263,7 @@ Route::group(['prefix' => 'shipMember'], function() {
 	Route::get('wagesList', [App\Http\Controllers\ShipManage\WageController::class, 'wagelist']);
 	Route::post('updateWageCalcInfo', [App\Http\Controllers\ShipManage\WageController::class, 'updateWageCalcInfo']);
 	Route::post('updateWageSendInfo', [App\Http\Controllers\ShipManage\WageController::class, 'updateWageSendInfo']);
+
 });
 
 	Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
@@ -277,4 +278,6 @@ Route::group(['prefix' => 'shipMember'], function() {
 	Route::get('/repair/list', [App\Http\Controllers\repairController::class, 'list'])->name('repiare.list');
 	Route::post('ajax/repair/report',   [App\Http\Controllers\repairController::class, 'ajax_getReport']);
 	Route::post('ajax/repair/search',   [App\Http\Controllers\repairController::class, 'ajax_search']);
+
+	Route::get('voy/register', [App\Http\Controllers\Business\BusinessController::class, 'voyRegister']);
 });

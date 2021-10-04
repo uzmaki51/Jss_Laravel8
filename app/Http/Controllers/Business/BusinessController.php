@@ -293,6 +293,54 @@ class BusinessController extends Controller {
         ]);
     }
 
+    // For sp
+    public function voyRegister(Request $request) {
+        $url = $request->path();
+        $breadCrumb = BreadCrumb::getBreadCrumb($url);
+
+        $params = $request->all();
+        $shipName = '';
+		if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+        } else {
+            $firstShipInfo = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->first();
+            if($firstShipInfo == null && $firstShipInfo == false)
+                return redirect()->back();
+
+            $shipId = $firstShipInfo->IMO_No;
+        }
+
+        $voyId = '';
+        if(isset($params['voyNo']) && isset($params['voyNo']) != '' && isset($params['voyNo']) != 0) {
+            $voyId = $params['voyNo'];
+        }
+
+        $shipInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $shipId)->first();
+        if($shipInfo == null || $shipInfo == false)
+            return redirect()->back();
+        else {
+            $shipName = $shipInfo->shipName_En;
+        }
+
+        $user_pos = Auth::user()->pos;
+        if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN) {
+            $shipList = ShipRegister::getShipForHolder();
+            $shipId = $shipList[0]->IMO_No;
+            $shipName = $shipList[0]->shipName_En;
+        }
+        else {
+            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
+        }
+        return view('voy.register', [
+            'shipList'          => $shipList,
+            'shipInfo'          => $shipInfo,
+            'shipId'            => $shipId,
+            'shipName'          => $shipName,
+            'voyId'             => $voyId,
+            'breadCrumb'        => $breadCrumb
+        ]);
+    }
+
     public function saveDynamic(Request $request) {
         $params = $request->all();
         if(!isset($params['shipId']))

@@ -168,7 +168,7 @@
                         </a>
                         <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; border-bottom: 1px solid #1865c1;">
                             <li class="d-in-block text-center">
-                                <a href="/business/dynRecord" class="dropdown-toggle">
+                                <a href="/voy/register" class="dropdown-toggle">
                                     动态记录
                                 </a>
                             </li>
