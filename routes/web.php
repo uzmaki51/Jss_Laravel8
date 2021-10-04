@@ -279,5 +279,6 @@ Route::group(['prefix' => 'shipMember'], function() {
 	Route::post('ajax/repair/report',   [App\Http\Controllers\repairController::class, 'ajax_getReport']);
 	Route::post('ajax/repair/search',   [App\Http\Controllers\repairController::class, 'ajax_search']);
 
-	Route::get('voy/register', [App\Http\Controllers\Business\BusinessController::class, 'voyRegister']);
+	Route::get('voy/register', [App\Http\Controllers\Business\BusinessController::class, 'voyRegister'])->name('voy.register');
+	Route::post('voy/update', [App\Http\Controllers\Business\BusinessController::class, 'voyUpdate'])->name('voy.update');
 });

@@ -7,8 +7,8 @@
     <style>
         [v-cloak] { display: none; }
         @-webkit-keyframes blinker {
-        from {opacity: 1.0;}
-        to {opacity: 0.0;}
+            from {opacity: 1.0;}
+            to {opacity: 0.0;}
         }
         .blink{
             text-decoration: blink;
@@ -17,7 +17,7 @@
             -webkit-animation-iteration-count:infinite;
             -webkit-animation-timing-function:ease-in-out;
             -webkit-animation-direction: alternate;
-        }        
+        }
     </style>
 @endsection
 
@@ -29,105 +29,105 @@
                     <h4><b>审批文件</b></h4>
                 </div>
             </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <select class="custom-select d-inline-block" id="year" style="width: auto;">
-                            @foreach($years as $year)
-                                <option value="{{ $year }}">{{ $year }}年</option>
+            <div class="row">
+                <div class="col-md-6">
+                    <select class="custom-select d-inline-block" id="year" style="width: auto;">
+                        @foreach($years as $year)
+                            <option value="{{ $year }}">{{ $year }}年</option>
+                        @endforeach
+                    </select>
+                    <select class="custom-select d-inline-block" id="month">
+                        <option value=""></option>
+                        <option value="1">1月</option>
+                        <option value="2">2月</option>
+                        <option value="3">3月</option>
+                        <option value="4">4月</option>
+                        <option value="5">5月</option>
+                        <option value="6">6月</option>
+                        <option value="7">7月</option>
+                        <option value="8">8月</option>
+                        <option value="9">9月</option>
+                        <option value="10">10月</option>
+                        <option value="11">11月</option>
+                        <option value="12">12月</option>
+                    </select>
+                    <label style="margin-left: 8px;">对象</label>
+                    <select type="text" class="custom-select d-inline-block" id="ship_name" style="width:80px">
+                        <option value=""></option>
+                        <option value="OBJ">其他</option>
+                        @if(isset($shipList))
+                            @foreach($shipList as $key => $item)
+                                <option value="{{ $item->IMO_No }}" {{ isset($shipId) && $shipId == $item->IMO_No ?  "selected" : "" }}>{{$item->NickName == '' ? $item->shipName_En : $item->NickName }}</option>
                             @endforeach
-                        </select>
-                        <select class="custom-select d-inline-block" id="month">
-                            <option value=""></option>
-                            <option value="1">1月</option>
-                            <option value="2">2月</option>
-                            <option value="3">3月</option>
-                            <option value="4">4月</option>
-                            <option value="5">5月</option>
-                            <option value="6">6月</option>
-                            <option value="7">7月</option>
-                            <option value="8">8月</option>
-                            <option value="9">9月</option>
-                            <option value="10">10月</option>
-                            <option value="11">11月</option>
-                            <option value="12">12月</option>
-                        </select>
-                        <label style="margin-left: 8px;">对象</label>
-                        <select type="text" class="custom-select d-inline-block" id="ship_name" style="width:80px">
-                            <option value=""></option>
-                            <option value="OBJ">其他</option>
-                            @if(isset($shipList))
-                                @foreach($shipList as $key => $item)
-                                    <option value="{{ $item->IMO_No }}" {{ isset($shipId) && $shipId == $item->IMO_No ?  "selected" : "" }}>{{$item->NickName == '' ? $item->shipName_En : $item->NickName }}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="btn-group f-right">
-                            @if(!Auth::user()->isAdmin)
-                                <a class="btn btn-sm btn-success no-radius show-modal">
-                                    <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">起草
-                                </a>
-                            @endif
-                            <a class="btn btn-sm btn-warning refresh-btn-over for-pc" type="button" onclick="fnExport()">
-                                <i class="icon icon-table"></i>{{ trans('common.label.excel') }}
+                        @endif
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <div class="btn-group f-right">
+                        @if(!Auth::user()->isAdmin)
+                            <a class="btn btn-sm btn-success no-radius show-modal">
+                                <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">起草
                             </a>
-                            <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
-                        </div>
+                        @endif
+                        <a class="btn btn-sm btn-warning refresh-btn-over for-pc" type="button" onclick="fnExport()">
+                            <i class="icon icon-table"></i>{{ trans('common.label.excel') }}
+                        </a>
+                        <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
                     </div>
                 </div>
+            </div>
             <div class="col-md-12">
                 <div class="row">
                     <div class="space-2"></div>
-					<div class="col-lg-12 common-list head-fix-div" style="padding: 0 1px; width: 100%;">
-                    <div class="table-responsive">
-                        <table id="report_info_table" class="table table-bordered">
-                            <thead>
-                            <tr class="br-hblue">
-                                <th class="text-center style-normal-header for-pc" style="width: 5%;">{!! trans('decideManage.table.no') !!}</th>
-                                <th style="width: 5%;">{!! trans('decideManage.table.type') !!}</th>
-                                <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
-                                <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
-                                <th style="width: 7%;" class="for-pc">{{ trans('decideManage.table.voy_no') }}</th>
-                                <th style="width: 7%;">{!! trans('decideManage.table.profit_type') !!}</th>
-                                <th style="width: 25%;" class="for-pc">{{ trans('decideManage.table.content') }}</th>
-                                <th style="width: 5%;" class="for-pc">{{ trans('decideManage.table.currency') }}</th>
-                                <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
-                                <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
-                                <th style="width: 5%;" class="for-pc">涉及<br>部门</th>
-                                <th style="width: 5%;" class="for-pc">{!! trans('decideManage.table.attachment') !!}</th>
-                                <th style="width: 5%;">{!! trans('decideManage.table.state') !!}</th>
-                                <th class="{{ Auth::user()->isAdmin == SUPER_ADMIN ? 'for-pc' : 'd-none' }}"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                        <table id="report_info_table_all" class="table table-bordered" style="display:none">
-                            <thead>
-                            <tr class="br-hblue">
-                                <th class="text-center style-normal-header" style="width: 5%;">{!! trans('decideManage.table.no') !!}</th>
-                                <th style="width: 5%;">{!! trans('decideManage.table.type') !!}</th>
-                                <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
-                                <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
-                                <th style="width: 7%;">{{ trans('decideManage.table.voy_no') }}</th>
-                                <th style="width: 7%;">{!! trans('decideManage.table.profit_type') !!}</th>
-                                <th style="width: 25%;">{{ trans('decideManage.table.content') }}</th>
-                                <th style="width: 5%;">{{ trans('decideManage.table.currency') }}</th>
-                                <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
-                                <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
-                                <th style="width: 5%;">涉及<br>部门</th>
-                                <th style="width: 5%;">{!! trans('decideManage.table.attachment') !!}</th>
-                                <th style="width: 5%;">{!! trans('decideManage.table.state') !!}</th>
-                                <th class="{{ Auth::user()->isAdmin == SUPER_ADMIN ? '' : 'd-none' }}"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                    <div class="col-lg-12 common-list head-fix-div" style="padding: 0 1px; width: 100%;">
+                        <div class="table-responsive">
+                            <table id="report_info_table" class="table table-bordered">
+                                <thead>
+                                <tr class="br-hblue">
+                                    <th class="text-center style-normal-header for-pc" style="width: 5%;">{!! trans('decideManage.table.no') !!}</th>
+                                    <th style="width: 5%;">{!! trans('decideManage.table.type') !!}</th>
+                                    <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
+                                    <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
+                                    <th style="width: 7%;" class="for-pc">{{ trans('decideManage.table.voy_no') }}</th>
+                                    <th style="width: 7%;">{!! trans('decideManage.table.profit_type') !!}</th>
+                                    <th style="width: 25%;" class="for-pc">{{ trans('decideManage.table.content') }}</th>
+                                    <th style="width: 5%;" class="for-pc">{{ trans('decideManage.table.currency') }}</th>
+                                    <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
+                                    <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
+                                    <th style="width: 5%;" class="for-pc">涉及<br>部门</th>
+                                    <th style="width: 5%;" class="for-pc">{!! trans('decideManage.table.attachment') !!}</th>
+                                    <th style="width: 5%;">{!! trans('decideManage.table.state') !!}</th>
+                                    <th class="{{ Auth::user()->isAdmin == SUPER_ADMIN ? 'for-pc' : 'd-none' }}"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <table id="report_info_table_all" class="table table-bordered" style="display:none">
+                                <thead>
+                                <tr class="br-hblue">
+                                    <th class="text-center style-normal-header" style="width: 5%;">{!! trans('decideManage.table.no') !!}</th>
+                                    <th style="width: 5%;">{!! trans('decideManage.table.type') !!}</th>
+                                    <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
+                                    <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
+                                    <th style="width: 7%;">{{ trans('decideManage.table.voy_no') }}</th>
+                                    <th style="width: 7%;">{!! trans('decideManage.table.profit_type') !!}</th>
+                                    <th style="width: 25%;">{{ trans('decideManage.table.content') }}</th>
+                                    <th style="width: 5%;">{{ trans('decideManage.table.currency') }}</th>
+                                    <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
+                                    <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
+                                    <th style="width: 5%;">涉及<br>部门</th>
+                                    <th style="width: 5%;">{!! trans('decideManage.table.attachment') !!}</th>
+                                    <th style="width: 5%;">{!! trans('decideManage.table.state') !!}</th>
+                                    <th class="{{ Auth::user()->isAdmin == SUPER_ADMIN ? '' : 'd-none' }}"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-				</div>
 
                 <div id="modal-wizard" class="modal modal-draggable" aria-hidden="true" style="display: none; margin-top: 15%;">
                     <div class="dynamic-modal-dialog">
@@ -201,7 +201,7 @@
                                                         <select name="obj_no" class="form-control width-100" v-model="currentObjectNo">
                                                             <option v-for="(item, index) in objectList" v-bind:value="item.id">@{{ item.person }}</option>
                                                         </select>
-                                                    </td>                                                    
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="custom-modal-td-label">收支种类</td>
@@ -228,7 +228,7 @@
                                                         <my-currency-input v-model="amount" :autocomplete="'off'" :class="reportTypeCls(currentReportType)" class="form-control transparent-input" :class="creditClass(item.credit)" name="amount" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:type="'credit'"></my-currency-input>
                                                     </td>
                                                 </tr>
-                                                
+
                                                 <tr>
                                                     <td class="custom-modal-td-label">申请人</td>
                                                     <td class="custom-modal-td-text1">
@@ -301,8 +301,8 @@
 	echo 'var ReportTypeLabelData = ' . json_encode(g_enum('ReportTypeLabelData')) . ';';
 	echo 'var ReportTypeData = ' . json_encode(g_enum('ReportTypeData')) . ';';
 	echo 'var ReportStatusData = ' . json_encode(g_enum('ReportStatusData')) . ';';
-    echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
-    echo 'var FeeTypeData = ' . json_encode(g_enum('FeeTypeData')) . ';';
+	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
+	echo 'var FeeTypeData = ' . json_encode(g_enum('FeeTypeData')) . ';';
 	echo '</script>';
 	?>
     <script>
@@ -373,10 +373,10 @@
 
                             if(this.prefix != undefined)
                                 prefix = this.prefix + '';
-                            
+
                             if(this.value == 0 || this.value == undefined || isNaN(this.value))
                                 return '';
-                            
+
                             return number_format(this.value, fixedLength);
                         }
                     },
@@ -384,7 +384,7 @@
                         if (modifiedValue == 0 || modifiedValue == undefined || isNaN(modifiedValue)) {
                             modifiedValue = 0
                         }
-                        
+
                         this.$emit('input', parseFloat(modifiedValue));
                     },
                 },
@@ -534,17 +534,17 @@
 
                     reportObj.amount = is_new == false ? result['amount'] : 0;
                     reportObj.currentDepartment = result['depart_id'];
-                    
+
                     reportObj.content = is_new == false ? result['content'] : '';
-                    
+
                     if(!is_new)
                         disableProfit(result['flowid'], result['profit_type']);
                     else
                         disableProfit(result['flowid']);
 
-                    if(attach != null && attach != undefined && !is_new) 
+                    if(attach != null && attach != undefined && !is_new)
                         reportObj.fileName = attach['file_name'];
-                    else 
+                    else
                         reportObj.fileName = '添加附件';
 
                     if(result['state'] == '{!! REPORT_STATUS_REQUEST !!}' || result['state'] == '{!! REPORT_STATUS_DRAFT !!}') {
@@ -552,7 +552,7 @@
                     } else {
                         reportObj.reportStatus = false;
                     }
-                    
+
                     if($('[name=draftId]').val() == -1)
                         if(!is_new)
                             $('.save-draft').attr('disabled', 'disabled');
@@ -592,7 +592,7 @@
                         // if(data['voyList'] != undefined && data['voyList'].length > 0)
                         //     reportObj.currentVoyNo = data['voyList'][0].Voy_No;
                     }
-                        
+
                 }
             });
         }
@@ -655,7 +655,7 @@
             let obj = $('#ship_name').val();
 
             if (listTableAll != null) {
-                
+
 
                 listTableAll.column(0).search(year, false, false);
                 listTableAll.column(1).search(month, false, false);
@@ -663,7 +663,7 @@
                 listTableAll.draw();
                 return;
             }
-            
+
             listTableAll = $('#report_info_table_all').DataTable({
                 processing: true,
                 serverSide: true,
@@ -732,15 +732,15 @@
                             '<span>' + __parseStr(data['obj_name']) + '</span>'
                         );
                     }
-                    
+
                     if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other') {
                         $('td', row).eq(5).html('').append(
                             '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + __parseStr(FeeTypeData[data['flowid']][data['profit_type']]) + '</span>'
-                        );  
+                        );
                     } else {
                         $('td', row).eq(5).html('').append(
                             ''
-                        );  
+                        );
                     }
 
                     $('td', row).eq(6).html('').append(
@@ -767,17 +767,17 @@
                         $('td', row).eq(8).html('').append(
                             '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + number_format(data['amount'], 2) + '</span>'
                         );
-                    else 
+                    else
                         $('td', row).eq(8).html('').append('');
 
                     $('td', row).eq(8).attr('style', 'padding-right:5px!important;')
 
                     if(data['attachment']  == 1) {
                         $('td', row).eq(11).html('').append(
-                            '<div class="report-attachment">' + 
+                            '<div class="report-attachment">' +
                             '<a href="' + data['attach_link'] + '" target="_blank">' +
-                                '<img src="{{ cAsset('assets/images/document.png') }}" width="15" heighddet="15">' +
-                            '</a>' + 
+                            '<img src="{{ cAsset('assets/images/document.png') }}" width="15" heighddet="15">' +
+                            '</a>' +
                             '<img src="{{ cAsset('assets/images/cancel.png') }}" onclick="deleteAttach(' + data['id'] + ')" width="10" height="10"></div>'
                         );
                     } else {
@@ -793,7 +793,7 @@
                             blink_cls = 'blink';
                         else
                             blink_cls = '';
-                            
+
                         $('td', row).eq(12).css({'background': '#ffb871'});
                         status = '<div class="report-status"><span class="'+blink_cls+'">' + ReportStatusData[data['state']][0] + '</span></div>';
                     } else if (data['state'] == 1) {
@@ -806,10 +806,10 @@
                     $('td', row).eq(12).html('').append(status);
                     if(isAdmin == 1)
                         $('td', row).eq(13).html('').append(
-                                '<div class="action-buttons"><a class="red" onclick="deleteItem(' + data['id'] + ')"><i class="icon-trash"></i></a></div>'
+                            '<div class="action-buttons"><a class="red" onclick="deleteItem(' + data['id'] + ')"><i class="icon-trash"></i></a></div>'
                         );
                     else
-                    $('td', row).eq(13).addClass('d-none');
+                        $('td', row).eq(13).addClass('d-none');
 
                 },
                 drawCallback: function (response) {
@@ -837,7 +837,7 @@
             var filename = "审批文件" + "(" + ship_name + "_" +  $('#year').val() + "年_" + month + ")";
 
             tab_text=tab_text+"<tr><td colspan='13' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + filename + "</td></tr>";
-            
+
             for(var j = 0; j < tab.rows.length ; j++)
             {
                 if (j == 0) {
@@ -849,7 +849,7 @@
                         } else {
                             tab.rows[j].childNodes[i].style.width = '100px';
                         }
-                            
+
                         tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                     tab.rows[j].childNodes[13].remove();
@@ -859,7 +859,7 @@
                     tab.rows[j].childNodes[6].style.textAlign = 'left';
                     tab.rows[j].childNodes[13].remove();
                 }
-                
+
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
             tab_text=tab_text+"</table>";
@@ -867,9 +867,9 @@
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            
+
             exportExcel(tab_text, filename, filename);
-            
+
             return 0;
         }
         /*
@@ -945,7 +945,7 @@
                     console.log(error)
                 }
             });
-            
+
             getObject();
 
             // Create new Vue obj.
@@ -997,7 +997,7 @@
                         // if(this.shipList.length > 0)
                         //     this.currentShipNo = this.shipList[0].IMO_No;
                         getVoyList(this.currentShipNo);
-                        
+
                         if(this.profitType.length > 0)
                             this.currentProfitType = this.profitType[0];
 
@@ -1180,7 +1180,7 @@
                                 amount: amountMsg,
                                 content: contentMsg,
                                 obj_no: obj_noMsg,
-                            }, 
+                            },
 
                             submitHandler: function(form) {
                                 $('#submit-report').attr('disabled', 'disabled');
@@ -1194,7 +1194,7 @@
                             $(e.target).removeAttr('disabled');
                             return false;
                         }
-                        
+
                     },
                     saveDraft: function() {
                         $('[name=reportType]').val(3);
@@ -1292,15 +1292,15 @@
                             '<span>' + __parseStr(data['obj_name']) + '</span>'
                         );
                     }
-                    
+
                     if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other') {
                         $('td', row).eq(5).html('').append(
                             '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + __parseStr(FeeTypeData[data['flowid']][data['profit_type']]) + '</span>'
-                        );  
+                        );
                     } else {
                         $('td', row).eq(5).html('').append(
                             ''
-                        );  
+                        );
                     }
 
                     $('td', row).eq(6).html('').append(
@@ -1328,17 +1328,17 @@
                             '<span class="for-sp ' + (data['currency'] == 'CNY' ? "text-danger" : (data['currency'] == 'USD' ? "text-profit" : "")) + '">' + __parseStr(CurrencyLabel[data['currency']]) + '</span>' +
                             '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '"> ' + number_format(data['amount'], 2) + '</span>'
                         );
-                    else 
+                    else
                         $('td', row).eq(8).html('').append('');
 
                     $('td', row).eq(8).attr('style', 'padding-right:5px!important;')
 
                     if(data['attachment']  == 1) {
                         $('td', row).eq(11).html('').append(
-                            '<div class="report-attachment">' + 
+                            '<div class="report-attachment">' +
                             '<a href="' + data['attach_link'] + '" target="_blank">' +
-                                '<img src="{{ cAsset('assets/images/document.png') }}" width="15" heighddet="15">' +
-                            '</a>' + 
+                            '<img src="{{ cAsset('assets/images/document.png') }}" width="15" heighddet="15">' +
+                            '</a>' +
                             '<img src="{{ cAsset('assets/images/cancel.png') }}" onclick="deleteAttach(' + data['id'] + ')" width="10" height="10"></div>'
                         );
                     } else {
@@ -1354,7 +1354,7 @@
                             blink_cls = 'blink';
                         else
                             blink_cls = '';
-                            
+
                         $('td', row).eq(12).css({'background': '#ffb871'});
                         status = '<div class="report-status"><span class="'+blink_cls+'">' + ReportStatusData[data['state']][0] + '</span></div>';
                     } else if (data['state'] == 1) {
@@ -1367,10 +1367,10 @@
                     $('td', row).eq(12).html('').append(status);
                     if(isAdmin == 1)
                         $('td', row).eq(13).html('').append(
-                                '<div class="action-buttons"><a class="red" onclick="deleteItem(' + data['id'] + ')"><i class="icon-trash"></i></a></div>'
+                            '<div class="action-buttons"><a class="red" onclick="deleteItem(' + data['id'] + ')"><i class="icon-trash"></i></a></div>'
                         );
                     else
-                    $('td', row).eq(13).addClass('d-none');
+                        $('td', row).eq(13).addClass('d-none');
 
                 }
             });
@@ -1496,23 +1496,23 @@
 
         function fileUpload(input, id, flowid) {
             var formdata = new FormData();
-            if (input.files && input.files[0]) {
+            if (input.files && input.files[0]) {
                 formdata.append("file", input.files[0]);
                 formdata.append('id', id);
                 formdata.append('flowid', flowid);
-               } else {
+            } else {
                 console.log('failed');
             }
 
             $.ajax({
                 url: BASE_URL + 'ajax/report/fileupload',
-                type: 'post', 
+                type: 'post',
                 data: formdata,
                 processData: false,
                 contentType: false,
                 success: function(data) {
                     listTable.draw();
-                }, 
+                },
                 error: function(error) {
                     listTable.draw();
                 }

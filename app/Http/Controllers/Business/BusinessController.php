@@ -1502,4 +1502,15 @@ class BusinessController extends Controller {
 
         return response()->json($ret);
     }
+
+    public function voyUpdate(Request $request) {
+	    $params = $request->all();
+	    if(!isset($params['shipId']))
+		    return redirect()->back();
+
+	    $tbl = new VoyLog();
+	    $ret = $tbl->updateSpDate($params);
+
+	    return redirect()->route('voy.register');
+    }
 }

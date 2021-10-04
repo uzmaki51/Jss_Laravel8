@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Operations\CP;
 use App\Models\ShipTechnique\ShipPort;
+use Log;
+use Auth;
 
 class VoyLog extends Model
 {
@@ -215,5 +217,43 @@ class VoyLog extends Model
         }
 
         return $retVal;
+    }
+
+    public function updateSpDate($params) {
+    	try {
+		    $id = $params['id'];
+		    if(isset($id) && $id > 0) {
+			    $voyLog = self::find($id);
+		    } else $voyLog = new self();
+
+		    $shipId = $params['shipId'];
+		    $voyLog['CP_ID'] = $params['CP_ID'];
+		    $voyLog['Ship_ID'] = $shipId;
+		    if(isset($params['Voy_Date']) && $params['Voy_Date'] != '0000-00-00' && $params['Voy_Date'] != '')
+			    $voyLog['Voy_Date'] = $params['Voy_Date'];
+		    else
+			    $voyLog['Voy_Date'] = null;
+
+		    $voyLog['Voy_Hour'] = !isset($params['Voy_Hour']) ? 0 : $params['Voy_Hour'];
+		    $voyLog['Voy_Minute'] = !isset($params['Voy_Minute']) ? 0 : $params['Voy_Minute'];
+		    $voyLog['GMT'] = !isset($params['GMT']) ? 0 : $params['GMT'];
+		    $voyLog['Voy_Type'] = !isset($params['Voy_Type']) ? 0 : $params['Voy_Type'];
+		    $voyLog['Voy_Status'] = $params['Voy_Status'];
+		    $voyLog['Ship_Position'] = $params['Ship_Position'];
+		    $voyLog['Cargo_Qtty'] = !isset($params['Cargo_Qtty']) ? 0 : $params['Cargo_Qtty'];
+		    $voyLog['Sail_Distance'] = !isset($params['Sail_Distance']) ? 0 : $params['Sail_Distance'];
+		    $voyLog['Speed'] = !isset($params['Speed']) ? 0 : $params['Speed'];
+		    $voyLog['RPM'] = !isset($params['RPM']) ? 0 : $params['RPM'];
+		    $voyLog['ROB_FO'] = !isset($params['ROB_FO']) ? 0 : $params['ROB_FO'];
+		    $voyLog['ROB_DO'] = !isset($params['ROB_DO']) ? 0 : $params['ROB_DO'];
+		    $voyLog['BUNK_FO'] = !isset($params['BUNK_FO']) ? 0 : $params['BUNK_FO'];
+		    $voyLog['BUNK_DO'] = !isset($params['BUNK_DO']) ? 0 : $params['BUNK_DO'];
+		    $voyLog['Remark'] = !isset($params['Remark']) ? '' : $params['Remark'];
+
+		    $voyLog->save();
+	    } catch (\Exception $e) {
+    		DB::rollBack();
+    		Log::error($e->getMessage());
+	    }
     }
 }
