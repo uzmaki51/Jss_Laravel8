@@ -2895,7 +2895,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
 }
 
 .btn-sm {
-    font-size: 10px;
+    font-size: 12px;
     padding: 2px 9px;
     line-height: 1.39;
 }
