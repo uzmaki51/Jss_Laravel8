@@ -92,7 +92,7 @@
                                     <th style="width: 7%;">{!! trans('decideManage.table.profit_type') !!}</th>
                                     <th style="width: 25%;" class="for-pc">{{ trans('decideManage.table.content') }}</th>
                                     <th style="width: 5%;" class="for-pc">{{ trans('decideManage.table.currency') }}</th>
-                                    <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
+                                    <th style="width: 10%;" class="text-center">{{ trans('decideManage.table.amount') }}</th>
                                     <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
                                     <th style="width: 5%;" class="for-pc">涉及<br>部门</th>
                                     <th style="width: 5%;" class="for-pc">{!! trans('decideManage.table.attachment') !!}</th>
