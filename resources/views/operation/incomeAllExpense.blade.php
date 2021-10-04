@@ -223,7 +223,7 @@ $ships = Session::get('shipList');
                                             <th class="text-center style-normal-header"><span>距离</span></th>
                                             <th class="text-center style-normal-header right-border"><span>平均</span></th>
                                             <th class="text-center style-normal-header right-border" colspan="5"><span>经济天数</span></th>
-                                            <th class="text-center style-normal-header" colspan="5"><span>费经济天数</span></th>
+                                            <th class="text-center style-normal-header" colspan="5"><span>非经济天数</span></th>
                                         </tr>
                                         <tr>
                                             <th class="text-center style-normal-header"><span>用时</span></th>

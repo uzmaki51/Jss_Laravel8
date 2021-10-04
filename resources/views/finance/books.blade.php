@@ -4,8 +4,8 @@ $isHolder = Session::get('IS_HOLDER');
 ?>
 
 @section('styles')
-    <link href="{{ cAsset('css/style.css?v=20210903104500') }}" rel="stylesheet"/>
-    <link href="{{ cAsset('css/pretty.css?v=20210903104500') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/style.css?v=20211004104500') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/pretty.css?v=20211004104500') }}" rel="stylesheet"/>
     <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
 @endsection
 @section('content')

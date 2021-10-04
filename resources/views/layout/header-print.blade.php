@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="{{ asset('/assets/css/font-awesome-ie7.min.css') }}"/>
         <link href="{{ asset('/assets/css/chosen.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('/assets/css/colorbox.css') }}" />
-        <link rel="stylesheet" href="{{ asset('/assets/css/theme.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('/assets/css/theme.css?v=20211004104500') }}"/>
         <link rel="stylesheet" href="{{ asset('/assets/css/ace.min.css') }}"/>
         <link rel="stylesheet" href="{{ asset('/assets/css/ace-rtl.min.css') }}"/>
         <link rel="stylesheet" href="{{ asset('/assets/css/ace-skins.min.css') }}"/>
