@@ -31,7 +31,7 @@ $isHolder = Session::get('IS_HOLDER');
         </style>
         <div class="page-content">
             <div class="space-4"></div>
-                <div class="col-md-12">
+                <div class="col-md-12 full-width">
                     <div class="row">
                         <div class="tabbable">
                             <ul class="nav nav-tabs ship-register for-pc" id="memberTab">
@@ -47,7 +47,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 </li>
                             </ul>
                         </div>
-                        <div class="tab-content">
+                        <div class="tab-content full-width">
                             <div id="tab_crew_list" class="tab-pane active">
                                 <div class="page-header">
                                     <div class="col-sm-3">
@@ -65,32 +65,34 @@ $isHolder = Session::get('IS_HOLDER');
                                             </select>
                                             <strong class="f-right for-pc" style="font-size: 16px; padding-top: 6px;"><span id="ship_name"></span> CREW LIST</strong>
                                         </div>
-                                        <div class="col-md-6 for-pc" style="padding:unset!important">
+                                        <div class="col-md-6 for-pc">
                                             <div class="btn-group f-right">
                                                 <button class="btn btn-warning btn-sm excel-btn" id="btn_export_list"><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12" style="margin-top:4px;">
+                                    <div class="col-md-12 full-width" style="margin-top:4px;">
                                         <div id="item-manage-dialog" class="hide"></div>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         <div class="row">
                                             <div class="head-fix-div common-list" id="crew-table" style="">
-                                                <table id="table-shipmember-list" class="not-striped" style="width:100%;table-layout:fixed;">
-                                                    <thead class="">
-                                                        <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
-                                                        <th class="text-center style-header" style="width: 12%;"><span>Family Name, Given Name</span></th>
-                                                        <th class="text-center style-header" style="width: 4%;"><span>Rank</span></th>
-                                                        <th class="text-center style-header" style="width: 9%;"><span>Nationality</span></th>
-                                                        <th class="text-center style-header" style="width: 12%;"><span>Chinese ID No.</span></th>
-                                                        <th class="text-center style-header" style="width: 15%;"><span>Date and place of birth</span></th>
-                                                        <th class="text-center style-header" style="width: 15%;"><span>Date and place of embarkation</span></th>
-                                                        <th class="text-center style-header" style="width: 15%;"><span>Seaman's Book No and Expire Date</span></th>
-                                                        <th class="text-center style-header" style="width: 15%"><span>Passport's No and Expire Date</span></th>
-                                                    </thead>
-                                                    <tbody class="" id="list-body">
-                                                    </tbody>
-                                                </table>
+                                                <div class="table-responsive">
+                                                    <table id="table-shipmember-list" class="not-striped" style="width:100%;">
+                                                        <thead class="">
+                                                            <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
+                                                            <th class="text-center style-header" style="width: 12%;"><span>Family Name, Given Name</span></th>
+                                                            <th class="text-center style-header" style="width: 4%;"><span>Rank</span></th>
+                                                            <th class="text-center style-header" style="width: 9%;"><span>Nationality</span></th>
+                                                            <th class="text-center style-header" style="width: 12%;"><span>Chinese ID No.</span></th>
+                                                            <th class="text-center style-header" style="width: 15%;"><span>Date and place of birth</span></th>
+                                                            <th class="text-center style-header" style="width: 15%;"><span>Date and place of embarkation</span></th>
+                                                            <th class="text-center style-header" style="width: 15%;"><span>Seaman's Book No and Expire Date</span></th>
+                                                            <th class="text-center style-header" style="width: 15%"><span>Passport's No and Expire Date</span></th>
+                                                        </thead>
+                                                        <tbody class="" id="list-body">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
