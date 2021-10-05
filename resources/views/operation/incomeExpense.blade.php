@@ -39,11 +39,11 @@ $ships = Session::get('shipList');
             }
         </style>
         <div class="page-content">
-            <div class="space-4"></div>
-            <div class="col-md-12">
+            <div class="space-4 for-pc"></div>
+            <div class="col-md-12 margin-for-mobile">
                 <div class="row">
                     <div class="tabbable">
-                        <ul class="nav nav-tabs ship-register" id="importTab">
+                        <ul class="nav nav-tabs ship-register for-pc" id="importTab">
                             <li class="active">
                                 <a data-toggle="tab" href="#tab_graph">
                                     GRAPH
@@ -71,7 +71,7 @@ $ships = Session::get('shipList');
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="col-md-7">
-                                        <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
+                                        <label class="custom-label d-inline-block font-bold for-pc" style="padding: 6px;">船名:</label>
                                         <select class="custom-select d-inline-block" id="select-graph-ship" style="width:80px">
                                             <?php $index = 0 ?>
                                             @foreach($shipList as $ship)
@@ -90,41 +90,42 @@ $ships = Session::get('shipList');
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12" style="margin-top:4px;">
+                                <div class="col-md-12" style="margin-top:4px;width:98%!important;">
                                     <div class="row" style="text-align:center;">
-                                        <strong style="font-size: 20px; padding-top: 6px;">1. 利润分析</strong>
-                                        <div class="space-8"></div>
-                                        <div class="card">
-                                            <div class="space-8"></div>
+                                        <strong class="for-pc" style="font-size: 20px; padding-top: 6px;">1. 利润分析</strong>
+                                        <div class="space-4"></div>
+                                        <div class="space-4 for-pc"></div>
+                                        <div class="card for-pc-border">
+                                            <div class="space-8 for-pc"></div>
                                             <strong><span id="graph-first-title"style="font-size: 16px; padding-top: 6px;"></span></strong>
-                                            <div class="space-8"></div>
-                                            <div class="card" id="graph_first" style="border:3px double #bbb7b7">
+                                            <div class="space-8 for-pc"></div>
+                                            <div class="card graph-height-300" id="graph_first" style="border:3px double #bbb7b7">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="space-4"></div>
-                                    <div class="space-10"></div>
+                                    <div class="space-10 for-pc"></div>
                                     <div class="row" style="text-align:center;">
-                                        <strong style="font-size: 20px; padding-top: 6px;">2. 收支分析</strong>
-                                        <div class="space-8"></div>
-                                        <div class="card">
-                                            <div class="space-8"></div>
+                                        <strong class="for-pc" style="font-size: 20px; padding-top: 6px;">2. 收支分析</strong>
+                                        <div class="space-8 for-pc"></div>
+                                        <div class="card for-pc-border">
+                                            <div class="space-8 for-pc"></div>
                                             <strong><span id="graph-second-title"style="font-size: 16px; padding-top: 6px;"></span></strong>
-                                            <div class="space-8"></div>
+                                            <div class="space-8 for-pc"></div>
                                             <div class="card" id="graph_second" style="border:3px double #bbb7b7">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="space-4"></div>
-                                    <div class="space-10"></div>
+                                    <div class="space-10 for-pc"></div>
                                     <div class="row" style="text-align:center;">
-                                        <strong style="font-size: 20px; padding-top: 6px;">3. 支出分析</strong>
-                                        <div class="space-8"></div>
-                                        <div class="card">
-                                            <div class="space-8"></div>
+                                        <strong class="for-pc" style="font-size: 20px; padding-top: 6px;">3. 支出分析</strong>
+                                        <div class="space-8 for-pc"></div>
+                                        <div class="card for-pc-border">
+                                            <div class="space-8 for-pc"></div>
                                             <strong><span id="graph-third-title"style="font-size: 16px; padding-top: 6px;"></span></strong>
-                                            <div class="space-8"></div>
-                                            <div class="" id="graph_third" style="border:3px double #bbb7b7">
+                                            <div class="space-8 for-pc"></div>
+                                            <div class="graph-height" id="graph_third" style="border:3px double #bbb7b7">
                                             </div>
                                         </div>
                                     </div>
@@ -472,7 +473,47 @@ $ships = Session::get('shipList');
                     name: '利润($)',
                     color: '#735df8',
                     data: datasets[1].data
-                }]
+                }],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 768,
+                        },
+                        chartOptions: {
+                            yAxis: {
+                                allowDecimals: false,
+                                title: {
+                                    text: null
+                                },
+                                labels: {
+                                    formatter: function() {
+                                        if (this.value < 0) {
+                                            return '<label style="color:red">' + '$ ' + prettyValue2(this.value/1000) + 'K</label>';
+                                        }
+                                        else return '$ ' + prettyValue2(this.value / 1000) + 'K';
+                                    },
+                                    style: {
+                                        fontSize: '6px',
+                                        padding: '0px'
+                                    }
+                                },
+                                plotLines: [{
+                                    value: 0,
+                                    width: 2,
+                                    color: '#000'
+                                }],
+                            },
+                            xAxis: {
+                                lineWidth: 1,
+                                labels: {
+                                    style: {
+                                        fontSize: '6px'
+                                    }
+                                }
+                            },
+                        }
+                    }]
+                }
             });
         }
 
@@ -487,7 +528,7 @@ $ships = Session::get('shipList');
                     responsive: true,
                     plugins: {
                         legend: {
-                            position: 'right',
+                            position: 'bottom',
                         },
                         tooltip: {
                             callbacks: {
@@ -500,9 +541,9 @@ $ships = Session::get('shipList');
                                         label += '$ ' + prettyValue2(context.parsed.y);
                                     }
                                     return label;
-                                }
+                                },
                             }
-                        }
+                        },
                     },
                     scales: {
                         xAxes: [{
@@ -646,6 +687,96 @@ $ships = Session::get('shipList');
                         return this.point.name + '<b>:$ ' + prettyValue(this.point.custom) + '</b>';
                     }
                 },
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 768,
+                        },
+                        chartOptions: {
+                            plotOptions: {
+                                pie: {
+                                    innerSize: 30,
+                                    depth: 15
+                                }
+                            },
+                            series: [{
+                                name: 'Percentage',
+                                data: [
+                                    {
+                                        name: '油款('+datasets[0]+'%)',
+                                        y: datasets[0],
+                                        custom: costs[0],
+                                    },
+                                    {
+                                        name: '港费('+datasets[1]+'%)',
+                                        y: datasets[1],
+                                        custom: costs[1],
+                                    },
+                                    {
+                                        name: '劳务费('+datasets[2]+'%)',
+                                        y: datasets[2],
+                                        custom: costs[2],
+                                    },
+                                    {
+                                        name: 'CTM('+datasets[3]+'%)',
+                                        y: datasets[3],
+                                        custom: costs[3],
+                                    },
+                                    {
+                                        name: '其他('+datasets[4]+'%)',
+                                        y: datasets[4],
+                                        custom: costs[4],
+                                    },
+                                    {
+                                        name: '工资('+datasets[5]+'%)',
+                                        y: datasets[5],
+                                        custom: costs[5],
+                                    },
+                                    {
+                                        name: '伙食费('+datasets[6]+'%)',
+                                        y: datasets[6],
+                                        custom: costs[6],
+                                    },
+                                    {
+                                        name: '物料费('+datasets[7]+'%)',
+                                        y: datasets[7],
+                                        custom: costs[7],
+                                    },
+                                    {
+                                        name: '修理费('+datasets[8]+'%)',
+                                        y: datasets[8],
+                                        custom: costs[8],
+                                    },
+                                    {
+                                        name: '管理费('+datasets[9]+'%)',
+                                        y: datasets[9],
+                                        custom: costs[9],
+                                    },
+                                    {
+                                        name: '检验费('+datasets[10]+'%)',
+                                        y: datasets[10],
+                                        custom: costs[10],
+                                    },
+                                    {
+                                        name: '检验费('+datasets[11]+'%)',
+                                        y: datasets[11],
+                                        custom: costs[11],
+                                    },
+                                    {
+                                        name: '证书费('+datasets[12]+'%)',
+                                        y: datasets[12],
+                                        custom: costs[12],
+                                    }
+                                ],
+                                dataLabels: {
+                                    style: {
+                                        fontSize: 8
+                                    }
+                                }
+                            }],
+                        }
+                    }]
+                }
             });
         }
 

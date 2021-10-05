@@ -377,6 +377,11 @@ div.input table tbody tr td
 .for-pc {
     display: revert;
 }
+
+.for-pc-border {
+
+}
+
 .sp-menu {
     display: none;
 }
@@ -389,6 +394,10 @@ div.input table tbody tr td
 }
 
 .graph-height {
+
+}
+
+.graph-height-300 {
 
 }
 
@@ -575,6 +584,9 @@ div.input table tbody tr td
     .for-pc {
         display: none;
     }
+    .for-pc-border {
+        border: 0px solid black!important;
+    }
     .graph-title-for-pc {
         font-size: 16px;
     }
@@ -583,8 +595,16 @@ div.input table tbody tr td
         height: 200px;
     }
 
+    .graph-height-300 {
+        height: 300px;
+    }
+
     .margin-for-mobile {
         margin: 0px -20px!important;
+    }
+
+    .tab-content {
+        border: unset!important;
     }
     .custom-height {
         height: auto!important;
