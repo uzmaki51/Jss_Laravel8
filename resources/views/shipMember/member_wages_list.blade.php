@@ -36,7 +36,7 @@ $isHolder = Session::get('IS_HOLDER');
             <div class="col-md-12">
                 <div class="row">
                     <div class="tabbable">
-                        <ul class="nav nav-tabs ship-register" id="memberTab">
+                        <ul class="nav nav-tabs ship-register for-pc" id="memberTab">
                             <li class="active">
                                 <a data-toggle="tab" href="#wage_ship">
                                     工资(船舶)
@@ -57,9 +57,9 @@ $isHolder = Session::get('IS_HOLDER');
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="row">
                                     <div class="col-md-7" style="align-content: flex-end;display: flex;">
-                                        <label class="custom-label d-inline-block" style="padding: 6px;"><b>船名:</b></label>
+                                        <label class="custom-label d-inline-block for-pc" style="padding: 6px;"><b>船名:</b></label>
                                         <select class="custom-select d-inline-block" name="select-ship" id="select-ship" style="width:80px">
                                             @foreach($shipList as $ship)
                                                 <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif>{{$ship['NickName']}}</option>
@@ -71,21 +71,27 @@ $isHolder = Session::get('IS_HOLDER');
                                             @endfor
                                         </select>
                                     </div>
+                                    <div class="col-md-5">
+                                    </div>
                                 </div>
-                                <div class="col-md-6" style="margin-top:4px;margin-left:18px;">
-                                    <div id="item-manage-dialog" class="hide"></div>
-                                    <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                    <div class="head-fix-div common-list" id="crew-table" style="">
-                                        <table id="table-shipwage-list" style="table-layout:fixed;">
-                                            <thead class="">
-                                                <th class="text-center style-normal-header" style="width: 10%;height:35px;"><span>月份</span></th>
-                                                <th class="text-center style-normal-header" style="width: 40%;">家汇款<br><span style="color:red">(¥)</span></th>
-                                                <th class="text-center style-normal-header" style="width: 40%;">家汇款<br><span style="color:#1565C0">($)</span></th>
-                                                <th class="text-center style-normal-header" style="width: 10%;"><span>详细</span></th>
-                                            </thead>
-                                            <tbody class="" id="list-ship-wage">
-                                            </tbody>
-                                        </table>
+                                <div class="row">
+                                    <div class="col-md-6" style="margin-top:4px;">
+                                        <div id="item-manage-dialog" class="hide"></div>
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                        <div class="head-fix-div common-list" id="crew-table" style="">
+                                            <table id="table-shipwage-list" style="table-layout:fixed;">
+                                                <thead class="">
+                                                    <th class="text-center style-normal-header" style="width: 10%;height:35px;"><span>月份</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 40%;">家汇款<br><span style="color:red">(¥)</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 40%;">家汇款<br><span style="color:#1565C0">($)</span></th>
+                                                    <th class="text-center style-normal-header for-pc" style="width: 10%;"><span>详细</span></th>
+                                                </thead>
+                                                <tbody class="" id="list-ship-wage">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
                                     </div>
                                 </div>
                             </div>
@@ -190,7 +196,7 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: 'no', className: "text-center disable-tr"},
                     {data: 'totalR', className: "text-center"},
                     {data: 'totalD', className: "text-center"},
-                    {data: null, className: "text-center"},
+                    {data: null, className: "text-center for-pc"},
                 ],
                 createdRow: function (row, data, index) {
                     if ((index%2) == 0)
@@ -203,7 +209,7 @@ $isHolder = Session::get('IS_HOLDER');
                         $('td', row).eq(0).attr('class', 'sub-small-header style-normal-header text-center');
                         $('td', row).eq(1).attr('class', 'style-normal-header style-blue-header text-center');
                         $('td', row).eq(2).attr('class', 'style-normal-header text-center');
-                        $('td', row).eq(3).attr('class', 'sub-small-header style-normal-header text-center');
+                        $('td', row).eq(3).attr('class', 'sub-small-header style-normal-header text-center for-pc');
                         $('td', row).eq(1).html('¥ ' + prettyValue(data['totalR']));
                         $('td', row).eq(2).html('$ ' + prettyValue(data['totalD']));
                         $('td', row).eq(3).html('');

@@ -543,23 +543,58 @@ $ships = Session::get('shipList');
                                     return label;
                                 },
                             }
-                        },
+                        }
                     },
                     scales: {
+                        /*
                         xAxes: [{
                             ticks: {
                                 autoSkip: false,
                                 maxRotation: 90,
-                                minRotation: 90
+                                minRotation: 90,
+                                font: function(context) {
+                                    var width = context.chart.width;
+                                    if (width <= 768) {
+                                        return {
+                                            size: 6
+                                        };
+                                    }
+                                },
                             }
                         }],
+                        */
+                        x: {
+                            ticks: {
+                                font: function(context) {
+                                    var width = context.chart.width;
+                                    if (width <= 768) {
+                                        return {
+                                            size: 6
+                                        };
+                                    }
+                                },
+                                autoSkip: false,
+                                maxRotation: 45,
+                                minRotation: 45,
+                            }
+                        },
                         y: {
                             ticks: {
                                 callback: function(value, index, values) {
+                                    //var context = document.getElementById('second-chart').getContext('2d');
+                                    //var width = context.width;
                                     return '$ ' + prettyValue2(value);
-                                }
+                                },
+                                font: function(context) {
+                                    var width = context.chart.width;
+                                    if (width <= 768) {
+                                        return {
+                                            size: 6
+                                        };
+                                    }
+                                },
                             }
-                        }
+                        },
                     }
                 }
             });
@@ -587,6 +622,9 @@ $ships = Session::get('shipList');
                         innerSize: 100,
                         depth: 45
                     }
+                },
+                credits: {
+                    enabled: false
                 },
                 series: [{
                     name: 'Percentage',
@@ -691,6 +729,12 @@ $ships = Session::get('shipList');
                     rules: [{
                         condition: {
                             maxWidth: 768,
+                        },
+                        title: {
+                            text: null
+                        },
+                        subtitle: {
+                            text: null
                         },
                         chartOptions: {
                             plotOptions: {

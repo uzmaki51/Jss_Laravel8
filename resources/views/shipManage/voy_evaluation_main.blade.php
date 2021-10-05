@@ -1,7 +1,7 @@
 <div id="main-list" v-cloak>
     <div class="row">
         <div class="col-lg-7">
-            <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
+            <label class="custom-label d-inline-block font-bold for-pc" style="padding: 6px;">船名: </label>
             <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;" @change="onChangeShip" v-model="shipId">
                 @foreach($shipList as $ship)
                     <option value="{{ $ship['IMO_No'] }}"

@@ -34,21 +34,69 @@ $isHolder = Session::get('IS_HOLDER');
                 <div class="col-md-12">
                     <div class="row">
                         <div class="tabbable">
-                            <ul class="nav nav-tabs ship-register" id="memberTab">
+                            <ul class="nav nav-tabs ship-register for-pc" id="memberTab">
                                 <li class="active">
-                                    <a data-toggle="tab" href="#tab_all_list">
-                                        船员名单
+                                    <a data-toggle="tab" href="#tab_crew_list">
+                                        CREW LIST
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#tab_crew_list">
-                                        CREW LIST
+                                    <a data-toggle="tab" href="#tab_all_list">
+                                        船员名单
                                     </a>
                                 </li>
                             </ul>
                         </div>
                         <div class="tab-content">
-                            <div id="tab_all_list" class="tab-pane active">
+                            <div id="tab_crew_list" class="tab-pane active">
+                                <div class="page-header">
+                                    <div class="col-sm-3">
+                                        <h4><b>CREW LIST</b></h4>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:40px">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="custom-label d-inline-block font-bold for-pc" style="padding: 6px;">船名:</label>
+                                            <select class="custom-select d-inline-block" id="select-ship" style="width:80px">
+                                                @foreach($shipList as $ship)
+                                                    <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
+                                                @endforeach
+                                            </select>
+                                            <strong class="f-right for-pc" style="font-size: 16px; padding-top: 6px;"><span id="ship_name"></span> CREW LIST</strong>
+                                        </div>
+                                        <div class="col-md-6 for-pc" style="padding:unset!important">
+                                            <div class="btn-group f-right">
+                                                <button class="btn btn-warning btn-sm excel-btn" id="btn_export_list"><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="margin-top:4px;">
+                                        <div id="item-manage-dialog" class="hide"></div>
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                        <div class="row">
+                                            <div class="head-fix-div common-list" id="crew-table" style="">
+                                                <table id="table-shipmember-list" class="not-striped" style="width:100%;table-layout:fixed;">
+                                                    <thead class="">
+                                                        <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
+                                                        <th class="text-center style-header" style="width: 12%;"><span>Family Name, Given Name</span></th>
+                                                        <th class="text-center style-header" style="width: 4%;"><span>Rank</span></th>
+                                                        <th class="text-center style-header" style="width: 9%;"><span>Nationality</span></th>
+                                                        <th class="text-center style-header" style="width: 12%;"><span>Chinese ID No.</span></th>
+                                                        <th class="text-center style-header" style="width: 15%;"><span>Date and place of birth</span></th>
+                                                        <th class="text-center style-header" style="width: 15%;"><span>Date and place of embarkation</span></th>
+                                                        <th class="text-center style-header" style="width: 15%;"><span>Seaman's Book No and Expire Date</span></th>
+                                                        <th class="text-center style-header" style="width: 15%"><span>Passport's No and Expire Date</span></th>
+                                                    </thead>
+                                                    <tbody class="" id="list-body">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab_all_list" class="tab-pane col-sm-10">
                                 <div class="page-header">
                                     <div class="col-sm-3">
                                         <h4><b>船员名单</b></h4>
@@ -57,7 +105,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="col-md-6">
-                                            <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
+                                            <label class="custom-label d-inline-block font-bold for-pc" style="padding: 6px;">船名:</label>
                                             <select class="custom-select d-inline-block" id="select-ship-total" style="width:80px">
                                                 @foreach($shipList as $ship)
                                                     <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
@@ -96,54 +144,6 @@ $isHolder = Session::get('IS_HOLDER');
                                                         <th class="text-center style-header" style=""><span>地址</span></th>
                                                     </thead>
                                                     <tbody class="" id="total-list-body">
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="tab_crew_list" class="tab-pane col-sm-10">
-                                <div class="page-header">
-                                    <div class="col-sm-3">
-                                        <h4><b>CREW LIST</b></h4>
-                                    </div>
-                                </div>
-                                <div class="row" style="margin-bottom:40px">
-                                    <div class="col-md-12">
-                                        <div class="col-md-6">
-                                            <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
-                                            <select class="custom-select d-inline-block" id="select-ship" style="width:80px">
-                                                @foreach($shipList as $ship)
-                                                    <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
-                                                @endforeach
-                                            </select>
-                                            <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="ship_name"></span> CREW LIST</strong>
-                                        </div>
-                                        <div class="col-md-6" style="padding:unset!important">
-                                            <div class="btn-group f-right">
-                                                <button class="btn btn-warning btn-sm excel-btn" id="btn_export_list"><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12" style="margin-top:4px;">
-                                        <div id="item-manage-dialog" class="hide"></div>
-                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                        <div class="row">
-                                            <div class="head-fix-div common-list" id="crew-table" style="">
-                                                <table id="table-shipmember-list" class="not-striped" style="width:100%;table-layout:fixed;">
-                                                    <thead class="">
-                                                        <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
-                                                        <th class="text-center style-header" style="width: 12%;"><span>Family Name, Given Name</span></th>
-                                                        <th class="text-center style-header" style="width: 4%;"><span>Rank</span></th>
-                                                        <th class="text-center style-header" style="width: 9%;"><span>Nationality</span></th>
-                                                        <th class="text-center style-header" style="width: 12%;"><span>Chinese ID No.</span></th>
-                                                        <th class="text-center style-header" style="width: 15%;"><span>Date and place of birth</span></th>
-                                                        <th class="text-center style-header" style="width: 15%;"><span>Date and place of embarkation</span></th>
-                                                        <th class="text-center style-header" style="width: 15%;"><span>Seaman's Book No and Expire Date</span></th>
-                                                        <th class="text-center style-header" style="width: 15%"><span>Passport's No and Expire Date</span></th>
-                                                    </thead>
-                                                    <tbody class="" id="list-body">
                                                     </tbody>
                                                 </table>
                                             </div>
