@@ -98,7 +98,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     </div>
                                 </div>
                             </div>
-                            <div id="tab_all_list" class="tab-pane col-sm-10">
+                            <div id="tab_all_list" class="tab-pane">
                                 <div class="page-header">
                                     <div class="col-sm-3">
                                         <h4><b>船员名单</b></h4>
