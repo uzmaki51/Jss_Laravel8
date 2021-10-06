@@ -48,9 +48,7 @@ $ships = Session::get('shipList');
                         <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
                         <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;">
                             @foreach($shipList as $ship)
-                                <option value="{{ $ship['IMO_No'] }}"
-                                    {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
-                                </option>
+                                <option value="{{ $ship['IMO_No'] }}"{{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}</option>
                             @endforeach
                         </select>
                         <select name="select-year" id="select-year" style="font-size:13px">
@@ -317,7 +315,7 @@ $ships = Session::get('shipList');
             var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
             var real_tab = document.getElementById('table-material-list');
             var tab = real_tab.cloneNode(true);
-            tab_text=tab_text+"<tr><td colspan='10' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + '"' + $('#ship_name').html() + '" ' + $('#title_year').html() + "设备清单</td></tr>";
+            tab_text=tab_text+"<tr><td colspan='10' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#select-ship option:selected').text() + '_' + $('#title_year').html() + "设备清单</td></tr>";
             for(var j = 0 ; j < tab.rows.length ; j++) 
             {
                 if (j == 0) {
@@ -358,7 +356,7 @@ $ships = Session::get('shipList');
                 }
                 
                 tab.rows[j].childNodes[0].remove();
-                tab.rows[j].childNodes[13].remove();
+                //tab.rows[j].childNodes[13].remove();
 
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
@@ -367,7 +365,7 @@ $ships = Session::get('shipList');
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = '"' + $('#ship_name').html() + '" ' + $('#title_year').html() + "设备清单";
+            var filename = $('#select-ship option:selected').text() + '_' + $('#title_year').html() + "设备清单";
             exportExcel(tab_text, filename, filename);
             
             return 0;
