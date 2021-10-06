@@ -655,6 +655,9 @@ div.input table tbody tr td
     .sp-logout a {
         color: white;
     }
+    .dropdown-menu > li > a {
+        font-size: 10px;
+    }
 }
 @media (max-width: 375px) {
     .dataTables_wrapper .dataTables_paginate .paginate_button {
