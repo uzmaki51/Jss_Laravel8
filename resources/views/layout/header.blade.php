@@ -8,16 +8,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- STYLES -->
-    <link rel="stylesheet" href="{{ asset('/assets/css/theme.css?v=20211004104500') }}"/>
-    <link href="{{ asset('assets/css/bootstrap.min.css?v=20211004104500') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css/bootstrap-overrides.css') }}" rel="stylesheet"/>
-    <link rel="stylesheet" href="{{ asset('/assets/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/theme.css?v=20211006104500') }}"/>
+    <link href="{{ asset('assets/css/bootstrap.min.css?v=20211006104500') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/css/bootstrap-overrides.css?v=20211006104500') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/font-awesome.min.css?v=20211006104500') }}"/>
     <link rel="icon" type="image/png" href="{{ cAsset('/assets/css/img/logo.png') }}" sizes="192x192">
-    <link href="{{ asset('/assets/css/chosen.css') }}" rel="stylesheet">
+    <link href="{{ asset('/assets/css/chosen.css?v=20211006104500') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/assets/css/colorbox.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/assets/css/ace.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('/assets/css/ace-rtl.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('/assets/css/ace-skins.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/ace.min.css?v=20211006104500') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/ace-rtl.min.css?v=20211006104500') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/ace-skins.min.css?v=20211006104500') }}"/>
     <link rel="stylesheet" href="{{ asset('/assets/css/jquery.gritter.css') }}" />
     <link rel="stylesheet" href="{{ asset('/assets/css/base.css') }}" />
     <link href="{{ asset('/assets/css/datepicker.css') }}" rel="stylesheet">
@@ -26,8 +26,8 @@
     <link href="{{ asset('/assets/css/colorpicker.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/jquery-ui-1.10.3.full.min.css')}}" rel="stylesheet">
     <link href="{{ asset('/assets/css/jquery.treeview.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/style.css?v=20211004104500') }}" rel="stylesheet">
-    <link href="{{ asset('/css/common.css?v=20211004104500') }}" rel="stylesheet">
+    <link href="{{ asset('/css/style.css?v=20211006104500') }}" rel="stylesheet">
+    <link href="{{ asset('/css/common.css?v=20211006104500') }}" rel="stylesheet">
     @yield('styles')
 
     <!-- SCRIPTS -->
