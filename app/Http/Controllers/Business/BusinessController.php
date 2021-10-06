@@ -1511,7 +1511,7 @@ class BusinessController extends Controller {
 	    $tbl = new VoyLog();
 	    $ret = $tbl->updateSpDate($params);
 
-	    return redirect()->route('voy.register');
+	    return redirect('/voy/register?shipId=' . $params['shipId'] . '&voyNo=' . $params['CP_ID']);
     }
 
     public function ajax_voyDetail(Request $request) {
