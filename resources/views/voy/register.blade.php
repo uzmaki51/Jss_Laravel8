@@ -343,7 +343,7 @@ $ships = Session::get('shipList');
                 },
                 methods: {
                     changeShip: function(evt) {
-                        location.href = '/business/dynRecord?shipId=' + $(evt.target).val();
+                        location.href = '/voy/register?shipId=' + $(evt.target).val();
                     },
                     getShipName: function(shipName, EnName) {
                         return shipName == '' ? EnName : shipName;
@@ -368,32 +368,8 @@ $ships = Session::get('shipList');
                         return isNaN(value) || value < 0 ? 'text-danger' : '';
                     },
                     onChangeVoy(evt) {
-                        var newVal = this.activeVoy;
-                        var confirmationMessage = 'It looks like you have been editing something. '
-                            + 'If you leave before saving, your changes will be lost.';
-                        let currentObj = JSON.parse(JSON.stringify(searchObj.currentData));
-                        if(JSON.stringify(searchObjTmp) != JSON.stringify(currentObj))
-                            isChangeStatus = true;
-                        else
-                            isChangeStatus = false;
-
-                        if (!submitted && isChangeStatus) {
-                            __alertAudio();
-                            this.activeVoy = tmp;
-                            bootbox.confirm(confirmationMessage, function (result) {
-                                if (!result) {
-                                    return;
-                                }
-                                else {
-                                    searchObj.activeVoy = newVal;
-                                    searchObj.setPortName();
-                                    searchObj.getData();
-                                }
-                            });
-                        } else {
-                            this.setPortName();
-                            this.getData();
-                        }
+                        this.setPortName();
+                        this.getData();
 
                     },
                     getData: function() {
