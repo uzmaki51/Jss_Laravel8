@@ -79,8 +79,6 @@
                         <img src="{{ Auth::user()->avatar == '' ? cAsset('assets/avatars/user.png') : Auth::user()->avatar }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
                         欢迎 | {{ Auth::user()->realname }}</a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ route('profile') }}"><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;{{ trans('common.label.profile') }}</a></li>
-                        <hr style="margin: 4px 0!important;">
                         <li><a href="{{ route('logout') }}"><i class="icon-signout"></i>&nbsp;&nbsp;{{ trans('common.label.logout') }}</a></li>
                     </ul>
                 </li>
