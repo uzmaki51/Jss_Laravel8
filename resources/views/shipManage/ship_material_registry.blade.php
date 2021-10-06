@@ -782,8 +782,8 @@ $ships = Session::get('shipList');
             if (select_year == 0) $('#title_year').html('')
             else $('#title_year').html(select_year + '年');
 
-            getShipInfo(ship_id, select_year);
-            //location.href = "/shipManage/shipMaterialList?id=" + ship_id + "&year=" + select_year;
+            //getShipInfo(ship_id, select_year);
+            location.href = "/shipManage/shipMaterialList?id=" + ship_id + "&year=" + select_year;
         }
 
         $('#submit').on('click', function() {
