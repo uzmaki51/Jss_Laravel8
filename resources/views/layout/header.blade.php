@@ -70,9 +70,22 @@
                     <img class="navbar-img" src="{{ asset('/assets/avatars/logo.png') }}" alt=""/>
                 </a>
                 <a class="navbar-brand for-sp">
-                    <img class="navbar-img" src="{{ asset('/assets/avatars/logo.png') }}" alt=""/>
+                    <img class="navbar-img" style="padding: 8px;" src="{{ asset('/assets/avatars/logo.png') }}" alt=""/>
                 </a>
             </div>
+            <div class="sp-logout for-sp">
+                <li class="dropdown" style="height: auto;">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background: transparent;">
+                        <img src="{{ Auth::user()->avatar == '' ? cAsset('assets/avatars/user.png') : Auth::user()->avatar }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
+                        欢迎 | {{ Auth::user()->realname }}</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ route('profile') }}"><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;{{ trans('common.label.profile') }}</a></li>
+                        <hr style="margin: 4px 0!important;">
+                        <li><a href="{{ route('logout') }}"><i class="icon-signout"></i>&nbsp;&nbsp;{{ trans('common.label.logout') }}</a></li>
+                    </ul>
+                </li>
+            </div>
+            
             
             <div id="menuToggle" class="sp-menu sidebar">
                 <input type="checkbox" class="hamburger-input"/>

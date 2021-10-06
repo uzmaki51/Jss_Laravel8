@@ -370,7 +370,6 @@ $ships = Session::get('shipList');
                     onChangeVoy(evt) {
                         this.setPortName();
                         this.getData();
-
                     },
                     getData: function() {
                         $.ajax({

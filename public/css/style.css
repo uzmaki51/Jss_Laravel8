@@ -641,6 +641,20 @@ div.input table tbody tr td
         font-weight: normal;
         font-size: 10px;
     }
+    .sp-logout {
+        position: absolute;
+        right: 12px;
+        top: 35%;
+    }
+    .sp-logout ul {
+        min-width: auto;
+    }
+    .sp-logout li {
+        list-style: none;
+    }
+    .sp-logout a {
+        color: white;
+    }
 }
 @media (max-width: 375px) {
     .dataTables_wrapper .dataTables_paginate .paginate_button {
