@@ -24,6 +24,11 @@ table {
     box-sizing: border-box;
 }
 
+.dynamic-popup-reverse {
+    top:auto!important;
+    bottom:100%!important;
+}
+
 .dynamic-select-wrapper {
     position: relative;
     user-select: none;
@@ -284,7 +289,7 @@ table {
 .multi-select {
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
     border: 1px solid #394a6d;
-    // min-width: 240px!important;
+    /*min-width: 240px!important;*/
     right: 0;
     left: auto;
     background: #fff;

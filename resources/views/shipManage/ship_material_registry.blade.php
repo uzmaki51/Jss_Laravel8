@@ -110,7 +110,7 @@ $ships = Session::get('shipList');
                                                 <input type="hidden"  name="category_id[]" v-model="item.category_id" v-bind:data-main-value="array_index"/>
                                                 <div class="dynamic-select__trigger dynamic-arrow">@{{ item.category_name }}</div>
                                                 <div class="dynamic-options" style="margin-top: -17px;">
-                                                    <div class="dynamic-options-scroll">
+                                                    <div class="dynamic-options-scroll" style="width:70%">
                                                         <span v-for="(category_Item, index) in materialCategoryList" v-bind:class="[item.category_id == category_Item.id ? 'dynamic-option selected' : 'dynamic-option ']" @click="setMaterialInfo(array_index, category_Item.id, item.category_id)">@{{ category_Item.name }}</span>
                                                     </div>
                                                     <div>
@@ -128,7 +128,7 @@ $ships = Session::get('shipList');
                                                 <input type="hidden"  name="type_id[]" v-model="item.type_id" v-bind:data-main-value="array_index"/>
                                                 <div class="dynamic-select__trigger dynamic-arrow">@{{ item.type_name }}</div>
                                                 <div class="dynamic-options" style="margin-top: -17px;">
-                                                    <div class="dynamic-options-scroll">
+                                                    <div class="dynamic-options-scroll" style="width:70%">
                                                         <span v-for="(type_Item, index) in materialTypeList" v-bind:class="[item.type_id == type_Item.id ? 'dynamic-option selected' : 'dynamic-option ']" @click="setMaterialInfo(array_index, item.category_id, type_Item.id)">@{{ type_Item.name }}</span>
                                                     </div>
                                                     <div>
@@ -723,8 +723,8 @@ $ships = Session::get('shipList');
 
         function addMaterialItem() {
             let reportLen = materialListObj.material_array.length;
-            let newMaterialCategoryId = 1;
-            let newMaterialTypeId = 1;
+            let newMaterialCategoryId = 0;
+            let newMaterialTypeId = 0;
 
             materialListObj.material_array.push([]);
             materialListObj.material_array[reportLen]['category_id']  = newMaterialCategoryId;

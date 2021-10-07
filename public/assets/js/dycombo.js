@@ -1,7 +1,7 @@
-
         for (const selector of document.querySelectorAll(".dynamic-select-wrapper")) {
             selector.addEventListener('click', function() {
                 this.firstElementChild.classList.toggle('open');
+                //selector.querySelector('.dynamic-options').classList.add("dynamic-popup-reverse");
             })
         }
 
