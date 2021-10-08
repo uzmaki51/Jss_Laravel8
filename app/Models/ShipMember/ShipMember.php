@@ -635,7 +635,7 @@ class ShipMember extends Model
                 $newArr[$newindex]['purchdate'] = '';
             else
                 $newArr[$newindex]['purchdate'] = date('Y-m-d', strtotime($record->purchdate));
-            $newArr[$newindex]['sendbank'] = 0;
+            $newArr[$newindex]['sendbank'] = 100;
             $newArr[$newindex]['bankinfo'] = $record->bankinfo;
             $newArr[$newindex]['remark'] = $record->remark;
             $newindex++;

@@ -194,6 +194,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(5).html('<input type="text" autocomplete="off" class="form-control style-noncolor-input add-sendD" name="SendD[]" value="' + data['sendD'] + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(6).html('<div class="input-group"><input autocomplete="off" class="form-control style-noncolor-input add-trans-date date-picker text-center" name="PurchDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + (data['purchdate'] == null ? "": data['purchdate'].substring(0,10)) + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
                     var bank_info = '<select class="form-control" name="SendBank[]">';
+                    bank_info += '<option value="100"' + ((100==data['sendbank'])?'selected':'') + '></option>';
                     for (var i=0;i<BankInfo.length;i++)
                         bank_info += '<option value="'+i+'"' + ((i==data['sendbank'])?'selected':'') + '>'+BankInfo[i]+'</option>';
                     bank_info += '</select>';
