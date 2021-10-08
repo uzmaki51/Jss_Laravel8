@@ -380,7 +380,7 @@ $ships = Session::get('shipList');
                         if($(event.target).hasClass('open')) {
                             $(event.target).removeClass('open');
                             $(event.target).siblings(".dynamic-options").removeClass('open');
-                            $(event.target).siblings(".dynamic-options").removeClass('dynamic-popup-reverse');
+                            //$(event.target).siblings(".dynamic-options").removeClass('dynamic-popup-reverse');
                         } else {
                             $(event.target).addClass('open');
                             $(event.target).siblings(".dynamic-options").addClass('open');
@@ -391,12 +391,9 @@ $ships = Session::get('shipList');
                             console.log(topOffset);
                             var relativeOffset = topOffset-scrollTop;
                             var windowHeight = $(window).height();
-
                             
-                            // if the relative offset is greater than half the window height,
-                            // reverse the dropdown.
                             //if(relativeOffset > windowHeight/2){
-                            $(event.target).siblings(".dynamic-options").addClass('dynamic-popup-reverse');
+                            //$(event.target).siblings(".dynamic-options").addClass('dynamic-popup-reverse');
                             //}
                         }
                     },
