@@ -105,13 +105,13 @@ $isHolder = Session::get('IS_HOLDER');
                                             <tr>
                                                 <td class="add-td-label" width="20%;">{{trans("orgManage.captions.name")}}<span class="require">*</span>:</td>
                                                 <td class="add-td-text">
-                                                    <input type="text" class="form-control add-td-input" name="name" id="name" value="{{ isset($userinfo) ? $userinfo['realname'] : old('name') }}" required autocomplete="off">
+                                                    <input type="text" class="form-control no-border" name="name" id="name" value="{{ isset($userinfo) ? $userinfo['realname'] : old('name') }}" required autocomplete="off">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="add-td-label" >{{trans("orgManage.captions.loginID")}}<span class="require">*</span>:</td>
                                                 <td class="add-td-text">
-                                                    <input type="text" class="form-control add-td-input" name="account" id="account" {{ isset($userinfo) ? 'readonly' : '' }} value="{{ isset($userinfo) ? $userinfo['account'] : old('account') }}" required autocomplete="off">
+                                                    <input type="text" class="form-control no-border" name="account" id="account" {{ isset($userinfo) ? 'readonly' : '' }} value="{{ isset($userinfo) ? $userinfo['account'] : old('account') }}" required autocomplete="off">
                                                 </td>
                                             </tr>
                                             <tr>

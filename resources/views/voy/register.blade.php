@@ -17,6 +17,14 @@ $ships = Session::get('shipList');
 @endsection
 
 @section('content')
+    <style>
+        .form-control[readonly] {
+            background: #efefef;
+        }
+        .form-control[readonly]:focus {
+            background: #efefef;
+        }
+    </style>
     <div class="main-content">
         <div class="page-content" id="search-div">
             <div class="row pt-2" v-cloak>
