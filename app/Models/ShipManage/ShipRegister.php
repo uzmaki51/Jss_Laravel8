@@ -141,4 +141,12 @@ class ShipRegister extends Model
         return $records;
     }
 
+    public static function getShipForHolderWithDelete() {
+        $ids = Auth::user()->shipList;
+        $ids = explode(',', $ids);
+        $records = self::whereIn('IMO_No', $ids)->get();
+
+        return $records;
+    }
+
 }
