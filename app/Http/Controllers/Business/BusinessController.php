@@ -1114,11 +1114,6 @@ class BusinessController extends Controller {
 
         return redirect('/business/settleMent?shipId=' . $shipId . '&voyId=' . $voyId);
     }
-    
-
-
-
-
 
     // Ajax
     public function ajaxContractInfo(Request $request) {
@@ -1126,7 +1121,7 @@ class BusinessController extends Controller {
         $shipId = $params['shipId'];
 
         $retVal['shipInfo'] = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $shipId)->first();
-        $retVal['portList'] = ShipPort::orderBy('Port_En', 'asc')->get();
+        $retVal['portList'] = ShipPort::orderBy('id', 'asc')->get();
         $retVal['cargoList'] = Cargo::orderBy('name', 'asc')->get();
 
         return response()->json($retVal);

@@ -111,23 +111,23 @@ $ships = Session::get('shipList');
                                         <tr>
                                             <td class="text-left">DATE</td>
                                             <td colspan="3">
-                                                <input type="text" class="date-picker form-control text-center" name="Voy_Date" v-model="currentItem.Voy_Date" @click="dateModify($event)" data-date-format="yyyy-mm-dd">
+                                                <input type="text" class="date-picker form-control text-center" name="Voy_Date" v-model="currentItem.Voy_Date" @click="dateModify($event)" data-date-format="yyyy-mm-dd" required>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="text-left">TIME(LT)<span class="text-danger">*</span></td>
                                             <td class="time-width">
-                                                <input type="number" class="form-control text-center hour-input" required name="Voy_Hour" v-model="currentItem.Voy_Hour" @blur="limitHour($event)" @keyup="limitHour($event)" @change="changeVal">
+                                                <input type="number" class="form-control text-center hour-input" name="Voy_Hour" v-model="currentItem.Voy_Hour" @blur="limitHour($event)" @keyup="limitHour($event)" @change="changeVal" required>
                                             </td>
                                             <td class="time-width">
-                                                <input type="number" class="form-control text-center minute-input" required name="Voy_Minute" v-model="currentItem.Voy_Minute" @blur="limitMinute($event)" @keyup="limitMinute($event)" @change="changeVal">
+                                                <input type="number" class="form-control text-center minute-input" name="Voy_Minute" v-model="currentItem.Voy_Minute" @blur="limitMinute($event)" @keyup="limitMinute($event)" @change="changeVal" required>
                                             </td>
                                             <td class="time-width">(hh:mm)</td>
                                         </tr>
                                         <tr>
                                             <td class="text-left">GMT<span class="text-danger">*</span></td>
                                             <td class="time-width">
-                                                <input type="number" required class="form-control text-center gmt-input" name="GMT" v-model="currentItem.GMT" @blur="limitGMT($event)" @keyup="limitGMT($event)" @change="changeVal">
+                                                <input type="number" class="form-control text-center gmt-input" name="GMT" v-model="currentItem.GMT" @blur="limitGMT($event)" @keyup="limitGMT($event)" @change="changeVal" required>
                                             </td>
                                             <td colspan="2"></td>
                                         </tr>
@@ -142,7 +142,7 @@ $ships = Session::get('shipList');
                                         <tr>
                                             <td class="font-style-normal text-left">种类</td>
                                             <td colspan="3">
-                                                <select type="number" class="form-control" name="Voy_Type" v-model="currentItem.Voy_Type" @change="changeVal">
+                                                <select type="number" class="form-control" name="Voy_Type" v-model="currentItem.Voy_Type" @change="changeVal" required>
                                                     <option v-for="(item, index) in currentItem.dynamicSub" v-bind:value="item[0]">@{{ item[1] }}</option>
                                                 </select>
                                             </td>
@@ -150,14 +150,14 @@ $ships = Session::get('shipList');
                                         <tr>
                                             <td class="text-left">POSITION</td>
                                             <td colspan="3">
-                                                <input type="text" maxlength="25" class="form-control" name="Ship_Position" v-model="currentItem.Ship_Position" autocomplete="off" @change="changeVal">
+                                                <input type="text" maxlength="25" class="form-control" name="Ship_Position" v-model="currentItem.Ship_Position" autocomplete="off" @change="changeVal" :required="validateItem.position">
                                             </td>
                                         </tr>
 
                                         <tr>
                                             <td class="text-left">DTG</td>
                                             <td colspan="2">
-                                                <input type="number" max="100000" class="form-control"  :readonly="currentItem.Voy_Status != DYNAMIC_DEPARTURE"  name="Sail_Distance" v-model="currentItem.Sail_Distance" @change="changeVal">
+                                                <input type="number" max="100000" class="form-control"  :readonly="currentItem.Voy_Status != DYNAMIC_DEPARTURE"  name="Sail_Distance" v-model="currentItem.Sail_Distance" @change="changeVal" :required="validateItem.distance">
                                             </td>
                                             <td>N.Mile</td>
                                         </tr>
@@ -178,23 +178,23 @@ $ships = Session::get('shipList');
                                         </tr>
 
                                         <tr>
-                                            <td class="text-left">CGO QTY(MT)<span class="text-danger">*</span></td>
+                                            <td class="text-left">CGO QTY(MT)</td>
                                             <td colspan="3">
-                                                <input type="number" class="form-control font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty" v-model="currentItem.Cargo_Qtty" required @change="changeVal">
+                                                <input type="number" class="form-control font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty" v-model="currentItem.Cargo_Qtty" @change="changeVal" :required="validateItem.cargo">
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <td class="text-left">ROB(FO)<span class="text-danger">*</span></td>
+                                            <td class="text-left">ROB(FO)</td>
                                             <td colspan="2">
-                                                <input type="number" class="form-control" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_FO" v-model="currentItem.ROB_FO" required @change="changeVal">
+                                                <input type="number" class="form-control" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_FO" v-model="currentItem.ROB_FO" @change="changeVal" :required="validateItem.rob_fo">
                                             </td>
                                             <td>MT</td>
                                         </tr>
                                         <tr>
-                                            <td class="text-left">ROB(DO)<span class="text-danger">*</span></td>
+                                            <td class="text-left">ROB(DO)</td>
                                             <td colspan="2">
-                                                <input type="number" class="form-control" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO" v-model="currentItem.ROB_DO" required @change="changeVal">
+                                                <input type="number" class="form-control" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO" v-model="currentItem.ROB_DO" @change="changeVal" :required="validateItem.rob_do">
                                             </td>
                                             <td>MT</td>
                                         </tr>
@@ -225,6 +225,7 @@ $ships = Session::get('shipList');
                                         <button type="button" class="btn btn-success small-btn ml-0" @click="submitForm">
                                             <i class="icon-save"></i>保存
                                         </button>
+                                        <button type="submit" class="d-none submit-btn"></button>
                                         <a class="btn btn-danger small-btn close-modal" @click="deleteItem($event, currentItem.id)"><i class="icon-remove"></i>删除</a>
                                     </div>
                                 </form>
@@ -258,7 +259,6 @@ $ships = Session::get('shipList');
         shipInfo = shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
         shipInfo = JSON.parse(shipInfo);
         var DYNAMIC_SUB_SALING = '{!! DYNAMIC_SUB_SALING !!}';
-        var DYNAMIC_DEPARTURE = '{!! DYNAMIC_DEPARTURE !!}';
         var DYNAMIC_SUB_LOADING = '{!! DYNAMIC_SUB_LOADING !!}';
         var DYNAMIC_SUB_DISCH = '{!! DYNAMIC_SUB_DISCH !!}';
         var DYNAMIC_SUB_WAITING = '{!! DYNAMIC_SUB_WAITING !!}';
@@ -267,9 +267,12 @@ $ships = Session::get('shipList');
         var DYNAMIC_SUB_SUPPLY = '{!! DYNAMIC_SUB_SUPPLY !!}';
         var DYNAMIC_SUB_ELSE = '{!! DYNAMIC_SUB_ELSE !!}';
 
+        var DYNAMIC_DEPARTURE = '{!! DYNAMIC_DEPARTURE !!}';
         var DYNAMIC_SAILING = '{!! DYNAMIC_SAILING !!}';
         var DYNAMIC_CMPLT_DISCH = '{!! DYNAMIC_CMPLT_DISCH !!}';
         var DYNAMIC_CMPLT_LOADING = '{!! DYNAMIC_CMPLT_LOADING !!}';
+        var DYNAMIC_VOYAGE = '{!! DYNAMIC_VOYAGE !!}';
+
         const DAY_UNIT = 1000 * 3600;
         var isChangeStatus = false;
         var searchObjTmp = new Array();
@@ -345,6 +348,13 @@ $ships = Session::get('shipList');
                         dynamicStatus: DynamicStatus,
                         dynamicSub: [],
                     },
+                    validateItem: {
+                        distance: false,
+                        cargo: false,
+                        position: false,
+                        rob_fo: false,
+                        rob_do: false,
+                    }
                 },
                 init: function() {
                     this.changeShip();
@@ -526,98 +536,44 @@ $ships = Session::get('shipList');
                     },
                     changeVal: function() {
                         isChangeStatus = true;
+                        this.validateForm();
                     },
                     onChangeStatus: function(e, index) {
+                        isChangeStatus = true;
                         let voyStatus = $(e.target).val();
+
                         searchObj.currentItem['dynamicSub'] = getSubList(voyStatus);
                         searchObj.currentItem['Voy_Type'] = getSubList(voyStatus)[0][0];
-                        isChangeStatus = true;
-                        searchObj.$forceUpdate();
+
+                        this.validateForm();
+                        
                     },
                     submitForm: function() {
                         isChangeStatus = false;
-                        let label = '***';
-                        if($('#dynamic-form').validate({
-                            rules: {
-                                Voy_Hour: {
-                                    required: true
-                                },
-                                Voy_Minute : {
-                                    required: true
-                                },
-                                Voy_Status: {
-                                    required: true
-                                },
-                                GMT: {
-                                    required: true
-                                },
-                                Cargo_Qtty: {
-                                    required: true
-                                },
-                                ROB_FO: {
-                                    required: true
-                                },
-                                ROB_DO: {
-                                    required: true
-                                },
-                            },
-                            messages: {
-                                Voy_Hour: label,
-                                Voy_Minute : label,
-                                Voy_Status: label,
-                                GMT: label,
-                                Cargo_Qtty: label,
-                                ROB_FO: label,
-                                ROB_DO: label,
-                            }
-                        })) {
-                            if(this.validateForm() == -2) {
-                                bootbox.alert('Please input ROB/FO, ROB/DO value.');
-                            } else if(this.validateForm() == -1) {
-                                bootbox.alert('"CGO QTY" is require input field.');
-                            } else if(this.validateForm() == -3) {
-                                bootbox.alert('If voy status is "CMPLT VOYAGE", "POSITION" and "ROB" are required item.');
-                            } else {
-                                $('#dynamic-form').submit();
-                            }
-                        } else {
-                            return false;
-                        }
-
-
-                        return false;
+                        $('.submit-btn').click();
                     },
                     validateForm() {
-                        let $this = this.currentData;
-                        var retVal = true;
-                        let voyageValidate = 0;
-                        $this.forEach(function(value, key) {
-                            if(value['Cargo_Qtty'] == '')
-                                $this[key]['Cargo_Qtty'] = null;
-                            if(value['Voy_Status'] == '{{ DYNAMIC_VOYAGE }}') {
-                                if(__parseFloat(value['ROB_FO']) == 0 || __parseFloat(value['ROB_DO']) == 0 || __parseStr(value['Ship_Position']) == '')
-                                    voyageValidate = -3;
+                        let CargoQty = this.currentItem.Cargo_Qtty;
+                        let voyStatus = this.currentItem.Voy_Status;
+
+                        if(voyStatus == DYNAMIC_DEPARTURE) {
+                            this.validateItem.distance = true;
+                        } else if(voyStatus == DYNAMIC_CMPLT_LOADING) {
+                            this.validateItem.cargo = true;
+                        } else if(voyStatus == DYNAMIC_CMPLT_DISCH) {
+                            this.validateItem.cargo = true;
+                            if(CargoQty == 0) {
+                                this.validateItem.rob_fo = true;
+                                this.validateItem.rob_do = true;
                             }
-                        });
+                        } else if(voyStatus == DYNAMIC_VOYAGE) {
+                            this.validateItem.position = true;
+                            this.validateItem.cargo = true;
+                            this.validateItem.rob_fo = true;
+                            this.validateItem.rob_do = true;
+                        }
 
-                        if(voyageValidate != 0) return voyageValidate;
-
-                        $this.forEach(function(value, key) {
-                            if($this[key]['Voy_Status'] == DYNAMIC_CMPLT_DISCH) {
-                                if(value['Cargo_Qtty'] == undefined || value['Cargo_Qtty'] == null) {
-                                    retVal = -1;
-                                } else if(value['Cargo_Qtty'] == 0) {
-                                    if(__parseFloat(value['ROB_FO']) == 0 || __parseFloat(value['ROB_DO']) == 0) {
-                                        retVal = -2;
-                                    }
-                                }
-                            } else if($this[key]['Voy_Status'] == DYNAMIC_CMPLT_LOADING) {
-                                if(value['Cargo_Qtty'] == undefined || value['Cargo_Qtty'] == null)
-                                    retVal = -1;
-                            }
-                        });
-
-                        return retVal;
+                        this.$forceUpdate();
                     },
                     getToday: function(symbol) {
                         var today = new Date();

@@ -234,20 +234,20 @@ class VoyLog extends Model
 		    else
 			    $voyLog['Voy_Date'] = null;
 
-		    $voyLog['Voy_Hour'] = !isset($params['Voy_Hour']) ? 0 : $params['Voy_Hour'];
-		    $voyLog['Voy_Minute'] = !isset($params['Voy_Minute']) ? 0 : $params['Voy_Minute'];
-		    $voyLog['GMT'] = !isset($params['GMT']) ? 0 : $params['GMT'];
-		    $voyLog['Voy_Type'] = !isset($params['Voy_Type']) ? 0 : $params['Voy_Type'];
-		    $voyLog['Voy_Status'] = $params['Voy_Status'];
-		    $voyLog['Ship_Position'] = $params['Ship_Position'];
-		    $voyLog['Cargo_Qtty'] = !isset($params['Cargo_Qtty']) ? 0 : $params['Cargo_Qtty'];
-		    $voyLog['Sail_Distance'] = !isset($params['Sail_Distance']) ? 0 : $params['Sail_Distance'];
-		    $voyLog['Speed'] = !isset($params['Speed']) ? 0 : $params['Speed'];
-		    $voyLog['RPM'] = !isset($params['RPM']) ? 0 : $params['RPM'];
-		    $voyLog['ROB_FO'] = !isset($params['ROB_FO']) ? 0 : $params['ROB_FO'];
-		    $voyLog['ROB_DO'] = !isset($params['ROB_DO']) ? 0 : $params['ROB_DO'];
-		    $voyLog['BUNK_FO'] = !isset($params['BUNK_FO']) ? 0 : $params['BUNK_FO'];
-		    $voyLog['BUNK_DO'] = !isset($params['BUNK_DO']) ? 0 : $params['BUNK_DO'];
+		    $voyLog['Voy_Hour'] = !isset($params['Voy_Hour']) ? null : $params['Voy_Hour'];
+		    $voyLog['Voy_Minute'] = !isset($params['Voy_Minute']) ? null : $params['Voy_Minute'];
+            $voyLog['GMT'] = !isset($params['GMT']) ? null : $params['GMT'];
+            $voyLog['Voy_Status'] = !isset($params['Voy_Status']) ? null : $params['Voy_Status'];
+		    $voyLog['Voy_Type'] = !isset($params['Voy_Type']) ? null : $params['Voy_Type'];
+		    $voyLog['Ship_Position'] = isset($params['Ship_Position']) ? null : $params['Ship_Position'];
+		    $voyLog['Cargo_Qtty'] = !isset($params['Cargo_Qtty']) ? null : $params['Cargo_Qtty'];
+		    $voyLog['Sail_Distance'] = !isset($params['Sail_Distance']) ? null : $params['Sail_Distance'];
+		    $voyLog['Speed'] = !isset($params['Speed']) ? null : $params['Speed'];
+		    $voyLog['RPM'] = !isset($params['RPM']) ? null : $params['RPM'];
+		    $voyLog['ROB_FO'] = !isset($params['ROB_FO']) ? null : $params['ROB_FO'];
+		    $voyLog['ROB_DO'] = !isset($params['ROB_DO']) ? null : $params['ROB_DO'];
+		    $voyLog['BUNK_FO'] = !isset($params['BUNK_FO']) ? null : $params['BUNK_FO'];
+		    $voyLog['BUNK_DO'] = !isset($params['BUNK_DO']) ? null : $params['BUNK_DO'];
 		    $voyLog['Remark'] = !isset($params['Remark']) ? '' : $params['Remark'];
 
 		    $voyLog->save();
