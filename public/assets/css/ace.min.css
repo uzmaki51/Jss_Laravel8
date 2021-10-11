@@ -14367,8 +14367,6 @@ body.breadcrumbs-fixed {
 .main-container > .main-container-inner {
     position: relative;
     height: auto;
-	overflow-x: hidden;
-    overflow-y: auto;
 }
 
 .container.main-container .sidebar.sidebar-fixed, .container.main-container .sidebar.sidebar-fixed:before {

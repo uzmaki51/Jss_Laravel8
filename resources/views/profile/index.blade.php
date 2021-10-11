@@ -103,7 +103,6 @@ $isHolder = Session::get('IS_HOLDER');
                         <div class="profile-user-info-striped">
                             <div class="profile-info-row">
                                 <div class="profile-info-name">{{trans("orgManage.captions.name")}}</div>
-
                                 <div class="profile-info-value">
                                     <input type="text" class="form-control add-td-input" name="name" id="name" value="{{ isset($userinfo) ? $userinfo['realname'] : old('name') }}" required>
                                 </div>
