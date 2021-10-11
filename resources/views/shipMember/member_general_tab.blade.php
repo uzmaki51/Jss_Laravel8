@@ -131,7 +131,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align:left;width:10%">
-                            <span class="style-header">Nationality</span>
+                            <span class="text-danger style-header">Nationality*</span>
                         </td>
                         <td class="custom-td-report-text" style="width: 40%">
                             <div class="dynamic-select-wrapper">

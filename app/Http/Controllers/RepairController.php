@@ -89,7 +89,7 @@ class RepairController extends Controller
 
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
-            $shipList = ShipRegister::getShipForHolder();
+            $shipList = ShipRegister::getShipForHolderWithDelete();
         else {
             $shipList = ShipRegister::orderBy('id')->get();
         }

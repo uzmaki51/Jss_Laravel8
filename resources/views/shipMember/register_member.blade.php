@@ -58,7 +58,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <a href="/shipMember/registerShipMember" class="btn btn-sm btn-primary btn-add" style="width: 80px">
                                     <i class="icon-plus"></i>{{ trans('common.label.add') }}
                                 </a>
-                                <button type="submit" id="btnRegister" class="btn btn-sm btn-success" style="width: 80px">
+                                <button id="btnRegister" type="button" class="btn btn-sm btn-success" style="width: 80px">
                                     <i class="icon-save"></i>{{ trans('common.label.save') }}
                                 </button>
                             </div>
@@ -796,6 +796,12 @@ $isHolder = Session::get('IS_HOLDER');
                     next.focus();
                     next.select();
                 } else {
+                    form.valid();
+                    var nationality = $('[name=Nationality]')[0].value;
+                    if (nationality == "") {
+                        alert("Please select Nationality!");
+                        return;
+                    }
                     form.submit();
                 }
                 return false;
@@ -829,6 +835,18 @@ $isHolder = Session::get('IS_HOLDER');
         var submitted = false;
         $("form").submit(function() {
             submitted = true;
+        });
+
+        $('#btnRegister').on('click', function() {
+            $('#member-form').valid();
+
+            var nationality = $('[name=Nationality]')[0].value;
+            if (nationality == "") {
+                alert("Please select Nationality!");
+                return;
+            }
+            
+            $('#member-form').submit();
         });
 
         var $form = $('form'),

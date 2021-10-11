@@ -327,9 +327,9 @@ class WageController extends Controller
         $posList = ShipPosition::all();
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
-            $shipList = ShipRegister::getShipForHolder();
+            $shipList = ShipRegister::getShipForHolderWithDelete();
         else {
-            $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
+            $shipList = ShipRegister::orderBy('id')->get();
         }
         $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
         if(empty($start_year)) {
