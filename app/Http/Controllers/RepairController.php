@@ -40,21 +40,25 @@ class RepairController extends Controller
         }
         
         $shipName = $shipRegTbl->getShipNameByIMO($shipId);
-        
-        $yearList = [2021];
 
         if(isset($params['year'])) {
             $activeYear = $params['year'];
          } else {
-            $activeYear = $yearList[0];
+            $activeYear = date("Y");
          }
 
-        // Department List from 设备清单
-        $departList = ShipMaterialCategory::all();
+         if(isset($params['month'])) {
+            $activeMonth = $params['month'];
+         } else {
+            $activeMonth = date('m');
+         }
 
+        $tbl = new Repair();
+        $yearList = $tbl->getYearList();
+        // Department List from 设备清单
+        $departList = ShipMaterialCategory::orderBy('order_no', 'asc')->get();
         // Charget List
         $posList = ShipPosition::all();
-
         // Type List from 设备清单
         $typeList = ShipMaterialSubKind::all();
 
@@ -65,7 +69,7 @@ class RepairController extends Controller
             'shipName'      => $shipName,
             'years'         => $yearList,
             'activeYear'    => $activeYear,
-            'activeMonth'   => intval(date('m')),
+            'activeMonth'   => intval($activeMonth),
             'departList'    => $departList,
             'typeList'      => $typeList,
             'chargeList'    => $posList,
@@ -77,10 +81,13 @@ class RepairController extends Controller
     public function update(Request $request) {
         $params = $request->all();
         
+        $activeYear = $params['year'];
+        $activeMonth = $params['month'];
+        
         $tbl = new Repair();
         $ret = $tbl->udpateData($params);
 
-        return redirect()->back()->with(['message'      => 'Success']);
+        return redirect('/repair/register' . '?id=' . $params['ship_id'] . '&year=' . $activeYear . '&month=' . $activeMonth);
     }
 
     public function list(Request $request) {
@@ -120,11 +127,11 @@ class RepairController extends Controller
          }
 
         // Department List from 设备清单
-        $departList = ShipMaterialCategory::all();
+        $departList = ShipMaterialCategory::orderBy('order_no', 'asc')->get();
         // Charget List
         $posList = ShipPosition::all();
         // Type List from 设备清单
-        $typeList = ShipMaterialSubKind::all();
+        $typeList = ShipMaterialSubKind::orderBy("order_no", "asc")->get();
 
         return view('repair.list', [
             'shipList'      => $shipList,

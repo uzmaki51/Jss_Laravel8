@@ -247,4 +247,20 @@ class Repair extends Model
 
         return true;
     }
+
+    public function getYearList() {
+		$yearList = [];
+        $info = self::orderBy('request_date', 'asc')->first();
+        if($info == null) {
+            $baseYear = date('Y');
+        } else {
+            $baseYear = substr($info->request_date, 0, 4);
+        }
+
+        for($year = date('Y'); $year >= $baseYear; $year --) {
+            $yearList[] = $year;
+        }
+
+        return $yearList;
+	}
 }

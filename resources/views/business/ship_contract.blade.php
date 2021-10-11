@@ -557,10 +557,12 @@ $ships = Session::get('shipList');
 
                             return tmpStr;
                         } else {
-                            portListObj.list.forEach(function(value, key) {
-                                tmp.forEach(function(tmpValue) {
-                                    if(tmpValue == value['id'])
+                            tmp.forEach(function(tmpValue) {
+                                portListObj.list.forEach(function(value, key) {
+                                    if(tmpValue == value['id']) {
+                                        console.log(value['id'])
                                         tmpStr += value['Port_En'] + '(' + value['Port_Cn'] + ')' + ', ';
+                                    }
                                 })
                             });
 
@@ -846,10 +848,12 @@ $ships = Session::get('shipList');
                         
                         voyContractObj.up_port = voyListObj.list[index].LPort;
                         voyContractObj.upPortNames = voyListObj.getPortName(voyListObj.list[index].LPort);
-                        voyContractObj.upPortIDList = voyListObj.list[index].LPort;
+                        voyContractObj.upPortIDList = voyListObj.list[index].LPort.split(',');
+                        // voyContractObj.upPortTmpIDList = voyListObj.list[index].LPort.split(',');
                         voyContractObj.down_port = voyListObj.list[index].DPort;
                         voyContractObj.downPortNames = voyListObj.getPortName(voyListObj.list[index].DPort);
-                        voyContractObj.downPortIDList = voyListObj.list[index].DPort;
+                        voyContractObj.downPortIDList = voyListObj.list[index].DPort.split(',');
+                        // voyContractObj.downPortTmpIDList = voyListObj.list[index].DPort.split(',');
 
                         voyContractObj.lay_date = voyListObj.list[index].LayCan_Date1;
                         voyContractObj.can_date = voyListObj.list[index].LayCan_Date2;

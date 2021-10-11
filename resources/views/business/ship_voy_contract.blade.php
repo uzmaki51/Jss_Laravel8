@@ -270,7 +270,7 @@
                             <div class="dynamic-options multi-select" style="margin-top: -17px;">
                                 <div class="dynamic-options-scroll">
                                     <div v-for="(portItem, index) in portList" class="d-flex dynamic-option">
-                                        <input type="checkbox" name="up_port_id[]" v-bind:value="index" v-bind:id="index + '_upPort'" :disabled="false">
+                                        <input type="checkbox" name="up_port_id[]" v-bind:value="portItem.id" v-bind:id="index + '_upPort'" @click="selectItem($event, 'up_port')">
                                         <label :for="index + '_upPort'" class="width-100">@{{ portItem.Port_En }}</label>
                                     </div>
                                 </div>
@@ -302,7 +302,7 @@
                             <div class="dynamic-options multi-select" style="margin-top: -17px;">
                                 <div class="dynamic-options-scroll">
                                     <div v-for="(portItem, index) in portList" class="d-flex dynamic-option">
-                                        <input type="checkbox" name="down_port_id[]" v-bind:value="index" v-bind:id="index + '_downPort'">
+                                        <input type="checkbox" name="down_port_id[]" v-bind:value="portItem.id" v-bind:id="index + '_downPort'" @click="selectItem($event, 'down_port')">
                                         <label :for="index + '_downPort'" class="width-100">@{{ portItem.Port_En }}</label>
                                     </div>
                                 </div>
@@ -651,8 +651,10 @@
                 portList:       [],
 
                 upPortIDList:   [],
+                upPortTmpIDList:   [],
                 upPortNames:    '',
                 downPortIDList: [],
+                downPortTmpIDList: [],
                 downPortNames:  '',
                 fileName: '添加附件',
             },
@@ -708,30 +710,63 @@
                     } else if(activeId == 'up_port') {
                         nameTmp = '';
                         voyContractObj.upPortNames = '';
-                        voyContractObj.upPortIDList = [];
-                        var values = $("input[name='up_port_id[]']").map(function() {
-                            if($(this).prop('checked')) {
-                                nameTmp += voyContractObj.portList[$(this).val()]['Port_En'] + '(' + voyContractObj.portList[$(this).val()]['Port_Cn'] + '), ';
-                                voyContractObj.upPortIDList.push(voyContractObj.portList[$(this).val()]['id']);
-                            }
-                        }).get();
+                        voyContractObj.upPortIDList = voyContractObj.upPortTmpIDList;
+                        voyContractObj.upPortIDList.forEach(function(value, key) {
+                            nameTmp += value;
+                            if(voyContractObj.upPortIDList.length != key + 1)
+                                nameTmp += ',';
+                        });
 
-                        voyContractObj.upPortNames = nameTmp.slice(0,-2);
+                        voyContractObj.upPortNames = voyListObj.getPortName(nameTmp);
                     } else if(activeId == 'down_port') {
                         nameTmp = '';
                         voyContractObj.downPortNames = '';
-                        voyContractObj.downPortIDList = [];
-                        var values = $("input[name='down_port_id[]']").map(function() {
-                            if($(this).prop('checked')) {
-                                nameTmp += voyContractObj.portList[$(this).val()]['Port_En'] + '(' + voyContractObj.portList[$(this).val()]['Port_Cn'] + '), ';
-                                voyContractObj.downPortIDList.push(voyContractObj.portList[$(this).val()]['id']);
-                            }
-                        }).get();
+                        voyContractObj.downPortIDList = voyContractObj.downPortTmpIDList;
+                        voyContractObj.downPortIDList.forEach(function(value, key) {
+                            nameTmp += value;
+                            if(voyContractObj.downPortIDList.length != key + 1)
+                                nameTmp += ',';
+                        });
 
-                        voyContractObj.downPortNames = nameTmp.slice(0,-2);
+                        voyContractObj.downPortNames = voyListObj.getPortName(nameTmp);
                     } else return false;
                     
                     this.closeDialog();
+                },
+                selectItem: function(e, type) {
+                    let id = parseInt(e.target.value);
+                    let checked = $(e.target).prop('checked');
+
+                    if(type == 'up_port') {
+                        if(typeof(voyContractObj.upPortTmpIDList) != 'object') {
+                            voyContractObj.upPortTmpIDList = [];
+                        }
+
+                        if(checked == false) {
+                            voyContractObj.upPortTmpIDList = this.removeValue(voyContractObj.upPortTmpIDList, id);
+                        } else {
+                            voyContractObj.upPortTmpIDList.push(id);
+                        }
+                    } else {
+                        if(typeof(voyContractObj.downPortTmpIDList) != 'object') {
+                            voyContractObj.downPortTmpIDList = [];
+                        }
+
+                        if(checked == false) {
+                            voyContractObj.downPortTmpIDList = this.removeValue(voyContractObj.downPortTmpIDList, id);
+                        } else {
+                            voyContractObj.downPortTmpIDList.push(id);
+                        }
+                    }
+                },
+
+                removeValue: function(array, value) {
+                    const index = array.indexOf(value);
+                    if (index > -1) {
+                        array.splice(index, 1);
+                    }
+
+                    return array;
                 },
                 openDialog: function(type) {
                     if(type == 'cargo')

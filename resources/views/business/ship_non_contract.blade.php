@@ -241,7 +241,7 @@
                                 <div class="dynamic-options multi-select" style="margin-top: -17px;">
                                     <div class="dynamic-options-scroll">
                                         <div v-for="(portItem, index) in portList" class="d-flex dynamic-option">
-                                            <input type="checkbox" name="up_port_id[]" v-bind:value="index" v-bind:id="index + '_nonPort_tc'">
+                                            <input type="checkbox" name="up_port_id[]" v-bind:value="portItem.id" v-bind:id="index + '_nonPort_tc'" @click="selectItem($event, 'up_port')">
                                             <label :for="index + '_nonPort_tc'" class="width-100">@{{ portItem.Port_En }}</label>
                                         </div>
                                     </div>
@@ -577,8 +577,10 @@
                 portList:       [],
 
                 upPortIDList:   [],
+                upPortTmpIDList:   [],
                 upPortNames:    '',
                 downPortIDList: [],
+                downPortTmpIDList: [],
                 downPortNames:  '',
                 fileName: '添加附件',
             },
@@ -634,32 +636,63 @@
                     } else if(activeId == 'up_port') {
                         nameTmp = '';
                         nonContractObj.upPortNames = '';
-                        nonContractObj.upPortIDList = [];
-                        var values = $("input[name='up_port_id[]']").map(function() {
-                            if($(this).prop('checked')) {
-                                nameTmp += nonContractObj.portList[$(this).val()]['Port_En'] + '(' + nonContractObj.portList[$(this).val()]['Port_Cn'] + '), ';
-                                nonContractObj.upPortIDList.push(nonContractObj.portList[$(this).val()]['id']);
-                            }
-                        }).get();
+                        nonContractObj.upPortIDList = nonContractObj.upPortTmpIDList;
+                        nonContractObj.upPortIDList.forEach(function(value, key) {
+                            nameTmp += value;
+                            if(nonContractObj.upPortIDList.length != key + 1)
+                                nameTmp += ',';
+                        });
 
-                        nonContractObj.upPortNames = nameTmp.slice(0,-2);
+                        nonContractObj.upPortNames = voyListObj.getPortName(nameTmp);
                     } else if(activeId == 'down_port') {
                         nameTmp = '';
                         nonContractObj.downPortNames = '';
-                        nonContractObj.downPortIDList = [];
-                        var values = $("input[name='down_port_id[]']").map(function() {
-                            if($(this).prop('checked')) {
-                                nameTmp += nonContractObj.portList[$(this).val()]['Port_En'] + '(' + nonContractObj.portList[$(this).val()]['Port_Cn'] + '), ';
-                                nonContractObj.downPortIDList.push(nonContractObj.portList[$(this).val()]['id']);
-                            }
-                        }).get();
+                        nonContractObj.downPortIDList = nonContractObj.downPortTmpIDList;
+                        nonContractObj.downPortIDList.forEach(function(value, key) {
+                            nameTmp += value;
+                            if(nonContractObj.downPortIDList.length != key + 1)
+                                nameTmp += ',';
+                        });
 
-                        nonContractObj.downPortNames = nameTmp.slice(0,-2);
+                        nonContractObj.downPortNames = voyListObj.getPortName(nameTmp);
                     } else return false;
-
-
                     
                     this.closeDialog();
+                },
+                selectItem: function(e, type) {
+                    let id = parseInt(e.target.value);
+                    let checked = $(e.target).prop('checked');
+
+                    if(type == 'up_port') {
+                        if(typeof(nonContractObj.upPortTmpIDList) != 'object') {
+                            nonContractObj.upPortTmpIDList = [];
+                        }
+
+                        if(checked == false) {
+                            nonContractObj.upPortTmpIDList = this.removeValue(nonContractObj.upPortTmpIDList, id);
+                        } else {
+                            nonContractObj.upPortTmpIDList.push(id);
+                        }
+                    } else {
+                        if(typeof(nonContractObj.downPortTmpIDList) != 'object') {
+                            nonContractObj.downPortTmpIDList = [];
+                        }
+
+                        if(checked == false) {
+                            nonContractObj.downPortTmpIDList = this.removeValue(nonContractObj.downPortTmpIDList, id);
+                        } else {
+                            nonContractObj.downPortTmpIDList.push(id);
+                        }
+                    }
+                },
+
+                removeValue: function(array, value) {
+                    const index = array.indexOf(value);
+                    if (index > -1) {
+                        array.splice(index, 1);
+                    }
+
+                    return array;
                 },
                 openDialog: function(type) {
                     if(type == 'cargo')

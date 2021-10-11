@@ -73,6 +73,8 @@ $ships = Session::get('shipList');
                             <form action="{{ route('repair.update') }}" method="post" enctype="multipart/form-data" id="repair-form">
                                 @csrf
                                 <input type="hidden" value="{{ $shipId }}" name="ship_id">
+                                <input type="hidden" v-model="activeYear" name="year">
+                                <input type="hidden" v-model="activeMonth" name="month">
                                 <table class="table-striped" id="table-record">
                                     <thead class="">
                                         <th class="d-none"></th>
@@ -271,7 +273,7 @@ $ships = Session::get('shipList');
                 },
                 methods: {
                     customFormatter(date) {
-                        return moment(date).format('YY-MM-DD');
+                        return moment(date).format('YYYY-MM-DD');
                     },
                     dateModify(e, index, type) {
                         $(e.target).on("change", function() {

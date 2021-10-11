@@ -270,7 +270,7 @@ Route::group(['prefix' => 'shipMember'], function() {
 	Route::post('/profile/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
 	## RepairController
-	Route::get('/repair/register', [App\Http\Controllers\RepairController::class, 'register'])->name('repiare.register');
+	Route::get('/repair/register', [App\Http\Controllers\RepairController::class, 'register'])->name('repair.register');
 	Route::post('/repair/update', [App\Http\Controllers\RepairController::class, 'update'])->name('repair.update');
 	Route::post('ajax/repair/list',   [App\Http\Controllers\RepairController::class, 'ajax_list']);
 	Route::post('ajax/repair/delete',   [App\Http\Controllers\RepairController::class, 'ajax_delete']);
