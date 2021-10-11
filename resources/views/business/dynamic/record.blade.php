@@ -642,7 +642,9 @@
                         } else if(this.validateForm() == -1) {
                             bootbox.alert('"CGO QTY" is require input field.');
                         } else if(this.validateForm() == -3) {
-                            bootbox.alert('If voy status is "CMPLT VOYAGE", "POSITION" and "ROB" are required item.');
+                            bootbox.alert('If "STATUS" is CMPLT VOYAGE, POSITION and ROB are required item.');
+                        } else if(this.validateForm() == -4) {
+                            bootbox.alert('If "STATUS" is DEPARTURE, DTG[NM] is required item.');
                         } else {
                             $('#dynamic-form').submit();
                         }
@@ -665,6 +667,7 @@
                         if(voyageValidate != 0) return voyageValidate;
                         
                         $this.forEach(function(value, key) {
+                            console.log(value['Sail_Distance'])
                             if($this[key]['Voy_Status'] == DYNAMIC_CMPLT_DISCH) {
                                 if(value['Cargo_Qtty'] == undefined || value['Cargo_Qtty'] == null) {
                                     retVal = -1;
@@ -676,6 +679,10 @@
                             } else if($this[key]['Voy_Status'] == DYNAMIC_CMPLT_LOADING) {
 				                if(value['Cargo_Qtty'] == undefined || value['Cargo_Qtty'] == null)
                                     retVal = -1;
+                            } else if($this[key]['Voy_Status'] == DYNAMIC_DEPARTURE) {
+                                
+                                if(value['Sail_Distance'] == undefined || value['Sail_Distance'] == null)
+                                    retVal = -4;
                             }
                         });
                         
