@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class TestController extends Controller
 {
     public function gitPull() {
-        $output = null;
+        $output = null; 
         $retval = null;
         exec('cd ' . base_path(), $output, $retval);
         exec('git pull', $output, $retval);
