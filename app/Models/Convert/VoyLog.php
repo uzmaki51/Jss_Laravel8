@@ -239,7 +239,7 @@ class VoyLog extends Model
             $voyLog['GMT'] = !isset($params['GMT']) ? null : $params['GMT'];
             $voyLog['Voy_Status'] = !isset($params['Voy_Status']) ? null : $params['Voy_Status'];
 		    $voyLog['Voy_Type'] = !isset($params['Voy_Type']) ? null : $params['Voy_Type'];
-		    $voyLog['Ship_Position'] = isset($params['Ship_Position']) ? null : $params['Ship_Position'];
+		    $voyLog['Ship_Position'] = !isset($params['Ship_Position']) ? null : $params['Ship_Position'];
 		    $voyLog['Cargo_Qtty'] = !isset($params['Cargo_Qtty']) ? null : $params['Cargo_Qtty'];
 		    $voyLog['Sail_Distance'] = !isset($params['Sail_Distance']) ? null : $params['Sail_Distance'];
 		    $voyLog['Speed'] = !isset($params['Speed']) ? null : $params['Speed'];

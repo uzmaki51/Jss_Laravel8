@@ -633,7 +633,7 @@ $ships = Session::get('shipList');
                         let val = parseInt(e.target.value);
                         if(val > 25)
                             this.currentItem['Voy_Hour'] = 23;
-                        else if(val < 0)
+                        else if(val <= 0)
                             this.currentItem['Voy_Hour'] = 0;
                         else if(val < 10 && val > 0)
                             this.currentItem['Voy_Hour'] = sprintf('%02d', val);
@@ -644,7 +644,7 @@ $ships = Session::get('shipList');
                         let val = parseInt(e.target.value);
                         if(val > 60)
                             this.currentItem['Voy_Minute'] = 59;
-                        else if(val < 0)
+                        else if(val <= 0)
                             this.currentItem['Voy_Minute'] = 0;
                         else if(val < 10 && val > 0)
                             this.currentItem['Voy_Minute'] = sprintf('%02d', val);
@@ -655,7 +655,7 @@ $ships = Session::get('shipList');
                         let val = parseInt(e.target.value);
                         if(val > 24)
                             this.currentItem['GMT'] = 24;
-                        if(val < 0)
+                        if(val <= 0)
                             this.currentItem['GMT'] = 0;
                     },
                     getVoyStatusLabel: function(index) {
