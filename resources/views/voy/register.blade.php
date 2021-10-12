@@ -117,24 +117,24 @@ $ships = Session::get('shipList');
                                         <tr>
                                             <td class="text-left">TIME(LT)<span class="text-danger">*</span></td>
                                             <td class="time-width">
-                                                <input type="number" class="form-control text-center hour-input" name="Voy_Hour" v-model="currentItem.Voy_Hour" @blur="limitHour($event)" @keyup="limitHour($event)" @change="changeVal" required>
+                                                <input type="text" class="form-control text-center hour-input" name="Voy_Hour" v-model="currentItem.Voy_Hour" @blur="limitHour($event)" @keyup="limitHour($event)" @change="changeVal" required>
                                             </td>
                                             <td class="time-width">
-                                                <input type="number" class="form-control text-center minute-input" name="Voy_Minute" v-model="currentItem.Voy_Minute" @blur="limitMinute($event)" @keyup="limitMinute($event)" @change="changeVal" required>
+                                                <input type="text" class="form-control text-center minute-input" name="Voy_Minute" v-model="currentItem.Voy_Minute" @blur="limitMinute($event)" @keyup="limitMinute($event)" @change="changeVal" required>
                                             </td>
                                             <td class="time-width">(hh:mm)</td>
                                         </tr>
                                         <tr>
                                             <td class="text-left">GMT<span class="text-danger">*</span></td>
                                             <td class="time-width">
-                                                <input type="number" class="form-control text-center gmt-input" name="GMT" v-model="currentItem.GMT" @blur="limitGMT($event)" @keyup="limitGMT($event)" @change="changeVal" required>
+                                                <input type="text" class="form-control text-center gmt-input" name="GMT" v-model="currentItem.GMT" @blur="limitGMT($event)" @keyup="limitGMT($event)" @change="changeVal" required>
                                             </td>
                                             <td colspan="2"></td>
                                         </tr>
                                         <tr>
                                             <td class="text-left">STATUS<span class="text-danger">*</span></td>
                                             <td colspan="3">
-                                                <select type="number" class="form-control" name="Voy_Status" v-model="currentItem.Voy_Status" @change="onChangeStatus($event)" required>
+                                                <select type="text" class="form-control" name="Voy_Status" v-model="currentItem.Voy_Status" @change="onChangeStatus($event)" required>
                                                     <option v-for="(item, index) in currentItem.dynamicStatus" v-bind:value="index">@{{ item[0] }}</option>
                                                 </select>
                                             </td>
@@ -142,7 +142,7 @@ $ships = Session::get('shipList');
                                         <tr>
                                             <td class="font-style-normal text-left">种类</td>
                                             <td colspan="3">
-                                                <select type="number" class="form-control" name="Voy_Type" v-model="currentItem.Voy_Type" @change="changeVal" required>
+                                                <select type="text" class="form-control" name="Voy_Type" v-model="currentItem.Voy_Type" @change="changeVal" required>
                                                     <option v-for="(item, index) in currentItem.dynamicSub" v-bind:value="item[0]">@{{ item[1] }}</option>
                                                 </select>
                                             </td>
@@ -157,14 +157,14 @@ $ships = Session::get('shipList');
                                         <tr>
                                             <td class="text-left">DTG</td>
                                             <td colspan="2">
-                                                <input type="number" max="100000" class="form-control"  :readonly="currentItem.Voy_Status != DYNAMIC_DEPARTURE"  name="Sail_Distance" v-model="currentItem.Sail_Distance" @change="changeVal" :required="validateItem.distance">
+                                                <input type="text" max="100000" class="form-control"  :readonly="currentItem.Voy_Status != DYNAMIC_DEPARTURE"  name="Sail_Distance" v-model="currentItem.Sail_Distance" @change="changeVal" :required="validateItem.distance">
                                             </td>
                                             <td>N.Mile</td>
                                         </tr>
                                         <tr>
                                             <td class="text-left">SPEED</td>
                                             <td colspan="2">
-                                                <input type="number" class="form-control" name="Speed" v-model="currentItem.Speed" @change="changeVal">
+                                                <input type="text" class="form-control" name="Speed" v-model="currentItem.Speed" @change="changeVal">
                                             </td>
                                             <td>Kn</td>
                                         </tr>
@@ -172,7 +172,7 @@ $ships = Session::get('shipList');
                                         <tr>
                                             <td class="text-left">RPM</td>
                                             <td colspan="2">
-                                                <input type="number" class="form-control" name="RPM" v-model="currentItem.RPM" @change="changeVal">
+                                                <input type="text" class="form-control" name="RPM" v-model="currentItem.RPM" @change="changeVal">
                                             </td>
                                             <td>rpm</td>
                                         </tr>
@@ -180,35 +180,35 @@ $ships = Session::get('shipList');
                                         <tr>
                                             <td class="text-left">CGO QTY(MT)</td>
                                             <td colspan="3">
-                                                <input type="number" class="form-control font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty" v-model="currentItem.Cargo_Qtty" @change="changeVal" :required="validateItem.cargo">
+                                                <input type="text" class="form-control font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty" v-model="currentItem.Cargo_Qtty" @change="changeVal" :required="validateItem.cargo">
                                             </td>
                                         </tr>
 
                                         <tr>
                                             <td class="text-left">ROB(FO)</td>
                                             <td colspan="2">
-                                                <input type="number" class="form-control" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_FO" v-model="currentItem.ROB_FO" @change="changeVal" :required="validateItem.rob_fo">
+                                                <input type="text" class="form-control" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_FO" v-model="currentItem.ROB_FO" @change="changeVal" :required="validateItem.rob_fo">
                                             </td>
                                             <td>MT</td>
                                         </tr>
                                         <tr>
                                             <td class="text-left">ROB(DO)</td>
                                             <td colspan="2">
-                                                <input type="number" class="form-control" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO" v-model="currentItem.ROB_DO" @change="changeVal" :required="validateItem.rob_do">
+                                                <input type="text" class="form-control" style="padding: 0!important" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO" v-model="currentItem.ROB_DO" @change="changeVal" :required="validateItem.rob_do">
                                             </td>
                                             <td>MT</td>
                                         </tr>
                                         <tr>
                                             <td class="text-left">BUNKERING(FO)</td>
                                             <td colspan="2">
-                                                <input type="number" class="form-control" name="BUNK_FO"  style="color: blue!important; padding: 0!important;" v-model="currentItem.BUNK_FO" @change="changeVal">
+                                                <input type="text" class="form-control" name="BUNK_FO"  style="color: blue!important; padding: 0!important;" v-model="currentItem.BUNK_FO" @change="changeVal">
                                             </td>
                                             <td>MT</td>
                                         </tr>
                                         <tr>
                                             <td class="text-left">BUNKERING(DO)</td>
                                             <td colspan="2">
-                                                <input type="number" class="form-control" name="BUNK_DO"  style="color: blue!important; padding: 0!important;" v-model="currentItem.BUNK_DO" @change="changeVal">
+                                                <input type="text" class="form-control" name="BUNK_DO"  style="color: blue!important; padding: 0!important;" v-model="currentItem.BUNK_DO" @change="changeVal">
                                             </td>
                                             <td>MT</td>
                                         </tr>

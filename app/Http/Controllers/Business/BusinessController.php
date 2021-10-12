@@ -1121,7 +1121,7 @@ class BusinessController extends Controller {
         $shipId = $params['shipId'];
 
         $retVal['shipInfo'] = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $shipId)->first();
-        $retVal['portList'] = ShipPort::orderBy('id', 'asc')->get();
+        $retVal['portList'] = ShipPort::orderBy('Port_En', 'asc')->get();
         $retVal['cargoList'] = Cargo::orderBy('name', 'asc')->get();
 
         return response()->json($retVal);
