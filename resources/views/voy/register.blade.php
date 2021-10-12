@@ -505,17 +505,17 @@ $ships = Session::get('shipList');
                                     let result = data;
                                     if(result != false) {
                                         searchObj.currentItem.Voy_Date = result.Voy_Date;
-                                        searchObj.currentItem.Voy_Hour = __parseStr(result.Voy_Hour);
-                                        searchObj.currentItem.Voy_Minute = __parseStr(result.Voy_Minute);
-                                        searchObj.currentItem.GMT = __parseStr(result.GMT);
-                                        searchObj.currentItem.Voy_Status = __parseStr(result.Voy_Status);
+                                        searchObj.currentItem.Voy_Hour = sprintf('%02d', __parseFloat(result.Voy_Hour));
+                                        searchObj.currentItem.Voy_Minute = sprintf('%02d', __parseFloat(result.Voy_Minute));
+                                        searchObj.currentItem.GMT = __parseFloat(result.GMT);
+                                        searchObj.currentItem.Voy_Status = __parseFloat(result.Voy_Status);
                                         searchObj.currentItem.dynamicSub = getSubList(result.Voy_Status);
-                                        searchObj.currentItem.Voy_Type = __parseStr(result.Voy_Type);
+                                        searchObj.currentItem.Voy_Type = __parseFloat(result.Voy_Type);
                                         searchObj.currentItem.Ship_Position = result.Ship_Position;
                                         searchObj.currentItem.Sail_Distance = __parseStr(result.Sail_Distance);
                                         searchObj.currentItem.Speed = __parseStr(result.Speed);
                                         searchObj.currentItem.RPM = __parseStr(result.RPM);
-                                        searchObj.currentItem.Cargo_Qtty = __parseStr(result.Cargo_Qtty);
+                                        searchObj.currentItem.Cargo_Qtty = result.Cargo_Qtty;
                                         searchObj.currentItem.ROB_FO = __parseStr(result.ROB_FO);
                                         searchObj.currentItem.ROB_DO = __parseStr(result.ROB_DO);
                                         searchObj.currentItem.BUNK_FO = __parseStr(result.BUNK_FO);
@@ -642,6 +642,7 @@ $ships = Session::get('shipList');
                     },
                     limitMinute: function(e) {
                         let val = parseInt(e.target.value);
+						console.log(val);
                         if(val > 60)
                             this.currentItem['Voy_Minute'] = 59;
                         else if(val <= 0)
