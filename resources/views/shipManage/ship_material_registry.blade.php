@@ -752,6 +752,8 @@ $ships = Session::get('shipList');
             materialListObj.material_array[reportLen]['blt_year']  = '';
             materialListObj.material_array[reportLen]['remark']  = '';
 
+            $('#material_list [name="name[]"]').last().focus();
+            
             isChangeStatus = true;
         }
 
