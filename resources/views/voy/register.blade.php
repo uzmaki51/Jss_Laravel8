@@ -571,6 +571,12 @@ $ships = Session::get('shipList');
                             this.validateItem.cargo = true;
                             this.validateItem.rob_fo = true;
                             this.validateItem.rob_do = true;
+                        } else {
+                            this.validateItem.distance = false;
+				            this.validateItem.position = false;
+                            this.validateItem.cargo = false;
+                            this.validateItem.rob_fo = false;
+                            this.validateItem.rob_do = false;
                         }
 
                         this.$forceUpdate();
