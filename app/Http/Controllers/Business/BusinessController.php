@@ -1490,7 +1490,7 @@ class BusinessController extends Controller {
 		    return redirect()->back();
 
 	    $tbl = new VoyLog();
-	    $ret = $tbl->updateSpDate($params);
+	    $ret = $tbl->updateSpData($params);
 
 	    return redirect('/voy/register?shipId=' . $params['shipId'] . '&voyNo=' . $params['CP_ID']);
     }

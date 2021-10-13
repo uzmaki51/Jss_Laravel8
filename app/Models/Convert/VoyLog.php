@@ -69,31 +69,12 @@ class VoyLog extends Model
     public function getBeforeInfo($shipId, $voyId) {
         // Get last record of voy before this voy.
         // Voy Status == 19(DYNAMIC_VOYAGE)
-        $record = self::where('Ship_ID', $shipId)
+        $beforeInfo = $record = self::where('Ship_ID', $shipId)
             ->where('CP_ID', '<', $voyId)
-            ->where('Voy_Status', DYNAMIC_VOYAGE)
             ->orderBy('CP_ID', 'desc')
-            ->orderBy('Voy_Date', 'desc')
-            ->orderBy('Voy_Hour', 'desc')
-            ->orderBy('Voy_Minute', 'desc')
-            ->orderBy('GMT', 'desc')
             ->first();
 
-        if($record == null)
-            $record = self::where('Ship_ID', $shipId)
-                ->where('CP_ID', '<', $voyId)
-                ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)
-                // ->where('Cargo_Qtty', 0)
-                ->orderBy('CP_ID', 'desc')
-                ->orderBy('Voy_Date', 'desc')
-                ->orderBy('Voy_Hour', 'desc')
-                ->orderBy('Voy_Minute', 'desc')
-                ->orderBy('GMT', 'desc')
-                ->first();
-
-        else return $record;
-
-        if($record == null) {
+        if($beforeInfo == null) {
             $record = self::where('Ship_ID', $shipId)
                 ->where('CP_ID', $voyId)
                 // ->orderBy('id', 'asc')
@@ -101,6 +82,49 @@ class VoyLog extends Model
                 ->orderBy('Voy_Hour', 'asc')
                 ->orderBy('Voy_Minute', 'asc')
                 ->orderBy('GMT', 'asc')
+                ->orderBy('id', 'asc')
+                ->first();
+
+            if($record == null) return [];
+            return $record;
+        } else {
+            $beforeId = $beforeInfo->CP_ID;
+        }
+            
+        $record = self::where('Ship_ID', $shipId)
+            ->where('CP_ID', $beforeId)
+            ->where('Voy_Status', DYNAMIC_VOYAGE)
+            ->orderBy('CP_ID', 'desc')
+            ->orderBy('Voy_Date', 'desc')
+            ->orderBy('Voy_Hour', 'desc')
+            ->orderBy('Voy_Minute', 'desc')
+            ->orderBy('GMT', 'desc')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        if($record == null)
+            $record = self::where('Ship_ID', $shipId)
+                ->where('CP_ID', $beforeId)
+                ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)
+                // ->where('Cargo_Qtty', 0)
+                ->orderBy('CP_ID', 'desc')
+                ->orderBy('Voy_Date', 'desc')
+                ->orderBy('Voy_Hour', 'desc')
+                ->orderBy('Voy_Minute', 'desc')
+                ->orderBy('GMT', 'desc')
+                ->orderBy('id', 'desc')
+                ->first();
+
+        else return $record;
+
+        if($record == null) {
+            $record = self::where('Ship_ID', $shipId)
+                ->where('CP_ID', $voyId)
+                ->orderBy('Voy_Date', 'asc')
+                ->orderBy('Voy_Hour', 'asc')
+                ->orderBy('Voy_Minute', 'asc')
+                ->orderBy('GMT', 'asc')
+                ->orderBy('id', 'asc')
                 ->first();
 
             if($record == null) return [];
@@ -123,14 +147,14 @@ class VoyLog extends Model
         if($record != null) return $record;
 
         $record = self::where('Ship_ID', $shipId)
-                ->where('CP_ID', $voyId)
-                ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)
-                ->where('Cargo_Qtty', 0)
-                ->orderByDesc('Voy_Date')
-                ->orderByDesc('Voy_Hour')
-                ->orderByDesc('Voy_Minute')
-                ->orderByDesc('GMT')
-                ->first();
+            ->where('CP_ID', $voyId)
+            ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)
+            ->where('Cargo_Qtty', 0)
+            ->orderByDesc('Voy_Date')
+            ->orderByDesc('Voy_Hour')
+            ->orderByDesc('Voy_Minute')
+            ->orderByDesc('GMT')
+            ->first();
 
         if($record == null)
             return [];
@@ -219,7 +243,7 @@ class VoyLog extends Model
         return $retVal;
     }
 
-    public function updateSpDate($params) {
+    public function updateSpData($params) {
     	try {
 		    $id = $params['id'];
 		    if(isset($id) && $id > 0) {
