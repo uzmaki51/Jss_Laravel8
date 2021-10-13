@@ -43,6 +43,7 @@ $ships = Session::get('shipList');
                     </h4>
                 </div>
             </div>
+
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-lg-6">
@@ -373,10 +374,23 @@ $ships = Session::get('shipList');
                         } else {
                             $(event.target).addClass('open');
                             $(event.target).siblings(".dynamic-options").addClass('open');
+
+                            let height = $(event.target).siblings(".dynamic-options").height();
+                            let windowHeight = $(window).height();
+
+                            let element = event.target;
+                            let boundRect = element.getBoundingClientRect();
+                            
+                            if(windowHeight - boundRect.top <= height) {
+                                $(event.target).siblings(".dynamic-options").addClass('dynamic-popup-reverse');
+                            } else {
+                                $(event.target).siblings(".dynamic-options").removeClass('dynamic-popup-reverse');
+                            }
                         }
                     },
                     materialCategoryChange: function(event) {
                         let hasClass = $(event.target).hasClass('open');
+                        
                         if($(event.target).hasClass('open')) {
                             $(event.target).removeClass('open');
                             $(event.target).siblings(".dynamic-options").removeClass('open');
@@ -386,15 +400,16 @@ $ships = Session::get('shipList');
                             $(event.target).siblings(".dynamic-options").addClass('open');
 
                             let height = $(event.target).siblings(".dynamic-options").height();
-                            var scrollTop = $(window).scrollTop();
-                            var topOffset = $(event.target).siblings(".dynamic-options").scrollTop();
-                            console.log(topOffset);
-                            var relativeOffset = topOffset-scrollTop;
-                            var windowHeight = $(window).height();
+                            let windowHeight = $(window).height();
+
+                            let element = event.target;
+                            let boundRect = element.getBoundingClientRect();
                             
-                            //if(relativeOffset > windowHeight/2){
-                            //$(event.target).siblings(".dynamic-options").addClass('dynamic-popup-reverse');
-                            //}
+                            if(windowHeight - boundRect.top <= height) {
+                                $(event.target).siblings(".dynamic-options").addClass('dynamic-popup-reverse');
+                            } else {
+                                $(event.target).siblings(".dynamic-options").removeClass('dynamic-popup-reverse');
+                            }
                         }
                     },
                     particularFocus: function(event) {
@@ -752,7 +767,9 @@ $ships = Session::get('shipList');
             materialListObj.material_array[reportLen]['blt_year']  = '';
             materialListObj.material_array[reportLen]['remark']  = '';
 
-            $('#material_list [name="name[]"]').last().focus();
+            setTimeout(function() {
+                $($('#material_list [name="name[]"]')[reportLen]).focus();
+            }, 500);
             
             isChangeStatus = true;
         }
