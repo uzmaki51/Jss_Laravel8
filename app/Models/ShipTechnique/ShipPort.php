@@ -28,4 +28,16 @@ class ShipPort extends Model
         return strlen($retVal) == 0 ? '' : substr($retVal, 0, strlen($retVal) - 2);
     }
 
+    public function getPortNameForVoy($ids) {
+        $retVal = '';
+        $ids = explode(',', $ids);
+        foreach($ids as $key => $id) {
+            $info = self::where('id', $id)->first();
+            if($info != null)
+                $retVal .= $info->Port_En . '(' . $info->Port_Cn . ')' . ' / ';
+        }
+
+        return strlen($retVal) == 0 ? '' : substr($retVal, 0, strlen($retVal) - 2);
+    }
+
 }

@@ -1378,24 +1378,10 @@ class BusinessController extends Controller {
             $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->get();
         }
 
+        $shipPort = new ShipPort();
         foreach($cp_list as $key => $item) {
-            $LPort = $item->LPort;
-            $LPort = explode(',', $LPort);
-            $LPort = ShipPort::whereIn('id', $LPort)->get();
-            $tmp = '';
-            foreach($LPort as $port)
-                $tmp .= $port->Port_En . ' (' . $port->Port_Cn . ') / ';
-            $cp_list[$key]->LPort = substr($tmp, 0, strlen($tmp) - 2);
-
-            $DPort = $item->DPort;
-
-            $DPort = $item->DPort;
-            $DPort = explode(',', $DPort);
-            $DPort = ShipPort::whereIn('id', $DPort)->get();
-            $tmp = '';
-            foreach($DPort as $port)
-                $tmp .= $port->Port_En . ' (' . $port->Port_Cn . ') / ';
-            $cp_list[$key]->DPort = substr($tmp, 0, strlen($tmp) - 2);
+            $cp_list[$key]->LPort = $shipPort->getPortNameForVoy($item->LPort);
+            $cp_list[$key]->DPort = $shipPort->getPortNameForVoy($item->DPort);
         }
 
         return response()->json($cp_list);

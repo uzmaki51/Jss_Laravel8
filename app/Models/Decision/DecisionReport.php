@@ -656,22 +656,10 @@ class DecisionReport extends Model {
 		$LPort = '';
 		$DPort = '';
 		$Cargo = '';
+		$shipPort = new ShipPort();
 		if (!empty($voy_info)) {
-			$LPort = $voy_info->LPort;
-			$LPort = explode(',', $LPort);
-			$LPort = ShipPort::whereIn('id', $LPort)->get();
-			$tmp = '';
-			foreach($LPort as $port)
-				$tmp .= $port->Port_En . ' (' . $port->Port_Cn . ') / ';
-			$LPort = substr($tmp, 0, strlen($tmp) - 3);
-
-			$DPort = $voy_info->DPort;
-			$DPort = explode(',', $DPort);
-			$DPort = ShipPort::whereIn('id', $DPort)->get();
-			$tmp = '';
-			foreach($DPort as $port)
-				$tmp .= $port->Port_En . ' (' . $port->Port_Cn . ') / ';
-			$DPort = substr($tmp, 0, strlen($tmp) - 3);
+			$LPort = $shipPort->getPortNameForVoy($voy_info->LPort);
+			$DPort = $shipPort->getPortNameForVoy($voy_info->DPort);
 
 			$Cargo = $voy_info->Cargo;
 			$Cargo = explode(',', $Cargo);
