@@ -55,12 +55,13 @@ class Repair extends Model
         }
 
         $year = date('Y');
-        $month = date('m');
         if(isset($params['year']))
             $year = $params['year'];
 
         if(isset($params['month']))
             $month = sprintf('%02d', $params['month']);
+        else
+            $month = '';
 
         if(isset($params['type']) && $params['type'] != 0) {
             $type = $params['type'];
@@ -84,17 +85,27 @@ class Repair extends Model
         if($field != '' && $value != 0)
             $selector->where($field, $value);
         
-        if(isset($params['depart']) && $params['depart'] != 0) 
+        if(!isset($params['init']) || (isset($params['init']) && $params['init'] == false)) {
+            if(isset($params['depart']) && $params['depart'] != 0) 
             $selector->where('department', $params['depart']);
 
-        if(isset($params['charge']) && $params['charge'] != 0) 
-            $selector->where('charge', $params['charge']);
+            if(isset($params['charge']) && $params['charge'] != 0) 
+                $selector->where('charge', $params['charge']);
 
-        if(isset($params['type']) && $params['type'] != 0) 
-            $selector->where('type', $params['type']);
+            if(isset($params['type']) && $params['type'] != 0) 
+                $selector->where('type', $params['type']);
+
+            // if(isset($params['status']) && $params['type'] != 0) {
+            //     $selector->where('type', $params['type']);
+            // } 
+                
+        }
 
         $date = $year . '-' . $month;
-        $selector->whereRaw(DB::raw('mid(request_date, 1, 7) like "' . $date . '"'));
+        if($month == '')
+            $selector->whereRaw(DB::raw('mid(request_date, 1, 4) like "' . $year . '"'));
+        else
+            $selector->whereRaw(DB::raw('mid(request_date, 1, 7) like "' . $date . '"'));
 
         $records = $selector->get();
 
@@ -118,9 +129,9 @@ class Repair extends Model
 
     public function getReportList($params) {
         $shipId = $params['ship_id'];
-        $departList = ShipMaterialCategory::all();
-        $posList = ShipPosition::all();
-        $typeList = ShipMaterialSubKind::all();
+        $departList = ShipMaterialCategory::orderBy('order_no', 'asc')->get();
+        $posList = ShipPosition::orderBy('OrderNo', 'asc')->get();
+        $typeList = ShipMaterialSubKind::orderBy('order_no', 'asc')->get();
 
         if(isset($params['year']))
             $year = $params['year'];
@@ -149,6 +160,12 @@ class Repair extends Model
             $_total_count = 0;
             $_complete_count = 0;
 
+            if($field == 'charge') {
+                $index = $item->OrderNo;
+            } else {
+                $index = $item->order_no;
+            }
+
             for($i = 1; $i <= 12; $i ++) {
                 $date = $year . '-' . sprintf('%02d', $i);
 
@@ -173,18 +190,19 @@ class Repair extends Model
                     ->count('*');
 
                 $_complete_count += $complete_count;
-                $retVal[$item->id]['list'][$i] = [$total_count, $complete_count];
+                $retVal[$index]['list'][$i] = [$total_count, $complete_count];
             }
 
-            $retVal[$item->id]['total'] = $_total_count;
-            $retVal[$item->id]['complete'] = $_complete_count;
+            $retVal[$index]['total'] = $_total_count;
+            $retVal[$index]['id'] = $item->id;
+            $retVal[$index]['complete'] = $_complete_count;
 
             if($type == REPAIR_REPORT_TYPE_DEPART) {
-                $retVal[$item->id]['label'] = $item->name;
+                $retVal[$index]['label'] = $item->name;
             } else if($type == REPAIR_REPORT_TYPE_CHARGE) {
-                $retVal[$item->id]['label'] = $item->Abb;
+                $retVal[$index]['label'] = $item->Abb;
             } else {
-                $retVal[$item->id]['label'] = $item->name;
+                $retVal[$index]['label'] = $item->name;
             }
         }
 

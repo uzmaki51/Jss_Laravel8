@@ -92,7 +92,7 @@ $ships = Session::get('shipList');
                                         <table class="table-striped dynamic-table table-striped" id="table-record">
                                             <thead class="">
                                                 <tr>
-                                                    <th class="text-center" rowspan="2" style="min-width: 80px;">部门</th>
+                                                    <th class="text-center" rowspan="2" style="min-width: 80px;">@{{ activeLabel }}</th>
                                                     <th class="text-center" colspan="2">@{{ activeYear }}年</th>
                                                     @for($i = 1; $i <= 12; $i ++)
                                                         <th class="text-center style-header" colspan="2">{{ $i }}月</th>
@@ -107,8 +107,8 @@ $ships = Session::get('shipList');
                                             </thead>
                                             <tbody>
                                                 <tr v-for="(item, index) in list">
-                                                    <td class="center no-wrap voy-no" style="background: linear-gradient(rgb(255, 255, 255), rgb(217, 248, 251)) !important;">
-                                                        <span @click="clickItem(index)">@{{ item.label }}</span>
+                                                    <td class="center no-wrap voy-no" style="background: linear-gradient(rgb(255, 255, 255), rgb(217, 248, 251)) !important;" @click="clickItem(item.id)">
+                                                        <span>@{{ item.label }}</span>
                                                     </td>
                                                     <td class="center no-wrap">
                                                         <span>@{{ _vue_number(item.total) }}</span>
@@ -164,6 +164,7 @@ $ships = Session::get('shipList');
                                             @endforeach
                                         </select>
                                         <select class="custom-select" @change="onChangeYear" v-model="activeMonth">
+                                            <option value=""></option>
                                             @for($i = 1; $i <= 12; $i ++)
                                                 <option value="{{$i}}">{{ $i }}月</option>
                                             @endfor
@@ -312,11 +313,13 @@ $ships = Session::get('shipList');
                     activeYear          : activeYear,
                     activeMonth         : '{{ $activeMonth }}',
                     activeStatus        : '{{ REPAIR_STATUS_ALL }}',
+                    activeLabel         : '部门',
                     tableTitle          : '',
                 },
                 methods: {
                     clickItem: function(id) {
-                        getRecord($_this.activeYear, this.search_type, id);
+                        recordVue.activeMonth = '';
+                        getRecord($_this.activeYear, this.search_type, id, true);
                     },
 
                     customFormatter(date) {
@@ -338,6 +341,10 @@ $ships = Session::get('shipList');
 
                         if(this.search_type == val) return;
                         this.search_type = val;
+
+                        if(val == 1) this.activeLabel = '部门';
+                        else if(val == 2) this.activeLabel = '担任';
+                        else this.activeLabel = '种类';
 
                         getInitInfo();
                     },
@@ -469,6 +476,7 @@ $ships = Session::get('shipList');
                         let depart = this.activeDepart;
                         let charge = this.activeCharge;
                         let type = this.activeType;
+                        let status = this.activeStatus;
 
                         $.ajax({
                             url: BASE_URL + 'ajax/repair/search',
@@ -480,6 +488,7 @@ $ships = Session::get('shipList');
                                 depart: depart,
                                 charge: charge,
                                 type: type,
+                                status: status,
                             },
                             success: function(data, status, xhr) {
                                 let result = data;
@@ -602,7 +611,7 @@ $ships = Session::get('shipList');
             });
         }
 
-        function getRecord(year, type, value) {
+        function getRecord(year, type, value, init = false) {
             $.ajax({
                 url: BASE_URL + 'ajax/repair/search',
                 type: 'post',
@@ -610,7 +619,8 @@ $ships = Session::get('shipList');
                     ship_id: $_this.shipId,
                     year: year,
                     type: type, // 1.部门 2.担任 3.种类
-                    value: value // Value of type
+                    value: value, // Value of type,
+                    init: init
                 },
                 success: function(data, status, xhr) {
                     let result = data;
