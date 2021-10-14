@@ -460,7 +460,7 @@
                             },
                             success: function(result) {
                                 searchObj.voy_list = [];
-                                searchObj.voy_list = Object.assign([], [], result);
+                                searchObj.voy_list = Object.assign([], [], result['cp_list']);
                                 if(searchObj.voy_list.length > 0) {
                                     searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
                                 }
@@ -1122,7 +1122,7 @@
                 },
                 success: function(result) {
                     searchObj.voy_list = [];
-                    searchObj.voy_list = Object.assign([], [], result);
+                    searchObj.voy_list = Object.assign([], [], result['cp_list']);
                     if(searchObj.voy_list.length > 0) {
                         searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
                     }

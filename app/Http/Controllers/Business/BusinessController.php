@@ -1384,7 +1384,14 @@ class BusinessController extends Controller {
             $cp_list[$key]->DPort = $shipPort->getPortNameForVoy($item->DPort);
         }
 
-        return response()->json($cp_list);
+        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        if($shipInfo == null || $shipInfo == false)
+            $shipName = '';
+        else {
+            $shipName = $shipInfo->shipName_En;
+        }
+
+        return response()->json(array('cp_list' => $cp_list, 'shipName' => $shipName));
     }
 
     public function ajaxDeleteDynrecord(Request $request) {

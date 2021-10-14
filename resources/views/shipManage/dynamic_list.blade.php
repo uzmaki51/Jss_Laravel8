@@ -76,14 +76,14 @@
                         </div>
                     </div>
                     <label style="margin-left: 20px;" class="custom-label for-pc">年份</label>
-                    <select class="text-center sp-ml-1" name="year_list" @change="onChangeYear" v-model="activeYear">
+                    <select class="sp-ml-1" name="year_list" @change="onChangeYear" v-model="activeYear">
                         @foreach($years as $year)
                             <option value="{{ $year }}">{{ $year }}年</option>
                         @endforeach
                     </select>
 
                     <label class="font-bold ml-1 text-danger for-pc" v-show="record_type == 'all'">航次:</label>
-                    <select class="text-center" style="width: 60px;" name="voy_list" @change="onChangeVoy" v-model="activeVoy" v-show="record_type == 'all'">
+                    <select style="width: 60px;" name="voy_list" @change="onChangeVoy" v-model="activeVoy" v-show="record_type == 'all'">
                         <template v-for="voyItem in voy_list">
                             <option :value="voyItem.Voy_No">@{{ voyItem.Voy_No }}</option>
                         </template>
@@ -92,7 +92,7 @@
                 <div class="col-md-6 for-pc">
                     <div class="d-flex f-left">
                         <strong class="f-right" style="font-size: 16px; padding-top: 6px;" id="page_title">
-                            <span id="search_info">"{{ $shipName }}"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ page_title }}</span>
+                            <span id="search_info">"@{{ shipName }}"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ page_title }}</span>
                         </strong>
                     </div>
                 
@@ -329,7 +329,7 @@
             </div>
             <div class="col-lg-12 mt2" v-show="record_type == 'analyze'" >
                 <div class="d-flex">
-                    <strong style="font-size: 16px; margin: 30px auto 10px;" id="graph_title" class=>{{ $shipName }} @{{ activeYear == 0 ? '' : activeYear }}年经济日占率</p>
+                    <strong style="font-size: 16px; margin: 30px auto 10px;" id="graph_title">@{{ shipName }} @{{ activeYear == 0 ? '' : activeYear }}年经济日占率</p>
                 </div>
                 <div class="chart-div">
                     
@@ -446,7 +446,10 @@
                 },
                 methods: {
                     changeShip: function(evt) {
-                        location.href = '/shipManage/dynamicList?shipId=' + $(evt.target).val();
+                        this.getVoyList(this.shipId);
+                        if(this.record_type != 'all') {
+                            this.getAnalyzeData();
+                        }
                     },
                     getShipName: function(shipName, EnName) {
                         return shipName == '' ? EnName : shipName;
@@ -461,7 +464,7 @@
                             },
                             success: function(result) {
                                 searchObj.voy_list = [];
-                                searchObj.voy_list = Object.assign([], [], result);
+                                searchObj.voy_list = Object.assign([], [], result['cp_list']);
                                 if(searchObj.voy_list.length > 0) {
                                     if(voyId == '') {
                                         searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
@@ -470,6 +473,7 @@
                                     }
                                 }
 
+                                searchObj.shipName = result['shipName'];
                                 if(this.record_type != 'all') {
                                     searchObj.getData();
                                 }
@@ -1096,8 +1100,9 @@
                 },
                 success: function(result) {
                     searchObj.voy_list = [];
-                    searchObj.voy_list = Object.assign([], [], result);
+                    searchObj.voy_list = Object.assign([], [], result['cp_list']);
 
+                    searchObj.shipName = result['shipName'];
                     if(voyId == '')
                         if(searchObj.voy_list.length > 0) {
                             searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
