@@ -480,7 +480,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $($($('#table-report-list thead').children()[0]).children()[1]).html('申请日期')
                     $($($('#table-report-list thead').children()[0]).children()[1]).css('font-style','unset');
                     $($($('#table-report-list thead').children()[0]).children()[1]).css('width', '10%');
-                    $($($('#table-report-list thead').children()[0]).children()[2]).html('等待凭证')
+                    $($($('#table-report-list thead').children()[0]).children()[2]).html('无凭证文件')
                     $($($('#table-report-list thead').children()[0]).children()[2]).css('font-style','unset');
                     $($($('#table-report-list thead').children()[0]).children()[2]).css('width', '75%');
                     $($($('#table-report-list thead').children()[0]).children()[3]).html('无显示')
