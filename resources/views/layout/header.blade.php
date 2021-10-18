@@ -59,6 +59,7 @@
     $menuList = Session::get('menusList');
     $id = Request::get('menuId');
     $isAdmin = Auth::user()->isAdmin;
+    $role = Auth::user()->pos;
 ?>
 
 <body class="skin-1">
@@ -91,88 +92,99 @@
                 <span></span>
                 <span></span>
 
-                <ul class="nav nav-pills nav-list" id="menu">
-                    <li>
-                        <a href="{{ route('home') }}">
-                            首页
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/decision/receivedReport">
-                            审批
-                        </a>
-                    </li>
+                <ul class="nav nav-pills nav-list" id="menu" style="{{ $role == STAFF_LEVEL_CAPTAIN || $role == STAFF_LEVEL_SHAREHOLDER ? 'justify-content: unset!important;' : '' }}">
+                    @if($role != STAFF_LEVEL_CAPTAIN && $role != STAFF_LEVEL_SHAREHOLDER)
+                        <li>
+                            <a href="{{ route('home') }}">
+                                首页
+                            </a>
+                        </li>
+                        @if($role == STAFF_LEVEL_MANAGER)
+                            <li>
+                                <a href="/decision/receivedReport">
+                                    审批
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+                    @if($role != STAFF_LEVEL_CAPTAIN)
                     <li>
                         <a href="#" class="dropdown-toggle text-center">
                             分析
                         </a>
+                        
                         <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; border-bottom: 1px solid #1865c1;">
-                            <li class="d-in-block text-center" style="width: 32%;">
-                                <a href="#" class="dropdown-toggle">
-                                    船舶
-                                </a>
+                            @if($role != STAFF_LEVEL_SHAREHOLDER)
+                                <li class="d-in-block text-center" style="width: 32%;">
+                                    <a href="#" class="dropdown-toggle">
+                                        船舶
+                                    </a>
 
-                                <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; text-align: justify; margin-top: 7px;">
-                                    <li class="d-in-block">
-                                        <a href="/shipManage/shipinfo">
-                                            规范
-                                        </a>
-                                    </li>
+                                    <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; text-align: justify; margin-top: 7px;">
+                                        <li class="d-in-block">
+                                            <a href="/shipManage/shipinfo">
+                                                规范
+                                            </a>
+                                        </li>
 
-                                    <li class="d-in-block">
-                                        <a href="/shipManage/dynamicList">
-                                            动态分析
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="d-in-block text-center" style="width: 32%;">
-                                <a href="#" class="dropdown-toggle">
-                                    海员
-                                </a>
+                                        <li class="d-in-block">
+                                            <a href="/shipManage/dynamicList">
+                                                动态分析
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="d-in-block text-center" style="width: 32%;">
+                                    <a href="#" class="dropdown-toggle">
+                                        海员
+                                    </a>
 
-                                <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; text-align: justify; margin-top: 7px;">
-                                    <li class="d-in-block">
-                                        <a href="/shipMember/totalShipMember">
-                                            CREW LIST
-                                        </a>
-                                    </li>
+                                    <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; text-align: justify; margin-top: 7px;">
+                                        <li class="d-in-block">
+                                            <a href="/shipMember/totalShipMember">
+                                                CREW LIST
+                                            </a>
+                                        </li>
 
-                                    <li class="d-in-block">
-                                        <a href="/shipMember/wagesList">
-                                            工资(船舶)
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                                        <li class="d-in-block">
+                                            <a href="/shipMember/wagesList">
+                                                工资(船舶)
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endif
+                            @if($role != STAFF_LEVEL_CAPTAIN)
+                                <li class="d-in-block text-center" style="width: 32%;">
+                                    <a href="#" class="dropdown-toggle">
+                                        收支
+                                    </a>
 
-                            <li class="d-in-block text-center" style="width: 32%;">
-                                <a href="#" class="dropdown-toggle">
-                                    收支
-                                </a>
+                                    <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; text-align: justify; margin-top: 7px;">
+                                        <li class="d-in-block">
+                                            <a href="/operation/incomeExpense">
+                                                收支(船只)
+                                            </a>
+                                        </li>
 
-                                <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; text-align: justify; margin-top: 7px;">
-                                    <li class="d-in-block">
-                                        <a href="/operation/incomeExpense">
-                                            收支(船只)
-                                        </a>
-                                    </li>
+                                        <li class="d-in-block">
+                                            <a href="/shipManage/ctm/analytics">
+                                                CTM 分析
+                                            </a>
+                                        </li>
 
-                                    <li class="d-in-block">
-                                        <a href="/shipManage/ctm/analytics">
-                                            CTM 分析
-                                        </a>
-                                    </li>
-
-                                    <li class="d-in-block">
-                                        <a href="/shipManage/voy/evaluation">
-                                            航次评估
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                                        <li class="d-in-block">
+                                            <a href="/shipManage/voy/evaluation">
+                                                航次评估
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endif
                         </ul>
                     </li>
+                    @endif
+                    @if($role != STAFF_LEVEL_SHAREHOLDER)
                     <li>
                         <a href="#" class="dropdown-toggle text-center">
                             记录
@@ -185,6 +197,7 @@
                             </li>
                         </ul>
                     </li>
+                    @endif
                 </ul>
             </div>
             <div class="sp-menu overlay-show" id="overlay-div" style="display: none;"></div>

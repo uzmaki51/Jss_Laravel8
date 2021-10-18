@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Auth;
+use Browser;
 
 class User extends Authenticatable
 {
@@ -107,5 +109,15 @@ class User extends Authenticatable
 		}
 
 		return $result;
+	}
+
+	public static function getRedirectByRole($role) {
+		if($role != STAFF_LEVEL_CAPTAIN && $role != STAFF_LEVEL_SHAREHOLDER) return 'home';
+		else if($role == STAFF_LEVEL_CAPTAIN) {
+			$is_mobile = Browser::isMobile();
+			return $is_mobile == true ? '/voy/register' : '/business/dynRecord';
+		} else if($role == STAFF_LEVEL_SHAREHOLDER) {
+			return '/operation/incomeExpense';
+		}
 	}
 }

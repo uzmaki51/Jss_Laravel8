@@ -32,13 +32,7 @@
     <script src="{{ cAsset('assets/js/chartjs/d3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/c3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/flot.js') }}"></script>
-    
-    <script>
 
-
-  
-    </script>
-    
     <div class="main-content">
         <style>
             .filter_row {
@@ -48,6 +42,13 @@
                 width : 350px !important;
             }
             [v-cloak] { display: none; }
+            table thead th {
+                font-size: 4px;
+            }
+            table>tbody>tr>td {
+                font-size: 4px;
+                padding: 2px!important;
+            }
         </style>
         <div class="page-header">
             <div class="col-md-3">
@@ -105,8 +106,8 @@
             <!-- Main Contents Begin -->
             <div class="row" style="margin-top: 4px;">
                 <div class="col-md-12 full-width">
-                <div class="table-responsive">
-                    <table class="table-bordered dynamic-table table-striped" v-show="record_type == 'all'" id="table-list-all">
+                <div class="table-responsive11">
+                    <table class="table-bordered dynamic-table table-striped" style="width: 100%;" v-show="record_type == 'all'" id="table-list-all">
                         <thead>
                             <tr>
                                 <th class="text-center font-style-italic" style="width: 40px;">VOY No</th>

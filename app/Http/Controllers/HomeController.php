@@ -19,6 +19,7 @@ use App\Models\ShipMember\ShipMember;
 use App\Models\ShipTechnique\ShipPort;
 use App\Models\Decision\DecisionReport;
 use App\Models\Home\Settings;
+use App\Models\User;
 use App\Models\Home\SettingsSites;
 use App\Models\Finance\ReportSave;
 use App\Models\UserInfo;
@@ -64,8 +65,11 @@ class HomeController extends Controller {
 	 */
 	public function index(Request $request) {
 		$pos = Auth::user()->pos;
-		if($pos == STAFF_LEVEL_SHAREHOLDER) return redirect('/operation/incomeExpense');
-		else if($pos == STAFF_LEVEL_CAPTAIN) return redirect('/business/dynRecord');
+		$tbl = new User();
+		$redirectTo = $tbl->getRedirectByRole($pos);
+		if($redirectTo != 'home')
+			return redirect($redirectTo);
+
 		$reportList = DecisionReport::where('state', '=', REPORT_STATUS_REQUEST)->get();
 		foreach($reportList as $key => $item) {
 			$reportList[$key]->realname = UserInfo::find($item->creator)['realname'];

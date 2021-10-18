@@ -51,7 +51,7 @@ $ships = Session::get('shipList');
             </div>
 
             <!-- Main Contents Begin -->
-            <div class="row col-lg-12" style="margin-top: 4px;">
+            <div class="row col-lg-12" style="margin-top: 4px; width: 100%;">
                 <div class="head-fix-div" style="padding-bottom: 12px;">
                     <input type="hidden" name="_CP_ID" v-model="activeVoy">
                     <table class="table-bordered dynamic-table table-striped" v-cloak>
