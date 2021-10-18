@@ -66,7 +66,6 @@ $ships = Session::get('shipList');
                     </div>
                     <div class="col-lg-6">
                         <div class="btn-group f-right">
-                            <button class="btn btn-purple btn-sm search-btn" onclick="importPastYearData()" title="导入去年的设备资料"><i class="icon-pencil"></i>导入</button>
                             <button class="btn btn-primary btn-sm search-btn" onclick="addMaterialItem()"><i class="icon-plus"></i>添加</button>
                             <button class="btn btn-warning btn-sm excel-btn d-none"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                             <a href="#modal-wizard-category" class="only-modal-category-show d-none" role="button" data-toggle="modal"></a>
@@ -76,6 +75,7 @@ $ships = Session::get('shipList');
                                     <i class="icon-save"></i>保存
                                 </button>
                             @endif
+                            <button class="btn btn-purple btn-sm search-btn" onclick="importPastYearData()" title="导入去年的设备资料"><i class="icon-pencil"></i>导入</button>
                         </div>
                     </div>
                 </div>
@@ -130,7 +130,7 @@ $ships = Session::get('shipList');
                                                 <div class="dynamic-select__trigger dynamic-arrow">@{{ item.type_name }}</div>
                                                 <div class="dynamic-options" style="margin-top: -17px;">
                                                     <div class="dynamic-options-scroll" style="width:70%">
-                                                        <span v-for="(type_Item, index) in materialTypeList" v-bind:class="[item.type_id == type_Item.id ? 'dynamic-option selected' : 'dynamic-option ']" @click="setMaterialInfo(array_index, item.category_id, type_Item.id)">@{{ type_Item.name }}</span>
+                                                        <span v-for="(type_Item, index) in materialTypeList" v-bind:class="[item.type_id == type_Item.id ? 'dynamic-option selected' : 'dynamic-option ']" @click="setMaterialTypeInfo(array_index, item.category_id, type_Item.id)">@{{ type_Item.name }}</span>
                                                     </div>
                                                     <div>
                                                     <span class="edit-list-btn" id="edit-list-btn" @click="openshipMateriallist(array_index)">
@@ -435,6 +435,11 @@ $ships = Session::get('shipList');
                         $(".dynamic-select__trigger").removeClass('open');
                         $(".dynamic-options").removeClass('open');
                     },
+                    setMaterialTypeInfo: function(array_index, category_id, type_id) {
+                        setMaterialInfo(category_id, type_id, array_index, false);
+                        $(".dynamic-select__trigger").removeClass('open');
+                        $(".dynamic-options").removeClass('open');
+                    },
                     customFormatter(date) {
                         return moment(date).format('YYYY-MM-DD');
                     },
@@ -692,6 +697,7 @@ $ships = Session::get('shipList');
                                 materialListObj.material_array[reportLen]['type_id']  = data['ship'][i].type_id;
                                 materialListObj.material_array[reportLen]['is_tmp']  = 1;
                                 setMaterialInfo(data['ship'][i].category_id, data['ship'][i].type_id, reportLen);
+                                setMaterialInfo(data['ship'][i].category_id, data['ship'][i].type_id, reportLen, false);
                                 materialListObj.material_array[reportLen]['name']  = data['ship'][i].name;
                                 materialListObj.material_array[reportLen]['qty']  = data['ship'][i].qty;
                                 materialListObj.material_array[reportLen]['model_mark']  = data['ship'][i].model_mark;
@@ -732,6 +738,7 @@ $ships = Session::get('shipList');
                     materialListObj.material_array.forEach(function(value, index) {
                         materialListObj.material_array[index]['is_tmp'] = 0;
                         setMaterialInfo(value['category_id'], value['type_id'], index);
+                        setMaterialInfo(value['category_id'], value['type_id'], index, false);
                     });
 
                     materialListObj.materialTypeList = typeList;
@@ -752,12 +759,21 @@ $ships = Session::get('shipList');
             let reportLen = materialListObj.material_array.length;
             let newMaterialCategoryId = 0;
             let newMaterialTypeId = 0;
-
+            
+            if(reportLen == 0) {
+                newMaterialCategoryId = 1;
+                newMaterialTypeId = 1;
+            } else {
+                newMaterialCategoryId = materialListObj.material_array[reportLen - 1]['category_id'];
+                newMaterialTypeId = materialListObj.material_array[reportLen - 1]['type_id']
+            }
+            
             materialListObj.material_array.push([]);
             materialListObj.material_array[reportLen]['category_id']  = newMaterialCategoryId;
             materialListObj.material_array[reportLen]['type_id']  = newMaterialTypeId;
             materialListObj.material_array[reportLen]['is_tmp']  = 1;
             setMaterialInfo(newMaterialCategoryId, newMaterialTypeId, reportLen);
+            setMaterialInfo(newMaterialCategoryId, newMaterialTypeId, reportLen, false);
             materialListObj.material_array[reportLen]['name']  = '';
             materialListObj.material_array[reportLen]['qty']  = '';
             materialListObj.material_array[reportLen]['model_mark']  = '';
@@ -766,7 +782,7 @@ $ships = Session::get('shipList');
             materialListObj.material_array[reportLen]['manufacturer']  = '';
             materialListObj.material_array[reportLen]['blt_year']  = '';
             materialListObj.material_array[reportLen]['remark']  = '';
-
+            materialListObj.$forceUpdate();
             setTimeout(function() {
                 $($('#material_list [name="name[]"]')[reportLen]).focus();
             }, 500);
@@ -774,8 +790,9 @@ $ships = Session::get('shipList');
             isChangeStatus = true;
         }
 
-        function setMaterialInfo(categoryId, typeId, index = 0) {
+        function setMaterialInfo(categoryId, typeId, index = 0, material=true) {
             let status = 0;
+            if(material)
             shipMaterialCategoryList.forEach(function(value, key) {
                 if(value['id'] == categoryId) {
                     materialListObj.material_array[index]['category_id'] = categoryId;
@@ -784,6 +801,7 @@ $ships = Session::get('shipList');
                     status ++;
                 }
             });
+            else 
 
             shipMaterialTypeList.forEach(function(value, key) {
                 if(value['id'] == typeId) {
@@ -820,8 +838,20 @@ $ships = Session::get('shipList');
         $('#submit').on('click', function() {
             var name_list = $("textarea[name='name[]']");
             var qty_list = $("[name='qty[]']");
+            var category_list = $("[name='category_id[]']");
+            var type_list = $("[name='type_id[]']");
             for (var i=0;i<name_list.length;i++)
             {
+                if(category_list[i].value == "") {
+                    alert("Please select DPT.");
+                    return;
+                }
+
+                if(type_list[i].value == "") {
+                    alert("Please select Kinds.");
+                    return;
+                }
+
                 if (name_list[i].value == "") {
                     alert("Please input name.");
                     name_list[i].focus();
@@ -833,6 +863,7 @@ $ships = Session::get('shipList');
                     qty_list[i].focus();
                     return;
                 }
+                
             }
             $('#materialList-form').submit();
         });
