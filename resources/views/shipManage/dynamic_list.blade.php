@@ -42,13 +42,16 @@
                 width : 350px !important;
             }
             [v-cloak] { display: none; }
-            table thead th {
-                font-size: 2px;
-            }
-            table>tbody>tr>td {
-                font-size: 2px;
-                padding: 2px!important;
-            }
+
+			@media (max-width: 768px) {
+				table thead th {
+					font-size: 2px;
+				}
+				table>tbody>tr>td {
+					font-size: 2px;
+					padding: 2px!important;
+				}
+			}
         </style>
         <div class="page-header">
             <div class="col-md-3">
