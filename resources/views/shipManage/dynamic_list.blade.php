@@ -43,10 +43,10 @@
             }
             [v-cloak] { display: none; }
             table thead th {
-                font-size: 4px;
+                font-size: 2px;
             }
             table>tbody>tr>td {
-                font-size: 4px;
+                font-size: 2px;
                 padding: 2px!important;
             }
         </style>
