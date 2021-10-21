@@ -8,16 +8,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- STYLES -->
-    <link rel="stylesheet" href="{{ asset('/assets/css/theme.css?v=202110191259') }}"/>
-    <link href="{{ asset('assets/css/bootstrap.min.css?v=202110191259') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css/bootstrap-overrides.css?v=202110191259') }}" rel="stylesheet"/>
-    <link rel="stylesheet" href="{{ asset('/assets/css/font-awesome.min.css?v=202110191259') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/theme.css?v=20211006104500') }}"/>
+    <link href="{{ asset('assets/css/bootstrap.min.css?v=20211006104500') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/css/bootstrap-overrides.css?v=20211006104500') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/font-awesome.min.css?v=20211006104500') }}"/>
     <link rel="icon" type="image/png" href="{{ cAsset('/assets/css/img/logo.png') }}" sizes="192x192">
-    <link href="{{ asset('/assets/css/chosen.css?v=202110191259') }}" rel="stylesheet">
+    <link href="{{ asset('/assets/css/chosen.css?v=20211006104500') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/assets/css/colorbox.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/assets/css/ace.min.css?v=202110191259') }}"/>
-    <link rel="stylesheet" href="{{ asset('/assets/css/ace-rtl.min.css?v=202110191259') }}"/>
-    <link rel="stylesheet" href="{{ asset('/assets/css/ace-skins.min.css?v=202110191259') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/ace.min.css?v=20211006104500') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/ace-rtl.min.css?v=20211006104500') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/ace-skins.min.css?v=20211006104500') }}"/>
     <link rel="stylesheet" href="{{ asset('/assets/css/jquery.gritter.css') }}" />
     <link rel="stylesheet" href="{{ asset('/assets/css/base.css') }}" />
     <link href="{{ asset('/assets/css/datepicker.css') }}" rel="stylesheet">
@@ -25,29 +25,29 @@
     <link href="{{ asset('/assets/css/daterangepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/colorpicker.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/jquery-ui-1.10.3.full.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('/assets/css/jquery.treeview.css?v=202110191259') }}" rel="stylesheet">
-    <link href="{{ asset('/css/style.css?v=202110191259') }}" rel="stylesheet">
-    <link href="{{ asset('/css/common.css?v=202110191259') }}" rel="stylesheet">
+    <link href="{{ asset('/assets/css/jquery.treeview.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/style.css?v=20211006104500') }}" rel="stylesheet">
+    <link href="{{ asset('/css/common.css?v=20211006104500') }}" rel="stylesheet">
     @yield('styles')
 
     <!-- SCRIPTS -->
-    <script src="{{ asset('/assets/js/ace-extra.min.js?v=202110191259') }}"></script>
-    <script src="{{ asset('/assets/js/jquery-2.0.3.min.js?v=202110191259') }}"></script>
-    <script src="{{ asset('/assets/js/ace-elements.min.js?v=202110191259') }}"></script>
-    <script src="{{ asset('/assets/js/fuelux/fuelux.tree.min.js?v=202110191259') }}"></script>
-    <script src="{{ asset('/assets/js/jquery.treeview.js?v=202110191259') }}"></script>
-    <script src="{{ asset('/assets/js/bootbox.min.js?v=202110191259') }}"></script>
-    <script src="{{ asset('/assets/js/ace.min.js?v=202110191259') }}"></script>
-    <script src="{{ asset('/assets/js/bootstrap.min.js?v=202110191259') }}"></script>
-    <script src="{{ asset('/assets/js/typeahead-bs2.min.js?v=202110191259') }}"></script>
-    <script src="{{ asset('/assets/js/jquery-ui-1.10.3.full.min.js?v=202110191259') }}"></script>
-    <script src="{{ asset('/assets/js/jquery.ui.touch-punch.min.js?v=202110191259') }}"></script>
-    <script src="{{ asset('/assets/js/date-time/bootstrap-datepicker.min.js?v=202110191259') }}"></script>
-    <script src="{{ asset('/assets/js/chosen.jquery.min.js?v=202110191259') }}"></script>
-    <script src="{{ asset('/assets/js/jquery.gritter.min.js?v=202110191259')}}"></script>
-    <script src="{{ asset('/assets/js/jquery.toast.min.js?v=202110191259')}}"></script>
-    <script src="{{ asset('/assets/js/jquery.slides.js?v=202110191259')}}"></script>
-    <script src="{{ asset('/assets/js/util.js?v=202110191259')}}"></script>
+    <script src="{{ asset('/assets/js/ace-extra.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery-2.0.3.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/ace-elements.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/fuelux/fuelux.tree.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery.treeview.js') }}"></script>
+    <script src="{{ asset('/assets/js/bootbox.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/ace.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/typeahead-bs2.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery-ui-1.10.3.full.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery.ui.touch-punch.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/date-time/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/chosen.jquery.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery.gritter.min.js')}}"></script>
+    <script src="{{ asset('/assets/js/jquery.toast.min.js')}}"></script>
+    <script src="{{ asset('/assets/js/jquery.slides.js')}}"></script>
+    <script src="{{ asset('/assets/js/util.js')}}"></script>
 </head>
 
 <script type="text/javascript">
@@ -59,7 +59,6 @@
     $menuList = Session::get('menusList');
     $id = Request::get('menuId');
     $isAdmin = Auth::user()->isAdmin;
-    $role = Auth::user()->pos;
 ?>
 
 <body class="skin-1">
@@ -92,99 +91,88 @@
                 <span></span>
                 <span></span>
 
-                <ul class="nav nav-pills nav-list" id="menu" style="{{ $role == STAFF_LEVEL_CAPTAIN || $role == STAFF_LEVEL_SHAREHOLDER ? 'justify-content: unset!important;' : '' }}">
-                    @if($role != STAFF_LEVEL_CAPTAIN && $role != STAFF_LEVEL_SHAREHOLDER)
-                        <li>
-                            <a href="{{ route('home') }}">
-                                首页
-                            </a>
-                        </li>
-                        @if($role == STAFF_LEVEL_MANAGER)
-                            <li>
-                                <a href="/decision/receivedReport">
-                                    审批
-                                </a>
-                            </li>
-                        @endif
-                    @endif
-                    @if($role != STAFF_LEVEL_CAPTAIN)
+                <ul class="nav nav-pills nav-list" id="menu" style="overflow: visible;">
                     <li>
+                        <a href="{{ route('home') }}">
+                            首页
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/decision/receivedReport">
+                            审批
+                        </a>
+                    </li>
+                    <li style="overflow: auto; position: static;">
                         <a href="#" class="dropdown-toggle text-center">
                             分析
                         </a>
-                        
-                        <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; border-bottom: 1px solid #1865c1;">
-                            @if($role != STAFF_LEVEL_SHAREHOLDER)
-                                <li class="d-in-block text-center" style="width: 32%;">
-                                    <a href="#" class="dropdown-toggle">
-                                        船舶
-                                    </a>
+                        <ul class="submenu nav-hide" style="position: absolute; left: 0; right: 0; width: 100%; border-bottom: 1px solid #1865c1;overflow: visible!important;z-index: 10000;">
+                            <li class="d-in-block text-center" style="width: 32%;overflow: visible; position: static;">
+                                <a href="#" class="dropdown-toggle">
+                                    船舶
+                                </a>
 
-                                    <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; text-align: justify; margin-top: 7px;">
-                                        <li class="d-in-block">
-                                            <a href="/shipManage/shipinfo">
-                                                规范
-                                            </a>
-                                        </li>
+                                <ul class="submenu nav-hide" style="position: absolute; left: 0; right: 0; width: 100%; text-align: justify; margin-top: 7px;">
+                                    <li class="d-in-block">
+                                        <a href="/shipManage/shipinfo">
+                                            规范
+                                        </a>
+                                    </li>
 
-                                        <li class="d-in-block">
-                                            <a href="/shipManage/dynamicList">
-                                                动态分析
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="d-in-block text-center" style="width: 32%;">
-                                    <a href="#" class="dropdown-toggle">
-                                        海员
-                                    </a>
+                                    <li class="d-in-block">
+                                        <a href="/shipManage/dynamicList">
+                                            动态分析
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="d-in-block text-center" style="width: 32%;overflow: visible; position: static;">
+                                <a href="#" class="dropdown-toggle">
+                                    海员
+                                </a>
 
-                                    <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; text-align: justify; margin-top: 7px;">
-                                        <li class="d-in-block">
-                                            <a href="/shipMember/totalShipMember">
-                                                CREW LIST
-                                            </a>
-                                        </li>
+                                <ul class="submenu nav-hide" style="position: absolute; left: 0; right: 0; width: 100%; text-align: justify; margin-top: 7px;">
+                                    <li class="d-in-block">
+                                        <a href="/shipMember/totalShipMember">
+                                            CREW LIST
+                                        </a>
+                                    </li>
 
-                                        <li class="d-in-block">
-                                            <a href="/shipMember/wagesList">
-                                                工资(船舶)
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            @endif
-                            @if($role != STAFF_LEVEL_CAPTAIN)
-                                <li class="d-in-block text-center" style="width: 32%;">
-                                    <a href="#" class="dropdown-toggle">
-                                        收支
-                                    </a>
+                                    <li class="d-in-block">
+                                        <a href="/shipMember/wagesList">
+                                            工资(船舶)
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                                    <ul class="submenu nav-hide" style="position: fixed; left: 0; width: 100%; text-align: justify; margin-top: 7px;">
-                                        <li class="d-in-block">
-                                            <a href="/operation/incomeExpense">
-                                                收支(船只)
-                                            </a>
-                                        </li>
+                            <li class="d-in-block text-center" style="width: 32%;overflow: visible; position: static;">
+                                <a href="#" class="dropdown-toggle">
+                                    收支
+                                </a>
 
-                                        <li class="d-in-block">
-                                            <a href="/shipManage/ctm/analytics">
-                                                CTM 分析
-                                            </a>
-                                        </li>
+                                <ul class="submenu nav-hide" style="position: absolute; left: 0; right: 0; width: 100%; text-align: justify; margin-top: 7px;">
+                                    <li class="d-in-block">
+                                        <a href="/operation/incomeExpense">
+                                            收支(船只)
+                                        </a>
+                                    </li>
 
-                                        <li class="d-in-block">
-                                            <a href="/shipManage/voy/evaluation">
-                                                航次评估
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            @endif
+                                    <li class="d-in-block">
+                                        <a href="/shipManage/ctm/analytics">
+                                            CTM 分析
+                                        </a>
+                                    </li>
+
+                                    <li class="d-in-block">
+                                        <a href="/shipManage/voy/evaluation">
+                                            航次评估
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
-                    @endif
-                    @if($role != STAFF_LEVEL_SHAREHOLDER)
                     <li>
                         <a href="#" class="dropdown-toggle text-center">
                             记录
@@ -197,7 +185,6 @@
                             </li>
                         </ul>
                     </li>
-                    @endif
                 </ul>
             </div>
             <div class="sp-menu overlay-show" id="overlay-div" style="display: none;"></div>
@@ -349,11 +336,11 @@
 <script type="text/javascript">
     window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>" + "<" + "/script>");
 </script>
-<script src="{{ asset('js/__common.js?v=202110191259') }}"></script>
+<script src="{{ asset('js/__common.js') }}"></script>
 <script src="{{ asset('/assets/js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('/assets/js/jquery.inputlimiter.min.js') }}"></script>
 <script src="{{ asset('/assets/js/jquery.maskedinput.min.js') }}"></script>
-<script src="{{ asset('/assets/js/ship_process.js?v=202110191259') }}"></script>
+<script src="{{ asset('/assets/js/ship_process.js') }}"></script>
 <script src="{{ cAsset('assets/js/moment.js') }}"></script>
 @yield('scripts')
 </body>

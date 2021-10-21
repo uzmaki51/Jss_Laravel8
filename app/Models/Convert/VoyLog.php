@@ -24,14 +24,14 @@ class VoyLog extends Model
 
     public function getYearList($shipId) {
         $yearList = [];
-        $shipInfo = DB::table($this->table_ship)->where('IMO_No', $shipId)->first();
+        $shipInfo = DB::table($this->table)->where('Ship_ID', $shipId)->first();
         if($shipInfo == null) {
-            $baseYear = date('Y');
+            $baseYear = intval(date('Y'));
         } else {
-            $baseYear = substr($shipInfo->RegDate, 0, 4);
+            $baseYear = intval(substr($shipInfo->Voy_Date, 0, 4));
         }
 
-        for($year = date('Y'); $year >= $baseYear; $year --) {
+        for($year = intval(date('Y')); $year >= $baseYear; $year --) {
             $yearList[] = $year;
         }
 
@@ -197,7 +197,8 @@ class VoyLog extends Model
             $retVal['max_date'] = $max_date;
             $retVal['prevData'] = $before;
             $retVal['currentData'] = $current;
-        } else {    // Get analyzed data group by Year
+        } else {    
+            // Get analyzed data group by Year
             // Get suffix of year (Ex. 2021 => 21)
             $year = substr($date, 2, 2);
             $records = self::where('Ship_ID', $shipId)
@@ -213,6 +214,7 @@ class VoyLog extends Model
             $records = $records->get();
             $voyData = [];
             $cpData = [];
+            $retVal['voyData'] = $voyData;
             foreach($records as $key => $item) {
                 $voy_id = $item->CP_ID;
                 $before = $this->getBeforeInfo($shipId, $voy_id);

@@ -331,6 +331,9 @@ class BusinessController extends Controller {
         else {
             $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
+
+        // $shipInfo = json_encode($shipInfo);
+
         return view('voy.register', [
             'shipList'          => $shipList,
             'shipInfo'          => $shipInfo,
@@ -1391,7 +1394,10 @@ class BusinessController extends Controller {
             $shipName = $shipInfo->shipName_En;
         }
 
-        return response()->json(array('cp_list' => $cp_list, 'shipName' => $shipName));
+        $tbl = new VoyLog();
+        $yearList = $tbl->getYearList($shipId);
+
+        return response()->json(array('cp_list' => $cp_list, 'shipName' => $shipName, 'yearList'    => $yearList));
     }
 
     public function ajaxDeleteDynrecord(Request $request) {

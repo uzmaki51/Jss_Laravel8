@@ -27,7 +27,7 @@ $ships = Session::get('shipList');
     </style>
     <div class="main-content">
         <div class="page-content" id="search-div">
-            <div class="row pt-2" v-cloak>
+            <div class="row pt-2">
                 <div class="col-sm-12 full-width">
                     <select class="custom-select d-inline-block" style="padding: 4px;max-width: 100px;" @change="changeShip" v-model="shipId">
                         @foreach($shipList as $ship)
@@ -54,7 +54,7 @@ $ships = Session::get('shipList');
             <div class="row col-lg-12" style="margin-top: 4px; width: 100%;">
                 <div class="head-fix-div" style="padding-bottom: 12px;">
                     <input type="hidden" name="_CP_ID" v-model="activeVoy">
-                    <table class="table-bordered dynamic-table table-striped" v-cloak>
+                    <table class="table-bordered dynamic-table table-striped">
                         <thead>
                         <tr>
                             <th class="text-center font-style-italic" style="width: 40px; height: 25px;">VOY</th>
@@ -255,9 +255,6 @@ $ships = Session::get('shipList');
         var searchObj = null;
         var shipId = '{!! $shipId !!}';
         var voyId = '{!! $voyId !!}';
-        var shipInfo = '{!! $shipInfo !!}';
-        shipInfo = shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
-        shipInfo = JSON.parse(shipInfo);
         var DYNAMIC_SUB_SALING = '{!! DYNAMIC_SUB_SALING !!}';
         var DYNAMIC_SUB_LOADING = '{!! DYNAMIC_SUB_LOADING !!}';
         var DYNAMIC_SUB_DISCH = '{!! DYNAMIC_SUB_DISCH !!}';

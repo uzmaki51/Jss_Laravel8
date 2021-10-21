@@ -564,14 +564,14 @@ class ShipRegController extends Controller
 
         $tbl = new VoyLog();
         $yearList = $tbl->getYearList($shipId);
-        
+
         return view('shipManage.dynamic_list', [
             'shipList'          => $shipList,
             'shipInfo'          => $shipInfo,
             'shipId'            => $shipId,
             'shipName'          => $shipName,
             'years'             => $yearList,
-            'activeYear'        => $year,
+            'activeYear'        => $yearList[0],
             'voyId'             => $voyId,
             'record_type'       => $record_type,
             'breadCrumb'        => $breadCrumb
