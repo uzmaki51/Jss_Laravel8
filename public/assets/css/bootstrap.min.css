@@ -1478,7 +1478,7 @@ table td[class*="col-"], table th[class*="col-"] {
         width: 100%;
         margin-bottom: 2px;
         overflow-x: scroll;
-        overflow-y: hidden;
+        overflow-y: scroll;
         border: 1px solid #ddd
     }
 
