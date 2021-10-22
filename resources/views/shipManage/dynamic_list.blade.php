@@ -32,7 +32,13 @@
     <script src="{{ cAsset('assets/js/chartjs/d3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/c3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/flot.js') }}"></script>
+    
+    <script>
 
+
+  
+    </script>
+    
     <div class="main-content">
         <style>
             .filter_row {
@@ -42,16 +48,6 @@
                 width : 350px !important;
             }
             [v-cloak] { display: none; }
-
-			@media (max-width: 768px) {
-				table thead th {
-					font-size: 2px;
-				}
-				table>tbody>tr>td {
-					font-size: 2px;
-					padding: 2px!important;
-				}
-			}
         </style>
         <div class="page-header">
             <div class="col-md-3">
@@ -81,7 +77,9 @@
                     </div>
                     <label style="margin-left: 20px;" class="custom-label for-pc">年份</label>
                     <select class="sp-ml-1" name="year_list" @change="onChangeYear" v-model="activeYear">
-                        <option v-for="(yearItem, index) in year_list" :value="yearItem">@{{ yearItem }}年</option>
+                        @foreach($years as $year)
+                            <option value="{{ $year }}">{{ $year }}年</option>
+                        @endforeach
                     </select>
 
                     <label class="font-bold ml-1 text-danger for-pc" v-show="record_type == 'all'">航次:</label>
@@ -107,8 +105,8 @@
             <!-- Main Contents Begin -->
             <div class="row" style="margin-top: 4px;">
                 <div class="col-md-12 full-width">
-                <div class="table-responsive11">
-                    <table class="table-bordered dynamic-table table-striped" style="width: 100%;" v-show="record_type == 'all'" id="table-list-all">
+                <div class="table-responsive">
+                    <table class="table-bordered dynamic-table table-striped" v-show="record_type == 'all'" id="table-list-all">
                         <thead>
                             <tr>
                                 <th class="text-center font-style-italic" style="width: 40px;">VOY No</th>
@@ -356,7 +354,6 @@
 	echo '<script>';
     echo 'var DynamicStatus = ' . json_encode(g_enum('DynamicStatus')) . ';';
     echo 'var DynamicSub = ' . json_encode(g_enum('DynamicSub')) . ';';
-    echo 'var yearList = ' . json_encode($years) . ';';
 	echo '</script>';
 	?>
 
@@ -364,8 +361,8 @@
         var searchObj = null;
         var shipId = '{!! $shipId !!}';
         var shipInfo = '{!! $shipInfo !!}';
-        // shipInfo=shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
-        // shipInfo = JSON.parse(shipInfo);
+        shipInfo=shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
+        shipInfo = JSON.parse(shipInfo);
         var DYNAMIC_SUB_SALING = '{!! DYNAMIC_SUB_SALING !!}';
         var DYNAMIC_SUB_LOADING = '{!! DYNAMIC_SUB_LOADING !!}';
         var DYNAMIC_SUB_DISCH = '{!! DYNAMIC_SUB_DISCH !!}';
@@ -383,9 +380,8 @@
         const DAY_UNIT = 1000 * 3600;
         const COMMON_DECIMAL = 2;
         var economic_graph = null;
-        var activeYear = '{!! $activeYear !!}';
+        var activeYear = ACTIVE_YEAR == -1 ? $('[name=year_list]').val() : ACTIVE_YEAR;
         var voyId = '{!! $voyId !!}';
-        console.log(yearList)
 
         $(function() {
             initialize();
@@ -399,7 +395,6 @@
                     shipName: '',
                     ship_list: [],
                     voy_list: [],
-                    year_list: yearList,
                     port: {
                         loading: '',
                         discharge: '',
@@ -470,7 +465,6 @@
                             success: function(result) {
                                 searchObj.voy_list = [];
                                 searchObj.voy_list = Object.assign([], [], result['cp_list']);
-                                searchObj.year_list = Object.assign([], [], result['yearList']);
                                 if(searchObj.voy_list.length > 0) {
                                     if(voyId == '') {
                                         searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
