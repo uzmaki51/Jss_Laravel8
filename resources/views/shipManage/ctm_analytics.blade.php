@@ -126,8 +126,8 @@ $ships = Session::get('shipList');
                                                 <td class="right" :style="debitClass(item.CNY.debit)">
                                                     @{{ number_format(item.CNY.debit) }}
                                                 </td>
-                                                <td class="right" :style="debitClass(item.CNY.credit - item.CNY.debit)">
-                                                    @{{ calcBalance(item.CNY.credit, item.CNY.debit) }}
+                                                <td class="right" :style="debitClass(item.CNY.total_balance)">
+                                                    @{{ number_format(item.CNY.total_balance) }}
                                                 </td>
                                                 <td class="right" style="border-left: 2px solid #ff9207!important" :class="creditClass(item.USD.credit)">
                                                     @{{ number_format(item.USD.credit, 2, '$') }}
@@ -135,8 +135,8 @@ $ships = Session::get('shipList');
                                                 <td class="right" :style="debitClass(item.USD.debit)">
                                                     @{{ number_format(item.USD.debit, 2, '$') }}
                                                 </td>
-                                                <td class="right" :style="debitClass(item.USD.credit - item.USD.debit)">
-                                                    @{{ calcBalance(item.USD.credit, item.USD.debit, '$') }}
+                                                <td class="right" :style="debitClass(item.USD.total_balance)">
+                                                    @{{ number_format(item.USD.total_balance, 2, '$') }}
                                                 </td>
                                                 <td class="center" style="border-left: 2px solid #ff9207!important" :style="debitClass(item.USD.debit + item.CNY.usd_debit)">
                                                     @{{ calcUsd(item.USD.debit, item.CNY.usd_debit) }}
@@ -473,8 +473,18 @@ $ships = Session::get('shipList');
                     _totalThis.total.cny.credit = 0;
                     _totalThis.total.cny.usd_amount = 0;
 
+					let _new_cny_total = 0;
+					let _new_usd_total = 0;
                     for(var i = 1; i <= 12; i ++) {
                         let item = _totalThis.list[i];
+						if(i == 1) {
+							_totalThis.list[i]['CNY'].total_balance = _totalThis.before.cny_balance + __parseFloat(item['CNY'].credit) - __parseFloat(item['CNY'].debit;
+							_totalThis.list[i]['USD'].total_balance = _totalThis.before.usd_balance + __parseFloat(item['USD'].credit) - __parseFloat(item['USD'].debit;
+						} else {
+							_totalThis.list[i]['CNY'].total_balance = _totalThis.list[i - 1]['CNY'].total_balance + __parseFloat(item['CNY'].credit) - __parseFloat(item['CNY'].debit;
+							_totalThis.list[i]['USD'].total_balance = _totalThis.list[i - 1]['USD'].total_balance + __parseFloat(item['USD'].credit) - __parseFloat(item['USD'].debit;
+						}
+
                         if(item['CNY'].credit != null) {
                             _totalThis.total.cny.credit += __parseFloat(item['CNY'].credit);
                         }

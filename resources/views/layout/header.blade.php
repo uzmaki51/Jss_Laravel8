@@ -59,6 +59,7 @@
     $menuList = Session::get('menusList');
     $id = Request::get('menuId');
     $isAdmin = Auth::user()->isAdmin;
+	$role = Auth::user()->pos;
 ?>
 
 <body class="skin-1">
@@ -91,22 +92,28 @@
                 <span></span>
                 <span></span>
 
-                <ul class="nav nav-pills nav-list" id="menu" style="overflow: visible;">
-                    <li>
-                        <a href="{{ route('home') }}">
-                            首页
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/decision/receivedReport">
-                            审批
-                        </a>
-                    </li>
+                <ul class="nav nav-pills nav-list" id="menu" style="overflow: visible;{{ $role == STAFF_LEVEL_CAPTAIN || $role == STAFF_LEVEL_SHAREHOLDER ? 'justify-content: unset!important;' : '' }}">
+				    @if($role != STAFF_LEVEL_CAPTAIN && $role != STAFF_LEVEL_SHAREHOLDER)
+						<li>
+							<a href="{{ route('home') }}">
+								首页
+							</a>
+						</li>
+						@if($role == STAFF_LEVEL_MANAGER)
+						<li>
+							<a href="/decision/receivedReport">
+								审批
+							</a>
+						</li>
+						@endif
+					@endif
+                    @if($role != STAFF_LEVEL_CAPTAIN)
                     <li style="overflow: auto; position: static;">
                         <a href="#" class="dropdown-toggle text-center">
                             分析
                         </a>
                         <ul class="submenu nav-hide" style="position: absolute; left: 0; right: 0; width: 100%; border-bottom: 1px solid #1865c1;overflow: visible!important;z-index: 10000;">
+                            @if($role != STAFF_LEVEL_SHAREHOLDER)
                             <li class="d-in-block text-center" style="width: 32%;overflow: visible; position: static;">
                                 <a href="#" class="dropdown-toggle">
                                     船舶
@@ -145,7 +152,8 @@
                                     </li>
                                 </ul>
                             </li>
-
+                            @endif
+                            @if($role != STAFF_LEVEL_CAPTAIN)
                             <li class="d-in-block text-center" style="width: 32%;overflow: visible; position: static;">
                                 <a href="#" class="dropdown-toggle">
                                     收支
@@ -171,8 +179,11 @@
                                     </li>
                                 </ul>
                             </li>
+							@endif
                         </ul>
                     </li>
+					@endif
+                    @if($role != STAFF_LEVEL_SHAREHOLDER)
                     <li>
                         <a href="#" class="dropdown-toggle text-center">
                             记录
@@ -185,6 +196,7 @@
                             </li>
                         </ul>
                     </li>
+					@endif
                 </ul>
             </div>
             <div class="sp-menu overlay-show" id="overlay-div" style="display: none;"></div>
