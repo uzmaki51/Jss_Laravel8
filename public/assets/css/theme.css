@@ -337,6 +337,7 @@ td > a {
     margin-top : 80px;
     height: calc(100% - 85px);
     overflow-x: hidden;
+	overflow-y: auto;
 }
 
 
@@ -1034,4 +1035,7 @@ footer {
         min-width: 80px;
         font-size: 10px!important;
     }
+	#main-container {
+		overflow-y: scroll;
+	}
 }
