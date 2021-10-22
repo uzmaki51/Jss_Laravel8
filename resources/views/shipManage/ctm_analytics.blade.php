@@ -478,7 +478,7 @@ $ships = Session::get('shipList');
                     for(var i = 1; i <= 12; i ++) {
                         let item = _totalThis.list[i];
 
-						if(__parseFloat(item['CNY'].credit) != 0 && __parseFloat(item['CNY'].debit) != 0) {
+						if(__parseFloat(item['CNY'].credit) != 0 || __parseFloat(item['CNY'].debit) != 0) {
 							if(i == 1) {
 							_totalThis.list[i]['CNY'].total_balance = _totalThis.before.cny_balance + __parseFloat(item['CNY'].credit) - __parseFloat(item['CNY'].debit);
 							} else {
@@ -486,7 +486,7 @@ $ships = Session::get('shipList');
 							}
 						}
 
-						if(__parseFloat(item['USD'].credit) != 0 && __parseFloat(item['USD'].debit) != 0) {
+						if(__parseFloat(item['USD'].credit) != 0 || __parseFloat(item['USD'].debit) != 0) {
 							if(i == 1) {
 								_totalThis.list[i]['USD'].total_balance = _totalThis.before.usd_balance + __parseFloat(item['USD'].credit) - __parseFloat(item['USD'].debit);
 							} else {
