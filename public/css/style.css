@@ -445,6 +445,9 @@ div.input table tbody tr td
     .sp-menu {
         display: block;
     }
+    .sp-p0 {
+        padding: 0!important;
+    }
     .custom-for-pc {
         display: none!important;
     }

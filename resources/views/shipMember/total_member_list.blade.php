@@ -31,7 +31,7 @@ $isHolder = Session::get('IS_HOLDER');
         </style>
         <div class="page-content">
             <div class="space-4"></div>
-                <div class="col-md-12 full-width">
+                <div class="col-md-12 full-width sp-p0">
                     <div class="row">
                         <div class="tabbable">
                             <ul class="nav nav-tabs ship-register for-pc" id="memberTab">
@@ -76,7 +76,7 @@ $isHolder = Session::get('IS_HOLDER');
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         <div class="row">
                                             <div class="head-fix-div common-list" id="crew-table" style="">
-                                                <div class="table-responsive">
+                                                <div class="">
                                                     <table id="table-shipmember-list" class="not-striped" style="width:100%;">
                                                         <thead class="">
                                                             <th class="text-center style-header" style="width: 3%;"><span>No</span></th>

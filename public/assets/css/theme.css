@@ -336,7 +336,7 @@ td > a {
 #main-container {
     margin-top : 80px;
     height: calc(100% - 85px);
-    overflow-x: hidden;
+    overflow-x: auto;
 	overflow-y: auto;
 }
 
