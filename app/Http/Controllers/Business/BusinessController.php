@@ -449,7 +449,6 @@ class BusinessController extends Controller {
         $cpTbl['L_Rate'] = $params['load_rate'];
         $cpTbl['D_Rate'] = $params['disch_rate'];
         $cpTbl['Freight'] = $params['freight_rate'] == '' ? 0 : _convertStr2Int($params['freight_rate']);
-        $cpTbl['total_Freight'] = _convertStr2Int($params['lumpsum']);
         $cpTbl['net_profit_day'] = _convertStr2Int($params['net_profit_day']);
         $cpTbl['deten_fee'] = _convertStr2Int($params['deten_fee']);
         $cpTbl['dispatch_fee'] = _convertStr2Int($params['dispatch_fee']);
@@ -487,9 +486,19 @@ class BusinessController extends Controller {
         $cpTbl['do_waiting'] = str_replace(',','',$params['do_waiting']);
         $cpTbl['do_price'] = str_replace(',','',substr($params['do_price'], 2));
         $cpTbl['cargo_amount'] = str_replace(',','',$params['cargo_amount']);
-        if (isset($params['freight_price'])) $cpTbl['freight_price'] = str_replace(',','',substr($params['freight_price'], 2));
-        if (isset($params['batch_manage'])) $cpTbl['batch_manage'] = $params['batch_manage'] == 'on' ? 1 : 0;
-        if (isset($params['batch_price'])) $cpTbl['batch_price'] = str_replace(',','',substr($params['batch_price'], 2));
+        if (isset($params['batch_manage'])) {
+            $cpTbl['batch_manage'] = $params['batch_manage'] == 'on' ? 1 : 0;
+            $cpTbl['batch_price'] = str_replace(',','',substr($params['batch_price'], 2));
+            $cpTbl['freight_price'] = 0;
+            $cpTbl['total_Freight'] = _convertStr2Int($params['lumpsum']);
+        } else {
+            $cpTbl['batch_manage'] = 0;
+            if (isset($params['freight_price'])) $cpTbl['freight_price'] = str_replace(',','',substr($params['freight_price'], 2));
+            else $cpTbl['freight_price'] = 0;
+            $cpTbl['batch_price'] = 0;
+            $cpTbl['total_Freight'] = 0;
+        }
+
         $cpTbl['fee'] = str_replace(',','',$params['fee']);
         $cpTbl['up_port_price'] = str_replace(',','',substr($params['up_port_price'], 2));
         $cpTbl['down_port_price'] = str_replace(',','',substr($params['down_port_price'], 2));

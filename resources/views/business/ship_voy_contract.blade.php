@@ -494,6 +494,7 @@
                         voyContractObj.freight_rate = '';
                     } else {
                         voyContractObj.freight_rate = __parseFloat(this.input['freight_price']) == 0 ? '' : '$ ' + __parseFloat(this.input['freight_price']);
+                        voyContractObj.lumpsum = '';
                     }
                     
                     voyContractObj.com_fee = this.input['fee'];

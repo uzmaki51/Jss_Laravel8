@@ -848,11 +848,18 @@ $ships = Session::get('shipList');
                         
                         voyContractObj.up_port = voyListObj.list[index].LPort;
                         voyContractObj.upPortNames = voyListObj.getPortName(voyListObj.list[index].LPort);
-                        voyContractObj.upPortIDList = voyListObj.list[index].LPort.split(',');
+                        if(voyListObj.list[index].LPort != null && voyListObj.list[index].LPort != undefined)
+                            voyContractObj.upPortIDList = voyListObj.list[index].LPort.split(',');
+                        else
+                            voyContractObj.upPortIDList = [];
                         // voyContractObj.upPortTmpIDList = voyListObj.list[index].LPort.split(',');
                         voyContractObj.down_port = voyListObj.list[index].DPort;
                         voyContractObj.downPortNames = voyListObj.getPortName(voyListObj.list[index].DPort);
-                        voyContractObj.downPortIDList = voyListObj.list[index].DPort.split(',');
+
+                        if(voyListObj.list[index].DPort != null && voyListObj.list[index].DPort != undefined)
+                            voyContractObj.downPortIDList = voyListObj.list[index].DPort.split(',');
+                        else
+                            voyContractObj.downPortIDList = [];
                         // voyContractObj.downPortTmpIDList = voyListObj.list[index].DPort.split(',');
 
                         voyContractObj.lay_date = voyListObj.list[index].LayCan_Date1;
