@@ -2575,18 +2575,20 @@ class ShipRegController extends Controller
         
         $cpList = CP::where('ship_ID', $shipId)->whereRaw(DB::raw('mid(Voy_No, 1, 2) like ' . $params['year']))->orderBy('Voy_No', 'asc')->get();
         
+        $tbl = new VoyLog();
         foreach($cpList as $key => $item) {
             $voyId = $item->Voy_No;
             $fuelList = Fuel::where('shipId', $shipId)->where('voy_no', $voyId)->first();
 
             $cpInfo = CP::where('ship_ID', $shipId)->where('Voy_No', $voyId)->first();
+
             if($cpInfo == null)
                 $retVal['cpData'][$voyId] = [];
             else
                 $retVal['cpData'][$voyId] = $cpInfo;
-
+                
             if($fuelList == null) {
-                $beforeVoy = VoyLog::where('Voy_Status', DYNAMIC_CMPLT_DISCH)->where('CP_ID', '<', $voyId)->where('Ship_ID', $shipId)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->orderBy('id', 'desc')->first();
+                $beforeVoy = $tbl->getBeforeInfo($shipId, $voyId);
                 $firstVoy = VoyLog::where('CP_ID', $voyId)->where('Ship_ID', $shipId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->orderBy('id', 'asc')->first();
 
                 $mainInfo = VoyLog::where('Ship_ID', $shipId)
@@ -2597,9 +2599,10 @@ class ShipRegController extends Controller
                     ->orderBy('GMT', 'asc')
                     ->orderBy('id', 'asc')
                     ->get();
+
                 if(isset($mainInfo) && count($mainInfo) > 0) {
                     $retVal['currentData'][$voyId]['main'] = $mainInfo;
-                    $retVal['currentData'][$voyId]['before'] = ($beforeVoy == null ? $firstVoy : $beforeVoy);
+                    $retVal['currentData'][$voyId]['before'] = ($beforeVoy == [] ? $firstVoy : $beforeVoy);
                     $retVal['currentData'][$voyId]['is_exist'] = false;
 
                     $decideTbl = new DecisionReport();

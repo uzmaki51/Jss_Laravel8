@@ -737,7 +737,6 @@
                                         let total_else_time = 0;
                                         let total_distance = 0;
 
-
                                         let up_rob_fo = 0;
                                         let up_rob_do = 0;
                                         let down_rob_fo = 0;
@@ -766,6 +765,8 @@
 
                                         tmpData.forEach(function(data_value, data_key) {
                                             total_distance += __parseFloat(data_value["Sail_Distance"]);
+                                            bunk_fo += __parseFloat(data_value['BUNK_FO']);
+                                            bunk_do += __parseFloat(data_value['BUNK_DO']);
                                             if(data_key > 0) {
                                                 if(data_value['Voy_Type'] == DYNAMIC_SUB_SALING) {
                                                     let preKey = data_key - 1;
@@ -1099,11 +1100,7 @@
                     });
 
                     offAutoCmplt();
-                    // $form = $('#record-form');
-                    // if (origForm == "") {
-                    //     origForm = $('#record-form');
-                    //     console.log(origForm.serialize());
-                    // }
+
                 }
             });
 
