@@ -11,7 +11,7 @@ $(function() {
     if(windowWithd > 768) {
         alpha = 0;
     } else 
-        alpha = 50;
+        alpha = 0;
 
     let setHeight = parseInt($('.inner-wrap').innerHeight()) - 120 - alpha;
     $('.common-list').css({'height': setHeight + 'px'});
@@ -26,7 +26,7 @@ $(window).resize(function(e) {
     if(windowWithd > 768) {
         alpha = 0;
     } else 
-        alpha = 50;
+        alpha = 0;
     let setHeight = parseInt($('.inner-wrap').innerHeight()) - 140 - alpha;
     $('.common-list').css({'height': setHeight + 'px'});
 });

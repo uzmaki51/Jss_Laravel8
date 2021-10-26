@@ -98,7 +98,7 @@
             <!-- Main Contents Begin -->
             <div class="row" style="margin-top: 4px;">
                 <div class="col-md-12 full-width">
-                <div class="table-responsive">
+                <div class="">
                     <table class="table-bordered dynamic-table table-striped" style="width: 100%;" v-show="record_type == 'all'" id="table-list-all">
                         <thead>
                             <tr>
