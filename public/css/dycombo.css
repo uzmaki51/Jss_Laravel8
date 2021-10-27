@@ -26,7 +26,7 @@ table {
 
 .dynamic-popup-reverse {
     top:auto!important;
-    bottom:-300%!important;
+    bottom:-302%!important;
     z-index: 1000000!important;
 }
 
