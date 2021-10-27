@@ -34,6 +34,9 @@ $ships = Session::get('shipList');
             table tbody tr td {
                 padding:0px!important;
             }
+            .head-fix-div {
+                overflow: visible;
+            }
         </style>
         <div class="page-content">
             <div class="page-header">
@@ -386,6 +389,7 @@ $ships = Session::get('shipList');
                             } else {
                                 $(event.target).siblings(".dynamic-options").removeClass('dynamic-popup-reverse');
                             }
+                            _overflowContainter();
                         }
                     },
                     materialCategoryChange: function(event) {
@@ -410,6 +414,8 @@ $ships = Session::get('shipList');
                             } else {
                                 $(event.target).siblings(".dynamic-options").removeClass('dynamic-popup-reverse');
                             }
+
+                            _overflowContainter();
                         }
                     },
                     particularFocus: function(event) {
@@ -434,11 +440,13 @@ $ships = Session::get('shipList');
                         setMaterialInfo(category_id, type_id, array_index);
                         $(".dynamic-select__trigger").removeClass('open');
                         $(".dynamic-options").removeClass('open');
+                        _overflowContainter(false);
                     },
                     setMaterialTypeInfo: function(array_index, category_id, type_id) {
                         setMaterialInfo(category_id, type_id, array_index, false);
                         $(".dynamic-select__trigger").removeClass('open');
                         $(".dynamic-options").removeClass('open');
+                        _overflowContainter(false);
                     },
                     customFormatter(date) {
                         return moment(date).format('YYYY-MM-DD');
@@ -872,7 +880,8 @@ $ships = Session::get('shipList');
             var container = $(".dynamic-options-scroll");
             if (!container.is(e.target) && container.has(e.target).length === 0) {
                 $(".dynamic-options").removeClass('open');
-                $(".dynamic-options").siblings('.dynamic-select__trigger').removeClass('open')
+                $(".dynamic-options").siblings('.dynamic-select__trigger').removeClass('open');
+                _overflowContainter(false);
             }
         });
 

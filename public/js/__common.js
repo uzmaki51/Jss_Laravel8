@@ -266,3 +266,11 @@ $(document).mouseup(function(e) {
         $('#overlay-div').hide();
     }
 });
+
+function _overflowContainter(flow = true) {
+    // if(flow == true) {
+    //     $('.head-fix-div').css('overflow-y', 'visible');
+    // } else if(flow == false) {
+    //     $('.head-fix-div').css('overflow-y', 'auto');
+    // }
+}

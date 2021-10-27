@@ -26,6 +26,9 @@ $ships = Session::get('shipList');
             .chosen-drop {
                 width : 350px !important;
             }
+            .head-fix-div {
+                overflow: visible;
+            }
         </style>
         <div class="page-content">
             <div class="page-header">
@@ -291,6 +294,7 @@ $ships = Session::get('shipList');
                             $(event.target).removeClass('open');
                             $(event.target).siblings(".dynamic-options").removeClass('open');
                         } else {
+                            _overflowContainter();
                             $(event.target).addClass('open');
                             $(event.target).siblings(".dynamic-options").addClass('open');
 
@@ -315,6 +319,7 @@ $ships = Session::get('shipList');
 
                         isChangeStatus = true;
                         setCertInfo(cert, array_index);
+                        _overflowContainter(false);
                         $(".dynamic-select__trigger").removeClass('open');
                         $(".dynamic-options").removeClass('open');
                     },
@@ -571,6 +576,7 @@ $ships = Session::get('shipList');
             if (!container.is(e.target) && container.has(e.target).length === 0) {
                 $(".dynamic-options").removeClass('open');
                 $(".dynamic-options").siblings('.dynamic-select__trigger').removeClass('open')
+                _overflowContainter(false);
             }
         });
 
