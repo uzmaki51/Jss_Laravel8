@@ -282,6 +282,7 @@ Route::group(['prefix' => 'shipMember'], function() {
 	Route::get('voy/register', [App\Http\Controllers\Business\BusinessController::class, 'voyRegister'])->name('voy.register');
 	Route::post('voy/update', [App\Http\Controllers\Business\BusinessController::class, 'voyUpdate'])->name('voy.update');
 	Route::post('ajax/voy/detail',   [App\Http\Controllers\Business\BusinessController::class, 'ajax_voyDetail']);
+	Route::post('ajax/reset/fuel',   [App\Http\Controllers\FuelController::class, 'ajax_fuelReset']);
 });
 
 Route::get('test/git/pull', [App\Http\Controllers\TestController::class, 'gitPull'])->name('git.pull');

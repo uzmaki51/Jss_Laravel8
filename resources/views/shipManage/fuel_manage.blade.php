@@ -120,6 +120,7 @@
                                             <th class="text-center" rowspan="2" style="width: 7%;">油款($)</th>
                                             <th class="text-center" colspan="3" style="border-right: 2px solid #ff9207;">油价($/MT)</th>
                                             <th class="text-center" rowspan="2" >备注</th>
+                                            <th class="text-center" rowspan="2"></th>
                                         </tr>
                                         <tr>
                                             <th class="text-center" style="width: 5%;">FO</th>
@@ -221,6 +222,12 @@
                                             <td class="center">
                                                 <textarea class="form-control" name="remark[]" rows="1" style="resize: none; padding: 0 2px!important;" maxlength="50" autocomplete="off" v-model="item.remark"></textarea>
                                             </td>
+                                            <td class="center">
+                                                <a @click="resetFuel(item.id)">
+                                                    <i class="icon-refresh bigger-120"></i>
+                                                </a>
+                                                
+                                            </td>
                                         </tr>
                                     </template>
 
@@ -243,6 +250,7 @@
                                         <td class="center">@{{ number_format(analyze.total.total_oil_price_fo, 2) }}</td>
                                         <td class="center">@{{ number_format(analyze.total.total_oil_price_do, 2) }}</td>
                                         <td class="center" style="border-right: 2px solid #ff9207;">@{{ number_format(analyze.total.total_oil_price_else, 2) }}</td>
+                                        <td class="center"></td>
                                         <td class="center"></td>
                                     </tr>
                                 </tbody>
@@ -1004,6 +1012,20 @@
                     addRow: function() {
                         this.setDefaultData();
                     },
+                    resetFuel(id) {
+                        if(id != undefined) {
+                            $.ajax({
+                                url: BASE_URL + 'ajax/reset/fuel',
+                                type: 'post',
+                                data: {
+                                    id: id
+                                },
+                                success: function(data) {
+                                    if(data == 1) searchObj.getAnalyzeData();
+                                }
+                            })
+                        }
+                    },
                     setDefaultData() {
                         let length = searchObj.currentData.length;
                         searchObj.currentData.push([]);
@@ -1080,7 +1102,7 @@
                     },
                     fetchData() {
                         console.log('created')
-                    }
+                    },
                 },
                 created() {
                     this.fetchData();

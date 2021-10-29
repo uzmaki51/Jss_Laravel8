@@ -20,12 +20,6 @@ $ships = Session::get('shipList');
 @section('content')
     <div class="main-content">
         <style>
-            .filter_row {
-                background-color: #45f7ef;
-            }
-            .chosen-drop {
-                width : 350px !important;
-            }
             .head-fix-div {
                 overflow: visible;
             }
@@ -221,11 +215,11 @@ $ships = Session::get('shipList');
     <script src="https://unpkg.com/vuejs-datepicker"></script>
     <script src="{{ asset('/assets/js/dycombo.js') }}"></script>
 
-	<?php
-	echo '<script>';
-	echo 'var IssuerTypeData = ' . json_encode(g_enum('IssuerTypeData')) . ';';
-	echo '</script>';
-	?>
+    <?php
+        echo '<script>';
+        echo 'var IssuerTypeData = ' . json_encode(g_enum('IssuerTypeData')) . ';';
+        echo '</script>';
+    ?>
     <script>
         var certListObj = null;
         var certTypeObj = null;
@@ -389,14 +383,14 @@ $ships = Session::get('shipList');
 
                 },
                 updated() {
-                        $('.date-picker').datepicker({
-                            autoclose: true,
-                        }).next().on(ace.click_event, function () {
-                            $(this).prev().focus();
-                        });
+                    $('.date-picker').datepicker({
+                        autoclose: true,
+                    }).next().on(ace.click_event, function () {
+                        $(this).prev().focus();
+                    });
 
-                        offAutoCmplt();
-                    }
+                    offAutoCmplt();
+                }
             });
 
             certTypeObj = new Vue({
