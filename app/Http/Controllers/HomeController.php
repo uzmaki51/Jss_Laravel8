@@ -150,6 +150,11 @@ class HomeController extends Controller {
 			$index++;
 		}
 		$securityType = SecurityCert::all();
+
+		//
+		$decision = new DecisionReport();
+		$profit_list = $decision->getProfit($settings['profit_year']);
+//dump($profit_list);die;
 		return view('home.front', [
 			'shipList'          => $shipList,
 			'reportList'        => $reportList,
@@ -165,7 +170,8 @@ class HomeController extends Controller {
 			'expireCert'		=> $expireCert,
 			'expireMemberCert'  => $expireMemberCert,
 			'topPorts'			=> $ports,
-			'security'    =>    $securityType,
+			'security'          => $securityType,
+			'profitList'        => $profit_list,
 		]);
 	}
 

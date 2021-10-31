@@ -209,6 +209,70 @@ class DecisionReport extends Model {
 		return $result;
 	}
 
+	public function getProfit($year) {
+		// Get ship ids from register time
+		$user_pos = Auth::user()->pos;
+		if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
+		{
+			$ids = Auth::user()->shipList;
+			$ids = explode(',', $ids);
+			$records = ShipRegister::whereIn('IMO_No', $ids)->where('RegStatus', '!=', 3)->whereRaw(DB::raw('mid(RegDate, 1, 4) >= ' . $year))->orderBy('tb_ship_register.id')->get();
+		}
+		else {
+			$records = ShipRegister::where('RegStatus', '!=', 3)->whereRaw(DB::raw('mid(RegDate, 1, 4) <= ' . $year))->orderBy('tb_ship_register.id')->get();
+		}
+		
+		if (empty($records)) {
+			return $records;
+		}
+		$shipids = [];
+		$result = [];
+		foreach($records as $index => $record) {
+			$shipid = $record['IMO_No'];
+			$shipids[] = $shipid;
+			$result[$shipid]['from_date'] = $year . "-01-01";
+			if ($result[$shipid]['from_date'] < $record['RegDate']) {
+				$result[$shipid]['from_date'] = $record['RegDate'];
+			}
+			//$start = date('Y-m-d', strtotime("$year-01-01"));
+			$result[$shipid]['to_date'] = date('Y-m-d');
+
+			$now = time(); // or your date as well
+			$your_date = strtotime("2010-01-31");
+			$datediff = strtotime($result[$shipid]['to_date']) - strtotime($result[$shipid]['from_date']);
+			$result[$shipid]['diffdays'] = $datediff / (60 * 60 * 24) + 1;
+			$result[$shipid]['name'] = $record['NickName'];
+		}
+
+		$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('year',$year)->whereNotNull('book_no');
+		$selector = $selector->whereNotIn('profit_type',[13,14])
+		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, month, shipNo')
+		->groupBy('month', 'flowid','profit_type','shipNo');
+		$records = $selector->get();
+
+		foreach($shipids as $shipid)
+		{
+			$result[$shipid]['credit_sum'] = 0;
+			$result[$shipid]['debit_sum'] = 0;
+		}
+		foreach($records as $index => $record) {
+			if ($record['flowid'] == "Credit") {
+				$result[$record['shipNo']]['credit_sum'] += $record['sum'];
+			}
+			else if ($record['flowid'] == "Debit") {
+				$result[$record['shipNo']]['debit_sum'] += $record['sum'];
+			}
+		}
+		foreach($shipids as $shipid) {
+			$result[$shipid]['profit_sum'] = $result[$shipid]['credit_sum'] - $result[$shipid]['debit_sum'];
+			$result[$shipid]['credit_average'] = $result[$shipid]['credit_sum'] / $result[$shipid]['diffdays'];
+			$result[$shipid]['debit_average'] = $result[$shipid]['debit_sum'] / $result[$shipid]['diffdays'];
+			$result[$shipid]['profit_average'] = $result[$shipid]['profit_sum'] / $result[$shipid]['diffdays'];
+		}
+
+		return $result;
+	}
+
 	/// incomeExpenseAll -> Table
 	public function getListByAll($params) {
 		if (!isset($params['columns'][1]['search']['value']) ||

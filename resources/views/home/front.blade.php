@@ -520,6 +520,33 @@
                         <div class="card mb-4">
                             <div class="card-header common-decide-title">
                                 <div class="card-title front-span">
+                                    <span class="bigger-120">日均利润 ({{$settings['profit_year']}})</span>
+                                </div>
+                            </div>
+                            <div class="card-body common-decide-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
+                                <table id="" style="border:0px solid black;">
+                                    <thead style="position:sticky;top:0;box-shadow: inset 0 -1px #000, 1px -1px #000;">
+                                        <td class="center decide-sub-title">船名</td>
+                                        <td class="center decide-sub-title">日均支出</td>
+                                        <td class="center decide-sub-title">日均利润</td>
+                                    </thead>
+                                    <tbody class="" id="profit-body" style="">
+                                        @foreach($profitList as $key => $item)
+                                            <tr>
+                                                <td><span>{{ $item['name'] }}</span></td>
+                                                <td class="center"><span style="{{$item['debit_average']>=0?'':'color:red'}}">${{ number_format($item['debit_average'],0,".",",") }}</span></td>
+                                                <td class="center"><span style="{{$item['profit_average']>=0?'':'color:red'}}">${{ number_format($item['profit_average'],0,".",",") }}</span></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card mb-4">
+                            <div class="card-header common-decide-title">
+                                <div class="card-title front-span">
                                     <span class="bigger-120">船舶日报 ({{$settings['dyn_year']}})</span>
                                 </div>
                             </div>
