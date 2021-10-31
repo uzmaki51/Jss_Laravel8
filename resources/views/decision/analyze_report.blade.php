@@ -98,7 +98,7 @@
                     <div class="space-12"></div>
                     <div class="space-12"></div>
 					<div class="row" style="text-align:center;">
-                        <strong style="font-size: 20px; padding-top: 6px;"><span id="table_file_info"></span>附加凭证文件数</strong>
+                        <strong style="font-size: 20px; padding-top: 6px;"><span id="table_file_info"></span>附加凭证文件数和占率</strong>
                     </div>
                     <div class="table-head-fix-div" id="">
                         <table id="table-file-count" data-toggle="table" style="table-layout:fixed;">
@@ -106,7 +106,7 @@
                             <tr>
                                 <th class="text-center style-normal-header" style="width: 4%;height:30px;"><span>No</span></th>
                                 <th class="text-center style-normal-header" style="width: 6%;"><span>姓名</span></th>
-                                <th class="text-center style-normal-header" style="width: 8%;"><span>@{{ activeYear }}年</span></th>
+                                <th class="text-center style-normal-header" style="width: 8%;"><span>@{{ activeYear }}年 (%)</span></th>
                                 <th class="text-center style-normal-header" style=""><span>1月</span></th>
                                 <th class="text-center style-normal-header" style=""><span>2月</span></th>
                                 <th class="text-center style-normal-header" style=""><span>3月</span></th>
@@ -126,13 +126,13 @@
                                     <tr class="dynamic-item">
                                         <td class="text-center" style="height:25px;">@{{ index + 1 }}</td>
                                         <td class="text-center">@{{ currentItem.name }}</td>
-                                        <td class="text-center style-blue-input">@{{ currentItem.total }}</td>
+                                        <td class="text-center style-blue-input">@{{ currentItem.total }} (@{{ currentItem.percent }}%)</td>
                                         <td class="text-center" v-for="item in currentItem.report">@{{ number_format(item, 0) }}</td>
                                     </tr>
                                 </template>
                                 <tr class="style-normal-header fixed-footer" style="border-bottom: 1px solid black;">
                                     <td class="text-center" style="height:25px;" colspan="2">合计</td>
-                                    <td :class="'text-center ' + (index==0?'style-blue-input':'')" v-for="(item,index) in footer_attach" >@{{ number_format(item, 0) }}</td>
+                                    <td :class="'text-center ' + (index==0?'style-blue-input':'')" v-for="(item,index) in footer_attach" >@{{ number_format(item, 0) }} @{{index == 0 ? '(' + number_format(footer_attach[0] / footer_author[0] * 100, 1) + '%)' : '' }}</td>
                                 </tr>
                             </tbody>
                         </table>

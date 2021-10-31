@@ -1407,19 +1407,26 @@ class DecisionReport extends Model {
 			->orderBy('tb_users.pos');
 
 		$records = $selector->get();
-		$newArr = [];
+		$newArr2 = [];
 		foreach($records as $index => $record) {
-			$newArr[$record->realname]['name'] = $record->realname;
-			$newArr[$record->realname]['report'][$record->month] = $record->count;
-			if (isset($newArr[$record->realname]['total'])) {
-				$newArr[$record->realname]['total'] += $record->count;
+			$newArr2[$record->realname]['name'] = $record->realname;
+			$newArr2[$record->realname]['report'][$record->month] = $record->count;
+			if (isset($newArr2[$record->realname]['total'])) {
+				$newArr2[$record->realname]['total'] += $record->count;
 			} else {
-				$newArr[$record->realname]['total'] = $record->count;
+				$newArr2[$record->realname]['total'] = $record->count;
 			}
 		}
-		$result['report_by_attach'] = array_sort($newArr, 'total', SORT_DESC);
+		foreach($newArr2 as $index => $record)
+		{
+			if (isset($newArr[$record['name']]['total'])) {
+				$newArr2[$record['name']]['percent'] = _number_format($newArr2[$record['name']]['total'] / $newArr[$record['name']]['total'] * 100, 1);
+			} else {
+				$newArr2[$record['name']]['percent'] = 0;
+			}
+		}
+		$result['report_by_attach'] = array_sort($newArr2, 'percent', SORT_DESC);
 
-		
 		foreach($result['report_by_author'] as $index => $record)
 		{
 			for ($i=1;$i<=12;$i++) {
