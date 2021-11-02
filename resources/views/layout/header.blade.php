@@ -9,8 +9,8 @@
 
     <!-- STYLES -->
     <link rel="stylesheet" href="{{ cAsset('/assets/css/theme.css?v=20211006104500') }}"/>
-    <link href="{{ cAsset('assets/css/bootstrap.min.css?v=20211006104500') }}" rel="stylesheet"/>
-    <link href="{{ cAsset('assets/css/bootstrap-overrides.css?v=20211006104500') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('/assets/css/bootstrap.min.css?v=20211006104500') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('/assets/css/bootstrap-overrides.css?v=20211006104500') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ cAsset('/assets/css/font-awesome.min.css?v=20211006104500') }}"/>
     <link rel="icon" type="image/png" href="{{ ccAsset('/assets/css/img/logo.png') }}" sizes="192x192">
     <link href="{{ cAsset('/assets/css/chosen.css?v=20211006104500') }}" rel="stylesheet">
