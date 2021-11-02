@@ -8,46 +8,46 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- STYLES -->
-    <link rel="stylesheet" href="{{ cAsset('/assets/css/theme.css?v=20211006104500') }}"/>
-    <link href="{{ cAsset('/assets/css/bootstrap-overrides.css?v=20211006104500') }}" rel="stylesheet"/>
-    <link rel="stylesheet" href="{{ cAsset('/assets/css/font-awesome.min.css?v=20211006104500') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/theme.css?v=20211006104500') }}"/>
+    <link href="{{ asset('assets/css/bootstrap.min.css?v=20211006104500') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/css/bootstrap-overrides.css?v=20211006104500') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/font-awesome.min.css?v=20211006104500') }}"/>
     <link rel="icon" type="image/png" href="{{ cAsset('/assets/css/img/logo.png') }}" sizes="192x192">
-    <link href="{{ cAsset('/assets/css/chosen.css?v=20211006104500') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ cAsset('/assets/css/colorbox.css') }}" />
-    <link rel="stylesheet" href="{{ cAsset('/assets/css/ace.min.css?v=20211006104500') }}"/>
-    <link rel="stylesheet" href="{{ cAsset('/assets/css/ace-rtl.min.css?v=20211006104500') }}"/>
-    <link rel="stylesheet" href="{{ cAsset('/assets/css/ace-skins.min.css?v=20211006104500') }}"/>
-    <link rel="stylesheet" href="{{ cAsset('/assets/css/jquery.gritter.css') }}" />
-    <link rel="stylesheet" href="{{ cAsset('/assets/css/base.css') }}" />
-    <link href="{{ cAsset('/assets/css/datepicker.css') }}" rel="stylesheet">
-    <link href="{{ cAsset('/assets/css/bootstrap.min.css') }}" rel="stylesheet"/>
-    <link href="{{ cAsset('/assets/css/bootstrap-timepicker.css') }}" rel="stylesheet">
-    <link href="{{ cAsset('/assets/css/daterangepicker.css') }}" rel="stylesheet">
-    <link href="{{ cAsset('/assets/css/colorpicker.css') }}" rel="stylesheet">
-    <link href="{{ cAsset('/assets/css/jquery-ui-1.10.3.full.min.css')}}" rel="stylesheet">
-    <link href="{{ cAsset('/assets/css/jquery.treeview.css') }}" rel="stylesheet">
-    <link href="{{ cAsset('/css/style.css?v=20211006104500') }}" rel="stylesheet">
-    <link href="{{ cAsset('/css/common.css?v=20211006104500') }}" rel="stylesheet">
+    <link href="{{ asset('/assets/css/chosen.css?v=20211006104500') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/assets/css/colorbox.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/ace.min.css?v=20211006104500') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/ace-rtl.min.css?v=20211006104500') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/ace-skins.min.css?v=20211006104500') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/css/jquery.gritter.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/base.css') }}" />
+    <link href="{{ asset('/assets/css/datepicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('/assets/css/bootstrap-timepicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('/assets/css/daterangepicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('/assets/css/colorpicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('/assets/css/jquery-ui-1.10.3.full.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('/assets/css/jquery.treeview.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/style.css?v=20211006104500') }}" rel="stylesheet">
+    <link href="{{ asset('/css/common.css?v=20211006104500') }}" rel="stylesheet">
     @yield('styles')
 
     <!-- SCRIPTS -->
-    <script src="{{ cAsset('/assets/js/ace-extra.min.js') }}"></script>
-    <script src="{{ cAsset('/assets/js/jquery-2.0.3.min.js') }}"></script>
-    <script src="{{ cAsset('/assets/js/ace-elements.min.js') }}"></script>
-    <script src="{{ cAsset('/assets/js/fuelux/fuelux.tree.min.js') }}"></script>
-    <script src="{{ cAsset('/assets/js/jquery.treeview.js') }}"></script>
-    <script src="{{ cAsset('/assets/js/bootbox.min.js') }}"></script>
-    <script src="{{ cAsset('/assets/js/ace.min.js') }}"></script>
-    <script src="{{ cAsset('/assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ cAsset('/assets/js/typeahead-bs2.min.js') }}"></script>
-    <script src="{{ cAsset('/assets/js/jquery-ui-1.10.3.full.min.js') }}"></script>
-    <script src="{{ cAsset('/assets/js/jquery.ui.touch-punch.min.js') }}"></script>
-    <script src="{{ cAsset('/assets/js/date-time/bootstrap-datepicker.min.js') }}"></script>
-    <script src="{{ cAsset('/assets/js/chosen.jquery.min.js') }}"></script>
-    <script src="{{ cAsset('/assets/js/jquery.gritter.min.js')}}"></script>
-    <script src="{{ cAsset('/assets/js/jquery.toast.min.js')}}"></script>
-    <script src="{{ cAsset('/assets/js/jquery.slides.js')}}"></script>
-    <script src="{{ cAsset('/assets/js/util.js')}}"></script>
+    <script src="{{ asset('/assets/js/ace-extra.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery-2.0.3.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/ace-elements.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/fuelux/fuelux.tree.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery.treeview.js') }}"></script>
+    <script src="{{ asset('/assets/js/bootbox.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/ace.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/typeahead-bs2.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery-ui-1.10.3.full.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery.ui.touch-punch.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/date-time/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/chosen.jquery.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery.gritter.min.js')}}"></script>
+    <script src="{{ asset('/assets/js/jquery.toast.min.js')}}"></script>
+    <script src="{{ asset('/assets/js/jquery.slides.js')}}"></script>
+    <script src="{{ asset('/assets/js/util.js')}}"></script>
 </head>
 
 <script type="text/javascript">
@@ -68,10 +68,10 @@
         <div class="container">
             <div class="navbar-header" style="width:10%;">
                 <a href="/home" class="navbar-brand for-pc">
-                    <img class="navbar-img" src="{{ cAsset('/assets/avatars/logo.png') }}" alt=""/>
+                    <img class="navbar-img" src="{{ asset('/assets/avatars/logo.png') }}" alt=""/>
                 </a>
                 <a class="navbar-brand for-sp">
-                    <img class="navbar-img" style="padding: 8px;" src="{{ cAsset('/assets/avatars/logo.png') }}" alt=""/>
+                    <img class="navbar-img" style="padding: 8px;" src="{{ asset('/assets/avatars/logo.png') }}" alt=""/>
                 </a>
             </div>
             <div class="sp-logout for-sp">
@@ -347,12 +347,12 @@
 <script type="text/javascript">
     window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>" + "<" + "/script>");
 </script>
-<script src="{{ cAsset('/js/__common.js') }}"></script>
-<script src="{{ cAsset('/assets/js/jquery.validate.min.js') }}"></script>
-<script src="{{ cAsset('/assets/js/jquery.inputlimiter.min.js') }}"></script>
-<script src="{{ cAsset('/assets/js/jquery.maskedinput.min.js') }}"></script>
-<script src="{{ cAsset('/assets/js/ship_process.js') }}"></script>
-<script src="{{ cAsset('/assets/js/moment.js') }}"></script>
+<script src="{{ asset('js/__common.js') }}"></script>
+<script src="{{ asset('/assets/js/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('/assets/js/jquery.inputlimiter.min.js') }}"></script>
+<script src="{{ asset('/assets/js/jquery.maskedinput.min.js') }}"></script>
+<script src="{{ asset('/assets/js/ship_process.js') }}"></script>
+<script src="{{ cAsset('assets/js/moment.js') }}"></script>
 @yield('scripts')
 </body>
 </html>
