@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ cAsset('/assets/css/theme.css?v=20211006104500') }}"/>
     <link href="{{ cAsset('/assets/css/bootstrap-overrides.css?v=20211006104500') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ cAsset('/assets/css/font-awesome.min.css?v=20211006104500') }}"/>
-    <link rel="icon" type="image/png" href="{{ cAsset(('/assets/css/img/logo.png') }}" sizes="192x192">
+    <link rel="icon" type="image/png" href="{{ cAsset('/assets/css/img/logo.png') }}" sizes="192x192">
     <link href="{{ cAsset('/assets/css/chosen.css?v=20211006104500') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ cAsset('/assets/css/colorbox.css') }}" />
     <link rel="stylesheet" href="{{ cAsset('/assets/css/ace.min.css?v=20211006104500') }}"/>
@@ -77,7 +77,7 @@
             <div class="sp-logout for-sp">
                 <li class="dropdown" style="height: auto;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background: transparent;">
-                        <img src="{{ Auth::user()->avatar == '' ? cAsset(('assets/avatars/user.png') : Auth::user()->avatar }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
+                        <img src="{{ Auth::user()->avatar == '' ? cAsset('assets/avatars/user.png') : Auth::user()->avatar }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
                         欢迎 | {{ Auth::user()->realname }}</a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ route('logout') }}"><i class="icon-signout"></i>&nbsp;&nbsp;{{ trans('common.label.logout') }}</a></li>
@@ -220,7 +220,7 @@
                     @endif
                     <li class="dropdown" style="height: auto;">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background: transparent;">
-                            <img src="{{ Auth::user()->avatar == '' ? cAsset(('assets/avatars/user.png') : Auth::user()->avatar }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
+                            <img src="{{ Auth::user()->avatar == '' ? cAsset('assets/avatars/user.png') : Auth::user()->avatar }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
                             欢迎 | {{ Auth::user()->realname }}<b class="caret"></b></a>
                         <ul class="dropdown-menu" style="background: #5b79a5;">
                             <li><a href="{{ route('profile') }}"><i class="icon-user"></i>&nbsp;&nbsp;&nbsp;{{ trans('common.label.profile') }}</a></li>
@@ -252,7 +252,7 @@
                                             <li>
                                                 <a href="/{{ $sub['controller'] == '' ? (count($sub['children']) > 0 ? $sub['children'][0]['controller'] : '') : ($isAdmin && $sub['id'] == 12 ? 'decision/analyzeReport' : $sub['controller']) }}{{ '?menuId=' . $sub['id'] }}">{{ $isAdmin && $sub['id'] == 12 ? '审批分析' : $sub['title'] }}
                                                     @if(count($sub['children']) > 0)
-                                                        <img class="has-child" src="{{ cAsset(('assets/img/icons/right-arrow.png') }}">
+                                                        <img class="has-child" src="{{ cAsset('assets/img/icons/right-arrow.png') }}">
                                                     @endif
                                                 </a>
                                                 <ul class="children third-level">
@@ -274,7 +274,7 @@
 </header>
 
 <script>
-    var PUBLIC_URL = '{{ cAsset(('/') . '/' }}';
+    var PUBLIC_URL = '{{ cAsset('/') . '/' }}';
     var BASE_URL = PUBLIC_URL;
     $.ajaxSetup({
         headers: {
@@ -337,22 +337,22 @@
     </p>
 </footer>
 <audio controls="controls" class="d-none" id="warning-audio">
-    <source src="{{ cAsset(('assets/sound/delete.wav') }}">
-    <embed src="{{ cAsset(('assets/sound/delete.wav') }}" type="audio/wav">
+    <source src="{{ cAsset('assets/sound/delete.wav') }}">
+    <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
 </audio>
 <audio controls="controls" class="d-none" id="alert-audio">
-    <source allow="autoplay" src="{{ cAsset(('assets/sound/alert.mp3') }}">
-    <embed allow="autoplay" src="{{ cAsset(('assets/sound/alert.mp3') }}" type="audio/mp3">
+    <source allow="autoplay" src="{{ cAsset('assets/sound/alert.mp3') }}">
+    <embed allow="autoplay" src="{{ cAsset('assets/sound/alert.mp3') }}" type="audio/mp3">
 </audio>
 <script type="text/javascript">
     window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>" + "<" + "/script>");
 </script>
-<script src="{{ cAsset('js/__common.js') }}"></script>
+<script src="{{ cAsset('/js/__common.js') }}"></script>
 <script src="{{ cAsset('/assets/js/jquery.validate.min.js') }}"></script>
 <script src="{{ cAsset('/assets/js/jquery.inputlimiter.min.js') }}"></script>
 <script src="{{ cAsset('/assets/js/jquery.maskedinput.min.js') }}"></script>
 <script src="{{ cAsset('/assets/js/ship_process.js') }}"></script>
-<script src="{{ cAsset(('assets/js/moment.js') }}"></script>
+<script src="{{ cAsset('/assets/js/moment.js') }}"></script>
 @yield('scripts')
 </body>
 </html>
