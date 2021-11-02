@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{ cAsset('/assets/css/jquery.gritter.css') }}" />
     <link rel="stylesheet" href="{{ cAsset('/assets/css/base.css') }}" />
     <link href="{{ cAsset('/assets/css/datepicker.css') }}" rel="stylesheet">
-    <link href="{{ cAsset('/assets/css/bootstrap.min.css?v=20211006104500') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('/assets/css/bootstrap.min.css') }}" rel="stylesheet"/>
     <link href="{{ cAsset('/assets/css/bootstrap-timepicker.css') }}" rel="stylesheet">
     <link href="{{ cAsset('/assets/css/daterangepicker.css') }}" rel="stylesheet">
     <link href="{{ cAsset('/assets/css/colorpicker.css') }}" rel="stylesheet">
