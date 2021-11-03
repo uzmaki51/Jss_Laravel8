@@ -82,7 +82,7 @@
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
                                         type="text" data-date-format="yyyy-mm-dd"
                                         name="COC_ExpiryDate"
-                                        value="{{$capacity['COC_ExpiryDate']}}">
+                                        value="@if(isset($capacity['COC_ExpiryDate'])){{$capacity['COC_ExpiryDate']}}@else ''@endif">
                                                         <span class="input-group-addon">
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
@@ -154,7 +154,7 @@
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
                                         type="text" data-date-format="yyyy-mm-dd"
                                         name="COE_IssuedDate"
-                                        value="{{$capacity['COE_IssuedDate']}}">
+                                        value="@if(isset($capacity['COE_IssuedDate'])){{$capacity['COE_IssuedDate']}}@else ''@endif">
                                                         <span class="input-group-addon">
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
