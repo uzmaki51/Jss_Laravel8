@@ -77,7 +77,7 @@
             <div class="sp-logout for-sp">
                 <li class="dropdown" style="height: auto;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background: transparent;">
-                        <img src="{{ Auth::user()->avatar == '' ? cAsset('assets/avatars/user.png') : Auth::user()->avatar }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
+                        <img src="{{ Auth::user()->avatar == '' ? cAsset('assets/avatars/user.png') : cAsset(Auth::user()->avatar) }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
                         欢迎 | {{ Auth::user()->realname }}</a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ route('logout') }}"><i class="icon-signout"></i>&nbsp;&nbsp;{{ trans('common.label.logout') }}</a></li>
