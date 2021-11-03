@@ -71,7 +71,7 @@
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
                                         type="text" data-date-format="yyyy-mm-dd"
                                         name="COC_IssuedDate"
-                                        value="{{$capacity['COC_IssuedDate']}}">
+                                        value="@if(isset($capacity['COC_IssuedDate'])){{$capacity['COC_IssuedDate']}}@else ''@endif">
                                                         <span class="input-group-addon">
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
@@ -89,7 +89,7 @@
                             </div>
                         </td>
                         <td class="no-padding">
-                            <input type="text" class="form-control" name="COC_Remarks" value="{{$capacity['COC_Remarks']}}" style="width: 100%;text-align: center">
+                            <input type="text" class="form-control" name="COC_Remarks" value="@if(isset($capacity['COC_Remarks'])){{$capacity['COC_Remarks']}}@else ''@endif" style="width: 100%;text-align: center">
                         </td>
                     </tr>
                     <tr>
@@ -104,7 +104,7 @@
                             $capacity_id = 0;
                              ?>
                             @foreach ($capacityList as $type)
-                                @if ($type->id == $capacity['COEId'])
+                                @if (isset($capacity['COEId'] && $type->id == $capacity['COEId'])
                                 <?php $cap = $type->Capacity_En; 
                                 $capacity_id = $type->id;
                                 ?>
@@ -124,7 +124,7 @@
                                             <span class="dynamic-option" data-value="" data-text="" style="width:437px">&nbsp;</span>
                                             @endif
                                             @foreach ($capacityList as $type)
-                                                @if ($type->id == $capacity['COEId'])
+                                                @if (isset($capacity['COEId'] && $type->id == $capacity['COEId'])
                                                 <span class="dynamic-option selected" data-value="{{$type->id}}" data-text="{{$type->Capacity_En}}" style="width:437px">{{$type->Capacity_En}}</span>
                                                 @else
                                                 <span class="dynamic-option" data-value="{{$type->id}}" data-text="{{$type->Capacity_En}}" style="width:437px">{{$type->Capacity_En}}</span>
@@ -147,7 +147,7 @@
                             </select-->
                         </td>
                         <td class="no-padding">
-                            <input type="text" class="form-control" name="COENo" value="{{$capacity['COENo']}}" style="width: 100%;text-align: center">
+                            <input type="text" class="form-control" name="COENo" value="@if(isset($capacity['COENo'])){{$capacity['COENo']}}@else ''@endif" style="width: 100%;text-align: center">
                         </td>
                         <td class="no-padding">
                             <div class="input-group">
@@ -165,14 +165,14 @@
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
                                         type="text" data-date-format="yyyy-mm-dd"
                                         name="COE_ExpiryDate"
-                                        value="{{$capacity['COE_ExpiryDate']}}">
+                                        value="@if(isset($capacity['COE_ExpiryDate']){{$capacity['COE_ExpiryDate']}}@else ''@endif">
                                                         <span class="input-group-addon">
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
                             </div>
                         </td>
                         <td class="no-padding">
-                            <input type="text" class="form-control" name="COE_Remarks" value="{{$capacity['COE_Remarks']}}" style="width: 100%;text-align: center">
+                            <input type="text" class="form-control" name="COE_Remarks" value="@if(isset($capacity['COE_Remarks'])){{$capacity['COE_Remarks']}}@else ''@endif" style="width: 100%;text-align: center">
                         </td>
                     </tr>
                     <tr>
@@ -183,14 +183,14 @@
                             GOC: GMDSS general operator (for Officerts only)
                         </td>
                         <td class="no-padding">
-                            <input type="text" class="form-control" name="GMDSS_NO" value="{{$capacity['GMDSS_NO']}}" style="width: 100%;text-align: center">
+                            <input type="text" class="form-control" name="GMDSS_NO" value="@if(isset($capacity['GMDSS_NO'])){{$capacity['GMDSS_NO']}}@else ''@endif" style="width: 100%;text-align: center">
                         </td>
                         <td class="no-padding">
                             <div class="input-group">
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
                                         type="text" data-date-format="yyyy-mm-dd"
                                         name="GMD_IssuedDate"
-                                        value="{{$capacity['GMD_IssuedDate']}}">
+                                        value="@if(isset($capacity['GMD_IssuedDate'])){{$capacity['GMD_IssuedDate']}}@else ''@endif">
                                                         <span class="input-group-addon">
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
@@ -201,14 +201,14 @@
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
                                         type="text" data-date-format="yyyy-mm-dd"
                                         name="GMD_ExpiryDate"
-                                        value="{{$capacity['GMD_ExpiryDate']}}">
+                                        value="@if(isset($capacity['GMD_ExpiryDate'])){{$capacity['GMD_ExpiryDate']}}@else ''@endif">
                                                         <span class="input-group-addon">
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
                             </div>
                         </td>
                         <td class="no-padding">
-                            <input type="text" class="form-control" name="GMD_Remarks" value="{{$capacity['GMD_Remarks']}}" style="width: 100%;text-align: center">
+                            <input type="text" class="form-control" name="GMD_Remarks" value="@if(isset($capacity['GMD_Remarks'])){{$capacity['GMD_Remarks']}}@else ''@endif" style="width: 100%;text-align: center">
                         </td>
                     </tr>
                     <tr>
@@ -219,14 +219,14 @@
                             GOC Endorsement (by third Flag only)
                         </td>
                         <td class="no-padding">
-                            <input type="text" class="form-control" name="COE_GOCNo" value="{{$capacity['COE_GOCNo']}}" style="width: 100%;text-align: center">
+                            <input type="text" class="form-control" name="COE_GOCNo" value="@if(isset($capacity['COE_GOCNo'])){{$capacity['COE_GOCNo']}}@else ''@endif" style="width: 100%;text-align: center">
                         </td>
                         <td class="no-padding">
                             <div class="input-group">
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
                                         type="text" data-date-format="yyyy-mm-dd"
                                         name="COE_GOC_IssuedDate"
-                                        value="{{$capacity['COE_GOC_IssuedDate']}}">
+                                        value="@if(isset($capacity['COE_GOC_IssuedDate'])){{$capacity['COE_GOC_IssuedDate']}}@else ''@endif">
                                                         <span class="input-group-addon">
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
@@ -237,14 +237,14 @@
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
                                         type="text" data-date-format="yyyy-mm-dd"
                                         name="COE_GOC_ExpiryDate"
-                                        value="{{$capacity['COE_GOC_ExpiryDate']}}">
+                                        value="@if(isset($capacity['COE_GOC_ExpiryDate'])){{$capacity['COE_GOC_ExpiryDate']}}@else ''@endif">
                                                         <span class="input-group-addon">
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
                             </div>
                         </td>
                         <td class="no-padding">
-                            <input type="text" class="form-control" name="COE_GOC_Remarks" value="{{$capacity['COE_GOC_Remarks']}}" style="width: 100%;text-align: center">
+                            <input type="text" class="form-control" name="COE_GOC_Remarks" value="@if(isset($capacity['COE_GOC_Remarks'])){{$capacity['COE_GOC_Remarks']}}@else ''@endif" style="width: 100%;text-align: center">
                         </td>
                     </tr>
                     <tr>
@@ -258,14 +258,14 @@
                             </select>
                         </td>
                         <td class="no-padding">
-                            <input type="text" class="form-control" name="WatchNo" value="{{$capacity['WatchNo']}}" style="width: 100%;text-align: center">
+                            <input type="text" class="form-control" name="WatchNo" value="@if(isset($capacity['WatchNo'])){{$capacity['WatchNo']}}@else ''@endif" style="width: 100%;text-align: center">
                         </td>
                         <td class="no-padding">
                             <div class="input-group">
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
                                         type="text" data-date-format="yyyy-mm-dd"
                                         name="Watch_IssuedDate"
-                                        value="{{$capacity['Watch_IssuedDate']}}">
+                                        value="@if(isset($capacity['Watch_IssuedDate'])){{$capacity['Watch_IssuedDate']}}@else ''@endif">
                                                         <span class="input-group-addon">
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
@@ -276,14 +276,14 @@
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
                                         type="text" data-date-format="yyyy-mm-dd"
                                         name="Watch_ExpiryDate"
-                                        value="{{$capacity['Watch_ExpiryDate']}}">
+                                        value="@if(isset($capacity['Watch_ExpiryDate'])){{$capacity['Watch_ExpiryDate']}}@else ''@endif">
                                                         <span class="input-group-addon">
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
                             </div>
                         </td>
                         <td class="no-padding">
-                            <input type="text" class="form-control" name="Watch_Remarks" value="{{$capacity['Watch_Remarks']}}" style="width: 100%;text-align: center">
+                            <input type="text" class="form-control" name="Watch_Remarks" value="@if(isset($capacity['Watch_Remarks'])){{$capacity['Watch_Remarks']}}@else ''@endif" style="width: 100%;text-align: center">
                         </td>
                     </tr>
                 </tbody>
