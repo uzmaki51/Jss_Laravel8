@@ -74,8 +74,8 @@
                     <img class="navbar-img" style="padding: 8px;" src="{{ asset('/assets/avatars/logo.png') }}" alt=""/>
                 </a>
             </div>
-            <div class="sp-logout for-sp">
-                <li class="dropdown" style="height: auto;">
+            <div class="sp-logout for-sp"> 
+                <li class="dropdown" style="height: auto;"> 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background: transparent;">
                         <img src="{{ Auth::user()->avatar == '' ? cAsset('assets/avatars/user.png') : cAsset(Auth::user()->avatar) }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
                         欢迎 | {{ Auth::user()->realname }}</a>
