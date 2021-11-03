@@ -247,8 +247,8 @@
                         </td>
                         <td class="no-padding" style="" colspan="2">
                             <select class="form-control style-bold-italic sub-small-header" name="WatchID" style="height:18px;padding:0px!important;-webkit-appearance: none;">
-                                <option value="0" @if(isset(capacity['WatchID']) && $capacity['WatchID'] == 0)) selected @endif>Navigation watch rating</option>
-                                <option value="1" @if(isset(capacity['WatchID']) && $capacity['WatchID'] == 1)) selected @endif>Engineroom watch rating</option>
+                                <option value="0" @if(isset($capacity['WatchID']) && $capacity['WatchID'] == 0)) selected @endif>Navigation watch rating</option>
+                                <option value="1" @if(isset($capacity['WatchID']) && $capacity['WatchID'] == 1)) selected @endif>Engineroom watch rating</option>
                             </select>
                         </td>
                         <td class="no-padding">
