@@ -138,20 +138,20 @@ $ships = Session::get('shipList');
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input1'] }}" style="width: 100%" autocomplete="off"></td>
-                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input2'] }}" style="width: 100%" autocomplete="off"></td>
-                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input3'] }}" style="width: 100%" autocomplete="off"></td>
+                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
                                 </tr>
                                 <tr>
                                     <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>月成本</span></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input4'] }}" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input5'] }}" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input6'] }}" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input7'] }}" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input8'] }}" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input9'] }}" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input10'] }}" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input11'] }}" style="width: 100%" autocomplete="off"></td>
+                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
                                     <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>

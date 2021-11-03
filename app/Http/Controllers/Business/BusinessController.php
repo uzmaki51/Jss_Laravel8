@@ -96,6 +96,7 @@ class BusinessController extends Controller {
 
             $shipId = $request->get('shipId');
             $costs = ExpectedCosts::where('shipNo', $shipId)->where('year',$year)->first();
+            //var_dump($costs['input1']);die;
         }
         
         
