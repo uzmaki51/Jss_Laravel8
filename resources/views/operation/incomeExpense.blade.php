@@ -316,7 +316,7 @@ $ships = Session::get('shipList');
                 </div>
             </div>
         </div>
-        <div id="modal-expense-table" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
+        <div id="modal-expense-table" class="modal" aria-hidden="true" style="display: none;justify-content:center;align-items:center;">
             <div id="" class="" style="background:white;">
                 <table id="modal-expense-table-body" data-toggle="table" style="max-width:unset!important;table-layout:fixed;">
                 </table>
@@ -1600,6 +1600,7 @@ $ships = Session::get('shipList');
         {
             $('#modal-expense-table-body').html(document.getElementById('table-income-expense-list').outerHTML);
             $('#modal-expense-table').modal('show');
+            $('#modal-expense-table').css("display","flex");
         }
 
         function selectCurrency()
@@ -1608,6 +1609,12 @@ $ships = Session::get('shipList');
             if (value == 'CNY') $('#select-soa-currency').attr('style','padding-left:unset!important;color:red!important');
             else { $('#select-soa-currency').attr('style','padding-left:unset!important;color:#026fcd!important'); }
         }
+
+        $(document).keydown(function(event) { 
+            if (event.keyCode == 27) { 
+                $('#modal-expense-table').modal('hide');
+            }
+        });
     </script>
 
 @endsection
