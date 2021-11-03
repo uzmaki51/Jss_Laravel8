@@ -20,7 +20,7 @@ class ShipEquipmentRequire extends Model
 
 	public function getYearList($shipId) {
         $yearList = [];
-        $info = self::where('shipId', $shipId)->first();
+        $info = self::where('shipId', $shipId)->orderBy('request_date','asc')->first();
         if($info == null) {
             $baseYear = date('Y');
         } else {
