@@ -64,7 +64,7 @@
                             </div>
                         </td>
                         <td class="no-padding">
-                            <input type="text" class="form-control" name="ItemNo" value="{{$capacity['ItemNo']}}" style="width: 100%;text-align: center">
+                            <input type="text" class="form-control" name="ItemNo" value="@if(isset($capacity['ItemNo'])){{$capacity['ItemNo']}}@else ''@endif" style="width: 100%;text-align: center">
                         </td>
                         <td class="no-padding">
                             <div class="input-group">
