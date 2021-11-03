@@ -354,7 +354,7 @@
     <script>
         var searchObj = null;
         var shipId = '{!! $shipId !!}';
-        var shipInfo = '{!! $shipInfo !!}';
+        var shipInfo = '';
         // shipInfo=shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
         // shipInfo = JSON.parse(shipInfo);
         var DYNAMIC_SUB_SALING = '{!! DYNAMIC_SUB_SALING !!}';
@@ -462,6 +462,8 @@
                                 searchObj.voy_list = [];
                                 searchObj.voy_list = Object.assign([], [], result['cp_list']);
                                 searchObj.year_list = Object.assign([], [], result['yearList']);
+                                shipInfo = result['shipInfo'];
+                                
                                 if(searchObj.voy_list.length > 0) {
                                     if(voyId == '') {
                                         searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
@@ -826,59 +828,59 @@
 
                                         // if(key > 0) {
                                             // Calc Sail Count
-                                            if(value['Voy_Type'] == DYNAMIC_SUB_SALING) {
-                                                let preKey = key - 1;
-                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                                total_sail_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                            }
-                                            // Calc Sail Count
-                                            if(value['Voy_Type'] == DYNAMIC_SUB_LOADING ) {
-                                                let preKey = key - 1;
-                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                                loading_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                            }
+                                        if(value['Voy_Type'] == DYNAMIC_SUB_SALING) {
+                                            let preKey = key - 1;
+                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                            total_sail_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
+                                        }
+                                        // Calc Sail Count
+                                        if(value['Voy_Type'] == DYNAMIC_SUB_LOADING ) {
+                                            let preKey = key - 1;
+                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                            loading_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
+                                        }
 
-                                            if(value['Voy_Type'] == DYNAMIC_SUB_DISCH) {
-                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                                disch_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                            }
+                                        if(value['Voy_Type'] == DYNAMIC_SUB_DISCH) {
+                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                            disch_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
+                                        }
 
-                                            if(value['Voy_Type'] == DYNAMIC_SUB_WAITING) {
-                                                let preKey = key - 1;
-                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                                total_waiting_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                            }
+                                        if(value['Voy_Type'] == DYNAMIC_SUB_WAITING) {
+                                            let preKey = key - 1;
+                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                            total_waiting_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
+                                        }
 
-                                            if(value['Voy_Type'] == DYNAMIC_SUB_WEATHER) {
-                                                let preKey = key - 1;
-                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                                total_weather_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                            }
+                                        if(value['Voy_Type'] == DYNAMIC_SUB_WEATHER) {
+                                            let preKey = key - 1;
+                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                            total_weather_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
+                                        }
 
-                                            if(value['Voy_Type'] == DYNAMIC_SUB_REPAIR) {
-                                                let preKey = key - 1;
-                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                                total_repair_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                            }
+                                        if(value['Voy_Type'] == DYNAMIC_SUB_REPAIR) {
+                                            let preKey = key - 1;
+                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                            total_repair_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
+                                        }
 
-                                            if(value['Voy_Type'] == DYNAMIC_SUB_SUPPLY) {
-                                                let preKey = key - 1;
-                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                                total_supply_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                            }
+                                        if(value['Voy_Type'] == DYNAMIC_SUB_SUPPLY) {
+                                            let preKey = key - 1;
+                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                            total_supply_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
+                                        }
 
-                                            if(value['Voy_Type'] == DYNAMIC_SUB_ELSE) {
-                                                let preKey = key - 1;
-                                                // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
-                                                let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
-                                                total_else_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
-                                            }
+                                        if(value['Voy_Type'] == DYNAMIC_SUB_ELSE) {
+                                            let preKey = key - 1;
+                                            // let start_date = searchObj.currentData[preKey]['Voy_Date'] + ' ' + searchObj.currentData[preKey]['Voy_Hour'] + ':' + searchObj.currentData[preKey]['Voy_Minute'] + ':00';
+                                            let end_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
+                                            total_else_time += __getTermDay(start_date, end_date, start_gmt, value['GMT']);
+                                        }
                                         // }
 
                                         start_date = value['Voy_Date'] + ' ' + value['Voy_Hour'] + ':' + value['Voy_Minute'] + ':00';
@@ -1100,6 +1102,8 @@
                     searchObj.voy_list = Object.assign([], [], result['cp_list']);
 
                     searchObj.shipName = result['shipName'];
+                    shipInfo = result['shipInfo'];
+                    
                     if(voyId == '')
                         if(searchObj.voy_list.length > 0) {
                             searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];

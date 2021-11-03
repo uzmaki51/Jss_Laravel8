@@ -24,7 +24,7 @@ class VoyLog extends Model
 
     public function getYearList($shipId) {
         $yearList = [];
-        $shipInfo = DB::table($this->table)->where('Ship_ID', $shipId)->first();
+        $shipInfo = DB::table($this->table)->where('Ship_ID', $shipId)->orderBy('Voy_Date', 'asc')->first();
         if($shipInfo == null) {
             $baseYear = intval(date('Y'));
         } else {

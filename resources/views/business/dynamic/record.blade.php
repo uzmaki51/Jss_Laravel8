@@ -273,9 +273,9 @@
         var searchObj = null;
         var shipId = '{!! $shipId !!}';
         var voyId = '{!! $voyId !!}';
-        var shipInfo = '{!! $shipInfo !!}';
-        shipInfo = shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
-        shipInfo = JSON.parse(shipInfo);
+        var shipInfo = '';
+        // shipInfo = shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
+        // shipInfo = JSON.parse(shipInfo);
         var DYNAMIC_SUB_SALING = '{!! DYNAMIC_SUB_SALING !!}';
         var DYNAMIC_DEPARTURE = '{!! DYNAMIC_DEPARTURE !!}';
         var DYNAMIC_SUB_LOADING = '{!! DYNAMIC_SUB_LOADING !!}';
@@ -386,6 +386,7 @@
                             success: function(result) {
                                 searchObj.voy_list = [];
                                 searchObj.voy_list = Object.assign([], [], result['cp_list']);
+                                shipInfo = result['shipInfo'];
                             }
                         });
                     },
@@ -866,6 +867,7 @@
                 success: function(result) {
                     searchObj.voy_list = [];
                     searchObj.voy_list = Object.assign([], [], result['cp_list']);
+                    shipInfo = result['shipInfo'];
                     if(searchObj.voy_list.length > 0) {
                         searchObj.activeVoy = voyId != '' ? voyId : searchObj.voy_list[0]['Voy_No'];
                     }

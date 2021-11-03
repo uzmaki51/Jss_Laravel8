@@ -1407,7 +1407,7 @@ class BusinessController extends Controller {
         $tbl = new VoyLog();
         $yearList = $tbl->getYearList($shipId);
 
-        return response()->json(array('cp_list' => $cp_list, 'shipName' => $shipName, 'yearList'    => $yearList));
+        return response()->json(array('cp_list' => $cp_list, 'shipName' => $shipName, 'yearList'    => $yearList, 'shipInfo'    => $shipInfo));
     }
 
     public function ajaxDeleteDynrecord(Request $request) {

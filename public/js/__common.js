@@ -1,4 +1,3 @@
-// Coded by H(S
 var prevTime;
 var checkTime = 180000;
 var amountDecimals = [];

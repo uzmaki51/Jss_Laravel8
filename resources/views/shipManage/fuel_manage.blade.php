@@ -68,7 +68,7 @@
                             @endforeach
                         </select>
 
-                        <select class="text-center" name="year_list" @change="onChangeYear" v-model="activeYear">
+                        <select name="year_list" @change="onChangeYear" v-model="activeYear">
                             @foreach($years as $year)
                                 <option value="{{ $year }}">{{ $year }}年</option>
                             @endforeach
@@ -280,9 +280,9 @@
         var searchObj = null;
         var $_this = null;
         var shipId = '{!! $shipId !!}';
-        var shipInfo = '{!! $shipInfo !!}';
-        shipInfo=shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
-        shipInfo = JSON.parse(shipInfo);
+        var shipInfo = '';
+        // shipInfo=shipInfo.replaceAll(/\n/g, "\\n").replaceAll(/\r/g, "\\r").replaceAll(/\t/g, "\\t");
+        // shipInfo = JSON.parse(shipInfo);
         var DYNAMIC_SUB_SALING = '{!! DYNAMIC_SUB_SALING !!}';
         var DYNAMIC_SUB_LOADING = '{!! DYNAMIC_SUB_LOADING !!}';
         var DYNAMIC_SUB_DISCH = '{!! DYNAMIC_SUB_DISCH !!}';
@@ -469,6 +469,8 @@
                             success: function(result) {
                                 searchObj.voy_list = [];
                                 searchObj.voy_list = Object.assign([], [], result['cp_list']);
+                                shipInfo = result['shipInfo'];
+
                                 if(searchObj.voy_list.length > 0) {
                                     searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
                                 }
@@ -728,7 +730,6 @@
                                 voyData.forEach(function(value, key) {
                                     let voyInfo = currentData[value[0]];
                                     let voyId = value[0];
-                                    console.log(voyInfo['main']);
                                     if(!value[1] && voyInfo['main'].length > 0) {
                                         let beforeData = voyInfo['before'];
                                         let tmpData = voyInfo['main'];
@@ -830,7 +831,6 @@
                                                     let start_date = tmpData[preKey]['Voy_Date'] + ' ' + tmpData[preKey]['Voy_Hour'] + ':' + tmpData[preKey]['Voy_Minute'] + ':00';
                                                     let end_date = data_value['Voy_Date'] + ' ' + data_value['Voy_Hour'] + ':' + data_value['Voy_Minute'];
                                                     total_else_time += __getTermDay(start_date, end_date, tmpData[preKey]['GMT'], data_value['GMT']);
-                                                    //if(value == '2017') console.log(total_else_time)
                                                 }
                                             }
                                         });
@@ -1014,14 +1014,26 @@
                     },
                     resetFuel(id) {
                         if(id != undefined) {
-                            $.ajax({
-                                url: BASE_URL + 'ajax/reset/fuel',
-                                type: 'post',
-                                data: {
-                                    id: id
-                                },
-                                success: function(data) {
-                                    if(data == 1) searchObj.getAnalyzeData();
+                            bootbox.confirm('真要初始化吗?', function(e) {
+                                if(e) {
+                                    $.ajax({
+                                        url: BASE_URL + 'ajax/reset/fuel',
+                                        type: 'post',
+                                        data: {
+                                            id: id
+                                        },
+                                        success: function(data) {
+                                            if(data == 1) 
+                                            {
+                                                $.gritter.add({
+                                                    title: '通报',
+                                                    text: '操作成功了！',
+                                                    class_name: 'gritter-error'
+                                                });
+                                                searchObj.getAnalyzeData();
+                                            }
+                                        }
+                                    })
                                 }
                             })
                         }
@@ -1101,20 +1113,20 @@
                         return 0;
                     },
                     fetchData() {
-                        console.log('created')
+                        
                     },
                 },
                 created() {
                     this.fetchData();
                 },
                 mounted() {
-                    console.log('mounted')
+                    
                 },
                 watch() {
-                    console.log('watched');
+                    
                 },
                 updated() {
-                    console.log('updated')
+                    
                     $('.date-picker').datepicker({
                         autoclose: true,
                     }).next().on(ace.click_event, function () {
@@ -1142,6 +1154,8 @@
                 success: function(result) {
                     searchObj.voy_list = [];
                     searchObj.voy_list = Object.assign([], [], result['cp_list']);
+                    shipInfo = result['shipInfo'];
+
                     if(searchObj.voy_list.length > 0) {
                         searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
                     }
