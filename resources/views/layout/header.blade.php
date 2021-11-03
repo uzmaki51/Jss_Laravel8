@@ -341,8 +341,8 @@
     <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
 </audio>
 <audio controls="controls" class="d-none" id="alert-audio">
-    <source allow="autoplay" src="{{ cAsset('assets/sound/alert.mp3') }}">
-    <embed allow="autoplay" src="{{ cAsset('assets/sound/alert.mp3') }}" type="audio/mp3">
+    <source allow="autoplay" src="{{ cAsset('assets/sound/alert.mp3?v=20211103161701') }}">
+    <embed allow="autoplay" src="{{ cAsset('assets/sound/alert.mp3?v=20211103161701') }}" type="audio/mp3">
 </audio>
 <script type="text/javascript">
     window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>" + "<" + "/script>");

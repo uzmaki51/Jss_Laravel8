@@ -21,7 +21,7 @@ class ShipEquipment extends Model
 
 	public function getYearList($shipId) {
         $yearList = [];
-        $info = DB::table($this->table_register)->where('IMO_No', $shipId)->first();
+        $info = DB::table($this->table_register)->where('IMO_No', $shipId)->orderBy('RegDate','asc')->first();
         if($info == null) {
             $baseYear = date('Y');
         } else {

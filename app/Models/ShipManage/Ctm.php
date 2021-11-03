@@ -19,7 +19,7 @@ class Ctm extends Model
 
     public function getYearList($shipId) {
         $yearList = [];
-        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        $shipInfo = ShipRegister::where('IMO_No', $shipId)->orderBy('RegDate','asc')->first();
         if($shipInfo == null) {
             $baseYear = date('Y');
         } else {

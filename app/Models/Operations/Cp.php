@@ -125,7 +125,7 @@ class CP extends Model
 
     public static function getYearList($shipId) {
 		$yearList = [];
-        $info = DB::table('tb_ship_register')->where('IMO_No', $shipId)->first();
+        $info = DB::table('tb_ship_register')->where('IMO_No', $shipId)->orderBy('RegDate','asc')->first();
         if($info == null) {
             $baseYear = date('Y');
         } else {
