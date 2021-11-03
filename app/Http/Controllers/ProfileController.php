@@ -99,7 +99,7 @@ class ProfileController extends Controller
             $fileName = $account;
             $name = $fileName . '.' . $file->extension();
             $file->move(public_path() . '/avatar/', $name);
-            $avatar_url = 'avatar/' . $name;
+            $avatar_url = '/avatar/' . $name;
         }
 
         $userTbl = User::find($params['id']);
