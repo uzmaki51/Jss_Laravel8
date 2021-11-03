@@ -64,7 +64,7 @@ $isHolder = Session::get('IS_HOLDER');
                 <input type="hidden" name="userid" id="userid" value="@if(isset($userid)){{$userid}} @endif">
 
                 <div class="row">
-                    <div class="col-xs-12 col-sm-12">
+                    <div class="col-xs-6 col-sm-6">
                         <div class="profile-user-info-striped">
                             <div class="profile-info-row">
                                 <div class="profile-info-name">{{trans("orgManage.captions.name")}}<span class="require">*</span>:</div>
@@ -97,7 +97,12 @@ $isHolder = Session::get('IS_HOLDER');
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
+                    
+                    <div class="col-xs-6 col-sm-6">
+                        <div class="profile-user-info-striped">
                             <div class="profile-info-row">
                                 <div class="profile-info-name">{{trans("orgManage.captions.enterDate")}}:</div>
                                 <div class="profile-info-value">
