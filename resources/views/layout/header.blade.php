@@ -67,7 +67,7 @@
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">
         <div class="container">
             <div class="navbar-header" style="width:10%;">
-                <a href="/home" class="navbar-brand for-pc">
+                <a href="{{ route('home') }}" class="navbar-brand for-pc">
                     <img class="navbar-img" src="{{ asset('/assets/avatars/logo.png') }}" alt=""/>
                 </a>
                 <a class="navbar-brand for-sp">
@@ -235,7 +235,7 @@
                     <ul class="pc-menu">
                         @if(Auth::user()->pos != STAFF_LEVEL_SHAREHOLDER && Auth::user()->pos != STAFF_LEVEL_CAPTAIN)
                             <li class="{{ $routeName == 'home' ? 'menu-active' : '' }} parent">
-                                <a href="/">{{ trans('home.title.dashboard') }}</a>
+                                <a href="{{ route('home') }}">{{ trans('home.title.dashboard') }}</a>
                             </li>
                         @endif
 
