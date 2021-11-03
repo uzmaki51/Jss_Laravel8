@@ -139,12 +139,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--select class="form-control" name="COEId">
-                                <option value="0">&nbsp;</option>
-                                @foreach($capacityList as $type)
-                                <option value="{{$type['id']}}" @if($capacity['COEId'] == $type['id'])) selected @endif>{{$type['Capacity_En']}}</option>
-                                @endforeach
-                            </select-->
                         </td>
                         <td class="no-padding">
                             <input type="text" class="form-control" name="COENo" value="@if(isset($capacity['COENo'])){{$capacity['COENo']}}@else ''@endif" style="width: 100%;text-align: center">
