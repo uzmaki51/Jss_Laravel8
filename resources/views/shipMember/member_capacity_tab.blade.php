@@ -104,7 +104,7 @@
                             $capacity_id = 0;
                              ?>
                             @foreach ($capacityList as $type)
-                                @if (isset($capacity['COEId'] && $type->id == $capacity['COEId'])
+                                @if (isset($capacity['COEId']) && $type->id == $capacity['COEId'])
                                 <?php $cap = $type->Capacity_En; 
                                 $capacity_id = $type->id;
                                 ?>
@@ -124,7 +124,7 @@
                                             <span class="dynamic-option" data-value="" data-text="" style="width:437px">&nbsp;</span>
                                             @endif
                                             @foreach ($capacityList as $type)
-                                                @if (isset($capacity['COEId'] && $type->id == $capacity['COEId'])
+                                                @if (isset($capacity['COEId']) && $type->id == $capacity['COEId'])
                                                 <span class="dynamic-option selected" data-value="{{$type->id}}" data-text="{{$type->Capacity_En}}" style="width:437px">{{$type->Capacity_En}}</span>
                                                 @else
                                                 <span class="dynamic-option" data-value="{{$type->id}}" data-text="{{$type->Capacity_En}}" style="width:437px">{{$type->Capacity_En}}</span>
