@@ -58,7 +58,7 @@ class ShipEquipment extends Model
 			if($params['activeStatus'] == 1) {
 				$selector->where('supply_vol', 0)->orWhereNull('supply_vol');
 			} else {
-				$selector->whereNotNull('supply_vol')->where('supply_vol', 0);
+				$selector->whereNotNull('supply_vol')->where('supply_vol', '!=', 0);
 			}
 				
 		}
