@@ -1479,6 +1479,9 @@ class ShipRegController extends Controller
             $activeYear = $yearList[0];
          }
 
+        $placeList = ShipMaterialCategory::orderByRaw('CAST(order_no AS SIGNED) ASC')->get();
+        $typeList = ShipMaterialSubKind::orderByRaw('CAST(order_no AS SIGNED) ASC')->get();
+
         return view('shipManage.ship_equipment', [
             'shipList'      => $shipList,
             'shipId'        => $shipId,
@@ -1488,6 +1491,8 @@ class ShipRegController extends Controller
             'activeYear'    => $activeYear,
 
             'type'          => $type,
+            'placeList'     => $placeList,
+            'typeList'      => $typeList,
             'breadCrumb'    => $breadCrumb
         ]);
     }

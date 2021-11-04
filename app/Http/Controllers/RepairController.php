@@ -56,11 +56,11 @@ class RepairController extends Controller
         $tbl = new Repair();
         $yearList = $tbl->getYearList();
         // Department List from 设备清单
-        $departList = ShipMaterialCategory::orderBy('order_no', 'asc')->get();
+        $departList = ShipMaterialCategory::orderByRaw('CAST(order_no AS SIGNED) ASC')->get();
         // Charget List
         $posList = ShipPosition::all();
         // Type List from 设备清单
-        $typeList = ShipMaterialSubKind::all();
+        $typeList = ShipMaterialSubKind::orderByRaw('CAST(order_no AS SIGNED) ASC')->get();
 
 
         return view('repair.register', [
@@ -127,11 +127,11 @@ class RepairController extends Controller
          }
 
         // Department List from 设备清单
-        $departList = ShipMaterialCategory::orderBy('order_no', 'asc')->get();
+        $departList = ShipMaterialCategory::orderByRaw('CAST(order_no AS SIGNED) ASC')->get();
         // Charget List
         $posList = ShipPosition::all();
         // Type List from 设备清单
-        $typeList = ShipMaterialSubKind::orderBy("order_no", "asc")->get();
+        $typeList = ShipMaterialSubKind::orderByRaw('CAST(order_no AS SIGNED) ASC')->get();
 
         return view('repair.list', [
             'shipList'      => $shipList,

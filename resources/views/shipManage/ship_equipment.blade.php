@@ -123,8 +123,8 @@ $ships = Session::get('shipList');
 
 	<?php
 	echo '<script>';
-    echo 'var PlaceType = ' . json_encode(g_enum('PlaceType')) . ';';
-    echo 'var VarietyType = ' . json_encode(g_enum('VarietyType')) . ';';
+    echo 'var PlaceType = ' . json_encode($placeList) . ';';
+    echo 'var VarietyType = ' . json_encode($typeList) . ';';
     echo 'var UnitData = ' . json_encode(g_enum('UnitData')) . ';';
 	echo '</script>';
 	?>

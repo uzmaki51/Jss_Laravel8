@@ -9,18 +9,18 @@
                     </option>
                 @endforeach
             </select>
-            <select class="text-center" name="year_list" @change="onChangeYear" v-model="activeYear">
+            <select name="year_list" @change="onChangeYear" v-model="activeYear">
                 @foreach($years as $year)
                     <option value="{{ $year }}">{{ $year }}年</option>
                 @endforeach
             </select>
             <select class="custom-select" v-model="placeType" @change="onChangeYear">
                 <option value="0">全部</option>
-                <option v-for="(place, place_index) in placeList" v-bind:value="place_index">@{{ place }}</option>
+                <option v-for="(place, place_index) in placeList" v-bind:value="place.id">@{{ place.name }}</option>
             </select>
             <select class="custom-select" v-model="activeType" @change="onChangeYear">
                 <option value="0">全部</option>
-                <option v-for="(variety, variety_index) in varietyList" v-bind:value="variety_index">@{{ variety }}</option>
+                <option v-for="(variety, variety_index) in varietyList" v-bind:value="variety.id">@{{ variety.name }}</option>
             </select>
             
             <strong style="font-size: 16px; padding-top: 6px; margin-left: 30px;">
@@ -52,8 +52,8 @@
                         <th class="d-none"></th>
                         <th class="text-center">No</th>
                         <th class="text-center" style="width: 74px;">申请日期</th>
-                        <th class="text-center style-header" style="width: 60px;">部门</th>
-                        <th class="text-center style-header" style="width: 70px;">品种</th>
+                        <th class="text-center style-header" style="width: 60px;">部门<br>DPT</th>
+                        <th class="text-center style-header" style="width: 100px;">种类<br>Kinds</th>
                         <th class="text-center style-header" style="width: 300px;">项目</th>
                         <th class="text-center style-header" style="width: 100px;">ISSA/Part No</th>
                         <th class="text-center style-header">库存量</th>
@@ -71,13 +71,13 @@
                                 <input class="form-control date-picker text-center" @click="dateModify($event, index, 'request_date')" type="text" data-date-format="yyyy-mm-dd" name="request_date[]" v-model="item.request_date">
                             </td>
                             <td class="center no-wrap">
-                                <select class="form-control text-center" v-model="item.place" name="place[]">
-                                    <option v-for="(place, place_index) in placeList" v-bind:value="place_index">@{{ place }}</option>
+                                <select class="form-control" v-model="item.place" name="place[]">
+                                    <option v-for="(place, place_index) in placeList" v-bind:value="place.id">@{{ place.name }}</option>
                                 </select>
                             </td>
                             <td class="center no-wrap">
-                                <select class="form-control text-center" v-model="item.type" name="type[]">
-                                    <option v-for="(variety, variety_index) in varietyList" v-bind:value="variety_index">@{{ variety }}</option>
+                                <select class="form-control" v-model="item.type" name="type[]">
+                                    <option v-for="(variety, variety_index) in varietyList" v-bind:value="variety.id">@{{ variety.name }}</option>
                                 </select>
                             </td>
                             <td>
@@ -96,9 +96,7 @@
                             </td>
 
                             <td class="center no-wrap">
-                                <select class="form-control text-center" v-model="item.unit" name="unit[]">
-                                    <option v-for="(unit, unit_index) in unitList" v-bind:value="unit_index">@{{ unit }}</option>
-                                </select>
+                                <input class="form-control text-center" v-model="item.unit" name="unit[]">
                             </td>
 
                             <td class="text-center">
@@ -129,7 +127,7 @@
 
 	<?php
 	echo '<script>';
-    echo 'var PlaceType = ' . json_encode(g_enum('PlaceType')) . ';';
+    echo 'var PlaceType = ' . json_encode($placeList) . ';';
     echo 'var VarietyType = ' . json_encode(g_enum('VarietyType')) . ';';
     echo 'var UnitData = ' . json_encode(g_enum('UnitData')) . ';';
 	echo '</script>';
@@ -285,7 +283,21 @@
                     },
                     submitForm: function() {
                         submitted = true;
-                        $('#certList-form').submit();
+                        let validate = 1;
+                        equipObj.list.forEach(function(value, key) {
+                            if(__parseStr(value['place']) == '' ||
+                            __parseStr(value['type']) == '' || 
+                            __parseStr(value['item']) == '' || 
+                            __parseStr(value['request_vol']) == '' ||
+                            __parseStr(value['unit']) == '')
+                                validate = 0;
+                        });
+
+                        if(validate == 0) {
+                            bootbox.alert('部门, 种类, 项目, 申请量, 单位是必填内容。');
+                        } else {
+                            $('#certList-form').submit();
+                        }
                     },
                     addRow: function() {
                         let length = $_this.list.length;
@@ -301,7 +313,7 @@
                             this.list[length].request_vol = '';
                             this.list[length].supply_vol = '';
                             this.list[length].unit = 0;
-                            this.list[length].supply_date = this.getToday();
+                            this.list[length].supply_date = '';
                             this.list[length].remark = '';
                         } else {
                             this.list.push([]);

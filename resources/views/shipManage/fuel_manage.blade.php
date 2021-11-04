@@ -1126,7 +1126,6 @@
                     
                 },
                 updated() {
-                    
                     $('.date-picker').datepicker({
                         autoclose: true,
                     }).next().on(ace.click_event, function () {

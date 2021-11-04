@@ -179,6 +179,18 @@
                         } else {
                             $(event.target).addClass('open');
                             $(event.target).siblings(".dynamic-options").addClass('open');
+
+                            let height = $(event.target).siblings(".dynamic-options").height();
+                            let windowHeight = $(window).height();
+
+                            let element = event.target;
+                            let boundRect = element.getBoundingClientRect();
+                            
+                            if(windowHeight - boundRect.top <= height) {
+                                $(event.target).siblings(".dynamic-options").addClass('dynamic-popup-reverse');
+                            } else {
+                                $(event.target).siblings(".dynamic-options").removeClass('dynamic-popup-reverse');
+                            }
                         }
                     },
                     setCertInfo: function(index, cert) {
