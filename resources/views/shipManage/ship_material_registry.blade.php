@@ -34,9 +34,7 @@ $ships = Session::get('shipList');
             table tbody tr td {
                 padding:0px!important;
             }
-            .head-fix-div {
-                overflow: visible;
-            }
+            
         </style>
         <div class="page-content">
             <div class="page-header">
@@ -240,7 +238,7 @@ $ships = Session::get('shipList');
                                     <div class="row">
                                         <form action="shipMaterialType" method="post" id="shipMaterialForm">
                                             <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                            <div class="head-fix-div" style="height:300px;">
+                                            <div class="head-fix-div" style="">
                                                 <table class="table-bordered rank-table">
                                                     <thead>
                                                     <tr class="rank-tr" style="background-color: #d9f8fb;height:18px;">
