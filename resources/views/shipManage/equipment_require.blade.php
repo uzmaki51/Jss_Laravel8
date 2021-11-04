@@ -326,7 +326,7 @@
                                         }
                                     })
                                 } else {
-                                    this.list.splice(index, 1);
+                                    $__this.list.splice(index, 1);
                                     equipRequireObjTmp = JSON.parse(JSON.stringify($__this.list));
                                 }
                             }
@@ -405,14 +405,14 @@
                     }
                 },
                 updated() {
-                        $('.date-picker').datepicker({
-                            autoclose: true,
-                        }).next().on(ace.click_event, function () {
-                            $(this).prev().focus();
-                        });
+                    $('.date-picker').datepicker({
+                        autoclose: true,
+                    }).next().on(ace.click_event, function () {
+                        $(this).prev().focus();
+                    });
 
-                        offAutoCmplt();
-                    }
+                    offAutoCmplt();
+                }
             });
             
             itemListObj = new Vue({

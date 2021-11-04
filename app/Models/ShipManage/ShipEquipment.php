@@ -56,9 +56,9 @@ class ShipEquipment extends Model
 
 		if(isset($params['activeStatus']) && $params['activeStatus'] != 0) {
 			if($params['activeStatus'] == 1) {
-				$selector->where('supply_date', 'like', "0000-00-00")->orWhereNull('supply_date');
+				$selector->where('supply_vol', 0)->orWhereNull('supply_vol');
 			} else {
-				$selector->whereNotNull('supply_date');
+				$selector->whereNotNull('supply_vol')->where('supply_vol', 0);
 			}
 				
 		}

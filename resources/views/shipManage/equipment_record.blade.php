@@ -348,7 +348,7 @@
                                         }
                                     })
                                 } else {
-                                    this.list.splice(index, 1);
+                                    $_this.list.splice(index, 1);
                                 }
                             }
                         });
@@ -410,12 +410,14 @@
                     }
                 },
                 updated() {
-                        $('.date-picker').datepicker({
-                            autoclose: true,
-                        }).next().on(ace.click_event, function () {
-                            $(this).prev().focus();
-                        });
-                    }
+                    $('.date-picker').datepicker({
+                        autoclose: true,
+                    }).next().on(ace.click_event, function () {
+                        $(this).prev().focus();
+                    });
+
+                    offAutoCmplt();
+                }
             });
 
             $_this = equipObj;

@@ -238,6 +238,7 @@ function checkDecisionRecord() {
 function offAutoCmplt() {
     $('.remark').attr('autocomplete', 'off');
     $('input').attr('autocomplete', 'off');
+    $('textarea').attr('autocomplete', 'off');
 }
 $('.hamburger-input').on('change', function() {
     if($(this).prop('checked')) {
