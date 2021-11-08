@@ -85,12 +85,12 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
             </div>
             <form id="validation-form" action="updateSettings" role="form" method="POST" enctype="multipart/form-data">
-            <div class="row" style="border-top: 1px solid gray">
+            <div class="row">
                 <div class="col-md-12 common-list" style="margin-top:4px;">
                 <div id="item-manage-dialog" class="hide"></div>
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 
-                    <div class="" style="">
+                    <div class="row">
                         <div class="col-md-6" style="padding-left: 0px!important;">
                             <div class="table-responsive">
                                 <table style="table-layout:fixed;">
@@ -171,61 +171,63 @@ $isHolder = Session::get('IS_HOLDER');
                                 </table>
                             </div>
                         </div>
-                        <table style="table-layout:fixed;">
-                        </table>
-                        <div class="table-head-fix-div" style="max-height: 157px;margin-top:20px;">
-                        <table id="table-dynamic-list" style="table-layout:fixed;">
-                            <thead class="">
-                                <th class="text-center style-normal-header" style="width: 5%;height:35px;"><span>船名</span></th>
-                                <th class="text-center style-normal-header" style="width: 6%;"><span>DATE</span></th>
-                                <th class="text-center style-normal-header" style="width: 4%;"><span>TIME</span></th>
-                                <th class="text-center style-normal-header" style="width: 12%;"><span>STATUS</span></th>
-                                <th class="text-center style-normal-header" style="width: 9%;"><span>POSITION</span></th>
-                                <th class="text-center style-normal-header" style="width: 7%;"><span>CGO QTY</span></th>
-                                <th class="text-center style-normal-header" style="width: 7%;"><span>ROB(FO)</span></th>
-                                <th class="text-center style-normal-header" style="width: 7%;"><span>ROB(DO)</span></th>
-                                <th class="text-center style-normal-header" style="width: 7%;"><span>BNKR(FO)</span></th>
-                                <th class="text-center style-normal-header" style="width: 7%;"><span>BNKR(DO)</span></th>
-                                <th class="text-center style-normal-header" style=""><span>REMARK</span></th>
-                                <th class="text-center style-normal-header" style="width: 7%;"><span>无显示</span></th>
-                            </thead>
-                            <tbody class="" id="list-body">
-                            @if (isset($voyList) && count($voyList) > 0)
-                            <?php $index = 1;?>
-                            
-                            @foreach ($voyList as $info)
-                                <?php $nickName=""?>
-                                @foreach($shipList as $ship)
-                                    @if ($ship->IMO_No == $info['Ship_ID'])
-                                    <?php $nickName = $ship['NickName'];?>
-                                    @endif
+                    </div>
+                    <div class="row">
+                        <div class="head-fix-div" style="max-height: 157px;margin-top:20px;">
+                            <table id="table-dynamic-list" style="table-layout:fixed;">
+                                <thead class="">
+                                    <th class="text-center style-normal-header" style="width: 5%;height:35px;"><span>船名</span></th>
+                                    <th class="text-center style-normal-header" style="width: 6%;"><span>DATE</span></th>
+                                    <th class="text-center style-normal-header" style="width: 4%;"><span>TIME</span></th>
+                                    <th class="text-center style-normal-header" style="width: 12%;"><span>STATUS</span></th>
+                                    <th class="text-center style-normal-header" style="width: 9%;"><span>POSITION</span></th>
+                                    <th class="text-center style-normal-header" style="width: 7%;"><span>CGO QTY</span></th>
+                                    <th class="text-center style-normal-header" style="width: 7%;"><span>ROB(FO)</span></th>
+                                    <th class="text-center style-normal-header" style="width: 7%;"><span>ROB(DO)</span></th>
+                                    <th class="text-center style-normal-header" style="width: 7%;"><span>BNKR(FO)</span></th>
+                                    <th class="text-center style-normal-header" style="width: 7%;"><span>BNKR(DO)</span></th>
+                                    <th class="text-center style-normal-header" style=""><span>REMARK</span></th>
+                                    <th class="text-center style-normal-header" style="width: 7%;"><span>无显示</span></th>
+                                </thead>
+                                <tbody class="" id="list-body">
+                                @if (isset($voyList) && count($voyList) > 0)
+                                <?php $index = 1;?>
+                                
+                                @foreach ($voyList as $info)
+                                    <?php $nickName=""?>
+                                    @foreach($shipList as $ship)
+                                        @if ($ship->IMO_No == $info['Ship_ID'])
+                                        <?php $nickName = $ship['NickName'];?>
+                                        @endif
+                                    @endforeach
+                                    <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif>
+                                        <td class="center" style="height:20px;">{{$nickName}}</td>
+                                        <td class="center">{{$info['Voy_Date']}}</td>
+                                        <td class="center">{{str_pad($info['Voy_Hour'],2,"0",STR_PAD_LEFT).str_pad($info['Voy_Minute'],2,"0",STR_PAD_LEFT)}}</td>
+                                        <td class="center">{{g_enum('DynamicStatus')[$info['Voy_Status']][0]}}</td>
+                                        <td class="center">{{$info['Ship_Position']}}</td>
+                                        <td class="center">{{$info['Cargo_Qtty']}}</td>
+                                        <td class="center">{{$info['ROB_FO']}}</td>
+                                        <td class="center">{{$info['ROB_DO']}}</td>
+                                        <td class="center">{{$info['BUNK_FO']}}</td>
+                                        <td class="center">{{$info['BUNK_DO']}}</td>
+                                        <td class="center">{{$info['Remark']}}</td>
+                                        <td class="center dyn-visible" data-id="{{$info['id']}}" style="cursor:pointer;">{{$info['ishide']?"✓":""}}</td>
+                                        <?php $index++;?>
+                                    </tr>
                                 @endforeach
-                                <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif>
-                                    <td class="center" style="height:20px;">{{$nickName}}</td>
-                                    <td class="center">{{$info['Voy_Date']}}</td>
-                                    <td class="center">{{str_pad($info['Voy_Hour'],2,"0",STR_PAD_LEFT).str_pad($info['Voy_Minute'],2,"0",STR_PAD_LEFT)}}</td>
-                                    <td class="center">{{g_enum('DynamicStatus')[$info['Voy_Status']][0]}}</td>
-                                    <td class="center">{{$info['Ship_Position']}}</td>
-                                    <td class="center">{{$info['Cargo_Qtty']}}</td>
-                                    <td class="center">{{$info['ROB_FO']}}</td>
-                                    <td class="center">{{$info['ROB_DO']}}</td>
-                                    <td class="center">{{$info['BUNK_FO']}}</td>
-                                    <td class="center">{{$info['BUNK_DO']}}</td>
-                                    <td class="center">{{$info['Remark']}}</td>
-                                    <td class="center dyn-visible" data-id="{{$info['id']}}" style="cursor:pointer;">{{$info['ishide']?"✓":""}}</td>
-                                    <?php $index++;?>
+                                @else
+                                <tr>
+                                    <td colspan="8">{{ trans('common.message.no_data') }}</td>
                                 </tr>
-                            @endforeach
-                            @else
-                            <tr>
-                                <td colspan="8">{{ trans('common.message.no_data') }}</td>
-                            </tr>
-                            
-                            @endif
-                            
-                            </tbody>
-                        </table>
+                                
+                                @endif
+                                
+                                </tbody>
+                            </table>
                         </div>
+                    </div>
+                    <div class="row">
                         <table id="table-sites-list" style="table-layout:fixed;margin-top:20px;">
                             <thead class="">
                                 <th class="text-center style-normal-header" style="width: 5%;height:35px;"><span>Order No</span></th>
@@ -284,6 +286,8 @@ $isHolder = Session::get('IS_HOLDER');
                             @endfor
                             </tbody>
                         </table>
+                    </div>
+                    <div class="row">
                         <div class="head-fix-div" style="max-height: 200px; margin-top:20px;padding: 0 1px;table table-bordered">
                             <table id="table-report-list" style="margin-bottom: 20px;">
                             </table>

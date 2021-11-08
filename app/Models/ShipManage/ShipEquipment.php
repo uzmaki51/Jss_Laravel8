@@ -60,7 +60,6 @@ class ShipEquipment extends Model
 			} else {
 				$selector->whereNotNull('supply_vol')->where('supply_vol', '!=', 0);
 			}
-				
 		}
 
 		$records = $selector->get();
