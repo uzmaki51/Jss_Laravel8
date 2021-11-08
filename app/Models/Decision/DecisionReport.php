@@ -219,7 +219,7 @@ class DecisionReport extends Model {
 			$records = ShipRegister::whereIn('IMO_No', $ids)->where('RegStatus', '!=', 3)->whereRaw(DB::raw('mid(RegDate, 1, 4) >= ' . $year))->orderBy('tb_ship_register.id')->get();
 		}
 		else {
-			$records = ShipRegister::where('RegStatus', '!=', 3)->whereRaw(DB::raw('mid(RegDate, 1, 4) <= ' . $year))->orderBy('tb_ship_register.id')->get();
+			$records = ShipRegister::where('RegStatus', '!=', 3)->whereRaw(DB::raw('mid(RegDate, 1, 4) <= ' . $year))->orderBy('tb_ship_register.id', 'asc')->get();
 		}
 		
 		if (empty($records)) {
