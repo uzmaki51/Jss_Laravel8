@@ -642,6 +642,19 @@ $ships = Session::get('shipList');
                                 }
                             }
                         }
+
+                        arr = new Array();
+                        $("#modal-material-type  input[name='name[]']").each(function(){
+                            if ($(this).val() != "") arr.push($(this).val());
+                        });
+                        for(var i=0; i<arr.length;i++){
+                            for(var j=i+1;j<arr.length;j++){
+                                if(arr[i]==arr[j]){
+                                    alert("Name(" + arr[i] + ") is duplicated. Please check again!");
+                                    return;
+                                }
+                            }
+                        }
                         
                         let form = $('#shipMaterialForm').serialize();
                         $.post('shipMaterialType', form).done(function (data) {
