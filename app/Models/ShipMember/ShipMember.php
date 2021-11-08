@@ -310,6 +310,12 @@ class ShipMember extends Model
         $selector = null;
         $records = [];
         $selector = DB::table($this->table)->select('*')->where('ShipId', $IMO_No)->orderBy('id', 'asc');
+        $selector->whereNotNull('DateOnboard');
+        $selector->where(function($query) {
+            $today = date("Y-m-d");
+            $query->whereNull('DateOffboard')->orWhere('DateOffboard', '>', $today);
+        });
+
         $records = $selector->get();
         $memberlist = [];
         foreach($records as $index => $record) {
@@ -1247,7 +1253,7 @@ class ShipMember extends Model
                 if ($i < 15)
                     $newArr[$newindex]['title'] = $this->getCertNameByIndex($i);
 
-                if ($newArr[$newindex]['_issue'] == '' || $newArr[$newindex]['_issue'] == null ) {
+                if ($newArr[$newindex]['_issue'] == '' || $newArr[$newindex]['_expire'] == '' || $newArr[$newindex]['_issue'] == null || $newArr[$newindex]['_expire'] == EMPTY_DATE || $newArr[$newindex]['_issue'] == EMPTY_DATE || $newArr[$newindex]['_expire'] == null) {
                     unset($newArr[$newindex]);
                     continue;
                 }

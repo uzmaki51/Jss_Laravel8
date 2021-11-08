@@ -191,6 +191,9 @@ $isHolder = Session::get('IS_HOLDER');
                     else {
                         $('td', row).eq(4).html('').append(data['_name']);
                     }
+
+                    $('td', row).eq(6).html('').append(data['_issue']=='0000-00-00'?'':data['_issue']);
+                    $('td', row).eq(7).html('').append(data['_expire']=='0000-00-00'?'':data['_issue']);
                 },
             });
 

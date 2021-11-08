@@ -260,7 +260,7 @@
                                                 <td class="center">{{ $item['shipName'] }}</td>
                                                 <td class="center" style="overflow: hidden;white-space: nowrap;">{{ $item['rank'] }}</td>
                                                 <td class="center" style="overflow: hidden;white-space: nowrap;">{{ $item['title'] }}</td>
-                                                <td class="center">{{ date('y-m-d', strtotime($item['_expire'])) }}</td>
+                                                <td class="center">@if($item['_expire']!=EMPTY_DATE){{ date('y-m-d', strtotime($item['_expire'])) }}@endif</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -143,7 +143,6 @@ class ShipRegController extends Controller
 
 	    $shipRegTbl = new ShipRegister();
 	    $elseInfo = $shipRegTbl->getShipForExcel($ship_id, $this->__CERT_EXCEL);
-
 	    $shipInfo = ShipRegister::where('id', $ship_id)->first();
 	    $shipCertList = ShipCertRegistry::where('ship_id', $ship_id)->get();
 
@@ -152,7 +151,7 @@ class ShipRegController extends Controller
 	    $shipTypeTbl = ShipType::where('id', $shipInfo->ShipType)->first();
 	    $shipInfo['ShipType'] = isset($shipTypeTbl) ? $shipTypeTbl['ShipType'] : '';
 
-		$shipMembers = ShipMember::where('ShipId', $imo_no)->get();
+		//$shipMembers = ShipMember::where('ShipId', $imo_no)->get();
 
         return view('shipManage.shipinfo', [
         	'list'      => $ship_infolist,

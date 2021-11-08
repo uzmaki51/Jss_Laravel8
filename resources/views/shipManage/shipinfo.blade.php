@@ -360,7 +360,7 @@ $shipList = explode(',', Auth::user()->shipList);
                                         <tr>
                                             <td style="background-color: #f8f8f8;">{{ $key }}</td>
                                             <td style="text-align: left">{{ $item['issue_date'] }}</td>
-                                            <td style="text-align: left">{{ $item['expire_date'] }}</td>
+                                            <td style="text-align: left">@if($item['expire_date']!=EMPTY_DATE){{ $item['expire_date'] }}@endif</td>
                                         </tr>
                                     @endforeach
                                     <tr>
@@ -373,7 +373,7 @@ $shipList = explode(',', Auth::user()->shipList);
                                             <td style="background-color: #f8f8f8;">{{ $item[1] }}</td>
                                             @if(isset($elseInfo['member'][$item[0]]))
                                             <td style="text-align: left">{{ $elseInfo['member'][$item[0]]['ItemNo'] }}</td>
-                                            <td style="text-align: left">{{ $elseInfo['member'][$item[0]]['COC_ExpiryDate'] }}</td>
+                                            <td style="text-align: left">@if($elseInfo['member'][$item[0]]['COC_ExpiryDate']!=EMPTY_DATE) {{$elseInfo['member'][$item[0]]['COC_ExpiryDate'] }} @endif</td>
                                             @else
                                                 <td></td>
                                                 <td></td>
@@ -386,7 +386,7 @@ $shipList = explode(',', Auth::user()->shipList);
                                             <td style="background-color: #f8f8f8;">{{ $item[1] }}</td>
                                             @if(isset($elseInfo['member'][$item[0]]))
                                                 <td style="text-align: left">{{ $elseInfo['member'][$item[0]]['ItemNo'] }}</td>
-                                                <td style="text-align: left">{{ $elseInfo['member'][$item[0]]['COC_ExpiryDate'] }}</td>
+                                                <td style="text-align: left">@if($elseInfo['member'][$item[0]]['COC_ExpiryDate']!=EMPTY_DATE) {{$elseInfo['member'][$item[0]]['COC_ExpiryDate'] }} @endif</td>
                                             @else
                                                 <td></td>
                                                 <td></td>

@@ -128,7 +128,6 @@ class HomeController extends Controller {
 
 		$tbl = new ShipCertRegistry();
 		$expireCert = $tbl->getExpiredList($settings->cert_expire_date);
-		
 		$tbl = new ShipMember();
 		$expireMemberCert = $tbl->getExpiredList($settings->cert_expire_date);
 		$voyNo_from = substr($settings['port_year'], 2, 2) . '00';
