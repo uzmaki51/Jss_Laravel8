@@ -69,7 +69,7 @@ $ships = Session::get('shipList');
             </div>
             <div class="row">
                 <div class="col-md-12" style="margin-top: 4px;">
-                    <div class="row">
+                    <div class="head-fix-div common-list">
                         <table class="table-bordered rank-table" id="table-ship-cert-list">
                             <thead>
                                 <th class="text-center style-header" style="width:60px;word-break: break-all;">{!! trans('shipManage.shipCertlist.No') !!}</th>

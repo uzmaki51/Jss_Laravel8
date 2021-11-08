@@ -183,7 +183,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                             <?php $flag1 = true ?>
                                                         @endif
                                                     @endif
-                                                    <div class="col-md-2">&nbsp
+                                                    <div class="col-md-1">&nbsp
                                                         <input type="checkbox" class="{{'row'.$index}}" onclick="checkchild({{$index}}, this)" id="{{'row'.$menu['id']}}" name="{{'row'.$menu['id']}}" @if(($cflag==true) || ($flag1==true)) checked="checked" @endif>
                                                         <input type="checkbox" id="{{$menu['id']}}" name="{{$menu['id']}}" style="display: none" @if (($cflag==false) && ($flag1==true)) checked="checked" @endif>
                                                         <label>&nbsp{{$menu['title']}}</label>

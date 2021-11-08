@@ -60,7 +60,7 @@ $isHolder = Session::get('IS_HOLDER');
             <div class="row col-lg-12" style="margin-top:8px;">
                 <div id="item-manage-dialog" class="hide"></div>
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <div class="">
+                <div class="head-fix-div common-list">
                     <table id="table-shipmember-list" class="not-striped">
                         <thead>
                         <tr class="black br-hblue" style="height:45px;">

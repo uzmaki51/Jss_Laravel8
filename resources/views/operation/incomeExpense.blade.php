@@ -164,9 +164,9 @@ $ships = Session::get('shipList');
                                             <a onclick="javascript:fnExcelTableReport();" class="btn btn-warning btn-sm excel-btn">
                                                 <i class="icon-table"></i>{{ trans('common.label.excel') }}
                                             </a>
-                                            <a onclick="javascript:popupTable();" class="btn btn-success btn-sm">
+                                            <!--a onclick="javascript:popupTable();" class="btn btn-success btn-sm">
                                                 <i class="icon-zoom-in"></i>全屏
-                                            </a>
+                                            </a-->
                                         </div>
                                     </div>
                                 </div>
@@ -174,7 +174,7 @@ $ships = Session::get('shipList');
                                     <div id="item-manage-dialog" class="hide"></div>
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     <div class="row">
-                                        <div class="table-head-fix-div" id="div-income-expense" style="height: 700px">
+                                        <div class="head-fix-div common-list" id="div-income-expense" style="height: 700px">
                                             <table id="table-income-expense-list" data-toggle="table" style="table-layout:fixed;">
                                                 <thead class="">
                                                 <tr>

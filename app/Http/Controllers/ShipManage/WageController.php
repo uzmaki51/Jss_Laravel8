@@ -242,11 +242,11 @@ class WageController extends Controller
             $shipList = ShipRegister::where('RegStatus', '!=', 3)->select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
             ->whereIn('IMO_No', $ids)
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
-            ->get();
+            ->orderBy('tb_ship_register.id')->get();
         }
         else {
             $shipList = ShipRegister::where('RegStatus', '!=', 3)->select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
-            ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+            ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')->orderBy('tb_ship_register.id')
             ->get();
         }
         $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
@@ -285,12 +285,12 @@ class WageController extends Controller
             $ids = explode(',', $ids);
             $shipList = ShipRegister::where('RegStatus', '!=', 3)->select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
             ->whereIn('IMO_No', $ids)
-            ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+            ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')->orderBy('tb_ship_register.id')
             ->get();
         }
         else {
             $shipList = ShipRegister::where('RegStatus', '!=', 3)->select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
-            ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+            ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')->orderBy('tb_ship_register.id')
             ->get();
         }
         $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
