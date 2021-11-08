@@ -65,21 +65,21 @@ $isHolder = Session::get('IS_HOLDER');
 
                 <div class="row">
                     <div class="col-xs-6 col-sm-6">
-                        <div class="profile-user-info-striped">
-                            <div class="profile-info-row">
-                                <div class="profile-info-name">{{trans("orgManage.captions.name")}}<span class="require">*</span>:</div>
+                        <div class="profile-user-info-striped member-table-outer-border">
+                            <div class="profile-info-row member-table-border">
+                                <div class="profile-info-name member-table-outer-right">{{trans("orgManage.captions.name")}}<span class="require">*</span>:</div>
                                 <div class="profile-info-value">
                                     <input type="text" class="form-control no-border" name="name" id="name" value="{{ isset($userinfo) ? $userinfo['realname'] : old('name') }}" required autocomplete="off">
                                 </div>
                             </div>
-                            <div class="profile-info-row">
-                                <div class="profile-info-name">{{trans("orgManage.captions.loginID")}}<span class="require">*</span>:</div>
+                            <div class="profile-info-row member-table-border">
+                                <div class="profile-info-name member-table-outer-right">{{trans("orgManage.captions.loginID")}}<span class="require">*</span>:</div>
                                 <div class="profile-info-value">
                                     <input type="text" class="form-control no-border" name="account" id="account" {{ isset($userinfo) ? 'readonly' : '' }} value="{{ isset($userinfo) ? $userinfo['account'] : old('account') }}" required autocomplete="off">
                                 </div>
                             </div>
-                            <div class="profile-info-row">
-                                <div class="profile-info-name">{{trans("orgManage.captions.officePosition")}}<span class="require">*</span>:</div>
+                            <div class="profile-info-row member-table-border">
+                                <div class="profile-info-name member-table-outer-right">{{trans("orgManage.captions.officePosition")}}<span class="require">*</span>:</div>
                                 <div class="profile-info-value">
                                     <select class="form-control no-border" id="pos" name="pos">
                                         <option value="0"></option>
@@ -89,8 +89,8 @@ $isHolder = Session::get('IS_HOLDER');
                                     </select>
                                 </div>
                             </div>
-                            <div class="profile-info-row">
-                                <div class="profile-info-name">{{trans("orgManage.captions.phoneNumber")}}:</div>
+                            <div class="profile-info-row member-table-border">
+                                <div class="profile-info-name member-table-outer-right">{{trans("orgManage.captions.phoneNumber")}}:</div>
                                 <div class="profile-info-value">
                                     <div class="input-group">
                                         <input type="tel" id="rantel" name="phone" class="form-control no-border" value="{{ isset($userinfo) ? trim($userinfo['phone']) : old('phone') }}" autocomplete="off">
@@ -102,30 +102,30 @@ $isHolder = Session::get('IS_HOLDER');
 
                     
                     <div class="col-xs-6 col-sm-6">
-                        <div class="profile-user-info-striped">
-                            <div class="profile-info-row">
-                                <div class="profile-info-name">{{trans("orgManage.captions.enterDate")}}:</div>
+                        <div class="profile-user-info-striped member-table-outer-border">
+                            <div class="profile-info-row member-table-border">
+                                <div class="profile-info-name member-table-outer-right">{{trans("orgManage.captions.enterDate")}}:</div>
                                 <div class="profile-info-value">
                                     <input class="form-control no-border date-picker" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="{{ isset($userinfo) ? $userinfo['entryDate'] : old('enterdate') }}" autocomplete="off">
                                 </div>
                             </div>
-                            <div class="profile-info-row">
-                                <div class="profile-info-name">{{trans("orgManage.captions.missDate")}}:</div>
+                            <div class="profile-info-row member-table-border">
+                                <div class="profile-info-name member-table-outer-right">{{trans("orgManage.captions.missDate")}}:</div>
                                 <div class="profile-info-value">
                                     <div class="input-group">
                                         <input class="form-control no-border date-picker" style="text-align: left!important;" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="{{ isset($userinfo) ? $userinfo['releaseDate'] : old('releaseDate') }}" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
-                            <div class="profile-info-row">
-                                <div class="profile-info-name">{{trans("orgManage.captions.remark")}}:</div>
+                            <div class="profile-info-row member-table-border">
+                                <div class="profile-info-name member-table-outer-right">{{trans("orgManage.captions.remark")}}:</div>
                                 <div class="profile-info-value">
                                     <input type="text" class="form-control no-border" name="remark" id="remark" value="{{ isset($userinfo) ? $userinfo['remark'] : old('remark') }}" required autocomplete="off">
                                 </div>
                             </div>
                             @if(isset($userinfo))
-                                <div class="profile-info-row">
-                                    <div class="profile-info-name">{{trans("orgManage.captions.resetPass")}}:</div>
+                                <div class="profile-info-row member-table-border">
+                                    <div class="profile-info-name member-table-outer-right">{{trans("orgManage.captions.resetPass")}}:</div>
                                     <div class="profile-info-value">
                                         <div class="input-group">
                                             <input type="checkbox" class="form-control no-border" style="width: fit-content; margin-right: 10px; margin-left: 10px;margin-bottom:5px;" name="password_reset" id="password_reset">

@@ -438,6 +438,20 @@ div.input table tbody tr td
     height: 20px;
 }
 
+.member-table-border {
+    border: 1px solid black;
+    border-top: unset!important;
+    height: 30px!important;
+}
+
+.member-table-outer-border {
+    border-top: 1px solid black;
+}
+
+.member-table-outer-right {
+    border-right: 1px solid black;
+}
+
 @media (max-width: 768px) {
     body {
         font-size: 10px;
