@@ -749,6 +749,7 @@ $isHolder = Session::get('IS_HOLDER');
         function deleteHistory(e)
         {
             if ($('#history_table tr').length > 2) { //&& !$(e).closest("tr").is(":last-child")) {
+                alertAudio();
                 bootbox.confirm("Are you sure you want to delete?", function (result) {
                     if (result) {
                         $(e).closest("tr").remove();
@@ -799,6 +800,7 @@ $isHolder = Session::get('IS_HOLDER');
                     form.valid();
                     var nationality = $('[name=Nationality]')[0].value;
                     if (nationality == "") {
+                        __alertAudio();
                         alert("Please select Nationality!");
                         return;
                     }
@@ -842,6 +844,7 @@ $isHolder = Session::get('IS_HOLDER');
 
             var nationality = $('[name=Nationality]')[0].value;
             if (nationality == "") {
+                __alertAudio();
                 alert("Please select Nationality!");
                 return;
             }

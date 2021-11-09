@@ -309,7 +309,7 @@ $ships = Session::get('shipList');
                         var values = $("input[name='cert_id[]']")
                             .map(function(){return parseInt($(this).val());}).get();
 
-                        if(values.includes(cert)) {alert('Can\'t register duplicate certificate.'); return false;}
+                        if(values.includes(cert)) {__alertAudio();alert('Can\'t register duplicate certificate.'); return false;}
 
                         isChangeStatus = true;
                         setCertInfo(cert, array_index);
@@ -358,6 +358,7 @@ $ships = Session::get('shipList');
                     deleteCertItem(cert_id, is_tmp, array_index) {
                         document.getElementById('warning-audio').play();
                         if (is_tmp == 0) {
+                            __alertAudio();
                             bootbox.confirm("Are you sure you want to delete?", function (result) {
                                 if (result) {
                                     $.ajax({
@@ -373,6 +374,7 @@ $ships = Session::get('shipList');
                                 }
                             });
                         } else {
+                            __alertAudio();
                             bootbox.confirm("Are you sure you want to delete?", function (result) {
                                 if (result) {
                                     certListObj.cert_array.splice(array_index, 1);
@@ -404,7 +406,7 @@ $ships = Session::get('shipList');
                     deleteShipCert(index) {
                         if(index == undefined || index == '')
                             return false;
-
+                            __alertAudio();
                         bootbox.confirm("Are you sure you want to delete?", function (result) {
                             if (result) {
                                 isChangeStatus = true;
@@ -416,6 +418,7 @@ $ships = Session::get('shipList');
                                     },
                                     success: function(data) {
                                         if (data == 0) {
+                                            __alertAudio();
                                             alert("It cannot be deleted because the related data remains!");
                                         }
                                         else {

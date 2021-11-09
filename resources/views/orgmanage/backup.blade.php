@@ -164,6 +164,7 @@ $isHolder = Session::get('IS_HOLDER');
 
         function open_backup_folder(path, name)
         {
+            __alertAudio();
             alert(path+name);
         }
 

@@ -1014,6 +1014,7 @@
                     },
                     resetFuel(id) {
                         if(id != undefined) {
+                            __alertAudio();
                             bootbox.confirm('真要初始化吗?', function(e) {
                                 if(e) {
                                     $.ajax({

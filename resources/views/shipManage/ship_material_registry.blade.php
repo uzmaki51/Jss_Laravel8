@@ -471,6 +471,7 @@ $ships = Session::get('shipList');
                     deleteMaterialItem(material_id, is_tmp, array_index) {
                         document.getElementById('warning-audio').play();
                         if (is_tmp == 0) {
+                            __alertAudio();
                             bootbox.confirm("Are you sure you want to delete?", function (result) {
                                 if (result) {
                                     $.ajax({
@@ -486,6 +487,7 @@ $ships = Session::get('shipList');
                                 }
                             });
                         } else {
+                            __alertAudio();
                             bootbox.confirm("Are you sure you want to delete?", function (result) {
                                 if (result) {
                                     materialListObj.material_array.splice(array_index, 1);
@@ -531,7 +533,7 @@ $ships = Session::get('shipList');
                     deleteShipMaterial(index) {
                         if(index == undefined || index == '')
                             return false;
-
+                        __alertAudio();
                         bootbox.confirm("Are you sure you want to delete?", function (result) {
                             if (result) {
                                 isChangeStatus = true;
@@ -543,6 +545,7 @@ $ships = Session::get('shipList');
                                     },
                                     success: function(data) {
                                         if (data == 0) {
+                                            __alertAudio();
                                             alert("It cannot be deleted because the related data remains!");
                                         }
                                         else {
@@ -608,7 +611,7 @@ $ships = Session::get('shipList');
                     deleteShipMaterial(index) {
                         if(index == undefined || index == '')
                             return false;
-
+                        __alertAudio();
                         bootbox.confirm("Are you sure you want to delete?", function (result) {
                             if (result) {
                                 isChangeStatus = true;

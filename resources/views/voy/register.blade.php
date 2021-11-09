@@ -669,6 +669,7 @@ $ships = Session::get('shipList');
                         if(isChangeStatus) {
                             var confirmationMessage = 'It looks like you have been editing something. '
                                 + 'If you leave before saving, your changes will be lost.';
+                            __alertAudio();
                             bootbox.confirm(confirmationMessage, function (result) {
                                 if(result) {
                                     isChangeStatus = false;

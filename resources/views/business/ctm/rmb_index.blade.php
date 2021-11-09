@@ -425,7 +425,7 @@
                     isEmpty = true;
             });
 
-            if(isEmpty) {alert('请您必须填数据.'); return false;}
+            if(isEmpty) {__alertAudio();alert('请您必须填数据.'); return false;}
             $('#ctmList-form').submit();
         });
         

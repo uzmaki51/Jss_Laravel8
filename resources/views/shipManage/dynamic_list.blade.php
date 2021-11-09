@@ -955,6 +955,7 @@
                     submitForm: function() {
                         submitted = true;
                         if(!this.validateForm()) {
+                            __alertAudio();
                             alert('Please input ROB/FO, ROB/DO value.');
                             return;
                         } else

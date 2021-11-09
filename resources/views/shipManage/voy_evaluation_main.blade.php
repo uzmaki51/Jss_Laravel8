@@ -411,6 +411,7 @@
                                 if($_this.cpInfo['CP_kind'] == 'VOY' && type == 'main') {
                                     if(__parseFloat($_this.cpInfo['fo_price']) == 0 || __parseFloat($_this.realInfo['rob_fo_price']) == 0 || __parseFloat($_this.cpInfo['do_price']) == 0 || __parseFloat($_this.realInfo['rob_do_price']) == 0) {
                                         // document.getElementById('warning-audio1').play();
+                                        __alertAudio();
                                         bootbox.alert(confirmationMessage);
                                         setTimeout(function() {
                                             bootbox.hideAll();
@@ -650,7 +651,7 @@
 
                     $_this.cpInfo['day_gross_profit'] = BigNumber($_this.cpInfo['gross_profit']).div($_this.cpInfo['sail_time']).toFixed(0);
                     $_this.realInfo['day_gross_profit'] = BigNumber($_this.realInfo['gross_profit']).div($_this.realInfo['total_sail_time']).toFixed(0);
-
+                    __alertAudio();
                     $_this.warningAlert();
 
                     

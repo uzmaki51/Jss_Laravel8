@@ -353,6 +353,7 @@ $ships = Session::get('shipList');
                                 + 'If you leave before saving, your changes will be lost.';
 
                         if (isChangeStatus) {
+                            __alertAudio();
                             bootbox.confirm(confirmationMessage, function (result) {
                                 if (!result) {
                                     return;

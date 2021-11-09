@@ -586,6 +586,7 @@ $ships = Session::get('shipList');
                                     },
                                     success: function(data, status, xhr) {
                                         if(!data) {
+                                            __alertAudio();
                                             bootbox.alert('It cannot be deleted because the related data remains!');
                                         } else {
                                             voyListObj.list = data;
@@ -1050,6 +1051,7 @@ $ships = Session::get('shipList');
                 submitted = true;
                 $('#voyContractForm').submit();
             } else {
+                __alertAudio();
                 alert('Please input VoyNo correctly.');
                 $('[name=voy_no').focus();
                 return false;
@@ -1059,6 +1061,7 @@ $ships = Session::get('shipList');
                 submitted = true;
                 $('#tcContractForm').submit();
             } else {
+                __alertAudio();
                 alert('Please input VoyNo correctly.');
                 $($('[name=voy_no')[1]).focus();
                 return false;
@@ -1068,6 +1071,7 @@ $ships = Session::get('shipList');
                 submitted = true;
                 $('#nonContractForm').submit();
             } else {
+                __alertAudio();
                 alert('Please input VoyNo correctly.');
                 $($('[name=voy_no')[1]).focus();
                 return false;

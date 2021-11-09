@@ -789,6 +789,7 @@ $isHolder = Session::get('IS_HOLDER');
                         datetime = listBook[i].datetime.substr(0,10);
                     }
                     if (currency != listBook[i].currency){
+                        __alertAudio();
                         alert("You can't choose different kind of currency.");
                         return;
                     }
@@ -798,6 +799,7 @@ $isHolder = Session::get('IS_HOLDER');
                     }
                     else if ((book_list.rows[i].childNodes[2].childNodes[0].value != "") && (old_book_no != book_list.rows[i].childNodes[2].childNodes[0].value))
                     {
+                        __alertAudio();
                         alert("Items assigned with different numbers cannot be selected!");
                         return;
                     }
@@ -906,6 +908,7 @@ $isHolder = Session::get('IS_HOLDER');
             account_type = $('#account_type').val();
             if (account_type == 0) {
                 //alert("There are no account informations.");
+                __alertAudio();
                 alert("Please select account information.");
                 return;
             }
@@ -1060,6 +1063,7 @@ $isHolder = Session::get('IS_HOLDER');
         });
 
         $('#keepTab').on('click', function() {
+            __alertAudio();
             alert("input Enabled");
         });
 
@@ -1366,6 +1370,7 @@ $isHolder = Session::get('IS_HOLDER');
                         books = [];
                     }
                     else {
+                        __alertAudio();
                         alert('保存失败了。');
                         //location.reload();
                         return;

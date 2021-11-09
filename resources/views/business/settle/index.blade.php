@@ -885,6 +885,7 @@
 
         function clearData() {
             let confirmationMessage = '确定要初始化吗？';
+            __alertAudio();
             bootbox.confirm(confirmationMessage, function (result) {
                 if(result) {
                     $.ajax({

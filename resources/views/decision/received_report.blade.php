@@ -434,13 +434,16 @@
                                         cell.html('');
                                         cell.append('<div class="report-status"><span><i class="icon-ok"></i></span></div>');
                                     } else if(result == -1) {
+                                        __alertAudio();
                                         alert('你没有审批权限。');
                                     } else {
+                                        __alertAudio();
                                         alert('审批失败了。');
                                     }
                                     // listTable.draw();
                                 },
                                 error: function(error, status) {
+                                    __alertAudio();
                                     alert('审批失败了。');
                                 }
                             });
@@ -466,12 +469,15 @@
                                         cell.html('');
                                         cell.append('<div class="report-status"><span><i class="icon-remove"></i></span></div>');
                                     } else if(result == -1) {
+                                        __alertAudio();
                                         alert('你没有审批权限。');
                                     } else {
+                                        __alertAudio();
                                         alert('审批失败了。');
                                     }
                                 },
                                 error: function(error, status) {
+                                    __alertAudio();
                                     alert('审批失败了。');
                                 }
                             });
@@ -1439,6 +1445,7 @@
                         },
                         success: function(data) {
                             if (data == 0) {
+                                __alertAudio();
                                 alert("It cannot be deleted because the related data remains!");
                             } else {
                                 listTable.draw();

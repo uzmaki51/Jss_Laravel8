@@ -197,7 +197,7 @@
                         var values = $("input[name='item[]']")
                             .map(function(){return parseInt($(this).val());}).get();
 
-                        if(values.includes(cert)) {alert('Can\'t register duplicate item.'); return false;}
+                        if(values.includes(cert)) {__alertAudio();alert('Can\'t register duplicate item.'); return false;}
                         isChangeStatus = true;
                         setCertInfo(cert, index);
                         $(".dynamic-select__trigger").removeClass('open');
@@ -240,6 +240,7 @@
                             isChangeStatus = false;
 
                         if (!submitted && isChangeStatus) {
+                            __alertAudio();
                             bootbox.confirm(confirmationMessage, function (result) {
                                 if (!result) {
                                     return;
@@ -426,7 +427,7 @@
                     deleteShipCert(index) {
                         if(index == undefined || index == '')
                             return false;
-
+                        __alertAudio();
                         bootbox.confirm("Are you sure you want to delete?", function (result) {
                             if (result) {
                                 isChangeStatus = true;

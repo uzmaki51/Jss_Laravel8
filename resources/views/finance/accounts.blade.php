@@ -842,6 +842,7 @@ $isHolder = Session::get('IS_HOLDER');
                             if (data == true) {
                                 $(e).closest("tr").remove();
                             } else {
+                                __alertAudio();
                                 alert("It cannot be deleted because the related data remains!")
                             }
                         },

@@ -125,6 +125,7 @@
     </div>
 </div>
 
+
 	<?php
 	echo '<script>';
     echo 'var PlaceType = ' . json_encode($placeList) . ';';
@@ -209,7 +210,7 @@
                         var values = $("input[name='cert_id[]']")
                             .map(function(){return parseInt($(this).val());}).get();
 
-                        if(values.includes(cert)) {alert('Can\'t register duplicate certificate.'); return false;}
+                        if(values.includes(cert)) {__alertAudio();alert('Can\'t register duplicate certificate.'); return false;}
 
                         isChangeStatus = true;
                         setCertInfo(cert, index);
@@ -251,6 +252,7 @@
                             isChangeStatus = false;
 
                         if (!submitted && isChangeStatus) {
+                            __alertAudio();
                             bootbox.confirm(confirmationMessage, function (result) {
                                 if (!result) {
                                     return;
@@ -294,6 +296,7 @@
                         });
 
                         if(validate == 0) {
+                            __alertAudio();
                             bootbox.alert('部门, 种类, 项目, 申请量, 单位是必填内容。');
                         } else {
                             $('#certList-form').submit();

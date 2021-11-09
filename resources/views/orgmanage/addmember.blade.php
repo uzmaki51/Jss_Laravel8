@@ -228,6 +228,7 @@ $isHolder = Session::get('IS_HOLDER');
             }
 
             if ($('#pos').val() <= 0) {
+                __alertAudio();
                 alert("Please select position!");
                 return;
             }
@@ -236,11 +237,13 @@ $isHolder = Session::get('IS_HOLDER');
             {
                 var ship_list = $('#select-ship-list').val();
                 if (ship_list == null) {
+                    __alertAudio();
                     alert("Please select a ship!");
                     $('#select-ship-list').focus();
                     return;
                 } else {
                     if (ship_list.length != 1) {
+                        __alertAudio();
                         alert("It's allowed to select only one ship!");
                         $('#select-ship-list').focus();
                         return;
