@@ -563,6 +563,7 @@ $ships = Session::get('shipList');
                         for(var i=0; i<arr.length;i++){
                             for(var j=i+1;j<arr.length;j++){
                                 if(arr[i]==arr[j]){
+                                    __alertAudio();
                                     alert("OrderNo is duplicated. Please check again!");
                                     return;
                                 }
@@ -623,6 +624,7 @@ $ships = Session::get('shipList');
                                     },
                                     success: function(data) {
                                         if (data == 0) {
+                                            __alertAudio();
                                             alert("It cannot be deleted because the related data remains!");
                                         }
                                         else {
@@ -640,6 +642,7 @@ $ships = Session::get('shipList');
                         for(var i=0; i<arr.length;i++){
                             for(var j=i+1;j<arr.length;j++){
                                 if(arr[i]==arr[j]){
+                                    __alertAudio();
                                     alert("OrderNo is duplicated. Please check again!");
                                     return;
                                 }
@@ -653,6 +656,7 @@ $ships = Session::get('shipList');
                         for(var i=0; i<arr.length;i++){
                             for(var j=i+1;j<arr.length;j++){
                                 if(arr[i]==arr[j]){
+                                    __alertAudio();
                                     alert("Name(" + arr[i] + ") is duplicated. Please check again!");
                                     return;
                                 }
@@ -865,22 +869,26 @@ $ships = Session::get('shipList');
             for (var i=0;i<name_list.length;i++)
             {
                 if(category_list[i].value == "") {
+                    __alertAudio();
                     alert("Please select DPT.");
                     return;
                 }
 
                 if(type_list[i].value == "") {
+                    __alertAudio();
                     alert("Please select Kinds.");
                     return;
                 }
 
                 if (name_list[i].value == "") {
+                    __alertAudio();
                     alert("Please input name.");
                     name_list[i].focus();
                     console.log(name_list[i]);
                     return;
                 }
                 if (qty_list[i].value == "") {
+                    __alertAudio();
                     alert("Please input qty.");
                     qty_list[i].focus();
                     return;
