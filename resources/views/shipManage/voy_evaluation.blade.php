@@ -57,7 +57,7 @@ $ships = Session::get('shipList');
                 </div>
             </div>
 
-            <div id="modal-wizard" class="modal modal-draggable" aria-hidden="true" style="display: none; margin-top: 15%;">
+            <!--div id="modal-wizard" class="modal modal-draggable" aria-hidden="true" style="display: none; margin-top: 15%;">
                 <div class="dynamic-modal-dialog">
                     <div class="dynamic-modal-content" style="border: 0;">
                         <div class="dynamic-modal-header" data-target="#modal-step-contents">
@@ -116,7 +116,7 @@ $ships = Session::get('shipList');
 
                     </div>
                 </div>
-            </div>
+            </div-->
         </div>
     </div>
 

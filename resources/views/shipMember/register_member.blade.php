@@ -186,7 +186,7 @@ $isHolder = Session::get('IS_HOLDER');
                         </div>
                         <div id="modal-rank-content" class="dynamic-modal-body step-content">
                             <div class="row" style="">
-                                <div class="head-fix-div col-md-12" style="height:300px;">
+                                <div class="head-fix-div col-md-12" style="height:300px;padding:unset!important;">
                                     <table class="table-bordered rank-table">
                                         <thead>
                                         <tr class="rank-tr" style="background-color: #d9f8fb;height:18px;">
@@ -247,7 +247,7 @@ $isHolder = Session::get('IS_HOLDER');
                         </div>
                         <div id="modal-capacity-content" class="dynamic-modal-body step-content">
                             <div class="row" style="">
-                                <div class="head-fix-div col-md-12" style="height:300px;">
+                                <div class="head-fix-div col-md-12" style="height:300px;padding:unset!important;">
                                     <table class="table-bordered rank-table">
                                         <thead>
                                         <tr style="background-color: #d9f8fb;height:18px;">
@@ -289,7 +289,7 @@ $isHolder = Session::get('IS_HOLDER');
                         </div>
                         <div id="modal-port-content" class="dynamic-modal-body step-content">
                             <div class="row" style="">
-                                <div class="head-fix-div col-md-12" style="height:300px;">
+                                <div class="head-fix-div col-md-12" style="height:300px;padding:unset!important;">
                                     <table class="table-bordered rank-table">
                                         <thead>
                                         <tr class="rank-tr" style="background-color: #d9f8fb;height:18px;">
