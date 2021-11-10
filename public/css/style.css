@@ -452,6 +452,19 @@ div.input table tbody tr td
     border-right: 1px solid black;
 }
 
+.modal-table-fix-header {
+    position: sticky;
+    top: 1px;
+    box-shadow: rgb(0 0 0) 0px -1px inset, rgb(0 0 0) 1px -1px;
+    z-index: 9999;
+}
+
+.modal-fixed-form {
+    height: 300px;
+    overflow-y: scroll;
+    border-bottom:1px solid rgb(211, 211, 211);
+}
+
 @media (max-width: 768px) {
     body {
         font-size: 10px;

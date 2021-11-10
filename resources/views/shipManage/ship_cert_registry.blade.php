@@ -20,9 +20,11 @@ $ships = Session::get('shipList');
 @section('content')
     <div class="main-content">
         <style>
+            /*
             .head-fix-div {
                 overflow: visible;
             }
+            */
         </style>
         <div class="page-content">
             <div class="page-header">
@@ -150,11 +152,11 @@ $ships = Session::get('shipList');
                                 </div>
                                 <div id="modal-cert-type" class="dynamic-modal-body step-content">
                                     <div class="row">
-                                        <form action="shipCertType" method="post" id="shipCertForm">
+                                        <form action="shipCertType" method="post" id="shipCertForm" class="modal-fixed-form">
                                             <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                            <div class="head-fix-div" style="height:300px;">
+                                            <div class="head-fix-div" style="overflow-y:unset!important;">
                                                 <table class="table-bordered rank-table">
-                                                    <thead>
+                                                    <thead class="modal-table-fix-header">
                                                     <tr class="rank-tr" style="background-color: #d9f8fb;height:18px;">
                                                         <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:20%">OrderNo</th>
                                                         <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:20%">Code</th>

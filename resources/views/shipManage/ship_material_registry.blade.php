@@ -236,11 +236,11 @@ $ships = Session::get('shipList');
                                 </div>
                                 <div id="modal-material-type" class="dynamic-modal-body step-content">
                                     <div class="row">
-                                        <form action="shipMaterialType" method="post" id="shipMaterialForm">
+                                        <form action="shipMaterialType" method="post" id="shipMaterialForm" class="modal-fixed-form">
                                             <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                            <div class="head-fix-div" style="">
+                                            <div class="head-fix-div" style="overflow-y:unset!important;">
                                                 <table class="table-bordered rank-table">
-                                                    <thead>
+                                                    <thead class="modal-table-fix-header">
                                                     <tr class="rank-tr" style="background-color: #d9f8fb;height:18px;">
                                                         <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:20%">OrderNo</th>
                                                         <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:50%">Name</th>
