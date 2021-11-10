@@ -29,6 +29,20 @@ $isHolder = Session::get('IS_HOLDER');
             .cost-item-odd:hover {
                 background-color: #ffe3e082;
             }
+
+            .dynamic-first-footer td {
+                position: sticky!important;
+                bottom: 0px;
+                box-shadow: inset 0 1px #000, 1px -1px #000;
+                border-top: unset!important;
+            }
+
+            .dynamic-second-footer td {
+                position: sticky!important;
+                bottom: 24px;
+                box-shadow: inset 0 1px #000, 1px -1px #000;
+                border-top: unset!important;
+            }
         </style>
         <div class="page-content">
             <div class="space-4"></div>
@@ -643,13 +657,13 @@ $isHolder = Session::get('IS_HOLDER');
                         sum_credit_D = 0;
                         sum_debit_D = 0;
                     }
-                    var report_row = '<tr class="tr-report" style="height:20px;border:1px solid black;">';
+                    var report_row = '<tr class="tr-report dynamic-footer dynamic-second-footer" style="height:20px;border:1px solid black;">';
                     report_row += '<td class="sub-small-header"></td><td class="sub-small-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center">合计 (RMB)</td><td class="sub-small-header style-normal-header"></td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (sum_credit_R >= 0 ? 'style-blue-input':'style-red-input') + '">¥ ' + prettyValue(sum_credit_R) + '</td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (sum_debit_R >= 0 ? '':'style-red-input') + '">¥ ' + prettyValue(sum_debit_R) + '</td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + ((sum_credit_R - sum_debit_R) >= 0 ? '':'style-red-input') + '">¥ ' + prettyValue(sum_credit_R - sum_debit_R) + '</td>';
                     report_row += '</tr>';
-                    report_row += '<tr class="tr-report" style="height:20px;border:1px solid black;">';
+                    report_row += '<tr class="tr-report dynamic-footer dynamic-first-footer" style="height:20px;border:1px solid black;">';
                     report_row += '<td class="sub-small-header"></td><td class="sub-small-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center">合计 (USD)</td><td class="sub-small-header style-normal-header"></td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (sum_credit_D >= 0 ? 'style-blue-input':'style-red-input') + '">$ ' + prettyValue(sum_credit_D) + '</td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (sum_debit_D >= 0 ? '':'style-red-input') + '">$ ' + prettyValue(sum_debit_D) + '</td>';
