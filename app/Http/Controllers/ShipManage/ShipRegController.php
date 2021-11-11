@@ -543,7 +543,7 @@ class ShipRegController extends Controller
             $year = -1;
 
         $voyId = '';
-        if(isset($params['voyNo']) && isset($params['voyNo']) != '' && isset($params['voyNo']) != 0) {
+        if(isset($params['voyNo']) && isset($params['voyNo']) != 0) {
             $voyId = $params['voyNo'];
             if($year == -1)
                 $year = substr(date('Y'), 0, 2) . substr($voyId, 0, 2);
@@ -570,7 +570,7 @@ class ShipRegController extends Controller
             'shipId'            => $shipId,
             'shipName'          => $shipName,
             'years'             => $yearList,
-            'activeYear'        => $yearList[0],
+            'activeYear'        => $year == -1 ? $yearList[0] : $year,
             'voyId'             => $voyId,
             'record_type'       => $record_type,
             'breadCrumb'        => $breadCrumb
