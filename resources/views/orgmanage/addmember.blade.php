@@ -14,6 +14,7 @@ $isHolder = Session::get('IS_HOLDER');
     <script>
         var HOLDER = '{!! STAFF_LEVEL_SHAREHOLDER !!}';
         var CAPTAIN = '{!! STAFF_LEVEL_CAPTAIN !!}';
+        var STAFF_LEVEL_MANAGER = '{!! STAFF_LEVEL_MANAGER !!}';
         var IS_HOLDER = '{!! $userinfo['pos'] !!}';
     </script>
 @endsection
@@ -169,10 +170,10 @@ $isHolder = Session::get('IS_HOLDER');
                                                 {{$pmenu['title']}}
                                             </td>
                                         @endif
-                                        <td class="custom-td-text" style="width: 3%; text-align: center">
-                                            <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" name="{{'group'.$index}}">
-                                            <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none">
-                                        </td>
+                                            <td class="custom-td-text" style="width: 3%; text-align: center">
+                                                <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" name="{{'group'.$index}}">
+                                                <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none">
+                                            </td>
                                         @endif
                                         <td class="custom-td-text" style="width: 77%">
                                             <div class="row">
@@ -291,7 +292,7 @@ $isHolder = Session::get('IS_HOLDER');
         });
 
         $(function() {
-                    @if(isset($state))
+            @if(isset($state))
             var state = '{!! $state !!}';
             if(state == 'success') {
                 $.gritter.add({
@@ -307,6 +308,7 @@ $isHolder = Session::get('IS_HOLDER');
                 });
             }
             @endif
+            changePos();
 
             if(IS_HOLDER == HOLDER) {
                 $('#menu-list').hide();
@@ -333,6 +335,8 @@ $isHolder = Session::get('IS_HOLDER');
         });
 
         $('[name=pos]').on("change", function() {
+            changePos();
+
             if($(this).val() == HOLDER) {
                 $('#menu-list').hide();
                 $('#ship-list').show();
@@ -343,7 +347,20 @@ $isHolder = Session::get('IS_HOLDER');
                 $('#menu-list').show();
                 $('#ship-list').hide();
             }
-        })
+        });
+
+        function changePos() {
+            let val = $('[name=pos]').val();
+
+            if(val == STAFF_LEVEL_MANAGER) {
+                // $('tr#row0 input[type="checkbox"]').prop('checked', true);
+                $('tr#row0').show();
+            } else {
+                $('tr#row0 input[type="checkbox"]').prop('checked', false);
+                $('tr#row0').hide();
+            }
+        }
+
         function check(id) {
             var allcheck = document.getElementById('group' + id);
             var checks = document.getElementsByClassName('row' + id);
