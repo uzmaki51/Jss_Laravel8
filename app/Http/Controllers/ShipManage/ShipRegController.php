@@ -2790,4 +2790,14 @@ class ShipRegController extends Controller
         
         return response()->json($retVal);
     }
+
+    public function ajax_shipDeleteValidate(Request $request) {
+        $id = $request->get('id');
+
+        $exist = CP::where('Ship_ID', $id)->first();
+
+        if(isset($exist)) return false;
+
+        return true;
+    }
 }

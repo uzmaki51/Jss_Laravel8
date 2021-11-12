@@ -259,18 +259,31 @@ $shipList = Session::get('shipList');
 
         function deleteItem(shipId, shipName) {
             alertAudio();
-            bootbox.confirm("All related records are about to be damaged.<br>Are you sure you want to delete?", function (result) {
-                if (result) {
-                    $.post('deleteShipData', {'_token':token, 'dataId':shipId}, function (result) {
-                        var code = parseInt(result);
-                        if (code > 0) {
-                            location.reload();
-                        } else {
+            $.ajax({
+                url: BASE_URL + 'ajax/ship/delete/validate',
+                type: 'post',
+                data: {
+                    id: shipId
+                },
+                success: function(result) {
+                    if(result) {
+                        bootbox.alert('Can\'t delete because contract data exists.');
+                    } else {
+                        bootbox.confirm("All related records are about to be damaged.<br>Are you sure you want to delete?", function (result) {
+                            if (result) {
+                                $.post('deleteShipData', {'_token':token, 'dataId':shipId}, function (result) {
+                                    var code = parseInt(result);
+                                    if (code > 0) {
+                                        location.reload();
+                                    } else {
 
-                        }
-                    });
+                                    }
+                                });
+                            }
+                        });
+                    }
                 }
-            });
+            })
         }
 
         $(function() {
