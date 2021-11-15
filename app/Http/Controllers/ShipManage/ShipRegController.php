@@ -592,12 +592,12 @@ class ShipRegController extends Controller
         $params = $request->all();
         $shipId = $request->get('shipId'); 
 	    $shipNameInfo = null;
-        if(isset($shipId)) {
-	        $shipNameInfo = ShipRegister::where('IMO_No', $shipId)->first();
-        } else {
-	        $shipNameInfo = ShipRegister::orderBy('id')->first();
-	        $shipId = $shipNameInfo['IMO_No'];
+        if(!isset($shipId)) {
+            if(!isset($shipList[0])) return redirect()->back();
+            $shipId = $shipList[0]->IMO_No;
         }
+        
+        $shipNameInfo = ShipRegister::where('IMO_No', $shipId)->first();
 
         $ctmTbl = new Ctm();
         $yearList = $ctmTbl->getYearList($shipId);
