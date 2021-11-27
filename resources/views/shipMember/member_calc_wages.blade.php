@@ -475,7 +475,7 @@ $isHolder = Session::get('IS_HOLDER');
                     _D = (r / rate).toFixed(2);
                 }
                 else {
-                    var d = s * dd / td - m;
+                    var d = s * dd / td - m / rate;
                     _D = d.toFixed(2);
                     _R = (d * rate).toFixed(2);
                 }
