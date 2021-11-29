@@ -164,7 +164,7 @@
                                                         申请日期
                                                     </td>
                                                     <td class="custom-modal-td-text1">
-                                                        <input type="text" name="report_date" readonly style="display: inline-block;" class="form-control white-bg date-picker" v-model="report_date" @click="dateModify($event)" >
+                                                        <input type="text" name="report_date" style="display: inline-block;" class="form-control white-bg date-picker" v-model="report_date" @click="dateModify($event)" >
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -1066,7 +1066,7 @@
                         let value = $(e.target).val();
                         this.object_type = value;
                     },
-                    dateModify(e) {console.log(e)
+                    dateModify(e) {
                         $(e.target).on("change", function() {
                             reportObj.report_date = $(this).val();
                         });
@@ -1194,7 +1194,16 @@
                                 form.submit();
                             }
                         })) {
-                            $('#report-form').submit();
+                            let report_date = moment(reportObj.report_date);
+                            let validate_date = moment(report_date).isValid();
+                            if(validate_date)
+                                $('#report-form').submit();
+                            else  {
+                                bootbox.alert('申请日期形式不对。')
+                                return false;
+                            }
+                                
+
                             return true;
                         } else {
                             $(e.target).removeAttr('disabled');
