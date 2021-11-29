@@ -61,8 +61,8 @@
                             <span class="style-header">BirthPlace</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
-                            <input type="text" name="BirthPlace" class="form-control first-input" value="@if(isset($info)){{$info['BirthPlace']}}@endif" placeholder="" style="border-right: 1px solid #cccccc!important;" autocomplete="true">
-                            <input type="text" name="BirthCountry" class="form-control second-input" value="@if(isset($info)){{$info['BirthCountry']}}@endif" placeholder="" autocomplete="true">
+                            <input type="text" name="BirthPlace" class="form-control first-input" value="@if(isset($info)){{$info['BirthPlace']}}@endif" placeholder="" style="border-right: 1px solid #cccccc!important;" autocomplete="off">
+                            <input type="text" name="BirthCountry" class="form-control second-input" value="@if(isset($info)){{$info['BirthCountry']}}@endif" placeholder="" autocomplete="off">
                         </td>
                     </tr>
                     <tr>
@@ -282,7 +282,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align:left;width:10%">
-                            <span class="style-header">身份手机</span>
+                            <span class="style-header">本人手机</span>
                         </td>
                         <td class="custom-td-report-text" style="width:40%">
                             <input type="text" name="phone" class="form-control" style="width:100%" value="@if(isset($info)){{$info['phone']}}@endif" placeholder="">

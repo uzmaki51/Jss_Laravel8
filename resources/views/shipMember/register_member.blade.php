@@ -586,8 +586,8 @@ $isHolder = Session::get('IS_HOLDER');
         $('#member_main_tab').find('input').not('.auto-complete').attr('autocomplete', 'off');
         $('#capacity_data').find('input').not('.auto-complete').attr('autocomplete', 'off');
         $('#training_data').find('input').not('.auto-complete').attr('autocomplete', 'off');
-        $('[name=BirthPlace').attr('autocomplete', 'on');
-        $('[name=BirthCountry').attr('autocomplete', 'on');
+        $('[name=BirthPlace').attr('autocomplete', 'off');
+        $('[name=BirthCountry').attr('autocomplete', 'off');
         /*
         $('.member-item').on('click', function() {
             //if($(this).hasClass('selected'))
