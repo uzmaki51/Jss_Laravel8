@@ -478,10 +478,12 @@
                     this.is_finish = true;
                     disabledVoy(false);
                     voyContractObj.checkVoyNo($('#voyContractForm [name=voy_no]').val());
-                    if(voyContractObj.pre_cp_date == '')
+                    if(voyContractObj.cp_date == '')
                         voyContractObj.cp_date = this.getToday('-');
-                    else 
-                        voyContractObj.cp_date = voyContractObj.pre_cp_date;
+
+                    voyContractObj.pre_cp_date = voyContractObj.cp_date;
+                    // else 
+                    //     voyContractObj.cp_date = voyContractObj.pre_cp_date;
 
                     voyContractObj.qty_amount = this.input['cargo_amount'];
                     // voyContractObj.freight_rate = '$ ' + this.input['freight_price'];

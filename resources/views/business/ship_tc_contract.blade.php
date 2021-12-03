@@ -468,10 +468,12 @@
                     this.is_finish = true;
                     disabledTc(false);
                     tcContractObj.checkVoyNo($('#tcContractForm [name=voy_no]').val());
-                    if(tcContractObj.pre_cp_date == '')
+                    if(tcContractObj.cp_date == '')
                         tcContractObj.cp_date = this.getToday('-');
-                    else
-                        tcContractObj.cp_date = tcContractObj.pre_cp_date;
+
+                    tcContractObj.pre_cp_date = tcContractObj.cp_date;
+                    // else
+                    //     tcContractObj.cp_date = tcContractObj.pre_cp_date;
 
                     tcContractObj.hire = __parseFloat(this.input['daily_rent']) == 0 ? '' : '$ ' + __parseFloat(this.input['daily_rent']);
                     tcContractObj.ilohc = __parseFloat(this.input['ilohc']) == 0 ? '' : '$ ' + __parseFloat(this.input['ilohc']);

@@ -423,10 +423,10 @@
                     this.is_finish = true;
                     disabled(false);
                     nonContractObj.checkVoyNo($('#nonContractForm [name=voy_no]').val());
-                    if(nonContractObj.pre_cp_date == '' || nonContractObj.pre_cp_date == null)
+                    if(nonContractObj.cp_date == '' || nonContractObj.cp_date == null)
                         nonContractObj.cp_date = this.getToday('-');
-                    else
-                        nonContractObj.cp_date = nonContractObj.pre_cp_date;
+                    // else
+                    nonContractObj.pre_cp_date = nonContractObj.cp_date;
 
                     nonContractObj.hire = this.input['daily_rent'];
                     nonContractObj.ilohc = this.input['ilohc'];

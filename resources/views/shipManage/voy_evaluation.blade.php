@@ -138,9 +138,6 @@ $ships = Session::get('shipList');
 	echo '</script>';
 	?>
     <script>
-
-
-
         var equipObj = null;
         var certTypeObj = null;
         var $_this = null;
