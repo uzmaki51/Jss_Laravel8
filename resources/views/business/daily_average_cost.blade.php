@@ -105,63 +105,63 @@ $ships = Session::get('shipList');
                                 <strong class="f-right" style="font-size: 20px; padding-top: 6px; padding-bottom:8px;"><span id="costs_info"></span>成本预计</strong>
                             </div>
                             <form id="form-costs-list" action="updateCostInfo" role="form" method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="_token" value="{{csrf_token()}}">
-                            <table id="table-expect-cost" style="table-layout:fixed;width:900px!important;" class="not-striped">
-                                <thead class="">
-                                <tr>
-                                    <th class="text-center style-normal-header" rowspan="2"><span></span></th>
-                                    <th class="text-center style-red-header" colspan="3"><span>运营成本 ($)</span></th>
-                                    <th class="text-center style-normal-header" colspan="8"><span>管理成本 ($)</span></th>
-                                </tr>
-                                <tr>
-                                    <th class="text-center style-red-header"><span>劳务费</span></th>
-                                    <th class="text-center style-red-header"><span>CTM</span></th>
-                                    <th class="text-center style-red-header"><span>其他</span></th>
-                                    <th class="text-center style-normal-header"><span>工资</span></th>
-                                    <th class="text-center style-normal-header"><span>伙食费</span></th>
-                                    <th class="text-center style-normal-header"><span>物料费</span></th>
-                                    <th class="text-center style-normal-header"><span>修理费</span></th>
-                                    <th class="text-center style-normal-header"><span>管理费</span></th>
-                                    <th class="text-center style-normal-header"><span>保险费</span></th>
-                                    <th class="text-center style-normal-header"><span>检验费</span></th>
-                                    <th class="text-center style-normal-header"><span>证书费</span></th>
-                                </tr>
-                                </thead>
-                                <tbody class="" id="">
-                                <tr>
-                                    <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>年成本</span></td>
-                                    <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                    <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                    <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                    <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                    <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                    <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                    <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                    <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
-                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
-                                    <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>月成本</span></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
-                                    <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
-                                    <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                    <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                    <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
-                                </tr>
-                                <tr style="height:30px;border:2px solid black;">
-                                    <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>日成本</span></td>
-                                    <td colspan="3" class="sub-small-header style-red-header text-center" id="total-extra-sum"></td>
-                                    <td colspan="8" class="sub-small-header style-normal-header text-center" id="total-sum"></td>
-                                </tbody>
-                            </table>
+                                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                <table id="table-expect-cost" style="table-layout:fixed;width:900px!important;" class="not-striped">
+                                    <thead class="">
+                                    <tr>
+                                        <th class="text-center style-normal-header" rowspan="2"><span></span></th>
+                                        <th class="text-center style-red-header" colspan="3"><span>运营成本 ($)</span></th>
+                                        <th class="text-center style-normal-header" colspan="8"><span>管理成本 ($)</span></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center style-red-header"><span>劳务费</span></th>
+                                        <th class="text-center style-red-header"><span>CTM</span></th>
+                                        <th class="text-center style-red-header"><span>其他</span></th>
+                                        <th class="text-center style-normal-header"><span>工资</span></th>
+                                        <th class="text-center style-normal-header"><span>伙食费</span></th>
+                                        <th class="text-center style-normal-header"><span>物料费</span></th>
+                                        <th class="text-center style-normal-header"><span>修理费</span></th>
+                                        <th class="text-center style-normal-header"><span>管理费</span></th>
+                                        <th class="text-center style-normal-header"><span>保险费</span></th>
+                                        <th class="text-center style-normal-header"><span>检验费</span></th>
+                                        <th class="text-center style-normal-header"><span>证书费</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="" id="">
+                                    <tr>
+                                        <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>年成本</span></td>
+                                        <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                        <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                        <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                        <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                        <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                        <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                        <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                        <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                        <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                        <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                        <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>月成本</span></td>
+                                        <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                        <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                        <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                        <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                        <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                        <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                        <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                        <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                        <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                        <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                        <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                    </tr>
+                                    <tr style="height:30px;border:2px solid black;">
+                                        <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>日成本</span></td>
+                                        <td colspan="3" class="sub-small-header style-red-header text-center" id="total-extra-sum"></td>
+                                        <td colspan="8" class="sub-small-header style-normal-header text-center" id="total-sum"></td>
+                                    </tbody>
+                                </table>
                             </form>
                         </div>
                     </div>
@@ -678,9 +678,10 @@ $ships = Session::get('shipList');
                 }
                 else
                 {
-                    for (var i=3;i<19;i+=2)
+                    for (var i=3;i<25;i+=2)
                     {
                         var info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                        console.log(info);
                         tab.rows[j].childNodes[i].innerHTML = info;
                     }
                 }
