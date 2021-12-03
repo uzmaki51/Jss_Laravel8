@@ -125,10 +125,10 @@ $ships = Session::get('shipList');
     <script src="https://unpkg.com/vuejs-datepicker"></script>
     <!--script src="{{ asset('/assets/js/dycombo.js') }}"></script-->
     <script src="{{ cAsset('assets/js/bignumber.js') }}"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="{{ cAsset('assets/js/highchart/highcharts.js') }}"></script>
+    <script src="{{ cAsset('assets/js/highchart/exporting.js') }}"></script>
+    <script src="{{ cAsset('assets/js/highchart/export-data.js') }}"></script>
+    <!--script src="{{ cAsset('assets/js/highchart/accessibility.js') }}"></script-->
 
 	<?php
 	echo '<script>';
