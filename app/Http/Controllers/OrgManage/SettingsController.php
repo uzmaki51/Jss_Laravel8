@@ -51,12 +51,14 @@ class SettingsController extends Controller
         $sites = SettingsSites::select('*')->whereNotNull('orderNo')->orderByRaw("CAST(orderNo AS SIGNED INTEGER) ASC")->get();
 
         $start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
-        if(empty($start_year)) {
-            $start_year = '2021-01-01';
+        if(!isset($start_year)) {
+            $start_year = date("Y-m-d");
         } else {
             $start_year = $start_year['min_date'];
         }
+
         $start_year = date("Y", strtotime($start_year));
+        
         return view('orgmanage.settings', [
             'title' => '',
             'settings'   => $settings,

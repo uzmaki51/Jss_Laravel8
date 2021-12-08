@@ -88,8 +88,7 @@ $isHolder = Session::get('IS_HOLDER');
             <div class="row">
                 <div class="col-md-12 common-list" style="margin-top:4px;">
                 <div id="item-manage-dialog" class="hide"></div>
-                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                
+                    <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <div class="row">
                         <div class="col-md-6" style="padding-left: 0px!important;">
                             <div class="table-responsive">

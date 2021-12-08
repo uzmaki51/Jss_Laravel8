@@ -120,7 +120,7 @@ class ShipRegController extends Controller
         // var_dump($ship_infolist);die;
 		$memberCertXls['COC'] = $this->__MEMBER_EXCEL_COC;
         $memberCertXls['GOC'] = $this->__MEMBER_EXCEL_GOC;
-        
+
 	    $params = $request->all();
 
 	    if(isset($params['id'])) {
@@ -150,6 +150,8 @@ class ShipRegController extends Controller
 		$shipName = $shipInfo->shipName_En;
 	    $shipTypeTbl = ShipType::where('id', $shipInfo->ShipType)->first();
 	    $shipInfo['ShipType'] = isset($shipTypeTbl) ? $shipTypeTbl['ShipType'] : '';
+
+		//$shipMembers = ShipMember::where('ShipId', $imo_no)->get();
 
         return view('shipManage.shipinfo', [
         	'list'      => $ship_infolist,
@@ -184,7 +186,7 @@ class ShipRegController extends Controller
 	    return view('shipManage.shipinfo', [
 		    'shipInfo'          => $shipInfo,
 		    'is_excel'          => 1,
-		    'excel_name'        => $shipName . '_规范',
+		    'excel_name'        => $shipName . '_SHIP PARTICULARS_' . date('Ymd'),
 			'shipName'			=> $shipName,
 		    'id'                => $ship_id
 	    ]);
@@ -211,7 +213,7 @@ class ShipRegController extends Controller
             } else {
                 $first_ship = ShipRegister::orderBy('id')->first();
             }
-            
+
             if (empty($first_ship)) {
                 $shipId = '0';
             } else {
@@ -230,13 +232,13 @@ class ShipRegController extends Controller
 
         $ship_infolist = $this->getShipGeneralInfo(true);
         return view('shipManage.shipregister', [
-                        'shipList'      =>  $shipList, 
-                        'shipType'      =>  $shipType, 
-                        'shipInfo'      =>  $shipInfo, 
-                        'freeBoard'     =>  $freeBoard, 
+                        'shipList'      =>  $shipList,
+                        'shipType'      =>  $shipType,
+                        'shipInfo'      =>  $shipInfo,
+                        'freeBoard'     =>  $freeBoard,
                         'status'        =>  $status,
                         'list'          =>  $ship_infolist,
-                        
+
                         'breadCrumb'    => $breadCrumb
                     ]);
     }
@@ -353,7 +355,7 @@ class ShipRegController extends Controller
             $shipData['MachineryNotation'] = $params['MachineryNotation'] == "" ? null : $params['MachineryNotation'];
             $shipData['Refrigerater'] = $params['Refrigerater'] == "" ? null : $params['Refrigerater'];
             $shipData['RefrigeraterNotation'] = $params['RefrigeraterNotation'] == "" ? null : $params['RefrigeraterNotation'];
-            
+
 
 		    $shipData['HullNo'] = $params['HullNo'] == "" ? null : $params['HullNo'];
 		    $shipData['Decks'] = $params['Decks'] == "" ? null : $params['Decks'];
@@ -528,11 +530,12 @@ class ShipRegController extends Controller
 		if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
         } else {
-            $firstShipInfo = $shipList[0];
-            if($firstShipInfo == null && $firstShipInfo == false)
-                return redirect()->back();
-
-            $shipId = $firstShipInfo->IMO_No;
+			if(count($shipList) > 0) {
+				$firstShipInfo = $shipList[0];
+                $shipId = $firstShipInfo->IMO_No;
+			} else {
+                $shipId = 0;
+            }
         }
 
         if(isset($params['year']))
@@ -553,8 +556,8 @@ class ShipRegController extends Controller
             $record_type = 'all';
 
         $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
-        if($shipInfo == null || $shipInfo == false)
-            return redirect()->back();
+        if(!isset($shipInfo))
+            $shipName = '';
         else {
             $shipName = $shipInfo->shipName_En;
         }
@@ -588,13 +591,16 @@ class ShipRegController extends Controller
         }
 
         $params = $request->all();
-        $shipId = $request->get('shipId'); 
+        $shipId = $request->get('shipId');
 	    $shipNameInfo = null;
         if(!isset($shipId)) {
-            if(!isset($shipList[0])) return redirect()->back();
-            $shipId = $shipList[0]->IMO_No;
+            if(!isset($shipList[0])) {
+                $shipId = 0;
+            } else {
+                $shipId = $shipList[0]->IMO_No;
+            }
         }
-        
+
         $shipNameInfo = ShipRegister::where('IMO_No', $shipId)->first();
 
         $ctmTbl = new Ctm();
@@ -642,7 +648,7 @@ class ShipRegController extends Controller
             if(count($shipList) > 0)
                 $shipId = $shipList[0]->IMO_No;
             else
-                return redirect()->back();
+                $shipId = 0;
         }
 
         $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
@@ -740,12 +746,12 @@ class ShipRegController extends Controller
             $shipCertTbl['sn'] = isset($params['sn'][$key]) ? $params['sn'][$key] : '';
             $shipCertTbl['particular'] = isset($params['particular'][$key]) ? $params['particular'][$key] : '';
             $shipCertTbl['manufacturer'] = isset($params['manufacturer'][$key]) ? $params['manufacturer'][$key] : '';
-            
+
 			if(isset($params['blt_year'][$key]) && $params['blt_year'][$key] != '' && $params['blt_year'][$key] != EMPTY_DATE)
                 $shipCertTbl['blt_year'] = $params['blt_year'][$key];
             else
                 $shipCertTbl['blt_year'] = null;
-            
+
             $shipCertTbl['year'] = $year;
 		    $shipCertTbl['remark'] = isset($params['remark'][$key]) ? $params['remark'][$key] : '';
 
@@ -777,14 +783,19 @@ class ShipRegController extends Controller
             $shipRegList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
-        $shipId = $request->get('id'); 
+        $shipId = $request->get('id');
         $year = $request->get('year');
 	    $shipNameInfo = null;
         if(isset($shipId)) {
 	        $shipNameInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No',$shipId)->first();
         } else {
-	        $shipNameInfo = $shipRegList[0];
-	        $shipId = $shipNameInfo['IMO_No'];
+			if(count($shipRegList) > 0) {
+				$shipNameInfo = $shipRegList[0];
+				$shipId = $shipNameInfo['IMO_No'];
+			} else {
+                $shipNameInfo = [];
+				$shipId = 0;
+            }
         }
 
         $user_pos = Auth::user()->pos;
@@ -798,8 +809,6 @@ class ShipRegController extends Controller
             }
         }
 
-        //$start_year = ShipMaterialRegistry::select(DB::raw('MIN(year) as min_date'))->first();
-        //$start_year = ShipRegister::where('RegStatus', '!=', 3)->select(DB::raw('MIN(RegDate) as min_date'))->first();
         if($shipNameInfo == null) {
             $start_year = '2020';
         } else {
@@ -832,14 +841,19 @@ class ShipRegController extends Controller
             $shipRegList = ShipRegister::orderBy('id')->get();
         }
 
-        $shipId = $request->get('id'); 
+        $shipId = $request->get('id');
         $year = $request->get('year');
 	    $shipNameInfo = null;
         if(isset($shipId)) {
 	        $shipNameInfo = ShipRegister::where('IMO_No',$shipId)->first();
         } else {
-	        $shipNameInfo = $shipRegList[0];
-	        $shipId = $shipNameInfo['IMO_No'];
+			if(count($shipRegList) > 0) {
+				$shipNameInfo = $shipRegList[0];
+				$shipId = $shipNameInfo['IMO_No'];
+			} else {
+				$shipNameInfo = [];
+				$shipId = 0;
+            }
         }
 
         $user_pos = Auth::user()->pos;
@@ -852,28 +866,9 @@ class ShipRegController extends Controller
                 $shipNameInfo = null;
             }
         }
-        /*
-        $selector = ShipMaterialRegistry::whereRaw(DB::raw('LENGTH(blt_year) > 3'));
-        $selector = $selector->whereRaw(DB::raw('SUBSTRING(blt_year, 1, 4) > 1900'));
-        $selector = $selector->selectRaw('SUBSTRING(blt_year,1,4) as start_year');
-        $record = $selector->orderBy('start_year')->first();
-        if (empty($record)) {
-            $start_year = date('Y');
-        } else {
-            $start_year = $record->start_year;
-        }
-        */
 
-        /*
-        $start_year = ShipMaterialRegistry::select(DB::raw('MIN(year) as min_date'))->first();
-        if(empty($start_year)) {
-            $start_year = '2020';
-        } else {
-            $start_year = substr($start_year['min_date'],0,4);
-        }
-        */
         if($shipNameInfo == null) {
-            $start_year = '2020';
+            $start_year = date("Y");
         } else {
             $start_year = $shipNameInfo['RegDate'];
             $start_year = substr($start_year,0,4);
@@ -885,7 +880,7 @@ class ShipRegController extends Controller
         if (!isset($year)) {
             $year = date("Y");
         }
-        
+
         return view('shipManage.ship_material_list', [
         	    'shipList'      => $shipRegList,
                 'shipName'      => $shipNameInfo,
@@ -909,14 +904,19 @@ class ShipRegController extends Controller
             $shipRegList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
         }
 
-        $shipId = $request->get('id'); 
+        $shipId = $request->get('id');
 	    $shipNameInfo = null;
         if(isset($shipId)) {
 	        $shipNameInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No',$shipId)->first();
         } else {
 	        //$shipNameInfo = ShipRegister::orderBy('id')->first();
-            $shipNameInfo = $shipRegList[0];
-	        $shipId = $shipNameInfo['IMO_No'];
+			if(count($shipRegList) > 0) {
+				$shipNameInfo = $shipRegList[0];
+				$shipId = $shipNameInfo['IMO_No'];
+			} else {
+				$shipNameInfo = [];
+				$shipId = 0;
+            }
         }
 
         $user_pos = Auth::user()->pos;
@@ -1067,7 +1067,7 @@ class ShipRegController extends Controller
             $shipId = $params['shipId'];
         else
             return redirect()->back();
-            
+
         if(isset($params['_type']))
             $type = $params['_type'];
         else
@@ -1116,7 +1116,7 @@ class ShipRegController extends Controller
 		$retVal = ShipEquipmentRequireKind::all();
 
 		return response()->json($retVal);
-    }        
+    }
 
 	public function saveShipCertType(Request $request) {
 		$params = $request->all();
@@ -1284,8 +1284,13 @@ class ShipRegController extends Controller
 		    //$shipNameInfo = ShipRegister::find($shipId);
             $shipNameInfo = ShipRegister::where('IMO_No',$shipId)->first();
 	    } else {
-		    $shipNameInfo = $shipList[0];
-		    $shipId = $shipNameInfo['IMO_No'];
+			if(count($shipList) > 0) {
+				$shipNameInfo = $shipList[0];
+				$shipId = $shipNameInfo['IMO_No'];
+			} else {
+				$shipNameInfo = [];
+				$shipId = 0;
+            }
 	    }
 
 	    return view('shipManage.ship_cert_list', [
@@ -1385,15 +1390,16 @@ class ShipRegController extends Controller
             $shipId = $params['shipId'];
         } else {
             $firstShipInfo = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->first();
-            if($firstShipInfo == null && $firstShipInfo == false)
-                return redirect()->back();
-
-            $shipId = $firstShipInfo->IMO_No;
+            if(!isset($firstShipInfo)) {
+                $shipId = 0;
+            } else {
+                $shipId = $firstShipInfo->IMO_No;
+            }
         }
 
         $shipInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $shipId)->first();
-        if($shipInfo == null || $shipInfo == false)
-            return redirect()->back();
+        if(!isset($shipInfo))
+            $shipName = '';
         else {
             $shipName = $shipInfo->shipName_En;
         }
@@ -1458,7 +1464,7 @@ class ShipRegController extends Controller
                 $shipId = 0;
             }
         }
-        
+
         if(isset($params['type'])) {
             $type = $params['type'];
         } else {
@@ -1466,7 +1472,7 @@ class ShipRegController extends Controller
         }
 
         $shipName = $shipRegTbl->getShipNameByIMO($shipId);
-        
+
         $tbl = new ShipEquipment();
         $yearList = $tbl->getYearList($shipId);
 
@@ -2293,7 +2299,7 @@ class ShipRegController extends Controller
         $others->delete();
         return 1;
     }
-    
+
 
     public function shipPartManage(Request $request) {
         Util::getMenuInfo($request);
@@ -2404,7 +2410,11 @@ class ShipRegController extends Controller
         $retVal['material_type'] = ShipMaterialSubKind::orderByRaw('CAST(order_no AS SIGNED) ASC')->get();
 
 	    $retVal['ship_id'] = $id;
-	    $retVal['ship_name'] = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $id)->first()->shipName_En;
+        $shipInfo = ShipRegister::where('RegStatus', '!=', 3)->where('IMO_No', $id)->first();
+        if(isset($shipInfo))
+	        $retVal['ship_name'] = $shipInfo->shipName_En;
+        else
+            $retVal['ship_name'] = '';
 
     	return response()->json($retVal);
     }
@@ -2427,7 +2437,13 @@ class ShipRegController extends Controller
 	    $retVal['cert_type'] = ShipCertList::all();
 
 	    $retVal['ship_id'] = $params['ship_id'];
-	    $retVal['ship_name'] = ShipRegister::where('IMO_No', $id)->first()->shipName_En;
+
+        $shipInfo = ShipRegister::where('IMO_No', $id)->first();
+        if(isset($shipInfo))
+	        $retVal['ship_name'] = $shipInfo->shipName_En;
+        else
+            $retVal['ship_name'] = '';
+
 
     	return response()->json($retVal);
     }
@@ -2458,11 +2474,11 @@ class ShipRegController extends Controller
 		$records = $selector->first();
 		if (!empty($records)) {
 			$ret = 0;
-			return response()->json($ret);	
+			return response()->json($ret);
 		}
 		ShipCertList::where('id', $params['id'])->delete();
 		$retVal = ShipCertList::all();
-        
+
 		return response()->json($retVal);
 	}
 
@@ -2472,7 +2488,7 @@ class ShipRegController extends Controller
 		$records = $selector->first();
 		if (!empty($records)) {
 			$ret = 0;
-			return response()->json($ret);	
+			return response()->json($ret);
 		}
 
 		ShipMaterialCategory::where('id', $params['id'])->delete();
@@ -2487,7 +2503,7 @@ class ShipRegController extends Controller
 		$records = $selector->first();
 		if (!empty($records)) {
 			$ret = 0;
-			return response()->json($ret);	
+			return response()->json($ret);
 		}
 
 		ShipMaterialSubKind::where('id', $params['id'])->delete();
@@ -2511,7 +2527,7 @@ class ShipRegController extends Controller
 
 		return response()->json(1);
     }
-    
+
     public function ajaxCtmTotal(Request $request) {
         $params = $request->all();
 
@@ -2560,7 +2576,7 @@ class ShipRegController extends Controller
         }
 
         return response()->json($result);
-    }    
+    }
 
     public function ajaxDynamicSearch(Request $request) {
         $params = $request->all();
@@ -2574,9 +2590,13 @@ class ShipRegController extends Controller
         $year = $params['year'];
         if(isset($params['year']))
             $params['year'] = substr($params['year'], 2, 2);
-        
+
         $cpList = CP::where('ship_ID', $shipId)->whereRaw(DB::raw('mid(Voy_No, 1, 2) like ' . $params['year']))->orderBy('Voy_No', 'asc')->get();
-        
+
+        $retVal['cpData'] = [];
+        $retVal['currentData'] = [];
+        $retVal['voyData'] = [];
+
         $tbl = new VoyLog();
         foreach($cpList as $key => $item) {
             $voyId = $item->Voy_No;
@@ -2588,7 +2608,7 @@ class ShipRegController extends Controller
                 $retVal['cpData'][$voyId] = [];
             else
                 $retVal['cpData'][$voyId] = $cpInfo;
-                
+
             if($fuelList == null) {
                 $beforeVoy = $tbl->getBeforeInfo($shipId, $voyId);
                 $firstVoy = VoyLog::where('CP_ID', $voyId)->where('Ship_ID', $shipId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->orderBy('id', 'asc')->first();
@@ -2628,21 +2648,21 @@ class ShipRegController extends Controller
 
         if(!isset($params['shipId']))
             return redirect()->back();
-        
+
         $shipId = $params['shipId'];
         $year = $params['year'];
         $ids = $params['id'];
-        
+
         // var_dump($params);die;
         foreach($ids as $key => $id) {
             $tbl = new Fuel();
             if($id != '') {
                 $tbl = Fuel::find($id);
             }
-            
+
             $tbl['shipId'] = $shipId;
             $tbl['year'] = $year;
-            
+
             $tbl['voy_no'] = $params['voy_no'][$key];
             $tbl['avg_speed'] = $params['avg_speed'][$key];
             $tbl['up_rob_fo'] = _convertStr2Int($params['up_rob_fo'][$key]);
@@ -2670,7 +2690,7 @@ class ShipRegController extends Controller
 				    $fileName = $file->getClientOriginalName();
 				    $name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
                     $file->move(public_path() . '/fuelManage/', $name);
-                    
+
                     $tbl['is_up_attach'] = 0;
 				    $tbl['attachment_url_up'] = public_path('/fuelManage/') . $name;
 				    $tbl['attachment_link_up'] = '/fuelManage/' . $name;
@@ -2699,17 +2719,17 @@ class ShipRegController extends Controller
                 $tbl['attachment_link_down'] = '';
             }
 
-            
+
             $tbl->save();
         }
 
         return redirect('/shipManage/fuelManage?shipId=' . $params['shipId'] . '&year=' . $params['year']);
-        
+
     }
 
     public function ajaxEquipmentList(Request $request) {
     	$params = $request->all();
-        
+
         $equipTbl = new ShipEquipment();
         $record = $equipTbl->getEquipmentList($params);
 
@@ -2726,7 +2746,7 @@ class ShipRegController extends Controller
 
     public function ajaxReqEquipmentList(Request $request) {
     	$params = $request->all();
-        
+
         $equipTbl = new ShipEquipmentRequire();
         $record = $equipTbl->getEquipmentList($params);
 
@@ -2740,10 +2760,10 @@ class ShipRegController extends Controller
 
 		return response()->json($retVal);
     }
-    
+
     public function ajaxShipReqEquipTypeList(Request $request) {
     	$params = $request->all();
-        
+
         $list = ShipEquipmentRequireKind::all();
 
     	return response()->json($list);
@@ -2753,12 +2773,12 @@ class ShipRegController extends Controller
 		$params = $request->all();
 
         $retVal = ShipEquipmentRequireKind::where('id', $params['id'])->delete();
-        
+
         $retVal = ShipEquipmentRequireKind::all();
 
 		return response()->json($retVal);
     }
-    
+
     public function ajaxEvaluation(Request $request) {
         $params = $request->all();
 
@@ -2766,10 +2786,10 @@ class ShipRegController extends Controller
         $voyId = $params['voyId'];
 
         $evalTbl = new Evaluation();
-        
+
 
         $retVal = $evalTbl->getEvaluationData($shipId, $voyId);
-        
+
         return response()->json($retVal);
     }
 
@@ -2785,7 +2805,7 @@ class ShipRegController extends Controller
         $retVal = [];
         foreach($voyList as $key => $item)
             $retVal[] = $evalTbl->getEvaluationData($shipId, $item->Voy_No);
-        
+
         return response()->json($retVal);
     }
 
