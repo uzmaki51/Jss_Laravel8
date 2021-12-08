@@ -271,7 +271,7 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
             //document.getElementById('test').innerHTML = tab_text;
-            var filename = 'CREW CERTIFICATES LIST(' + shipName + ')';
+            var filename = $("#select-ship option:selected").text() + '_海员证书';
             exportExcel(tab_text, filename, 'CREW CERTIFICATES LIST');
             return 0;
         }

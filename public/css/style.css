@@ -302,9 +302,10 @@ div.input table tbody tr td
     height: 20px;
 }
 
-.report-content {
-    max-width: 600px;
+.report-content span {
+    width: 600px;
     overflow: hidden;
+    display: block;
     text-overflow: ellipsis;
 }
 

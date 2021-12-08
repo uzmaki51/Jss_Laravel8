@@ -1524,7 +1524,7 @@ $ships = Session::get('shipList');
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = $('#select-table-ship option:selected').text() + '_' + year_table + '_收支分析表';
+            var filename = $('#select-table-ship option:selected').text() + '_' + year_table + '年_收支分析表';
             exportExcel(tab_text, filename, filename);
             
             return 0;

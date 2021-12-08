@@ -377,17 +377,28 @@
                                 for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
                                     if (i == 4) {
                                         info = real_tab.rows[j].childNodes[i].childNodes[0].value;
-                                        tab.rows[j].childNodes[i].innerHTML = PlaceType[info];
+                                        tab.rows[j].childNodes[i].innerHTML = getPlaceTypeName(info);
                                     }
                                     else if (i == 6) {
                                         info = real_tab.rows[j].childNodes[i].childNodes[0].value;
-                                        tab.rows[j].childNodes[i].innerHTML = VarietyType[info]
+                                        // if(info != undefined)
+                                        //     if(VarietyType[info] != undefined)
+                                        //         tab.rows[j].childNodes[i].innerHTML = VarietyType[info].name;
+                                        //     else
+                                        //         tab.rows[j].childNodes[i].innerHTML = '';
+                                        // else
+                                        //     tab.rows[j].childNodes[i].innerHTML = '';
+                                        tab.rows[j].childNodes[i].innerHTML = getVarietyTypeName(info);
+                                        console.log(VarietyType[info].name)
                                     }
                                     else if (i == 16) {
                                         info = real_tab.rows[j].childNodes[i].childNodes[0].value;
-                                        tab.rows[j].childNodes[i].innerHTML = UnitData[info];
+                                        if(info != undefined)
+                                            tab.rows[j].childNodes[i].innerHTML = info;
+                                        else
+                                            tab.rows[j].childNodes[i].innerHTML = '';
                                     }
-                                    else if (i == 0 || i == 22) {
+                                    else if (i == 0) {
 
                                     }
                                     else {
@@ -406,7 +417,7 @@
                         tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
                         tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-                        var filename = $('#search_info').html() + '_' + equipObj._data.activeYear + "年备件物料";
+                        var filename = $('#search_info').html() + '_' + equipObj._data.activeYear + "年_备件物料";
                         exportExcel(tab_text, filename, filename);
                         
                         return 0;
@@ -525,6 +536,28 @@
                 $(".dynamic-options").siblings('.dynamic-select__trigger').removeClass('open')
             }
         });
+
+        function getVarietyTypeName(id) {
+            let retVal = '';
+            VarietyType.forEach(function(value, key) {
+                if(value.id == id) {
+                    retVal = value.name;
+                }
+            });
+
+            return retVal;
+        }
+
+        function getPlaceTypeName(id) {
+            let retVal = '';
+            PlaceType.forEach(function(value, key) {
+                if(value.id == id) {
+                    retVal = value.name;
+                }
+            });
+
+            return retVal;
+        }
 
         $(".ui-draggable").draggable({
             helper: 'move',

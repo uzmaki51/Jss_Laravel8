@@ -152,8 +152,8 @@ class HomeController extends Controller {
 
 		//
 		$decision = new DecisionReport();
-		$profit_list = $decision->getProfit($settings['profit_year']);
-//dump($profit_list);die;
+		$profit_list = $decision->getProfit($settings['report_year']);
+
 		return view('home.front', [
 			'shipList'          => $shipList,
 			'reportList'        => $reportList,

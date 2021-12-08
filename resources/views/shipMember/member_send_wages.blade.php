@@ -510,10 +510,10 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = $("#select-ship option:selected").html() + '_' + year + '_' + month + '_工资汇款单';
+            var filename = $("#select-ship option:selected").html() + '_' + year + '年_' + month + '月_工资汇款单';
 
             //$('#test').html(tab_text);
-            exportExcel(tab_text, filename, year + '_' + month + '_工资汇款单');
+            exportExcel(tab_text, filename, year + '年_' + month + '月_工资汇款单');
             return 0;
         }
 

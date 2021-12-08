@@ -1482,8 +1482,8 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = year + '_' + month.padStart(2,'0') + '_记账簿';
-            exportExcel(tab_text, filename, year + '_' + month + '_记账簿');
+            var filename = year + '年_' + month.padStart(2,'0') + '月_记账簿';
+            exportExcel(tab_text, filename, year + '年_' + month + '月_记账簿');
             
             return 0;
         }
@@ -1558,8 +1558,8 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = year_water + '_' + month_water.padStart(2,'0') + '_流水账';
-            exportExcel(tab_text, filename, year_water + '_' + month_water + '_流水账');
+            var filename = year_water + '年_' + month_water.padStart(2,'0') + '月_流水账';
+            exportExcel(tab_text, filename, year_water + '円_' + month_water + '月_流水账');
             
             return 0;
         }

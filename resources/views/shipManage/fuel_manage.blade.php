@@ -60,7 +60,7 @@
                 <div class="col-md-12 align-bottom">
                     <div class="col-md-3">
                         <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
-                        <select class="custom-select d-inline-block" style="padding: 4px;max-width: 100px;" @change="changeShip" v-model="shipId">
+                        <select class="custom-select d-inline-block" id="ship_list" style="padding: 4px;max-width: 100px;" @change="changeShip" v-model="shipId">
                             @foreach($shipList as $ship)
                                 <option value="{{ $ship['IMO_No'] }}"
                                         {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
@@ -1108,7 +1108,7 @@
                         tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
                         tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-                        var filename = $('#search_info').html() + '_' + searchObj._data.activeYear + "年"+ searchObj._data.page_title;
+                        var filename = $("#ship_list option:selected").text() + searchObj._data.activeYear + "年_燃油管理";
                         exportExcel(tab_text, filename, filename);
                         
                         return 0;

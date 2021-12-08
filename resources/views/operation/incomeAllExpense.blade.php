@@ -1483,7 +1483,7 @@ $ships = Session::get('shipList');
         tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
         tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-        var filename = '收支(综合)_' + $('#table_first_title').html() + '_' + year_table;
+        var filename = '收支分析(综合)_' + $('#table_first_title').html();
         exportExcel(tab_text, filename, filename);
         
         return 0;

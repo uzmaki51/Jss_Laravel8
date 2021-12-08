@@ -365,7 +365,7 @@ $ships = Session::get('shipList');
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = $('#select-ship option:selected').text() + '_' + $('#title_year').html() + "设备清单";
+            var filename = $('#select-ship option:selected').text() + '_' + $('#title_year').html() + "_设备清单";
             exportExcel(tab_text, filename, filename);
             
             return 0;

@@ -151,8 +151,6 @@ class ShipRegController extends Controller
 	    $shipTypeTbl = ShipType::where('id', $shipInfo->ShipType)->first();
 	    $shipInfo['ShipType'] = isset($shipTypeTbl) ? $shipTypeTbl['ShipType'] : '';
 
-		//$shipMembers = ShipMember::where('ShipId', $imo_no)->get();
-
         return view('shipManage.shipinfo', [
         	'list'      => $ship_infolist,
 	        'shipInfo'  => $shipInfo,
@@ -186,7 +184,7 @@ class ShipRegController extends Controller
 	    return view('shipManage.shipinfo', [
 		    'shipInfo'          => $shipInfo,
 		    'is_excel'          => 1,
-		    'excel_name'        => $shipName . '_SHIP PARTICULARS_' . date('Ymd'),
+		    'excel_name'        => $shipName . '_规范',
 			'shipName'			=> $shipName,
 		    'id'                => $ship_id
 	    ]);

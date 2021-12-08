@@ -993,7 +993,7 @@
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = $('#search_info').html() + '_'  + $('#voy_list').val() + "_航次结算表";
+            var filename = $('#ship_list option:selected').text() + 'V'  + $('#voy_list').val() + "_航次结算";
             exportExcel(tab_text, filename, filename);
             
             return 0;

@@ -380,7 +380,7 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
             //document.getElementById('test').innerHTML = tab_text;
-            var filename = 'CREW LIST(' + shipName + ')';
+            var filename = $("#select-ship option:selected").text() + '_CREW LIST';
             exportExcel(tab_text, filename, 'CREW LIST');
             return 0;
         }
@@ -442,7 +442,7 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
             //document.getElementById('test').innerHTML = tab_text;
-            var filename = '船员名单(' + shipName_total + ')';
+            var filename = $("#select-ship option:selected").text() + '_船员名单';
             exportExcel(tab_text, filename, '船员名单');
             return 0;
         }

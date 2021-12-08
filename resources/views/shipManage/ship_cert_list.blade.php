@@ -35,7 +35,7 @@ $ships = Session::get('shipList');
             <div class="row">
                 <div class="col-md-6">
                     <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
-                    <select class="custom-select d-inline-block" style="padding: 4px;max-width: 100px;" @change="changeShip">
+                    <select class="custom-select d-inline-block" style="padding: 4px;max-width: 100px;" @change="changeShip" id="ship_list">
                         @foreach($shipList as $ship)
                             <option value="{{ $ship['IMO_No'] }}"
                                     {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
@@ -179,7 +179,7 @@ $ships = Session::get('shipList');
                         tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
                         tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-                        var filename = '"' + $('#ship_name').html() + '"' + "CERTIFICATES";
+                        var filename = $("#ship_list option:selected").text() + "船舶证书";
                         exportExcel(tab_text, filename, filename);
                         
                         return 0;

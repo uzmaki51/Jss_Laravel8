@@ -693,7 +693,7 @@ $ships = Session::get('shipList');
             tab_text=tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text=tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = $('#select-table-ship option:selected').text() + '_成本预计';
+            var filename = $('#select-table-ship option:selected').text() + '_' + $('#select-year option:selected').text() + '_成本预计';
             exportExcel(tab_text, filename, filename);
             
             return 0;

@@ -53,7 +53,6 @@ $ships = Session::get('shipList');
                     <div class="col-lg-6">
                         <div class="btn-group f-right">
                             <button class="btn btn-primary btn-sm search-btn" onclick="addCertItem()"><i class="icon-plus"></i>添加</button>
-                            <button class="btn btn-warning btn-sm excel-btn d-none"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                             <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
                             @if(!$isHolder)
                                 <button class="btn btn-sm btn-success" id="submit">

@@ -212,7 +212,7 @@
                         tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
                         tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-                        var filename = $('#search_info').html() + '_'  + compareObj._data.year + "年航次效率比较";
+                        var filename = $('#select-ship option:selected').text() + compareObj._data.year + "年_航次比较";
                         exportExcel(tab_text, filename, filename);
                         
                         return 0;

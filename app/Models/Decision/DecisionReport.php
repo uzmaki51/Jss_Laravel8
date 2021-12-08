@@ -543,17 +543,22 @@ class DecisionReport extends Model {
 
 	public function getPastProfit($shipid, $year) {
 		$voyNo_from = substr($year, 2, 2) . '00';
-
+	  
 		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->whereNotIn('profit_type',[13,14])->where('voyNo','<',$voyNo_from)->whereNotNull('book_no')
-				->groupBy('flowid')
-				->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, currency')
-				->groupBy('flowid');
-		
+		  ->groupBy('flowid')
+		  ->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, currency')
+		  ->groupBy('flowid');
+	  
 		$sums = $selector->get()->keyBy('flowid');
 		if (count($sums) == 0) return 0;
-		$profit = $sums['Credit']->sum - $sums['Debit']->sum;
+		if (isset($sums['Credit']) && isset($sums['Debit'])) {
+			$profit = $sums['Credit']->sum - $sums['Debit']->sum;
+		} else {
+		 	$profit = 0;
+		}
+		
 		return $profit;
-	}
+	   }
 
 
 	/// incomeExpense -> Table, Graph

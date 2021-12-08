@@ -369,8 +369,14 @@
                                         info = real_tab.rows[j].childNodes[i].childNodes[0].childNodes[0].childNodes[0].value;
                                         if (info == 0)
                                             tab.rows[j].childNodes[i].innerHTML = '';
-                                        else
-                                            tab.rows[j].childNodes[i].innerHTML = $__this.list[j].cert_name;
+                                        else {
+                                            if($__this.list[j] != undefined)
+                                                tab.rows[j].childNodes[i].innerHTML = $__this.list[j].cert_name;
+                                            else
+                                                tab.rows[j].childNodes[i].innerHTML = '';
+                                            
+                                        }
+                                            
                                     }
                                     else if (i == 12) {
                                         info = real_tab.rows[j].childNodes[i].childNodes[0].value;
@@ -399,7 +405,7 @@
                         tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
                         tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-                        var filename = $('#search_info').html() + '_' + equipRequireObj._data.activeYear + "必修备件表";
+                        var filename = $('#search_info').html() + '_' + equipRequireObj._data.activeYear + "年_必需备件";
                         exportExcel(tab_text, filename, filename);
                         
                         return 0;

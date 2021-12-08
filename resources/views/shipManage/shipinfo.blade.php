@@ -274,9 +274,9 @@ $shipList = explode(',', Auth::user()->shipList);
                             <div id="form_a" class="tab-pane">
                                 <table class="table table-bordered excel-output" id="formA-table">
                                     <thead>
-                                    <tr>
-                                        <th class="title" colspan="2" style="font-size: 16px;">SHIP PARTICULARS (A)</th>
-                                    </tr>
+                                        <tr>
+                                            <th class="title" colspan="2" style="font-size: 16px;">SHIP PARTICULARS (A)</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
@@ -431,8 +431,9 @@ $shipList = explode(',', Auth::user()->shipList);
             tab_text += tab.innerHTML;
             tab_text += "</table>";
 
-            // $('#excel-output tr td').css({'width': '300px', 'border-left' : '1px solid #666666', 'border-bottom' : '1px solid #666666'});
-            exportExcel(tab_text, shipName + '_' + 'FORM A', 'Sheet');
+            let excel_shiP_name = $("#ship_list option:selected").text();
+            
+            exportExcel(tab_text, excel_shiP_name + '_FORM A', 'Sheet');
 
         }
 

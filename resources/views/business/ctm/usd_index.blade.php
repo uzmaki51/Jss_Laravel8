@@ -508,7 +508,7 @@
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
             $('#test').html(tab_text);            
-            var filename = $("#select-ship option:selected").text() + '_' + $('#usd_year_list option:selected').val() + '_CTM记录($)';
+            var filename = $("#select-ship option:selected").text() + '_' + $('#usd_year_list option:selected').val() + '年_CTM记录($)';
             exportExcel(tab_text, filename, filename);
             
             return 0;

@@ -981,8 +981,8 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-            var filename = $("#select-ship option:selected").html() + '_' + year + '_' + month + '_工资单';
-            exportExcel(tab_text, filename, year + '_' + month + '_工资单');
+            var filename = $("#select-ship option:selected").html() + '_' + year + '年_' + month + '月_工资单';
+            exportExcel(tab_text, filename, filename);
             return 0;
         }
 
