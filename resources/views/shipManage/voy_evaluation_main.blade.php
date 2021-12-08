@@ -4,7 +4,7 @@
             <label class="custom-label d-inline-block font-bold for-pc" style="padding: 6px;">船名: </label>
             <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;" @change="onChangeShip" v-model="shipId">
                 @foreach($shipList as $ship)
-                    <option value="{{ $ship['IMO_No'] }}"
+                    <option value="{{ $ship['IMO_No'] }}" data-name="{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}" 
                         {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
                     </option>
                 @endforeach
@@ -480,7 +480,7 @@
                                 tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
                                 tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
-                                var filename = $('#select-ship option:selected').text() + 'V' + $('#voy_list').val() + "_航次评估";
+                                var filename = $('#select-ship option:selected').attr('data-name') + '_' + 'V' + $('#voy_list').val() + "_航次评估";
                                 exportExcel(tab_text, filename, filename);
                                 
                                 return 0;
