@@ -17,6 +17,7 @@ $(function() {
 
     checkDecisionRecord();
     setInterval(checkDecisionRecord, checkTime);
+    offAutoCmplt();
 });
 
 $(window).resize(function(e) {
