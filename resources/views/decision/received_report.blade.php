@@ -239,6 +239,7 @@
                                                     <td class="custom-modal-td-label">涉及部门</td>
                                                     <td class="custom-modal-td-text1">
                                                         <select name="depart_id" class="form-control width-100" v-model="currentDepartment">
+                                                            <option value=""></option>
                                                             <option v-for="(item, index) in department" v-bind:value="item.id">@{{ item.title }}</option>
                                                         </select>
                                                     </td>
@@ -539,7 +540,7 @@
                     }
 
                     reportObj.amount = is_new == false ? result['amount'] : 0;
-                    reportObj.currentDepartment = result['depart_id'];
+                    reportObj.currentDepartment = is_new == false ? result['depart_id'] : '';
 
                     reportObj.content = is_new == false ? result['content'] : '';
 
@@ -944,8 +945,6 @@
                 type: 'post',
                 success: function(data, status, xhr) {
                     reportObj.department = data;
-                    if(data != undefined && data != null && data.length > 0)
-                        reportObj.currentDepartment = data[0].id;
                 },
                 error: function(error) {
                     console.log(error)
@@ -1082,6 +1081,7 @@
                         let currency = 'required';
                         let content = 'required';
                         let obj_no = 'required';
+                        let depart_id = 'required';
 
                         let flowMsg = '请选择文件种类。';
                         let shipNoMsg = '请选择对象。';
@@ -1091,6 +1091,7 @@
                         let amountMsg = '请输入金额。';
                         let currencyMsg = '请选择币类。'
                         let contentMsg = '请输入摘要。';
+                        let depart_noMsg = '请输入涉及部门。';
 
                         if(obj_type != OBJECT_TYPE_SHIP) {
                             shipNo = '';
@@ -1134,9 +1135,13 @@
                                 content: {
                                     required: true
                                 },
+                                depart_id: {
+                                    required: true
+                                },
                                 obj_no: {
                                     required: true
                                 },
+
                             },
                             messages: {
                                 flowid: flowMsg,
@@ -1147,6 +1152,7 @@
                                 amount: amountMsg,
                                 content: contentMsg,
                                 obj_no: obj_noMsg,
+                                depart_id: depart_noMsg,
                             }
                         };
 
@@ -1176,6 +1182,9 @@
                                 obj_no: {
                                     required: true
                                 },
+                                depart_id: {
+                                    required: true
+                                },
                             },
                             messages: {
                                 flowid: flowMsg,
@@ -1186,6 +1195,7 @@
                                 amount: amountMsg,
                                 content: contentMsg,
                                 obj_no: obj_noMsg,
+                                depart_id: depart_noMsg,
                             },
 
                             submitHandler: function(form) {

@@ -471,7 +471,6 @@
             },
             ready: function() {
                 calcContractPreview();
-                console.log('aaaaaaa')
             },
             methods: {
                 onEditFinish: function() {
@@ -562,14 +561,11 @@
                     fo_sailTmp3 = BigNumber(this.input['fo_waiting']).multipliedBy(this.input['wait_day']);
                     this.output['fo_mt'] = parseFloat(BigNumber(fo_sailTmp1).plus(fo_sailTmp2).plus(fo_sailTmp3).toFixed(DECIMAL_SIZE));
 
-                    console.log(do_sailTmp1.toFixed(2), this.input['do_up_shipping'])
                     // DO_MT
                     do_sailTmp1 = do_sailTmp1.multipliedBy(this.input['do_up_shipping']);
                     do_sailTmp2 = BigNumber(this.input['do_sailing']).multipliedBy(this.output['sail_term']);
                     do_sailTmp3 = BigNumber(this.input['do_waiting']).multipliedBy(this.input['wait_day']);
                     
-                    console.log(this.input['do_sailing'], this.output['sail_term']);
-                    console.log(this.input['do_waiting'], this.input['wait_day']);
                     this.output['do_mt'] = parseFloat(BigNumber(do_sailTmp1).plus(do_sailTmp2).plus(do_sailTmp3).toFixed(DECIMAL_SIZE));
 
                     // Oil Price
