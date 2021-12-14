@@ -640,10 +640,10 @@
                         submitted = true;
                         if(this.validateForm() == -2) {
                             __alertAudio();
-                            bootbox.alert('Please input ROB/FO, ROB/DO value.');
+                            bootbox.alert('Please input ROB(FO, DO).');
                         } else if(this.validateForm() == -1) {
                             __alertAudio();
-                            bootbox.alert('"CGO QTY" is require input field.');
+                            bootbox.alert('"CGO QTY" is required item.');
                         } else if(this.validateForm() == -3) {
                             __alertAudio();
                             bootbox.alert('If "STATUS" is CMPLT VOYAGE, POSITION and ROB are required item.');
