@@ -735,7 +735,7 @@ class BusinessController extends Controller {
 			}
 		}
 
-        return ShipPort::all();
+        return ShipPort::orderBy('Port_En', 'asc')->get();
     }
 
     public function saveCtmList(Request $request) {
@@ -1179,7 +1179,7 @@ class BusinessController extends Controller {
         $id = $params['id'];
         ShipPort::where('id', $id)->delete();
 
-        return response()->json(ShipPort::all());
+        return response()->json(ShipPort::orderBy('Port_En', 'asc')->get());
     }
 
     public function ajaxVoyList(Request $request) {

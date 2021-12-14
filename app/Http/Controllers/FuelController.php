@@ -14,6 +14,5 @@ class FuelController extends Controller
         $ret = Fuel::where('id', $id)->delete();
 
         return response()->json($ret);
-
     }
 }
