@@ -351,8 +351,16 @@ class BusinessController extends Controller {
             return redirect()->back();
         
         $shipId = $params['shipId'];
-        $ids = $params['id'];
-        $CP_ID = $params['_CP_ID'];
+        if(!isset($params['id']))
+          return redirect()->back();
+        else
+            $ids =$params['id'];
+
+        if(!isset($params['_CP_ID']))
+            return redirect()->back();
+        else
+            $CP_ID = $params['_CP_ID'];
+
 
         try {
             foreach($ids as $key => $item) {
