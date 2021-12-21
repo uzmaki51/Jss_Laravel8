@@ -74,8 +74,8 @@
                     <img class="navbar-img" style="padding: 8px;" src="{{ asset('/assets/avatars/logo.png') }}" alt=""/>
                 </a>
             </div>
-            <div class="sp-logout for-sp"> 
-                <li class="dropdown" style="height: auto;"> 
+            <div class="sp-logout for-sp">
+                <li class="dropdown" style="height: auto;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background: transparent;">
                         <img src="{{ Auth::user()->avatar == '' ? cAsset('assets/avatars/user.png') : cAsset(Auth::user()->avatar) }}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
                         欢迎 | {{ Auth::user()->realname }}</a>
@@ -84,8 +84,8 @@
                     </ul>
                 </li>
             </div>
-            
-            
+
+
             <div id="menuToggle" class="sp-menu sidebar">
                 <input type="checkbox" class="hamburger-input"/>
                 <span></span>
@@ -283,7 +283,7 @@
     });
 </script>
 <div class="main-container {{ $routeName == 'home' || $routeName == 'home.index' ? '' : 'inner-wrap' }}" style="{{ $routeName == 'shipmember.list' || $routeName == 'income.ship' || $routeName == 'income.all' || $routeName == 'wages.calc' || $routeName == 'wages.send' || $routeName == 'wages.calc.report' || $routeName == 'wages.send.report' ? 'width:100%; height: 100%!impotant;' : '' }}" id="main-container">
-    <div class="main-container-inner {{ $routeName == 'decision.report' || $routeName == 'system.settings' ? 'custom-height' : '' }}">
+    <div class="main-container-inner {{ $routeName == 'decision.report' || $routeName == 'system.settings' ? 'custom-height' : '' }}" style="{{$routeName == 'system.settings' ? 'overflow:hidden' : '' }}">
         @if(isset($breadCrumb) && count($breadCrumb) > 0)
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
                 <ul class="breadcrumb">

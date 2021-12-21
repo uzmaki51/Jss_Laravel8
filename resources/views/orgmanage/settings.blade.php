@@ -14,7 +14,7 @@ $isHolder = Session::get('IS_HOLDER');
 <link href="{{ cAsset('assets/js/chartjs/chartist.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ cAsset('assets/js/chartjs/c3.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ cAsset('assets/js/chartjs/flot.css') }}">
-    
+
     <script src="{{ cAsset('assets/js/chartjs/chartist.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/chartjs.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/d3.js') }}"></script>
@@ -191,7 +191,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <tbody class="" id="list-body">
                                 @if (isset($voyList) && count($voyList) > 0)
                                 <?php $index = 1;?>
-                                
+
                                 @foreach ($voyList as $info)
                                     <?php $nickName=""?>
                                     @foreach($shipList as $ship)
@@ -219,15 +219,15 @@ $isHolder = Session::get('IS_HOLDER');
                                 <tr>
                                     <td colspan="8">{{ trans('common.message.no_data') }}</td>
                                 </tr>
-                                
+
                                 @endif
-                                
+
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="row">
-                        <table id="table-sites-list" style="table-layout:fixed;margin-top:20px;">
+                    <div class="row head-fix-div" style="margin-top:20px; height: 120px;">
+                        <table id="table-sites-list" style="table-layout:fixed;">
                             <thead class="">
                                 <th class="text-center style-normal-header" style="width: 5%;height:35px;"><span>Order No</span></th>
                                 <th class="text-center style-normal-header" style="width: 60%;"><span>网站地址</span></th>
@@ -287,14 +287,14 @@ $isHolder = Session::get('IS_HOLDER');
                         </table>
                     </div>
                     <div class="row">
-                        <div class="head-fix-div" style="max-height: 200px; margin-top:20px;padding: 0 1px;table table-bordered">
+                        <div class="head-fix-div" style="max-height: 320px; margin-top:20px;padding: 0 1px;table table-bordered">
                             <table id="table-report-list" style="margin-bottom: 20px;">
                             </table>
                         </div>
                         <div class="space-12"></div>
                     </div>
                 </div>
-            
+
             </div>
             </form>
         </div>
@@ -417,7 +417,7 @@ $isHolder = Session::get('IS_HOLDER');
             alert(e);
         }
 
-        
+
         $(function() {
             initTable();
         });
@@ -466,11 +466,11 @@ $isHolder = Session::get('IS_HOLDER');
                     if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other') {
                         $('td', row).eq(5).html('').append(
                             '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + __parseStr(profit_type) + '</span>'
-                        );  
+                        );
                     } else {
                         $('td', row).eq(5).html('').append(
                             ''
-                        );  
+                        );
                     }
 
 
