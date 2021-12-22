@@ -621,10 +621,11 @@ class ShipMember extends Model
             $month = $params['columns'][4]['search']['value'];
         }
         
+        $rate = ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('type', 0)->first();
+        if ($rate == null) $rate = ''; else $rate = $rate->rate;
+
         $wage_list_record = ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('type', 1)->first();
         if (!is_null($wage_list_record)) {
-            $rate = ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('type', 0)->first();
-            $rate = $rate->rate;
             return $this->getSendList($params, $wage_list_record, $shipId, $year, $month, $rate);
         }
 
@@ -654,6 +655,7 @@ class ShipMember extends Model
             'draw' => $params['draw']+0,
             'recordsTotal' => $recordsFiltered,
             'recordsFiltered' => $recordsFiltered,
+            'rate' => $rate,
             'original' => true,
             'data' => $newArr,
             'error' => 0,
