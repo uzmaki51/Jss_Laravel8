@@ -132,7 +132,7 @@ $isHolder = Session::get('IS_HOLDER');
         </form>
         </div>
     </div>
-    <div id="modal-add-wage" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
+    <div id="modal-add-wage" class="modal modal-draggable" aria-hidden="true" style="display: none; margin-top: 15%;">
         <div class="dynamic-modal-dialog">
             <div class="dynamic-modal-content" style="border: 0;width:400px!important;">
                 <div class="dynamic-modal-header" data-target="#modal-step-contents">
@@ -158,7 +158,7 @@ $isHolder = Session::get('IS_HOLDER');
                                         <select id="add-rank" class="form-control" style="padding-left:unset!important;color:#1565C0!important;">
                                             <option value="" selected>&nbsp;</option>
                                             @foreach($posList as $pos)
-                                                <option value="{{$pos['Abb']}}" >{{$pos['Duty_En']}}</option>
+                                                <option value="{{$pos['Abb']}}" >{{$pos['Duty_En'].' ('.$pos['Abb'].')'}}</option>
                                             @endforeach
                                         </select>
                                     </td>

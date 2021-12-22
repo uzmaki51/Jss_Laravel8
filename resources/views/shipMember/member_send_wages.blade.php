@@ -57,6 +57,8 @@ $isHolder = Session::get('IS_HOLDER');
                                         @endfor
                                     @endif
                                 </select>
+                                <label class="custom-label d-inline-block font-bold" style="padding: 6px;">汇率:</label>
+                                <input type="number" name="rate" id="rate" value="6.5" min="0" step="0.1" autocomplete="off" style="width:80px;margin-right:0px;" disabled/>
                                 <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_info"></span>份工资汇款单</strong>
                             </div>
                             <div class="col-md-5" style="padding:unset!important">
@@ -207,6 +209,7 @@ $isHolder = Session::get('IS_HOLDER');
                 },
                 drawCallback: function (response) {
                     original = response.json.original;
+                    $('#rate').val(response.json.rate);
                     setEvents();
                     calcReport();
                 }

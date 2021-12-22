@@ -494,7 +494,7 @@ class ShipMember extends Model
         ];
     }
 
-    public function getSendList($params, $wage_list_record, $shipId, $year, $month)
+    public function getSendList($params, $wage_list_record, $shipId, $year, $month, $rate)
     {
         $selector = ShipWageSend::where('shipId', $shipId)->where('year', $year)->where('month', $month);
         $records = $selector->get();
@@ -526,6 +526,7 @@ class ShipMember extends Model
             'draw' => $params['draw']+0,
             'recordsTotal' => $recordsFiltered,
             'recordsFiltered' => $recordsFiltered,
+            'rate' => $rate,
             'original' => false,
             'data' => $newArr,
             'error' => 0,
@@ -622,7 +623,9 @@ class ShipMember extends Model
         
         $wage_list_record = ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('type', 1)->first();
         if (!is_null($wage_list_record)) {
-            return $this->getSendList($params, $wage_list_record, $shipId, $year, $month);
+            $rate = ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('type', 0)->first();
+            $rate = $rate->rate;
+            return $this->getSendList($params, $wage_list_record, $shipId, $year, $month, $rate);
         }
 
         $selector = ShipWage::where('shipId', $shipId)->where('year', $year)->where('month', $month);
@@ -635,7 +638,7 @@ class ShipMember extends Model
             $newArr[$newindex]['name'] = $record->name;
             $newArr[$newindex]['rank'] = $record->rank;
             $newArr[$newindex]['cashR'] = $record->cashR;
-            $newArr[$newindex]['sendR'] = $record->cashR;
+            $newArr[$newindex]['sendR'] = '';
             $newArr[$newindex]['sendD'] = '';
             if ($record->purchdate == null || $record->purchdate == '')
                 $newArr[$newindex]['purchdate'] = '';
@@ -775,10 +778,15 @@ class ShipMember extends Model
             $newArr[$newindex]['rank'] = '&nbsp;';
             if(!empty($rank) && $rank != null) $newArr[$newindex]['rank'] = $rank->Abb;
 
-            if ($record->Nationality == 'CHINA')
+            if ($record->Nationality == 'CHINA') {
                 $newArr[$newindex]['name'] = $record->GivenName;
-            else
+                if ($record->GivenName == null) {
+                    $newArr[$newindex]['name'] = $record->realname;    
+                }
+            }
+            else {
                 $newArr[$newindex]['name'] = $record->realname;
+            }
 
             $newArr[$newindex]['WageCurrency'] = $record->WageCurrency;
             $newArr[$newindex]['Salary'] = $record->Salary;
