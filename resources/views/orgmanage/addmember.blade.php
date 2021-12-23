@@ -234,7 +234,7 @@ $isHolder = Session::get('IS_HOLDER');
                 return;
             }
 
-            if(IS_HOLDER == HOLDER || IS_HOLDER == CAPTAIN)
+            if(IS_HOLDER == CAPTAIN)
             {
                 var ship_list = $('#select-ship-list').val();
                 if (ship_list == null) {

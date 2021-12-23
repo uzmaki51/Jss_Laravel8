@@ -96,7 +96,10 @@ class HomeController extends Controller {
 		/////////////////////////////////////////////
 		$settings = Settings::where('id', 1)->first();
         $reportList = DecisionReport::where('state','0')->where('ishide',0)->get();
-        $noattachments = DecisionReport::where('ishide',0)->get();
+        $noattachments = DecisionReport::where(function($query) {
+			$query->where('attachment',0)->orWhere('attachment',null);
+		})->where('state',0)->where('ishide',0)->get();
+		
 
 		//return $noattachments;
 
