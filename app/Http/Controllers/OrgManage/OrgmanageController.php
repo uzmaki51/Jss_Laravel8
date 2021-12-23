@@ -333,12 +333,6 @@ class OrgmanageController extends Controller
 		}
 
         $userid = $request->get('uid');
-        if(empty($userid)) {
-            if(isset($state) && ($state == 'success')) {
-                $userid = Session::get('userId');
-            }
-        }
-
         $userinfo = User::find($userid);
         $shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
 
@@ -429,9 +423,8 @@ class OrgmanageController extends Controller
 
 	    if(!empty($param['releaseDate'])) {
 		    $user->releaseDate = $param['releaseDate'];
-		    $user->status = STATUS_BANNED;
-	    } else
-		    $user->status = STATUS_ACTIVE;
+	    }
+	    $user->status = STATUS_ACTIVE; 
 
 	    // $user->isAdmin = (isset($param['isAdmin']) && $param['isAdmin'] == 1) ? 1 : ($param['pos'] == STAFF_LEVEL_SHAREHOLDER ? STAFF_LEVEL_SHAREHOLDER : 0);
 
@@ -493,9 +486,8 @@ class OrgmanageController extends Controller
 
 	    if(!empty($param['releaseDate'])) {
 		    $user->releaseDate = $param['releaseDate'];
-		    $user->status = STATUS_BANNED;
-	    } else
-		    $user->status = STATUS_ACTIVE;
+	    }
+	    $user->status = STATUS_ACTIVE;
 
         if($param['pos'] == STAFF_LEVEL_MANAGER) $user->isAdmin = STAFF_LEVEL_MANAGER;
         else $user->isAdmin = STATUS_BANNED;

@@ -15,7 +15,7 @@ $isHolder = Session::get('IS_HOLDER');
         var HOLDER = '{!! STAFF_LEVEL_SHAREHOLDER !!}';
         var CAPTAIN = '{!! STAFF_LEVEL_CAPTAIN !!}';
         var STAFF_LEVEL_MANAGER = '{!! STAFF_LEVEL_MANAGER !!}';
-        var IS_HOLDER = '{!! $userinfo['pos'] !!}';
+        var IS_HOLDER = '{!! isset($userinfo['pos']) ? $userinfo['pos'] : 0 !!}';
     </script>
 @endsection
 
@@ -147,7 +147,7 @@ $isHolder = Session::get('IS_HOLDER');
                             <?php $index = 0; $cflag = false; ?>
                             @foreach($pmenus as $pmenu)
                                 @if(isset($userid))
-                                    @if(in_array($pmenu['id'], explode(',', $userinfo['menu'])))
+                                    @if(in_array($pmenu['id'], explode(',', !isset($userinfo['menu']) ? '' : $userinfo['menu'])))
                                         <?php $cflag = true; ?>
                                     @else
                                         <?php $cflag = false; ?>
@@ -202,7 +202,7 @@ $isHolder = Session::get('IS_HOLDER');
                 <div class="row mt-20" id="ship-list">
                     <div class="col-lg-12">
                         <h4>SHIP SELECTION</h4>
-                        <?php $registerList = explode(',', $userinfo['shipList']);?>
+                        <?php $registerList = explode(',', !isset($userinfo['shipList']) ? '' : $userinfo['shipList']);?>
                         <select multiple="multiple" class="chosen-select form-control width-100" id="select-ship-list" name="shipList[]" data-placeholder="选择船舶...">
                             @foreach($shipList as $key => $item)
                                 <option value="{{ $item['IMO_No'] }}" {{ in_array($item['IMO_No'], $registerList) ? 'selected' : '' }}>{{ $item['NickName'] }}</option>

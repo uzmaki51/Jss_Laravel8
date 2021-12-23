@@ -249,11 +249,11 @@ class WageController extends Controller
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')->orderBy('tb_ship_register.id')
             ->get();
         }
-        $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
-        if(empty($start_year)) {
-            $start_year = '2020-01-01';
+        $start_year = ShipMember::orderByDesc('DateOnboard')->first();
+        if(!isset($start_year)) {
+            $start_year = date("Y-01-01");
         } else {
-            $start_year = $start_year['min_date'];
+            $start_year = $start_year['DateOnboard'];
         }
         $start_month = date("m", strtotime($start_year));
         $start_year = date("Y", strtotime($start_year));
@@ -293,11 +293,11 @@ class WageController extends Controller
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')->orderBy('tb_ship_register.id')
             ->get();
         }
-        $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
-        if(empty($start_year)) {
-            $start_year = '2020-01-01';
+        $start_year = ShipMember::orderByDesc('DateOnboard')->first();
+        if(!isset($start_year)) {
+            $start_year = date("Y-01-01");
         } else {
-            $start_year = $start_year['min_date'];
+            $start_year = $start_year['DateOnboard'];
         }
         $start_month = date("m", strtotime($start_year));
         $start_year = date("Y", strtotime($start_year));
@@ -331,11 +331,11 @@ class WageController extends Controller
         else {
             $shipList = ShipRegister::orderBy('id')->get();
         }
-        $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
-        if(empty($start_year)) {
-            $start_year = '2020-01-01';
+        $start_year = ShipMember::orderByDesc('DateOnboard')->first();
+        if(!isset($start_year)) {
+            $start_year = date("Y-01-01");
         } else {
-            $start_year = $start_year['min_date'];
+            $start_year = $start_year['DateOnboard'];
         }
         $start_month = date("m", strtotime($start_year));
         $start_year = date("Y", strtotime($start_year));

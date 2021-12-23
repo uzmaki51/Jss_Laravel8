@@ -14,15 +14,4 @@ use Illuminate\Support\Facades\DB;
 class ShipMemberExaming extends Model
 {
     protected $table = 'tb_member_examing';
-
-    public static function getMemberMarks($memberIds) {
-        $result = static::query()
-            ->whereIn('tb_member_examing.memberId', $memberIds)
-            ->orderBy('memberId')
-            ->get();
-
-        return $result;
-
-    }
-
 }

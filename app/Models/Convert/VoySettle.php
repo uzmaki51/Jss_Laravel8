@@ -60,9 +60,6 @@ class VoySettle extends Model
         $portTbl = new ShipPort();
         $reportSave = new ReportSave();
         $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
-        if($shipInfo == null)
-            return false;
-        
         $beforeVoyInfo = $voyLog->getBeforeInfo($shipId, $voyId);
         $mainInfo = [];
         $elseInfo = [];

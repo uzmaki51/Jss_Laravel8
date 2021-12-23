@@ -127,11 +127,11 @@ class FinanceController extends Controller
 		$book_no = $max_item['max_no'];
 		if (($book_no == null) || ($book_no == '')) $book_no = (int)(substr($year,2) . "0000");
 
-		$start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
-        if(empty($start_year)) {
-            $start_year = '2020-01-01';
+		$start_year = DecisionReport::orderByDesc('report_date')->first();
+        if(!isset($start_year)) {
+            $start_year = date("Y-01-01");
         } else {
-            $start_year = $start_year['min_date'];
+            $start_year = $start_year['report_date'];
         }
         $start_month = date("m", strtotime($start_year));
         $start_year = date("Y", strtotime($start_year));
@@ -175,11 +175,11 @@ class FinanceController extends Controller
 		$book_no = $max_item['max_no'];
 		if (($book_no == null) || ($book_no == '')) $book_no = (int)(substr($year,2) . "0000");
 
-		$start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
-        if(empty($start_year)) {
-            $start_year = '2020-01-01';
+		$start_year = DecisionReport::orderByDesc('report_date')->first();
+        if(!isset($start_year)) {
+            $start_year = date("Y-01-01");
         } else {
-            $start_year = $start_year['min_date'];
+            $start_year = $start_year['report_date'];
         }
         $start_month = date("m", strtotime($start_year));
         $start_year = date("Y", strtotime($start_year));

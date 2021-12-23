@@ -33,8 +33,6 @@ use App\Models\Operations\YearlyPlan;
 use App\Models\Operations\ShipOilSupply;
 use App\Models\ShipTechnique\ShipPort;
 use App\Models\Operations\Cargo;
-use App\Models\Operations\VoyProRandom;
-use App\Models\Operations\VoyProgramPractice;
 use App\Models\Operations\SailDistance;
 use Config;
 
@@ -59,11 +57,11 @@ class OperationController extends Controller
         $url = $request->path();
         $breadCrumb = BreadCrumb::getBreadCrumb($url);
 
-        $start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
-        if(empty($start_year)) {
-            $start_year = '2020-01-01';
+        $start_year = DecisionReport::orderByDesc('report_date')->first();
+        if(!isset($start_year)) {
+            $start_year = date("Y");
         } else {
-            $start_year = substr($start_year['min_date'],0,4);
+            $start_year = date("Y", strtotime($start_year['report_date']));
         }
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
@@ -82,11 +80,11 @@ class OperationController extends Controller
         $url = $request->path();
         $breadCrumb = BreadCrumb::getBreadCrumb($url);
         
-        $start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
-        if(empty($start_year)) {
-            $start_year = '2020-01-01';
+        $start_year = DecisionReport::orderByDesc('report_date')->first();
+        if(!isset($start_year)) {
+            $start_year = date("Y");
         } else {
-            $start_year = substr($start_year['min_date'],0,4);
+            $start_year = date("Y", strtotime($start_year['report_date']));
         }
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
