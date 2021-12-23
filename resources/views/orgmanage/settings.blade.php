@@ -86,7 +86,7 @@ $isHolder = Session::get('IS_HOLDER');
             </div>
             <form id="validation-form" action="updateSettings" role="form" method="POST" enctype="multipart/form-data">
             <div class="row">
-                <div class="col-md-12 common-list" style="margin-top:4px;">
+                <div class="col-md-12" style="margin-top:4px;">
                 <div id="item-manage-dialog" class="hide"></div>
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <div class="row">
