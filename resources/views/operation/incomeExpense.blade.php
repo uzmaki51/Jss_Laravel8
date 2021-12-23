@@ -12,8 +12,8 @@ $ships = Session::get('shipList');
     <link href="{{ cAsset('assets/js/chartjs/chartist.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ cAsset('assets/js/chartjs/c3.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ cAsset('assets/js/chartjs/flot.css') }}">
-    
-    
+
+
     <script src="{{ cAsset('assets/js/chartjs/chartist.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/chartjs.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/d3.js') }}"></script>
@@ -131,7 +131,7 @@ $ships = Session::get('shipList');
                                     </div>
                                     <div class="space-4"></div>
                                     <div class="space-10"></div>
-                                </div>    
+                                </div>
                             </div>
                         </div>
                         <div id="tab_table" class="tab-pane">
@@ -292,7 +292,7 @@ $ships = Session::get('shipList');
                                     <div class="row">
                                         <div class="head-fix-div" id="div-income-expense" style="max-height: 500px; padding-right: 1px;">
                                             <table id="table-soa-list" style="table-layout:fixed;">
-                                                <thead class=""> 
+                                                <thead class="">
                                                 <tr>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>No</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>日期</span></th>
@@ -334,7 +334,7 @@ $ships = Session::get('shipList');
     <script src="{{ cAsset('assets/js/jsquery.dataTables.js') }}"></script>
     <script src="{{ asset('/assets/js/dataTables.rowsGroup.js') }}"></script>
     <script src="{{ cAsset('assets/js/bignumber.js') }}"></script>
-    
+
     <?php
 	echo '<script>';
     echo 'var start_year = ' . $start_year . ';';
@@ -365,7 +365,7 @@ $ships = Session::get('shipList');
         $('#graph-second-title').html(graph_title + '收支')
         $('#graph-third-title').html(graph_title + '支出')
         initGraph();
-        
+
         var clicked_voyno = null;
         var soa_shipid = window.localStorage.getItem("soa_shipid");
         var soa_voyNo = window.localStorage.getItem("soa_voyNo");
@@ -374,7 +374,7 @@ $ships = Session::get('shipList');
             window.localStorage.setItem("soa_shipid",null);
             window.localStorage.setItem("soa_voyNo",null);
             $('#select-soa-ship').val(soa_shipid);
-            if (soa_voyNo != 'null' && soa_voyNo != null && soa_voyNo != undefined && soa_voyNo != '') 
+            if (soa_voyNo != 'null' && soa_voyNo != null && soa_voyNo != undefined && soa_voyNo != '')
             {
                 clicked_voyno = soa_voyNo;
                 getVoyList(soa_shipid);
@@ -404,7 +404,7 @@ $ships = Session::get('shipList');
                     thousandsSep: ','
                 }
             });
-            
+
             Highcharts.chart('graph_first', {
                 title: {
                     text: null
@@ -599,7 +599,7 @@ $ships = Session::get('shipList');
                 }
             });
         }
-        
+
         function drawThirdGraph(datasets, costs) {
             $('#graph_third').html('');
 
@@ -838,7 +838,7 @@ $ships = Session::get('shipList');
             }
             return data;
         }
-        
+
         function initGraph() {
             var datasets1 = [];
             var labels1 = [];
@@ -977,7 +977,7 @@ $ships = Session::get('shipList');
                 processing: true,
                 serverSide: true,
                 searching: true,
-                bAutoWidth: false, 
+                bAutoWidth: false,
                 ajax: {
                     url: BASE_URL + 'ajax/operation/listByShip',
                     type: 'POST',
@@ -1018,26 +1018,10 @@ $ships = Session::get('shipList');
 
                     $('td', row).eq(0).attr('class', 'text-center td_voy_no');
                     $('td', row).eq(0).attr('style', 'cursor:pointer;background:linear-gradient(#fff, #d9f8fb);');
-                    /*
-                    if (data['max_date'] == false) {
-                        $('td', row).eq(2).html('-');
-                    } else {
-                        $('td', row).eq(2).html(data['max_date'].Voy_Date);
-                        if (data['min_date'] != false) {
-                            var start_date = data['min_date'].Voy_Date + ' ' + data['min_date'].Voy_Hour + ':' + data['min_date'].Voy_Minute;
-                            var end_date = data['max_date'].Voy_Date + ' ' + data['max_date'].Voy_Hour + ':' + data['max_date'].Voy_Minute;
 
-                            var sail_time = __getTermDay(start_date, end_date, data['min_date'].GMT, data['max_date'].GMT);
-                            $('td', row).eq(3).html(sail_time.toFixed(2));
-                        }
-                    }
-                    if (data['max_date'] == false) {
-                        $('td', row).eq(3).html('-');
-                    }
-                    */
                     if (data['voy_time'] == false) {
                         $('td', row).eq(2).html('-');
-                        $('td', row).eq(3).html('-');  
+                        $('td', row).eq(3).html('-');
                     } else {
                         $('td', row).eq(2).html(data['voy_time']['start_date'].substr(5,5) + ' ~ ' + data['voy_time']['end_date'].substr(5,5));
                         $('td', row).eq(3).html(data['voy_time']['total_time']);
@@ -1124,7 +1108,7 @@ $ships = Session::get('shipList');
                             } else {
                                 $(dest_obj).attr('class', 'text-right');
                             }
-                            
+
                             $(dest_obj).attr('style', 'padding-right:5px!important;')
                             /*
                             if ((i==1) || (i==2) || (i==4)|| (i==6) || (i==15)) {
@@ -1163,7 +1147,7 @@ $ships = Session::get('shipList');
                             }
                         }
                     }
-                    
+
                     var report_html = "";
                     report_html = "<tr style='height:30px;'><td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer style-normal-header sub-small-header text-center disable-td'>" + response.json.data.length + "</td>";
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer sub-small-header disable-td'></td><td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer sub-small-header disable-td'></td>";
@@ -1280,13 +1264,13 @@ $ships = Session::get('shipList');
                         $(row).attr('class', 'cost-item-even');
                     else
                         $(row).attr('class', 'cost-item-odd');
-                        
+
                     $('td', row).eq(2).attr('style', 'padding-left:2px!important;');
                     $('td', row).eq(4).attr('class', 'style-blue-input text-right');
                     $('td', row).eq(4).attr('style', 'padding-right:5px!important;');
                     $('td', row).eq(5).attr('class', 'text-right');
                     $('td', row).eq(5).attr('style', 'padding-right:5px!important;');
-                        
+
                     $('td', row).eq(0).html('').append(index + 1);
                     $('td', row).eq(3).html('').append(FeeTypeData[data['flowid']][data['profit_type']]);
                     $('td', row).eq(4).html('').append(data['credit']=='' ? '':prettyValue(data['credit']));
@@ -1418,7 +1402,7 @@ $ships = Session::get('shipList');
             }
         }
 
-        
+
         function setEvents() {
             $('.td_voy_no').on('click', function(e) {
                 alertAudio();
@@ -1443,7 +1427,7 @@ $ships = Session::get('shipList');
                             initSOATable();
                         }
                     }
-                    
+
                     $('a[href="#tab_soa"]').trigger('click');
                 }
             });
@@ -1463,7 +1447,7 @@ $ships = Session::get('shipList');
                     $('#select-soa-contract').html(select_html);
 
                     if (clicked_voyno != null) {
-                        
+
                         voyNo_soa = clicked_voyno;
                         $('#select-soa-contract').val(voyNo_soa);
                         clicked_voyno = null;
@@ -1479,7 +1463,7 @@ $ships = Session::get('shipList');
                 }
             });
         }
-        
+
         function alertAudio() {
             document.getElementById('warning-audio').play();
         }
@@ -1519,14 +1503,14 @@ $ships = Session::get('shipList');
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
             tab_text=tab_text+"</table>";
-            
+
             tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
             tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
             var filename = $('#select-table-ship option:selected').text() + '_' + year_table + '年_收支分析表';
             exportExcel(tab_text, filename, filename);
-            
+
             return 0;
         }
 
@@ -1555,11 +1539,11 @@ $ships = Session::get('shipList');
             }
             tab_text=tab_text+"</table>";
             var total_text = tab_text;
-            
+
             tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
             real_tab = document.getElementById('table-soa-list');
             if (real_tab.innerHTML.indexOf('No matching records found') < 0)
-            {                
+            {
                 tab = real_tab.cloneNode(true);
                 tab_text=tab_text+"<tr><td colspan='8' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#soa_info').html() + "SOA</td></tr>";
                 for(var j = 0 ; j < tab.rows.length ; j++)
@@ -1592,7 +1576,7 @@ $ships = Session::get('shipList');
 
             var filename = $('#select-soa-ship option:selected').text() + '_' + voyType_soa + voyNo_soa + '_SOA';
             exportExcel(total_text, filename, filename);
-            
+
             return 0;
         }
 
@@ -1610,8 +1594,8 @@ $ships = Session::get('shipList');
             else { $('#select-soa-currency').attr('style','padding-left:unset!important;color:#026fcd!important'); }
         }
 
-        $(document).keydown(function(event) { 
-            if (event.keyCode == 27) { 
+        $(document).keydown(function(event) {
+            if (event.keyCode == 27) {
                 $('#modal-expense-table').modal('hide');
             }
         });

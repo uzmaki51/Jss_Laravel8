@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ShipManage\ShipRegister;
 use Litipk\BigNumbers\Decimal;
+use App\Models\Convert\VoyLog;
 use DB;
 
 class Voy extends Model
@@ -38,7 +39,7 @@ class Voy extends Model
             $total_sail_time = $total_sail_time->add(Decimal::create($_total_time));
             $total_count = $total_count->add(Decimal::create($_total_count));
         }
-        
+
         return array(
             'total_time'        => round($total_sail_time->__toString(), 2),
             'total_count'       => round($total_count->__toString(), 2),
@@ -46,15 +47,10 @@ class Voy extends Model
     }
 
     public function getVoyInfoByCP($shipId, $voyId) {
-        $beforInfo = self::where('Ship_ID', $shipId)
-            ->where('CP_ID', '<', $voyId)
-            ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)
-            ->orderBy('Voy_Date', 'desc')
-            ->orderBy('Voy_Hour', 'desc')
-            ->orderBy('Voy_Minute', 'desc')
-            ->orderBy('GMT', 'desc')
-            ->orderBy('id', 'desc')
-            ->first();
+
+        $voyLogTbl = new VoyLog();
+        $beforInfo = $voyLogTbl->getBeforeInfo($shipId, $voyId);
+
         $currentTbl = self::where('Ship_ID', $shipId)
             ->where('CP_ID', $voyId)
             ->orderBy('Voy_Date', 'asc')
@@ -63,25 +59,17 @@ class Voy extends Model
             ->orderBy('GMT', 'asc')
             ->orderBy('id', 'asc');
 
-        if($beforInfo == null) {
+        if($beforInfo == []) {
             $tmp = $currentTbl;
             $beforInfo = $tmp->first();
-            if($beforInfo == null)
+            if(!isset($beforInfo))
                 return false;
         }
 
-        $currentTbl = self::where('Ship_ID', $shipId)
-            ->where('CP_ID', $voyId)
-            ->orderBy('Voy_Date', 'asc')
-            ->orderBy('Voy_Hour', 'asc')
-            ->orderBy('Voy_Minute', 'asc')
-            ->orderBy('GMT', 'asc')
-            ->orderBy('id', 'asc');
+        $currentInfo = $voyLogTbl->getCurrentData($shipId, $voyId);
 
-        $currentInfo = $currentTbl->get();
+        if($currentInfo == []) return false;
 
-        if(count($currentInfo) == 0) return false;
-        
         $_sailTime = 0;
         $_loadTime = 0;
         $_dischTime = 0;

@@ -2444,7 +2444,6 @@ class ShipRegController extends Controller
         else
             $retVal['ship_name'] = '';
 
-
     	return response()->json($retVal);
     }
 

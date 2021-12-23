@@ -48,7 +48,7 @@ class DecisionReport extends Model {
 		$now = date('Y-m-d', strtotime("$year-$month-1"));
 		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
 		//$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
-		
+
 		$newArr = [];
         $newindex = 0;
 
@@ -103,7 +103,7 @@ class DecisionReport extends Model {
 
 			$reporter = User::where('id', $record->creator)->first()->realname;
 			$newArr[$newindex]['user'] = $reporter;
-			
+
 			$newindex ++;
 		}
 
@@ -221,7 +221,7 @@ class DecisionReport extends Model {
 		else {
 			$records = ShipRegister::where('RegStatus', '!=', 3)->whereRaw(DB::raw('mid(RegDate, 1, 4) <= ' . $year))->orderBy('tb_ship_register.id', 'asc')->get();
 		}
-		
+
 		if (empty($records)) {
 			return $records;
 		}
@@ -295,7 +295,7 @@ class DecisionReport extends Model {
 			$prevProfit[$shipid] = $this->calcProfitList($shipid, $year-1, null);
 		}
 
-		// Profit Per Every Month 
+		// Profit Per Every Month
 		$voyNo_from = substr($year, 2, 2) . '00';
 		$voyNo_to = substr($year, 2, 2) + 1;
 		$voyNo_to = $voyNo_to . '00';
@@ -305,7 +305,7 @@ class DecisionReport extends Model {
 		$selector = $selector->whereNotIn('profit_type',[13,14])
 		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, month, shipNo')
 		->groupBy('month', 'flowid','profit_type','shipNo');
-		
+
 		$records = $selector->get();
 
 		//$records = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('year',$year)->where('month',8)->whereNotNull('book_no')->get();
@@ -367,7 +367,7 @@ class DecisionReport extends Model {
 			})->whereIn("tbl_cp.CP_kind",["TC","VOY","NON"]);
 
 			$cost_records = $selector->get();
-			
+
 			$newArr = [];
 			$credit_sum = 0;
 			$debit_sum = 0;
@@ -384,7 +384,7 @@ class DecisionReport extends Model {
 
 		return [$credit_sum, $debit_sum, $newArr];
 	}
-	
+
 	/// incomeExpense for three years-> Table, Graph (similar to getIncomeExportList)
 	public function getIncomeExportListForPast($params) {
 		if (!isset($params['columns'][1]['search']['value']) ||
@@ -442,7 +442,7 @@ class DecisionReport extends Model {
 			})->whereIn("tbl_cp.CP_kind",["TC","VOY","NON"]);
 
 			$cost_records = $selector->get();
-			
+
 			// Get 物料费, 修理费 for NON
 			$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo','>=', $voyNo_from)->where('voyNo','<',$voyNo_to)->whereNotNull('book_no')
 			->whereIn('profit_type',['7','8'])
@@ -508,7 +508,7 @@ class DecisionReport extends Model {
 			$records[$index]['voy_time'] = $retVal['total_time'];
 
 
-			$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','<',$voyNo_from)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+			$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','<',$voyNo_from)->where('Voy_Status', DYNAMIC_VOYAGE)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
 			$max_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','<',$voyNo_to)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
 			if ($min_date == null) {
 				$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID', '<', $voyNo_to)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
@@ -519,7 +519,7 @@ class DecisionReport extends Model {
 
 			if ($max_date == null)
 				$max_date = false;
-				
+
 			$records[$index]['min_date'] = $min_date;
 			$records[$index]['max_date'] = $max_date;
 			$index ++;
@@ -538,17 +538,17 @@ class DecisionReport extends Model {
 		} else {
 			return $records;
 		}
-		
+
 	}
 
 	public function getPastProfit($shipid, $year) {
 		$voyNo_from = substr($year, 2, 2) . '00';
-	  
+
 		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->whereNotIn('profit_type',[13,14])->where('voyNo','<',$voyNo_from)->whereNotNull('book_no')
 		  ->groupBy('flowid')
 		  ->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, currency')
 		  ->groupBy('flowid');
-	  
+
 		$sums = $selector->get()->keyBy('flowid');
 		if (count($sums) == 0) return 0;
 		if (isset($sums['Credit']) && isset($sums['Debit'])) {
@@ -556,14 +556,14 @@ class DecisionReport extends Model {
 		} else {
 		 	$profit = 0;
 		}
-		
+
 		return $profit;
 	   }
 
 
 	/// incomeExpense -> Table, Graph
 	public function getIncomeExportList($params) {
-		
+
 		if (!isset($params['columns'][1]['search']['value']) ||
             $params['columns'][1]['search']['value'] == '' ||
 			!isset($params['columns'][2]['search']['value']) ||
@@ -615,7 +615,7 @@ class DecisionReport extends Model {
 			$record->credit_sum = $credit_sum;
 			$record->debit_sum = $debit_sum;
 			$record->profit_sum = $credit_sum - $debit_sum;
-			
+
 			$total_profit += $record->profit_sum;
 			if ($index == 0) $total_profit += $this->getPastProfit($shipid, $year);
 			$record->total_profit = $total_profit;
@@ -624,34 +624,8 @@ class DecisionReport extends Model {
 			$voy = new Voy();
 			$retVal = $voy->getVoyInfoByCP($shipid, $record->Voy_No);
 			$record->voy_time = $retVal;
-
-
-			/*
-			$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID', '<',$record->Voy_No)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
-			$max_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID', $record->Voy_No)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
-			if($min_date == false || $min_date == null) {
-				$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID', $record->Voy_No)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
-				if($min_date == null)
-					$min_date = false;
-			}
-	
-			if($max_date == false || $max_date == null)
-				$max_date = false;
-			*/
-			$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID','<',$record->Voy_No)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
-			$max_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID',$record->Voy_No)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
-			if ($min_date == null) {
-				$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID', $record->Voy_No)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
-			}
-			if ($min_date == null)
-				$min_date = false;
-			if ($max_date == null)
-				$max_date = false;
-
-			$record->min_date = $min_date;
-			$record->max_date = $max_date;
 		}
-		
+
 		if (isset($params['draw'])) {
 			return [
 				'draw' => $params['draw']+0,
@@ -663,7 +637,7 @@ class DecisionReport extends Model {
 		} else {
 			return $records;
 		}
-		
+
 	}
 
 	// incomeExpense -> SOA
@@ -712,7 +686,7 @@ class DecisionReport extends Model {
 				$newArr[$newindex]['debit'] = $amount;
 			}
 			$newArr[$newindex]['rate'] = $record->rate;
-			
+
 			$attachment = DecisionReportAttachment::where('reportId', $record->orig_id)->first();
 			$newArr[$newindex]['attachment'] = null;
 			if (!empty($attachment)) {
@@ -720,7 +694,7 @@ class DecisionReport extends Model {
 			}
 			$newindex ++;
 		}
-		
+
 		$voy_info = CP::where('Ship_ID', $shipid)->where('Voy_No',$voyNo)->first();
 		$LPort = '';
 		$DPort = '';
@@ -787,7 +761,7 @@ class DecisionReport extends Model {
         }
 		$now = date('Y-m-d', strtotime("$year-$month-1"));
 		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
-		
+
 		$user = Auth::user();
 		if ($user->pos == STAFF_LEVEL_FINANCIAL) {
 			DB::table($this->table)
@@ -799,7 +773,7 @@ class DecisionReport extends Model {
 				]);
 		}
 		//$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
-			
+
 		$report_list_record = BooksList::where('year', $year)->where('month', $month)->first();
         if (!is_null($report_list_record)) {
             return $this->getForSavedBookDatatable($params, $year, $month);
@@ -821,7 +795,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['report_no'] = $record->report_id;
 			$newArr[$newindex]['book_no'] = '';
 			$newArr[$newindex]['datetime'] = $record->report_date;
-			
+
 			if ($record->obj_type == 1) {
 				$newArr[$newindex]['ship_no'] = $record->shipNo;
 				$newArr[$newindex]['voyNo'] = $record->voyNo;
@@ -848,10 +822,10 @@ class DecisionReport extends Model {
 			if (!empty($attachment)) {
 				$newArr[$newindex]['attachment'] = $attachment->file_link;
 			}
-			
+
 			$reporter = User::where('id', $record->creator)->first()->realname;
 			$newArr[$newindex]['user'] = $reporter;
-			
+
 			$newindex ++;
 		}
 
@@ -883,7 +857,7 @@ class DecisionReport extends Model {
 			else
 				$selector->where('state', '!=', REPORT_STATUS_DRAFT);
 		}
-			
+
 		if($is_booker == USER_POS_ACCOUNTER) {
 			$selector->whereIn('flowid', [REPORT_TYPE_EVIDENCE_OUT, REPORT_TYPE_EVIDENCE_IN]);
 		} else if($user->isAdmin != SUPER_ADMIN)
@@ -918,7 +892,7 @@ class DecisionReport extends Model {
 
 		// number of filtered records
 		$recordsFiltered = $selector->count();
-		
+
 		// offset & limit
 		if (!empty($params['start']) && $params['start'] > 0) {
 			$selector->skip($params['start']);
@@ -940,7 +914,7 @@ class DecisionReport extends Model {
 				'readed_at'		=> date('Y-m-d H:i:s')
 			]);
 		}
-		
+
 		foreach($records as $key => $item) {
 			if($item->obj_type == OBJECT_TYPE_SHIP) {
 				$shipInfo = ShipRegister::where('IMO_No', $item->shipNo)->first();
@@ -951,13 +925,13 @@ class DecisionReport extends Model {
 				}
 			} else {
 				$personInfo = AccountPersonalInfo::where('id', $item->obj_no)->first();
-				if($personInfo == null) 
+				if($personInfo == null)
 					$shipName = '';
 				else {
 					$shipName = $personInfo->person;
 				}
 			}
-				
+
 			$attach = DecisionReportAttachment::where('reportId', $item->id)->first();
 			if($attach != null)
 				$records[$key]->attach_link = $attach->file_link;
@@ -978,9 +952,9 @@ class DecisionReport extends Model {
 			$reporter = User::where('id', $item->creator)->first()->realname;
 
 			$records[$key]->shipName = $shipName;
-			$records[$key]->realname = $reporter;				
+			$records[$key]->realname = $reporter;
 		}
-		
+
 		return [
 			'draw' => $params['draw']+0,
 			'recordsTotal' => DB::table($this->table)->count(),
@@ -1005,7 +979,7 @@ class DecisionReport extends Model {
 		) {
 			$selector->whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $params['columns'][0]['search']['value']));
 		}
-		
+
 		if (isset($params['columns'][1]['search']['value'])
 			&& $params['columns'][1]['search']['value'] !== ''
 		) {
@@ -1026,7 +1000,7 @@ class DecisionReport extends Model {
 
 		// number of filtered records
 		$recordsFiltered = $selector->count();
-		
+
 		// offset & limit
 		if (!empty($params['start']) && $params['start'] > 0) {
 			$selector->skip($params['start']);
@@ -1038,7 +1012,7 @@ class DecisionReport extends Model {
 
 		// get records
 		$records = $selector->get();
-		
+
 		foreach($records as $key => $item) {
 			if($item->obj_type == OBJECT_TYPE_SHIP) {
 				$shipInfo = ShipRegister::where('IMO_No', $item->shipNo)->first();
@@ -1049,13 +1023,13 @@ class DecisionReport extends Model {
 				}
 			} else {
 				$personInfo = AccountPersonalInfo::where('id', $item->obj_no)->first();
-				if($personInfo == null) 
+				if($personInfo == null)
 					$shipName = '';
 				else {
 					$shipName = $personInfo->person;
 				}
 			}
-				
+
 			$attach = DecisionReportAttachment::where('reportId', $item->id)->first();
 			if($attach != null)
 				$records[$key]->attach_link = $attach->file_link;
@@ -1084,9 +1058,9 @@ class DecisionReport extends Model {
 						$records[$key]->readed_at = date('Y-m-d H:i:s');
 				}
 			}
-				
+
 		}
-		
+
 		return [
 			'draw' => $params['draw']+0,
 			'recordsTotal' => DB::table($this->table)->count(),
@@ -1116,7 +1090,7 @@ class DecisionReport extends Model {
 			$selector = WaterList::where('year', $year);
 		else
 			$selector = WaterList::where('year', $year)->where('month', $month);
-		
+
 		$selector = $selector->groupBy('account_type')->selectRaw('sum(credit) as credit, sum(debit) as debit, max(register_time) as update_date, currency, account_type, account_name')->groupBy('currency');
 		$recordsFiltered = $selector->count();
 		$records = $selector->get();
@@ -1216,7 +1190,7 @@ class DecisionReport extends Model {
 		$recordsFiltered = $selector->count();
 		$records = $selector->orderBy('register_time', 'asc')->get();
 		//$records = $selector->orderBy('book_no', 'asc')->get();
-		
+
 		$newArr = [];
         $newindex = 0;
 		foreach($records as $index => $record) {
@@ -1248,9 +1222,9 @@ class DecisionReport extends Model {
 			});
 		});
 		if ($ship != '') {
-			$selector = $selector->where('ship_no', $ship);	
+			$selector = $selector->where('ship_no', $ship);
 		}
-		
+
 		$selector = $selector->groupBy('currency');
 		$total_sum = $selector->selectRaw('sum(credit) as credit_sum, sum(debit) as debit_sum')->groupBy('currency')->get();
 		if (count($total_sum) == 0) {
@@ -1305,9 +1279,9 @@ class DecisionReport extends Model {
 			})->orderBy('id', 'desc');
 
 		// number of filtered records
-		
+
 		$totalCount = $selector->count();
-		
+
 		$recordsFiltered = $selector->count();
 
 		// offset & limit
@@ -1368,7 +1342,7 @@ class DecisionReport extends Model {
 
 	public function checkBookReport() {
 			$isExist = self::where('state', REPORT_STATUS_ACCEPT)->whereNull('readed_at')->count();
-			
+
 			if($isExist == 0)
 				return false;
 			else

@@ -90,7 +90,7 @@ class VoyLog extends Model
         } else {
             $beforeId = $beforeInfo->CP_ID;
         }
-            
+
         $record = self::where('Ship_ID', $shipId)
             ->where('CP_ID', $beforeId)
             ->where('Voy_Status', DYNAMIC_VOYAGE)
@@ -129,7 +129,7 @@ class VoyLog extends Model
 
             if($record == null) return [];
         }
-        
+
         return $record;
     }
 
@@ -158,7 +158,7 @@ class VoyLog extends Model
 
         if($record == null)
             return [];
-        
+
         return $record;
     }
 
@@ -178,7 +178,7 @@ class VoyLog extends Model
         if(!isset($params['type']) || $params['type'] == 'all') {
             // 1. Get last record before this voy.
             $before = $this->getBeforeInfo($shipId, $voyId);
-            // 2. Get last record of this voy. 
+            // 2. Get last record of this voy.
             $last = $this->getLastInfo($shipId, $voyId);
             // 3. Get current voy data.
             $current = $this->getCurrentData($shipId, $voyId);
@@ -197,7 +197,7 @@ class VoyLog extends Model
             $retVal['max_date'] = $max_date;
             $retVal['prevData'] = $before;
             $retVal['currentData'] = $current;
-        } else {    
+        } else {
             // Get analyzed data group by Year
             // Get suffix of year (Ex. 2021 => 21)
             $year = substr($date, 2, 2);
@@ -233,7 +233,7 @@ class VoyLog extends Model
                     $cpInfo->LPort = $portTbl->getPortNames($cpInfo->LPort, false);
                     $cpInfo->DPort = $portTbl->getPortNames($cpInfo->DPort, false);
                     $retVal['cpData'][$item->CP_ID] = $cpInfo;
-                    
+
                 }
 
                 $retVal['voyData'][] = $voy_id;
