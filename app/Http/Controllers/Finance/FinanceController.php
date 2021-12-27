@@ -127,7 +127,7 @@ class FinanceController extends Controller
 		$book_no = $max_item['max_no'];
 		if (($book_no == null) || ($book_no == '')) $book_no = (int)(substr($year,2) . "0000");
 
-		$start_year = DecisionReport::orderByDesc('report_date')->first();
+		$start_year = DecisionReport::orderBy('report_date')->first();
         if(!isset($start_year)) {
             $start_year = date("Y-01-01");
         } else {
@@ -175,7 +175,7 @@ class FinanceController extends Controller
 		$book_no = $max_item['max_no'];
 		if (($book_no == null) || ($book_no == '')) $book_no = (int)(substr($year,2) . "0000");
 
-		$start_year = DecisionReport::orderByDesc('report_date')->first();
+		$start_year = DecisionReport::orderBy('report_date')->first();
         if(!isset($start_year)) {
             $start_year = date("Y-01-01");
         } else {

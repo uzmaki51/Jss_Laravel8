@@ -57,7 +57,7 @@ class OperationController extends Controller
         $url = $request->path();
         $breadCrumb = BreadCrumb::getBreadCrumb($url);
 
-        $start_year = DecisionReport::orderByDesc('report_date')->first();
+        $start_year = DecisionReport::orderBy('report_date')->first();
         if(!isset($start_year)) {
             $start_year = date("Y");
         } else {
@@ -80,7 +80,7 @@ class OperationController extends Controller
         $url = $request->path();
         $breadCrumb = BreadCrumb::getBreadCrumb($url);
         
-        $start_year = DecisionReport::orderByDesc('report_date')->first();
+        $start_year = DecisionReport::orderBy('report_date')->first();
         if(!isset($start_year)) {
             $start_year = date("Y");
         } else {
