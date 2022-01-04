@@ -652,21 +652,19 @@
         }
 
         var listTableAll = null;
+        let year_all = $('#year').val();
+        let month_all = $('#month').val();
+        let obj_all = $('#ship_name').val();
         function fnExport() {
             $('.main-content').LoadingOverlay('show', {
                 text : "处理中..."
             });
 
-            let year = $('#year').val();
-            let month = $('#month').val();
-            let obj = $('#ship_name').val();
+            year_all = $('#year').val();
+            month_all = $('#month').val();
+            obj_all = $('#ship_name').val();
 
             if (listTableAll != null) {
-
-
-                listTableAll.column(0).search(year, false, false);
-                listTableAll.column(1).search(month, false, false);
-                listTableAll.column(2).search(obj, false, false);
                 listTableAll.draw();
                 return;
             }
@@ -678,13 +676,13 @@
                 ajax: {
                     url: BASE_URL + 'ajax/decide/receive',
                     type: 'POST',
-                    data: {
-                        'columns': [
-                            { "search": {'value': year} },
-                            { "search": {'value': month} },
-                            { "search": {'value': obj} },
-                        ]
-                    },
+                    data: function(d) {
+                        d.columns = [
+                            { "search": {'value': year_all} },
+                            { "search": {'value': month_all} },
+                            { "search": {'value': obj_all} },
+                        ];
+                    }
                 },
                 "ordering": false,
                 "pageLength": 100000,
@@ -844,30 +842,32 @@
             var filename = "审批文件" + "(" + ship_name + "_" +  $('#year').val() + "年_" + month + ")";
 
             tab_text=tab_text+"<tr><td colspan='13' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + filename + "</td></tr>";
-
-            for(var j = 0; j < tab.rows.length ; j++)
+            if (tab.innerHTML.indexOf('No matching records found') < 0) 
             {
-                if (j == 0) {
-                    for (var i=0; i<tab.rows[j].childElementCount;i++) {
-                        if (i==6) {
-                            tab.rows[j].childNodes[i].style.width = '400px';
-                        } else if (i == 7) {
-                            tab.rows[j].childNodes[i].style.width = '50px';
-                        } else {
-                            tab.rows[j].childNodes[i].style.width = '100px';
-                        }
-
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
-                    }
-                    tab.rows[j].childNodes[13].remove();
-                }
-                else
+                for(var j = 0; j < tab.rows.length ; j++)
                 {
-                    tab.rows[j].childNodes[6].style.textAlign = 'left';
-                    tab.rows[j].childNodes[13].remove();
-                }
+                    if (j == 0) {
+                        for (var i=0; i<tab.rows[j].childElementCount;i++) {
+                            if (i==6) {
+                                tab.rows[j].childNodes[i].style.width = '400px';
+                            } else if (i == 7) {
+                                tab.rows[j].childNodes[i].style.width = '50px';
+                            } else {
+                                tab.rows[j].childNodes[i].style.width = '100px';
+                            }
 
-                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                            tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                        }
+                        tab.rows[j].childNodes[13].remove();
+                    }
+                    else
+                    {
+                        tab.rows[j].childNodes[6].style.textAlign = 'left';
+                        tab.rows[j].childNodes[13].remove();
+                    }
+
+                    tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                }
             }
             tab_text=tab_text+"</table>";
             tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
