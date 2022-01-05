@@ -186,6 +186,7 @@ $ships = Session::get('shipList');
 	echo '<script>';
     echo 'var now_year = ' . date("Y") . ';';
     echo 'var FeeTypeData = ' . json_encode(g_enum('FeeTypeData')) . ';';
+    echo 'var yearList = ' . json_encode($year_list) . ';';
 	echo '</script>';
 	?>
 
@@ -574,6 +575,13 @@ $ships = Session::get('shipList');
             year = $("#select-year").val();
             $('#table_info').html('"' + $("#select-table-ship option:selected").attr('data-name') + '"');
             $('#costs_info').html('"' + $("#select-table-ship option:selected").attr('data-name') + '"');
+
+            var start_year = parseInt(yearList[shipid_table]);
+            var years = "";
+            for(var i=start_year;i<=now_year;i++) {
+                years += '<option value="' + i + '" ' + ((now_year==i)?'selected>':'>') +  i + '年</option>';
+            }
+            $('#select-year').html(years);
 
             if (listTable == null) {
                 initTable();

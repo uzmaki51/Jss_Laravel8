@@ -41,12 +41,12 @@ $isHolder = Session::get('IS_HOLDER');
                                         <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
                                     @endforeach
                                 </select>
-                                <select name="select-year" id="select-year" style="font-size:13px">
+                                <select name="select-year" id="select-year" style="font-size:13px;width:75px;">
                                     @for($i=$start_year;$i<=date("Y");$i++)
                                     <option value="{{$i}}" @if(($year==$i)||(($year=='')&&($i==date("Y")))) selected @endif>{{$i}}年</option>
                                     @endfor
                                 </select>
-                                <select name="select-month" id="select-month" style="font-size:13px">
+                                <select name="select-month" id="select-month" style="font-size:13px;width:60px;">
                                     @if($year==date("Y"))
                                         @for($i=1;$i<=date("m");$i++)
                                         <option value="{{$i}}" @if(($month==$i)||(($month=='')&&($i==date("m")))) selected @endif>{{$i}}月</option>
@@ -126,6 +126,8 @@ $isHolder = Session::get('IS_HOLDER');
     echo 'var start_month = ' . $start_month . ';';
     echo 'var now_year = ' . date("Y") . ';';
     echo 'var now_month = ' . date("m") . ';';
+    echo 'var yearList = ' . json_encode($year_list) . ';';
+    echo 'var monthList = ' . json_encode($month_list) . ';';
 	echo '</script>';
 	?>
     <script>
@@ -342,6 +344,16 @@ $isHolder = Session::get('IS_HOLDER');
         }
         $('#select-ship').on('change', function() {
             shipId = $('#select-ship').val();
+            start_year = parseInt(yearList[shipId]);
+            start_month = parseInt(monthList[shipId]);
+
+            var years = "";
+            for(var i=start_year;i<=now_year;i++) {
+                years += '<option value="' + i + '" ' + ((now_year==i)?'selected>':'>') +  i + '年</option>';
+            }
+            $('#select-year').html(years);
+            changeYear();
+
             origForm = "";
             selectInfo();
         });

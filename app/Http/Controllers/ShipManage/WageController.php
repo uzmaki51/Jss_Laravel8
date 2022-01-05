@@ -249,15 +249,33 @@ class WageController extends Controller
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')->orderBy('tb_ship_register.id')
             ->get();
         }
-        $start_year = ShipMember::orderBy('DateOnboard')->first();
-        
+        if(!isset($shipId)) {
+            $start_year = ShipRegister::where('IMO_No', $shipList[0]['IMO_No'])->orderBy('RegDate','asc')->first();
+        }
+        else {
+            $start_year = ShipRegister::where('IMO_No', $shipId)->orderBy('RegDate','asc')->first();
+        }
+
         if(!isset($start_year)) {
             $start_year = date("Y-01-01");
         } else {
-            $start_year = $start_year['DateOnboard'];
+            $start_year = $start_year['RegDate'];
         }
         $start_month = date("m", strtotime($start_year));
         $start_year = date("Y", strtotime($start_year));
+
+        $year_list = [];
+        $month_list = [];
+        foreach($shipList as $shipInfo) {
+            $reg_time = ShipRegister::where('IMO_No', $shipInfo['IMO_No'])->orderBy('RegDate','asc')->first();
+            if(!isset($reg_time)) {
+                $reg_time = date("Y-01-01");
+            } else {
+                $reg_time = $reg_time['RegDate'];
+            }
+            $month_list[$shipInfo['IMO_No']] = date("m", strtotime($reg_time));
+            $year_list[$shipInfo['IMO_No']] = date("Y", strtotime($reg_time));
+        }
         if ($type == 1) $user_pos = STAFF_LEVEL_SHAREHOLDER;
         return view('shipMember.member_calc_wages', [
         	'shipList'      => $shipList,
@@ -267,6 +285,8 @@ class WageController extends Controller
             'month'         => $month,
             'start_year'    => $start_year,
             'start_month'   => $start_month,
+            'year_list'     => $year_list,
+            'month_list'    => $month_list,
             'user_pos'      => $user_pos,
             'breadCrumb'    => $breadCrumb
         ]);
@@ -294,14 +314,34 @@ class WageController extends Controller
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')->orderBy('tb_ship_register.id')
             ->get();
         }
-        $start_year = ShipMember::orderBy('DateOnboard')->first();
+        if(!isset($shipId)) {
+            $start_year = ShipRegister::where('IMO_No', $shipList[0]['IMO_No'])->orderBy('RegDate','asc')->first();
+        }
+        else {
+            $start_year = ShipRegister::where('IMO_No', $shipId)->orderBy('RegDate','asc')->first();
+        }
+
         if(!isset($start_year)) {
             $start_year = date("Y-01-01");
         } else {
-            $start_year = $start_year['DateOnboard'];
+            $start_year = $start_year['RegDate'];
         }
         $start_month = date("m", strtotime($start_year));
         $start_year = date("Y", strtotime($start_year));
+
+        $year_list = [];
+        $month_list = [];
+        foreach($shipList as $shipInfo) {
+            $reg_time = ShipRegister::where('IMO_No', $shipInfo['IMO_No'])->orderBy('RegDate','asc')->first();
+            if(!isset($reg_time)) {
+                $reg_time = date("Y-01-01");
+            } else {
+                $reg_time = $reg_time['RegDate'];
+            }
+            $month_list[$shipInfo['IMO_No']] = date("m", strtotime($reg_time));
+            $year_list[$shipInfo['IMO_No']] = date("Y", strtotime($reg_time));
+        }
+
         $accounts = AccountSetting::select('*')->get();
         if ($type == 1) $user_pos = STAFF_LEVEL_SHAREHOLDER;
         return view('shipMember.member_send_wages', [
@@ -312,7 +352,9 @@ class WageController extends Controller
             'year'          => $year,
             'month'         => $month,
             'start_year'    => $start_year,
-            'start_month'    => $start_month,
+            'start_month'   => $start_month,
+            'year_list'     => $year_list,
+            'month_list'    => $month_list,
             'user_pos'      => $user_pos,
             'breadCrumb'    => $breadCrumb
         ]);

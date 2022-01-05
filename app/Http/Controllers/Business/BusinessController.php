@@ -99,20 +99,30 @@ class BusinessController extends Controller {
             //var_dump($costs['input1']);die;
         }
         
-        
-        $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
-        if(empty($start_year)) {
-            $start_year = '2020-01-01';
+        $start_year = ShipRegister::where('IMO_No', $shipId)->orderBy('RegDate','asc')->first();
+        if(!isset($start_year)) {
+            $start_year = date("Y-01-01");
         } else {
-            $start_year = $start_year['min_date'];
+            $start_year = $start_year['RegDate'];
         }
         $start_year = date("Y", strtotime($start_year));
-        
+        $year_list = [];
+        foreach($shipList as $shipInfo) {
+            $reg_time = ShipRegister::where('IMO_No', $shipInfo['IMO_No'])->orderBy('RegDate','asc')->first();
+            if(!isset($reg_time)) {
+                $reg_time = date("Y-01-01");
+            } else {
+                $reg_time = $reg_time['RegDate'];
+            }
+            $year_list[$shipInfo['IMO_No']] = date("Y", strtotime($reg_time));
+        }
+
         return view('business.daily_average_cost', array(
             'shipList'   => $shipList,
             'shipId'     => $shipId,
             'costs'      => $costs,
             'start_year'    => $start_year,
+            'year_list'     => $year_list,
             'year'          => $year,
             'breadCrumb'    => $breadCrumb
         ));
