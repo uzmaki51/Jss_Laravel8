@@ -517,6 +517,14 @@ $ships = Session::get('shipList');
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
         }
 
+        function updateYears() {
+            var start_year = parseInt(yearList[shipid_table]);
+            var years = "";
+            for(var i=start_year;i<=now_year;i++) {
+                years += '<option value="' + i + '" ' + ((now_year==i)?'selected>':'>') +  i + '年</option>';
+            }
+            $('#select-year').html(years);
+        }
         $('#select-table-ship').on('change', function() {
             var prevShip = $('#select-table-ship').val();
             $('#select-table-ship').val(shipid_table);
@@ -531,12 +539,14 @@ $ships = Session::get('shipList');
                     }
                     else {
                         $('#select-table-ship').val(prevShip);
+                        updateYears();
                         selectTableInfo();
                     }
                 });
             }
             else {
                 $('#select-table-ship').val(prevShip);
+                updateYears();
                 selectTableInfo();
             }
         });
@@ -575,13 +585,6 @@ $ships = Session::get('shipList');
             year = $("#select-year").val();
             $('#table_info').html('"' + $("#select-table-ship option:selected").attr('data-name') + '"');
             $('#costs_info').html('"' + $("#select-table-ship option:selected").attr('data-name') + '"');
-
-            var start_year = parseInt(yearList[shipid_table]);
-            var years = "";
-            for(var i=start_year;i<=now_year;i++) {
-                years += '<option value="' + i + '" ' + ((now_year==i)?'selected>':'>') +  i + '年</option>';
-            }
-            $('#select-year').html(years);
 
             if (listTable == null) {
                 initTable();
