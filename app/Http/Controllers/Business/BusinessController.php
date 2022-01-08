@@ -96,10 +96,14 @@ class BusinessController extends Controller {
 
             $shipId = $request->get('shipId');
             $costs = ExpectedCosts::where('shipNo', $shipId)->where('year',$year)->first();
-            //var_dump($costs['input1']);die;
         }
         
-        $start_year = ShipRegister::where('IMO_No', $shipId)->orderBy('RegDate','asc')->first();
+        if(!isset($shipId)) {
+            $start_year = ShipRegister::where('IMO_No', $shipList[0]['IMO_No'])->orderBy('RegDate','asc')->first();
+        }
+        else {
+            $start_year = ShipRegister::where('IMO_No', $shipId)->orderBy('RegDate','asc')->first();
+        }
         if(!isset($start_year)) {
             $start_year = date("Y-01-01");
         } else {
@@ -1510,7 +1514,6 @@ class BusinessController extends Controller {
         $id = $params['id'];
 
         VoySettleElse::where('id', $id)->delete();
-
     }
 
     public function ajaxVoyClear(Request $request) {
