@@ -4,7 +4,7 @@
             <label class="custom-label d-inline-block font-bold for-pc" style="padding: 6px;">船名: </label>
             <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;" @change="onChangeShip" v-model="shipId">
                 @foreach($shipList as $ship)
-                    <option value="{{ $ship['IMO_No'] }}" data-name="{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}" 
+                    <option value="{{ $ship['IMO_No'] }}" data-name="{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}"
                         {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
                     </option>
                 @endforeach
@@ -28,7 +28,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row" style="margin-top: 4px;">
         <div class="col-lg-12 head-fix-div common-list">
             <table class="evaluation-table mt-2 evalution" id="table-main">
@@ -330,7 +330,7 @@
                     voyId: voyId,
                 },
                 success: function(data, status, xhr) {
-                    let cpInfo = data['cpInfo'];
+                    let cpInfo = data['cpInfo'];console.log(data)
                     let realInfo = data['realInfo'];
 
                     equipObj = new Vue({
@@ -404,7 +404,7 @@
                                 }
                             },
                             warningAlert: function() {
-                                
+
                                 // console.log('alertAudio')
 
                                 let confirmationMessage = '信息输入不齐全会导致输出结果不正确。';
@@ -425,7 +425,7 @@
                                 real_tab = document.getElementById('table-main');
                                 var tab = real_tab.cloneNode(true);
                                 tab_text=tab_text+"<tr><td colspan='5' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + '_'  + $('#voy_list').val() + "次评估" + "</td></tr>";
-                                
+
                                 var j;
                                 for(j=0;j<tab.rows.length-1;j++)
                                 {
@@ -464,7 +464,7 @@
                                                 else if(node.tagName=='INPUT'){
                                                     value = node.value;
                                                     tab.rows[j].childNodes[i].innerHTML = value;
-                                                    
+
                                                 }
                                             }
                                         }
@@ -475,14 +475,14 @@
                                     tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                                 }
                                 tab_text=tab_text+"</table>";
-                                
+
                                 tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
                                 tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
                                 tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
                                 var filename = $('#select-ship option:selected').attr('data-name') + '_' + 'V' + $('#voy_list').val() + "_航次评估";
                                 exportExcel(tab_text, filename, filename);
-                                
+
                                 return 0;
                             }
                         },
@@ -543,7 +543,7 @@
                                             }
                                         }
                                     }]
-                                });                    
+                                });
 
                             Highcharts.setOptions({
                                 colors: ['#ffc000', '#e86f6f', '#3eb373', '#b19fc5']
@@ -627,9 +627,9 @@
                     // tmp2 = BigNumber($_this.realInfo.rob_do).multipliedBy($_this.realInfo.rob_do_price).toFixed(2);
                     // $_this.realInfo['fuel_consumpt'] = BigNumber(tmp1).plus(tmp2).toFixed(2);
 
-                    let debitTmp1 = BigNumber($_this.cpInfo['up_port_price']).plus($_this.cpInfo['down_port_price']);
-                    let debitTmp2 = BigNumber($_this.cpInfo['fuel_consumpt']).plus($_this.cpInfo['cost_else']);
-                    $_this.cpInfo['manage_cost_day'] = BigNumber($_this.realInfo['cost_day']).multipliedBy($_this.cpInfo['sail_time']).toFixed(0);
+                    let debitTmp1 = BigNumber(__parseFloat($_this.cpInfo['up_port_price'])).plus(__parseFloat($_this.cpInfo['down_port_price']));
+                    let debitTmp2 = BigNumber(__parseFloat($_this.cpInfo['fuel_consumpt'])).plus(__parseFloat($_this.cpInfo['cost_else']));
+                    $_this.cpInfo['manage_cost_day'] = BigNumber(__parseFloat($_this.realInfo['cost_day'])).multipliedBy(__parseFloat($_this.cpInfo['sail_time'])).toFixed(0);
                     $_this.cpInfo['debit'] = debitTmp1.plus(debitTmp2).plus($_this.cpInfo['manage_cost_day']).toFixed(0);
 
                     debitTmp1 = $_this.realInfo['sail_credit'];
@@ -654,7 +654,7 @@
                     __alertAudio();
                     $_this.warningAlert();
 
-                    
+
 
                 }
             });

@@ -99,7 +99,7 @@ class HomeController extends Controller {
         $noattachments = DecisionReport::where(function($query) {
 			$query->where('attachment',0)->orWhere('attachment',null);
 		})->where('state', '!=', 3)->where('ishide',0)->get();
-		
+
 
 		//return $noattachments;
 
@@ -152,6 +152,7 @@ class HomeController extends Controller {
 		$securityType = SecurityCert::all();
 
 		//
+        $settings['profit_year'] = !isset($settings['profit_year']) ? date("Y-m-d") : $settings['profit_year'];
 		$decision = new DecisionReport();
 		$profit_list = $decision->getProfit($settings['profit_year']);
 
