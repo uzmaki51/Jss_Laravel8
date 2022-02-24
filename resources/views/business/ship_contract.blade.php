@@ -68,7 +68,7 @@ $ships = Session::get('shipList');
                                 <button type="button" class="btn btn-success btn-sm d-none" onclick="reportSubmit">
                                     <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">申请
                                 </button>
-                                <a onclick="javascript:fnExcelReport();" class="btn btn-warning btn-sm excel-btn">
+                                <a onclick="javascript:fnExcelAllReport();" class="btn btn-warning btn-sm excel-btn">
                                     <i class="icon-table"></i>{{ trans('common.label.excel') }}
                                 </a>
                             </div>
@@ -80,19 +80,19 @@ $ships = Session::get('shipList');
                             <table id="voy_list" class="table-striped" v-cloak>
                                 <thead id="list-header" class="">
                                 <tr>
-                                    <th class="text-center style-header" rowspan="2" style="width: 5%; white-space: nowrap;">{!! trans('business.table.cn.voy_no') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_no') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2" style="min-width: 55px;">{!! trans('business.table.cn.voy_tc') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_tc') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2" style="width: 7%;">{!! trans('business.table.cn.cp_date') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cp_date') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2" style="width: 9%;">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cargo') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2" style="width: 9%;">{!! trans('business.table.cn.qty') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.qty') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.loading_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.loading_port') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.discharge_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.discharge_port') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2" style="width: 9%;">{!! trans('business.table.cn.l_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.l_rate') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.d_rate') !!}<br><span class="style-bold-italic" style="white-space: nowrap;">{!! trans('business.table.en.d_rate') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2" style="width: 9%; min-width: 100px;">{!! trans('business.table.cn.frt_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.frt_rate') !!}</span></th>
-                                    <th class="text-center style-header lr-no-p" style="width: 6%;"><div class="horizontal-line"><span>{!! trans('business.table.cn.anticipate') !!}</span><span style="white-space: nowrap;">{!! trans('business.table.cn.daily_profit') !!}</span></div></th>
-                                    <th class="text-center style-header" rowspan="2" style="width: 3%; min-width: 40px;">{!! trans('business.table.cn.contract_attach') !!}</th>
-                                    <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;"></th>
+                                    <th class="text-center style-header" rowspan="1" style="width: 5%; white-space: nowrap;">{!! trans('business.table.cn.voy_no') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_no') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="1" style="min-width: 55px;">{!! trans('business.table.cn.voy_tc') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_tc') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="1" style="width: 6%;">{!! trans('business.table.cn.cp_date') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cp_date') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="1" style="width: 9%;">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cargo') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="1" style="width: 9%;">{!! trans('business.table.cn.qty') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.qty') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="1">{!! trans('business.table.cn.loading_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.loading_port') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="1">{!! trans('business.table.cn.discharge_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.discharge_port') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="1" style="width: 9%;">{!! trans('business.table.cn.l_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.l_rate') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="1">{!! trans('business.table.cn.d_rate') !!}<br><span class="style-bold-italic" style="white-space: nowrap;">{!! trans('business.table.en.d_rate') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="1" style="width: 9%; min-width: 100px;">{!! trans('business.table.cn.frt_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.frt_rate') !!}</span></th>
+                                    <th class="text-center style-header lr-no-p" rowspan="1" style="width: 6%;"><div class="horizontal-line"><span>{!! trans('business.table.cn.anticipate') !!}</span><span style="white-space: nowrap;">{!! trans('business.table.cn.daily_profit') !!}</span></div></th>
+                                    <th class="text-center style-header" rowspan="1" style="width: 3%; min-width: 40px;">{!! trans('business.table.cn.contract_attach') !!}</th>
+                                    <th class="text-center style-header" rowspan="1" style="width:20px;word-break: break-all;"></th>
                                 </tr>
                                 </thead>
                                 <tbody id="list-body">
@@ -128,13 +128,22 @@ $ships = Session::get('shipList');
                                 </tbody>
                             </table>
                         </div>
-                        
-                        <select class="voy-type" style="margin-top: 20px;">
-                            <option value="nothing"></option>
-                            <option value="voy">程租(VOY)</option>
-                            <option value="tc">期租(TC)</option>
-                            <option value="non">其他(NON)</option>
-                        </select>
+                    
+                        <div class="row" style="margin: 20px 0 0px 0">
+                            <div class="col-lg-2">
+                                <select class="voy-type" style="height: 28px;">
+                                    <option value="nothing"></option>
+                                    <option value="voy">程租(VOY)</option>
+                                    <option value="tc">期租(TC)</option>
+                                    <option value="non">其他(NON)</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-10 text-right">
+                                <a onclick="javascript:fnExcelReport();" class="btn btn-warning btn-sm excel-btn btn-right">
+                                    <i class="icon-table"></i>{{ trans('common.label.excel') }}
+                                </a>
+                            </div>
+                        </div>
 
                         <div class="tab-content">
                             <div id="nothing_contract_div" class="tab-pane active">
@@ -1092,6 +1101,41 @@ $ships = Session::get('shipList');
             if(tcContractObj.validate_voy_no == true && tcContractObj.voy_no != '') 
                 fnExcelTc('TC');
         }        
+    }
+
+    function fnExcelAllReport() {
+        var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+        var real_tab = document.getElementById('voy_list');
+        var tab = real_tab.cloneNode(true);
+        tab_text=tab_text+"<tr><td colspan='11' style='font-size:20px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + "合同记录_" + '{!! $shipName !!}' + "</td></tr>";
+        tab.rows[0].childNodes[20].innerText = "预计" + "\n" + "日净利润";
+        for(var j = 0; j < tab.rows.length; j++)
+        {
+            if (j == 0) {
+                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                    tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                }
+            }
+            else {
+                for (var i=0; i<tab.rows[j].childElementCount*2;i++) {
+                    console.log(i, tab.rows[j].childNodes[i]);
+                }
+                //tab.rows[j].childNodes[20].innerText = "'" + tab.rows[j].childNodes[20].innerText;
+            }
+            tab.rows[j].childNodes[24].remove();
+            tab.rows[j].childNodes[22].remove();
+            tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+        }
+        tab_text=tab_text+"</table>";
+        console.log(tab_text);
+        tab_text=tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+        tab_text=tab_text.replaceAll(/<img[^>]*>/gi,"");
+        tab_text=tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
+
+        var filename = '{!! $shipName !!}' + '_合同记录';
+        exportExcel(tab_text, filename, filename);
+        
+        return 0;
     }
 
     $('body').on('keydown', 'input, select', function(e) {
