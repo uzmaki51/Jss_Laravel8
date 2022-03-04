@@ -37,6 +37,22 @@ $ships = Session::get('shipList');
             .cost-item-odd:hover {
                 background-color: #ffe3e082;
             }
+
+            .bottom-th {
+                top: 20px!important;
+            }
+
+            @media (max-width: 1398px) {
+                .bottom-th {
+                    top: 29px!important;
+                }
+            }
+
+            @media (max-width: 1057px) {
+                .bottom-th {
+                    top: 23px!important;
+                }
+            }
         </style>
         <div class="page-content">
             <div class="space-4 for-pc"></div>
@@ -189,19 +205,19 @@ $ships = Session::get('shipList');
                                                     <th class="text-center style-normal-header" colspan="13"><span>支出分类 ($)</span></th>
                                                 </tr>
                                                 <tr>
-                                                    <th class="text-center style-red-header" style="width: 4%;top: 20px;"><span>油款</span></th>
-                                                    <th class="text-center style-red-header" style="width: 4%;top: 20px;"><span>港费</span></th>
-                                                    <th class="text-center style-red-header" style="width: 4%;top: 20px;"><span>劳务费</span></th>
-                                                    <th class="text-center style-red-header" style="width: 4%;top: 20px;"><span>CTM</span></th>
-                                                    <th class="text-center style-red-header right-border" style="width: 4%;top: 20px;"><span>其他</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>工资</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>伙食费</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>物料费</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>修理费</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>管理费</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>保险费</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>检验费</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>证书费</span></th>
+                                                    <th class="text-center style-red-header bottom-th" style="width: 4%;"><span>油款</span></th>
+                                                    <th class="text-center style-red-header bottom-th" style="width: 4%;"><span>港费</span></th>
+                                                    <th class="text-center style-red-header bottom-th" style="width: 4%;"><span>劳务费</span></th>
+                                                    <th class="text-center style-red-header bottom-th" style="width: 4%;"><span>CTM</span></th>
+                                                    <th class="text-center style-red-header right-border bottom-th" style="width: 4%;"><span>其他</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>工资</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>伙食费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>物料费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>修理费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>管理费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>保险费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>检验费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>证书费</span></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="" id="table-income-expense-body">
