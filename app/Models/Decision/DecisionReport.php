@@ -181,7 +181,7 @@ class DecisionReport extends Model {
 			$selector = $selector->where('month', $month);
 		}
 		// 办公费:13, 兑换:14
-		$selector = $selector->whereNotIn('profit_type',[13,14])
+		$selector = $selector->whereNotIn('profit_type',[OUTCOME_FEE15,OUTCOME_FEE16])
 		->groupBy('flowid','profit_type')
 		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, currency')
 		->groupBy('flowid');
@@ -245,7 +245,7 @@ class DecisionReport extends Model {
 		}
 
 		$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('year',$year)->whereNotNull('book_no');
-		$selector = $selector->whereNotIn('profit_type',[13,14])
+		$selector = $selector->whereNotIn('profit_type',[OUTCOME_FEE15,OUTCOME_FEE16])
 		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, month, shipNo')
 		->groupBy('month', 'flowid','profit_type','shipNo');
 		$records = $selector->get();
@@ -302,7 +302,7 @@ class DecisionReport extends Model {
 
 		//$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('voyNo','>=', $voyNo_from)->where('voyNo','<',$voyNo_to)->whereNotNull('book_no');
 		$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('year',$year)->whereNotNull('book_no');
-		$selector = $selector->whereNotIn('profit_type',[13,14])
+		$selector = $selector->whereNotIn('profit_type',[OUTCOME_FEE15,OUTCOME_FEE16])
 		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, month, shipNo')
 		->groupBy('month', 'flowid','profit_type','shipNo');
 
@@ -375,7 +375,7 @@ class DecisionReport extends Model {
 				if ($cost->flowid == REPORT_TYPE_EVIDENCE_IN) {
 					$credit_sum += $cost->sum;
 				}
-				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != 13 && $cost->profit_type != 14)
+				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != OUTCOME_FEE15 && $cost->profit_type != OUTCOME_FEE16)
 				{
 					$newArr[$cost->profit_type] = $cost->sum;
 					$debit_sum += $cost->sum;
@@ -464,7 +464,7 @@ class DecisionReport extends Model {
 				if ($cost->flowid == REPORT_TYPE_EVIDENCE_IN) {
 					$credit_sum += $cost->sum;
 				}
-				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != 13 && $cost->profit_type != 14)
+				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != OUTCOME_FEE15 && $cost->profit_type != OUTCOME_FEE16)
 				{
 					if ($cost->profit_type == 7)
 					{
@@ -544,7 +544,7 @@ class DecisionReport extends Model {
 	public function getPastProfit($shipid, $year) {
 		$voyNo_from = substr($year, 2, 2) . '00';
 
-		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->whereNotIn('profit_type',[13,14])->where('voyNo','<',$voyNo_from)->whereNotNull('book_no')
+		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->whereNotIn('profit_type',[OUTCOME_FEE15,OUTCOME_FEE16])->where('voyNo','<',$voyNo_from)->whereNotNull('book_no')
 		  ->groupBy('flowid')
 		  ->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, currency')
 		  ->groupBy('flowid');
@@ -606,7 +606,7 @@ class DecisionReport extends Model {
 				if ($cost->flowid == REPORT_TYPE_EVIDENCE_IN) {
 					$credit_sum += $cost->sum;
 				}
-				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != 13 && $cost->profit_type != 14)
+				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != OUTCOME_FEE15 && $cost->profit_type != OUTCOME_FEE16)
 				{
 					$newArr[$cost->profit_type] = $cost->sum;
 					$debit_sum += $cost->sum;
@@ -660,7 +660,7 @@ class DecisionReport extends Model {
 			$currency = $params['columns'][3]['search']['value'];
 		}
 		// 办公费:13, 兑换:14
-		$selector = ReportSave::where('type', 0)->whereNotIn('profit_type',[13,14])->where('shipNo', $shipid)->where('voyNo', $voyNo)->whereNotNull('book_no');
+		$selector = ReportSave::where('type', 0)->whereNotIn('profit_type',[OUTCOME_FEE15,OUTCOME_FEE16])->where('shipNo', $shipid)->where('voyNo', $voyNo)->whereNotNull('book_no');
 		$records = $selector->orderBy('report_date', 'asc')->get();
 		$newArr = [];
         $newindex = 0;
