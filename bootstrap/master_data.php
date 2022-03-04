@@ -83,6 +83,9 @@ define('OUTCOME_FEE12',       '12');
 define('OUTCOME_FEE13',       '13');
 define('OUTCOME_FEE14',       '14');
 define('OUTCOME_FEE15',       '15');
+define('OUTCOME_FEE16',       '16');
+define('OUTCOME_FEE17',       '17');
+
 $OutComeData = array(
 	OUTCOME_FEE1    	=> '港费',
 	OUTCOME_FEE2    	=> '油款',
@@ -96,9 +99,11 @@ $OutComeData = array(
 	OUTCOME_FEE10    	=> '保险费',
 	OUTCOME_FEE11    	=> '检验费',
 	OUTCOME_FEE12    	=> '证书费',
-	OUTCOME_FEE13    	=> '办公费',
-	OUTCOME_FEE14    	=> '兑换',
-	OUTCOME_FEE15    	=> '其他',
+	OUTCOME_FEE13		=> '备件费',
+	OUTCOME_FEE14		=> '滑油费',
+	OUTCOME_FEE15    	=> '办公费',
+	OUTCOME_FEE16    	=> '兑换',
+	OUTCOME_FEE17    	=> '其他',
 );
 
 $FeeTypeData = array(
