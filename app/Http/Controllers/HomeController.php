@@ -74,7 +74,7 @@ class HomeController extends Controller {
 		foreach($reportList as $key => $item) {
 			$reportList[$key]->realname = UserInfo::find($item->creator)['realname'];
 		}
-		$shipList = ShipRegister::orderBy('id')->get();
+		$shipList = ShipRegister::orderBy('RegStatus')->orderBy('id')->get();
 		$shipForDecision = array();
 		foreach($shipList as $key => $item) {
 			$shipForDecision[$item->IMO_No] = $item->shipName_En;

@@ -114,7 +114,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $ship_infolist = ShipRegister::getShipForHolderWithDelete();
         else {
-            $ship_infolist = ShipRegister::orderBy('id')->get();
+            $ship_infolist = ShipRegister::orderBy('RegStatus')->orderBy('id')->get();
         }
 
         // var_dump($ship_infolist);die;
@@ -524,7 +524,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolderWithDelete();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::orderBy('RegStatus')->orderBy('id')->get();
         }
 
 		if(isset($params['shipId'])) {
@@ -587,7 +587,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolderWithDelete();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::orderBy('RegStatus')->orderBy('id')->get();
         }
 
         $params = $request->all();
@@ -639,7 +639,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolderWithDelete();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::orderBy('RegStatus')->orderBy('id')->get();
         }
 
         if(isset($params['shipId'])) {
@@ -838,7 +838,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipRegList = ShipRegister::getShipForHolderWithDelete();
         else {
-            $shipRegList = ShipRegister::orderBy('id')->get();
+            $shipRegList = ShipRegister::orderBy('RegStatus')->orderBy('id')->get();
         }
 
         $shipId = $request->get('id');
@@ -1274,7 +1274,7 @@ class ShipRegController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolderWithDelete();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::orderBy('RegStatus')->orderBy('id')->get();
         }
 
 	    $shipId = $request->get('id');
@@ -2443,6 +2443,7 @@ class ShipRegController extends Controller
 	        $retVal['ship_name'] = $shipInfo->shipName_En;
         else
             $retVal['ship_name'] = '';
+
 
     	return response()->json($retVal);
     }

@@ -37,7 +37,7 @@ class UpdateShipInfo extends Command
     public function handle()
     {
         try {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::orderBy('RegStatus')->orderBy('id')->get();
             foreach($shipList as $key => $item) {
                 DecisionReport::where('shipNo', $item->id)->update([
                     'shipNo'        => $item->IMO_No

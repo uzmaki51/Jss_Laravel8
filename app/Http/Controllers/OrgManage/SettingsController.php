@@ -32,8 +32,9 @@ class SettingsController extends Controller
         $url = $request->path();
         $breadCrumb = BreadCrumb::getBreadCrumb($url);
 
-        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name', 'tb_ship_register.RegStatus', 'tb_ship_register.id')
                         ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+                        ->orderBy('RegStatus', 'asc')->orderBy('id')
                         ->get();
                         
         $settings = Settings::where('id', 1)->first();

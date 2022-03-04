@@ -314,7 +314,7 @@ class DecisionController extends Controller
 	public function ajaxReportData(Request $request) {
 		$params = $request->all();
 
-		$shipList = ShipRegister::orderBy('id')->get();
+		$shipList = ShipRegister::orderBy('RegStatus')->orderBy('id')->get();
 		foreach($shipList as $key => $item) {
 			$shipList[$key]->NickName = $shipList[$key]->NickName == '' ? $shipList[$key]->shipName_En : $shipList[$key]->NickName;
 		}

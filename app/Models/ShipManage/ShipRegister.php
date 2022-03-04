@@ -20,7 +20,7 @@ class ShipRegister extends Model
 
     public static function getSimpleDataList() {
         $infoList = static::query()
-            ->select('tb_ship_register.id','tb_ship.name', 'tb_ship_type.ShipType_Cn', 'tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En',
+            ->select('tb_ship_register.id','tb_ship.name', 'tb_ship_type.ShipType_Cn', 'tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En', 'tb_ship_register.RegStatus',
                 'tb_ship_register.Class', 'tb_ship_register.IMO_No', 'tb_ship_register.Flag_Cn', 'tb_ship_register.Displacement', DB::raw('IFNULL(tb_ship.id, 100) as orderNum'))
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
             ->join('tb_ship_type', 'tb_ship_register.ShipType', '=', 'tb_ship_type.id')
@@ -31,7 +31,7 @@ class ShipRegister extends Model
 
     public static function getSimpleDataListExcel() {
         $infoList = static::query()
-            ->select('tb_ship_register.id','tb_ship.name', 'tb_ship_type.ShipType_Cn', 'tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En',
+            ->select('tb_ship_register.id','tb_ship.name', 'tb_ship_type.ShipType_Cn', 'tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En', 'tb_ship_register.RegStatus',
                 'tb_ship_register.Class', 'tb_ship_register.IMO_No', 'tb_ship_register.Flag_Cn', 'tb_ship_register.Displacement')
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
             ->join('tb_ship_type', 'tb_ship_register.ShipType', '=', 'tb_ship_type.id')
@@ -42,7 +42,7 @@ class ShipRegister extends Model
 
     public static function getShipListByOrigin() {
         $list = static::query()
-                    ->select('tb_ship_register.RegNo', 'tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En', 'tb_ship_register.id as shipID',
+                    ->select('tb_ship_register.RegNo', 'tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En', 'tb_ship_register.id as shipID', 'tb_ship_register.RegStatus',
                         'tb_ship.id', 'tb_ship.name', 'tb_ship_register.Speed', DB::raw('IFNULL(tb_ship.id, 100) as orderNum'))
                     ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
                     ->orderby('tb_ship_register.order')
@@ -52,7 +52,7 @@ class ShipRegister extends Model
 
     public static function getShipListOnlyOrigin() {
         $list = static::query()
-            ->select('tb_ship_register.RegNo', 'tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En', 'tb_ship_register.id as regId',  'tb_ship.id', 'tb_ship.name')
+            ->select('tb_ship_register.RegNo', 'tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En', 'tb_ship_register.id as regId', 'tb_ship_register.RegStatus', 'tb_ship.id', 'tb_ship.name')
             ->join('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
             ->orderBy('tb_ship.name')
             ->orderBy('tb_ship_register.id')
@@ -62,27 +62,30 @@ class ShipRegister extends Model
 
     public static function getShipFullName($shipId) {
         $nameInfo = static::query()
-            ->select('tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En', 'tb_ship_register.RegNo', 'tb_ship.name')
+            ->select('tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En', 'tb_ship_register.RegNo', 'tb_ship.name', 'tb_ship_register.RegStatus')
             ->leftJoin('tb_ship', 'tb_ship_register.Shipid', '=', 'tb_ship.id')
             ->where('tb_ship_register.id', $shipId)
+            ->orderBy('tb_ship_register.RegStatus')
             ->first();
         return $nameInfo;
     }
 
     public static function getShipFullNameByRegNo($shipReg) {
         $nameInfo = static::query()
-            ->select('tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En', 'tb_ship_register.RegNo', 'tb_ship.name')
+            ->select('tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En', 'tb_ship_register.RegNo', 'tb_ship.name', 'tb_ship_register.RegStatus')
             ->leftJoin('tb_ship', 'tb_ship_register.Shipid', '=', 'tb_ship.id')
             ->where('tb_ship_register.RegNo', $shipReg)
+            ->orderBy('tb_ship_register.RegStatus')
             ->first();
         return $nameInfo;
     }
 
     public static function getShipFullNameByOriginId($shipId) {
         $nameInfo = static::query()
-            ->select('tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En', 'tb_ship_register.RegNo', 'tb_ship.name')
+            ->select('tb_ship_register.shipName_Cn', 'tb_ship_register.shipName_En', 'tb_ship_register.RegNo', 'tb_ship.name', 'tb_ship_register.RegStatus')
             ->leftJoin('tb_ship', 'tb_ship_register.Shipid', '=', 'tb_ship.id')
             ->where('tb_ship.id', $shipId)
+            ->orderBy('tb_ship_register.RegStatus')
             ->first();
         return $nameInfo;
     }
@@ -94,7 +97,7 @@ class ShipRegister extends Model
     public function getShipForExcel($ship_id, $cert_excel_list) {
     	$retVal['cert'] = array();
     	$retVal['member']  = array();
-	    $shipInfo = ShipRegister::where('id', $ship_id)->first();
+	    $shipInfo = ShipRegister::where('id', $ship_id)->orderBy('RegStatus')->first();
 	    $imo_no = $shipInfo->IMO_No;
 
 	    foreach($cert_excel_list as $key => $item) {

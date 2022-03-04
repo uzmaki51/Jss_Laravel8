@@ -202,6 +202,8 @@ $ships = Session::get('shipList');
                                             <th class="text-center style-normal-header"><span>保险费</span></th>
                                             <th class="text-center style-normal-header"><span>检验费</span></th>
                                             <th class="text-center style-normal-header"><span>证书费</span></th>
+                                            <th class="text-center style-normal-header"><span>备件费</span></th>
+                                            <th class="text-center style-normal-header"><span>滑油费</span></th>
                                         </tr>
                                         </thead>
                                         <tbody class="" id="table-income-expense-body">
@@ -266,6 +268,8 @@ $ships = Session::get('shipList');
                                             <th class="text-center style-normal-header"><span>物料费</span></th>
                                             <th class="text-center style-normal-header"><span>修理费</span></th>
                                             <th class="text-center style-normal-header"><span>证书费</span></th>
+                                            <th class="text-center style-normal-header"><span>备件费</span></th>
+                                            <th class="text-center style-normal-header"><span>滑油费</span></th>
                                         </tr>
                                         </thead>
                                         <tbody class="" id="table-ctm-deposit-body">
@@ -599,7 +603,7 @@ $ships = Session::get('shipList');
         new Chart(document.getElementById("fourth-chart"), {
             type: 'bar',
             data: {
-                labels: ['油款','港费','劳务费','CTM','其他','工资','伙食费','物料费','修理费','管理费','保险费','检验费','证书费'],
+                labels: ['油款','港费','劳务费','CTM','其他','工资','伙食费','物料费','修理费','管理费','保险费','检验费','证书费','备件费','滑油费'],
                 datasets: datasets
             },
             options: {
@@ -650,7 +654,7 @@ $ships = Session::get('shipList');
         new Chart(document.getElementById("fifth-chart"), {
             type: 'bar',
             data: {
-                labels: ['劳务费','娱乐费','招待费','奖励','小费','通信费','其他','伙食费','物料费','修理费','证书费'],
+                labels: ['劳务费','娱乐费','招待费','奖励','小费','通信费','其他','伙食费','物料费','修理费','证书费','备件费','滑油费'],
                 datasets: datasets
             },
             options: {
@@ -751,7 +755,7 @@ $ships = Session::get('shipList');
                 var credit_sum = 0;
                 var debit_sum = 0;
                 var profit_sum = [];
-                for(var i=0;i<16;i++) profit_sum[i] = 0;
+                for(var i=0;i<18;i++) profit_sum[i] = 0;
                 var index = 0;
                 datasets = [];
                 var datasets4 = [];
@@ -773,7 +777,7 @@ $ships = Session::get('shipList');
                     datasets4[index].data = [];
                     datasets4[index].borderColor = addAlpha(color_table[index],0.8);//color_table[index];
                     datasets4[index].backgroundColor = color_table[index];//addAlpha(color_table[index],0.8);
-                    var indexes = [2,1,6,4,15,3,5,7,8,9,10,11,12];
+                    var indexes = [2,1,6,4,17,3,5,7,8,9,10,11,12,13,14];
                     for(var i=0;i<indexes.length;i++) {
                         datasets4[index].data[i] = result[ship_no]['debits'][indexes[i]];
                     }
@@ -781,7 +785,7 @@ $ships = Session::get('shipList');
                 });
                 value = credit_sum;
                 value = debit_sum;
-                for(var i=0;i<13;i++) {
+                for(var i=0;i<15;i++) {
                     var value = profit_sum[i];
                 }
                 drawSecondGraph(datasets);
@@ -997,8 +1001,8 @@ $ships = Session::get('shipList');
                 shipId:shipids_graph,
             },
             success: function(data) {
-                var debits_sum = [];
-                for(var i=0;i<12;i++) debits_sum[i] = 0;
+                //var debits_sum = [];
+                //for(var i=0;i<12;i++) debits_sum[i] = 0;
                 var index = 0;
                 var datasets = [];
                 $("#select-graph-ship option:selected").map(function () {
@@ -1091,7 +1095,7 @@ $ships = Session::get('shipList');
                 var credit_sum = 0;
                 var debit_sum = 0;
                 var profit_sum = [];
-                for(var i=0;i<16;i++) profit_sum[i] = 0;
+                for(var i=0;i<18;i++) profit_sum[i] = 0;
                 var index = 0;
                 $("#select-table-ship option:selected").map(function () {
                     var ship_name = $(this).text();
@@ -1104,7 +1108,7 @@ $ships = Session::get('shipList');
                     value = result[ship_no]['debit_sum'];
                     row_html += '<td style="padding-right:5px!important;height:20px!important;" class="right-border text-right ' + (value >= 0 ? '':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
                     debit_sum += value;
-                    var indexes = [2,1,6,4,15,3,5,7,8,9,10,11,12];
+                    var indexes = [2,1,6,4,17,3,5,7,8,9,10,11,12,13,14];
                     for(var i=0;i<indexes.length;i++) {
                         value = result[ship_no]['debits'][indexes[i]];
                         profit_sum[i] += value;
@@ -1124,7 +1128,7 @@ $ships = Session::get('shipList');
                 row_html += '<td style="padding-right:5px!important;height:20px!important;" class="sub-small-header style-normal-header text-right ' + (value >= 0 ? 'style-blue-input':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
                 value = debit_sum;
                 row_html += '<td style="padding-right:5px!important;height:20px!important;" class="right-border sub-small-header style-normal-header text-right ' + (value >= 0 ? '':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
-                for(var i=0;i<13;i++) {
+                for(var i=0;i<15;i++) {
                     var value = profit_sum[i];
                     if (i == 4) {
                         row_html += '<td style="padding-right:5px!important;height:20px!important;" class="right-border style-red-header style-normal-header text-right ' + (value >= 0 ? '':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
@@ -1352,14 +1356,14 @@ $ships = Session::get('shipList');
             success: function(data) {
                 $('#table-ctm-deposit-body').html('');
                 var debits_sum = [];
-                for(var i=0;i<12;i++) debits_sum[i] = 0;
+                for(var i=0;i<14;i++) debits_sum[i] = 0;
                 var index = 0;
                 $("#select-table-ship option:selected").map(function () {
                     var ship_name = $(this).text();
                     var ship_no = $(this).val();
                     var row_html = "<tr class='" + ((index%2==0)?'cost-item-even':'cost-item-odd') + "'>";
                     row_html += "<td>" + ship_name + "</td>";
-                    for(var i=0;i<12;i++) {
+                    for(var i=0;i<14;i++) {
                         var offset;
                         if (i == 0) offset = 1;
                         else if (i == 1) offset = 3;
@@ -1373,6 +1377,8 @@ $ships = Session::get('shipList');
                         else if (i == 9) offset = 5;
                         else if (i == 10) offset = 9;
                         else if (i == 11) offset = 10;
+                        else if (i == 12) offset = 13;
+                        else if (i == 13) offset = 14;
                         value = data[ship_no]['total'][offset];
                         debits_sum[i] += value;
                         if (i == 0 || i == 7)
@@ -1385,7 +1391,7 @@ $ships = Session::get('shipList');
                     index++;
                 });
                 row_html = "<tr><td class='sub-small-header style-blue-input' style='height:20px!important'>合计</td>";
-                for(var i=0;i<12;i++) {
+                for(var i=0;i<14;i++) {
                     var value = debits_sum[i];
                     if (i == 7) {
                         row_html += '<td style="padding-right:5px!important;height:20px!important;" class="right-border style-red-header style-normal-header text-right ' + (value >= 0 ? '':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
@@ -1444,11 +1450,11 @@ $ships = Session::get('shipList');
             if (index == 0) {
                 tab_text=tab_text+"<tr><td colspan='14' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_first_title').html() + " " + year_table + "年"+ "利润</td></tr>";
             } else if(index == 1) {
-                tab_text=tab_text+"<tr><td colspan='16' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_first_title').html() + " " + year_table + "年"+ "收支</td></tr>";
+                tab_text=tab_text+"<tr><td colspan='18' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_first_title').html() + " " + year_table + "年"+ "收支</td></tr>";
             } else if(index == 2) {
                 tab_text=tab_text+"<tr><td colspan='16' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_first_title').html() + " " + year_table + "年"+ "经济天数占率</td></tr>";
             } else if(index == 3) {
-                tab_text=tab_text+"<tr><td colspan='13' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_first_title').html() + " " + year_table + "年"+ "CTM支出</td></tr>";
+                tab_text=tab_text+"<tr><td colspan='15' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_first_title').html() + " " + year_table + "年"+ "CTM支出</td></tr>";
             }
             
             for(var j = 0; j < tab.rows.length ; j++)

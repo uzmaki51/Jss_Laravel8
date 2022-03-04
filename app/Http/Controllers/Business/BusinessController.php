@@ -161,6 +161,8 @@ class BusinessController extends Controller {
         $cost_record->input9 = $this->getNumber($inputs[8]);
         $cost_record->input10 = $this->getNumber($inputs[9]);
         $cost_record->input11 = $this->getNumber($inputs[10]);
+        $cost_record->input12 = $this->getNumber($inputs[11]);
+        $cost_record->input13 = $this->getNumber($inputs[12]);
 
         $cost_record->save();
         return redirect('business/dailyAverageCost?shipId='.$shipId.'&year='.$year);
@@ -233,13 +235,13 @@ class BusinessController extends Controller {
             $elseCost = 0;
         }
         else {
-            for($i = 1; $i <= 11; $i ++) {
+            for($i = 1; $i <= 13; $i ++) {
                 if(!isset($costs['input' . $i]) || $costs['input' . $i] == '')
                     $costs['input' . $i] = 0;
             }
 
-            $costDay = ($costs['input1'] + $costs['input2'] + $costs['input3'] + ($costs['input7'] + $costs['input8'] + $costs['input9'] + $costs['input10'] + $costs['input11'])*12) / 365;
-            $elseCost = ($costs['input4'] + $costs['input5'] + $costs['input6'])*12/365;
+            $costDay = ($costs['input1'] + $costs['input2'] + $costs['input3'] + ($costs['input4'] + $costs['input5'] + $costs['input9'] + $costs['input10'] + $costs['input11'] + $costs['input12'] + $costs['input13'])*12) / 365;
+            $elseCost = ($costs['input6'] + $costs['input7'] + $costs['input8'])*12/365;
         }
 
         return view('business.ship_contract', array(

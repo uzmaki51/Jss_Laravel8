@@ -669,7 +669,7 @@ class ShipMemberController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolderWithDelete();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::orderBy('RegStatus')->orderBy('id')->get();
         }
 
         $ko_ship_list = Ship::select('id', 'name')->get();
@@ -711,7 +711,7 @@ class ShipMemberController extends Controller
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolderWithDelete();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::orderBy('RegStatus')->orderBy('id')->get();
         }
 		$posList = ShipPosition::all();
         $capacityList = ShipMemberCapacity::orderByRaw('CAST(OrderNo AS SIGNED) ASC')->get();

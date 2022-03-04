@@ -320,7 +320,7 @@ class DecisionReport extends Model {
 				$result[$shipid]['months'][$i] = 0;
 				$result[$shipid]['sum_months'][$i] = 0;
 			}
-			for ($i=1;$i<16;$i++)
+			for ($i=1;$i<18;$i++)
 			{
 				$result[$shipid]['debits'][$i] = 0;
 			}
