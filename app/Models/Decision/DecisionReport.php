@@ -1095,11 +1095,36 @@ class DecisionReport extends Model {
 		$recordsFiltered = $selector->count();
 		$records = $selector->get();
 
+		if ($month == 0) $month = 12;
+		$selector = WaterList::where(function($query) use ($year, $month){
+			$query->where('year', '<', $year)->orWhere(function ($query2) use ($year, $month) {
+				$query2->where('year', $year)->where('month', '<=', $month);
+			});
+		});
+
+		$selector = $selector->groupBy('currency');
+		$total_sum = $selector->selectRaw('sum(credit) as credit_sum, sum(debit) as debit_sum, currency')->groupBy('currency')->get();
+		if (count($total_sum) == 0) {
+			$total_sum[0] = ['credit_sum' => 0, 'debit_sum' => 0];
+			$total_sum[1] = ['credit_sum' => 0, 'debit_sum' => 0];
+		}
+		else if (count($total_sum) == 1) {
+			if ($total_sum[0]['currency'] == 1) {
+				$total_sum[1] = $total_sum[0];
+				$total_sum[0] = ['credit_sum' => 0, 'debit_sum' => 0, 'currency' => 0];
+			}
+			else if ($total_sum[0]['currency'] == 0)
+			{
+				$total_sum[1] = ['credit_sum' => 0, 'debit_sum' => 0, 'currency' => 1];
+			}
+		}
+
 		return [
             'draw' => $params['draw']+0,
             'recordsTotal' => DB::table($this->table)->count(),
             'recordsFiltered' => $recordsFiltered,
             'data' => $records,
+			'totalSum' => $total_sum,
             'error' => 0,
         ];
 	}
@@ -1156,12 +1181,37 @@ class DecisionReport extends Model {
 			$newindex ++;
 		}
 
+		if ($month == 0) $month = 12;
+		$selector = WaterList::where(function($query) use ($year, $month){
+			$query->where('year', '<', $year)->orWhere(function ($query2) use ($year, $month) {
+				$query2->where('year', $year)->where('month', '<=', $month);
+			});
+		});
+		$selector = $selector->where('account_type',$account_type);
+		$selector = $selector->groupBy('currency');
+		$total_sum = $selector->selectRaw('sum(credit) as credit_sum, sum(debit) as debit_sum, currency')->groupBy('currency')->get();
+		if (count($total_sum) == 0) {
+			$total_sum[0] = ['credit_sum' => 0, 'debit_sum' => 0];
+			$total_sum[1] = ['credit_sum' => 0, 'debit_sum' => 0];
+		}
+		else if (count($total_sum) == 1) {
+			if ($total_sum[0]['currency'] == 1) {
+				$total_sum[1] = $total_sum[0];
+				$total_sum[0] = ['credit_sum' => 0, 'debit_sum' => 0, 'currency' => 0];
+			}
+			else if ($total_sum[0]['currency'] == 0)
+			{
+				$total_sum[1] = ['credit_sum' => 0, 'debit_sum' => 0, 'currency' => 1];
+			}
+		}
+
 		return [
             'draw' => $params['draw']+0,
             'recordsTotal' => DB::table($this->table)->count(),
             'recordsFiltered' => $newindex,
             'original' => true,
             'data' => $newArr,
+			'totalSum' => $total_sum,
             'error' => 0,
         ];
 	}
