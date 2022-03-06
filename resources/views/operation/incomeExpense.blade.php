@@ -716,12 +716,12 @@ $ships = Session::get('shipList');
                             custom: costs[9],
                         },
                         {
-                            name: '检验费('+datasets[10]+'%)',
+                            name: '保险费('+datasets[10]+'%)',
                             y: datasets[10],
                             custom: costs[10],
                         },
                         {
-                            name: '保险费('+datasets[11]+'%)',
+                            name: '检验费('+datasets[11]+'%)',
                             y: datasets[11],
                             custom: costs[11],
                         },
