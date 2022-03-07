@@ -121,6 +121,7 @@ $OutComeData1 = array(
 	OUTCOME_FEE12    	=> '证书费',
 	OUTCOME_FEE13		=> '备件费',
 	OUTCOME_FEE14		=> '滑油费',
+	OUTCOME_FEE17    	=> '其他费',
 );
 
 $OutComeData2 = array(
