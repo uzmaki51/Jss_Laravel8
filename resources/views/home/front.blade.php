@@ -1,9 +1,4 @@
 @extends('layout.header')
-
-<?php 
-    $FeeType = g_enum('FeeTypeData');
-    $OutComeData2 = g_enum('OutComeData2');
-?>
 @section('content')
 <link rel="stylesheet" type="text/css" href="{{ cAsset('assets/css/slick.css') }}"/>
     <link href="{{ cAsset('assets/css/slides.css') }}" rel="stylesheet" type="text/css">
@@ -153,21 +148,7 @@
                                             <td class="center" style="height:20px!important;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{g_enum('ReportTypeData')[$report['flowid']]}}</span></td>
                                             <td class="center">{{$report['obj_type'] == OBJECT_TYPE_SHIP?$nickName:$report['obj_name']}}</td>
                                             <td class="center">{{$report['voyNo']}}</td>
-                                            <td class="center" style="width:25%;overflow: hidden;white-space: nowrap;">
-                                                <span class="{{$report['flowid']=='Credit'?'text-profit':''}}">
-                                                    <?php 
-                                                        if($report['flowid'] == REPORT_TYPE_EVIDENCE_OUT && $report['obj_type'] == OBJECT_TYPE_PERSON)
-                                                            echo $OutComeData2[$report['profit_type']];
-                                                        else {
-                                                            if($report['flowid'] == REPORT_TYPE_CONTRACT)
-                                                                echo '';
-                                                            else
-                                                                echo $FeeType[$report['flowid']][$report['profit_type']];
-                                                        }
-                                                    ?>
-                                                    
-                                                </span>
-                                            </td>
+                                            <td class="center" style="width:25%;overflow: hidden;white-space: nowrap;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{isset(g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']])?g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']]:""}}</span></td>
                                             <td class="center" style="background-color:#fdb971!important;overflow: hidden;white-space: nowrap;"><span class="blink">等待</span></td>
                                             <?php $index++;?>
                                         </tr>
@@ -209,20 +190,7 @@
                                             <td class="center" style="height:20px!important;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{g_enum('ReportTypeData')[$report['flowid']]}}</span></td>
                                             <td class="center">{{$report['obj_type'] == OBJECT_TYPE_SHIP?$nickName:$report['obj_name']}}</td>
                                             <td class="center">{{$report['voyNo']}}</td>
-                                            <td class="center" style="width:25%;overflow: hidden;white-space: nowrap;">
-                                                <span class="{{$report['flowid']=='Credit'?'text-profit':''}}">
-                                                <?php 
-                                                    if($report['flowid'] == REPORT_TYPE_EVIDENCE_OUT && $report['obj_type'] == OBJECT_TYPE_PERSON)
-                                                        echo $OutComeData2[$report['profit_type']];
-                                                    else {
-                                                        if($report['flowid'] == REPORT_TYPE_CONTRACT)
-                                                            echo '';
-                                                        else
-                                                            echo $FeeType[$report['flowid']][$report['profit_type']];
-                                                    }
-                                                ?>
-                                                </span>
-                                            </td>
+                                            <td class="center" style="width:25%;overflow: hidden;white-space: nowrap;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{isset(g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']])?g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']]:""}}</span></td>
                                             <td class="center"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="margin: 0px 0px"></td>
                                             <?php $index++;?>
                                         </tr>
@@ -447,20 +415,7 @@
                                             <td class="center" style="height:20px!important;"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{g_enum('ReportTypeData')[$report['flowid']]}}</span></td>
                                             <td class="center">{{$report['obj_type'] == OBJECT_TYPE_SHIP?$nickName:$report['obj_name']}}</td>
                                             <td class="center">{{$report['voyNo']}}</td>
-                                            <td class="center" style="width:25%">
-                                                <span class="{{$report['flowid']=='Credit'?'text-profit':''}}">
-                                                <?php 
-                                                    if($report['flowid'] == REPORT_TYPE_EVIDENCE_OUT && $report['obj_type'] == OBJECT_TYPE_PERSON)
-                                                        echo $OutComeData2[$report['profit_type']];
-                                                    else {
-                                                        if($report['flowid'] == REPORT_TYPE_CONTRACT)
-                                                            echo '';
-                                                        else
-                                                            echo $FeeType[$report['flowid']][$report['profit_type']];
-                                                    }
-                                                ?>
-                                                </span>
-                                            </td>
+                                            <td class="center" style="width:25%"><span class="{{$report['flowid']=='Credit'?'text-profit':''}}">{{isset(g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']])?g_enum('FeeTypeData')[$report['flowid']][$report['profit_type']]:""}}</span></td>
                                             <td class="center" style="background-color:#fdb971!important"><span class="blink">等待</span></td>
                                             <?php $index++;?>
                                         </tr>

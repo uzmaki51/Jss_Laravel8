@@ -304,7 +304,6 @@
 	echo 'var ReportStatusData = ' . json_encode(g_enum('ReportStatusData')) . ';';
 	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
 	echo 'var FeeTypeData = ' . json_encode(g_enum('FeeTypeData')) . ';';
-    echo 'var OutComeData2 = ' . json_encode(g_enum('OutComeData2')) . ';';
 	echo '</script>';
 	?>
     <script>
@@ -619,11 +618,7 @@
         }
 
         function getProfit(profitType, selected = false) {
-            if(reportObj.object_type == '{{ OBJECT_TYPE_PERSON }}' && reportObj.currentReportType == 'Debit')
-                reportObj.profitType = OutComeData2
-            else
-                reportObj.profitType = FeeTypeData[profitType];
-
+            reportObj.profitType = FeeTypeData[profitType];
             reportObj.currentProfitType = '';
             if(selected != false)
                 reportObj.currentProfitType = selected;
@@ -1069,10 +1064,6 @@
                     changeObjType: function(e) {
                         let value = $(e.target).val();
                         this.object_type = value;
-                        if(reportObj.object_type == '{{ OBJECT_TYPE_PERSON }}' && reportObj.currentReportType == 'Debit')
-                            reportObj.profitType = OutComeData2
-                        else
-                            reportObj.profitType = FeeTypeData[reportObj.currentReportType];
                     },
                     dateModify(e) {
                         $(e.target).on("change", function() {
@@ -1328,21 +1319,9 @@
                     }
 
                     if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other') {
-                        if(data['flowid'] == "Credit") {
-                            $('td', row).eq(5).html('').append(
-                                '<span class="text-profit">' + __parseStr(FeeTypeData[data['flowid']][data['profit_type']]) + '</span>'
-                            );
-                        } else {
-                            let fee_data = [];
-                            if(data['obj_type'] == '{{ OBJECT_TYPE_SHIP }}') {
-                                fee_data = FeeTypeData[data['flowid']][data['profit_type']];
-                            } else {
-                                fee_data = OutComeData2[data['profit_type']];
-                            }
-                            $('td', row).eq(5).html('').append(
-                                '<span>' + __parseStr(fee_data) + '</span>'
-                            );
-                        }
+                        $('td', row).eq(5).html('').append(
+                            '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + __parseStr(FeeTypeData[data['flowid']][data['profit_type']]) + '</span>'
+                        );
                     } else {
                         $('td', row).eq(5).html('').append(
                             ''
