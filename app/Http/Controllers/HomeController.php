@@ -112,12 +112,12 @@ class HomeController extends Controller {
 					->leftJoin('tb_unit','tb_unit.id','=','tb_decision_report.depart_id')
 					->get();
 		$reportSummary = $reportSummary->sortByDesc('count');
-		//return $reportSummary;
-        $voyList = [];
+
+		$voyList = [];
         $index = 0;
         foreach($shipList as $ship)
         {
-            $record = VoyLog::where('Ship_ID', $ship['IMO_No'])->orderBy('id','desc')->first();
+            $record = VoyLog::where('Ship_ID', $ship->IMO_No)->orderBy('id','desc')->first();
             if (!empty($record)) {
                 $voyList[] = $record;
             }

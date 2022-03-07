@@ -340,6 +340,7 @@ $ships = Session::get('shipList');
     echo 'var start_year = ' . $start_year . ';';
     echo 'var now_year = ' . date("Y") . ';';
     echo 'var FeeTypeData = ' . json_encode(g_enum('FeeTypeData')) . ';';
+    echo 'var OutComeData2 = ' . json_encode(g_enum('OutComeData2')) . ';';
 	echo '</script>';
 	?>
 
@@ -1272,7 +1273,28 @@ $ships = Session::get('shipList');
                     $('td', row).eq(5).attr('style', 'padding-right:5px!important;');
 
                     $('td', row).eq(0).html('').append(index + 1);
-                    $('td', row).eq(3).html('').append(FeeTypeData[data['flowid']][data['profit_type']]);
+                    if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other') {
+                        if(data['flowid'] == "Credit") {
+                            $('td', row).eq(3).html('').append(
+                                '<span class="text-profit">' + __parseStr(FeeTypeData[data['flowid']][data['profit_type']]) + '</span>'
+                            );
+                        } else {
+                            let fee_data = [];
+                            if(data['obj_type'] == '{{ OBJECT_TYPE_SHIP }}') {
+                                fee_data = FeeTypeData[data['flowid']][data['profit_type']];
+                            } else {
+                                fee_data = OutComeData2[data['profit_type']];
+                            }
+                            $('td', row).eq(3).html('').append(
+                                '<span>' + __parseStr(fee_data) + '</span>'
+                            );
+                        }
+                    } else {
+                        $('td', row).eq(3).html('').append(
+                            ''
+                        );
+                    }
+
                     $('td', row).eq(4).html('').append(data['credit']=='' ? '':prettyValue(data['credit']));
                     $('td', row).eq(5).html('').append(data['debit']=='' ? '':prettyValue(data['debit']));
                     $('td', row).eq(6).html('').append(formatRate(data['rate']));

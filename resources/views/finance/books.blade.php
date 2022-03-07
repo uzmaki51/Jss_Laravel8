@@ -339,6 +339,7 @@ $isHolder = Session::get('IS_HOLDER');
 	echo 'var ReportStatusData = ' . json_encode(g_enum('ReportStatusData')) . ';';
     echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
     echo 'var FeeTypeData = ' . json_encode(g_enum('FeeTypeData')) . ';';
+    echo 'var OutComeData2 = ' . json_encode(g_enum('OutComeData2')) . ';';
     echo 'var PayTypeData = ' . json_encode(g_enum('PayTypeData')) . ';';
 	echo '</script>';
 	?>
@@ -411,7 +412,14 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(0).append('<input type="hidden" name="ship_no[]" value="' + data['ship_no'] + '">');
 
                     $('td', row).eq(3).html('').append(data['datetime'].substr(0,10));
-                    $('td', row).eq(6).html('').append(FeeTypeData[data['flowid']][data['profit_type']]);
+                    let fee_data = '';
+                    if(data['flowid'] == '{{ REPORT_TYPE_EVIDENCE_OUT }}' && data['obj_type'] == '{{ OBJECT_TYPE_PERSON }}')
+                        fee_data = OutComeData2[data['profit_type']];
+                    else
+                        fee_data = FeeTypeData[data['flowid']][data['profit_type']];
+
+                    $('td', row).eq(6).html('').append(fee_data);
+
 
                     if (data['currency'] == '$') {
                         $('td', row).eq(8).attr('style','color:#026fcd!important');

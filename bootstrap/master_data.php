@@ -101,9 +101,12 @@ $OutComeData = array(
 	OUTCOME_FEE12    	=> '证书费',
 	OUTCOME_FEE13		=> '备件费',
 	OUTCOME_FEE14		=> '滑油费',
+);
+
+$OutComeData2 = array(
 	OUTCOME_FEE15    	=> '办公费',
 	OUTCOME_FEE16    	=> '兑换',
-	OUTCOME_FEE17    	=> '其他',
+	OUTCOME_FEE17    	=> '其他费',
 );
 
 $FeeTypeData = array(
@@ -499,7 +502,7 @@ define('VOY_SETTLE_FUEL', 	'FUEL');
 define('USER_POS_ACCOUNTER', 8);
 
 define('REPAIR_STATUS_ALL', 			0);
-define('REPAIR_STATUS_UNCOMPLETE', 	1);
+define('REPAIR_STATUS_UNCOMPLETE', 		1);
 define('REPAIR_STATUS_COMPLETE', 		2);
 
 define('REPAIR_REPORT_TYPE_DEPART', 	1);
@@ -512,6 +515,7 @@ define('REPAIR_REPORT_TYPE_TYPE', 		3);
 	    'StaffLevelData'	            => $StaffLevelData,
 	    'InComeData'                    => $InComeData,
         'OutComeData'                   => $OutComeData,
+		'OutComeData2'                  => $OutComeData2,
 	    'FeeTypeData'                   => $FeeTypeData,
 	    'CurrencyLabel'                 => $CurrencyLabel,
 	    'InventoryStatusData'           => $InventoryStatusData,

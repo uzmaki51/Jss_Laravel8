@@ -29,18 +29,6 @@ class VoyLog extends Model
         return $result;
     }
 
-    public static function getShipVoyLogData($shipID = '', $voy_No){
-        $result = DB::table('tbl_voy_log')
-            ->select('tbl_voy_log.*','tbl_voy_status.Voy_Status as Voy_St', 'tbl_voy_status.Status_Name','tbl_cp.Voy_No','tb_ship_register.shipName_Cn')
-            ->join('tbl_cp', 'tbl_voy_log.CP_ID', '=', 'tbl_cp.id')
-            ->join('tbl_voy_status', 'tbl_voy_log.Voy_Status', '=', 'tbl_voy_status.ID')
-            ->join('tb_ship_register', 'tbl_voy_log.Ship_ID', '=', 'tb_ship_register.RegNo')
-            ->where('tbl_voy_log.CP_ID', $voy_No)
-            ->orderBy('tbl_voy_log.Voy_Date')
-            ->get();
-        return $result;
-    }
-
     public static function getHomeShipVoyLogData(){
         $query = 'SELECT voy_log.*, tbl_voy_status.Voy_Status AS Voy_St, tbl_voy_status.Status_Name, tbl_cp.Voy_No, tb_ship_register.shipName_Cn, tb_ship_register.RegNo, tb_ship_register.id
                     FROM (SELECT * FROM (SELECT * FROM tbl_voy_log ORDER BY Voy_Date DESC) AS tmp GROUP BY Ship_id) AS voy_log
@@ -50,18 +38,6 @@ class VoyLog extends Model
                     JOIN tb_ship ON tb_ship.id = tb_ship_register.Shipid';
         $result = DB::select($query);
 
-        return $result;
-    }
-
-    public static function getShipVoyLogDataExcel($shipID = '', $voy_No){
-        $result = DB::table('tbl_voy_log')
-            ->select('tbl_voy_log.*','tbl_voy_status.Voy_Status as Voy_St', 'tbl_voy_status.Status_Name','tbl_cp.Voy_No','tb_ship_register.shipName_Cn')
-            ->join('tbl_cp', 'tbl_voy_log.CP_ID', '=', 'tbl_cp.id')
-            ->join('tbl_voy_status', 'tbl_voy_log.Voy_Status', '=', 'tbl_voy_status.ID')
-            ->join('tb_ship_register', 'tbl_voy_log.Ship_ID', '=', 'tb_ship_register.RegNo')
-            ->where('tbl_voy_log.CP_ID', $voy_No)
-            ->orderBy('tbl_voy_log.Voy_Date')
-            ->get();
         return $result;
     }
 
