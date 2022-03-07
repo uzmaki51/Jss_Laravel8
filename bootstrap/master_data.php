@@ -103,7 +103,30 @@ $OutComeData = array(
 	OUTCOME_FEE14		=> '滑油费',
 	OUTCOME_FEE15    	=> '办公费',
 	OUTCOME_FEE16    	=> '兑换',
-	OUTCOME_FEE17    	=> '其他',
+	OUTCOME_FEE17    	=> '其他费',
+);
+
+$OutComeData1 = array(
+	OUTCOME_FEE1    	=> '港费',
+	OUTCOME_FEE2    	=> '油款',
+	OUTCOME_FEE3    	=> '工资',
+	OUTCOME_FEE4    	=> 'CTM',
+	OUTCOME_FEE5    	=> '伙食费',
+	OUTCOME_FEE6    	=> '劳务费',
+	OUTCOME_FEE7    	=> '物料费',
+	OUTCOME_FEE8    	=> '修理费',
+	OUTCOME_FEE9    	=> '管理费',
+	OUTCOME_FEE10    	=> '保险费',
+	OUTCOME_FEE11    	=> '检验费',
+	OUTCOME_FEE12    	=> '证书费',
+	OUTCOME_FEE13		=> '备件费',
+	OUTCOME_FEE14		=> '滑油费',
+);
+
+$OutComeData2 = array(
+	OUTCOME_FEE15    	=> '办公费',
+	OUTCOME_FEE16    	=> '兑换',
+	OUTCOME_FEE17    	=> '其他费',
 );
 
 $FeeTypeData = array(
@@ -518,6 +541,8 @@ define('REPAIR_REPORT_TYPE_TYPE', 		3);
 	    'StaffLevelData'	            => $StaffLevelData,
 	    'InComeData'                    => $InComeData,
         'OutComeData'                   => $OutComeData,
+		'OutComeData1'                  => $OutComeData1,
+		'OutComeData2'                  => $OutComeData2,
 	    'FeeTypeData'                   => $FeeTypeData,
 	    'CurrencyLabel'                 => $CurrencyLabel,
 	    'InventoryStatusData'           => $InventoryStatusData,

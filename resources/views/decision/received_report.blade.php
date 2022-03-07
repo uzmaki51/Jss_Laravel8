@@ -304,6 +304,8 @@
 	echo 'var ReportStatusData = ' . json_encode(g_enum('ReportStatusData')) . ';';
 	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
 	echo 'var FeeTypeData = ' . json_encode(g_enum('FeeTypeData')) . ';';
+    echo 'var OutComeData1 = ' . json_encode(g_enum('OutComeData1')) . ';';
+    echo 'var OutComeData2 = ' . json_encode(g_enum('OutComeData2')) . ';';
 	echo '</script>';
 	?>
     <script>
@@ -618,7 +620,17 @@
         }
 
         function getProfit(profitType, selected = false) {
-            reportObj.profitType = FeeTypeData[profitType];
+            if(profitType == '{{ REPORT_TYPE_EVIDENCE_OUT }}') {
+                if(reportObj.object_type == '{{ OBJECT_TYPE_SHIP }}') {
+                    reportObj.profitType = OutComeData1;
+                } else {
+                    reportObj.profitType = OutComeData2;
+                }
+            } else {
+                reportObj.profitType = FeeTypeData[profitType];
+            }
+            
+            
             reportObj.currentProfitType = '';
             if(selected != false)
                 reportObj.currentProfitType = selected;
@@ -1064,6 +1076,11 @@
                     changeObjType: function(e) {
                         let value = $(e.target).val();
                         this.object_type = value;
+                        if(reportObj.object_type == '{{ OBJECT_TYPE_SHIP }}') {
+                            reportObj.profitType = OutComeData1;
+                        } else {
+                            reportObj.profitType = OutComeData2;
+                        }
                     },
                     dateModify(e) {
                         $(e.target).on("change", function() {
