@@ -181,7 +181,7 @@ class DecisionReport extends Model {
 			$selector = $selector->where('month', $month);
 		}
 		// 办公费:13, 兑换:14
-		$selector = $selector->whereNotIn('profit_type',[13,14])
+		$selector = $selector->whereNotIn('profit_type',[OUTCOME_FEE15,OUTCOME_FEE16])
 		->groupBy('flowid','profit_type')
 		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, currency')
 		->groupBy('flowid');
@@ -245,7 +245,7 @@ class DecisionReport extends Model {
 		}
 
 		$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('year',$year)->whereNotNull('book_no');
-		$selector = $selector->whereNotIn('profit_type',[13,14])
+		$selector = $selector->whereNotIn('profit_type',[OUTCOME_FEE15,OUTCOME_FEE16])
 		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, month, shipNo')
 		->groupBy('month', 'flowid','profit_type','shipNo');
 		$records = $selector->get();
@@ -302,7 +302,7 @@ class DecisionReport extends Model {
 
 		//$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('voyNo','>=', $voyNo_from)->where('voyNo','<',$voyNo_to)->whereNotNull('book_no');
 		$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('year',$year)->whereNotNull('book_no');
-		$selector = $selector->whereNotIn('profit_type',[13,14])
+		$selector = $selector->whereNotIn('profit_type',[OUTCOME_FEE15,OUTCOME_FEE16])
 		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, month, shipNo')
 		->groupBy('month', 'flowid','profit_type','shipNo');
 
@@ -320,7 +320,7 @@ class DecisionReport extends Model {
 				$result[$shipid]['months'][$i] = 0;
 				$result[$shipid]['sum_months'][$i] = 0;
 			}
-			for ($i=1;$i<16;$i++)
+			for ($i=1;$i<18;$i++)
 			{
 				$result[$shipid]['debits'][$i] = 0;
 			}
@@ -375,7 +375,7 @@ class DecisionReport extends Model {
 				if ($cost->flowid == REPORT_TYPE_EVIDENCE_IN) {
 					$credit_sum += $cost->sum;
 				}
-				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != 13 && $cost->profit_type != 14)
+				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != OUTCOME_FEE15 && $cost->profit_type != OUTCOME_FEE16)
 				{
 					$newArr[$cost->profit_type] = $cost->sum;
 					$debit_sum += $cost->sum;
@@ -464,7 +464,7 @@ class DecisionReport extends Model {
 				if ($cost->flowid == REPORT_TYPE_EVIDENCE_IN) {
 					$credit_sum += $cost->sum;
 				}
-				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != 13 && $cost->profit_type != 14)
+				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != OUTCOME_FEE15 && $cost->profit_type != OUTCOME_FEE16)
 				{
 					if ($cost->profit_type == 7)
 					{
@@ -544,7 +544,7 @@ class DecisionReport extends Model {
 	public function getPastProfit($shipid, $year) {
 		$voyNo_from = substr($year, 2, 2) . '00';
 
-		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->whereNotIn('profit_type',[13,14])->where('voyNo','<',$voyNo_from)->whereNotNull('book_no')
+		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->whereNotIn('profit_type',[OUTCOME_FEE15,OUTCOME_FEE16])->where('voyNo','<',$voyNo_from)->whereNotNull('book_no')
 		  ->groupBy('flowid')
 		  ->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, currency')
 		  ->groupBy('flowid');
@@ -606,7 +606,7 @@ class DecisionReport extends Model {
 				if ($cost->flowid == REPORT_TYPE_EVIDENCE_IN) {
 					$credit_sum += $cost->sum;
 				}
-				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != 13 && $cost->profit_type != 14)
+				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != OUTCOME_FEE15 && $cost->profit_type != OUTCOME_FEE16)
 				{
 					$newArr[$cost->profit_type] = $cost->sum;
 					$debit_sum += $cost->sum;
@@ -660,7 +660,7 @@ class DecisionReport extends Model {
 			$currency = $params['columns'][3]['search']['value'];
 		}
 		// 办公费:13, 兑换:14
-		$selector = ReportSave::where('type', 0)->whereNotIn('profit_type',[13,14])->where('shipNo', $shipid)->where('voyNo', $voyNo)->whereNotNull('book_no');
+		$selector = ReportSave::where('type', 0)->whereNotIn('profit_type',[OUTCOME_FEE15,OUTCOME_FEE16])->where('shipNo', $shipid)->where('voyNo', $voyNo)->whereNotNull('book_no');
 		$records = $selector->orderBy('report_date', 'asc')->get();
 		$newArr = [];
         $newindex = 0;
@@ -1095,11 +1095,36 @@ class DecisionReport extends Model {
 		$recordsFiltered = $selector->count();
 		$records = $selector->get();
 
+		if ($month == 0) $month = 12;
+		$selector = WaterList::where(function($query) use ($year, $month){
+			$query->where('year', '<', $year)->orWhere(function ($query2) use ($year, $month) {
+				$query2->where('year', $year)->where('month', '<=', $month);
+			});
+		});
+
+		$selector = $selector->groupBy('currency');
+		$total_sum = $selector->selectRaw('sum(credit) as credit_sum, sum(debit) as debit_sum, currency')->groupBy('currency')->get();
+		if (count($total_sum) == 0) {
+			$total_sum[0] = ['credit_sum' => 0, 'debit_sum' => 0];
+			$total_sum[1] = ['credit_sum' => 0, 'debit_sum' => 0];
+		}
+		else if (count($total_sum) == 1) {
+			if ($total_sum[0]['currency'] == 1) {
+				$total_sum[1] = $total_sum[0];
+				$total_sum[0] = ['credit_sum' => 0, 'debit_sum' => 0, 'currency' => 0];
+			}
+			else if ($total_sum[0]['currency'] == 0)
+			{
+				$total_sum[1] = ['credit_sum' => 0, 'debit_sum' => 0, 'currency' => 1];
+			}
+		}
+
 		return [
             'draw' => $params['draw']+0,
             'recordsTotal' => DB::table($this->table)->count(),
             'recordsFiltered' => $recordsFiltered,
             'data' => $records,
+			'totalSum' => $total_sum,
             'error' => 0,
         ];
 	}
@@ -1156,12 +1181,37 @@ class DecisionReport extends Model {
 			$newindex ++;
 		}
 
+		if ($month == 0) $month = 12;
+		$selector = WaterList::where(function($query) use ($year, $month){
+			$query->where('year', '<', $year)->orWhere(function ($query2) use ($year, $month) {
+				$query2->where('year', $year)->where('month', '<=', $month);
+			});
+		});
+		$selector = $selector->where('account_type',$account_type);
+		$selector = $selector->groupBy('currency');
+		$total_sum = $selector->selectRaw('sum(credit) as credit_sum, sum(debit) as debit_sum, currency')->groupBy('currency')->get();
+		if (count($total_sum) == 0) {
+			$total_sum[0] = ['credit_sum' => 0, 'debit_sum' => 0];
+			$total_sum[1] = ['credit_sum' => 0, 'debit_sum' => 0];
+		}
+		else if (count($total_sum) == 1) {
+			if ($total_sum[0]['currency'] == 1) {
+				$total_sum[1] = $total_sum[0];
+				$total_sum[0] = ['credit_sum' => 0, 'debit_sum' => 0, 'currency' => 0];
+			}
+			else if ($total_sum[0]['currency'] == 0)
+			{
+				$total_sum[1] = ['credit_sum' => 0, 'debit_sum' => 0, 'currency' => 1];
+			}
+		}
+
 		return [
             'draw' => $params['draw']+0,
             'recordsTotal' => DB::table($this->table)->count(),
             'recordsFiltered' => $newindex,
             'original' => true,
             'data' => $newArr,
+			'totalSum' => $total_sum,
             'error' => 0,
         ];
 	}

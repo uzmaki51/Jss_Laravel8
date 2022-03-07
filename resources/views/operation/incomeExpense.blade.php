@@ -37,6 +37,22 @@ $ships = Session::get('shipList');
             .cost-item-odd:hover {
                 background-color: #ffe3e082;
             }
+
+            .bottom-th {
+                top: 20px!important;
+            }
+
+            @media (max-width: 1398px) {
+                .bottom-th {
+                    top: 29px!important;
+                }
+            }
+
+            @media (max-width: 1057px) {
+                .bottom-th {
+                    top: 23px!important;
+                }
+            }
         </style>
         <div class="page-content">
             <div class="space-4 for-pc"></div>
@@ -186,22 +202,24 @@ $ships = Session::get('shipList');
                                                     <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>支出($)</span></th>
                                                     <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>利润($)</span></th>
                                                     <th class="text-center style-normal-header right-border" rowspan="2" style="width: 7%;"><span>利润累计</span></th>
-                                                    <th class="text-center style-normal-header" colspan="13"><span>支出分类 ($)</span></th>
+                                                    <th class="text-center style-normal-header" colspan="15"><span>支出分类 ($)</span></th>
                                                 </tr>
                                                 <tr>
-                                                    <th class="text-center style-red-header" style="width: 4%;top: 20px;"><span>油款</span></th>
-                                                    <th class="text-center style-red-header" style="width: 4%;top: 20px;"><span>港费</span></th>
-                                                    <th class="text-center style-red-header" style="width: 4%;top: 20px;"><span>劳务费</span></th>
-                                                    <th class="text-center style-red-header" style="width: 4%;top: 20px;"><span>CTM</span></th>
-                                                    <th class="text-center style-red-header right-border" style="width: 4%;top: 20px;"><span>其他</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>工资</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>伙食费</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>物料费</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>修理费</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>管理费</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>保险费</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>检验费</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;top: 20px;"><span>证书费</span></th>
+                                                    <th class="text-center style-red-header bottom-th" style="width: 4%;"><span>油款</span></th>
+                                                    <th class="text-center style-red-header bottom-th" style="width: 4%;"><span>港费</span></th>
+                                                    <th class="text-center style-red-header bottom-th" style="width: 4%;"><span>劳务费</span></th>
+                                                    <th class="text-center style-red-header bottom-th" style="width: 4%;"><span>CTM</span></th>
+                                                    <th class="text-center style-red-header right-border bottom-th" style="width: 4%;"><span>其他</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>工资</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>伙食费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>物料费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>修理费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>管理费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>保险费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>检验费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>证书费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>备件费</span></th>
+                                                    <th class="text-center style-normal-header bottom-th" style="width: 4%;"><span>滑油费</span></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="" id="table-income-expense-body">
@@ -699,7 +717,7 @@ $ships = Session::get('shipList');
                             custom: costs[9],
                         },
                         {
-                            name: '检验费('+datasets[10]+'%)',
+                            name: '保险费('+datasets[10]+'%)',
                             y: datasets[10],
                             custom: costs[10],
                         },
@@ -712,6 +730,16 @@ $ships = Session::get('shipList');
                             name: '证书费('+datasets[12]+'%)',
                             y: datasets[12],
                             custom: costs[12],
+                        },
+                        {
+                            name: '备件费('+datasets[13]+'%)',
+                            y: datasets[13],
+                            custom: costs[13],
+                        },
+                        {
+                            name: '滑油费('+datasets[14]+'%)',
+                            y: datasets[14],
+                            custom: costs[14],
                         }
                     ],
                     dataLabels: {
@@ -895,7 +923,7 @@ $ships = Session::get('shipList');
             var datasets3 = [];
             datasets3[0] = {};
             datasets3[0].data = [];
-            for (var i=0;i<13;i++) datasets3[0].data[i] = 0;
+            for (var i=0;i<15;i++) datasets3[0].data[i] = 0;
             datasets3[0].backgroundColor = ['#73b7ff','#ff655c','#50bc16','#ffc800','#9d00ff','#ff0000','#795548','#3f51b5','#00bcd4','#e91e63','#0000ff','#00ff00','#0d273a'];
 
             var debit_total_sum = 0;
@@ -912,13 +940,13 @@ $ships = Session::get('shipList');
                         datasets2[0].data[index] = data[index]['credit_sum'];
                         datasets2[1].data[index] = data[index]['debit_sum'];
                         debit_total_sum += data[index]['debit_sum'];
-                        for (var i=0;i<13;i++)
+                        for (var i=0;i<15;i++)
                         {
                             if (i == 0) offset = 2;
                             else if (i == 1) offset = 1;
                             else if (i == 2) offset = 6;
                             else if (i == 3) offset = 4;
-                            else if (i == 4) offset = 15;
+                            else if (i == 4) offset = 17;
                             else if (i == 5) offset = 3;
                             else if (i == 6) offset = 5;
                             else if (i == 7) offset = 7;
@@ -927,6 +955,8 @@ $ships = Session::get('shipList');
                             else if (i == 10) offset = 10;
                             else if (i == 11) offset = 11;
                             else if (i == 12) offset = 12;
+                            else if (i == 13) offset = 13;
+                            else if (i == 14) offset = 14;
                             if (data[index]['debit_list'][offset] != undefined) {
                                 datasets3[0].data[i] += data[index]['debit_list'][offset];
                             }
@@ -934,7 +964,7 @@ $ships = Session::get('shipList');
                     }
 
                     var datasets3_cost = [];
-                    for (var i=0;i<13;i++) {
+                    for (var i=0;i<15;i++) {
                         if (debit_total_sum != 0) {
                             //datasets3[0].data[i] = prettyValue(datasets3[0].data[i] / debit_total_sum * 100)
                             datasets3_cost[i] = datasets3[0].data[i].toFixed(0);
@@ -1010,6 +1040,8 @@ $ships = Session::get('shipList');
                     {data: null, className: "text-center"},
                     {data: null, className: "text-center"},
                     {data: null, className: "text-center"},
+                    {data: null, className: "text-center"},
+                    {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
                     if ((index%2) == 0)
@@ -1053,7 +1085,7 @@ $ships = Session::get('shipList');
                     //$('td', row).eq(7).html(data['total_profit']==0?'':prettyValue(data['total_profit']));
                     $('td', row).eq(7).html(data['total_profit']==0?'':(data['total_profit']==0?'':prettyValue(data['total_profit'])))
 
-                    for (var i=1;i<16;i++)
+                    for (var i=1;i<18;i++)
                     {
                         if (i == 2) {   // 油款
                             dest_obj = $('td', row).eq(8);
@@ -1067,7 +1099,7 @@ $ships = Session::get('shipList');
                         else if (i == 4) { //CTM
                             dest_obj = $('td', row).eq(11);
                         }
-                        else if (i == 15) { //其他
+                        else if (i == 17) { //其他
                             dest_obj = $('td', row).eq(12);
                         }
                         else if (i == 3) { //工资
@@ -1094,17 +1126,23 @@ $ships = Session::get('shipList');
                         else if (i == 12) { // 证书费
                             dest_obj = $('td', row).eq(20);
                         }
+                        else if (i == 13) { // 备件费
+                            dest_obj = $('td', row).eq(21);
+                        }
+                        else if (i == 14) { // 滑油费
+                            dest_obj = $('td', row).eq(22);
+                        }
                         else {
                             dest_obj = null;
                         }
 
-                        if (i == 15) {
+                        if (i == 17) {
                             $(dest_obj).attr('class', 'text-right right-border');
                         }
 
                         if (data['debit_list'][i] != undefined)
                         {
-                            if (i == 15) {
+                            if (i == 17) {
                                 $(dest_obj).attr('class', 'text-right right-border');
                             } else {
                                 $(dest_obj).attr('class', 'text-right');
@@ -1131,10 +1169,10 @@ $ships = Session::get('shipList');
                     if (response.json.data.length <= 0) return;
                     var tab = document.getElementById('table-income-expense-body');
                     var i,j;
-                    for (i=0;i<18;i++) table_sums[i] = 0;
+                    for (i=0;i<20;i++) table_sums[i] = 0;
                     for(var j=0; j<tab.rows.length; j++)
                     {
-                        for (var i=0;i<18;i++)
+                        for (var i=0;i<20;i++)
                         {
                             var value_str = tab.rows[j].childNodes[3+i].innerHTML;
                             if ((value_str != "") && (value_str != "-"))
@@ -1154,7 +1192,7 @@ $ships = Session::get('shipList');
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer sub-small-header disable-td'></td><td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer sub-small-header disable-td'></td>";
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;' class='table-footer style-normal-header sub-small-header text-center'>" + (table_sums[0]==0?'':prettyValue(table_sums[0])) + "</td>";
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right style-blue-input'>" + (table_sums[1]==0?'':prettyValue(table_sums[1])) + "</td>";
-                    for(i=2;i<18;i++)
+                    for(i=2;i<20;i++)
                     {
                         if (i==3 || i==4)
                             report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (table_sums[i]>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (table_sums[i]==0?'':prettyValue(table_sums[i])) + "</td>";

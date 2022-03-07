@@ -35,7 +35,6 @@ use App\Models\ShipTechnique\ShipPort;
 use App\Models\Operations\Cargo;
 use App\Models\Operations\SailDistance;
 use Config;
-
 use Illuminate\Database\Eloquent;
 
 use Auth;
@@ -63,11 +62,12 @@ class OperationController extends Controller
         } else {
             $start_year = date("Y", strtotime($start_year['report_date']));
         }
+
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolderWithDelete();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::orderBy('RegStatus')->orderBy('id')->get();
         }
         return view('operation.incomeExpense', array(
             'start_year' => $start_year,
@@ -79,18 +79,19 @@ class OperationController extends Controller
     public function incomeAllExpense(Request $request) {
         $url = $request->path();
         $breadCrumb = BreadCrumb::getBreadCrumb($url);
-        
+
         $start_year = DecisionReport::orderBy('report_date')->first();
         if(!isset($start_year)) {
             $start_year = date("Y");
         } else {
             $start_year = date("Y", strtotime($start_year['report_date']));
         }
+
         $user_pos = Auth::user()->pos;
         if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
             $shipList = ShipRegister::getShipForHolderWithDelete();
         else {
-            $shipList = ShipRegister::orderBy('id')->get();
+            $shipList = ShipRegister::orderBy('RegStatus')->orderBy('id')->get();
         }
         return view('operation.incomeAllExpense', array(
             'start_year' => $start_year,
@@ -131,6 +132,6 @@ class OperationController extends Controller
 		return response()->json($reportList);
     }
 
-    
+
 
 }

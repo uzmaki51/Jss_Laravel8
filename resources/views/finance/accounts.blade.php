@@ -35,11 +35,27 @@ $isHolder = Session::get('IS_HOLDER');
                 bottom: 0px;
                 box-shadow: inset 0 1px #000, 1px -1px #000;
                 border-top: unset!important;
+                background-color: #beffcd!important;
             }
 
             .dynamic-second-footer td {
                 position: sticky!important;
                 bottom: 24px;
+                box-shadow: inset 0 1px #000, 1px -1px #000;
+                border-top: unset!important;
+                background-color: #beffcd!important;
+            }
+
+            .dynamic-third-footer td {
+                position: sticky!important;
+                bottom: 48px;
+                box-shadow: inset 0 1px #000, 1px -1px #000;
+                border-top: unset!important;
+            }
+
+            .dynamic-fourth-footer td {
+                position: sticky!important;
+                bottom: 72px;
                 box-shadow: inset 0 1px #000, 1px -1px #000;
                 border-top: unset!important;
             }
@@ -420,18 +436,32 @@ $isHolder = Session::get('IS_HOLDER');
                         report_debit_sum_D = 0;
                         report_balance_sum_D = 0;
                     }
-                    var report_row = '<tr class="tr-report" style="height:20px;border:1px solid black;">';
-                    report_row += '<td class="sub-small-header style-normal-header text-center" colspan="2">总计 (RMB)</td><td class="sub-small-header style-normal-header"></td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (report_credit_sum_R >= 0 ? 'style-blue-input':'style-red-input') + '">¥ ' + prettyValue(report_credit_sum_R) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (report_debit_sum_R >= 0 ? 'style-black-input':'style-red-input') + '">¥ ' + prettyValue(report_debit_sum_R) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (report_balance_sum_R >= 0 ? 'style-black-input':'style-red-input') + '">¥ ' + prettyValue(report_balance_sum_R) + '</td>';
+                    var report_row = '<tr class="tr-report dynamic-footer dynamic-fourth-footer" style="height:20px;border:1px solid black;">';
+                    report_row += '<td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center" colspan="2"><span style="color:red">合计 (RMB)</span></td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right style-blue-input">¥ ' + prettyValue(report_credit_sum_R) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right">¥ ' + prettyValue(report_debit_sum_R) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + ((report_credit_sum_R - report_debit_sum_R) >= 0 ? 'style-black-input':'style-red-input') + '">¥ ' + prettyValue(report_credit_sum_R - report_debit_sum_R) + '</td>';
                     report_row += '</tr>';
 
-                    report_row += '<tr class="tr-report" style="height:20px;border:1px solid black;">';
-                    report_row += '<td class="sub-small-header style-normal-header text-center" colspan="2">总计 (USD)</td><td class="sub-small-header style-normal-header"></td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (report_credit_sum_D >= 0 ? 'style-blue-input':'style-red-input') + '">$ ' + prettyValue(report_credit_sum_D) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (report_debit_sum_D >= 0 ? 'style-black-input':'style-red-input') + '">$ ' + prettyValue(report_debit_sum_D) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (report_balance_sum_D >= 0 ? 'style-black-input':'style-red-input') + '">$ ' + prettyValue(report_balance_sum_D) + '</td>';
+                    report_row += '<tr class="tr-report dynamic-footer dynamic-third-footer" style="height:20px;border:1px solid black;">';
+                    report_row += '<td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center" colspan="2"><span style="color:#026fcd">合计 (USD)</span></td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right style-blue-input">$ ' + prettyValue(report_credit_sum_D) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right">$ ' + prettyValue(report_debit_sum_D) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + ((report_credit_sum_D - report_debit_sum_D) >= 0 ? 'style-black-input':'style-red-input') + '">$ ' + prettyValue(report_credit_sum_D - report_debit_sum_D) + '</td>';
+                    report_row += '</tr>';
+
+                    var total_sum = response.json.totalSum;
+                    report_row += '<tr class="tr-report dynamic-footer dynamic-second-footer" style="height:20px;border:1px solid black;">';
+                    report_row += '<td class="sub-small-header2 style-normal-header"></td><td class="sub-small-header2 style-normal-header text-center" colspan="2"><span style="color:red">累计 (RMB)</span></td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right style-blue-input">¥ ' + prettyValue(total_sum[0].credit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right">¥ ' + prettyValue(total_sum[0].debit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right ' + ((total_sum[0].credit_sum - total_sum[0].debit_sum) >= 0 ? 'style-black-input':'style-red-input') + '">¥ ' + prettyValue(total_sum[0].credit_sum - total_sum[0].debit_sum) + '</td>';
+                    report_row += '</tr>';
+                    report_row += '<tr class="tr-report dynamic-footer dynamic-first-footer" style="height:20px;border:1px solid black;">';
+                    report_row += '<td class="sub-small-header2 style-normal-header"></td><td class="sub-small-header2 style-normal-header text-center" colspan="2"><span style="color:#026fcd">累计 (USD)</span></td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right style-blue-input">$ ' + prettyValue(total_sum[1].credit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right">$ ' + prettyValue(total_sum[1].debit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right ' + ((total_sum[1].credit_sum - total_sum[1].debit_sum) >= 0 ? 'style-black-input':'style-red-input') + '">$ ' + prettyValue(total_sum[1].credit_sum - total_sum[1].debit_sum) + '</td>';
                     report_row += '</tr>';
 
                     $('#table-accounts-report-body').append(report_row);
@@ -657,17 +687,33 @@ $isHolder = Session::get('IS_HOLDER');
                         sum_credit_D = 0;
                         sum_debit_D = 0;
                     }
-                    var report_row = '<tr class="tr-report dynamic-footer dynamic-second-footer" style="height:20px;border:1px solid black;">';
-                    report_row += '<td class="sub-small-header"></td><td class="sub-small-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center">合计 (RMB)</td><td class="sub-small-header style-normal-header"></td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (sum_credit_R >= 0 ? 'style-blue-input':'style-red-input') + '">¥ ' + prettyValue(sum_credit_R) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (sum_debit_R >= 0 ? '':'style-red-input') + '">¥ ' + prettyValue(sum_debit_R) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + ((sum_credit_R - sum_debit_R) >= 0 ? '':'style-red-input') + '">¥ ' + prettyValue(sum_credit_R - sum_debit_R) + '</td>';
+                    var report_row = '<tr class="tr-report dynamic-footer dynamic-fourth-footer" style="height:20px;border:1px solid black;">';
+                    report_row += '<td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center" colspan="1"><span style="color:red">合计 (RMB)</span></td><td class="sub-small-header style-normal-header"></td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right style-blue-input">¥ ' + prettyValue(sum_credit_R) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right">¥ ' + prettyValue(sum_debit_R) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + ((sum_credit_R - sum_debit_R) >= 0 ? 'style-black-input':'style-red-input') + '">¥ ' + prettyValue(sum_credit_R - sum_debit_R) + '</td>';
+                    report_row += '</tr>';
+
+                    report_row += '<tr class="tr-report dynamic-footer dynamic-third-footer" style="height:20px;border:1px solid black;">';
+                    report_row += '<td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center" colspan="1"><span style="color:#026fcd">合计 (USD)</span></td><td class="sub-small-header style-normal-header"></td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right style-blue-input">$ ' + prettyValue(sum_credit_D) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right">$ ' + prettyValue(sum_debit_D) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + ((sum_credit_D - sum_debit_D) >= 0 ? 'style-black-input':'style-red-input') + '">$ ' + prettyValue(sum_credit_D - sum_debit_D) + '</td>';
+                    report_row += '</tr>';
+
+                    var total_sum = response.json.totalSum;
+                    report_row += '<tr class="tr-report dynamic-footer dynamic-second-footer" style="height:20px;border:1px solid black;">';
+                    report_row += '<td class="sub-small-header2 style-normal-header"></td><td class="sub-small-header2 style-normal-header"></td><td class="sub-small-header2 style-normal-header"></td><td class="sub-small-header2 style-normal-header text-center" colspan="1"><span style="color:red">累计 (RMB)</span></td><td class="sub-small-header2 style-normal-header"></td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right style-blue-input">¥ ' + prettyValue(total_sum[0].credit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right">¥ ' + prettyValue(total_sum[0].debit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right ' + ((total_sum[0].credit_sum - total_sum[0].debit_sum) >= 0 ? 'style-black-input':'style-red-input') + '">¥ ' + prettyValue(total_sum[0].credit_sum - total_sum[0].debit_sum) + '</td>';
                     report_row += '</tr>';
                     report_row += '<tr class="tr-report dynamic-footer dynamic-first-footer" style="height:20px;border:1px solid black;">';
-                    report_row += '<td class="sub-small-header"></td><td class="sub-small-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center">合计 (USD)</td><td class="sub-small-header style-normal-header"></td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (sum_credit_D >= 0 ? 'style-blue-input':'style-red-input') + '">$ ' + prettyValue(sum_credit_D) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + (sum_debit_D >= 0 ? '':'style-red-input') + '">$ ' + prettyValue(sum_debit_D) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right ' + ((sum_credit_D - sum_debit_D) >= 0 ? '':'style-red-input') + '">$ ' + prettyValue(sum_credit_D - sum_debit_D) + '</td>';
+                    report_row += '<td class="sub-small-header2 style-normal-header"></td><td class="sub-small-header2 style-normal-header"></td><td class="sub-small-header2 style-normal-header"></td><td class="sub-small-header2 style-normal-header text-center" colspan="1"><span style="color:#026fcd">累计 (USD)</span></td><td class="sub-small-header2 style-normal-header"></td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right style-blue-input">$ ' + prettyValue(total_sum[1].credit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right">$ ' + prettyValue(total_sum[1].debit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header2 text-right ' + ((total_sum[1].credit_sum - total_sum[1].debit_sum) >= 0 ? 'style-black-input':'style-red-input') + '">$ ' + prettyValue(total_sum[1].credit_sum - total_sum[1].debit_sum) + '</td>';
+                    report_row += '</tr>';
 
                     report_row += '</tr>';
                     $('#accounts-analysis-body').append(report_row);

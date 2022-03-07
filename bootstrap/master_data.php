@@ -424,6 +424,8 @@ define('PROFIT_TYPE_9', 9);
 define('PROFIT_TYPE_10', 10);
 define('PROFIT_TYPE_11', 11);
 define('PROFIT_TYPE_12', 12);
+define('PROFIT_TYPE_13', 13);
+define('PROFIT_TYPE_14', 14);
 
 $ProfitTypeData = array(
 	PROFIT_TYPE_1		=> '接收',
@@ -438,6 +440,8 @@ $ProfitTypeData = array(
 	PROFIT_TYPE_10		=> '证书费',
 	PROFIT_TYPE_11		=> '通信费',
 	PROFIT_TYPE_12		=> '其他',
+	PROFIT_TYPE_13		=> '备件费',
+	PROFIT_TYPE_14		=> '滑油费',
 );
 
 $ProfitDebitData = array(
@@ -452,6 +456,8 @@ $ProfitDebitData = array(
 	PROFIT_TYPE_10		=> '证书费',
 	PROFIT_TYPE_11		=> '通信费',
 	PROFIT_TYPE_12		=> '其他',
+	PROFIT_TYPE_13		=> '备件费',
+	PROFIT_TYPE_14		=> '滑油费',
 );
 
 define('ZERO_DATE', '0000-00-00');

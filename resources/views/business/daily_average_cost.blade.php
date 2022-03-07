@@ -74,7 +74,7 @@ $ships = Session::get('shipList');
                                     <th class="text-center style-normal-header" rowspan="2" style="width: 3%;"><span>NON</span></th>
                                     <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>收入 ($)</span></th>
                                     <th class="text-center style-normal-header" rowspan="2" style="width: 5.5%;"><span>支出 ($)</span></th>
-                                    <th class="text-center style-normal-header" colspan="13"><span>支出分类 ($)</span></th>
+                                    <th class="text-center style-normal-header" colspan="15"><span>支出分类 ($)</span></th>
                                 </tr>
                                 <tr>
                                     <th class="text-center style-red-header" style="width: 4%;"><span>油款</span></th>
@@ -90,6 +90,8 @@ $ships = Session::get('shipList');
                                     <th class="text-center style-normal-header" style="width: 4%;"><span>保险费</span></th>
                                     <th class="text-center style-normal-header" style="width: 4%;"><span>检验费</span></th>
                                     <th class="text-center style-normal-header" style="width: 4%;"><span>证书费</span></th>
+                                    <th class="text-center style-normal-header" style="width: 4%;"><span>备件费</span></th>
+                                    <th class="text-center style-normal-header" style="width: 4%;"><span>滑油费</span></th>
                                 </tr>
                                 </thead>
                                 <tbody class="" id="table-income-expense-body">
@@ -111,7 +113,7 @@ $ships = Session::get('shipList');
                                     <tr>
                                         <th class="text-center style-normal-header" rowspan="2"><span></span></th>
                                         <th class="text-center style-red-header" colspan="3"><span>运营成本 ($)</span></th>
-                                        <th class="text-center style-normal-header" colspan="8"><span>管理成本 ($)</span></th>
+                                        <th class="text-center style-normal-header" colspan="10"><span>管理成本 ($)</span></th>
                                     </tr>
                                     <tr>
                                         <th class="text-center style-red-header"><span>劳务费</span></th>
@@ -125,6 +127,8 @@ $ships = Session::get('shipList');
                                         <th class="text-center style-normal-header"><span>保险费</span></th>
                                         <th class="text-center style-normal-header"><span>检验费</span></th>
                                         <th class="text-center style-normal-header"><span>证书费</span></th>
+                                        <th class="text-center style-normal-header"><span>备件费</span></th>
+                                        <th class="text-center style-normal-header"><span>滑油费</span></th>
                                     </tr>
                                     </thead>
                                     <tbody class="" id="">
@@ -138,6 +142,8 @@ $ships = Session::get('shipList');
                                         <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                         <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                         <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                        <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
+                                        <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
                                         <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
                                         <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
                                         <td class="white-bg"><input type="text" name="input[]"  class="form-control disabled-td text-center" value="" style="width: 100%" autocomplete="off"></td>
@@ -155,11 +161,13 @@ $ships = Session::get('shipList');
                                         <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                         <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                         <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                        <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
+                                        <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     </tr>
                                     <tr style="height:30px;border:2px solid black;">
                                         <td class="text-center style-normal-header" style="background:#d9f8fb!important;"><span>日成本</span></td>
                                         <td colspan="3" class="sub-small-header style-red-header text-center" id="total-extra-sum"></td>
-                                        <td colspan="8" class="sub-small-header style-normal-header text-center" id="total-sum"></td>
+                                        <td colspan="10" class="sub-small-header style-normal-header text-center" id="total-sum"></td>
                                     </tbody>
                                 </table>
                             </form>
@@ -226,11 +234,11 @@ $ships = Session::get('shipList');
                 value = parseFloat(value);
                 if (isNaN(value)) inputs[i].value = '';
                 else inputs[i].value = prettyValue2(value);
-                if (i < 3) {
+                if (i < 5) {
                     if (!isNaN(value)) total_sum += value;
                     value = value / 12;
                 }
-                else if (i < 6)
+                else if (i < 8)
                 {
                     value = value * 12;
                     if (!isNaN(value)) total_extra_sum += value;
@@ -240,7 +248,7 @@ $ships = Session::get('shipList');
                     if (!isNaN(value)) total_sum += value;
                 }
                 if (!isNaN(value) && value != "" && value != null) {
-                    outputs[(i+8)%11].value = '' + prettyValue2(value);
+                    outputs[(i+8)%13].value = '' + prettyValue2(value);
                 }
             }
             if (!isNaN(total_sum) && total_sum != "" && total_sum != null) {
@@ -355,6 +363,8 @@ $ships = Session::get('shipList');
                     {data: null, className: "text-center"},
                     {data: null, className: "text-center"},
                     {data: null, className: "text-center"},
+                    {data: null, className: "text-center"},
+                    {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
                     if ((index%2) == 0)
@@ -392,7 +402,7 @@ $ships = Session::get('shipList');
                     $('td', row).eq(6).attr('style', 'padding-right:5px!important;')
                     $('td', row).eq(6).html(data['debit_sum']==0?'':prettyValue2(data['debit_sum']));
                     //$('td', row).eq(6).attr('class', 'text-right right-border');
-                    for (var i=1;i<16;i++)
+                    for (var i=1;i<18;i++)
                     {
                         if (i == 2) {
                             dest_obj = $('td', row).eq(7);
@@ -433,17 +443,23 @@ $ships = Session::get('shipList');
                         else if (i == 12) {
                             dest_obj = $('td', row).eq(19);
                         }
+                        else if (i == 13) {
+                            dest_obj = $('td', row).eq(20);
+                        }
+                        else if (i == 14) {
+                            dest_obj = $('td', row).eq(21);
+                        }
                         else {
                             dest_obj = null;
                         }
 
-                        if (i == 15) {
+                        if (i == 17) {
                             //$(dest_obj).attr('class', 'text-right right-border');
                         }
 
                         if (data['debit_list'][i] != undefined)
                         {
-                            if (i == 15) {
+                            if (i == 17) {
                                 //$(dest_obj).attr('class', 'text-right right-border');
                             } else {
                                 $(dest_obj).attr('class', 'text-right');
@@ -468,7 +484,7 @@ $ships = Session::get('shipList');
                     if (response.json.data.length <= 0) return;
                     var tab = document.getElementById('table-income-expense-body');
                     var i,j;
-                    for (i=0;i<15;i++) table_sums[i] = 0;
+                    for (i=0;i<17;i++) table_sums[i] = 0;
                     var time_average = 0;
                     for(var j=0; j<tab.rows.length; j++)
                     {
@@ -478,7 +494,7 @@ $ships = Session::get('shipList');
                             time_average += parseFloat(value_str.replaceAll(",",""));
                         }
 
-                        for (var i=0;i<15;i++)
+                        for (var i=0;i<17;i++)
                         {
                             var value_str = tab.rows[j].childNodes[5+i].innerHTML;
                             if ((value_str != "") && (value_str != "-"))
@@ -490,7 +506,7 @@ $ships = Session::get('shipList');
 
                     var inputs = $('input[name="input[]"]');
                     var outputs = $('input[name="output[]"]');
-                    for (var i=0;i<11;i++) { inputs[i].value = ""; outputs[i].value = "";}
+                    for (var i=0;i<13;i++) { inputs[i].value = ""; outputs[i].value = "";}
                     if (response.json.costs != null) {
                         inputs[0].value = response.json.costs['input1'];
                         inputs[1].value = response.json.costs['input2'];
@@ -503,6 +519,8 @@ $ships = Session::get('shipList');
                         inputs[8].value = response.json.costs['input9'];
                         inputs[9].value = response.json.costs['input10'];
                         inputs[10].value = response.json.costs['input11'];
+                        inputs[11].value = response.json.costs['input12'];
+                        inputs[12].value = response.json.costs['input13'];
 
                     }
 

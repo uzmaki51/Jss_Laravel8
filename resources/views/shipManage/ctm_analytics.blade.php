@@ -188,7 +188,7 @@ $ships = Session::get('shipList');
                                         <table class="" id="table-debit-list" v-cloak>
                                             <thead class="">
                                                 <tr class="ctm-analytics">
-                                                    <th colspan="13">
+                                                    <th colspan="15">
                                                         {{ $shipName['shipName_En'] }}&nbsp;&nbsp;&nbsp;@{{ activeYear }}年 支出分析
                                                     </th>
                                                 </tr>
@@ -202,7 +202,7 @@ $ships = Session::get('shipList');
                                                 <tr v-for="(item, index, key) in list">
                                                     <td class="center">@{{ index }}</td>
                                                     <td class="right" style="border-right: 2px solid #ff9207!important;">@{{ number_format(item.debitTotal) }}</td>
-                                                    <td class="right" v-for="(subItem, subIndex) in item" v-show="subIndex <= 12">@{{ number_format(subItem) }}</td>
+                                                    <td class="right" v-for="(subItem, subIndex) in item" v-show="subIndex <= 14">@{{ number_format(subItem) }}</td>
                                                 </tr>
                                                 <tr class="fixed-footer">
                                                     <td class="style-header center" style="width: 40px;">合计</td>
@@ -414,7 +414,7 @@ $ships = Session::get('shipList');
                             else {
                                 tab.rows[j].childNodes[3].remove();
                                 tab.rows[j].childNodes[1].remove();
-                                tab.rows[j].childNodes[13].remove();
+                                tab.rows[j].childNodes[15].remove();
                             }
 
                             tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
@@ -475,7 +475,7 @@ $ships = Session::get('shipList');
 
 					let _new_cny_total = 0;
 					let _new_usd_total = 0;
-                    for(var i = 1; i <= 12; i ++) {
+                    for(var i = 1; i <= 14; i ++) {
                         let item = _totalThis.list[i];
 
 						if(__parseFloat(item['CNY'].credit) != 0 || __parseFloat(item['CNY'].debit) != 0) {
