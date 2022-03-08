@@ -184,6 +184,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                         <div class="col-lg-2">
                                                             <label class="custom-label d-inline-block font-bold" style="padding: 6px;">收支方式:</label>
                                                             <select class="" name="pay_type" id="pay_type">
+                                                                <option value="-1"></option>
                                                                 <option value="0">汇款</option>
                                                                 <option value="1">现钞</option>
                                                                 <option value="2">扣除</option>
@@ -753,9 +754,13 @@ $isHolder = Session::get('IS_HOLDER');
         if (rate == null || rate == undefined) rate = 6.5;
         else $('#keep_rate').val(formatRate(rate));
 
+
+        /*
         var pay_type = window.localStorage.getItem("pay_type");
         if (pay_type == null || pay_type == undefined) pay_type = 0;
         else $('#pay_type').val(pay_type);
+        */
+        var pay_type = -1;
 
         /*
         var account_type = window.localStorage.getItem("account_type");
@@ -906,13 +911,18 @@ $isHolder = Session::get('IS_HOLDER');
             }
             pay_type = $('#pay_type').val();
             account_type = $('#account_type').val();
+
+            if (pay_type == -1) {
+                __alertAudio();
+                alert("Please select pay type.");
+                return;
+            }
+
             if (account_type == 0) {
-                //alert("There are no account informations.");
                 __alertAudio();
                 alert("Please select account information.");
                 return;
             }
-            //else console.log(account_type);
             account_name = $('#account_type option:selected').text();
 
             datetime = $("#keep-list-datetime").val();
@@ -935,7 +945,7 @@ $isHolder = Session::get('IS_HOLDER');
                 }
                 else {
                     window.localStorage.setItem("rate",rate);
-                    window.localStorage.setItem("pay_type",pay_type);
+                    //window.localStorage.setItem("pay_type",pay_type);
                     //window.localStorage.setItem("account_type",account_type);
 
                     var book_list = document.getElementById('list-book-body');
