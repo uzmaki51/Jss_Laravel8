@@ -1030,7 +1030,7 @@ $isHolder = Session::get('IS_HOLDER');
                     tab.rows[j].childNodes[4].style.width = '300px';
                     tab.rows[j].childNodes[5].style.width = '300px';
                 }
-                else if(j >= (tab.rows.length - 2))
+                else if(j >= (tab.rows.length - 4))
                 {
                     for (var i=0; i<tab.rows[j].childElementCount;i++) {
                         tab.rows[j].childNodes[i].style.height = "30px";
@@ -1071,7 +1071,7 @@ $isHolder = Session::get('IS_HOLDER');
                     tab.rows[j].childNodes[6].style.width = '300px';
                     tab.rows[j].childNodes[7].style.width = '300px';
                 }
-                else if(j >= (tab.rows.length - 2))
+                else if(j >= (tab.rows.length - 4))
                 {
                     for (var i=0; i<tab.rows[j].childElementCount;i++) {
                         tab.rows[j].childNodes[i].style.height = "30px";

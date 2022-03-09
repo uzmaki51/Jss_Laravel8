@@ -650,7 +650,7 @@ $ships = Session::get('shipList');
             var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
             var real_tab = document.getElementById('table-income-expense-list');
             var tab = real_tab.cloneNode(true);
-            tab_text=tab_text+"<tr><td colspan='20' style='font-size:20px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_info').html() + "年份数据</td></tr>";
+            tab_text=tab_text+"<tr><td colspan='22' style='font-size:20px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_info').html() + "年份数据</td></tr>";
             for(var j = 0; j < tab.rows.length ; j++)
             {
                 if (j == 0) {
@@ -684,7 +684,7 @@ $ships = Session::get('shipList');
             real_tab = document.getElementById('table-expect-cost');
             tab_text+="<table border='1px' style='text-align:center;vertical-align:middle;'>";
             tab = real_tab.cloneNode(true);
-            tab_text+="<tr><td colspan='12' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_info').html() + "成本预计</td></tr>";
+            tab_text+="<tr><td colspan='14' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#table_info').html() + "成本预计</td></tr>";
             for(var j = 0; j < tab.rows.length ; j++)
             {
                 if (j == 0) {
@@ -707,7 +707,7 @@ $ships = Session::get('shipList');
                 }
                 else
                 {
-                    for (var i=3;i<25;i+=2)
+                    for (var i=3;i<29;i+=2)
                     {
                         var info = real_tab.rows[j].childNodes[i].childNodes[0].value;
                         console.log(info);
