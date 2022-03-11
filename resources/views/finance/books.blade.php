@@ -1441,7 +1441,10 @@ $isHolder = Session::get('IS_HOLDER');
                                 text: '初始化成功!',
                                 class_name: 'gritter-success'
                             });
-                            location.reload();
+                            //location.reload();
+                            year = $("#select-year option:selected").val();
+                            month = $("#select-month option:selected").val();
+                            location.href = 'books?year=' + year + '&month=' + month;
                             return;
                         },
                         error: function(error) {
