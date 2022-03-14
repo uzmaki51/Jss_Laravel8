@@ -1222,10 +1222,10 @@
                             }
                         })) {
                             let report_date = moment(reportObj.report_date);
-                            let validate_date = moment(report_date).isValid();
+							let validate_date = moment(reportObj.report_date, 'YYYY-MM-DD', true).isValid();
                             if(validate_date)
                                 $('#report-form').submit();
-                            else  {
+                            else {
                                 bootbox.alert('申请日期形式不对。')
                                 return false;
                             }
