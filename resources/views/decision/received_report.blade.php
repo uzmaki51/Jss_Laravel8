@@ -164,7 +164,8 @@
                                                         申请日期
                                                     </td>
                                                     <td class="custom-modal-td-text1">
-                                                        <input type="text" name="report_date" style="display: inline-block;" class="form-control white-bg date-picker" v-model="report_date" @click="dateModify($event)" >
+                                                        <input type="text" name="report_date" style="display: inline-block;" class="form-control white-bg date-picker" v-model="report_date" @click="dateModify($event)" readonly>
+                                                        <button type="button" style="margin-left:3px;">重置</button>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -1599,6 +1600,7 @@
             if (month < 1 || month > 12 || day < 1 || day > daysInMonth[month - 1]) {
                 return false;
             }
+            month = month - 1;
             
             var composedDate = new Date(year, month, day);
             return composedDate.getDate() == day &&
