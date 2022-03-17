@@ -165,7 +165,6 @@
                                                     </td>
                                                     <td class="custom-modal-td-text1">
                                                         <input type="text" name="report_date" style="display: inline-block;" class="form-control white-bg date-picker" v-model="report_date" @click="dateModify($event)" readonly>
-                                                        <button type="button" style="margin-left:3px;">重置</button>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -1087,6 +1086,7 @@
                         $(e.target).on("change", function() {
                             reportObj.report_date = $(this).val();
                         });
+                        $(e.target).focus();
                     },
                     reportSubmit(e) {
                         $('[name=reportType]').val(0);
