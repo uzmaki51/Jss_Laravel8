@@ -1076,11 +1076,17 @@
                     changeObjType: function(e) {
                         let value = $(e.target).val();
                         this.object_type = value;
-                        if(reportObj.object_type == '{{ OBJECT_TYPE_SHIP }}') {
-                            reportObj.profitType = OutComeData1;
+
+						if(reportObj.currentReportType == '{{ REPORT_TYPE_EVIDENCE_IN }}') {
+                            reportObj.profitType = FeeTypeData[reportObj.currentReportType];
                         } else {
-                            reportObj.profitType = OutComeData2;
+                            if(reportObj.object_type == '{{ OBJECT_TYPE_SHIP }}') {
+                                reportObj.profitType = OutComeData1;
+                            } else {
+                                reportObj.profitType = OutComeData2;
+                            }
                         }
+                        
                     },
                     dateModify(e) {
                         $(e.target).on("change", function() {
