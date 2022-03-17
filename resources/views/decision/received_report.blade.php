@@ -1227,7 +1227,7 @@
                             if(validate_date)
                                 $('#report-form').submit();
                             else  {
-                                bootbox.alert('申请日期形式不正确了。')
+                                bootbox.alert('申请日期形式不正确。')
                                 return false;
                             }
                             return true;
