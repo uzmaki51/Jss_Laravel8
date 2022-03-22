@@ -147,6 +147,14 @@ $isHolder = Session::get('IS_HOLDER');
                                                     @endfor
                                                 </select>
                                             </td>
+                                            <td class="add-td-label" style="width:15%!important;">TOP CARGO:</td>
+                                            <td class="add-td-text">
+                                                <select name="select-cargo-year" id="select-cargo-year" class="form-control" style="font-size:13px">
+                                                    @for($i=date("Y");$i>=$start_year;$i--)
+                                                        <option value="{{$i}}" @if($i==$settings['cargo_year']) selected @endif>{{$i}}年</option>
+                                                    @endfor
+                                                </select>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td class="add-td-label">船舶日报:</td>
@@ -158,7 +166,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                 </select>
                                             </td>
                                             <td class="add-td-label" style="width:15%!important;">日均利润:</td>
-                                            <td class="add-td-text">
+                                            <td class="add-td-text" colspan="3">
                                                 <select name="select-profit-year" id="select-profit-year" class="form-control" style="font-size:13px">
                                                     @for($i=date("Y");$i>=$start_year;$i--)
                                                     <option value="{{$i}}" @if($i==$settings['profit_year']) selected @endif>{{$i}}年</option>

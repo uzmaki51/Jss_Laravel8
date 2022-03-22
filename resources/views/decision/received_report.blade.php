@@ -61,9 +61,21 @@
                             @endforeach
                         @endif
                     </select>
+                    <label style="margin-left: 8px;">种类</label>
+                    <select type="text" class="custom-select d-inline-block" id="doc-type" style="width:80px">
+                        <option value=""></option>
+                        @foreach(g_enum('ReportTypeData') as $key => $item)
+                            <option value="{{ $key }}">{{ $item }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="col-md-6">
                     <div class="btn-group f-right">
+                        <div class="form-inline d-flex f-left mt-1" style="margin-top: 6px; cursor: pointer">
+                            <label for="amount-sort" class="text-black" style="cursor: pointer">金额升序</label>
+                            <input type="checkbox" class="mt-0" style="margin-left: 4px; cursor: pointer" id="amount-sort">
+                        </div>
+
                         @if(!Auth::user()->isAdmin)
                             <a class="btn btn-sm btn-success no-radius show-modal">
                                 <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">起草
@@ -1613,6 +1625,25 @@
                     composedDate.getMonth() == month &&
                     composedDate.getFullYear() == year;
         }
+
+        $("#amount-sort").on('change', function(e) {
+            let checked = $(this).prop('checked');
+            if(checked) {
+                listTable.column(8).search(1, false, false);
+            } else {
+                listTable.column(8).search(0, false, false);
+            }
+
+            listTable.draw();
+        })
+
+        $("#doc-type").on('change', function() {
+            let val = $(this).val();
+
+            listTable.column(11).search(val, false, false);
+
+            listTable.draw();
+        })
     </script>
 
 @stop

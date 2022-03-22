@@ -597,6 +597,36 @@
                         <div class="card mb-4">
                             <div class="card-header common-decide-title">
                                 <div class="card-title front-span">
+                                    <span class="bigger-120">TOP 5 CARGO ({{$settings['cargo_year']}})</span>
+                                </div>
+                            </div>
+                            </a>
+                            <div class="card-body common-decide-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
+                                <table id="" style="border:0px solid black;">
+                                    <thead style="position:sticky;top:0;box-shadow: inset 0 -1px #000, 1px -1px #000;">
+                                    <td class="center decide-sub-title" style="width: 50px;">排名</td>
+                                    <td class="center decide-sub-title">货名</td>
+                                    <td class="center decide-sub-title">数量</td>
+                                    </thead>
+                                    <tbody class="" id="cert-body" style="">
+                                    <?php $index = 1;?>
+                                    @foreach($topCargo as $key => $item)
+                                        <tr>
+                                            <td>{{ $index }}</td>
+                                            <td><span>{{ $item['name'] }}</span></td>
+                                            <td class="center"><span>{{ $item['count'] }}</span></td>
+                                        </tr>
+                                        <?php $index++;?>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card mb-4">
+                            <div class="card-header common-decide-title">
+                                <div class="card-title front-span">
                                     <span class="bigger-120">有关网站</span>
                                 </div>
                             </div>

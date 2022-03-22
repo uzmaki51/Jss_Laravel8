@@ -846,7 +846,6 @@ class DecisionReport extends Model {
 		$is_booker = $user->pos;
 		$years = $this->getYearList();
 		$selector = DB::table($this->table)
-			->orderBy('report_id', 'desc')
 			->select('*');
 
 		if($status != null)
@@ -890,7 +889,22 @@ class DecisionReport extends Model {
 			}
 		}
 
-		// number of filtered records
+        if (isset($params['columns'][8]['search']['value'])
+            && $params['columns'][8]['search']['value'] == 1
+        ) {
+            $selector->orderBy('amount', 'asc');
+        } else {
+            $selector->orderBy('report_id', 'desc');
+        }
+
+        if (isset($params['columns'][11]['search']['value'])
+            && $params['columns'][11]['search']['value'] !== ''
+        ) {
+            $selector->where('flowid', $params['columns'][11]['search']['value']);
+        }
+
+
+        // number of filtered records
 		$recordsFiltered = $selector->count();
 
 		// offset & limit

@@ -7,6 +7,7 @@ use App\Models\Attend\AttendUser;
 use App\Models\Attend\AttendRest;
 use App\Models\Board\News;
 use App\Models\Member\Unit;
+use App\Models\Operations\Cargo;
 use App\Models\Operations\VoyLog;
 use App\Models\Operations\CP;
 use App\Models\Schedule;
@@ -149,6 +150,33 @@ class HomeController extends Controller {
 			$ports[$index]['count'] = $count;
 			$index++;
 		}
+
+
+        $voyNo_from = substr($settings['cargo_year'], 2, 2) . '00';
+        $voyNo_to = substr($settings['cargo_year'], 2, 2) + 1;
+        $voyNo_to = $voyNo_to . '00';
+        $topCargo = CP::where('Voy_No','>=', $voyNo_from)->where('Voy_No','<',$voyNo_to)
+            ->select('Cargo')
+            ->get();
+
+		$cargo_list = '';
+		foreach($topCargo as $key => $item) {
+		    if($item->Cargo != '')
+                $cargo_list .= $item->Cargo . ',';
+        }
+
+        $topCargo = array_count_values(preg_split('@,@', str_replace(" ",'', $cargo_list), 100, PREG_SPLIT_NO_EMPTY));
+        arsort($topCargo);
+        $topCargo = array_slice($topCargo,0,5,true);
+        $cargo = [];
+        $index = 0;
+        foreach($topCargo as $key => $count) {
+            $cargo_name = Cargo::where('id', $key)->select("name")->first();
+            $cargo[$index]['name'] = $cargo_name->name;
+            $cargo[$index]['count'] = $count;
+            $index++;
+        }
+
 		$securityType = SecurityCert::all();
 
 		//
@@ -162,7 +190,6 @@ class HomeController extends Controller {
 			'shipForDecision'   => $shipForDecision,
 			'expired_data'      => $expired_certData,
 			'settings'   		=> $settings,
-			'reportList' 		=> $reportList,
             'noattachments' 	=> $noattachments,
             'voyList' 			=> $voyList,
             'sites' 			=> $sites,
@@ -171,6 +198,7 @@ class HomeController extends Controller {
 			'expireCert'		=> $expireCert,
 			'expireMemberCert'  => $expireMemberCert,
 			'topPorts'			=> $ports,
+            'topCargo'			=> $cargo,
 			'security'          => $securityType,
 			'profitList'        => $profit_list,
 		]);
