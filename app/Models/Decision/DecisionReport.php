@@ -1167,8 +1167,17 @@ class DecisionReport extends Model {
 		} else {
 			$selector = WaterList::where('year', $year)->where('month', $month)->where('account_type',$account_type)->select('*');
 		}
+		
+		if (isset($params['columns'][4]['search']['value'])
+			&& $params['columns'][4]['search']['value'] == 1
+		) {
+			$selector->orderBy('debit', 'asc');
+		} else {
+			$selector->orderBy('register_time', 'asc');
+		}
+
+		$records =  $selector->get();
 		$recordsFiltered = $selector->count();
-		$records = $selector->orderBy('register_time', 'asc')->get();
 
 		$newArr = [];
         $newindex = 0;
@@ -1251,8 +1260,18 @@ class DecisionReport extends Model {
 			$selector = WaterList::where('year', $year)->where('month', $month)->select('*');
 		else
 			$selector = WaterList::where('year', $year)->where('month', $month)->where('ship_no', $ship)->select('*');
+
+		if (isset($params['columns'][4]['search']['value'])
+			&& $params['columns'][4]['search']['value'] == 1
+		) {
+			$selector->orderBy('debit', 'asc');
+		} else {
+			$selector->orderBy('register_time', 'asc');
+		}
+
+		$records = $selector->get();
 		$recordsFiltered = $selector->count();
-		$records = $selector->orderBy('register_time', 'asc')->get();
+		//$records = $selector->orderBy('register_time', 'asc')->get();
 		//$records = $selector->orderBy('book_no', 'asc')->get();
 
 		$newArr = [];

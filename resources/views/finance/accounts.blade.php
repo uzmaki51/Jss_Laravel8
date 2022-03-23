@@ -184,6 +184,10 @@ $isHolder = Session::get('IS_HOLDER');
                                     </div>
                                     <div class="col-md-5" style="padding:unset!important">
                                         <div class="btn-group f-right">
+                                            <div class="form-inline d-flex f-left mt-1" style="margin-top: 6px; cursor: pointer">
+                                                <label for="amount-sort" class="text-black" style="cursor: pointer">贷方升序</label>
+                                                <input type="checkbox" class="mt-0" style="margin-left: 4px; cursor: pointer" id="amount-sort">
+                                            </div>
                                             <a onclick="javascript:fnExcelAnalysisReport();" class="btn btn-warning btn-sm excel-btn">
                                                 <i class="icon-table"></i>{{ trans('common.label.excel') }}
                                             </a>
@@ -599,6 +603,21 @@ $isHolder = Session::get('IS_HOLDER');
                 listAnalysisTable.column(3).search(analysis_account, false, false).draw();
             }
         }
+
+        $("#amount-sort").on('change', function(e) {
+            let checked = $(this).prop('checked');
+            if(checked) {
+                listAnalysisTable.column(4).search(1, false, false);
+            } else {
+                listAnalysisTable.column(4).search(0, false, false);
+            }
+
+            sum_credit_R = 0;
+            sum_debit_R = 0;
+            sum_credit_D = 0;
+            sum_debit_D = 0;
+            listAnalysisTable.draw();
+        })
 
         // Account Analysis
         var listAnalysisTable = null;
