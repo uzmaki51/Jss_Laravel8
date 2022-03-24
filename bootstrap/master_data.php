@@ -99,8 +99,8 @@ $OutComeData = array(
 	OUTCOME_FEE10    	=> '保险费',
 	OUTCOME_FEE11    	=> '检验费',
 	OUTCOME_FEE12    	=> '证书费',
-	OUTCOME_FEE13		=> '备件费',
-	OUTCOME_FEE14		=> '滑油费',
+	OUTCOME_FEE13		=> '备件',
+	OUTCOME_FEE14		=> '滑油',
 	OUTCOME_FEE15    	=> '办公费',
 	OUTCOME_FEE16    	=> '兑换',
 	OUTCOME_FEE17    	=> '其他费',
@@ -119,8 +119,8 @@ $OutComeData1 = array(
 	OUTCOME_FEE10    	=> '保险费',
 	OUTCOME_FEE11    	=> '检验费',
 	OUTCOME_FEE12    	=> '证书费',
-	OUTCOME_FEE13		=> '备件费',
-	OUTCOME_FEE14		=> '滑油费',
+	OUTCOME_FEE13		=> '备件',
+	OUTCOME_FEE14		=> '滑油',
 	OUTCOME_FEE17    	=> '其他费',
 );
 
@@ -461,8 +461,8 @@ $ProfitTypeData = array(
 	PROFIT_TYPE_10		=> '证书费',
 	PROFIT_TYPE_11		=> '通信费',
 	PROFIT_TYPE_12		=> '其他',
-	PROFIT_TYPE_13		=> '备件费',
-	PROFIT_TYPE_14		=> '滑油费',
+	PROFIT_TYPE_13		=> '备件',
+	PROFIT_TYPE_14		=> '滑油',
 );
 
 $ProfitDebitData = array(
@@ -477,8 +477,8 @@ $ProfitDebitData = array(
 	PROFIT_TYPE_10		=> '证书费',
 	PROFIT_TYPE_11		=> '通信费',
 	PROFIT_TYPE_12		=> '其他',
-	PROFIT_TYPE_13		=> '备件费',
-	PROFIT_TYPE_14		=> '滑油费',
+	PROFIT_TYPE_13		=> '备件',
+	PROFIT_TYPE_14		=> '滑油',
 );
 
 define('ZERO_DATE', '0000-00-00');
