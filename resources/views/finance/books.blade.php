@@ -159,8 +159,13 @@ $isHolder = Session::get('IS_HOLDER');
                                             <div class="col-sm-2">
                                                 <button type="button" class="btn btn-primary" id="btnKeep" style="margin-top:10px;width:100px;height:30px;">记账凭证</button>
                                             </div>
-                                            <div class="col-sm-10 f-right" style="margin-top:12px;padding-right: 0px!important;">
+                                            <div class="col-sm-9" style="margin-top:12px;padding-right: 0px!important;">
                                                 <input type="text" id="remark-box" name="remark-box" style="color:red;width:100%;display:none;" readonly="">
+                                            </div>
+                                            <div class="col-sm-1 f-right" style="margin-top:12px;padding-right: 0px!important;">
+                                                <a onclick="javascript:fnExcelKeepReport();" class="btn btn-warning btn-sm excel-btn f-right">
+                                                    <i class="icon-table"></i>凭证导出
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="tab-content">
@@ -1591,7 +1596,7 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
 
             var filename = year_water + '年_' + month_water.padStart(2,'0') + '月_流水账';
-            exportExcel(tab_text, filename, year_water + '円_' + month_water + '月_流水账');
+            exportExcel(tab_text, filename, year_water + '年_' + month_water + '月_流水账');
             
             return 0;
         }
@@ -1605,6 +1610,54 @@ $isHolder = Session::get('IS_HOLDER');
             });
         });
         
+        function fnExcelKeepReport()
+        {
+            var excel_title = $('#keep-list-bookno').val();
+            if (excel_title == "" ) {
+                return;
+            }
+            
+            var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+            var real_tab = document.getElementById('table-keep-list');
+            var tab = real_tab.cloneNode(true);
+            tab_text=tab_text+"<tr><td colspan='8' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + excel_title + "</td></tr>";
+            for(var j = 0 ; j < tab.rows.length ; j++) 
+            {
+                if (j == 0) {
+                    for (var i=0; i<tab.rows[j].childElementCount;i++) {
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#ddd';
+                    }
+                    tab.rows[j].childNodes[0].style.width = '70px';
+                    tab.rows[j].childNodes[1].style.width = '120px';
+                    tab.rows[j].childNodes[2].style.width = '70px';
+                    tab.rows[j].childNodes[3].style.width = '120px';
+                    tab.rows[j].childNodes[4].style.width = '400px';
+                    tab.rows[j].childNodes[5].style.width = '50px';
+                    tab.rows[j].childNodes[6].style.width = '180px';
+                    tab.rows[j].childNodes[7].style.width = '180px';
+                }
+                else if(j >= (tab.rows.length - 2))
+                {
+                    tab.rows[j].childNodes[4].style.backgroundColor = '#d9f8fb';
+                }
+                else
+                {
+                    info = real_tab.rows[j].childNodes[4].childNodes[0].value;
+                    tab.rows[j].childNodes[4].innerHTML = info;
+                }
+                
+                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+            }
+            tab_text=tab_text+"</table>";
+            tab_text= tab_text.replaceAll(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replaceAll(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replaceAll(/<input[^>]*>|<\/input>/gi, "");
+
+            var filename = excel_title;
+            exportExcel(tab_text, filename, excel_title);
+            
+            return 0;
+        }
     </script>
 
 @endsection

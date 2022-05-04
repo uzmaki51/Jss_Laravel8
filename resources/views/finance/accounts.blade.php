@@ -180,6 +180,20 @@ $isHolder = Session::get('IS_HOLDER');
                                         @endforeach
                                         @endif
                                         </select>
+                                        <label style="margin-left: 8px;">对象</label>
+                                        <select type="text" class="custom-select d-inline-block" id="ship_name" style="width:80px">
+                                            <option value=""></option>
+                                            @if(isset($shipList))
+                                                @foreach($shipList as $key => $item)
+                                                    <option value="{{ $item->IMO_No }}" {{ isset($shipId) && $shipId == $item->IMO_No ?  "selected" : "" }}>{{$item->NickName == '' ? $item->shipName_En : $item->NickName }}</option>
+                                                @endforeach
+                                            @endif
+                                            @if(isset($infos))
+                                                @foreach($infos as $key => $item)
+                                                    <option value="{{ $item->id }}">{{$item->person }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
                                         <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="account_analysis_title"></span>账户分析</strong>
                                     </div>
                                     <div class="col-md-5" style="padding:unset!important">
@@ -346,6 +360,7 @@ $isHolder = Session::get('IS_HOLDER');
         var year_analysis = '';
         var analysis_account = 0;
         var month_analysis = '';
+        var ship_name;
         var listReportTable = null;
         var report_credit_sum_R = 0;
         var report_debit_sum_R = 0;
@@ -503,6 +518,9 @@ $isHolder = Session::get('IS_HOLDER');
         $('#select-analysis-month').on('change', function() {
             changeMonth(1);
         });
+        $('#ship_name').on('change', function() {
+            changeAnalysisShip();
+        });
         function changeMonth(type) {
             if (type == 0)
             {
@@ -554,6 +572,12 @@ $isHolder = Session::get('IS_HOLDER');
                 selectAnalysisInfo();
             }
         }
+
+        function changeAnalysisShip() {
+            ship_name = $("#ship_name option:selected").val();
+            selectAnalysisInfo();
+        }
+
         function selectReportInfo()
         {
             year_report = $("#select-report-year option:selected").val();
@@ -582,11 +606,21 @@ $isHolder = Session::get('IS_HOLDER');
         {
             year_analysis = $("#select-analysis-year option:selected").val();
             month_analysis = $("#select-analysis-month option:selected").val();
+            ship_name = $("#ship_name option:selected").val();
+            ship_text = $("#ship_name option:selected").text();
             analysis_account = $("#account_type").val();
-            if (month_analysis == 0)
-                $('#account_analysis_title').html(year_analysis + '年' + '全部');
-            else
-                $('#account_analysis_title').html(year_analysis + '年' + month_analysis + '月份');
+            if (month_analysis == 0) {
+                if (ship_text == '')
+                    $('#account_analysis_title').html(year_analysis + '年' + '全部');
+                else
+                    $('#account_analysis_title').html(year_analysis + '年' + '全部(' + ship_text + ')');
+            }
+            else {
+                if (ship_text == '')
+                    $('#account_analysis_title').html(year_analysis + '年' + month_analysis + '月份');
+                else
+                    $('#account_analysis_title').html(year_analysis + '年' + month_analysis + '月份(' + ship_text + ')');
+            }
 
             if (listAnalysisTable == null) {
                 initAnalysisTable();
@@ -600,7 +634,8 @@ $isHolder = Session::get('IS_HOLDER');
 
                 listAnalysisTable.column(1).search(year_analysis, false, false);
                 listAnalysisTable.column(2).search(month_analysis, false, false);
-                listAnalysisTable.column(3).search(analysis_account, false, false).draw();
+                listAnalysisTable.column(3).search(analysis_account, false, false);
+                listAnalysisTable.column(4).search(ship_name, false, false).draw();
             }
         }
 
@@ -633,7 +668,7 @@ $isHolder = Session::get('IS_HOLDER');
                 ajax: {
                     url: BASE_URL + 'ajax/finance/accounts/analysis/list',
                     type: 'POST',
-                    data: {'year':year_analysis, 'month':month_analysis, 'account':analysis_account},
+                    data: {'year':year_analysis, 'month':month_analysis, 'account':analysis_account, 'ship_name':ship_name},
                 },
                 "ordering": false,
                 "pageLength": 500,
@@ -748,7 +783,8 @@ $isHolder = Session::get('IS_HOLDER');
         year_analysis = $("#select-analysis-year option:selected").val();
         month_analysis = $("#select-analysis-month option:selected").val();
         analysis_account = $("#account_type").val();
-
+        ship_name = $("#ship_name option:selected").val();
+        
         $('#account_type').on('change', function() {
             selectAnalysisInfo();
         });

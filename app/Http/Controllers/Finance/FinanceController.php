@@ -184,6 +184,9 @@ class FinanceController extends Controller
         $start_month = date("m", strtotime($start_year));
         $start_year = date("Y", strtotime($start_year));
 		$accounts = WaterList::select(array('account_type', 'account_name'))->groupBy('account_type')->get();
+		$shipList = ShipRegister::where('RegStatus', '!=', 3)->orderBy('id')->get();
+		$infoTbl = new AccountPersonalInfo();
+		$personal_infos = $infoTbl->select('*')->get();
 
         return view('finance.accounts', [
             'start_year' => $start_year,
@@ -192,6 +195,8 @@ class FinanceController extends Controller
 			'month' => $month,
 			'accounts' => $accounts,
 			'book_no' => $book_no,
+			'shipList' => $shipList,
+			'infos' => $personal_infos,
 			'breadCrumb'    => $breadCrumb
         ]);
     }

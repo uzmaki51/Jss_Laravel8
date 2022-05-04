@@ -650,6 +650,9 @@
                         } else if(this.validateForm() == -4) {
                             __alertAudio();
                             bootbox.alert('If "STATUS" is DEPARTURE, DTG[NM] is required item.');
+                        } else if(this.validateForm() == -99) {
+                            __alertAudio();
+                            bootbox.alert('Date, Time, GMT may be empty. Please check it.');
                         } else {
                             $('#dynamic-form').submit();
                         }
@@ -672,7 +675,14 @@
                         if(voyageValidate != 0) return voyageValidate;
                         
                         $this.forEach(function(value, key) {
-                            console.log(value['Sail_Distance'])
+
+                            if(value.Voy_Date == '' ||
+                            value.Voy_Hour == '' ||
+                            value.Voy_Minute == '' ||
+                            value.GMT == '') {
+                                retVal = -99;
+                            }
+                            
                             if($this[key]['Voy_Status'] == DYNAMIC_CMPLT_DISCH) {
                                 if(value['Cargo_Qtty'] == undefined || value['Cargo_Qtty'] == null) {
                                     retVal = -1;

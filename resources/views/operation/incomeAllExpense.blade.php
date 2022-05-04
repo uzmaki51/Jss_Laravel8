@@ -80,6 +80,13 @@ $ships = Session::get('shipList');
                                         </select>
                                     </div>
                                     <div class="col-md-5" style="padding:unset!important">
+                                        <div class="btn-group f-right">
+                                            全年综合
+                                            <label class="switch">
+                                                <input id="check_past" type="checkbox">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12" style="margin-top:4px;">
@@ -343,6 +350,7 @@ $ships = Session::get('shipList');
     var shipids_graph;
     var shipnames_graph;
     var year_graph;
+    var check_past = false;
     $(function() {
         $("body").on('click', function(e){
             if (JSON.stringify(shipids_table) != JSON.stringify($('#select-table-ship').val())) {
@@ -368,6 +376,13 @@ $ships = Session::get('shipList');
     $('#select-graph-year').on('change', function() {
         selectGraphInfo();
     });
+
+    $('#check_past').on('change', function() {
+        check_past = ($('#check_past').is(':checked'));
+        if (shipids_graph != null) {
+            selectGraphInfo();
+        }
+    })
 
     function selectTableInfo()
     {
@@ -718,7 +733,7 @@ $ships = Session::get('shipList');
         $.ajax({
             url: BASE_URL + 'ajax/operation/listByAll',
             type: 'post', 
-            data: {'year':year_graph, 'shipId':shipids_graph},
+            data: {'year':year_graph, 'shipId':shipids_graph, 'past':check_past},
             success: function(result) {
                 // Table 1
                 var prev_sum = 0;
@@ -1040,7 +1055,7 @@ $ships = Session::get('shipList');
         $.ajax({
             url: BASE_URL + 'ajax/operation/listByAll',
             type: 'post', 
-            data: {'year':year_table, 'shipId':shipids_table},
+            data: {'year':year_table, 'shipId':shipids_table, 'past': false},
             success: function(result) {
                 // Table 1
                 $('#table-total-profit-body').html('');

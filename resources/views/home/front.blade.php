@@ -713,7 +713,7 @@
             $.ajax({
                 url: BASE_URL + 'ajax/operation/listByAll',
                 type: 'post', 
-                data: {'year':year_graph, 'shipId':shipids_all},
+                data: {'year':year_graph, 'shipId':shipids_all, 'past': true},
                 success: function(result) {
                     // Table 1
                     var prev_sum = 0;

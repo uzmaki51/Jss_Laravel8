@@ -209,6 +209,44 @@ class DecisionReport extends Model {
 		return $result;
 	}
 
+	public function calcPastProfit($shipid, $year) {
+		$newArr = [];
+		$count = 0;
+		/*
+		$voyNo_from = substr($year, 2, 2) . '00';
+		$voyNo_to = substr($year, 2, 2) + 1;
+		$voyNo_to = $voyNo_to . '00';
+		*/
+		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('year', '<', $year)->whereNotNull('book_no');
+		// 办公费:13, 兑换:14
+		$selector = $selector->whereNotIn('profit_type',[OUTCOME_FEE15,OUTCOME_FEE16])
+		->groupBy('flowid','profit_type')
+		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, currency')
+		->groupBy('flowid');
+
+		$cost_records = $selector->get();
+		$credit_sum = 0;
+		$debit_sum = 0;
+		$profit_sum = 0;
+
+		foreach($cost_records as $cost) {
+			if ($cost->flowid == REPORT_TYPE_EVIDENCE_IN) {
+				$credit_sum += $cost->sum;
+			}
+			else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT) {
+				$newArr[$cost->profit_type] = $cost->sum;
+				$debit_sum += $cost->sum;
+			}
+		}
+		$profit_sum = $credit_sum - $debit_sum;
+		$result['data'] = $newArr;
+		$result['credit_sum'] = $credit_sum;
+		$result['debit_sum'] = $debit_sum;
+		$result['profit_sum'] = $profit_sum;
+
+		return $result;
+	}
+
 	public function getProfit($year) {
 		// Get ship ids from register time
 		$user_pos = Auth::user()->pos;
@@ -278,21 +316,30 @@ class DecisionReport extends Model {
 		if (!isset($params['columns'][1]['search']['value']) ||
             $params['columns'][1]['search']['value'] == '' ||
 			!isset($params['columns'][2]['search']['value']) ||
-            $params['columns'][2]['search']['value'] == ''
+            $params['columns'][2]['search']['value'] == '' ||
+			!isset($params['columns'][3]['search']['value']) ||
+            $params['columns'][3]['search']['value'] == ''
+			
         ) {
             $year = $params['year'];
         	$shipids = $params['shipId'];
+			$check_past = $params['past'];
         }
 		else
 		{
 			$year = $params['columns'][1]['search']['value'];
 			$shipids = explode(",",$params['columns'][2]['search']['value']);
+			$check_past = $params['columns'][3]['search']['value'];
 		}
 
 		// Prev Year Profit
 		$prevProfit = [];
-		foreach($shipids as $shipid) {
-			$prevProfit[$shipid] = $this->calcProfitList($shipid, $year-1, null);
+		if ($check_past == "true")
+		{
+			foreach($shipids as $shipid) {
+				//$prevProfit[$shipid] = $this->calcProfitList($shipid, $year-1, null);
+				$prevProfit[$shipid] = $this->calcPastProfit($shipid, $year, null);
+			}
 		}
 
 		// Profit Per Every Month
@@ -339,6 +386,10 @@ class DecisionReport extends Model {
 			}
 		}
 		foreach($shipids as $shipid) {
+			if (isset($prevProfit[$shipid])) {
+				$result[$shipid]['months'][0] += $prevProfit[$shipid]['profit_sum'];
+			}
+
 			if (isset($prevProfit[$shipid])) {
 				$result[$shipid]['prevProfit'] = $prevProfit[$shipid]['profit_sum'];
 			} else {
@@ -1154,19 +1205,24 @@ class DecisionReport extends Model {
             $year = $params['year'];
         	$month = $params['month'];
 			$account_type = $params['account'];
+			$ship = $params['ship_name'];
         }
 		else
 		{
 			$year = $params['columns'][1]['search']['value'];
 			$month = $params['columns'][2]['search']['value'];
 			$account_type = $params['columns'][3]['search']['value'];
+			$ship = $params['columns'][4]['search']['value'];
 		}
 
 		if ($month == 0) {
-			$selector = WaterList::where('year', $year)->where('account_type',$account_type)->select('*');
+			$selector = WaterList::where('year', $year)->where('account_type',$account_type);
 		} else {
-			$selector = WaterList::where('year', $year)->where('month', $month)->where('account_type',$account_type)->select('*');
+			$selector = WaterList::where('year', $year)->where('month', $month)->where('account_type',$account_type);
 		}
+
+		if ($ship != '')
+			$selector = $selector->where('ship_no', $ship)->select('*');
 		
 		if (isset($params['columns'][4]['search']['value'])
 			&& $params['columns'][4]['search']['value'] == 1

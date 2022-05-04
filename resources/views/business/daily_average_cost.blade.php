@@ -416,7 +416,7 @@ $ships = Session::get('shipList');
                         else if (i == 4) {
                             dest_obj = $('td', row).eq(10);
                         }
-                        else if (i == 15) {
+                        else if (i == 17) {
                             dest_obj = $('td', row).eq(11);
                         }
                         else if (i == 3) {
