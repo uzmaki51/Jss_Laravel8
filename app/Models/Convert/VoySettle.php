@@ -657,6 +657,7 @@ class VoySettle extends Model
 
                 $year = "20" . substr($contractInfo->Voy_No,0,2);
                 $costs = ExpectedCosts::where('shipNo', $shipId)->where('year',$year)->first();
+                
                 if($costs == null) {
                     $elseCost = 0;
                 }
@@ -669,7 +670,28 @@ class VoySettle extends Model
                     $elseCost = round(($costs['input4'] + $costs['input5'] + $costs['input6'])*12/365, 0);
                 }
 
-                $mainInfo['cost_day']  = $contractInfo['cost_per_day'];
+                
+                if(!isset($contractInfo['cost_per_day']) || $contractInfo['cost_per_day'] == 0) {
+                    $costs = ExpectedCosts::where('shipNo', $shipId)->where('year',$year)->first();
+        
+                    if($costs == null) {
+                        $costDay = 0;
+                    }
+                    else {
+                        for($i = 1; $i <= 13; $i ++) {
+                            if(!isset($costs['input' . $i]) || $costs['input' . $i] == '')
+                                $costs['input' . $i] = 0;
+                        }
+            
+                        $costDay = ($costs['input1'] + $costs['input2'] + $costs['input3'] + ($costs['input4'] + $costs['input5'] + $costs['input9'] + $costs['input10'] + $costs['input11'] + $costs['input12'] + $costs['input13'])*12) / 365;
+                    }
+
+                    $mainInfo['cost_day'] = $costDay;
+                } else {
+                    $mainInfo['cost_day']  = $contractInfo['cost_per_day'];
+                }
+
+
                 $mainInfo['cost_else'] = round($elseCost * (isset($mainInfo['total_sail_time']) ? $mainInfo['total_sail_time'] : 0));
 
                 $mainInfo['manage_cost_day'] = round($mainInfo['cost_day'] * (isset($mainInfo['total_sail_time']) ? $mainInfo['total_sail_time'] : 0), 2);

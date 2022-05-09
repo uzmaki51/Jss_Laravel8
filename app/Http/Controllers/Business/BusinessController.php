@@ -202,7 +202,7 @@ class BusinessController extends Controller {
         }
         
         $cp_list = CP::where('Ship_ID', $shipId)->whereNotNull('net_profit_day')->orderBy('Voy_No', 'desc')->get();
-        $tmp = CP::where('Ship_ID', $shipId)->orderBy('net_profit_day', 'desc')->first();
+        $tmp = CP::where('Ship_ID', $shipId)->where('CP_kind', '!=', 'NON')->orderBy('net_profit_day', 'desc')->first();
         if($tmp == null || $tmp == false) {
             $maxVoyNo = '';
             $maxFreight = 0;
@@ -211,7 +211,7 @@ class BusinessController extends Controller {
             $maxFreight = $tmp['net_profit_day'] == null ? 0 : $tmp['net_profit_day'];
         }
 
-        $tmp = CP::where('Ship_ID', $shipId)->whereNotNull('net_profit_day')->orderBy('net_profit_day', 'asc')->first();
+        $tmp = CP::where('Ship_ID', $shipId)->where('CP_kind', '!=', 'NON')->whereNotNull('net_profit_day')->orderBy('net_profit_day', 'asc')->first();
         if($tmp == null || $tmp == false) {
             $minVoyNo = 0;
             $minFreight = 0;
