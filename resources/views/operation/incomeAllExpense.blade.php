@@ -113,7 +113,7 @@ $ships = Session::get('shipList');
                                                 <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
                                             @endforeach
                                         </select>
-                                        <select name="select-graph-year" id="select-graph-year" style="font-size:13px">
+                                        <select name="select-graph-year" id="select-graph-year" style="font-size:12px;margin-left:4px;">
                                             @for($i=date("Y");$i>=$start_year;$i--)
                                             <option value="{{$i}}" @if($i==date("Y")) selected @endif>{{$i}}年</option>
                                             @endfor
@@ -121,8 +121,8 @@ $ships = Session::get('shipList');
                                     </div>
                                     <div class="col-md-5" style="padding:unset!important">
                                         <div class="btn-group f-right">
-                                            全年综合
-                                            <label class="switch">
+                                            <b>全年综合</b>
+                                            <label class="switch" style="zoom:50%">
                                                 <input id="check_past" type="checkbox">
                                                 <span class="slider round"></span>
                                             </label>
@@ -183,7 +183,7 @@ $ships = Session::get('shipList');
                                                 <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
                                             @endforeach
                                         </select>
-                                        <select name="select-table-year" id="select-table-year" style="font-size:13px">
+                                        <select name="select-table-year" id="select-table-year" style="font-size:12px;margin-left:4px;">
                                             @for($i=date("Y");$i>=$start_year;$i--)
                                             <option value="{{$i}}" @if($i==date("Y")) selected @endif>{{$i}}年</option>
                                             @endfor
