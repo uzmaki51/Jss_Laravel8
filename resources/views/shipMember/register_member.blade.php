@@ -148,6 +148,11 @@ $isHolder = Session::get('IS_HOLDER');
                                     </a>
                                 </li>
                                 <li>
+                                    <a data-toggle="tab" href="#evaluation">
+                                        船员评价
+                                    </a>
+                                </li>
+                                <li>
                                     <div class="alert alert-block alert-success center visuallyhidden">
                                         <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
                                         <strong id="msg-content"> Please register a new member.</strong>
@@ -167,6 +172,9 @@ $isHolder = Session::get('IS_HOLDER');
                             </div>
                             <div id="other_cert" class="tab-pane">
                                 @include('shipMember.member_othercert_tab', with(['memberId'=>$memberId, 'othercert'=>$othercert]))
+                            </div>
+                            <div id="evaluation" class="tab-pane">
+                                @include('shipMember.member_evaluation_tab', with(['memberId'=>$memberId, 'evaluation'=>$evaluation]))
                             </div>
                             <p id="err_message_out" class="error-message"></p>
                         </div>
@@ -852,6 +860,44 @@ $isHolder = Session::get('IS_HOLDER');
             $('#member-form').submit();
         });
 
+        $('.grade').bind("change", function(e) {
+            var $box = $(this);
+            if ($box.is(":checked")) {
+                var group = "input:checkbox[data-ref='" + $box.attr("data-ref") + "']";
+                $(group).prop("checked", false);
+                $box.prop("checked", true);
+            } else {
+                $box.prop("checked", false);
+            }
+            calcTotal();
+        });
+
+        function calcTotal() {
+            var total = 0;
+            var value1 = $(':checked[name="value1"]').val();
+            if (value1 == undefined) value1 = 0; else value1 = parseInt(value1);
+            var value2 = $(':checked[name="value2"]').val();
+            if (value2 == undefined) value2 = 0; else value2 = parseInt(value2);
+            var value3 = $(':checked[name="value3"]').val();
+            if (value3 == undefined) value3 = 0; else value3 = parseInt(value3);
+            var value4 = $(':checked[name="value4"]').val();
+            if (value4 == undefined) value4 = 0; else value4 = parseInt(value4);
+            var value5 = $(':checked[name="value5"]').val();
+            if (value5 == undefined) value5 = 0; else value5 = parseInt(value5);
+            var value6 = $(':checked[name="value6"]').val();
+            if (value6 == undefined) value6 = 0; else value6 = parseInt(value6);
+            var value7 = $(':checked[name="value7"]').val();
+            if (value7 == undefined) value7 = 0; else value7 = parseInt(value7);
+            var value8 = $(':checked[name="value8"]').val();
+            if (value8 == undefined) value8 = 0; else value8 = parseInt(value8);
+            var value9 = $(':checked[name="value9"]').val();
+            if (value9 == undefined) value9 = 0; else value9 = parseInt(value9);
+            var value10 = $(':checked[name="value10"]').val();
+            if (value10 == undefined) value10 = 0; else value10 = parseInt(value10);
+
+            total = (value1 + value2 + value3 + value4 + value5 + value6) * 0.6 + (value7 + value8 + value9 + value10) * 0.2;
+            $('#total').val(total.toFixed(2));
+        }
         var $form = $('form'),
         origForm = $form.serialize();
         window.addEventListener("beforeunload", function (e) {
@@ -867,6 +913,7 @@ $isHolder = Session::get('IS_HOLDER');
             }
             return confirmationMessage;
         });
+        calcTotal();
     </script>
 
 @endsection

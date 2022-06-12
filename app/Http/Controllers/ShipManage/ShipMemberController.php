@@ -31,6 +31,7 @@ use App\Models\ShipMember\ShipCapacityRegister;
 use App\Models\ShipMember\ShipMemberSchool;
 use App\Models\ShipMember\ShipMemberTraining;
 use App\Models\ShipMember\ShipMemberOtherCert;
+use App\Models\ShipMember\ShipMemberEvaluation;
 use App\Models\ShipMember\ShipMemberExaming;
 use App\Models\ShipMember\ShipMemberSubExaming;
 use App\Models\ShipMember\SecurityCert;
@@ -145,7 +146,8 @@ class ShipMemberController extends Controller
 
             $training = ShipMemberTraining::where('memberId', $memberId)->groupBy("CertSequence")->get();
             $othercert = ShipMemberOtherCert::where('memberId', $memberId)->get();
-            
+            $evaluation = ShipMemberEvaluation::where('memberId', $memberId)->first();
+
             $examingList = ShipMemberExaming::where('memberId', $memberId)->orderBy('ExamDate')->get();
             $subList = array(); $examId = '';
             if(count($examingList) > 0) {
@@ -176,6 +178,7 @@ class ShipMemberController extends Controller
                     'security'  =>      $securityType,
                     'training'  =>      $training,
                     'othercert' =>      $othercert,
+                    'evaluation'=>      $evaluation,
 
                     'examingList'=>     $examingList,
                     'examId'    =>      $examId,
@@ -211,6 +214,7 @@ class ShipMemberController extends Controller
                     'security'  =>      $securityType,
                     'training'  =>      null,
                     'othercert' =>      null,
+                    'evaluation'=>      null,
 
                     'examingList'=>     null,
                     'examId'    =>      null,
@@ -277,8 +281,6 @@ class ShipMemberController extends Controller
     }
 
     public function updateMemberInfo(Request $request) {
-        //dump($request);
-        //die();
         $memberId = $this->updateMemberMainInfo($request);
         if ($memberId != "")
         {
@@ -286,6 +288,7 @@ class ShipMemberController extends Controller
             $this->updateMemberCapacityData($request, $memberId);
             $this->updateMemberTrainingData($request, $memberId);
             $this->updateMemberOtherCert($request, $memberId);
+            $this->updateMemberEvaluation($request, $memberId);
             return redirect('shipMember/registerShipMember?memberId='.$memberId);
         }
         else
@@ -651,6 +654,26 @@ class ShipMemberController extends Controller
 
         $result = ShipMemberOtherCert::insertMemberOtherCert($memberId, $CertName, $CertNo, $CertIssue, $CertExpire, $IssuedBy);
 
+        return $result;
+    }
+
+    public function updateMemberEvaluation(Request $request, $memberId) {
+        $evaluation = ShipMemberEvaluation::firstOrNew(['memberId' => $memberId]);
+        $evaluation->fill($request->only($evaluation->getFillable()));
+        $evaluation->memberId = $memberId;
+        
+        if (!isset($request->value1)) $evaluation->value1 = 0;
+        if (!isset($request->value2)) $evaluation->value2 = 0;
+        if (!isset($request->value3)) $evaluation->value3 = 0;
+        if (!isset($request->value4)) $evaluation->value4 = 0;
+        if (!isset($request->value5)) $evaluation->value5 = 0;
+        if (!isset($request->value6)) $evaluation->value6 = 0;
+        if (!isset($request->value7)) $evaluation->value7 = 0;
+        if (!isset($request->value8)) $evaluation->value8 = 0;
+        if (!isset($request->value9)) $evaluation->value9 = 0;
+        if (!isset($request->value10)) $evaluation->value10 = 0;
+        $result = $evaluation->save();
+        
         return $result;
     }
 
