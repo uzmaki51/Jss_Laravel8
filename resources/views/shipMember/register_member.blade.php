@@ -36,6 +36,17 @@ $isHolder = Session::get('IS_HOLDER');
                 cursor: pointer;
             }
 
+            .table-report tbody > tr > td {
+                font-size:15px!important;
+            }
+
+            .table-report2 tbody > tr > td {
+                font-size:15px!important;
+            }
+
+            .table-report2 tbody > tr > .gray {
+                background-color: #f5f5f5!important;
+            }
         </style>
         
         <div class="page-content">
@@ -896,7 +907,8 @@ $isHolder = Session::get('IS_HOLDER');
             if (value10 == undefined) value10 = 0; else value10 = parseInt(value10);
 
             total = (value1 + value2 + value3 + value4 + value5 + value6) * 0.6 + (value7 + value8 + value9 + value10) * 0.2;
-            $('#total').val(total.toFixed(2));
+            total = total / 44 * 100;
+            $('#total').val(total.toFixed(0));
         }
         var $form = $('form'),
         origForm = $form.serialize();

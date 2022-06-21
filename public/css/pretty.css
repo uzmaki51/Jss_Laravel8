@@ -261,11 +261,11 @@
     background: #f5f5f5!important;
 }
 
-table:not(.general, .not-striped, .register-voy) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(odd) td:not(.sub-small-header, .sub-small-header2, .white-bg, .not-striped-td, .voy-no),
-table:not(.general, .not-striped, .register-voy) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(odd) input:not(.disabled-td),
-table:not(.general, .not-striped, .register-voy) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(odd) input:not(.disabled-td),
-table:not(.general, .not-striped, .register-voy) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(odd) select,
-table:not(.general, .not-striped, .register-voy) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(odd) textarea {
+table:not(.general, .not-striped, .register-voy, .table-report2) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(odd) td:not(.sub-small-header, .sub-small-header2, .white-bg, .not-striped-td, .voy-no),
+table:not(.general, .not-striped, .register-voy, .table-report2) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(odd) input:not(.disabled-td),
+table:not(.general, .not-striped, .register-voy, .table-report2) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(odd) input:not(.disabled-td),
+table:not(.general, .not-striped, .register-voy, .table-report2) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(odd) select,
+table:not(.general, .not-striped, .register-voy, .table-report2) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(odd) textarea {
     background-color: #f5f5f5!important;
 }
 table:not(.general, .not-striped, .register-voy) tbody tr:not(.selected):not(.selected, .dynamic-footer, .fixed-footer):nth-child(odd):hover,
@@ -276,10 +276,10 @@ table:not(.general, .not-striped, .register-voy) tbody tr:not(.selected, .dynami
     background-color: #ffe3e082!important;
 }
 
-table:not(.general, .not-striped, .register-voy) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(even) td:not(.sub-small-header, .sub-small-header2, .not-striped-td),
-table:not(.general, .not-striped, .register-voy) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(even) input:not(.disabled-td),
-table:not(.general, .not-striped, .register-voy) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(even) select,
-table:not(.general, .not-striped, .register-voy) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(even) textarea {
+table:not(.general, .not-striped, .register-voy, .table-report2) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(even) td:not(.sub-small-header, .sub-small-header2, .not-striped-td),
+table:not(.general, .not-striped, .register-voy, .table-report2) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(even) input:not(.disabled-td),
+table:not(.general, .not-striped, .register-voy, .table-report2) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(even) select,
+table:not(.general, .not-striped, .register-voy, .table-report2) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(even) textarea {
     background-color: #ffffff!important;
 }
 table:not(.general, .not-striped, .register-voy) tbody tr:not(.selected, .dynamic-footer, .fixed-footer, .prev-voy):nth-child(even):hover,
