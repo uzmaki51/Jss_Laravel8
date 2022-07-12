@@ -180,9 +180,10 @@ class OrgmanageController extends Controller
         $port_year = $request->get('select-port-year');
         $cargo_year = $request->get('select-cargo-year');
         $profit_year = $request->get('select-profit-year');
+        $profit_ship = $request->get('select-profit-ship');
         $settings = new Settings();
         //$settings::first()->update(['graph_year'=> $graph_year,'graph_ship'=>$graph_ship,'cert_expire_date'=>$cert_expire_date,'report_year'=>$report_year,'dyn_year'=>$dyn_year]);
-        Settings::where('id', 1)->update(['graph_year'=> $graph_year,'graph_ship'=>$graph_ship,'cert_expire_date'=>$cert_expire_date,'report_year'=>$report_year,'dyn_year'=>$dyn_year,'port_year'=>$port_year,'cargo_year'=>$cargo_year,'profit_year'=>$profit_year]);
+        Settings::where('id', 1)->update(['graph_year'=> $graph_year,'graph_ship'=>$graph_ship,'cert_expire_date'=>$cert_expire_date,'report_year'=>$report_year,'dyn_year'=>$dyn_year,'port_year'=>$port_year,'cargo_year'=>$cargo_year,'profit_year'=>$profit_year,'profit_ship'=>$profit_ship]);
 
         $report_ids = $request->get('visible_id');
         $report_values = $request->get('visible_value');

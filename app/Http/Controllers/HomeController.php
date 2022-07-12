@@ -182,7 +182,7 @@ class HomeController extends Controller {
 		//
         $settings['profit_year'] = !isset($settings['profit_year']) ? date("Y-m-d") : $settings['profit_year'];
 		$decision = new DecisionReport();
-		$profit_list = $decision->getProfit($settings['profit_year']);
+		$profit_list = $decision->getProfit($settings['profit_year'], $settings['profit_ship']);
 
 		return view('home.front', [
 			'shipList'          => $shipList,

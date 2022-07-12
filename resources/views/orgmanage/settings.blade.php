@@ -166,11 +166,18 @@ $isHolder = Session::get('IS_HOLDER');
                                                 </select>
                                             </td>
                                             <td class="add-td-label" style="width:15%!important;">日均利润:</td>
-                                            <td class="add-td-text" colspan="3">
+                                            <td class="add-td-text">
                                                 <select name="select-profit-year" id="select-profit-year" class="form-control" style="font-size:13px">
                                                     @for($i=date("Y");$i>=$start_year;$i--)
                                                     <option value="{{$i}}" @if($i==$settings['profit_year']) selected @endif>{{$i}}年</option>
                                                     @endfor
+                                                </select>
+                                            </td>
+                                            <td class="add-td-text" colspan="2">
+                                                <select name="select-profit-ship[]" id="select-profit-ship" style="z-index:10000!important;" class="custom-select d-inline-block form-control" multiple>
+                                                    @foreach($shipList as $ship)
+                                                        <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
+                                                    @endforeach
                                                 </select>
                                             </td>
                                         </tr>
@@ -319,7 +326,14 @@ $isHolder = Session::get('IS_HOLDER');
     <script src="{{ cAsset('assets/js/bignumber.js') }}"></script>
     <?php
 	echo '<script>';
+    if($settings['graph_ship']==null||$settings['graph_ship']=='')
+    echo 'var ship_ids = [];';
+    else
     echo 'var ship_ids = ' . $settings['graph_ship'] . ';';
+    if($settings['profit_ship']==null||$settings['profit_ship']=='')
+    echo 'var profit_ship_ids = [];';
+    else
+    echo 'var profit_ship_ids = ' . $settings['profit_ship'] . ';';
 	echo 'var ReportTypeLabelData = ' . json_encode(g_enum('ReportTypeLabelData')) . ';';
 	echo 'var ReportTypeData = ' . json_encode(g_enum('ReportTypeData')) . ';';
 	echo 'var ReportStatusData = ' . json_encode(g_enum('ReportStatusData')) . ';';
@@ -342,6 +356,13 @@ $isHolder = Session::get('IS_HOLDER');
         })
         .setCheckBoxClick("1", function(target, args) {
         });
+
+        document.multiselect('#select-profit-ship')
+        .setCheckBoxClick("checkboxAll", function(target, args) {
+        })
+        .setCheckBoxClick("1", function(target, args) {
+        });
+
         $('.multiselect-input').attr('style','border:unset!important;width:100%!important;height:10px!important;margin-top:3px;width:auto!important;');
         $('.multiselect-count').attr('style','margin-top:-4px!important;');
         $('.multiselect-input-div').attr('style','border:unset!important;height:10px!important;width:auto!important;');
@@ -360,6 +381,10 @@ $isHolder = Session::get('IS_HOLDER');
         }
         $('#select-graph-ship').trigger("chosen:updated");
 
+        for (var i=0;i<profit_ship_ids.length; i++) {
+            document.multiselect('#select-profit-ship').select(profit_ship_ids[i]);
+        }
+        $('#select-profit-ship').trigger("chosen:updated");
 
         $("input[type=file]").on('change',function(e) {
             var parentElement = e.target.parentElement;

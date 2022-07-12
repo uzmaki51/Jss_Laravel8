@@ -247,17 +247,22 @@ class DecisionReport extends Model {
 		return $result;
 	}
 
-	public function getProfit($year) {
+	public function getProfit($year, $ship) {
 		// Get ship ids from register time
 		$user_pos = Auth::user()->pos;
+		if ($ship == '' || $ship == null) {
+			$profit_ship = [];
+		} else {
+			$profit_ship = json_decode($ship, true);
+		}
 		if($user_pos == STAFF_LEVEL_SHAREHOLDER || $user_pos == STAFF_LEVEL_CAPTAIN)
 		{
 			$ids = Auth::user()->shipList;
 			$ids = explode(',', $ids);
-			$records = ShipRegister::whereIn('IMO_No', $ids)->where('RegStatus', '!=', 3)->whereRaw(DB::raw('mid(RegDate, 1, 4) >= ' . $year))->orderBy('tb_ship_register.id')->get();
+			$records = ShipRegister::whereIn('IMO_No', $ids)->whereIn('IMO_No', $profit_ship)->where('RegStatus', '!=', 3)->whereRaw(DB::raw('mid(RegDate, 1, 4) >= ' . $year))->orderBy('tb_ship_register.id')->get();
 		}
 		else {
-			$records = ShipRegister::where('RegStatus', '!=', 3)->whereRaw(DB::raw('mid(RegDate, 1, 4) <= ' . $year))->orderBy('tb_ship_register.id', 'asc')->get();
+			$records = ShipRegister::where('RegStatus', '!=', 3)->whereIn('IMO_No', $profit_ship)->whereRaw(DB::raw('mid(RegDate, 1, 4) <= ' . $year))->orderBy('tb_ship_register.id', 'asc')->get();
 		}
 
 		if (empty($records)) {
